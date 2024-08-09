@@ -8,7 +8,7 @@ import Portfolio from './components/Portfolio';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './App.module.css'; // Importing CSS module for scoped styles
+import styles from './App.module.css';
 
 const App = () => {
   return (
