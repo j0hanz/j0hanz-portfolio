@@ -8,12 +8,10 @@ const Hero = () => (
     <Container className="px-0">
       <Row className="d-flex justify-content-center text-center align-items-center mx-auto">
         <Col xs="auto">
-          <h1 className="display-4 mb-3">
-            <span className={styles.gradientText}>Hello,</span> I'm Linus
-            Johansson
-          </h1>
+          <h1 className={`mb-4 ${styles.gradientText}`}>Linus Johansson</h1>
           <img src={Image} alt="Linus Johansson" className={styles.heroImage} />
           <h2 className="h4 mb-3">Full-Stack Developer</h2>
+          <hr className="my-2" />
           <p className="lead mb-4">
             Crafting elegant and efficient web solutions.
           </p>
