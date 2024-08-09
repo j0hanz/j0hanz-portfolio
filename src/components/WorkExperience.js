@@ -40,7 +40,7 @@ const WorkExperience = () => (
             <Card className="shadow bg-dark text-light">
               <Card.Body>
                 <Card.Title>{experience.title}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
+                <Card.Subtitle className="mb-2 text-white-50">
                   {experience.duration}
                 </Card.Subtitle>
                 <Card.Text>{experience.description}</Card.Text>
