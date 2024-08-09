@@ -1,0 +1,41 @@
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  width: 100%;
+  text-align: center;
+  padding-top: 80px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: rgb(15, 15, 15);
+  background: linear-gradient(
+    0deg,
+    rgba(15, 15, 15, 1) 0%,
+    rgba(84, 79, 79, 1) 0%,
+    rgba(43, 41, 41, 1) 29%,
+    rgba(37, 37, 37, 1) 100%
+  );
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
