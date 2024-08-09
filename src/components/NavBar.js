@@ -24,6 +24,10 @@ const NavBar = () => (
             <FontAwesomeIcon icon={faUser} className="me-2" />
             About Me
           </Nav.Link>
+          <Nav.Link href="#education">
+            <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
+            Education
+          </Nav.Link>
           <Nav.Link href="#skills">
             <FontAwesomeIcon icon={faCogs} className="me-2" />
             Skills
@@ -32,10 +36,7 @@ const NavBar = () => (
             <FontAwesomeIcon icon={faBriefcase} className="me-2" />
             Experience
           </Nav.Link>
-          <Nav.Link href="#education">
-            <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
-            Education
-          </Nav.Link>
+
           <Nav.Link href="#portfolio">
             <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />
             Projects
