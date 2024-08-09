@@ -9,8 +9,9 @@ import {
   faJs,
   faGitAlt,
   faPython,
+  faBootstrap,
 } from '@fortawesome/free-brands-svg-icons';
-import { faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faCogs, faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 const skills = [
   { icon: faHtml5, label: 'HTML5' },
@@ -20,18 +21,21 @@ const skills = [
   { icon: faNodeJs, label: 'Node.js' },
   { icon: faGitAlt, label: 'Git' },
   { icon: faPython, label: 'Python' },
-  { icon: faDatabase, label: 'PostgreSQL' },
-  { icon: faDatabase, label: 'Django' }, // Django often works with databases, so the database icon is used
+  { icon: faBootstrap, label: 'Bootstrap' },
+  { icon: faDatabase, label: 'Django' },
 ];
 
 const Skills = () => (
   <section id="skills" className="skills-section py-5 text-light">
-    <Container>
-      <h2 className="text-center">Skills</h2>
-      <Row className="mt-4">
+    <Container className="px-0">
+      <h2 className="text-center">
+        <FontAwesomeIcon icon={faCogs} size="sm" className="me-2" />
+        Skills
+      </h2>
+      <Row className="mt-4 mx-auto">
         {skills.map((skill, index) => (
           <Col md={4} sm={6} key={index} className="text-center mb-4">
-            <Card className="shadow bg-secondary text-light">
+            <Card className="shadow bg-dark text-light">
               <Card.Body>
                 <FontAwesomeIcon icon={skill.icon} size="3x" className="mb-3" />
                 <Card.Title>{skill.label}</Card.Title>
