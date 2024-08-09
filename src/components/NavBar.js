@@ -8,6 +8,7 @@ import {
   faBriefcase,
   faProjectDiagram,
   faEnvelope,
+  faGraduationCap,
 } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => (
@@ -30,6 +31,10 @@ const NavBar = () => (
           <Nav.Link href="#work-experience">
             <FontAwesomeIcon icon={faBriefcase} className="me-2" />
             Experience
+          </Nav.Link>
+          <Nav.Link href="#education">
+            <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
+            Education
           </Nav.Link>
           <Nav.Link href="#portfolio">
             <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />
