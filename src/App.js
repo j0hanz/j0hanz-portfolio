@@ -18,9 +18,9 @@ const App = () => {
       <main className={styles.mainContent}>
         <Hero />
         <AboutMe />
+        <Education />
         <Skills />
         <WorkExperience />
-        <Education />
         <Portfolio />
         <ContactForm />
         <Footer />
