@@ -1,26 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import NavBar from './components/NavBar';
+import Hero from './components/Hero';
+import AboutMe from './components/AboutMe';
+import Skills from './components/Skills';
+import WorkExperience from './components/WorkExperience';
+import Portfolio from './components/Portfolio';
+import ContactForm from './components/ContactForm';
+import Footer from './components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from './App.module.css'; // Importing CSS module for scoped styles
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.appContainer}>
+      <NavBar />
+      <main className={styles.mainContent}>
+        <Hero />
+        <AboutMe />
+        <Skills />
+        <WorkExperience />
+        <Portfolio />
+        <ContactForm />
+        <Footer />
+      </main>
     </div>
   );
-}
+};
 
 export default App;
