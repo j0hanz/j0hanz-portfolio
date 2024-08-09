@@ -5,8 +5,8 @@ import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => (
   <footer className="py-3 bg-dark text-light">
-    <Container>
-      <Row className="text-center">
+    <Container className="px-0">
+      <Row className="text-center mx-auto">
         <Col>
           <p>&copy; 2024 Linus Johansson. All rights reserved.</p>
           <div>
