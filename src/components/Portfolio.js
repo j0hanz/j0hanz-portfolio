@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 
 const projects = [
   {
@@ -34,24 +36,31 @@ const projects = [
 
 const Portfolio = () => (
   <section id="portfolio" className="portfolio-section py-5 text-light">
-    <Container>
-      <h2 className="text-center">Projects</h2>
-      <Row className="mt-4">
+    <Container className="px-0">
+      <h2 className="text-center">
+        <FontAwesomeIcon icon={faProjectDiagram} size="sm" className="me-2" />
+        Projects
+      </h2>
+      <Row className="mt-4 mx-auto">
         {projects.map((project, index) => (
           <Col md={6} key={index} className="mb-4">
-            <Card className="shadow bg-secondary text-light">
+            <Card className="shadow bg-dark text-light">
               <Card.Body>
                 <Card.Title>{project.title}</Card.Title>
                 <Card.Text>{project.description}</Card.Text>
                 <Button
-                  variant="dark"
+                  variant="outline-light"
                   href={project.github}
                   target="_blank"
                   className="me-2"
                 >
                   GitHub
                 </Button>
-                <Button variant="primary" href={project.demo} target="_blank">
+                <Button
+                  variant="outline-primary text-white"
+                  href={project.demo}
+                  target="_blank"
+                >
                   Live Demo
                 </Button>
               </Card.Body>
