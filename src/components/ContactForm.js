@@ -19,6 +19,7 @@ const ContactForm = React.memo(() => (
                 type="text"
                 placeholder="Enter your name..."
                 className="mb-3"
+                required
               />
             </Form.Group>
             <Form.Group controlId="formEmail">
@@ -27,6 +28,7 @@ const ContactForm = React.memo(() => (
                 type="email"
                 placeholder="Enter your email..."
                 className="mb-3"
+                required
               />
             </Form.Group>
             <Form.Group controlId="formMessage">
@@ -36,9 +38,10 @@ const ContactForm = React.memo(() => (
                 rows={3}
                 placeholder="Enter your message..."
                 className="mb-3"
+                required
               />
             </Form.Group>
-            <Button variant="outline-primary" type="submit">
+            <Button variant="outline-success text-white" type="submit">
               Send
             </Button>
           </Form>
