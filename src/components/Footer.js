@@ -11,18 +11,18 @@ const Footer = () => (
           <p>&copy; 2024 Linus Johansson. All rights reserved.</p>
           <div>
             <a
-              href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-light mx-2"
+              href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <FontAwesomeIcon icon={faLinkedin} size="lg" />
             </a>
             <a
-              href="https://github.com/j0hanz"
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-light mx-2"
+              href="https://github.com/j0hanz"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <FontAwesomeIcon icon={faGithub} size="lg" />
             </a>
