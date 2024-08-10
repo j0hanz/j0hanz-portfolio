@@ -22,7 +22,7 @@ const ContactForm = React.memo(() => (
           <Form>
             {/* Form group for name input */}
             <Form.Group controlId="formName">
-              <Form.Label>Name</Form.Label>
+              <Form.Label className="d-none">Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter your name..."
@@ -32,7 +32,7 @@ const ContactForm = React.memo(() => (
             </Form.Group>
             {/* Form group for email input */}
             <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label className="d-none">Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter your email..."
@@ -42,7 +42,7 @@ const ContactForm = React.memo(() => (
             </Form.Group>
             {/* Form group for message textarea */}
             <Form.Group controlId="formMessage">
-              <Form.Label>Message</Form.Label>
+              <Form.Label className="d-none">Message</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
