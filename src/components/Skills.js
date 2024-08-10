@@ -33,16 +33,20 @@ const Skills = () => (
         Skills
       </h2>
       <Row className="mt-4 mx-auto">
-        {skills.map((skill, index) => (
-          <Col md={4} sm={6} key={index} className="text-center mb-4">
-            <Card className="shadow bg-dark text-light">
-              <Card.Body>
-                <FontAwesomeIcon icon={skill.icon} size="3x" className="mb-3" />
-                <Card.Title>{skill.label}</Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        {React.useMemo(
+          () =>
+            skills.map(({ icon, label }, index) => (
+              <Col md={4} sm={6} key={index} className="text-center mb-4">
+                <Card className="shadow bg-dark text-light">
+                  <Card.Body>
+                    <FontAwesomeIcon icon={icon} size="3x" className="mb-3" />
+                    <Card.Title>{label}</Card.Title>
+                  </Card.Body>
+                </Card>
+              </Col>
+            )),
+          [],
+        )}
       </Row>
     </Container>
   </section>
