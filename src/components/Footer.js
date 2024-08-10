@@ -9,7 +9,7 @@ const Footer = () => (
   // Footer element with padding, dark background, and light text
   <footer className="py-3 bg-dark text-light">
     {/* Bootstrap container with no horizontal padding */}
-    <Container className="px-0">
+    <Container fluid className="px-0">
       {/* Bootstrap row centered horizontally with text centered */}
       <Row className="text-center mx-auto">
         {/* Bootstrap column for contact details and social media links */}
