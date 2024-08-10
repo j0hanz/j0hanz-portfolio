@@ -1,7 +1,7 @@
-import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import React from 'react'; // Importing React library
+import { Navbar, Nav, Container } from 'react-bootstrap'; // Importing components from react-bootstrap
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'; // Importing specific icons from FontAwesome
 import {
   faUser,
   faCogs,
@@ -9,37 +9,46 @@ import {
   faProjectDiagram,
   faEnvelope,
   faGraduationCap,
-} from '@fortawesome/free-solid-svg-icons';
-import useClickOutsideToggle from '../hooks/OutsideClickHandler';
+} from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
+import useClickOutsideToggle from '../hooks/OutsideClickHandler'; // Importing custom hook for handling outside click
 
+// Functional component NavBar
 const NavBar = () => {
+  // Destructuring expanded state, setExpanded function, and ref from custom hook
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   return (
+    // Navbar component from react-bootstrap with various props for styling and behavior
     <Navbar
-      ref={ref}
-      fixed="top"
-      bg="dark"
-      variant="dark"
-      expand="lg"
-      className="py-1"
-      expanded={expanded}
+      ref={ref} // Reference for detecting outside clicks
+      fixed="top" // Fixing the navbar at the top
+      bg="dark" // Setting background color to dark
+      variant="dark" // Setting variant to dark
+      expand="lg" // Enabling navbar to expand on large screens
+      className="py-1" // Adding padding to the navbar
+      expanded={expanded} // Controlling the expanded state of the navbar
     >
+      {/* Bootstrap container with fluid width */}
       <Container fluid>
+        {/* Navbar brand with text */}
         <Navbar.Brand>
           <span className="text-light">Linus Johansson</span>
         </Navbar.Brand>
+        {/* Navbar toggle button for collapsing/expanding the navbar */}
         <Navbar.Toggle
-          aria-controls="navbar-nav"
-          onClick={() => setExpanded(!expanded)}
+          aria-controls="navbar-nav" // ARIA attribute for accessibility
+          onClick={() => setExpanded(!expanded)} // Toggling the expanded state on click
         />
+        {/* Navbar collapse component for collapsible content */}
         <Navbar.Collapse id="navbar-nav">
+          {/* Bootstrap nav component aligned to the right */}
           <Nav className="ms-auto">
+            {/* Mapping through an array of navigation items */}
             {[
               {
-                id: 'about-me',
-                icon: faUser,
-                label: 'About Me',
+                id: 'about-me', // ID for the section
+                icon: faUser, // Icon for the section
+                label: 'About Me', // Label for the section
               },
               {
                 id: 'education',
@@ -67,18 +76,21 @@ const NavBar = () => {
                 label: 'Contact',
               },
             ].map(({ id, icon, label }) => (
+              // Nav link for each navigation item
               <Nav.Link key={id} href={`#${id}`}>
-                <FontAwesomeIcon icon={icon} className="me-2" />
-                {label}
+                <FontAwesomeIcon icon={icon} className="me-2" /> {/* Icon */}
+                {label} {/* Label */}
               </Nav.Link>
             ))}
           </Nav>
+          {/* Bootstrap nav component aligned to the left */}
           <Nav className="mr-auto">
+            {/* Mapping through an array of social media links */}
             {[
               {
-                id: 'linkedin',
-                icon: faLinkedin,
-                href: 'https://www.linkedin.com/in/linus-johansson-9b1a302a0/',
+                id: 'linkedin', // ID for the link
+                icon: faLinkedin, // Icon for the link
+                href: 'https://www.linkedin.com/in/linus-johansson-9b1a302a0/', // URL for the link
               },
               {
                 id: 'github',
@@ -86,13 +98,14 @@ const NavBar = () => {
                 href: 'https://github.com/j0hanz',
               },
             ].map(({ id, icon, href }) => (
+              // Nav link for each social media link
               <Nav.Link
                 key={id}
                 href={href}
-                target="_blank"
-                className="text-light"
+                target="_blank" // Opening the link in a new tab
+                className="text-light" // Setting text color to light
               >
-                <FontAwesomeIcon icon={icon} size="lg" />
+                <FontAwesomeIcon icon={icon} size="lg" /> {/* Icon */}
               </Nav.Link>
             ))}
           </Nav>
@@ -102,4 +115,5 @@ const NavBar = () => {
   );
 };
 
+// Exporting the NavBar component as default export
 export default NavBar;

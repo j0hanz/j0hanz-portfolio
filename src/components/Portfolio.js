@@ -1,8 +1,9 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import React from 'react'; // Importing React library
+import { Container, Row, Col, Card, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons'; // Importing specific icon from FontAwesome
 
+// Array of project objects containing title, description, GitHub link, and demo link
 const projects = [
   {
     title: 'Tech Corner',
@@ -34,20 +35,31 @@ const projects = [
   },
 ];
 
+// Functional component Portfolio
 const Portfolio = () => (
+  // Section element with id and classes for styling
   <section id="portfolio" className="portfolio-section py-5 text-light">
+    {/* Bootstrap container with no horizontal padding */}
     <Container className="px-0">
+      {/* Heading with FontAwesome icon and centered text */}
       <h2 className="text-center">
         <FontAwesomeIcon icon={faProjectDiagram} size="sm" className="me-2" />
         Projects
       </h2>
+      {/* Bootstrap row with top margin and centered horizontally */}
       <Row className="mt-4 mx-auto">
+        {/* Mapping through the projects array to render each project */}
         {projects.map(({ title, description, github, demo }, index) => (
+          // Bootstrap column with medium size 6 and bottom margin
           <Col md={6} key={index} className="mb-4">
+            {/* Bootstrap card with shadow, dark background, and light text */}
             <Card className="shadow bg-dark text-light">
               <Card.Body>
+                {/* Card title with project title */}
                 <Card.Title>{title}</Card.Title>
+                {/* Card text with project description */}
                 <Card.Text>{description}</Card.Text>
+                {/* Button linking to GitHub repository */}
                 <Button
                   variant="outline-light"
                   href={github}
@@ -56,6 +68,7 @@ const Portfolio = () => (
                 >
                   GitHub
                 </Button>
+                {/* Button linking to live demo */}
                 <Button
                   variant="outline-primary text-white"
                   href={demo}
@@ -72,4 +85,5 @@ const Portfolio = () => (
   </section>
 );
 
+// Exporting the Portfolio component as default export
 export default Portfolio;
