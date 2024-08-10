@@ -52,9 +52,11 @@ const ContactForm = React.memo(() => (
               />
             </Form.Group>
             {/* Submit button with outline-success variant and white text */}
-            <Button variant="outline-success text-white" type="submit">
-              Send
-            </Button>
+            <div className="d-flex justify-content-center">
+              <Button variant="outline-success text-white d-flex" type="submit">
+                Send
+              </Button>
+            </div>
           </Form>
         </Col>
       </Row>
