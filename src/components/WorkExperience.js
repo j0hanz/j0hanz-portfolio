@@ -78,7 +78,7 @@ const WorkExperience = React.memo(() => {
       {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
         {/* Heading with FontAwesome icon and text */}
-        <h2>
+        <h2 className="d-flex justify-content-center">
           <FontAwesomeIcon icon={faBriefcase} size="sm" className="me-2" />
           Work Experience
         </h2>
