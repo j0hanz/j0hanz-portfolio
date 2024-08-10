@@ -56,12 +56,12 @@ const Portfolio = () => (
             <Card className="shadow bg-dark text-light">
               <Card.Body>
                 {/* Card title with project title */}
-                <Card.Title>{title}</Card.Title>
+                <Card.Title className="mb-3">{title}</Card.Title>
                 {/* Card text with project description */}
                 <Card.Text>{description}</Card.Text>
                 {/* Button linking to GitHub repository */}
                 <Button
-                  variant="outline-light"
+                  variant="outline-light float-start"
                   href={github}
                   target="_blank"
                   className="me-2"
@@ -70,7 +70,7 @@ const Portfolio = () => (
                 </Button>
                 {/* Button linking to live demo */}
                 <Button
-                  variant="outline-primary text-white"
+                  variant="outline-primary text-white float-end"
                   href={demo}
                   target="_blank"
                 >
