@@ -85,7 +85,7 @@ const Education = () => {
       {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
         {/* Heading with FontAwesome icon and text */}
-        <h2>
+        <h2 className="d-flex justify-content-center">
           <FontAwesomeIcon icon={faGraduationCap} size="sm" className="me-2" />
           Education
         </h2>
