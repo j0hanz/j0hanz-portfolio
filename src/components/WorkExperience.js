@@ -53,24 +53,26 @@ const ExperienceCard = React.memo(({ experience }) => (
   </Col>
 ));
 
-const WorkExperience = () => (
-  <section
-    id="work-experience"
-    className="py-5 text-light"
-    aria-label="Work Experience"
-  >
-    <Container className="px-0">
-      <h2>
-        <FontAwesomeIcon icon={faBriefcase} size="sm" className="me-2" />
-        Work Experience
-      </h2>
-      <Row className="mt-4 mx-auto">
-        {experiences.map((experience, index) => (
-          <ExperienceCard experience={experience} key={index} />
-        ))}
-      </Row>
-    </Container>
-  </section>
-);
+const WorkExperience = React.memo(() => {
+  const experienceCards = experiences.map((experience, index) => (
+    <ExperienceCard key={index} experience={experience} />
+  ));
+
+  return (
+    <section
+      id="work-experience"
+      className="py-5 text-light"
+      aria-label="Work Experience"
+    >
+      <Container className="px-0">
+        <h2>
+          <FontAwesomeIcon icon={faBriefcase} size="sm" className="me-2" />
+          Work Experience
+        </h2>
+        <Row className="mt-4 mx-auto">{experienceCards}</Row>
+      </Container>
+    </section>
+  );
+});
 
 export default WorkExperience;
