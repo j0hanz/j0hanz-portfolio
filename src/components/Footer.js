@@ -2,6 +2,7 @@ import React from 'react'; // Importing React library
 import { Container, Row, Col } from 'react-bootstrap'; // Importing components from react-bootstrap
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'; // Importing specific icons from FontAwesome
+import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
 
 // Functional component Footer
 const Footer = () => (
@@ -11,11 +12,21 @@ const Footer = () => (
     <Container className="px-0">
       {/* Bootstrap row centered horizontally with text centered */}
       <Row className="text-center mx-auto">
-        {/* Bootstrap column */}
-        <Col>
-          {/* Paragraph with copyright information */}
+        {/* Bootstrap column for contact details and social media links */}
+        <Col md={6}>
+          <h5>Contact Details</h5>
+          <p>
+            <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+            golfarenlj@gmail.com
+          </p>
+          <p>
+            <FontAwesomeIcon icon={faPhone} className="me-2" />
+            +46 70 529 26 74
+          </p>
+        </Col>
+        {/* Bootstrap column for copyright information */}
+        <Col md={6}>
           <p>&copy; 2024 Linus Johansson. All rights reserved.</p>
-          {/* Div containing social media links */}
           <div>
             {/* LinkedIn link with FontAwesome icon */}
             <a
@@ -24,16 +35,16 @@ const Footer = () => (
               rel="noopener noreferrer"
               target="_blank"
             >
-              <FontAwesomeIcon icon={faLinkedin} size="lg" />
+              <FontAwesomeIcon icon={faLinkedin} size="2x" />
             </a>
             {/* GitHub link with FontAwesome icon */}
             <a
-              className="text-light mx-2"
+              className="text-light mx-3"
               href="https://github.com/j0hanz"
               rel="noopener noreferrer"
               target="_blank"
             >
-              <FontAwesomeIcon icon={faGithub} size="lg" />
+              <FontAwesomeIcon icon={faGithub} size="2x" />
             </a>
           </div>
         </Col>
