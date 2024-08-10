@@ -42,15 +42,15 @@ const Portfolio = () => (
         Projects
       </h2>
       <Row className="mt-4 mx-auto">
-        {projects.map((project, index) => (
+        {projects.map(({ title, description, github, demo }, index) => (
           <Col md={6} key={index} className="mb-4">
             <Card className="shadow bg-dark text-light">
               <Card.Body>
-                <Card.Title>{project.title}</Card.Title>
-                <Card.Text>{project.description}</Card.Text>
+                <Card.Title>{title}</Card.Title>
+                <Card.Text>{description}</Card.Text>
                 <Button
                   variant="outline-light"
-                  href={project.github}
+                  href={github}
                   target="_blank"
                   className="me-2"
                 >
@@ -58,7 +58,7 @@ const Portfolio = () => (
                 </Button>
                 <Button
                   variant="outline-primary text-white"
-                  href={project.demo}
+                  href={demo}
                   target="_blank"
                 >
                   Live Demo
