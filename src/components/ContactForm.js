@@ -1,68 +1,93 @@
-import React from 'react'; // Importing React library
+import React, { useState } from 'react'; // Importing React library and useState hook
+import { useNavigate } from 'react-router-dom'; // Importing useNavigate hook from react-router-dom
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Importing specific icon from FontAwesome
 
 // Functional component ContactForm wrapped with React.memo for performance optimization
-const ContactForm = React.memo(() => (
-  // Section element with id and classes for styling
-  <section id="contact" className="contact-section py-5 text-light">
-    {/* Bootstrap container with no horizontal padding */}
-    <Container className="px-0">
-      {/* Heading with FontAwesome icon and centered text */}
-      <h2 className="text-center">
-        <FontAwesomeIcon icon={faEnvelope} size="sm" className="me-2" />
-        Contact
-      </h2>
-      {/* Bootstrap row centered horizontally with top margin */}
-      <Row className="justify-content-center mt-4 mx-auto">
-        {/* Bootstrap column with medium size 8 */}
-        <Col md={8}>
-          {/* Bootstrap form */}
-          <Form>
-            {/* Form group for name input */}
-            <Form.Group controlId="formName">
-              <Form.Label className="d-none">Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your name..."
-                className="mb-3"
-                required
-              />
-            </Form.Group>
-            {/* Form group for email input */}
-            <Form.Group controlId="formEmail">
-              <Form.Label className="d-none">Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter your email..."
-                className="mb-3"
-                required
-              />
-            </Form.Group>
-            {/* Form group for message textarea */}
-            <Form.Group controlId="formMessage">
-              <Form.Label className="d-none">Message</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Enter your message..."
-                className="mb-3"
-                required
-              />
-            </Form.Group>
-            {/* Submit button with outline-success variant and white text */}
-            <div className="d-flex justify-content-center">
-              <Button variant="outline-success text-white d-flex" type="submit">
-                Send
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  </section>
-));
+const ContactForm = React.memo(() => {
+  const navigate = useNavigate(); // Initializing useNavigate hook
+  const [validated, setValidated] = useState(false); // State for form validation
+
+  // Handle form submission
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      event.preventDefault();
+      // Simulate form submission
+      setTimeout(() => {
+        navigate('/success'); // Navigate to success page
+      }, 1000);
+    }
+    setValidated(true);
+  };
+
+  return (
+    // Section element with id and classes for styling
+    <section id="contact" className="contact-section py-5 text-light">
+      {/* Bootstrap container with no horizontal padding */}
+      <Container className="px-0">
+        {/* Heading with FontAwesome icon and centered text */}
+        <h2 className="text-center">
+          <FontAwesomeIcon icon={faEnvelope} size="sm" className="me-2" />
+          Contact
+        </h2>
+        {/* Bootstrap row centered horizontally with top margin */}
+        <Row className="justify-content-center mt-4 mx-auto">
+          {/* Bootstrap column with medium size 8 */}
+          <Col md={8}>
+            {/* Bootstrap form */}
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              {/* Form group for name input */}
+              <Form.Group controlId="formName">
+                <Form.Label className="d-none">Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your name..."
+                  className="mb-3"
+                  required
+                />
+              </Form.Group>
+              {/* Form group for email input */}
+              <Form.Group controlId="formEmail">
+                <Form.Label className="d-none">Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter your email..."
+                  className="mb-3"
+                  required
+                />
+              </Form.Group>
+              {/* Form group for message textarea */}
+              <Form.Group controlId="formMessage">
+                <Form.Label className="d-none">Message</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter your message..."
+                  className="mb-3"
+                  required
+                />
+              </Form.Group>
+              {/* Submit button with outline-success variant and white text */}
+              <div className="d-flex justify-content-center">
+                <Button
+                  variant="outline-success text-white d-flex"
+                  type="submit"
+                >
+                  Send
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </section>
+  );
+});
 
 // Exporting the ContactForm component as default export
 export default ContactForm;
