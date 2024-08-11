@@ -29,7 +29,7 @@ const skills = [
 // Functional component Skills
 const Skills = () => (
   // Section element with id and classes for styling
-  <section id="skills" className="skills-section py-5 text-light">
+  <section id="skills" className="skills-section py-5">
     {/* Bootstrap container with no horizontal padding */}
     <Container className="px-0">
       {/* Heading with FontAwesome icon and centered text */}
@@ -46,7 +46,7 @@ const Skills = () => (
               // Bootstrap column with medium size 4, small size 6, and bottom margin
               <Col md={4} sm={6} key={index} className="text-center mb-4">
                 {/* Bootstrap card with shadow, dark background, and light text */}
-                <Card className="shadow bg-dark text-light">
+                <Card className="shadow">
                   <Card.Body>
                     {/* FontAwesome icon with size and bottom margin */}
                     <FontAwesomeIcon icon={icon} size="3x" className="mb-3" />
