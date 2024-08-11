@@ -11,6 +11,7 @@ import {
   faGraduationCap,
 } from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
 import useClickOutsideToggle from '../hooks/OutsideClickHandler'; // Importing custom hook for handling outside click
+import styles from './styles/NavBar.module.css'; // Importing CSS module for styling
 
 // Functional component NavBar
 const NavBar = () => {
@@ -78,7 +79,8 @@ const NavBar = () => {
             ].map(({ id, icon, label }) => (
               // Nav link for each navigation item
               <Nav.Link key={id} href={`#${id}`}>
-                <FontAwesomeIcon icon={icon} className="me-2" /> {/* Icon */}
+                <FontAwesomeIcon icon={icon} className={styles.navIcon} />{' '}
+                {/* Icon */}
                 {label} {/* Label */}
               </Nav.Link>
             ))}
