@@ -1,6 +1,6 @@
 .heroImage {
-  width: 200px;
-  height: 200px;
+  width: 225px;
+  height: 225px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 1.5rem;
@@ -8,7 +8,7 @@
 }
 
 .gradientText {
-  background: linear-gradient(90deg, #db350b, #b95305);
+  background: linear-gradient(100deg, #131212, #d4620b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 2rem;
