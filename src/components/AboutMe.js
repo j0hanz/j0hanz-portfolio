@@ -14,7 +14,7 @@ const AboutMe = () => (
         {/* Bootstrap column with medium size 8 */}
         <Col md={8}>
           {/* Bootstrap card with padding, shadow, dark background, and light text */}
-          <Card className=" shadow bg-dark text-light p-2">
+          <Card className=" shadow p-2">
             <Card.Body>
               {/* Card title with FontAwesome icon and heading */}
               <Card.Title>
