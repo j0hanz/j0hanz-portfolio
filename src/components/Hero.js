@@ -9,11 +9,11 @@ const Hero = React.memo(() => {
   const classes = `mb-4 ${styles.gradientText}`; // Class for the main heading with gradient text
   const imageClasses = `mb-4 ${styles.heroImage}`; // Class for the hero image
   const leadClasses = `mb-4 lead`; // Class for the lead paragraph
-  const buttonClasses = `btn btn-outline-success text-white`; // Class for the button
+  const buttonClasses = `btn btn-outline-dark btn-lg`; // Class for the button
 
   return (
     // Section element with id and classes for styling
-    <section id="hero" className="hero-section text-light text-center py-5">
+    <section id="hero" className="hero-section text-center py-5">
       {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
         {/* Bootstrap row with centered content and aligned items */}
