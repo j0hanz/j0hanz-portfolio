@@ -8,7 +8,7 @@ const SuccessMessage = () => {
   const navigate = useNavigate();
 
   return (
-    <section id="success" className="py-5 text-light">
+    <section id="success" className="py-5">
       <Container className="px-0">
         <Row className="justify-content-center mt-4 mx-auto">
           <Col md={8} className="text-center">
@@ -18,7 +18,7 @@ const SuccessMessage = () => {
               Your message has been sent successfully.
             </p>
             <Button
-              variant="outline-light"
+              variant="outline-dark"
               size="lg"
               onClick={() => navigate('/')}
             >
