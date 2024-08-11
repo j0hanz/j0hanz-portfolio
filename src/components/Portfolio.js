@@ -38,7 +38,7 @@ const projects = [
 // Functional component Portfolio
 const Portfolio = () => (
   // Section element with id and classes for styling
-  <section id="portfolio" className="portfolio-section py-5 text-light">
+  <section id="portfolio" className="portfolio-section py-5">
     {/* Bootstrap container with no horizontal padding */}
     <Container className="px-0">
       {/* Heading with FontAwesome icon and centered text */}
@@ -53,7 +53,7 @@ const Portfolio = () => (
           // Bootstrap column with medium size 6 and bottom margin
           <Col md={6} key={index} className="mb-4">
             {/* Bootstrap card with shadow, dark background, and light text */}
-            <Card className="shadow bg-dark text-light">
+            <Card className="shadow">
               <Card.Body>
                 {/* Card title with project title */}
                 <Card.Title className="mb-3">{title}</Card.Title>
@@ -61,7 +61,7 @@ const Portfolio = () => (
                 <Card.Text>{description}</Card.Text>
                 {/* Button linking to GitHub repository */}
                 <Button
-                  variant="outline-light float-start"
+                  variant="outline-dark float-start"
                   href={github}
                   target="_blank"
                   className="me-2"
@@ -70,7 +70,7 @@ const Portfolio = () => (
                 </Button>
                 {/* Button linking to live demo */}
                 <Button
-                  variant="outline-primary text-white float-end"
+                  variant="outline-primary float-end"
                   href={demo}
                   target="_blank"
                 >
