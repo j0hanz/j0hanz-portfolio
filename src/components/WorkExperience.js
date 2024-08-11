@@ -44,14 +44,14 @@ const ExperienceCard = React.memo(({ experience }) => (
   // Bootstrap column with medium size 6 and bottom margin
   <Col md={6} className="mb-4">
     {/* Bootstrap card with shadow, dark background, and light text */}
-    <Card className="shadow bg-dark text-light">
+    <Card className="shadow">
       <Card.Body>
         {/* Card title with experience title */}
         <Card.Title>{experience.title}</Card.Title>
         {/* Card text with workplace */}
         <Card.Text>{experience.workplace}</Card.Text>
         {/* Card subtitle with duration */}
-        <Card.Subtitle className="mb-2 text-white-50">
+        <Card.Subtitle className="mb-2 text-black-50">
           {experience.duration}
         </Card.Subtitle>
         {/* Card text with description */}
@@ -70,11 +70,7 @@ const WorkExperience = React.memo(() => {
 
   return (
     // Section element with id and classes for styling
-    <section
-      id="work-experience"
-      className="py-5 text-light"
-      aria-label="Work Experience"
-    >
+    <section id="work-experience" className="py-5" aria-label="Work Experience">
       {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
         {/* Heading with FontAwesome icon and text */}
