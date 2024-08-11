@@ -25,7 +25,7 @@ const Hero = React.memo(() => {
             {/* Hero image with alt text */}
             <img src={Image} alt="Linus Johansson" className={imageClasses} />
             {/* Subheading with margin */}
-            <h2 className="h4 mb-3">Full-Stack Developer</h2>
+            <h2 className="mb-3">Full-Stack Developer</h2>
             {/* Horizontal rule with margin */}
             <hr className="my-2" />
             {/* Lead paragraph with description */}
