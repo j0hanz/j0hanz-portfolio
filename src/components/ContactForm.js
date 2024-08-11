@@ -27,7 +27,7 @@ const ContactForm = React.memo(() => {
 
   return (
     // Section element with id and classes for styling
-    <section id="contact" className="contact-section py-5 text-light">
+    <section id="contact" className="contact-section py-5">
       {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
         {/* Heading with FontAwesome icon and centered text */}
@@ -74,10 +74,7 @@ const ContactForm = React.memo(() => {
               </Form.Group>
               {/* Submit button with outline-success variant and white text */}
               <div className="d-flex justify-content-center">
-                <Button
-                  variant="outline-success text-white d-flex"
-                  type="submit"
-                >
+                <Button variant="outline-primary d-flex" type="submit">
                   Send
                 </Button>
               </div>
