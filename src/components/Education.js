@@ -39,7 +39,7 @@ const Education = () => {
     (edu, index) =>
       index === 0 && (
         <Button
-          variant="outline-primary text-white my-1"
+          variant="outline-primary my-1"
           onClick={toggleModal}
           key={index}
         >
@@ -54,12 +54,12 @@ const Education = () => {
     (edu, index) => (
       <Col md={6} className="mb-4" key={index}>
         {/* Bootstrap card with shadow, dark background, and light text */}
-        <Card className="shadow bg-dark text-light">
+        <Card className="shadow">
           <Card.Body>
             {/* Card title with education title */}
             <Card.Title>{edu.title}</Card.Title>
             {/* Card subtitle with education duration */}
-            <Card.Subtitle className="mb-2 text-white-50">
+            <Card.Subtitle className="mb-2 text-black-50">
               {edu.duration}
             </Card.Subtitle>
             {/* Card text with education description if available */}
@@ -81,7 +81,7 @@ const Education = () => {
 
   return (
     // Section element with id and classes for styling
-    <section id="education" className="py-5 text-light">
+    <section id="education" className="py-5">
       {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
         {/* Heading with FontAwesome icon and text */}
