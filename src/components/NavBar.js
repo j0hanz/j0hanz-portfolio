@@ -31,7 +31,9 @@ const NavBar = () => {
     >
       <Container fluid>
         <Navbar.Brand className={styles.navbarBrand}>
-          <span className="text-light">Linus Johansson</span>
+          <Nav.Link href="#hero" className={styles.nameNav}>
+            Linus Johansson
+          </Nav.Link>
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="navbar-nav"
