@@ -83,7 +83,7 @@ const NavBar = () => {
                 className={styles.navLink}
                 download={download}
               >
-                <FontAwesomeIcon icon={icon} size="lg" className="me-2" />
+                <FontAwesomeIcon icon={icon} size="lg" />
                 {label && <span>{label}</span>}
               </Nav.Link>
             ))}
