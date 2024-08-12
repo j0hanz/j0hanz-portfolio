@@ -40,7 +40,7 @@ const Footer = () => (
               rel="noopener noreferrer"
               target="_blank"
             >
-              <FontAwesomeIcon icon={faLinkedin} size="2x" />
+              <FontAwesomeIcon icon={faLinkedin} size="xl" />
             </a>
             {/* GitHub link with FontAwesome icon */}
             <a
@@ -49,7 +49,7 @@ const Footer = () => (
               rel="noopener noreferrer"
               target="_blank"
             >
-              <FontAwesomeIcon icon={faGithub} size="2x" />
+              <FontAwesomeIcon icon={faGithub} size="xl" />
             </a>
             <a
               className="text-light"
@@ -57,7 +57,7 @@ const Footer = () => (
               href={Cv} // Use the imported Cv directly as href
               download={true} // Ensures the file is downloaded
             >
-              <FontAwesomeIcon icon={faFilePdf} size="2x" />
+              <FontAwesomeIcon icon={faFilePdf} size="xl" />
             </a>
           </div>
         </Col>
