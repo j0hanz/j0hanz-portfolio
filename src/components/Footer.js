@@ -2,7 +2,12 @@ import React from 'react'; // Importing React library
 import { Container, Row, Col } from 'react-bootstrap'; // Importing components from react-bootstrap
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'; // Importing specific icons from FontAwesome
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
+import {
+  faEnvelope,
+  faPhone,
+  faFilePdf,
+} from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
+import Cv from '../assets/Linus_Johansson_CV.pdf'; // Importing the PDF file
 
 // Functional component Footer
 const Footer = () => (
@@ -30,7 +35,7 @@ const Footer = () => (
           <div>
             {/* LinkedIn link with FontAwesome icon */}
             <a
-              className="text-light mx-2"
+              className="text-light"
               href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
               rel="noopener noreferrer"
               target="_blank"
@@ -39,12 +44,20 @@ const Footer = () => (
             </a>
             {/* GitHub link with FontAwesome icon */}
             <a
-              className="text-light mx-3"
+              className="text-light mx-4"
               href="https://github.com/j0hanz"
               rel="noopener noreferrer"
               target="_blank"
             >
               <FontAwesomeIcon icon={faGithub} size="2x" />
+            </a>
+            <a
+              className="text-light"
+              id="download-pdf"
+              href={Cv} // Use the imported Cv directly as href
+              download={true} // Ensures the file is downloaded
+            >
+              <FontAwesomeIcon icon={faFilePdf} size="2x" />
             </a>
           </div>
         </Col>
