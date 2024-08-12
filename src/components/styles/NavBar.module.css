@@ -1,3 +1,24 @@
 .navIcon {
   color: #ff7f5fd8;
 }
+
+.customToggle {
+  border: none;
+  background: transparent;
+}
+
+.navbarBrand {
+  font-weight: bold;
+}
+
+.navLink {
+  color: #fff !important;
+}
+
+.navLink:hover {
+  background-color: #d1cfcf31;
+  color: #ddd !important;
+  border-radius: 5%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
