@@ -2,6 +2,9 @@ import React from 'react'; // Importing React library
 import { Container, Row, Col } from 'react-bootstrap'; // Importing components from react-bootstrap
 import Image from '../assets/image_me.jpeg'; // Importing image asset
 import styles from './styles/Hero.module.css'; // Importing CSS module for styling
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
+import { faDownload } from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
+import Cv from '../assets/Linus_Johansson_CV.pdf'; // Importing the PDF file
 
 // Functional component Hero wrapped with React.memo for performance optimization
 const Hero = React.memo(() => {
@@ -32,10 +35,15 @@ const Hero = React.memo(() => {
             <p className={leadClasses}>
               Crafting elegant and efficient web solutions.
             </p>
-            {/* Button linking to contact section */}
-            <a href="#contact" className={buttonClasses} size="lg">
-              Get in Touch
-            </a>
+            <div className="d-flex flex-column justify-content-center align-items-center my-4">
+              <a href={Cv} download className="btn btn-outline-primary mb-3">
+                <FontAwesomeIcon size="lg" icon={faDownload} className="me-2" />
+                Download CV
+              </a>
+              <a href="#contact" className={buttonClasses}>
+                Get in Touch
+              </a>
+            </div>
           </Col>
         </Row>
       </Container>
