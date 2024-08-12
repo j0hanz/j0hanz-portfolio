@@ -11,6 +11,14 @@
   font-weight: bold;
 }
 
+.nameNav {
+  color: #ffffffc4 !important;
+}
+
+.nameNav:hover {
+  color: #fff !important;
+}
+
 .navLink {
   color: #fff !important;
 }
