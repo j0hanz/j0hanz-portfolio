@@ -1,62 +1,59 @@
-import React from 'react'; // Importing React library
-import { Container, Row, Col } from 'react-bootstrap'; // Importing components from react-bootstrap
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'; // Importing specific icons from FontAwesome
+import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
   faEnvelope,
   faPhone,
   faFilePdf,
-} from '@fortawesome/free-solid-svg-icons'; // Importing specific icons from FontAwesome
-import Cv from '../assets/Linus_Johansson_CV.pdf'; // Importing the PDF file
+} from '@fortawesome/free-solid-svg-icons';
+import Cv from '../assets/Linus_Johansson_CV.pdf';
 
-// Functional component Footer
 const Footer = () => (
-  // Footer element with padding, dark background, and light text
   <footer className="py-3 bg-dark text-light">
-    {/* Bootstrap container with no horizontal padding */}
-    <Container fluid className="px-0">
-      {/* Bootstrap row centered horizontally with text centered */}
-      <Row className="text-center mx-auto">
-        {/* Bootstrap column for contact details and social media links */}
-        <Col md={6}>
+    <Container>
+      <Row className="mx-auto">
+        <Col md={6} className="mb-1 mb-md-0">
           <h5>Contact Details</h5>
           <p>
             <FontAwesomeIcon icon={faEnvelope} className="me-2" />
-            golfarenlj@gmail.com
+            <a
+              href="mailto:golfarenlj@gmail.com"
+              className="text-light text-decoration-none"
+            >
+              golfarenlj@gmail.com
+            </a>
           </p>
           <p>
             <FontAwesomeIcon icon={faPhone} className="me-2" />
-            +46 70 529 26 74
+            <a
+              href="tel:+46705292674"
+              className="text-light text-decoration-none"
+            >
+              +46 70 529 26 74
+            </a>
           </p>
         </Col>
-        {/* Bootstrap column for copyright information */}
-        <Col md={6}>
+        <Col md={6} className="text-md-end">
           <p>&copy; 2024 Linus Johansson. All rights reserved.</p>
           <div>
-            {/* LinkedIn link with FontAwesome icon */}
             <a
-              className="text-light"
+              className="text-light me-3"
               href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
               rel="noopener noreferrer"
               target="_blank"
             >
               <FontAwesomeIcon icon={faLinkedin} size="xl" />
             </a>
-            {/* GitHub link with FontAwesome icon */}
             <a
-              className="text-light mx-4"
+              className="text-light me-3"
               href="https://github.com/j0hanz"
               rel="noopener noreferrer"
               target="_blank"
             >
               <FontAwesomeIcon icon={faGithub} size="xl" />
             </a>
-            <a
-              className="text-light"
-              id="download-pdf"
-              href={Cv} // Use the imported Cv directly as href
-              download={true} // Ensures the file is downloaded
-            >
+            <a className="text-light" href={Cv} download={true}>
               <FontAwesomeIcon icon={faFilePdf} size="xl" />
             </a>
           </div>
@@ -66,5 +63,4 @@ const Footer = () => (
   </footer>
 );
 
-// Exporting the Footer component as default export
 export default Footer;
