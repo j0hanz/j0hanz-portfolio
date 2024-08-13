@@ -8,6 +8,7 @@ import {
   faFilePdf,
 } from '@fortawesome/free-solid-svg-icons';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
+import styles from './styles/Footer.module.css';
 
 const Footer = () => (
   <footer className="py-3 bg-dark text-light">
@@ -16,7 +17,7 @@ const Footer = () => (
         <Col md={6} className="mb-1 mb-md-0">
           <h5>Contact Details</h5>
           <p>
-            <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+            <FontAwesomeIcon icon={faEnvelope} className={styles.footerIcon} />
             <a
               href="mailto:golfarenlj@gmail.com"
               className="text-light text-decoration-none"
@@ -25,7 +26,7 @@ const Footer = () => (
             </a>
           </p>
           <p>
-            <FontAwesomeIcon icon={faPhone} className="me-2" />
+            <FontAwesomeIcon icon={faPhone} className={styles.footerIcon} />
             <a
               href="tel:+46705292674"
               className="text-light text-decoration-none"
