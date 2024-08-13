@@ -42,7 +42,7 @@ const experiences = [
 // Functional component ExperienceCard wrapped with React.memo for performance optimization
 const ExperienceCard = React.memo(({ experience }) => (
   // Bootstrap column with medium size 6 and bottom margin
-  <Col md={6} className="mb-4">
+  <Col md={6} className="mb-3">
     {/* Bootstrap card with shadow, dark background, and light text */}
     <Card className="shadow">
       <Card.Body>
