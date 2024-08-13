@@ -8,18 +8,21 @@ import Credential from './Credential'; // Import the Credential component
 const education = [
   {
     title: 'Diploma in Full Stack Software Development',
+    school: 'Code Institute',
     duration: 'Feb 2024 - July 2024',
   },
   {
+    title: 'Business and Administration Program',
+    school: 'Frans Möller Gymnasium',
+    duration: '2010 - 2013',
+  },
+  {
     title: 'Leadership Training',
+    school: 'Webhallen',
     duration: '2019',
     description: [
       'Focused on building winning teams through shared values and norms, coaching leadership, effective group dynamics, and clear communication. Emphasized setting and achieving goals with positive habits and behaviors.',
     ],
-  },
-  {
-    title: 'Business and Administration Program',
-    duration: '2010 - 2013',
   },
 ];
 
@@ -51,27 +54,28 @@ const Education = () => {
 
   // Function to render each education item
   const renderEducation = useCallback(
-    (edu, index) => (
-      <Col md={6} className="mb-4" key={index}>
+    (_, index) => (
+      <Col md={6} className="mb-3" key={index}>
         {/* Bootstrap card with shadow, dark background, and light text */}
         <Card className="shadow">
           <Card.Body>
             {/* Card title with education title */}
-            <Card.Title>{edu.title}</Card.Title>
+            <Card.Title>{education[index].title}</Card.Title>
+            <Card.Text>{education[index].school}</Card.Text>
             {/* Card subtitle with education duration */}
             <Card.Subtitle className="mb-2 text-black-50">
-              {edu.duration}
+              {education[index].duration}
             </Card.Subtitle>
             {/* Card text with education description if available */}
-            {edu.description && (
+            {education[index].description && (
               <Card.Text>
-                {edu.description.map((desc, i) => (
+                {education[index].description.map((desc, i) => (
                   <p key={i}>{desc}</p>
                 ))}
               </Card.Text>
             )}
             {/* Render credential button if applicable */}
-            {renderCredentialButton(edu, index)}
+            {renderCredentialButton(education[index], index)}
           </Card.Body>
         </Card>
       </Col>
