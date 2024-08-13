@@ -51,7 +51,7 @@ const Portfolio = () => (
         {/* Mapping through the projects array to render each project */}
         {projects.map(({ title, description, github, demo }, index) => (
           // Bootstrap column with medium size 6 and bottom margin
-          <Col md={6} key={index} className="mb-4">
+          <Col md={6} key={index} className="mb-3">
             {/* Bootstrap card with shadow, dark background, and light text */}
             <Card className="shadow">
               <Card.Body>
