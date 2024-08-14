@@ -95,7 +95,7 @@ const ContactForm = () => {
                   type="text"
                   name="name"
                   placeholder="Enter your name..."
-                  className="mb-3"
+                  className="mt-3"
                   required
                   value={formData.name}
                   onChange={handleChange}
@@ -111,7 +111,7 @@ const ContactForm = () => {
                   type="email"
                   name="email"
                   placeholder="Enter your email..."
-                  className="mb-3"
+                  className="mt-3"
                   required
                   value={formData.email}
                   onChange={handleChange}
@@ -128,7 +128,7 @@ const ContactForm = () => {
                   name="message"
                   rows={3}
                   placeholder="Enter your message..."
-                  className="mb-3"
+                  className="mt-3"
                   required
                   value={formData.message}
                   onChange={handleChange}
@@ -140,7 +140,7 @@ const ContactForm = () => {
               </Form.Group>
               <div className="d-flex justify-content-center">
                 <Button
-                  variant="outline-primary d-flex"
+                  variant="outline-primary d-flex mt-3"
                   type="submit"
                   disabled={isSending}
                 >
