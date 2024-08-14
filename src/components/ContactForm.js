@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Alert,
+  Spinner,
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../handler/EmailHandler';
@@ -15,6 +23,7 @@ const ContactForm = () => {
   });
   const [errors, setErrors] = useState({});
   const [showAlert, setShowAlert] = useState(false);
+  const [isSending, setIsSending] = useState(false); // New state for sending status
 
   const validateForm = () => {
     const newErrors = {};
@@ -40,6 +49,10 @@ const ContactForm = () => {
     const formValid = validateForm();
     setValidated(formValid);
     setShowAlert(!formValid);
+
+    if (formValid) {
+      setIsSending(true);
+    }
   };
 
   const handleChange = (event) => {
@@ -48,6 +61,7 @@ const ContactForm = () => {
   };
 
   const handleEmailSent = (success) => {
+    setIsSending(false);
     if (success) {
       setFormData({ name: '', email: '', message: '' });
       navigate('/success');
@@ -125,8 +139,26 @@ const ContactForm = () => {
                 </Form.Control.Feedback>
               </Form.Group>
               <div className="d-flex justify-content-center">
-                <Button variant="outline-primary d-flex" type="submit">
-                  Send
+                <Button
+                  variant="outline-primary d-flex"
+                  type="submit"
+                  disabled={isSending}
+                >
+                  {isSending ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2"
+                      />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send'
+                  )}
                 </Button>
               </div>
             </Form>
