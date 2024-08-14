@@ -1,11 +1,11 @@
-import React, { useState } from 'react'; // Importing React library and useState hook
-import { useNavigate } from 'react-router-dom'; // Importing useNavigate hook from react-router-dom
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
+import React, { useState } from 'react'; // Importing React and useState hook
+import { useNavigate } from 'react-router-dom'; // Importing useNavigate hook
+import { Container, Row, Col, Form, Button } from 'react-bootstrap'; // Importing Bootstrap components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Importing specific icon from FontAwesome
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Importing FontAwesome icon
 import EmailHandler from '../handler/EmailHandler'; // Importing EmailHandler component
 
-// Functional component ContactForm wrapped with React.memo for performance optimization
+// Functional component ContactForm
 const ContactForm = React.memo(() => {
   const navigate = useNavigate(); // Initializing useNavigate hook
   const [validated, setValidated] = useState(false); // State for form validation
@@ -23,10 +23,7 @@ const ContactForm = React.memo(() => {
       event.stopPropagation();
     } else {
       event.preventDefault();
-      // Simulate form submission
-      setTimeout(() => {
-        setValidated(true);
-      }, 1000);
+      setValidated(true);
     }
   };
 
@@ -102,7 +99,7 @@ const ContactForm = React.memo(() => {
                   onChange={handleChange}
                 />
               </Form.Group>
-              {/* Submit button with outline-success variant and white text */}
+              {/* Submit button with outline-primary variant */}
               <div className="d-flex justify-content-center">
                 <Button variant="outline-primary d-flex" type="submit">
                   Send
@@ -112,7 +109,7 @@ const ContactForm = React.memo(() => {
           </Col>
         </Row>
       </Container>
-      {/* Integrate EmailHandler */}
+      {/* Integrate EmailHandler component */}
       {validated && (
         <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
       )}
