@@ -2,10 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
 const EmailHandler = ({ formData, onEmailSent }) => {
-  const form = useRef();
+  const { name, email, message } = formData;
+  const form = useRef(null);
 
   useEffect(() => {
-    const sendEmail = () => {
+    if (form.current) {
       emailjs
         .sendForm(
           'service_h7mpv2i',
@@ -13,25 +14,17 @@ const EmailHandler = ({ formData, onEmailSent }) => {
           form.current,
           'kMJNphEQu6FYZEE90',
         )
-        .then(
-          (result) => {
-            onEmailSent(true); // Notify parent component of success
-          },
-          (error) => {
-            onEmailSent(false); // Notify parent component of failure
-          },
-        );
-    };
-
-    sendEmail(); // Automatically send email when component mounts
-  }, [formData, onEmailSent]);
+        .then(() => onEmailSent(true))
+        .catch(() => onEmailSent(false));
+    }
+  }, [name, email, message, onEmailSent]);
 
   return (
     <form ref={form} style={{ display: 'none' }}>
       <input type="hidden" name="to_email" value="l.johansson93@outlook.com" />
-      <input type="hidden" name="from_name" value={formData.name} />
-      <input type="hidden" name="from_email" value={formData.email} />
-      <input type="hidden" name="message" value={formData.message} />
+      <input type="hidden" name="from_name" value={name} />
+      <input type="hidden" name="from_email" value={email} />
+      <input type="hidden" name="message" value={message} />
     </form>
   );
 };
