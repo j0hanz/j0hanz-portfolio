@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import api from '../api/api';
 
 const ContactForm = React.memo(() => {
   const navigate = useNavigate();
@@ -29,17 +30,8 @@ const ContactForm = React.memo(() => {
       event.stopPropagation();
     } else {
       try {
-        const response = await fetch(
-          'https://j0hanz-cv-contact-api-423a30b028e9.herokuapp.com/api/contact/',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          },
-        );
-        const data = await response.json();
+        const response = await api.post('api/contact/', formData);
+        const data = response.data;
         if (data.status === 'success') {
           navigate('/success'); // Navigate to success page
         } else {
@@ -105,7 +97,6 @@ const ContactForm = React.memo(() => {
                   onChange={handleChange}
                 />
               </Form.Group>
-
               <div className="d-flex justify-content-center">
                 <Button variant="outline-primary d-flex" type="submit">
                   Send
