@@ -3,11 +3,17 @@ import { useNavigate } from 'react-router-dom'; // Importing useNavigate hook fr
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Importing specific icon from FontAwesome
+import EmailHandler from '../handler/EmailHandler'; // Importing EmailHandler component
 
 // Functional component ContactForm wrapped with React.memo for performance optimization
 const ContactForm = React.memo(() => {
   const navigate = useNavigate(); // Initializing useNavigate hook
   const [validated, setValidated] = useState(false); // State for form validation
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  }); // State for form data
 
   // Handle form submission
   const handleSubmit = (event) => {
@@ -19,10 +25,25 @@ const ContactForm = React.memo(() => {
       event.preventDefault();
       // Simulate form submission
       setTimeout(() => {
-        navigate('/success'); // Navigate to success page
+        setValidated(true);
       }, 1000);
     }
-    setValidated(true);
+  };
+
+  // Handle form data change
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Handle email sent success or failure
+  const handleEmailSent = (success) => {
+    if (success) {
+      setFormData({ name: '', email: '', message: '' }); // Reset form fields
+      navigate('/success'); // Navigate to success page on email success
+    } else {
+      console.error('Email sending failed.'); // Handle email sending failure
+    }
   };
 
   return (
@@ -46,9 +67,12 @@ const ContactForm = React.memo(() => {
                 <Form.Label className="d-none">Name</Form.Label>
                 <Form.Control
                   type="text"
+                  name="name"
                   placeholder="Enter your name..."
                   className="mb-3"
                   required
+                  value={formData.name}
+                  onChange={handleChange}
                 />
               </Form.Group>
               {/* Form group for email input */}
@@ -56,9 +80,12 @@ const ContactForm = React.memo(() => {
                 <Form.Label className="d-none">Email</Form.Label>
                 <Form.Control
                   type="email"
+                  name="email"
                   placeholder="Enter your email..."
                   className="mb-3"
                   required
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </Form.Group>
               {/* Form group for message textarea */}
@@ -66,10 +93,13 @@ const ContactForm = React.memo(() => {
                 <Form.Label className="d-none">Message</Form.Label>
                 <Form.Control
                   as="textarea"
+                  name="message"
                   rows={3}
                   placeholder="Enter your message..."
                   className="mb-3"
                   required
+                  value={formData.message}
+                  onChange={handleChange}
                 />
               </Form.Group>
               {/* Submit button with outline-success variant and white text */}
@@ -82,6 +112,10 @@ const ContactForm = React.memo(() => {
           </Col>
         </Row>
       </Container>
+      {/* Integrate EmailHandler */}
+      {validated && (
+        <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
+      )}
     </section>
   );
 });
