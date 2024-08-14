@@ -1,114 +1,83 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import api from '../api/api';
+import React, { useState } from 'react'; // Importing React library and useState hook
+import { useNavigate } from 'react-router-dom'; // Importing useNavigate hook from react-router-dom
+import { Container, Row, Col, Form, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Importing specific icon from FontAwesome
 
+// Functional component ContactForm wrapped with React.memo for performance optimization
 const ContactForm = React.memo(() => {
-  const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [formError, setFormError] = useState(null);
+  const navigate = useNavigate(); // Initializing useNavigate hook
+  const [validated, setValidated] = useState(false); // State for form validation
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // Handle form submission
+  const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      event.preventDefault();
       event.stopPropagation();
     } else {
-      try {
-        const response = await api.post('/contact/', formData);
-        const data = response.data;
-        if (data.status === 'success') {
-          navigate('/success'); // Navigate to success page
-        } else {
-          if (typeof data.errors === 'object') {
-            const errorMessages = Object.values(data.errors).flat();
-            setFormError(errorMessages);
-          } else {
-            setFormError([
-              data.errors || 'An error occurred while submitting the form',
-            ]);
-          }
-        }
-      } catch (error) {
-        setFormError(['An error occurred while submitting the form']);
-      }
+      event.preventDefault();
+      // Simulate form submission
+      setTimeout(() => {
+        navigate('/success'); // Navigate to success page
+      }, 1000);
     }
     setValidated(true);
   };
 
   return (
+    // Section element with id and classes for styling
     <section id="contact" className="contact-section py-5">
+      {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
+        {/* Heading with FontAwesome icon and centered text */}
         <h2 className="text-center">
           <FontAwesomeIcon icon={faEnvelope} size="sm" className="me-2" />
           Contact
         </h2>
+        {/* Bootstrap row centered horizontally with top margin */}
         <Row className="justify-content-center mt-4 mx-auto">
+          {/* Bootstrap column with medium size 8 */}
           <Col md={8}>
+            {/* Bootstrap form */}
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              {/* Form group for name input */}
               <Form.Group controlId="formName">
                 <Form.Label className="d-none">Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="name"
                   placeholder="Enter your name..."
                   className="mb-3"
                   required
-                  value={formData.name}
-                  onChange={handleChange}
                 />
               </Form.Group>
+              {/* Form group for email input */}
               <Form.Group controlId="formEmail">
                 <Form.Label className="d-none">Email</Form.Label>
                 <Form.Control
                   type="email"
-                  name="email"
                   placeholder="Enter your email..."
                   className="mb-3"
                   required
-                  value={formData.email}
-                  onChange={handleChange}
                 />
               </Form.Group>
+              {/* Form group for message textarea */}
               <Form.Group controlId="formMessage">
                 <Form.Label className="d-none">Message</Form.Label>
                 <Form.Control
                   as="textarea"
-                  name="message"
+                  rows={3}
                   placeholder="Enter your message..."
                   className="mb-3"
                   required
-                  value={formData.message}
-                  onChange={handleChange}
                 />
               </Form.Group>
+              {/* Submit button with outline-success variant and white text */}
               <div className="d-flex justify-content-center">
                 <Button variant="outline-primary d-flex" type="submit">
                   Send
                 </Button>
               </div>
-              {formError && (
-                <div className="mt-3 text-danger text-center">
-                  {formError.map((error, index) => (
-                    <div key={index}>{error}</div>
-                  ))}
-                </div>
-              )}
             </Form>
           </Col>
         </Row>
@@ -117,4 +86,5 @@ const ContactForm = React.memo(() => {
   );
 });
 
+// Exporting the ContactForm component as default export
 export default ContactForm;
