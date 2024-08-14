@@ -30,7 +30,7 @@ const ContactForm = React.memo(() => {
       event.stopPropagation();
     } else {
       try {
-        const response = await api.post('api/contact/', formData);
+        const response = await api.post('/contact/', formData);
         const data = response.data;
         if (data.status === 'success') {
           navigate('/success'); // Navigate to success page
