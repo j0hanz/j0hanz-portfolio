@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../handler/EmailHandler';
@@ -13,16 +13,41 @@ const ContactForm = () => {
     email: '',
     message: '',
   });
+  const [errors, setErrors] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate name (must be at least 2 characters and contain only letters and spaces)
+    if (!/^[a-zA-Z\s]{2,}$/.test(formData.name)) {
+      newErrors.name =
+        'Please enter a valid name (at least 2 characters, letters, and spaces only).';
+    }
+
+    // Validate email using a regex pattern
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    // Validate message (must be at least 10 characters)
+    if (formData.message.length < 10) {
+      newErrors.message =
+        'Your message is too short (at least 10 characters required).';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
-
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      event.preventDefault();
+    event.preventDefault();
+    if (validateForm()) {
       setValidated(true);
+      setShowAlert(false);
+    } else {
+      setValidated(false);
+      setShowAlert(true);
     }
   };
 
@@ -49,7 +74,16 @@ const ContactForm = () => {
         </h2>
         <Row className="justify-content-center mt-4 mx-auto">
           <Col md={8}>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            {showAlert && (
+              <Alert
+                variant="danger"
+                onClose={() => setShowAlert(false)}
+                dismissible
+              >
+                Please correct the errors in the form below.
+              </Alert>
+            )}
+            <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
                 <Form.Label className="d-none">Name</Form.Label>
                 <Form.Control
@@ -60,7 +94,11 @@ const ContactForm = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
+                  isInvalid={!!errors.name}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="formEmail">
                 <Form.Label className="d-none">Email</Form.Label>
@@ -72,7 +110,11 @@ const ContactForm = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
+                  isInvalid={!!errors.email}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.email}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="formMessage">
                 <Form.Label className="d-none">Message</Form.Label>
@@ -85,7 +127,11 @@ const ContactForm = () => {
                   required
                   value={formData.message}
                   onChange={handleChange}
+                  isInvalid={!!errors.message}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <div className="d-flex justify-content-center">
                 <Button variant="outline-primary d-flex" type="submit">
