@@ -19,10 +19,10 @@ const Footer = () => (
           <p>
             <FontAwesomeIcon icon={faEnvelope} className={styles.footerIcon} />
             <a
-              href="mailto:golfarenlj@gmail.com"
+              href="mailto:l.johansson93@outlook.com"
               className="text-light text-decoration-none"
             >
-              golfarenlj@gmail.com
+              l.johansson93@outlook.com
             </a>
           </p>
           <p>
