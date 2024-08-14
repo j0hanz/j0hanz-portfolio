@@ -19,21 +19,16 @@ const ContactForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Validate name (must be at least 2 characters and contain only letters and spaces)
     if (!/^[a-zA-Z\s]{2,}$/.test(formData.name)) {
-      newErrors.name =
-        'Please enter a valid name (at least 2 characters, letters, and spaces only).';
+      newErrors.name = 'Please enter a valid name.';
     }
 
-    // Validate email using a regex pattern
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address.';
     }
 
-    // Validate message (must be at least 10 characters)
     if (formData.message.length < 10) {
-      newErrors.message =
-        'Your message is too short (at least 10 characters required).';
+      newErrors.message = 'Your message is too short.';
     }
 
     setErrors(newErrors);
@@ -42,24 +37,20 @@ const ContactForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (validateForm()) {
-      setValidated(true);
-      setShowAlert(false);
-    } else {
-      setValidated(false);
-      setShowAlert(true);
-    }
+    const formValid = validateForm();
+    setValidated(formValid);
+    setShowAlert(!formValid);
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
   const handleEmailSent = (success) => {
     if (success) {
-      setFormData({ name: '', email: '', message: '' }); // Reset form fields
-      navigate('/success'); // Navigate to success page
+      setFormData({ name: '', email: '', message: '' });
+      navigate('/success');
     } else {
       console.error('Email sending failed.');
     }
@@ -139,12 +130,12 @@ const ContactForm = () => {
                 </Button>
               </div>
             </Form>
+            {validated && (
+              <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
+            )}
           </Col>
         </Row>
       </Container>
-      {validated && (
-        <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
-      )}
     </section>
   );
 };
