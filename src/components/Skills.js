@@ -7,11 +7,16 @@ import {
   faHtml5,
   faCss3,
   faJs,
-  faGitAlt,
   faPython,
   faBootstrap,
+  faGithub,
 } from '@fortawesome/free-brands-svg-icons';
-import { faCogs, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCogs,
+  faDatabase,
+  faSearch,
+  faProjectDiagram,
+} from '@fortawesome/free-solid-svg-icons';
 
 const skills = [
   { icon: faHtml5, label: 'HTML5' },
@@ -19,10 +24,13 @@ const skills = [
   { icon: faJs, label: 'JavaScript' },
   { icon: faReact, label: 'React.js' },
   { icon: faNodeJs, label: 'Node.js' },
-  { icon: faGitAlt, label: 'Git' },
   { icon: faPython, label: 'Python' },
   { icon: faBootstrap, label: 'Bootstrap' },
   { icon: faDatabase, label: 'Django' },
+  { icon: faDatabase, label: 'PostgreSQL' },
+  { icon: faSearch, label: 'SEO' },
+  { icon: faGithub, label: 'Git & GitHub' },
+  { icon: faProjectDiagram, label: 'Agile Methodologies' },
 ];
 
 // Functional component Skills
