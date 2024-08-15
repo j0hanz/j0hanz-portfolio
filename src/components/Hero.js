@@ -52,7 +52,7 @@ const Hero = React.memo(() => {
 
             {/* Lead Paragraph */}
             <p className={leadClasses}>
-              Crafting elegant and efficient web solutions.
+              Creating elegant and efficient web solutions.
             </p>
 
             {/* Download CV Button and Contact Button */}
