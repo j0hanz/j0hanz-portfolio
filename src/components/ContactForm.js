@@ -14,17 +14,18 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../handler/EmailHandler';
 
 const ContactForm = () => {
-  const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
+  const navigate = useNavigate(); // Navigation hook to redirect after form submission
+  const [validated, setValidated] = useState(false); // State to track if the form is validated
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
-  });
-  const [errors, setErrors] = useState({});
-  const [showAlert, setShowAlert] = useState(false);
-  const [isSending, setIsSending] = useState(false); // New state for sending status
+  }); // State to store form data
+  const [errors, setErrors] = useState({}); // State to store form validation errors
+  const [showAlert, setShowAlert] = useState(false); // State to control the visibility of the alert
+  const [isSending, setIsSending] = useState(false); // State to indicate if the email is being sent
 
+  // Function to validate form inputs
   const validateForm = () => {
     const newErrors = {};
 
@@ -41,30 +42,33 @@ const ContactForm = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; // Return true if there are no errors
   };
 
+  // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const formValid = validateForm();
     setValidated(formValid);
-    setShowAlert(!formValid);
+    setShowAlert(!formValid); // Show alert if form is not valid
 
     if (formValid) {
-      setIsSending(true);
+      setIsSending(true); // Set sending state to true if the form is valid
     }
   };
 
+  // Function to handle input changes and update form data
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  // Callback function for handling the email sending result
   const handleEmailSent = (success) => {
-    setIsSending(false);
+    setIsSending(false); // Reset sending state
     if (success) {
-      setFormData({ name: '', email: '', message: '' });
-      navigate('/success');
+      setFormData({ name: '', email: '', message: '' }); // Clear form data
+      navigate('/success'); // Redirect to success page on successful email sending
     } else {
       console.error('Email sending failed.');
     }
@@ -90,6 +94,7 @@ const ContactForm = () => {
             )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
+                {/* Name input field */}
                 <Form.Label className="d-none">Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -99,13 +104,14 @@ const ContactForm = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  isInvalid={!!errors.name}
+                  isInvalid={!!errors.name} // Conditional rendering for validation feedback
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.name}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="formEmail">
+                {/* Email input field */}
                 <Form.Label className="d-none">Email</Form.Label>
                 <Form.Control
                   type="email"
@@ -115,13 +121,14 @@ const ContactForm = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  isInvalid={!!errors.email}
+                  isInvalid={!!errors.email} // Conditional rendering for validation feedback
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.email}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="formMessage">
+                {/* Message input field */}
                 <Form.Label className="d-none">Message</Form.Label>
                 <Form.Control
                   as="textarea"
@@ -132,13 +139,14 @@ const ContactForm = () => {
                   required
                   value={formData.message}
                   onChange={handleChange}
-                  isInvalid={!!errors.message}
+                  isInvalid={!!errors.message} // Conditional rendering for validation feedback
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.message}
                 </Form.Control.Feedback>
               </Form.Group>
               <div className="d-flex justify-content-center">
+                {/* Submit button with spinner when sending */}
                 <Button
                   variant="outline-primary d-flex mt-3"
                   type="submit"

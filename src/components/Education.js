@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from 'react'; // Importing React and hooks
-import { Container, Row, Col, Card, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
-import { faGraduationCap } from '@fortawesome/free-solid-svg-icons'; // Importing specific icon from FontAwesome
-import Credential from './Credential'; // Import the Credential component
+import React, { useState, useCallback } from 'react';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import Credential from './Credential';
 
-// Array of education objects containing title, duration, and optional description
 const education = [
   {
     title: 'Diploma in Full Stack Software Development',
@@ -56,17 +55,13 @@ const Education = () => {
   const renderEducation = useCallback(
     (_, index) => (
       <Col md={6} className="mb-3" key={index}>
-        {/* Bootstrap card with shadow, dark background, and light text */}
         <Card className="shadow">
           <Card.Body>
-            {/* Card title with education title */}
             <Card.Title>{education[index].title}</Card.Title>
             <Card.Text>{education[index].school}</Card.Text>
-            {/* Card subtitle with education duration */}
             <Card.Subtitle className="mb-2 text-black-50">
               {education[index].duration}
             </Card.Subtitle>
-            {/* Card text with education description if available */}
             {education[index].description && (
               <Card.Text>
                 {education[index].description.map((desc, i) => (
@@ -74,7 +69,6 @@ const Education = () => {
                 ))}
               </Card.Text>
             )}
-            {/* Render credential button if applicable */}
             {renderCredentialButton(education[index], index)}
           </Card.Body>
         </Card>
@@ -86,21 +80,16 @@ const Education = () => {
   return (
     // Section element with id and classes for styling
     <section id="education" className="py-5">
-      {/* Bootstrap container with no horizontal padding */}
       <Container className="px-0">
-        {/* Heading with FontAwesome icon and text */}
         <h2 className="d-flex justify-content-center">
           <FontAwesomeIcon icon={faGraduationCap} size="sm" className="me-2" />
           Education
         </h2>
-        {/* Bootstrap row with top margin and centered horizontally */}
         <Row className="mt-4 mx-auto">{education.map(renderEducation)}</Row>
-        {/* Credential component with modal visibility state and toggle function */}
         <Credential show={showModal} handleClose={toggleModal} />
       </Container>
     </section>
   );
 };
 
-// Exporting the Education component as default export
 export default Education;

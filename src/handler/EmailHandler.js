@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
+// Functional component EmailHandler
 const EmailHandler = ({ formData, onEmailSent }) => {
   const { name, email, message } = formData;
   const form = useRef(null);

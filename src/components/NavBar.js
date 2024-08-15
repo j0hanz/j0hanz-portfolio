@@ -16,6 +16,7 @@ import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 
+// Functional component NavBar
 const NavBar = () => {
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 

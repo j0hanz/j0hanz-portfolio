@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'; // Importing React and hooks
-import { Modal, Container, Button } from 'react-bootstrap'; // Importing components from react-bootstrap
-import ImageCredential from '../assets/Credential.png'; // Importing credential image
-import styles from './styles/Credential.module.css'; // Importing CSS module for styling
-import Spinner from './Spinner'; // Importing Spinner component
+import React, { useState, useEffect } from 'react';
+import { Modal, Container, Button } from 'react-bootstrap';
+import ImageCredential from '../assets/Credential.png';
+import styles from './styles/Credential.module.css';
+import Spinner from './Spinner';
 
-// Functional component Credential
 const Credential = ({ show, handleClose }) => {
   // State to manage loading status
   const [loading, setLoading] = useState(true);
@@ -14,9 +13,7 @@ const Credential = ({ show, handleClose }) => {
     const image = new Image(); // Create a new Image object
     image.src = ImageCredential; // Set the source of the image
     image.onload = () => {
-      // When the image is loaded
       setTimeout(() => {
-        // Set a timeout to simulate loading delay
         setLoading(false); // Set loading to false after delay
       }, 2500); // Delay of 2500ms
     };
@@ -78,5 +75,4 @@ const Credential = ({ show, handleClose }) => {
   );
 };
 
-// Exporting the Credential component as default export
 export default Credential;

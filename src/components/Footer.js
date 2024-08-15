@@ -10,6 +10,7 @@ import {
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 import styles from './styles/Footer.module.css';
 
+// Functional component Footer
 const Footer = () => (
   <footer className="py-3 bg-dark text-light">
     <Container>
