@@ -22,15 +22,15 @@ const skills = [
   { icon: faHtml5, label: 'HTML5' },
   { icon: faCss3, label: 'CSS3' },
   { icon: faJs, label: 'JavaScript' },
+  { icon: faBootstrap, label: 'Bootstrap' },
   { icon: faReact, label: 'React.js' },
   { icon: faNodeJs, label: 'Node.js' },
   { icon: faPython, label: 'Python' },
-  { icon: faBootstrap, label: 'Bootstrap' },
   { icon: faDatabase, label: 'Django' },
   { icon: faDatabase, label: 'PostgreSQL' },
-  { icon: faSearch, label: 'SEO' },
   { icon: faGithub, label: 'Git & GitHub' },
   { icon: faProjectDiagram, label: 'Agile Methodologies' },
+  { icon: faSearch, label: 'SEO' },
 ];
 
 // Functional component Skills
