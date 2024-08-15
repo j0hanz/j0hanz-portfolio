@@ -81,7 +81,7 @@ const ContactForm = () => {
           <FontAwesomeIcon icon={faEnvelope} size="sm" className="me-2" />
           Contact
         </h2>
-        <Row className="justify-content-center mt-4 mx-auto">
+        <Row className="justify-content-center mt-2 mx-auto">
           <Col md={8}>
             {showAlert && (
               <Alert
