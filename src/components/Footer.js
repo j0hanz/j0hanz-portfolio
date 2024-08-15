@@ -6,6 +6,7 @@ import {
   faEnvelope,
   faPhone,
   faFilePdf,
+  faCode,
 } from '@fortawesome/free-solid-svg-icons';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 import styles from './styles/Footer.module.css';
@@ -55,8 +56,17 @@ const Footer = () => (
             >
               <FontAwesomeIcon icon={faGithub} size="xl" />
             </a>
-            <a className="text-light" href={Cv} download={true}>
+            <a className="text-light me-3" href={Cv} download={true}>
               <FontAwesomeIcon icon={faFilePdf} size="xl" />
+            </a>
+            <a
+              className="text-light"
+              href="https://github.com/j0hanz/j0hanz-portfolio"
+              rel="noopener noreferrer"
+              target="_blank"
+              download={true}
+            >
+              <FontAwesomeIcon icon={faCode} />
             </a>
           </div>
         </Col>
