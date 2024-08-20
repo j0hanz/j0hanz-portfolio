@@ -27,12 +27,10 @@ const Credential = ({ show, handleClose }) => {
         <Modal.Header
           closeButton
           closeVariant="white"
-          className="bg-dark text-light"
-        >
-          <Modal.Title>Credential</Modal.Title>
-        </Modal.Header>
+          className="bg-dark text-light border-0"
+        ></Modal.Header>
         {/* Modal body with dark theme */}
-        <Modal.Body className="bg-dark text-light">
+        <Modal.Body className="bg-dark text-light p-0">
           {/* Bootstrap container with centered text */}
           <Container className="text-center">
             {loading ? (
