@@ -69,7 +69,7 @@ const NavBar = () => {
               {
                 id: 'linkedin',
                 icon: faLinkedin,
-                href: 'https://www.linkedin.com/in/linus-johansson-9b1a302a0/',
+                href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
                 tooltip: 'LinkedIn Profile',
               },
               {

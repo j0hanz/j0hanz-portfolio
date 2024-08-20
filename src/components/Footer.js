@@ -47,7 +47,7 @@ const Footer = () => (
             >
               <a
                 className="text-light me-3"
-                href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
+                href="https://www.linkedin.com/in/linus-johansson-software-dev/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
