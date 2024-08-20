@@ -1,5 +1,11 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  Container,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
@@ -16,7 +22,6 @@ import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 
-// Functional component NavBar
 const NavBar = () => {
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
@@ -65,11 +70,13 @@ const NavBar = () => {
                 id: 'linkedin',
                 icon: faLinkedin,
                 href: 'https://www.linkedin.com/in/linus-johansson-9b1a302a0/',
+                tooltip: 'LinkedIn Profile',
               },
               {
                 id: 'github',
                 icon: faGithub,
                 href: 'https://github.com/j0hanz',
+                tooltip: 'GitHub Profile',
               },
               {
                 id: 'download-pdf',
@@ -77,18 +84,24 @@ const NavBar = () => {
                 href: Cv,
                 download: true,
                 label: 'CV',
+                tooltip: 'Download CV',
               },
-            ].map(({ id, icon, href, download, label }) => (
-              <Nav.Link
+            ].map(({ id, icon, href, download, label, tooltip }) => (
+              <OverlayTrigger
                 key={id}
-                href={href}
-                target={download ? '_self' : '_blank'}
-                className={styles.navLink}
-                download={download}
+                placement="bottom"
+                overlay={<Tooltip id={`tooltip-${id}`}>{tooltip}</Tooltip>}
               >
-                <FontAwesomeIcon icon={icon} size="lg" />
-                {label && <span>{label}</span>}
-              </Nav.Link>
+                <Nav.Link
+                  href={href}
+                  target={download ? '_self' : '_blank'}
+                  className={styles.navLink}
+                  download={download}
+                >
+                  <FontAwesomeIcon icon={icon} size="lg" />
+                  {label && <span>{label}</span>}
+                </Nav.Link>
+              </OverlayTrigger>
             ))}
           </Nav>
         </Navbar.Collapse>
