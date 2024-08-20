@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
@@ -11,7 +11,6 @@ import {
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 import styles from './styles/Footer.module.css';
 
-// Functional component Footer
 const Footer = () => (
   <footer className="py-3 bg-dark text-light">
     <Container>
@@ -40,34 +39,55 @@ const Footer = () => (
         <Col md={6} className="text-md-end">
           <p>&copy; 2024 Linus Johansson. All rights reserved.</p>
           <div>
-            <a
-              className="text-light me-3"
-              href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
-              rel="noopener noreferrer"
-              target="_blank"
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip id="tooltip-linkedin">LinkedIn Profile</Tooltip>
+              }
             >
-              <FontAwesomeIcon icon={faLinkedin} size="xl" />
-            </a>
-            <a
-              className="text-light me-3"
-              href="https://github.com/j0hanz"
-              rel="noopener noreferrer"
-              target="_blank"
+              <a
+                className="text-light me-3"
+                href="https://www.linkedin.com/in/linus-johansson-9b1a302a0/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <FontAwesomeIcon icon={faLinkedin} size="xl" />
+              </a>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-github">GitHub Profile</Tooltip>}
             >
-              <FontAwesomeIcon icon={faGithub} size="xl" />
-            </a>
-            <a className="text-light me-3" href={Cv} download={true}>
-              <FontAwesomeIcon icon={faFilePdf} size="xl" />
-            </a>
-            <a
-              className="text-light"
-              href="https://github.com/j0hanz/j0hanz-portfolio"
-              rel="noopener noreferrer"
-              target="_blank"
-              download={true}
+              <a
+                className="text-light me-3"
+                href="https://github.com/j0hanz"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <FontAwesomeIcon icon={faGithub} size="xl" />
+              </a>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
             >
-              <FontAwesomeIcon icon={faCode} />
-            </a>
+              <a className="text-light me-3" href={Cv} download={true}>
+                <FontAwesomeIcon icon={faFilePdf} size="xl" />
+              </a>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-code">Source Code</Tooltip>}
+            >
+              <a
+                className="text-light"
+                href="https://github.com/j0hanz/j0hanz-portfolio"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <FontAwesomeIcon icon={faCode} />
+              </a>
+            </OverlayTrigger>
           </div>
         </Col>
       </Row>
