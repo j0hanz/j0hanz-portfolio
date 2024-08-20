@@ -37,7 +37,7 @@ const skills = [
 const Skills = () => (
   <section id="skills" className="skills-section py-5">
     <Container className="px-0">
-      <h2 className="text-center">
+      <h2 className="d-flex justify-content-center align-items-center">
         <FontAwesomeIcon icon={faCogs} size="sm" className="me-2" />
         Skills
       </h2>
