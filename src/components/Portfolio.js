@@ -32,6 +32,13 @@ const projects = [
     github: 'https://github.com/j0hanz/FIX-my-SPELL',
     demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
   },
+  {
+    title: 'Corner',
+    description:
+      'Corner is an upgraded version of Blog Beat, offering more features, better customization, and an improved user experience.',
+    github: 'https://github.com/j0hanz/corner',
+    demo: '', // No demo link available
+  },
 ];
 
 // Functional component Portfolio
@@ -57,13 +64,19 @@ const Portfolio = () => (
                 >
                   GitHub
                 </Button>
-                <Button
-                  variant="outline-primary float-end"
-                  href={demo}
-                  target="_blank"
-                >
-                  Live Demo
-                </Button>
+                {demo ? (
+                  <Button
+                    variant="outline-primary float-end"
+                    href={demo}
+                    target="_blank"
+                  >
+                    Live Demo
+                  </Button>
+                ) : (
+                  <Button variant="outline-secondary float-end" disabled>
+                    Coming Soon!
+                  </Button>
+                )}
               </Card.Body>
             </Card>
           </Col>
