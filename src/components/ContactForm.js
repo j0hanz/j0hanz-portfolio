@@ -77,7 +77,7 @@ const ContactForm = () => {
   return (
     <section id="contact" className="contact-section py-5">
       <Container className="px-0">
-        <h2 className="text-center">
+        <h2 className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon icon={faEnvelope} size="sm" className="me-2" />
           Contact
         </h2>

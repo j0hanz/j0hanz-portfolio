@@ -11,7 +11,7 @@ const AboutMe = () => (
           <Card className="shadow p-2">
             <Card.Body>
               <Card.Title>
-                <h2 className="d-flex justify-content-center">
+                <h2 className="d-flex justify-content-center align-items-center">
                   <FontAwesomeIcon icon={faUser} size="sm" className="me-2" />
                   About Me
                 </h2>

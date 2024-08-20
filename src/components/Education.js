@@ -81,7 +81,7 @@ const Education = () => {
     // Section element with id and classes for styling
     <section id="education" className="py-5">
       <Container className="px-0">
-        <h2 className="d-flex justify-content-center">
+        <h2 className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon icon={faGraduationCap} size="sm" className="me-2" />
           Education
         </h2>

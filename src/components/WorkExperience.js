@@ -63,7 +63,7 @@ const WorkExperience = React.memo(() => {
   return (
     <section id="work-experience" className="py-5" aria-label="Work Experience">
       <Container className="px-0">
-        <h2 className="d-flex justify-content-center">
+        <h2 className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon icon={faBriefcase} size="sm" className="me-2" />
           Work Experience
         </h2>
