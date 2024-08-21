@@ -28,9 +28,9 @@ const skills = [
   { icon: faNodeJs, label: 'Node.js' },
   { icon: faPython, label: 'Python' },
   { icon: faDatabase, label: 'Django' },
-  { icon: faDatabase, label: 'PostgreSQL' },
+  { icon: faDatabase, label: 'SQL' },
   { icon: faGithub, label: 'Git & GitHub' },
-  { icon: faProjectDiagram, label: 'Agile Methodologies' },
+  { icon: faProjectDiagram, label: 'Agile' },
   { icon: faSearch, label: 'SEO' },
 ];
 
@@ -46,7 +46,13 @@ const Skills = () => (
         {React.useMemo(
           () =>
             skills.map(({ icon, label }, index) => (
-              <Col md={4} sm={6} key={index} className="text-center mb-4">
+              <Col
+                md={4}
+                sm={6}
+                xs={6}
+                key={index}
+                className="text-center mb-4"
+              >
                 <Card className={`shadow py-2 ${styles.skillCard}`}>
                   <Card.Body>
                     <FontAwesomeIcon icon={icon} size="3x" className="mb-3" />
