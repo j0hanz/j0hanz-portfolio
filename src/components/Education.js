@@ -59,11 +59,10 @@ const Education = () => {
       <Col md={6} className="mb-4" key={index}>
         <Card className={`h-100 ${styles.educationCard}`}>
           <Card.Body>
-            <Card.Title className="d-flex align-items-center">
+            <Card.Title className="d-flex align-items-center mb-3">
               <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
               <span>{education[index].title}</span>
             </Card.Title>
-            <hr />
             <Card.Subtitle className="mb-2 text-muted d-flex align-items-center">
               <FontAwesomeIcon icon={faSchool} className="me-2" />
               <span>{education[index].school}</span>
@@ -88,7 +87,7 @@ const Education = () => {
   );
 
   return (
-    <section id="education" className="py-5">
+    <section id="education">
       <Container className="px-0">
         <h2 className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon icon={faGraduationCap} className="me-3" />
