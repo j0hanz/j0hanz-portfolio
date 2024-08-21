@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGraduationCap,
+  faSchool,
+  faCalendarAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import Credential from './Credential';
+import styles from './styles/Education.module.css';
 
 const education = [
   {
@@ -27,16 +32,13 @@ const education = [
 
 // Functional component Education
 const Education = () => {
-  // State to manage the visibility of the modal
   const [showModal, setShowModal] = useState(false);
 
-  // useCallback hook to toggle the modal visibility
   const toggleModal = useCallback(
     () => setShowModal((prevShowModal) => !prevShowModal),
     [],
   );
 
-  // Function to render the credential button for the first education item
   const renderCredentialButton = useCallback(
     (edu, index) =>
       index === 0 && (
@@ -44,6 +46,7 @@ const Education = () => {
           variant="outline-primary my-1"
           onClick={toggleModal}
           key={index}
+          className={styles.credentialButton}
         >
           Open Credential
         </Button>
@@ -51,19 +54,26 @@ const Education = () => {
     [toggleModal],
   );
 
-  // Function to render each education item
   const renderEducation = useCallback(
     (_, index) => (
-      <Col md={6} className="mb-3" key={index}>
-        <Card className="shadow">
+      <Col md={6} className="mb-4" key={index}>
+        <Card className={`h-100 ${styles.educationCard}`}>
           <Card.Body>
-            <Card.Title>{education[index].title}</Card.Title>
-            <Card.Text>{education[index].school}</Card.Text>
-            <Card.Subtitle className="mb-2 text-black-50">
-              {education[index].duration}
+            <Card.Title className="d-flex align-items-center">
+              <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
+              <span>{education[index].title}</span>
+            </Card.Title>
+            <hr />
+            <Card.Subtitle className="mb-2 text-muted d-flex align-items-center">
+              <FontAwesomeIcon icon={faSchool} className="me-2" />
+              <span>{education[index].school}</span>
             </Card.Subtitle>
+            <Card.Text className="mb-3 text-muted d-flex align-items-center">
+              <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
+              <span>{education[index].duration}</span>
+            </Card.Text>
             {education[index].description && (
-              <Card.Text>
+              <Card.Text className={styles.description}>
                 {education[index].description.map((desc, i) => (
                   <p key={i}>{desc}</p>
                 ))}
@@ -78,11 +88,10 @@ const Education = () => {
   );
 
   return (
-    // Section element with id and classes for styling
     <section id="education" className="py-5">
       <Container className="px-0">
         <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faGraduationCap} size="sm" className="me-2" />
+          <FontAwesomeIcon icon={faGraduationCap} className="me-3" />
           Education
         </h2>
         <Row className="mt-4 mx-auto">{education.map(renderEducation)}</Row>

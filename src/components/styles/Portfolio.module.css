@@ -1,0 +1,45 @@
+.projectCard {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.projectCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.projectCard .card-body {
+  padding: 1.5rem;
+}
+
+.projectCard .card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.projectCard .card-text {
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+.description {
+  line-height: 1.6;
+}
+
+.githubButton {
+  font-size: 0.9rem;
+  border-radius: 5px;
+}
+
+.demoButton {
+  font-size: 0.9rem;
+  border-radius: 5px;
+}
+
+.comingSoonButton {
+  font-size: 0.9rem;
+  border-radius: 5px;
+}

@@ -17,6 +17,7 @@ import {
   faSearch,
   faProjectDiagram,
 } from '@fortawesome/free-solid-svg-icons';
+import styles from './styles/Skills.module.css';
 
 const skills = [
   { icon: faHtml5, label: 'HTML5' },
@@ -35,10 +36,10 @@ const skills = [
 
 // Functional component Skills
 const Skills = () => (
-  <section id="skills" className="skills-section py-5">
+  <section id="skills" className="py-5">
     <Container className="px-0">
       <h2 className="d-flex justify-content-center align-items-center">
-        <FontAwesomeIcon icon={faCogs} size="sm" className="me-2" />
+        <FontAwesomeIcon icon={faCogs} className="me-2" />
         Skills
       </h2>
       <Row className="mt-4 mx-auto">
@@ -46,15 +47,17 @@ const Skills = () => (
           () =>
             skills.map(({ icon, label }, index) => (
               <Col md={4} sm={6} key={index} className="text-center mb-4">
-                <Card className="shadow">
+                <Card className={`shadow ${styles.skillCard}`}>
                   <Card.Body>
                     <FontAwesomeIcon icon={icon} size="3x" className="mb-3" />
-                    <Card.Title>{label}</Card.Title>
+                    <Card.Title className={styles.skillLabel}>
+                      {label}
+                    </Card.Title>
                   </Card.Body>
                 </Card>
               </Col>
             )),
-          [], // Empty dependency array to memoize the mapped items
+          [],
         )}
       </Row>
     </Container>

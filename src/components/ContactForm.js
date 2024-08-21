@@ -80,7 +80,7 @@ const ContactForm = () => {
     <section id="contact" className="contact-section py-5">
       <Container className="px-0">
         <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon size="sm" icon={faEnvelope} className="me-2" />
+          <FontAwesomeIcon icon={faEnvelope} className="me-2" />
           Contact
         </h2>
         <Row className="justify-content-center mx-auto">
@@ -96,9 +96,8 @@ const ContactForm = () => {
             )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
-                <Form.Label className="d-none">Name</Form.Label>
                 <InputGroup className="mt-3">
-                  <InputGroup.Text className={styles.InputGroupIcon}>
+                  <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
                   </InputGroup.Text>
                   <Form.Control
@@ -117,9 +116,8 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formEmail">
-                <Form.Label className="d-none">Email</Form.Label>
                 <InputGroup className="mt-3">
-                  <InputGroup.Text className={styles.InputGroupIcon}>
+                  <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>
                   <Form.Control
@@ -138,9 +136,8 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formMessage">
-                <Form.Label className="d-none">Message</Form.Label>
                 <InputGroup className="mt-3">
-                  <InputGroup.Text className={styles.InputGroupIcon}>
+                  <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
                   </InputGroup.Text>
                   <Form.Control

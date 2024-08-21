@@ -2,21 +2,22 @@ import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import styles from './styles/AboutMe.module.css';
 
 const AboutMe = () => (
-  <section id="about-me" className="py-5 text-light">
+  <section id="about-me" className="py-5">
     <Container className="px-0">
-      <Row className="justify-content-center mx-auto">
+      <h2
+        className={`d-flex justify-content-center align-items-center ${styles.sectionTitle}`}
+      >
+        <FontAwesomeIcon icon={faUser} className="me-2" />
+        About Me
+      </h2>
+      <Row className="justify-content-center mx-auto mt-4">
         <Col md={8}>
-          <Card className="shadow p-2">
+          <Card className={`shadow p-4 ${styles.aboutMeCard}`}>
             <Card.Body>
-              <Card.Title>
-                <h2 className="d-flex justify-content-center align-items-center">
-                  <FontAwesomeIcon icon={faUser} size="sm" className="me-2" />
-                  About Me
-                </h2>
-              </Card.Title>
-              <Card.Text>
+              <Card.Text className={styles.cardText}>
                 I’m passionate about technology and recently completed a Full
                 Stack Developer course, which improved my technical skills in
                 web development. With over eight years in sales and customer

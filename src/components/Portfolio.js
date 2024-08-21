@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import styles from './styles/Portfolio.module.css';
 
 const projects = [
   {
@@ -46,37 +47,46 @@ const Portfolio = () => (
   <section id="portfolio" className="portfolio-section py-5">
     <Container className="px-0">
       <h2 className="d-flex justify-content-center align-items-center">
-        <FontAwesomeIcon icon={faProjectDiagram} size="sm" className="me-2" />
+        <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />
         Projects
       </h2>
       <Row className="mt-4 mx-auto">
         {projects.map(({ title, description, github, demo }, index) => (
-          <Col md={6} key={index} className="mb-3">
-            <Card className="shadow">
+          <Col md={6} key={index} className="mb-4">
+            <Card className={`h-100 ${styles.projectCard}`}>
               <Card.Body>
                 <Card.Title className="mb-3">{title}</Card.Title>
-                <Card.Text>{description}</Card.Text>
-                <Button
-                  variant="outline-dark float-start"
-                  href={github}
-                  target="_blank"
-                  className="me-2"
-                >
-                  GitHub
-                </Button>
-                {demo ? (
+                <Card.Text className={styles.description}>
+                  {description}
+                </Card.Text>
+                <div className="d-flex justify-content-between">
                   <Button
-                    variant="outline-primary float-end"
-                    href={demo}
+                    variant="outline-dark"
+                    href={github}
                     target="_blank"
+                    className={styles.githubButton}
                   >
-                    Live Demo
+                    GitHub
                   </Button>
-                ) : (
-                  <Button variant="outline-secondary float-end" disabled>
-                    Coming Soon!
-                  </Button>
-                )}
+                  {demo ? (
+                    <Button
+                      variant="outline-primary"
+                      href={demo}
+                      target="_blank"
+                      className={styles.demoButton}
+                    >
+                      Live Demo
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline-secondary"
+                      disabled
+                      className={styles.comingSoonButton}
+                    >
+                      Coming Soon!
+                    </Button>
+                  )}
+                </div>
               </Card.Body>
             </Card>
           </Col>
