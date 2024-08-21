@@ -9,6 +9,7 @@ import {
   faCode,
   faAward,
 } from '@fortawesome/free-solid-svg-icons';
+import { faCreativeCommons } from '@fortawesome/free-brands-svg-icons';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 import styles from './styles/Footer.module.css';
 
@@ -38,7 +39,15 @@ const Footer = () => (
           </p>
         </Col>
         <Col md={6} className="text-md-end">
-          <p>&copy; 2024 Linus Johansson. All rights reserved.</p>
+          <p className="d-flex align-items-center justify-content-md-end mb-2">
+            <span className={styles.copyrightText}>
+              <FontAwesomeIcon
+                icon={faCreativeCommons}
+                className={styles.footerIcon}
+              />
+              2024 Linus Johansson - All rights reserved
+            </span>
+          </p>
           <div>
             <OverlayTrigger
               placement="bottom"
