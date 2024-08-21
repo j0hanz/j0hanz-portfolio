@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
+import Toast from './Toast'; // Import the Notifications component
 
 // Functional component SuccessMessage
 const SuccessMessage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    toast.success('Your message has been sent successfully!');
+  }, []);
 
   return (
     <section id="success" className="py-5">
@@ -28,6 +34,7 @@ const SuccessMessage = () => {
           </Col>
         </Row>
       </Container>
+      <Toast />
     </section>
   );
 };
