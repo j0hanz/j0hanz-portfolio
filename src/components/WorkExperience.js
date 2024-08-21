@@ -45,15 +45,24 @@ const ExperienceCard = ({ experience }) => (
     <Card className={`h-100 ${styles.experienceCard}`}>
       <Card.Body>
         <Card.Title className="d-flex align-items-center mb-3">
-          <FontAwesomeIcon icon={faBriefcase} className="me-2" />
+          <FontAwesomeIcon
+            icon={faBriefcase}
+            className={styles.experienceIcon}
+          />
           <span>{experience.title}</span>
         </Card.Title>
-        <Card.Subtitle className="mb-2 text-muted d-flex align-items-center">
-          <FontAwesomeIcon icon={faBuilding} className="me-2" />
+        <Card.Subtitle className="mb-1 text-muted d-flex align-items-center">
+          <FontAwesomeIcon
+            icon={faBuilding}
+            className={styles.experienceIcon}
+          />
           <span>{experience.workplace}</span>
         </Card.Subtitle>
         <Card.Text className="mb-3 text-muted d-flex align-items-center">
-          <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
+          <FontAwesomeIcon
+            icon={faCalendarAlt}
+            className={styles.experienceIcon}
+          />
           <span>{experience.duration}</span>
         </Card.Text>
         <Card.Text className={styles.description}>

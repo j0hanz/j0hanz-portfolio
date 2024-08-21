@@ -60,15 +60,24 @@ const Education = () => {
         <Card className={`h-100 ${styles.educationCard}`}>
           <Card.Body>
             <Card.Title className="d-flex align-items-center mb-3">
-              <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
+              <FontAwesomeIcon
+                icon={faGraduationCap}
+                className={styles.experienceIcon}
+              />
               <span>{education[index].title}</span>
             </Card.Title>
-            <Card.Subtitle className="mb-2 text-muted d-flex align-items-center">
-              <FontAwesomeIcon icon={faSchool} className="me-2" />
+            <Card.Subtitle className="mb-1 text-muted d-flex align-items-center">
+              <FontAwesomeIcon
+                icon={faSchool}
+                className={styles.experienceIcon}
+              />
               <span>{education[index].school}</span>
             </Card.Subtitle>
             <Card.Text className="mb-3 text-muted d-flex align-items-center">
-              <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
+              <FontAwesomeIcon
+                icon={faCalendarAlt}
+                className={styles.experienceIcon}
+              />
               <span>{education[index].duration}</span>
             </Card.Text>
             {education[index].description && (
