@@ -35,7 +35,7 @@ const NavBar = () => {
       className={`${styles.customNavbar} py-0`}
       expanded={expanded}
     >
-      <Container fluid>
+      <Container fluid className="px-2">
         <Navbar.Brand className={styles.navbarBrand}>
           <Nav.Link href="#hero" className={styles.nameNav}>
             Linus Johansson
@@ -46,7 +46,7 @@ const NavBar = () => {
           onClick={() => setExpanded(!expanded)}
           className={styles.customToggle}
         >
-          <FontAwesomeIcon icon={faBars} size="lg" className={styles.navIcon} />
+          <FontAwesomeIcon icon={faBars} className={styles.navIcon} />
         </Navbar.Toggle>
         <Navbar.Collapse id="navbar-nav" className={styles.navbarCollapse}>
           <Nav className="ms-auto">
@@ -58,13 +58,21 @@ const NavBar = () => {
               { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
               { id: 'contact', icon: faEnvelope, label: 'Contact' },
             ].map(({ id, icon, label }) => (
-              <Nav.Link key={id} href={`#${id}`} className={styles.navLink}>
-                <FontAwesomeIcon icon={icon} className={styles.navIcon} />{' '}
+              <Nav.Link
+                key={id}
+                href={`#${id}`}
+                className={`me-1 ${styles.navLink}`}
+              >
+                <FontAwesomeIcon
+                  icon={icon}
+                  size="sm"
+                  className={styles.navIcon}
+                />{' '}
                 {label}
               </Nav.Link>
             ))}
           </Nav>
-          <Nav className="ml-auto">
+          <Nav>
             {[
               {
                 id: 'linkedin',

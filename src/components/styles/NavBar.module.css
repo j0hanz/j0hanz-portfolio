@@ -1,10 +1,29 @@
 .navIcon {
-  color: #ff7f5fd8;
+  color: #ff7f5f;
 }
 
 .customToggle {
   border: none;
-  background: transparent;
+  background-color: transparent;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, width 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --bs-navbar-color: #ff7f5f;
+}
+
+.customToggle:hover {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.1),
+    4px 4px 15px rgba(0, 0, 0, 0.3);
+  width: 42px;
+  --bs-navbar-color: #ff7f5f91;
+  --bs-navbar-toggler-focus-width: 0.12rem;
+}
+
+.customToggle:active {
+  transform: scale(0.96);
 }
 
 .navbarBrand {
