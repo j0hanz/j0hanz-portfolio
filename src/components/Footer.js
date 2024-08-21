@@ -15,12 +15,16 @@ import styles from './styles/Footer.module.css';
 
 const Footer = () => (
   <footer className="py-3 bg-dark text-light">
-    <Container>
+    <Container fluid className="px-2">
       <Row className="mx-auto">
-        <Col md={6} className="mb-1 mb-md-0">
+        <Col md={6} className="mb-md-0">
           <h5>Contact Details</h5>
           <p>
-            <FontAwesomeIcon icon={faEnvelope} className={styles.footerIcon} />
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              size="sm"
+              className={styles.footerIcon}
+            />
             <a
               href="mailto:l.johansson93@outlook.com"
               className="text-light text-decoration-none"
@@ -29,7 +33,11 @@ const Footer = () => (
             </a>
           </p>
           <p>
-            <FontAwesomeIcon icon={faPhone} className={styles.footerIcon} />
+            <FontAwesomeIcon
+              icon={faPhone}
+              size="sm"
+              className={styles.footerIcon}
+            />
             <a
               href="tel:+46705292674"
               className="text-light text-decoration-none"
@@ -38,14 +46,14 @@ const Footer = () => (
             </a>
           </p>
         </Col>
-        <Col md={6} className="text-md-end">
-          <p className="d-flex align-items-center justify-content-md-end mb-2">
+        <Col md={6} className="text-md-end my-1">
+          <p className="d-flex align-items-center justify-content-md-end">
             <span className={styles.copyrightText}>
               <FontAwesomeIcon
                 icon={faCreativeCommons}
                 className={styles.footerIcon}
               />
-              2024 Linus Johansson - All rights reserved
+              2024 Linus Johansson
             </span>
           </p>
           <div>
