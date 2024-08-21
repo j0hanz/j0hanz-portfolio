@@ -83,7 +83,6 @@ const NavBar = () => {
                 icon: faFilePdf,
                 href: Cv,
                 download: true,
-                label: 'CV',
                 tooltip: 'Download CV',
               },
             ].map(({ id, icon, href, download, label, tooltip }) => (
