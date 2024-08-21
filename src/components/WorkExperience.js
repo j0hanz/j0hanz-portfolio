@@ -44,11 +44,10 @@ const ExperienceCard = ({ experience }) => (
   <Col md={6} className="mb-4">
     <Card className={`h-100 ${styles.experienceCard}`}>
       <Card.Body>
-        <Card.Title className="d-flex align-items-center">
+        <Card.Title className="d-flex align-items-center mb-3">
           <FontAwesomeIcon icon={faBriefcase} className="me-2" />
           <span>{experience.title}</span>
         </Card.Title>
-        <hr />
         <Card.Subtitle className="mb-2 text-muted d-flex align-items-center">
           <FontAwesomeIcon icon={faBuilding} className="me-2" />
           <span>{experience.workplace}</span>

@@ -47,7 +47,7 @@ const Skills = () => (
           () =>
             skills.map(({ icon, label }, index) => (
               <Col md={4} sm={6} key={index} className="text-center mb-4">
-                <Card className={`shadow ${styles.skillCard}`}>
+                <Card className={`shadow py-2 ${styles.skillCard}`}>
                   <Card.Body>
                     <FontAwesomeIcon icon={icon} size="3x" className="mb-3" />
                     <Card.Title className={styles.skillLabel}>
