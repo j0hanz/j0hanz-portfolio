@@ -8,24 +8,29 @@ import {
   Button,
   Alert,
   Spinner,
+  InputGroup,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEnvelope,
+  faUser,
+  faComment,
+} from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../handler/EmailHandler';
+import styles from './styles/ContactForm.module.css';
 
 const ContactForm = () => {
-  const navigate = useNavigate(); // Navigation hook to redirect after form submission
-  const [validated, setValidated] = useState(false); // State to track if the form is validated
+  const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
-  }); // State to store form data
-  const [errors, setErrors] = useState({}); // State to store form validation errors
-  const [showAlert, setShowAlert] = useState(false); // State to control the visibility of the alert
-  const [isSending, setIsSending] = useState(false); // State to indicate if the email is being sent
+  });
+  const [errors, setErrors] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
-  // Function to validate form inputs
   const validateForm = () => {
     const newErrors = {};
 
@@ -42,33 +47,30 @@ const ContactForm = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
   };
 
-  // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const formValid = validateForm();
     setValidated(formValid);
-    setShowAlert(!formValid); // Show alert if form is not valid
+    setShowAlert(!formValid);
 
     if (formValid) {
-      setIsSending(true); // Set sending state to true if the form is valid
+      setIsSending(true);
     }
   };
 
-  // Function to handle input changes and update form data
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  // Callback function for handling the email sending result
   const handleEmailSent = (success) => {
-    setIsSending(false); // Reset sending state
+    setIsSending(false);
     if (success) {
-      setFormData({ name: '', email: '', message: '' }); // Clear form data
-      navigate('/success'); // Redirect to success page on successful email sending
+      setFormData({ name: '', email: '', message: '' });
+      navigate('/success');
     } else {
       console.error('Email sending failed.');
     }
@@ -78,7 +80,7 @@ const ContactForm = () => {
     <section id="contact" className="contact-section py-5">
       <Container className="px-0">
         <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faEnvelope} size="sm" className="me-2" />
+          <FontAwesomeIcon size="sm" icon={faEnvelope} className="me-2" />
           Contact
         </h2>
         <Row className="justify-content-center mx-auto">
@@ -94,59 +96,70 @@ const ContactForm = () => {
             )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
-                {/* Name input field */}
                 <Form.Label className="d-none">Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="name"
-                  placeholder="Enter your name..."
-                  className="mt-3"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  isInvalid={!!errors.name} // Conditional rendering for validation feedback
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.name}
-                </Form.Control.Feedback>
+                <InputGroup className="mt-3">
+                  <InputGroup.Text className={styles.InputGroupIcon}>
+                    <FontAwesomeIcon size="sm" icon={faUser} />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name..."
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    isInvalid={!!errors.name}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
+                </InputGroup>
               </Form.Group>
+
               <Form.Group controlId="formEmail">
-                {/* Email input field */}
                 <Form.Label className="d-none">Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email..."
-                  className="mt-3"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  isInvalid={!!errors.email} // Conditional rendering for validation feedback
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.email}
-                </Form.Control.Feedback>
+                <InputGroup className="mt-3">
+                  <InputGroup.Text className={styles.InputGroupIcon}>
+                    <FontAwesomeIcon size="sm" icon={faEnvelope} />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email..."
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    isInvalid={!!errors.email}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                </InputGroup>
               </Form.Group>
+
               <Form.Group controlId="formMessage">
-                {/* Message input field */}
                 <Form.Label className="d-none">Message</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  name="message"
-                  rows={3}
-                  placeholder="Enter your message..."
-                  className="mt-3"
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                  isInvalid={!!errors.message} // Conditional rendering for validation feedback
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.message}
-                </Form.Control.Feedback>
+                <InputGroup className="mt-3">
+                  <InputGroup.Text className={styles.InputGroupIcon}>
+                    <FontAwesomeIcon size="sm" icon={faComment} />
+                  </InputGroup.Text>
+                  <Form.Control
+                    as="textarea"
+                    name="message"
+                    rows={3}
+                    placeholder="Enter your message..."
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    isInvalid={!!errors.message}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.message}
+                  </Form.Control.Feedback>
+                </InputGroup>
               </Form.Group>
+
               <div className="d-flex justify-content-center">
-                {/* Submit button with spinner when sending */}
                 <Button
                   variant="outline-primary d-flex mt-3"
                   type="submit"
