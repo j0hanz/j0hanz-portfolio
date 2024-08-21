@@ -8,8 +8,8 @@
 }
 
 .gradientText {
-  background: linear-gradient(90deg, #000000, #ff7e5f);
+  background: linear-gradient(90deg, #252525, #fc7958f3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 2rem;
+  font-size: 2.1rem;
 }

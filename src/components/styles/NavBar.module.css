@@ -28,10 +28,16 @@
 
 .navbarBrand {
   font-weight: bold;
+  background: linear-gradient(90deg, #c1d4ec, #c0c0c0, #a9a9a9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
 .nameNav {
-  color: #ffffffc4 !important;
+  background: linear-gradient(90deg, #000000, #ff7e5f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .nameNav:hover {
