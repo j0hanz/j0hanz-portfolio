@@ -1,5 +1,5 @@
 .navIcon {
-  color: #ff7f5f;
+  color: #ff7f5fde;
 }
 
 .customToggle {
@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  --bs-navbar-color: #ff7f5f;
+  --bs-navbar-color: #ff7f5fde;
 }
 
 .customToggle:hover {

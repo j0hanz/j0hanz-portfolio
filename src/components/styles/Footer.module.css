@@ -1,10 +1,11 @@
 .footerIcon {
   margin-right: 0.3rem;
-  color: #ff7f5fd8;
+  color: #ff7f5fde;
 }
 
 .copyrightText {
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.91rem;
   color: #d3d3d3;
+  margin-bottom: 5px;
 }
