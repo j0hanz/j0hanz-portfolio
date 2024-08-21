@@ -7,6 +7,7 @@ import {
   faPhone,
   faFilePdf,
   faCode,
+  faAward,
 } from '@fortawesome/free-solid-svg-icons';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 import styles from './styles/Footer.module.css';
@@ -46,12 +47,13 @@ const Footer = () => (
               }
             >
               <a
-                className="text-light me-3"
+                className="text-light me-4"
                 href="https://www.linkedin.com/in/linus-johansson-software-dev/"
                 rel="noopener noreferrer"
                 target="_blank"
+                aria-label="LinkedIn Profile"
               >
-                <FontAwesomeIcon icon={faLinkedin} size="xl" />
+                <FontAwesomeIcon icon={faLinkedin} size="lg" />
               </a>
             </OverlayTrigger>
             <OverlayTrigger
@@ -59,20 +61,40 @@ const Footer = () => (
               overlay={<Tooltip id="tooltip-github">GitHub Profile</Tooltip>}
             >
               <a
-                className="text-light me-3"
+                className="text-light me-4"
                 href="https://github.com/j0hanz"
                 rel="noopener noreferrer"
                 target="_blank"
+                aria-label="GitHub Profile"
               >
-                <FontAwesomeIcon icon={faGithub} size="xl" />
+                <FontAwesomeIcon icon={faGithub} size="lg" />
               </a>
             </OverlayTrigger>
             <OverlayTrigger
               placement="bottom"
               overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
             >
-              <a className="text-light me-3" href={Cv} download={true}>
-                <FontAwesomeIcon icon={faFilePdf} size="xl" />
+              <a
+                className="text-light me-4"
+                href={Cv}
+                download={true}
+                aria-label="Download CV"
+              >
+                <FontAwesomeIcon icon={faFilePdf} size="lg" />
+              </a>
+            </OverlayTrigger>
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="tooltip-certificate">Certificate</Tooltip>}
+            >
+              <a
+                className="text-light me-4"
+                href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Certificate"
+              >
+                <FontAwesomeIcon icon={faAward} size="lg" />
               </a>
             </OverlayTrigger>
             <OverlayTrigger
@@ -84,8 +106,9 @@ const Footer = () => (
                 href="https://github.com/j0hanz/j0hanz-portfolio"
                 rel="noopener noreferrer"
                 target="_blank"
+                aria-label="Source Code"
               >
-                <FontAwesomeIcon icon={faCode} />
+                <FontAwesomeIcon icon={faCode} size="lg" />
               </a>
             </OverlayTrigger>
           </div>
