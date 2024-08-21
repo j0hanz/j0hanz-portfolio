@@ -99,7 +99,7 @@ const Education = () => {
     <section id="education">
       <Container className="px-0">
         <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faGraduationCap} className="me-3" />
+          <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
           Education
         </h2>
         <Row className="mt-4 mx-auto">{education.map(renderEducation)}</Row>

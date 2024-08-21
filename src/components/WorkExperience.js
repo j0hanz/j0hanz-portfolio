@@ -78,7 +78,7 @@ const WorkExperience = () => (
   <section id="work-experience">
     <Container className="px-0">
       <h2 className="d-flex justify-content-center align-items-center">
-        <FontAwesomeIcon icon={faBriefcase} className="me-3" />
+        <FontAwesomeIcon icon={faBriefcase} className="me-2" />
         Work Experience
       </h2>
       <Row className="mt-4 mx-auto">
