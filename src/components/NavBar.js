@@ -48,8 +48,8 @@ const NavBar = () => {
         >
           <FontAwesomeIcon icon={faBars} className={styles.navIcon} />
         </Navbar.Toggle>
-        <Navbar.Collapse id="navbar-nav" className={styles.navbarCollapse}>
-          <Nav className="ms-auto">
+        <Navbar.Collapse id="navbar-nav">
+          <Nav className="ms-auto my-1 my-lg-0">
             {[
               { id: 'about-me', icon: faUser, label: 'About Me' },
               { id: 'education', icon: faGraduationCap, label: 'Education' },
@@ -58,12 +58,16 @@ const NavBar = () => {
               { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
               { id: 'contact', icon: faEnvelope, label: 'Contact' },
             ].map(({ id, icon, label }) => (
-              <Nav.Link key={id} href={`#${id}`} className={styles.navLink}>
+              <Nav.Link
+                key={id}
+                href={`#${id}`}
+                className={`${styles.navLink} my-1 my-lg-0`}
+              >
                 <FontAwesomeIcon
                   icon={icon}
                   size="sm"
-                  className={styles.navIcon}
-                />{' '}
+                  className={`${styles.navIcon} me-1 me-lg-0 ms-1 ms-lg-0`}
+                />
                 {label}
               </Nav.Link>
             ))}
@@ -89,7 +93,7 @@ const NavBar = () => {
                 download: true,
                 tooltip: 'Download CV',
               },
-            ].map(({ id, icon, href, download, label, tooltip }) => (
+            ].map(({ id, icon, href, download, tooltip }) => (
               <OverlayTrigger
                 key={id}
                 placement="bottom"
@@ -98,11 +102,10 @@ const NavBar = () => {
                 <Nav.Link
                   href={href}
                   target={download ? '_self' : '_blank'}
-                  className={`${styles.navLink} me-4 me-lg-0`}
+                  className="mx-2 mx-lg-0 me-4 me-lg-0 mt-2 mt-lg-0"
                   download={download}
                 >
                   <FontAwesomeIcon icon={icon} size="lg" />
-                  {label && <span>{label}</span>}
                 </Nav.Link>
               </OverlayTrigger>
             ))}

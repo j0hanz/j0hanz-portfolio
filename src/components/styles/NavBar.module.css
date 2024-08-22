@@ -15,21 +15,23 @@
   outline: none;
   --bs-navbar-color: #ff7f5f81;
   --bs-navbar-toggler-border-color: #ff7f5f86;
+  --bs-navbar-toggler-focus-width: 0.09rem;
+  opacity: 0.8;
 }
 
 .customToggle:hover {
   width: auto;
   --bs-navbar-color: #ff7f5f93;
-  --bs-navbar-toggler-focus-width: 0.08rem;
+  opacity: 1;
 }
 
 .customToggle:active {
   transform: scale(0.97);
+  opacity: 1;
 }
 
 .customToggle:focus {
-  box-shadow: 0 0 0 var(--bs-navbar-toggler-focus-width) var(--bs-navbar-color),
-    0 0 8px rgba(0, 0, 0, 0.4);
+  opacity: 1;
 }
 
 .navbarBrand {
