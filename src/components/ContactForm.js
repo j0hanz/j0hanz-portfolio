@@ -171,9 +171,7 @@ const ContactForm = () => {
                         size="sm"
                         role="status"
                         aria-hidden="true"
-                        className={styles.buttonIcon}
                       />
-                      <span className={styles.buttonText}>Sending...</span>
                     </>
                   ) : (
                     <>

@@ -1,0 +1,19 @@
+.successRow {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+}
+
+.customButton {
+  margin-top: 1rem;
+  width: 145px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textTankYou {
+  margin: 1.1rem 0;
+  font-size: 2.2rem;
+}

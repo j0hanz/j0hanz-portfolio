@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
-import Toast from './Toast'; // Import the Notifications component
+import Toast from './Toast';
+import styles from './styles/SuccessMessage.module.css';
 
-// Functional component SuccessMessage
 const SuccessMessage = () => {
   const navigate = useNavigate();
 
@@ -15,21 +15,28 @@ const SuccessMessage = () => {
   }, []);
 
   return (
-    <section id="success" className="py-5">
+    <section id="success" className="py-4">
       <Container className="px-0">
-        <Row className="justify-content-center mt-4 mx-auto">
-          <Col md={8} className="text-center">
-            <FontAwesomeIcon icon={faCheckCircle} size="4x" className="mb-4" />
-            <h2 className="mb-3">Thank You!</h2>
+        <Row className={`justify-content-center ${styles.successRow}`}>
+          <Col md={8} lg={6} className="text-center">
+            <FontAwesomeIcon
+              icon={faCheck}
+              size="5x"
+              className="my-1 text-success"
+            />
+            <h2 className={styles.textTankYou}>Thank You!</h2>
             <p className="lead mb-4">
               Your message has been sent successfully.
             </p>
+            <hr className="w-75 mx-auto" />
             <Button
               variant="outline-dark"
               size="lg"
               onClick={() => navigate('/')}
+              className={styles.customButton}
             >
-              Go Back to Home
+              <FontAwesomeIcon icon={faRotateLeft} size="lg" className="me-2" />
+              Return
             </Button>
           </Col>
         </Row>
