@@ -8,9 +8,11 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 code {
-  font-family: 'Roboto Flex', source-code-pro, Menlo, Monaco, Consolas,
+  font-family: 'Roboto Flex', 'Source Code Pro', Menlo, Monaco, Consolas,
     'Courier New', monospace;
+  font-size: 0.96em;
 }
