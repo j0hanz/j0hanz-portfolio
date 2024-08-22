@@ -13,3 +13,29 @@
   -webkit-text-fill-color: transparent;
   font-size: 2.1rem;
 }
+.customButton {
+  width: 150px;
+  max-width: 100%;
+  min-height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center-aligns content */
+  position: relative;
+}
+
+.buttonIcon {
+  width: 20px;
+  height: 20px; /* Ensures a consistent icon size */
+  position: absolute;
+  left: 6%; /* Standardized margin from the left */
+  top: 50%;
+  transform: translateY(-50%); /* Vertically centers the icon */
+}
+
+.buttonText {
+  margin-left: 10%;
+  font-size: 0.93rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

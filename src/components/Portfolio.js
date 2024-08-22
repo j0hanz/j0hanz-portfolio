@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faEye, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 
 const projects = [
@@ -60,19 +61,37 @@ const Portfolio = () => (
                   {description}
                 </Card.Text>
                 <div className="d-flex justify-content-between">
-                  <Button variant="outline-dark" href={github} target="_blank">
-                    GitHub
+                  <Button
+                    variant="outline-dark"
+                    href={github}
+                    target="_blank"
+                    className={styles.customButton}
+                  >
+                    <FontAwesomeIcon
+                      icon={faGithub}
+                      className={styles.buttonIcon}
+                    />
+                    <span className={styles.buttonText}>GitHub</span>
                   </Button>
                   {demo ? (
                     <Button
-                      variant="outline-primary"
+                      variant="outline-primary "
                       href={demo}
                       target="_blank"
+                      className={styles.customButton}
                     >
-                      Live Demo
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className={styles.buttonIcon}
+                      />
+                      <span className={styles.buttonText}>Live Demo</span>
                     </Button>
                   ) : (
-                    <Button variant="outline-secondary" disabled>
+                    <Button
+                      variant="outline-secondary "
+                      disabled
+                      className={styles.customButton}
+                    >
                       Coming Soon!
                     </Button>
                   )}

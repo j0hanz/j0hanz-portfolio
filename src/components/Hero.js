@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import Image from '../assets/image_me.jpeg';
 import styles from './styles/Hero.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 
 const Hero = React.memo(() => {
@@ -31,7 +31,6 @@ const Hero = React.memo(() => {
   const classes = `mb-4 ${styles.gradientText}`;
   const imageClasses = `mb-4 ${styles.heroImage}`;
   const leadClasses = `mb-4 lead`;
-  const buttonClasses = `btn btn-outline-dark btn-lg`;
 
   return (
     <section id="hero" className="hero-section text-center py-5">
@@ -57,10 +56,11 @@ const Hero = React.memo(() => {
 
             {/* Download CV Button and Contact Button */}
             <div className="d-flex flex-column justify-content-center align-items-center my-4">
-              <button
-                onClick={handleDownload} // Call handleDownload on click
-                className="btn btn-outline-primary mb-3"
-                disabled={loading} // Disable the button while loading
+              <Button
+                onClick={handleDownload}
+                variant="outline-primary mb-3 "
+                disabled={loading}
+                className={styles.customButton}
               >
                 {loading ? (
                   // Show spinner and "Downloading..." text while loading
@@ -76,22 +76,29 @@ const Hero = React.memo(() => {
                     Downloading...
                   </>
                 ) : (
-                  // Show the normal download button with icon when not loading
+                  // Show the normal download Button with icon when not loading
                   <>
                     <FontAwesomeIcon
-                      size="lg"
                       icon={faDownload}
-                      className="me-2"
+                      className={styles.buttonIcon}
                     />
-                    Download CV
+                    <span className={styles.buttonText}>Download CV</span>
                   </>
                 )}
-              </button>
+              </Button>
 
               {/* Contact Button */}
-              <a href="#contact" className={buttonClasses}>
-                Get in Touch
-              </a>
+              <Button
+                onClick={() => (window.location.href = '#contact')}
+                variant="outline-dark"
+                className={styles.customButton}
+              >
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className={styles.buttonIcon}
+                />
+                <span className={styles.buttonText}>Get in Touch</span>
+              </Button>
             </div>
           </Col>
         </Row>

@@ -5,6 +5,7 @@ import {
   faGraduationCap,
   faSchool,
   faCalendarAlt,
+  faAward, // Use faAward for "Open Credential"
 } from '@fortawesome/free-solid-svg-icons';
 import Credential from './Credential';
 import styles from './styles/Education.module.css';
@@ -43,12 +44,13 @@ const Education = () => {
     (edu, index) =>
       index === 0 && (
         <Button
-          variant="outline-primary my-1"
+          variant="outline-primary"
           onClick={toggleModal}
           key={index}
           className={styles.credentialButton}
         >
-          Open Credential
+          <FontAwesomeIcon icon={faAward} className={styles.buttonIcon} />
+          <span className={styles.buttonText}>Open Credential</span>
         </Button>
       ),
     [toggleModal],
