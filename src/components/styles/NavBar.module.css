@@ -1,29 +1,40 @@
 .navIcon {
   color: #ff7f5fde;
+  width: 20px;
 }
 
 .customToggle {
   border: none;
   background-color: transparent;
   border-radius: 12px;
-  transition: transform 0.2s ease, box-shadow 0.3s ease, width 0.2s ease-in-out;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, width 0.2s ease-in-out,
+    background-color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  --bs-navbar-color: #ff7f5fde;
+  padding: 8px;
+  cursor: pointer;
+  outline: none;
+  --bs-navbar-color: #ff7f5f81;
 }
 
 .customToggle:hover {
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2),
     inset -2px -2px 5px rgba(255, 255, 255, 0.1),
     4px 4px 15px rgba(0, 0, 0, 0.3);
-  width: 42px;
-  --bs-navbar-color: #ff7f5f91;
-  --bs-navbar-toggler-focus-width: 0.12rem;
+  width: auto;
+  --bs-navbar-color: #ff7f5f93;
+  --bs-navbar-toggler-focus-width: 0.11rem;
 }
 
 .customToggle:active {
-  transform: scale(0.96);
+  transform: scale(0.98); /* Adds a slight scale effect on click */
+}
+
+.customToggle:focus {
+  box-shadow: 0 0 0 var(--bs-navbar-toggler-focus-width) var(--bs-navbar-color),
+    0 0 8px rgba(0, 0, 0, 0.4); /* Enhances the focus state with an outer glow */
+  outline: none; /* Removes the default outline */
 }
 
 .navbarBrand {
