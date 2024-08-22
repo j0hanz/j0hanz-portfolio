@@ -49,7 +49,7 @@ const NavBar = () => {
           <FontAwesomeIcon icon={faBars} className={styles.navIcon} />
         </Navbar.Toggle>
         <Navbar.Collapse id="navbar-nav">
-          <Nav className="ms-auto my-1 my-lg-0">
+          <Nav className="ms-auto mt-1 mt-lg-0">
             {[
               { id: 'about-me', icon: faUser, label: 'About Me' },
               { id: 'education', icon: faGraduationCap, label: 'Education' },
@@ -61,7 +61,7 @@ const NavBar = () => {
               <Nav.Link
                 key={id}
                 href={`#${id}`}
-                className={`${styles.navLink} my-1 my-lg-0`}
+                className={`${styles.navLink} py-3 py-lg-0`}
               >
                 <FontAwesomeIcon
                   icon={icon}

@@ -3,6 +3,14 @@
   width: 20px;
 }
 
+.navLink {
+  color: #ffffffd2;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
 .customToggle {
   background-color: transparent;
   transition: transform 0.3s ease, box-shadow 0.3s ease, width 0.3s ease-in-out,
@@ -47,14 +55,4 @@
   background: linear-gradient(90deg, #d1d1d1cb, #d1d1d1cb, #d1d1d1cb);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.navLink {
-  color: #fff !important;
-}
-
-.navLink:hover {
-  background-color: #d1cfcf31;
-  color: #ddd !important;
-  border-radius: 5%;
 }
