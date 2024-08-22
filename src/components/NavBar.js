@@ -68,7 +68,7 @@ const NavBar = () => {
               </Nav.Link>
             ))}
           </Nav>
-          <Nav className="d-flex flex-row justify-content-between">
+          <Nav className="d-flex flex-row justify-content-start">
             {[
               {
                 id: 'linkedin',
@@ -98,7 +98,7 @@ const NavBar = () => {
                 <Nav.Link
                   href={href}
                   target={download ? '_self' : '_blank'}
-                  className={styles.navLink}
+                  className={`${styles.navLink} me-4 me-lg-0`}
                   download={download}
                 >
                   <FontAwesomeIcon icon={icon} size="lg" />
