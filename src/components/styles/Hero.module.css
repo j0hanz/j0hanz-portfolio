@@ -1,6 +1,6 @@
 .heroImage {
-  width: 215px;
-  height: 215px;
+  width: 225px;
+  height: 225px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 1.5rem;
@@ -41,4 +41,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .heroImage {
+    width: 200px;
+    height: 200px;
+  }
 }
