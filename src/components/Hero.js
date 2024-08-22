@@ -30,7 +30,7 @@ const Hero = React.memo(() => {
   // CSS class combinations for various elements
   const classes = `mb-4 ${styles.gradientText}`;
   const imageClasses = `mb-4 ${styles.heroImage}`;
-  const leadClasses = `mb-4 lead`;
+  const leadClasses = `lead`;
 
   return (
     <section id="hero" className="hero-section text-center py-4">
@@ -39,23 +39,18 @@ const Hero = React.memo(() => {
           <Col xs="auto">
             {/* Hero Title */}
             <h1 className={classes}>Linus Johansson</h1>
-
             {/* Hero Image */}
             <img src={Image} alt="Linus Johansson" className={imageClasses} />
-
             {/* Subtitle */}
-            <h2 className="mb-3">Full-Stack Developer</h2>
-
+            <h2>Full-Stack Developer</h2>
             {/* Divider Line */}
             <hr className="my-2" />
-
             {/* Lead Paragraph */}
             <p className={leadClasses}>
               Creating elegant and efficient web solutions.
             </p>
-
             {/* Download CV Button and Contact Button */}
-            <div className="d-flex flex-column justify-content-center align-items-center my-4">
+            <div className="d-flex flex-column justify-content-center align-items-center my-3">
               <Button
                 onClick={handleDownload}
                 variant="outline-primary mb-3 "
