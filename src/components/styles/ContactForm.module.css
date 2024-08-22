@@ -11,23 +11,23 @@
   min-height: auto;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center-aligns content */
+  justify-content: center;
   position: relative;
 }
 
 .buttonIcon {
   width: 20px;
-  height: 20px; /* Ensures a consistent icon size */
+  height: 20px;
   position: absolute;
-  left: 15%; /* Standardized margin from the left */
-  margin-right: 10px;
+  left: 15%;
   top: 50%;
-  transform: translateY(-50%); /* Vertically centers the icon */
+  transform: translateY(-50%);
+  opacity: 0.9;
 }
 
 .buttonText {
   margin-left: 35%;
-  font-size: 0.92rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;

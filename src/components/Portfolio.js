@@ -62,7 +62,7 @@ const Portfolio = () => (
                 </Card.Text>
                 <div className="d-flex justify-content-between">
                   <Button
-                    variant="outline-dark"
+                    variant="outline-dark me-2"
                     href={github}
                     target="_blank"
                     className={styles.customButton}
@@ -75,7 +75,7 @@ const Portfolio = () => (
                   </Button>
                   {demo ? (
                     <Button
-                      variant="outline-primary "
+                      variant="outline-primary ms-2"
                       href={demo}
                       target="_blank"
                       className={styles.customButton}
@@ -88,11 +88,11 @@ const Portfolio = () => (
                     </Button>
                   ) : (
                     <Button
-                      variant="outline-secondary "
+                      variant="outline-secondary"
                       disabled
                       className={styles.customButton}
                     >
-                      Coming Soon!
+                      <span>Coming Soon!</span>
                     </Button>
                   )}
                 </div>

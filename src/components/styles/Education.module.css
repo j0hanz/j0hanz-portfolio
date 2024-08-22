@@ -35,7 +35,7 @@
 }
 
 .credentialButton {
-  width: 175px;
+  width: 165px;
   max-width: 100%;
   min-height: auto;
   display: flex;
@@ -46,17 +46,18 @@
 
 .buttonIcon {
   width: 20px;
-  height: 20px; /* Ensures a consistent icon size */
+  height: 20px;
   position: absolute;
-  left: 10%; /* Standardized margin from the left */
+  left: 7%;
   margin-right: 10px;
   top: 50%;
-  transform: translateY(-50%); /* Vertically centers the icon */
+  transform: translateY(-50%);
+  opacity: 0.9;
 }
 
 .buttonText {
-  margin-left: 12%;
-  font-size: 0.92rem;
+  margin-left: 14%;
+  font-size: 0.96rem;
   display: flex;
   align-items: center;
   justify-content: center;
