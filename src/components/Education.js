@@ -98,7 +98,7 @@ const Education = () => {
   );
 
   return (
-    <section id="education">
+    <section id="education" className="py-4">
       <Container className="px-0">
         <h2 className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon icon={faGraduationCap} className="me-2" />

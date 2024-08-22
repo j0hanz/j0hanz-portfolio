@@ -36,7 +36,7 @@ const skills = [
 
 // Functional component Skills
 const Skills = () => (
-  <section id="skills" className="py-5">
+  <section id="skills" className="py-4">
     <Container className="px-0">
       <h2 className="d-flex justify-content-center align-items-center">
         <FontAwesomeIcon icon={faCogs} className="me-2" />

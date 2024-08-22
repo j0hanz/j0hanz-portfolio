@@ -34,7 +34,7 @@ const AboutMe = () => {
   ];
 
   return (
-    <section id="about-me" className="py-5">
+    <section id="about-me" className="py-4">
       <Container>
         <h2 className={`text-center ${styles.sectionTitle}`}>
           <FontAwesomeIcon icon={faUser} className="me-2" />

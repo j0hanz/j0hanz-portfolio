@@ -45,7 +45,7 @@ const projects = [
 
 // Functional component Portfolio
 const Portfolio = () => (
-  <section id="portfolio" className="portfolio-section py-5">
+  <section id="portfolio" className="portfolio-section py-4">
     <Container className="px-0">
       <h2 className="d-flex justify-content-center align-items-center">
         <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />

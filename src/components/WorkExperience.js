@@ -75,7 +75,7 @@ const ExperienceCard = ({ experience }) => (
 
 // WorkExperience Component
 const WorkExperience = () => (
-  <section id="work-experience">
+  <section id="work-experience" className="py-4">
     <Container className="px-0">
       <h2 className="d-flex justify-content-center align-items-center">
         <FontAwesomeIcon icon={faBriefcase} className="me-2" />

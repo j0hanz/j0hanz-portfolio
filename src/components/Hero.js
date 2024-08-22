@@ -33,7 +33,7 @@ const Hero = React.memo(() => {
   const leadClasses = `mb-4 lead`;
 
   return (
-    <section id="hero" className="hero-section text-center py-5">
+    <section id="hero" className="hero-section text-center py-4">
       <Container className="px-0">
         <Row className="d-flex justify-content-center text-center align-items-center mx-auto">
           <Col xs="auto">
