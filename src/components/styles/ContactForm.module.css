@@ -6,29 +6,18 @@
 }
 
 .customButton {
-  width: 95px;
+  width: 110px;
   max-width: 100%;
-  min-height: auto;
+  height: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: space-evenly;
 }
 
 .buttonIcon {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 15%;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.9;
+  margin-right: 0.2rem;
 }
 
 .buttonText {
-  margin-left: 35%;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-left: 0.2rem;
 }

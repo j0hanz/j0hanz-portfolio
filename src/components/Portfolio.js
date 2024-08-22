@@ -1,8 +1,16 @@
 import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faEye, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import { faProjectDiagram, faRocket } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 
 const projects = [
@@ -62,7 +70,7 @@ const Portfolio = () => (
                 </Card.Text>
                 <div className="d-flex justify-content-between">
                   <Button
-                    variant="outline-dark me-2"
+                    variant="outline-dark"
                     href={github}
                     target="_blank"
                     className={styles.customButton}
@@ -75,25 +83,38 @@ const Portfolio = () => (
                   </Button>
                   {demo ? (
                     <Button
-                      variant="outline-primary ms-2"
+                      variant="outline-primary"
                       href={demo}
                       target="_blank"
                       className={styles.customButton}
                     >
                       <FontAwesomeIcon
-                        icon={faEye}
+                        icon={faRocket}
                         className={styles.buttonIcon}
                       />
                       <span className={styles.buttonText}>Live Demo</span>
                     </Button>
                   ) : (
-                    <Button
-                      variant="outline-secondary"
-                      disabled
-                      className={styles.customButton}
+                    <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip id={`tooltip-top`}>Coming soon!</Tooltip>
+                      }
                     >
-                      <span>Coming Soon!</span>
-                    </Button>
+                      <span className="d-inline-block">
+                        <Button
+                          variant="outline-secondary"
+                          disabled
+                          className={styles.customButton}
+                        >
+                          <FontAwesomeIcon
+                            icon={faRocket}
+                            className={styles.buttonIcon}
+                          />
+                          <span className={styles.buttonText}>Live Demo</span>
+                        </Button>
+                      </span>
+                    </OverlayTrigger>
                   )}
                 </div>
               </Card.Body>

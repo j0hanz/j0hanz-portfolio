@@ -158,8 +158,8 @@ const ContactForm = () => {
 
               <div className="d-flex justify-content-center">
                 <Button
-                  className={styles.customButton}
-                  variant="outline-primary mt-3"
+                  className={`mt-3 ${styles.customButton}`}
+                  variant="outline-success"
                   type="submit"
                   disabled={isSending}
                 >
@@ -181,7 +181,7 @@ const ContactForm = () => {
                         icon={faEnvelope}
                         className={styles.buttonIcon}
                       />
-                      <span className={styles.buttonText}>Send</span>
+                      <span className={styles.buttonText}>Submit</span>
                     </>
                   )}
                 </Button>

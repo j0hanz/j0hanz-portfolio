@@ -3,6 +3,8 @@ import { Modal, Container, Button } from 'react-bootstrap';
 import ImageCredential from '../assets/Credential.png';
 import styles from './styles/Credential.module.css';
 import Spinner from './Spinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faScroll } from '@fortawesome/free-solid-svg-icons';
 
 const Credential = ({ show, handleClose }) => {
   // State to manage loading status
@@ -55,15 +57,21 @@ const Credential = ({ show, handleClose }) => {
                   </div>
                 </a>
                 {/* Button to view credential */}
-                <Button
-                  href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="outline-primary btn-lg text-white my-2"
-                  className={`mt-3 ${styles.mobileButton}`}
-                >
-                  View Credential
-                </Button>
+                <Modal.Footer className="d-flex justify-content-center bg-dark border-0">
+                  <Button
+                    href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="outline-light"
+                    className={styles.customButton}
+                  >
+                    <FontAwesomeIcon
+                      icon={faScroll}
+                      className={styles.buttonIcon}
+                    />
+                    <span className={styles.buttonText}>View Credential</span>
+                  </Button>
+                </Modal.Footer>
               </>
             )}
           </Container>

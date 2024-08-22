@@ -6,7 +6,7 @@
 }
 
 .educationCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -35,32 +35,20 @@
 }
 
 .credentialButton {
-  width: 165px;
+  width: 170px;
   max-width: 100%;
-  min-height: auto;
+  height: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: space-evenly;
 }
 
 .buttonIcon {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 7%;
-  margin-right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.9;
+  margin-right: 0.2rem;
 }
 
 .buttonText {
-  margin-left: 14%;
-  font-size: 0.96rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-left: 0.2rem;
 }
 
 .experienceIcon {

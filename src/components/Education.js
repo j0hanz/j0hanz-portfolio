@@ -44,7 +44,7 @@ const Education = () => {
     (edu, index) =>
       index === 0 && (
         <Button
-          variant="outline-primary"
+          variant="outline-warning text-dark"
           onClick={toggleModal}
           key={index}
           className={styles.credentialButton}
