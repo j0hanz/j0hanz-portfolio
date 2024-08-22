@@ -14,7 +14,7 @@
   cursor: pointer;
   outline: none;
   --bs-navbar-color: #ff7f5f81;
-  --bs-navbar-toggler-border-color: none;
+  --bs-navbar-toggler-border-color: #ff7f5f31;
 }
 
 .customToggle:hover {
