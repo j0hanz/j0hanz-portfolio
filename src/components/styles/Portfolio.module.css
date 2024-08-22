@@ -30,12 +30,12 @@
 }
 
 .customButton {
-  width: 150px;
+  width: 130px;
   max-width: 100%;
   min-height: auto;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center-aligns content */
+  justify-content: center;
   position: relative;
 }
 
@@ -43,13 +43,14 @@
   width: 20px;
   height: 20px; /* Ensures a consistent icon size */
   position: absolute;
-  left: 6%; /* Standardized margin from the left */
+  left: 10%; /* Standardized margin from the left */
+  margin-right: 10px;
   top: 50%;
   transform: translateY(-50%); /* Vertically centers the icon */
 }
 
 .buttonText {
-  margin-left: 10%;
+  margin-left: 20%;
   font-size: 0.92rem;
   display: flex;
   align-items: center;

@@ -35,19 +35,20 @@
 }
 
 .credentialButton {
-  width: 150px;
+  width: 175px;
   max-width: 100%;
   min-height: auto;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center-aligns content */
+  justify-content: center;
   position: relative;
 }
+
 .buttonIcon {
   width: 20px;
   height: 20px; /* Ensures a consistent icon size */
   position: absolute;
-  left: 5%; /* Standardized margin from the left */
+  left: 10%; /* Standardized margin from the left */
   margin-right: 10px;
   top: 50%;
   transform: translateY(-50%); /* Vertically centers the icon */

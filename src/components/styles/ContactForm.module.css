@@ -6,29 +6,29 @@
 }
 
 .customButton {
-  width: 110px; /* Slightly increased width for better balance */
+  width: 95px;
   max-width: 100%;
-  min-height: 38px;
+  min-height: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Center-aligns content */
   position: relative;
-  padding-left: 30px; /* Added padding to make room for the icon */
 }
 
 .buttonIcon {
   width: 20px;
-  height: 20px;
+  height: 20px; /* Ensures a consistent icon size */
   position: absolute;
-  left: 15px; /* Adjusted for better alignment */
+  left: 15%; /* Standardized margin from the left */
+  margin-right: 10px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); /* Vertically centers the icon */
 }
 
 .buttonText {
+  margin-left: 35%;
+  font-size: 0.92rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0; /* Removed margin to keep text centered */
-  flex-grow: 1; /* Ensures the text fills the available space */
 }
