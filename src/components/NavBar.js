@@ -58,11 +58,7 @@ const NavBar = () => {
               { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
               { id: 'contact', icon: faEnvelope, label: 'Contact' },
             ].map(({ id, icon, label }) => (
-              <Nav.Link
-                key={id}
-                href={`#${id}`}
-                className={`me-1 ${styles.navLink}`}
-              >
+              <Nav.Link key={id} href={`#${id}`} className={styles.navLink}>
                 <FontAwesomeIcon
                   icon={icon}
                   size="sm"
@@ -72,7 +68,7 @@ const NavBar = () => {
               </Nav.Link>
             ))}
           </Nav>
-          <Nav>
+          <Nav className="d-flex flex-row justify-content-between">
             {[
               {
                 id: 'linkedin',

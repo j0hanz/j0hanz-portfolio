@@ -14,13 +14,13 @@
   cursor: pointer;
   outline: none;
   --bs-navbar-color: #ff7f5f81;
-  --bs-navbar-toggler-border-color: #ff7f5f31;
+  --bs-navbar-toggler-border-color: #ff7f5f86;
 }
 
 .customToggle:hover {
   width: auto;
   --bs-navbar-color: #ff7f5f93;
-  --bs-navbar-toggler-focus-width: 0.1rem;
+  --bs-navbar-toggler-focus-width: 0.08rem;
 }
 
 .customToggle:active {
