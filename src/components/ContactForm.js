@@ -96,7 +96,7 @@ const ContactForm = () => {
             )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
-                <InputGroup className="mt-3">
+                <InputGroup className="mt-2">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
                   </InputGroup.Text>
@@ -116,7 +116,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formEmail">
-                <InputGroup className="mt-3">
+                <InputGroup className="mt-2">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>
@@ -136,7 +136,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formMessage">
-                <InputGroup className="mt-3">
+                <InputGroup className="mt-2">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
                   </InputGroup.Text>
@@ -158,7 +158,8 @@ const ContactForm = () => {
 
               <div className="d-flex justify-content-center">
                 <Button
-                  variant="outline-primary d-flex mt-3"
+                  className={styles.customButton}
+                  variant="outline-primary mt-3"
                   type="submit"
                   disabled={isSending}
                 >
@@ -170,12 +171,18 @@ const ContactForm = () => {
                         size="sm"
                         role="status"
                         aria-hidden="true"
-                        className="me-2"
+                        className={styles.buttonIcon}
                       />
-                      Sending...
+                      <span className={styles.buttonText}>Sending...</span>
                     </>
                   ) : (
-                    'Send'
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEnvelope}
+                        className={styles.buttonIcon}
+                      />
+                      <span className={styles.buttonText}>Send</span>
+                    </>
                   )}
                 </Button>
               </div>

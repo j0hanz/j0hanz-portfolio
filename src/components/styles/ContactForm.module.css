@@ -4,3 +4,31 @@
   justify-content: center;
   align-items: center;
 }
+
+.customButton {
+  width: 110px; /* Slightly increased width for better balance */
+  max-width: 100%;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-left: 30px; /* Added padding to make room for the icon */
+}
+
+.buttonIcon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 15px; /* Adjusted for better alignment */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.buttonText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0; /* Removed margin to keep text centered */
+  flex-grow: 1; /* Ensures the text fills the available space */
+}
