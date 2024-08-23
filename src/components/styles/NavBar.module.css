@@ -56,3 +56,10 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+@media (max-width: 768px) {
+  .navIcon {
+    font-size: medium;
+    transform: translateY(1px);
+  }
+}

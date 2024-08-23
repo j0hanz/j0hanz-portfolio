@@ -46,7 +46,7 @@ const NavBar = () => {
           onClick={() => setExpanded(!expanded)}
           className={styles.customToggle}
         >
-          <FontAwesomeIcon icon={faBars} className={styles.navIcon} />
+          <FontAwesomeIcon icon={faBars} className={styles.navToggle} />
         </Navbar.Toggle>
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto my-1 my-lg-0">
@@ -102,7 +102,7 @@ const NavBar = () => {
                 <Nav.Link
                   href={href}
                   target={download ? '_self' : '_blank'}
-                  className="mx-2 mx-lg-0 me-4 me-lg-0 mt-2 mt-lg-0"
+                  className="mx-0 mx-lg-0 me-5 me-lg-0 mt-2 mt-lg-0"
                   download={download}
                 >
                   <FontAwesomeIcon icon={icon} size="lg" />
