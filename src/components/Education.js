@@ -5,7 +5,7 @@ import {
   faGraduationCap,
   faSchool,
   faCalendarAlt,
-  faAward, // Use faAward for "Open Credential"
+  faAward,
 } from '@fortawesome/free-solid-svg-icons';
 import Credential from './Credential';
 import styles from './styles/Education.module.css';
