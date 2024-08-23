@@ -23,30 +23,24 @@ const Credential = ({ show, handleClose }) => {
 
   return (
     <>
-      {/* Modal component from react-bootstrap */}
       <Modal show={show} onHide={handleClose} centered size="lg">
-        {/* Modal header with close button and dark theme */}
         <Modal.Header
           closeButton
           closeVariant="white"
           className="bg-dark text-light border-0"
         ></Modal.Header>
-        {/* Modal body with dark theme */}
         <Modal.Body className="bg-dark text-light p-0">
-          {/* Bootstrap container with centered text */}
           <Container className="text-center">
             {loading ? (
               // Show Spinner component while loading
               <Spinner />
             ) : (
-              // Show credential image and button after loading
               <>
                 <a
                   href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {/* Container for credential image with hover text */}
                   <div className={styles.credentialImageContainer}>
                     <img
                       src={ImageCredential}
@@ -56,13 +50,12 @@ const Credential = ({ show, handleClose }) => {
                     <div className={styles.hoverText}>View Credential</div>
                   </div>
                 </a>
-                {/* Button to view credential */}
                 <Modal.Footer className="d-flex justify-content-center bg-dark border-0">
                   <Button
                     href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
                     target="_blank"
                     rel="noopener noreferrer"
-                    variant="outline-light"
+                    variant="outline-secondary text-light"
                     className={styles.customButton}
                   >
                     <FontAwesomeIcon
