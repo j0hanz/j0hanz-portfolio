@@ -32,7 +32,6 @@ const Credential = ({ show, handleClose }) => {
         <Modal.Body className="bg-dark text-light p-0">
           <Container className="text-center">
             {loading ? (
-              // Show Spinner component while loading
               <Spinner />
             ) : (
               <>
