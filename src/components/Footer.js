@@ -1,7 +1,11 @@
 import React from 'react';
 import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import {
+  faLinkedin,
+  faGithub,
+  faCreativeCommons,
+} from '@fortawesome/free-brands-svg-icons';
 import {
   faEnvelope,
   faPhone,
@@ -9,7 +13,6 @@ import {
   faCode,
   faAward,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCreativeCommons } from '@fortawesome/free-brands-svg-icons';
 import Cv from '../assets/Linus_Johansson_CV.pdf';
 import styles from './styles/Footer.module.css';
 

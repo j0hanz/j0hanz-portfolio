@@ -29,6 +29,7 @@ const ContactForm = () => {
   const [errors, setErrors] = useState({});
   const [isSending, setIsSending] = useState(false);
 
+  // Validate form fields
   const validateForm = () => {
     const newErrors = {};
 
@@ -48,6 +49,7 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const formValid = validateForm();
@@ -58,11 +60,13 @@ const ContactForm = () => {
     }
   };
 
+  // Handle input change
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  // Handle email sent status
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
@@ -152,15 +156,13 @@ const ContactForm = () => {
                   disabled={isSending}
                 >
                   {isSending ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                      />
-                    </>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
                   ) : (
                     <>
                       <FontAwesomeIcon

@@ -51,7 +51,6 @@ const projects = [
   },
 ];
 
-// Functional component Portfolio
 const Portfolio = () => (
   <section id="portfolio" className="py-4">
     <Container className="px-0">

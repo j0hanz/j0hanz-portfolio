@@ -8,20 +8,22 @@ import styles from './styles/AboutMe.module.css';
 const AboutMe = () => {
   const [showModal, setShowModal] = useState(false);
 
+  // Function to toggle the modal visibility
   const toggleModal = () => setShowModal((prevShowModal) => !prevShowModal);
 
+  // Content for the About Me section
   const aboutMeContent = [
     {
       title: 'Full Stack Developer',
       description:
         'Recently completed a course, sharpening skills in modern web technologies.',
-      hasCredential: true, // Added to manage credential button display
+      hasCredential: true,
     },
     {
       title: 'Sales & Customer Service',
       description:
         'Over eight years of experience in customer relations, project management, and teamwork.',
-      hasCredential: false, // No credential button needed
+      hasCredential: false,
     },
     {
       title: 'Leadership',
@@ -57,7 +59,7 @@ const AboutMe = () => {
                 <Card.Text className={styles.cardText}>
                   Passionate about technology and equipped with over eight years
                   of experience in sales and management. After recently
-                  completing a Full-Stack Developer program, I’m ready to
+                  completing a Full-Stack Developer program, I'm ready to
                   combine my technical skills with my leadership background to
                   contribute to a collaborative team.
                 </Card.Text>

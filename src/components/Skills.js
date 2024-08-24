@@ -34,7 +34,6 @@ const skills = [
   { icon: faSearch, label: 'SEO' },
 ];
 
-// Functional component Skills
 const Skills = () => (
   <section id="skills" className="py-4">
     <Container className="px-0">

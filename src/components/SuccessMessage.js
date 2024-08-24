@@ -24,7 +24,7 @@ const SuccessMessage = () => {
               size="5x"
               className="my-1 text-success"
             />
-            <h2 className={styles.textTankYou}>Thank You!</h2>
+            <h2 className={styles.textThankYou}>Thank You!</h2>
             <p className="lead mb-4">
               Your message has been sent successfully.
             </p>

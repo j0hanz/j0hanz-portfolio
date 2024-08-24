@@ -10,6 +10,7 @@ import {
 import Credential from './Credential';
 import styles from './styles/Education.module.css';
 
+// Education data array
 const education = [
   {
     title: 'Diploma in Full Stack Software Development',
@@ -31,15 +32,16 @@ const education = [
   },
 ];
 
-// Functional component Education
 const Education = () => {
   const [showModal, setShowModal] = useState(false);
 
+  // Toggle modal visibility
   const toggleModal = useCallback(
     () => setShowModal((prevShowModal) => !prevShowModal),
     [],
   );
 
+  // Render credential button for the first education item
   const renderCredentialButton = useCallback(
     (edu, index) =>
       index === 0 && (
@@ -56,6 +58,7 @@ const Education = () => {
     [toggleModal],
   );
 
+  // Render each education card
   const renderEducation = useCallback(
     (_, index) => (
       <Col md={6} className="mb-4" key={index}>

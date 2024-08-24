@@ -9,6 +9,7 @@ import Cv from '../assets/Linus_Johansson_CV.pdf';
 const Hero = React.memo(() => {
   const [loading, setLoading] = useState(false);
 
+  // Handle CV download
   const handleDownload = () => {
     setLoading(true);
 
@@ -46,15 +47,13 @@ const Hero = React.memo(() => {
                 className={`mb-3 ${styles.customButton}`}
               >
                 {loading ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  </>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
                 ) : (
                   <>
                     <FontAwesomeIcon

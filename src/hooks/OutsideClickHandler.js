@@ -1,35 +1,35 @@
-import { useEffect, useRef, useState, useCallback } from 'react'; // Importing hooks from React
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 // Custom hook for handling click outside to toggle a state
 const useClickOutsideToggle = ({ ignoreRefs = [] } = {}) => {
-  const [expanded, setExpanded] = useState(false); // State to manage the expanded state
-  const ref = useRef(null); // Ref to attach to the element to detect outside clicks
+  const [expanded, setExpanded] = useState(false);
+  const ref = useRef(null);
 
   // Callback function to handle click outside
   const handleClickOutside = useCallback(
     (event) => {
       if (
-        ref.current && // Check if ref is attached to an element
-        !ref.current.contains(event.target) && // Check if the click is outside the element
+        ref.current &&
+        !ref.current.contains(event.target) &&
         !ignoreRefs.some((ignoreRef) =>
           ignoreRef.current?.contains(event.target),
-        ) // Check if the click is outside the ignored refs
+        )
       ) {
-        setExpanded(false); // Set expanded state to false
+        setExpanded(false);
       }
     },
-    [ignoreRefs], // Dependency array for the callback
+    [ignoreRefs],
   );
 
   // Effect to add and clean up the event listener for mouseup
   useEffect(() => {
-    document.addEventListener('mouseup', handleClickOutside); // Add event listener for mouseup
+    document.addEventListener('mouseup', handleClickOutside);
     return () => {
-      document.removeEventListener('mouseup', handleClickOutside); // Clean up event listener on unmount
+      document.removeEventListener('mouseup', handleClickOutside);
     };
-  }, [handleClickOutside]); // Dependency array for the effect
+  }, [handleClickOutside]);
 
-  return { expanded, setExpanded, ref }; // Return the expanded state, setter, and ref
+  return { expanded, setExpanded, ref };
 };
 
-export default useClickOutsideToggle; // Export the custom hook as default export
+export default useClickOutsideToggle;
