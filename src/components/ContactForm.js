@@ -6,7 +6,6 @@ import {
   Col,
   Form,
   Button,
-  Alert,
   Spinner,
   InputGroup,
 } from 'react-bootstrap';
@@ -28,7 +27,6 @@ const ContactForm = () => {
     message: '',
   });
   const [errors, setErrors] = useState({});
-  const [showAlert, setShowAlert] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
   const validateForm = () => {
@@ -54,7 +52,6 @@ const ContactForm = () => {
     event.preventDefault();
     const formValid = validateForm();
     setValidated(formValid);
-    setShowAlert(!formValid);
 
     if (formValid) {
       setIsSending(true);
@@ -83,17 +80,8 @@ const ContactForm = () => {
           <FontAwesomeIcon icon={faEnvelope} className="me-2" />
           Contact
         </h2>
-        <Row className="justify-content-center mx-auto mt-3">
+        <Row className="justify-content-center mx-auto mt-4">
           <Col md={8}>
-            {showAlert && (
-              <Alert
-                variant="danger"
-                onClose={() => setShowAlert(false)}
-                dismissible
-              >
-                Please correct the errors in the form below.
-              </Alert>
-            )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
                 <InputGroup>
@@ -116,7 +104,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formEmail">
-                <InputGroup className="mt-3">
+                <InputGroup className="mt-2">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>
@@ -136,7 +124,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formMessage">
-                <InputGroup className="mt-3">
+                <InputGroup className="mt-2">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
                   </InputGroup.Text>
@@ -156,9 +144,9 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <div className="d-flex justify-content-center">
+              <div className="d-flex justify-content-center my-4">
                 <Button
-                  className={`mt-3 ${styles.customButton}`}
+                  className={styles.customButton}
                   variant="outline-success"
                   type="submit"
                   disabled={isSending}
