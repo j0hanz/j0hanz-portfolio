@@ -1,3 +1,4 @@
+/* Input Group Icon Styling */
 .inputGroupIcon {
   width: 32px;
   display: flex;
@@ -5,6 +6,19 @@
   align-items: center;
 }
 
+/* Form Control Styling */
+.formControl {
+  border-color: #d3e1f2;
+  border-radius: 0.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formControl:focus {
+  border-color: #d3e1f2;
+  box-shadow: 0 0 0 0.1rem rgba(192, 192, 192, 0.5);
+}
+
+/* Custom Button Styling */
 .customButton {
   width: 110px;
   max-width: 100%;
@@ -12,15 +26,21 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.customButton:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.customButton:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+.customButton:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Button Icon and Text Styling */
 .buttonIcon {
   margin-right: 0.2rem;
 }

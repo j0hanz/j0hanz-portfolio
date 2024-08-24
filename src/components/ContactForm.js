@@ -108,6 +108,7 @@ const ContactForm = () => {
                     value={formData.name}
                     onChange={handleChange}
                     isInvalid={!!errors.name}
+                    className={styles.formControl}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.name}
@@ -128,6 +129,7 @@ const ContactForm = () => {
                     value={formData.email}
                     onChange={handleChange}
                     isInvalid={!!errors.email}
+                    className={styles.formControl}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.email}
@@ -149,6 +151,7 @@ const ContactForm = () => {
                     value={formData.message}
                     onChange={handleChange}
                     isInvalid={!!errors.message}
+                    className={styles.formControl}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.message}
