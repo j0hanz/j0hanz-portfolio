@@ -83,7 +83,7 @@ const ContactForm = () => {
           <FontAwesomeIcon icon={faEnvelope} className="me-2" />
           Contact
         </h2>
-        <Row className="justify-content-center mx-auto">
+        <Row className="justify-content-center mx-auto mt-4">
           <Col md={8}>
             {showAlert && (
               <Alert
@@ -96,7 +96,7 @@ const ContactForm = () => {
             )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
-                <InputGroup className="mt-3">
+                <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
                   </InputGroup.Text>
