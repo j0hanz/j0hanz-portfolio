@@ -96,7 +96,7 @@ const ContactForm = () => {
             )}
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
-                <InputGroup className="mt-2">
+                <InputGroup className="mt-3">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
                   </InputGroup.Text>
@@ -108,7 +108,6 @@ const ContactForm = () => {
                     value={formData.name}
                     onChange={handleChange}
                     isInvalid={!!errors.name}
-                    className={styles.formControl}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.name}
@@ -117,7 +116,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formEmail">
-                <InputGroup className="mt-2">
+                <InputGroup className="mt-3">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>
@@ -129,7 +128,6 @@ const ContactForm = () => {
                     value={formData.email}
                     onChange={handleChange}
                     isInvalid={!!errors.email}
-                    className={styles.formControl}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.email}
@@ -138,7 +136,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formMessage">
-                <InputGroup className="mt-2">
+                <InputGroup className="mt-3">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
                   </InputGroup.Text>
@@ -151,7 +149,6 @@ const ContactForm = () => {
                     value={formData.message}
                     onChange={handleChange}
                     isInvalid={!!errors.message}
-                    className={styles.formControl}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.message}
