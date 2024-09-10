@@ -78,19 +78,19 @@ const Education = () => {
               />
               <span>{education[index].school}</span>
             </Card.Subtitle>
-            <Card.Text className="mb-3 text-muted d-flex align-items-center">
+            <div className="mb-3 text-muted d-flex align-items-center">
               <FontAwesomeIcon
                 icon={faCalendarAlt}
                 className={styles.experienceIcon}
               />
               <span>{education[index].duration}</span>
-            </Card.Text>
+            </div>
             {education[index].description && (
-              <Card.Text className={styles.description}>
+              <div className={styles.description}>
                 {education[index].description.map((desc, i) => (
                   <p key={i}>{desc}</p>
                 ))}
-              </Card.Text>
+              </div>
             )}
             {renderCredentialButton(education[index], index)}
           </Card.Body>
