@@ -108,7 +108,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formEmail">
-                <InputGroup className="mt-2">
+                <InputGroup className="my-3">
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>
@@ -128,7 +128,7 @@ const ContactForm = () => {
               </Form.Group>
 
               <Form.Group controlId="formMessage">
-                <InputGroup className="mt-2">
+                <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
                   </InputGroup.Text>
