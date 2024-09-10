@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Cv_se from '../assets/Linus_Johansson_CV_sv.pdf';
 import Cv_en from '../assets/Linus_Johansson_CV_en.pdf';
 import styles from './styles/ModalCv.module.css';
@@ -37,7 +37,7 @@ const ModalCv = ({ show, handleClose }) => {
               variant="outline-light"
               className={`mb-3 ${styles.customButton}`}
             >
-              <FontAwesomeIcon icon={faFileAlt} className="me-1" />
+              <FontAwesomeIcon icon={faFilePdf} className="me-1" />
               Swedish CV
               <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
             </Button>
@@ -46,7 +46,7 @@ const ModalCv = ({ show, handleClose }) => {
               variant="outline-light"
               className={styles.customButton}
             >
-              <FontAwesomeIcon icon={faFileAlt} className="me-1" />
+              <FontAwesomeIcon icon={faFilePdf} className="me-1" />
               English CV
               <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
             </Button>
