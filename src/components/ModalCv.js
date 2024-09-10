@@ -2,8 +2,8 @@ import React from 'react';
 import { Modal, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Cv_se from '../assets/Linus_Johansson_CV.pdf';
-import Cv_en from '../assets/Linus_Johansson_CV_Eng.pdf';
+import Cv_se from '../assets/Linus_Johansson_CV_sv.pdf';
+import Cv_en from '../assets/Linus_Johansson_CV_en.pdf';
 import styles from './styles/ModalCv.module.css';
 
 const ModalCv = ({ show, handleClose }) => {
