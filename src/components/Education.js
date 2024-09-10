@@ -38,7 +38,7 @@ const Education = () => {
   // Toggle modal visibility
   const toggleModal = useCallback(
     () => setShowModal((prevShowModal) => !prevShowModal),
-    [],
+    []
   );
 
   // Render credential button for the first education item
@@ -55,7 +55,7 @@ const Education = () => {
           <span className={styles.buttonText}>Open Credential</span>
         </Button>
       ),
-    [toggleModal],
+    [toggleModal]
   );
 
   // Render each education card
@@ -97,7 +97,7 @@ const Education = () => {
         </Card>
       </Col>
     ),
-    [renderCredentialButton],
+    [renderCredentialButton]
   );
 
   return (
