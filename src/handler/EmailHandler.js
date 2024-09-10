@@ -10,10 +10,10 @@ const EmailHandler = ({ formData, onEmailSent }) => {
     if (form.current) {
       emailjs
         .sendForm(
-          'service_h7mpv2i',
-          'template_mnrvg75',
+          process.env.REACT_APP_EMAILJS_SERVICE_ID,
+          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
           form.current,
-          'kMJNphEQu6FYZEE90'
+          process.env.REACT_APP_EMAILJS_USER_ID
         )
         .then(() => onEmailSent(true))
         .catch(() => onEmailSent(false));
