@@ -62,7 +62,7 @@ const Skills = () => (
                 </Card>
               </Col>
             )),
-          [],
+          []
         )}
       </Row>
     </Container>
