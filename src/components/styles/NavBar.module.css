@@ -17,7 +17,10 @@
 
 .customToggle {
   background-color: transparent;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, width 0.3s ease-in-out,
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    width 0.3s ease-in-out,
     background-color 0.3s ease;
   display: flex;
   align-items: center;
