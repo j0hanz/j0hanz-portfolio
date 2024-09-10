@@ -4,24 +4,21 @@ import Image from '../assets/image_me.jpeg';
 import styles from './styles/Hero.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import Cv from '../assets/Linus_Johansson_CV.pdf';
+import ModalCv from './ModalCv';
 
 const Hero = React.memo(() => {
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // Handle CV download
-  const handleDownload = () => {
+  const handleModalOpen = () => {
     setLoading(true);
-
-    const link = document.createElement('a');
-    link.href = Cv;
-    link.download = 'Linus_Johansson_CV.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => {
+      setLoading(false);
+      setShowModal(true);
+    }, 1000);
   };
+
+  const handleModalClose = () => setShowModal(false);
 
   return (
     <section id="hero" className="text-center py-4">
@@ -41,7 +38,7 @@ const Hero = React.memo(() => {
             </p>
             <div className="d-flex flex-column align-items-center my-3">
               <Button
-                onClick={handleDownload}
+                onClick={handleModalOpen}
                 variant="outline-primary"
                 disabled={loading}
                 className={`mb-3 ${styles.customButton}`}
@@ -79,6 +76,7 @@ const Hero = React.memo(() => {
           </Col>
         </Row>
       </Container>
+      <ModalCv show={showModal} handleClose={handleModalClose} />
     </section>
   );
 });
