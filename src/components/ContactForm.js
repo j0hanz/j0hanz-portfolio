@@ -15,7 +15,7 @@ import {
   faUser,
   faComment,
 } from '@fortawesome/free-solid-svg-icons';
-import EmailHandler from '../handler/EmailHandler';
+import EmailHandler from './EmailHandler';
 import styles from './styles/ContactForm.module.css';
 
 const ContactForm = () => {
