@@ -13,7 +13,7 @@ const EmailHandler = ({ formData, onEmailSent }) => {
           'service_h7mpv2i',
           'template_mnrvg75',
           form.current,
-          'kMJNphEQu6FYZEE90',
+          'kMJNphEQu6FYZEE90'
         )
         .then(() => onEmailSent(true))
         .catch(() => onEmailSent(false));
