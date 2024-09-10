@@ -12,13 +12,13 @@ const useClickOutsideToggle = ({ ignoreRefs = [] } = {}) => {
         ref.current &&
         !ref.current.contains(event.target) &&
         !ignoreRefs.some((ignoreRef) =>
-          ignoreRef.current?.contains(event.target),
+          ignoreRef.current?.contains(event.target)
         )
       ) {
         setExpanded(false);
       }
     },
-    [ignoreRefs],
+    [ignoreRefs]
   );
 
   // Effect to add and clean up the event listener for mouseup
