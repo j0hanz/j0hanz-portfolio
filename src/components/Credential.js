@@ -21,7 +21,7 @@ const Credential = ({ show, handleClose }) => {
   }, []);
 
   return (
-    <Modal show={show} onHide={handleClose} centered size="lg">
+    <Modal show={show} onHide={handleClose} centered>
       <Modal.Header
         closeButton
         closeVariant="white"
