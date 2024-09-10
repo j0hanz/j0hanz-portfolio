@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Navbar,
   Nav,
@@ -23,11 +23,47 @@ import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
 
 const NavBar = () => {
+  /* Custom hook to handle the navbar's expanded state and detect clicks outside */
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
+
+  /* State to manage the visibility of the CV modal */
   const [showModal, setShowModal] = useState(false);
 
-  const handleModalOpen = () => setShowModal(true);
-  const handleModalClose = () => setShowModal(false);
+  /* Handles opening the CV modal */
+  const handleModalOpen = useCallback(() => setShowModal(true), []);
+
+  /* Handles closing the CV modal */
+  const handleModalClose = useCallback(() => setShowModal(false), []);
+
+  const navLinks = [
+    { id: 'about-me', icon: faUser, label: 'About Me' },
+    { id: 'education', icon: faGraduationCap, label: 'Education' },
+    { id: 'skills', icon: faCogs, label: 'Skills' },
+    { id: 'work-experience', icon: faBriefcase, label: 'Experience' },
+    { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
+    { id: 'contact', icon: faEnvelope, label: 'Contact' },
+  ];
+
+  const socialLinks = [
+    {
+      id: 'linkedin',
+      icon: faLinkedin,
+      href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
+      tooltip: 'LinkedIn Profile',
+    },
+    {
+      id: 'github',
+      icon: faGithub,
+      href: 'https://github.com/j0hanz',
+      tooltip: 'GitHub Profile',
+    },
+    {
+      id: 'download-pdf',
+      icon: faFilePdf,
+      onClick: handleModalOpen,
+      tooltip: 'Download CV',
+    },
+  ];
 
   return (
     <>
@@ -55,18 +91,7 @@ const NavBar = () => {
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
             <Nav className="ms-auto my-1 my-lg-0">
-              {[
-                { id: 'about-me', icon: faUser, label: 'About Me' },
-                { id: 'education', icon: faGraduationCap, label: 'Education' },
-                { id: 'skills', icon: faCogs, label: 'Skills' },
-                {
-                  id: 'work-experience',
-                  icon: faBriefcase,
-                  label: 'Experience',
-                },
-                { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
-                { id: 'contact', icon: faEnvelope, label: 'Contact' },
-              ].map(({ id, icon, label }) => (
+              {navLinks.map(({ id, icon, label }) => (
                 <Nav.Link
                   key={id}
                   href={`#${id}`}
@@ -82,26 +107,7 @@ const NavBar = () => {
               ))}
             </Nav>
             <Nav className="d-flex flex-row justify-content-start">
-              {[
-                {
-                  id: 'linkedin',
-                  icon: faLinkedin,
-                  href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
-                  tooltip: 'LinkedIn Profile',
-                },
-                {
-                  id: 'github',
-                  icon: faGithub,
-                  href: 'https://github.com/j0hanz',
-                  tooltip: 'GitHub Profile',
-                },
-                {
-                  id: 'download-pdf',
-                  icon: faFilePdf,
-                  onClick: handleModalOpen,
-                  tooltip: 'Download CV',
-                },
-              ].map(({ id, icon, href, onClick, tooltip }) => (
+              {socialLinks.map(({ id, icon, href, onClick, tooltip }) => (
                 <OverlayTrigger
                   key={id}
                   placement="bottom"

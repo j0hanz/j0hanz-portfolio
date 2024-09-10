@@ -17,9 +17,13 @@ import styles from './styles/Footer.module.css';
 import ModalCv from './ModalCv';
 
 const Footer = () => {
+  /* State to manage the visibility of the CV modal */
   const [showModal, setShowModal] = useState(false);
 
+  /* Opens the CV modal */
   const handleModalOpen = () => setShowModal(true);
+
+  /* Closes the CV modal */
   const handleModalClose = () => setShowModal(false);
 
   return (
@@ -66,6 +70,7 @@ const Footer = () => {
               </span>
             </p>
             <div>
+              {/* LinkedIn profile link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -82,6 +87,8 @@ const Footer = () => {
                   <FontAwesomeIcon icon={faLinkedin} size="lg" />
                 </a>
               </OverlayTrigger>
+
+              {/* GitHub profile link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip id="tooltip-github">GitHub Profile</Tooltip>}
@@ -96,6 +103,8 @@ const Footer = () => {
                   <FontAwesomeIcon icon={faGithub} size="lg" />
                 </a>
               </OverlayTrigger>
+
+              {/* CV download button with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
@@ -109,6 +118,8 @@ const Footer = () => {
                   <FontAwesomeIcon icon={faFilePdf} size="lg" />
                 </a>
               </OverlayTrigger>
+
+              {/* Certificate link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -125,6 +136,8 @@ const Footer = () => {
                   <FontAwesomeIcon icon={faAward} size="lg" />
                 </a>
               </OverlayTrigger>
+
+              {/* Source code link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip id="tooltip-code">Source Code</Tooltip>}
@@ -143,6 +156,7 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
+      {/* CV Modal component */}
       <ModalCv show={showModal} handleClose={handleModalClose} />
     </footer>
   );

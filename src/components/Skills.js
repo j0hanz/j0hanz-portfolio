@@ -34,39 +34,30 @@ const skills = [
   { icon: faSearch, label: 'SEO' },
 ];
 
-const Skills = () => (
-  <section id="skills" className="py-4">
-    <Container className="px-0">
-      <h2 className="d-flex justify-content-center align-items-center">
-        <FontAwesomeIcon icon={faCogs} className="me-2" />
-        Skills
-      </h2>
-      <Row className="mt-4 mx-auto">
-        {React.useMemo(
-          () =>
-            skills.map(({ icon, label }, index) => (
-              <Col
-                md={4}
-                sm={6}
-                xs={6}
-                key={index}
-                className="text-center mb-4"
-              >
-                <Card className={`shadow py-2 ${styles.skillCard}`}>
-                  <Card.Body>
-                    <FontAwesomeIcon icon={icon} size="3x" className="mb-3" />
-                    <Card.Title className={styles.skillLabel}>
-                      {label}
-                    </Card.Title>
-                  </Card.Body>
-                </Card>
-              </Col>
-            )),
-          []
-        )}
-      </Row>
-    </Container>
-  </section>
-);
+const Skills = () => {
+  /* Renders each skill as a card with an icon and label */
+  const renderSkill = (skill, index) => (
+    <Col md={4} sm={6} xs={6} key={index} className="text-center mb-4">
+      <Card className={`shadow py-2 ${styles.skillCard}`}>
+        <Card.Body>
+          <FontAwesomeIcon icon={skill.icon} size="3x" className="mb-3" />
+          <Card.Title className={styles.skillLabel}>{skill.label}</Card.Title>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+
+  return (
+    <section id="skills" className="py-4">
+      <Container className="px-0">
+        <h2 className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon icon={faCogs} className="me-2" />
+          Skills
+        </h2>
+        <Row className="mt-4 mx-auto">{skills.map(renderSkill)}</Row>
+      </Container>
+    </section>
+  );
+};
 
 export default Skills;

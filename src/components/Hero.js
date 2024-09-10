@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import Image from '../assets/image_me.jpeg';
 import styles from './styles/Hero.module.css';
@@ -6,19 +6,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import ModalCv from './ModalCv';
 
-const Hero = React.memo(() => {
+const Hero = () => {
+  /* State to manage loading spinner for CV download */
   const [loading, setLoading] = useState(false);
+
+  /* State to manage the visibility of the CV modal */
   const [showModal, setShowModal] = useState(false);
 
-  const handleModalOpen = () => {
+  /* Function to handle opening the modal with a loading spinner */
+  const handleModalOpen = useCallback(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setShowModal(true);
-    }, 1000);
-  };
+    }, 1000); // Simulates a delay before showing the modal
+  }, []);
 
-  const handleModalClose = () => setShowModal(false);
+  /* Function to handle closing the modal */
+  const handleModalClose = useCallback(() => setShowModal(false), []);
 
   return (
     <section id="hero" className="text-center py-4">
@@ -62,7 +67,7 @@ const Hero = React.memo(() => {
                 )}
               </Button>
               <Button
-                onClick={() => (window.location.href = '#contact')}
+                href="#contact"
                 variant="outline-dark"
                 className={styles.customButton}
               >
@@ -79,6 +84,6 @@ const Hero = React.memo(() => {
       <ModalCv show={showModal} handleClose={handleModalClose} />
     </section>
   );
-});
+};
 
 export default Hero;

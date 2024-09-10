@@ -5,45 +5,45 @@ import { faUser, faAward } from '@fortawesome/free-solid-svg-icons';
 import Credential from './Credential';
 import styles from './styles/AboutMe.module.css';
 
+const aboutMeContent = [
+  {
+    title: 'Full Stack Developer',
+    description:
+      'Recently completed a course, sharpening skills in modern web technologies.',
+    hasCredential: true,
+  },
+  {
+    title: 'Sales & Customer Service',
+    description:
+      'Over eight years of experience in customer relations, project management, and teamwork.',
+    hasCredential: false,
+  },
+  {
+    title: 'Leadership',
+    description:
+      'Proven leadership as a store and claims manager, focused on achieving goals.',
+    hasCredential: false,
+  },
+  {
+    title: 'Tech Enthusiast',
+    description:
+      'Passionate about technology and eager to apply programming skills in team settings.',
+    hasCredential: false,
+  },
+  {
+    title: 'Continuous Learner',
+    description:
+      'Always seeking growth and excited to solve challenges in a dynamic environment.',
+    hasCredential: false,
+  },
+];
+
 const AboutMe = () => {
+  /* State to manage whether the credential modal is shown or not */
   const [showModal, setShowModal] = useState(false);
 
-  // Function to toggle the modal visibility
-  const toggleModal = () => setShowModal((prevShowModal) => !prevShowModal);
-
-  // Content for the About Me section
-  const aboutMeContent = [
-    {
-      title: 'Full Stack Developer',
-      description:
-        'Recently completed a course, sharpening skills in modern web technologies.',
-      hasCredential: true,
-    },
-    {
-      title: 'Sales & Customer Service',
-      description:
-        'Over eight years of experience in customer relations, project management, and teamwork.',
-      hasCredential: false,
-    },
-    {
-      title: 'Leadership',
-      description:
-        'Proven leadership as a store and claims manager, focused on achieving goals.',
-      hasCredential: false,
-    },
-    {
-      title: 'Tech Enthusiast',
-      description:
-        'Passionate about technology and eager to apply programming skills in team settings.',
-      hasCredential: false,
-    },
-    {
-      title: 'Continuous Learner',
-      description:
-        'Always seeking growth and excited to solve challenges in a dynamic environment.',
-      hasCredential: false,
-    },
-  ];
+  /* Toggles the visibility of the credential modal */
+  const toggleModal = () => setShowModal(!showModal);
 
   return (
     <section id="about-me" className="py-4">

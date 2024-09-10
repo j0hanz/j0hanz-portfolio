@@ -15,15 +15,16 @@ import styles from './App.module.css';
 import Spinner from './components/Spinner';
 
 const App = () => {
+  /* State to manage the loading status */
   const [loading, setLoading] = useState(true);
 
+  /* Simulates a loading period when the app is initialized */
   useEffect(() => {
-    // Simulate a loading period
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 2000); // Loading time of 2 seconds
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // Clean up the timer on component unmount
   }, []);
 
   return (

@@ -21,52 +21,46 @@ import styles from './styles/ContactForm.module.css';
 const ContactForm = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   });
   const [errors, setErrors] = useState({});
-  const [isSending, setIsSending] = useState(false);
 
-  // Validate form fields
+  /* Handles input change event and updates the form data state */
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  /* Validates the form data and sets errors if validation fails */
   const validateForm = () => {
     const newErrors = {};
-
     if (!/^[a-zA-Z\s]{2,}$/.test(formData.name)) {
       newErrors.name = 'Please enter a valid name.';
     }
-
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address.';
     }
-
     if (formData.message.length < 10) {
       newErrors.message = 'Your message is too short.';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
+  /* Handles the form submission and triggers validation */
   const handleSubmit = (event) => {
     event.preventDefault();
     const formValid = validateForm();
     setValidated(formValid);
-
     if (formValid) {
       setIsSending(true);
     }
   };
 
-  // Handle input change
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
-  // Handle email sent status
+  /* Handles the email sending status and navigates to success page if successful */
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
@@ -107,8 +101,8 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formEmail">
-                <InputGroup className="my-3">
+              <Form.Group controlId="formEmail" className="my-3">
+                <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>

@@ -51,78 +51,80 @@ const projects = [
   },
 ];
 
-const Portfolio = () => (
-  <section id="portfolio" className="py-4">
-    <Container className="px-0">
-      <h2 className="d-flex justify-content-center align-items-center">
-        <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />
-        Projects
-      </h2>
-      <Row className="mt-4 mx-auto">
-        {projects.map(({ title, description, github, demo }, index) => (
-          <Col md={6} key={index} className="mb-4">
-            <Card className={`h-100 ${styles.projectCard}`}>
-              <Card.Body>
-                <Card.Title className="mb-3">{title}</Card.Title>
-                <Card.Text className={styles.description}>
-                  {description}
-                </Card.Text>
-                <div className="d-flex justify-content-between">
+const Portfolio = () => {
+  /* Renders each project card with its title, description, and buttons for GitHub and Live Demo */
+  const renderProject = (project, index) => (
+    <Col md={6} key={index} className="mb-4">
+      <Card className={`h-100 ${styles.projectCard}`}>
+        <Card.Body>
+          <Card.Title className="mb-3">{project.title}</Card.Title>
+          <Card.Text className={styles.description}>
+            {project.description}
+          </Card.Text>
+          <div className="d-flex justify-content-between">
+            <Button
+              variant="outline-dark"
+              href={project.github}
+              target="_blank"
+              className={styles.customButton}
+            >
+              <FontAwesomeIcon icon={faGithub} className={styles.buttonIcon} />
+              <span className={styles.buttonText}>GitHub</span>
+            </Button>
+            {project.demo ? (
+              <Button
+                variant="outline-primary"
+                href={project.demo}
+                target="_blank"
+                className={styles.customButton}
+              >
+                <FontAwesomeIcon
+                  icon={faRocket}
+                  className={styles.buttonIcon}
+                />
+                <span className={styles.buttonText}>Live Demo</span>
+              </Button>
+            ) : (
+              <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip id={`tooltip-no-demo-${index}`}>
+                    Coming soon!
+                  </Tooltip>
+                }
+              >
+                <span className="d-inline-block">
                   <Button
-                    variant="outline-dark"
-                    href={github}
-                    target="_blank"
+                    variant="outline-secondary"
+                    disabled
                     className={styles.customButton}
                   >
                     <FontAwesomeIcon
-                      icon={faGithub}
+                      icon={faRocket}
                       className={styles.buttonIcon}
                     />
-                    <span className={styles.buttonText}>GitHub</span>
+                    <span className={styles.buttonText}>Live Demo</span>
                   </Button>
-                  {demo ? (
-                    <Button
-                      variant="outline-primary"
-                      href={demo}
-                      target="_blank"
-                      className={styles.customButton}
-                    >
-                      <FontAwesomeIcon
-                        icon={faRocket}
-                        className={styles.buttonIcon}
-                      />
-                      <span className={styles.buttonText}>Live Demo</span>
-                    </Button>
-                  ) : (
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-top`}>Coming soon!</Tooltip>
-                      }
-                    >
-                      <span className="d-inline-block">
-                        <Button
-                          variant="outline-secondary"
-                          disabled
-                          className={styles.customButton}
-                        >
-                          <FontAwesomeIcon
-                            icon={faRocket}
-                            className={styles.buttonIcon}
-                          />
-                          <span className={styles.buttonText}>Live Demo</span>
-                        </Button>
-                      </span>
-                    </OverlayTrigger>
-                  )}
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
-  </section>
-);
+                </span>
+              </OverlayTrigger>
+            )}
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+
+  return (
+    <section id="portfolio" className="py-4">
+      <Container className="px-0">
+        <h2 className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />
+          Projects
+        </h2>
+        <Row className="mt-4 mx-auto">{projects.map(renderProject)}</Row>
+      </Container>
+    </section>
+  );
+};
 
 export default Portfolio;

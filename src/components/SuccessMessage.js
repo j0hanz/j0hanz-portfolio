@@ -8,8 +8,10 @@ import Toast from './Toast';
 import styles from './styles/SuccessMessage.module.css';
 
 const SuccessMessage = () => {
+  /* Hook to navigate to other pages */
   const navigate = useNavigate();
 
+  /* Displays a success toast notification when the component is mounted */
   useEffect(() => {
     toast.success('Your message has been sent successfully!');
   }, []);
@@ -17,7 +19,7 @@ const SuccessMessage = () => {
   return (
     <section id="success" className="py-4">
       <Container className="px-0">
-        <Row className={`justify-content-center ${styles.successRow}`}>
+        <Row className="justify-content-center">
           <Col md={8} lg={6} className="text-center">
             <FontAwesomeIcon
               icon={faCheck}

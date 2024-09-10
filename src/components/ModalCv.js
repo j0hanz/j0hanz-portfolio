@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Modal, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePdf, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -7,16 +7,19 @@ import Cv_en from '../assets/Linus_Johansson_CV_en.pdf';
 import styles from './styles/ModalCv.module.css';
 
 const ModalCv = ({ show, handleClose }) => {
-  const handleDownload = (cv) => {
-    const link = document.createElement('a');
-    link.href = cv;
-    link.download =
-      cv === Cv_se ? 'Linus_Johansson_CV.pdf' : 'Linus_Johansson_CV_Eng.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    handleClose();
-  };
+  /* Handles the download of the selected CV by creating a link element and triggering the download */
+  const handleDownload = useCallback(
+    (cv, fileName) => {
+      const link = document.createElement('a');
+      link.href = cv;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      handleClose(); // Closes the modal after download
+    },
+    [handleClose]
+  );
 
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -24,7 +27,7 @@ const ModalCv = ({ show, handleClose }) => {
         closeButton
         closeVariant="white"
         className="bg-dark text-light border-0"
-      ></Modal.Header>
+      />
       <Modal.Body className="bg-dark text-light p-0">
         <Container className="text-center">
           <h4 className="mb-4">Choose Language</h4>
@@ -33,7 +36,7 @@ const ModalCv = ({ show, handleClose }) => {
           </p>
           <div className="d-flex flex-column align-items-center my-4">
             <Button
-              onClick={() => handleDownload(Cv_se)}
+              onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
               variant="outline-light"
               className={`mb-3 ${styles.customButton}`}
             >
@@ -42,7 +45,7 @@ const ModalCv = ({ show, handleClose }) => {
               <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
             </Button>
             <Button
-              onClick={() => handleDownload(Cv_en)}
+              onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
               variant="outline-light"
               className={styles.customButton}
             >

@@ -39,55 +39,52 @@ const experiences = [
   },
 ];
 
-// ExperienceCard Component
-const ExperienceCard = ({ experience }) => (
-  <Col md={6} className="mb-4">
-    <Card className={`h-100 ${styles.experienceCard}`}>
-      <Card.Body>
-        <Card.Title className="d-flex align-items-center mb-3">
-          <FontAwesomeIcon
-            icon={faBriefcase}
-            className={styles.experienceIcon}
-          />
-          <span>{experience.title}</span>
-        </Card.Title>
-        <Card.Subtitle className="mb-1 text-muted d-flex align-items-center">
-          <FontAwesomeIcon
-            icon={faBuilding}
-            className={styles.experienceIcon}
-          />
-          <span>{experience.workplace}</span>
-        </Card.Subtitle>
-        <Card.Text className="mb-3 text-muted d-flex align-items-center">
-          <FontAwesomeIcon
-            icon={faCalendarAlt}
-            className={styles.experienceIcon}
-          />
-          <span>{experience.duration}</span>
-        </Card.Text>
-        <Card.Text className={styles.description}>
-          {experience.description}
-        </Card.Text>
-      </Card.Body>
-    </Card>
-  </Col>
-);
+const WorkExperience = () => {
+  /* Renders each work experience as a card with title, workplace, duration, and description */
+  const renderExperience = (experience, index) => (
+    <Col md={6} className="mb-4" key={index}>
+      <Card className={`h-100 ${styles.experienceCard}`}>
+        <Card.Body>
+          <Card.Title className="d-flex align-items-center mb-3">
+            <FontAwesomeIcon
+              icon={faBriefcase}
+              className={styles.experienceIcon}
+            />
+            <span>{experience.title}</span>
+          </Card.Title>
+          <Card.Subtitle className="mb-1 text-muted d-flex align-items-center">
+            <FontAwesomeIcon
+              icon={faBuilding}
+              className={styles.experienceIcon}
+            />
+            <span>{experience.workplace}</span>
+          </Card.Subtitle>
+          <Card.Text className="mb-3 text-muted d-flex align-items-center">
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className={styles.experienceIcon}
+            />
+            <span>{experience.duration}</span>
+          </Card.Text>
+          <Card.Text className={styles.description}>
+            {experience.description}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
 
-// WorkExperience Component
-const WorkExperience = () => (
-  <section id="work-experience" className="py-4">
-    <Container className="px-0">
-      <h2 className="d-flex justify-content-center align-items-center">
-        <FontAwesomeIcon icon={faBriefcase} className="me-2" />
-        Work Experience
-      </h2>
-      <Row className="mt-4 mx-auto">
-        {experiences.map((experience, index) => (
-          <ExperienceCard key={index} experience={experience} />
-        ))}
-      </Row>
-    </Container>
-  </section>
-);
+  return (
+    <section id="work-experience" className="py-4">
+      <Container className="px-0">
+        <h2 className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon icon={faBriefcase} className="me-2" />
+          Work Experience
+        </h2>
+        <Row className="mt-4 mx-auto">{experiences.map(renderExperience)}</Row>
+      </Container>
+    </section>
+  );
+};
 
 export default WorkExperience;
