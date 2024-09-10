@@ -31,10 +31,10 @@ const Hero = React.memo(() => {
               alt="Linus Johansson"
               className={`mb-4 ${styles.heroImage}`}
             />
-            <h2>Full-Stack Developer</h2>
+            <h2>Junior Full-Stack Developer</h2>
             <hr className="my-2" />
             <p className="lead">
-              Crafting elegant and efficient web solutions.
+              Creating elegant and efficient web solutions.
             </p>
             <div className="d-flex flex-column align-items-center my-3">
               <Button
