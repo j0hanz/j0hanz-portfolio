@@ -27,8 +27,7 @@ const experiences = [
     title: 'Delivery Employee',
     workplace: 'Sängbutiken',
     duration: '2011 - 2016',
-    description:
-      'Delivered and assembled beds, ensuring customer satisfaction.',
+    description: 'Delivery and assembly of beds at customer locations.',
   },
   {
     title: 'Warehouse Worker',

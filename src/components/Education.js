@@ -28,7 +28,7 @@ const education = [
     school: 'Webhallen',
     duration: '2019',
     description: [
-      'Focused on building winning teams through shared values and norms, coaching leadership, effective group dynamics, and clear communication. Emphasized setting and achieving goals with positive habits and behaviors.',
+      'Building successful teams through norms, values, and coaching leadership.',
     ],
     hasCredential: false,
   },
