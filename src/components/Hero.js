@@ -38,15 +38,12 @@ const Hero = () => {
             />
             <h2>Junior Full-Stack Developer</h2>
             <hr className="my-2" />
-            <p className="lead">
-              Creating elegant and efficient web solutions.
-            </p>
-            <div className="d-flex flex-column align-items-center my-3">
+            <div className="d-flex flex-column justify-content-start align-items-center mt-5 mb-1">
               <Button
                 onClick={handleModalOpen}
-                variant="outline-primary"
+                variant="outline-dark"
                 disabled={loading}
-                className={`mb-3 ${styles.customButton}`}
+                className={`mb-4 ${styles.customButton}`}
               >
                 {loading ? (
                   <Spinner
@@ -62,20 +59,20 @@ const Hero = () => {
                       icon={faDownload}
                       className={styles.buttonIcon}
                     />
-                    Download CV
+                    <span className={styles.buttonText}>Download CV</span>
                   </>
                 )}
               </Button>
               <Button
                 href="#contact"
                 variant="outline-dark"
-                className={styles.customButton}
+                className={`d-flex align-items-center ${styles.customButton}`}
               >
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   className={styles.buttonIcon}
                 />
-                Get in Touch
+                <span className={styles.buttonText}>Get in Touch</span>
               </Button>
             </div>
           </Col>
