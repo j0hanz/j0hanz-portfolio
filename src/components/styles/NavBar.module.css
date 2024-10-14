@@ -14,41 +14,55 @@
 .navLink:active {
   transform: scale(0.99);
 }
-
 .customToggle {
-  background-color: transparent;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    width 0.3s ease-in-out,
-    background-color 0.3s ease;
+  background-color: rgba(255, 127, 95, 0.1);
+  border: 2px solid rgba(255, 127, 95, 0.3);
+  border-radius: 50px;
+  transition: all 0.6s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
   outline: none;
-  --bs-navbar-color: #ff7f5f81;
-  --bs-navbar-toggler-border-color: #ff7f5f86;
-  --bs-navbar-toggler-focus-width: 0.09rem;
-  opacity: 0.8;
+  --bs-navbar-color: #d8d9db;
+  --bs-navbar-toggler-focus-width: 0.05rem;
+  width: 40px;
+  height: 35px;
+  position: relative;
+  overflow: hidden;
+}
+
+.customToggle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
 }
 
 .customToggle:hover {
-  width: auto;
-  --bs-navbar-color: #ff7f5f93;
-  opacity: 1;
+  border-color: #d8d9dbab;
+}
+
+.customToggle:hover::before {
+  width: 300%;
+  height: 300%;
 }
 
 .customToggle:active {
-  transform: scale(0.97);
-  opacity: 1;
+  transform: scale(0.95);
 }
 
 .customToggle:focus {
-  opacity: 1;
+  box-shadow: 0 0 0 3px rgba(255, 127, 95, 0.4);
 }
-
 .navbarBrand {
   font-weight: bold;
   background: linear-gradient(90deg, #d3e1f2, #d1d1d1, #b0b0b0);
