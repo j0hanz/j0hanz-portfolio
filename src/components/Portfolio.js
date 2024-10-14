@@ -20,6 +20,17 @@ const projects = [
       'A community blog and news site for tech enthusiasts to share and engage with the latest in technology.',
     github: 'https://github.com/j0hanz/tech-corner-website',
     demo: 'https://tech-corner-web-70b84e69e118.herokuapp.com/about/',
+    technologies: [
+      'HTML5',
+      'CSS3',
+      'Python',
+      'JavaScript',
+      'Bootstrap',
+      'Python',
+      'Django',
+      'SQL',
+      'Agile',
+    ],
   },
   {
     title: 'Blog Beat',
@@ -27,6 +38,17 @@ const projects = [
       'An interactive platform for reading, writing, and engaging with blog posts, designed for bloggers and readers.',
     github: 'https://github.com/j0hanz/blog-beat-web',
     demo: 'https://blog-beat-17c62545ca2a.herokuapp.com/',
+    technologies: [
+      'React.js',
+      'CSS3',
+      'JavaScript',
+      'Node.js',
+      'Django Rest',
+      'Python',
+      'SQL',
+      'SEO',
+      'Agile',
+    ],
   },
   {
     title: 'Pick my Spell',
@@ -34,6 +56,7 @@ const projects = [
       'A fun spelling quiz game where users pick the correct word within 10 seconds, perfect for improving spelling skills.',
     github: 'https://github.com/j0hanz/PICK-my-SPELL',
     demo: 'https://j0hanz.github.io/PICK-my-SPELL/',
+    technologies: ['HTML5', 'CSS3', 'JavaScript'],
   },
   {
     title: 'Fix my Spell',
@@ -41,6 +64,7 @@ const projects = [
       'A console-based game to correct misspelled words, designed to boost spelling and vocabulary in a playful way.',
     github: 'https://github.com/j0hanz/FIX-my-SPELL',
     demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
+    technologies: ['Python', 'Heruko'],
   },
   {
     title: 'Corner',
@@ -48,6 +72,34 @@ const projects = [
       'Corner is an upgraded version of Blog Beat, offering more features, better customization, and an improved user experience.',
     github: 'https://github.com/j0hanz/corner',
     demo: '', // No demo link available
+    technologies: [
+      'React.js',
+      'CSS3',
+      'JavaScript',
+      'Node.js',
+      'Django Rest',
+      'Python',
+      'SQL',
+      'SEO',
+    ],
+  },
+  {
+    title: 'SonataCraft (Collaborative Project)',
+    description:
+      'A digital Baroque-era piano application allowing users to play and practice sheet music, with information on classical instruments.',
+    github: 'https://github.com/Damitwhy/Team4-Sep2024-Hackathon/tree/main',
+    demo: 'https://team4-91bfea18c336.herokuapp.com/',
+    technologies: [
+      'HTML5',
+      'CSS3',
+      'JavaScript',
+      'Git',
+      'Python',
+      'Heroku',
+      'SQL',
+      'Django',
+      'Agile',
+    ],
   },
 ];
 
@@ -61,6 +113,13 @@ const Portfolio = () => {
           <Card.Text className={styles.description}>
             {project.description}
           </Card.Text>
+          <div className={styles.technologies}>
+            {project.technologies.map((tech, i) => (
+              <span key={i} className={styles.techBadge}>
+                {tech}
+              </span>
+            ))}
+          </div>
           <div className="d-flex justify-content-between">
             <Button
               variant="outline-dark"
@@ -113,7 +172,6 @@ const Portfolio = () => {
       </Card>
     </Col>
   );
-
   return (
     <section id="portfolio" className="py-4">
       <Container className="px-0">
