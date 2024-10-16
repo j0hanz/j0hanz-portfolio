@@ -30,11 +30,13 @@ body {
   color: #333;
   background: linear-gradient(
     180deg,
-    #f5f5f5 0%,
-    #e0e0e0 25%,
-    #cccccc 50%,
-    #b0b0b0 75%,
-    #a3a3a3 100%
+    #e0e0e0 0%,
+    #d4d4d4 15%,
+    #c7c7c7 30%,
+    #b0b0b0 50%,
+    #989898 70%,
+    #8a8a8a 85%,
+    #7e7e7e 100%
   );
 }
 
