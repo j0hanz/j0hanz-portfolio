@@ -12,10 +12,14 @@
   transition: all 0.3s ease;
 }
 
+.footerLinkHeader {
+  color: #e0e0e0;
+}
+
 .footerLink:hover {
   color: #e0e0e069;
 }
 
 .copyrightText {
-  color: #d3e1f2;
+  color: #e0e0e0;
 }
