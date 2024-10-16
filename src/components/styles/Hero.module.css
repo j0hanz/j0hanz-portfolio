@@ -5,41 +5,51 @@
   border-radius: 50%;
   margin-bottom: 1.5rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.heroImage:hover {
+  opacity: 0.9;
+  filter: brightness(0.6);
+  transform: scale(1.0075);
+}
+
+.developerTitle {
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .gradientText {
-  background: linear-gradient(90deg, #252525, #fc7958f3);
+  background: linear-gradient(90deg, #1a1a1a, #fc7958);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .customButton {
-  width: 150px;
-  max-width: 100%;
+  width: 160px;
   height: 50px;
+  background-image: linear-gradient(to top, #d8d9db 0%, #fff 80%, #fdfdfd 100%);
+  border-radius: 30px;
+  border: 1px solid #d1d1d1;
+  transition: all 0.3s ease;
+  color: #404040;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(to top, #d8d9db 0%, #fff 80%, #fdfdfd 100%);
-  border-radius: 30px;
-  border: none;
-  transition: all 0.2s ease;
-  color: #606060;
-  text-shadow: 0 1px #fff;
   cursor: pointer;
   outline: none;
   padding: 0 15px;
 }
 
 .customButton:hover {
-  box-shadow:
-    0 4px 3px 1px #fcfcfc,
-    0 6px 8px #d6d7d9,
-    0 -4px 4px #cecfd1,
-    0 -6px 4px #fefefe,
-    inset 0 0 3px 3px #cecfd1;
-  color: #606060;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .customButton:active {
@@ -63,11 +73,13 @@
 }
 
 .buttonIcon {
-  margin-right: 8px;
+  margin-right: 10px;
+  font-size: 1.1em;
   color: #252424;
 }
 
 .buttonText {
+  font-size: 0.9em;
   margin-left: 0;
   line-height: 1;
   color: #252424;
@@ -77,5 +89,10 @@
   .heroImage {
     width: 200px;
     height: 200px;
+  }
+
+  .developerTitle {
+    font-size: 1rem;
+    letter-spacing: 0.25px;
   }
 }
