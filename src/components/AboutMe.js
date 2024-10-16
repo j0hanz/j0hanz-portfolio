@@ -50,12 +50,14 @@ const AboutMe = () => {
     <section id="about-me" className="py-4">
       <Container>
         <div className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon
-            icon={faUser}
-            size="2x"
-            className={appStyles.mainIcon}
-          />
-          <h2 className={`${appStyles.sectionTitle} pt-2`}>About Me</h2>
+          <div>
+            <FontAwesomeIcon
+              icon={faUser}
+              size="2x"
+              className={appStyles.mainIcon}
+            />
+          </div>
+          <h2 className={appStyles.sectionTitle}>About Me</h2>
         </div>
         <Row className="justify-content-center mt-4">
           <Col md={8}>
