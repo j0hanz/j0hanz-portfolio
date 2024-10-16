@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faProjectDiagram, faRocket } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
+import appStyles from '../App.module.css';
 
 const projects = [
   {
@@ -111,7 +112,7 @@ const Portfolio = () => {
   const renderProject = (project, index) => (
     <Col md={6} key={index} className="mb-4">
       <Card className={`h-100 ${styles.projectCard}`}>
-        <Card.Body>
+        <Card.Body className="d-flex flex-column">
           <Card.Title className="mb-3">{project.title}</Card.Title>
           <Card.Text className={styles.description}>
             {project.description}
@@ -123,7 +124,7 @@ const Portfolio = () => {
               </span>
             ))}
           </div>
-          <div className="d-flex justify-content-between">
+          <div className="mt-auto d-flex justify-content-between">
             <Button
               variant="outline-dark"
               href={project.github}
@@ -178,10 +179,14 @@ const Portfolio = () => {
   return (
     <section id="portfolio" className="py-4">
       <Container className="px-0">
-        <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faProjectDiagram} className="me-2" />
-          Projects
-        </h2>
+        <div className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon
+            icon={faProjectDiagram}
+            size="2x"
+            className={appStyles.mainIcon}
+          />
+          <h2 className={`${appStyles.sectionTitle} pt-2`}>Projects</h2>
+        </div>
         <Row className="mt-4 mx-auto">{projects.map(renderProject)}</Row>
       </Container>
     </section>
