@@ -3,25 +3,26 @@
 }
 
 .footerIcon {
-  color: #d3e1f2;
+  color: #007acc;
   margin-right: 10px;
+  transition: color 0.3s ease;
 }
 
 .footerLink {
-  color: #e0e0e0;
-  transition: all 0.3s ease;
+  color: #f0f0f0;
+  transition: color 0.3s ease;
 }
 
 .footerLinkHeader {
-  color: #e0e0e0;
+  color: #f0f0f0;
 }
 
 .footerLink:hover {
-  color: #e0e0e069;
+  color: #66b2ff;
 }
 
 .copyrightText {
-  color: #e0e0e0;
+  color: #f0f0f0;
   opacity: 0.8;
 }
 
