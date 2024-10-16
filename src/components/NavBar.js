@@ -70,7 +70,6 @@ const NavBar = () => {
       <Navbar
         ref={ref}
         fixed="top"
-        bg="dark"
         variant="dark"
         expand="lg"
         className={`${styles.customNavbar} py-1`}
@@ -99,13 +98,14 @@ const NavBar = () => {
                 >
                   <FontAwesomeIcon
                     icon={icon}
-                    size="sm"
-                    className={`${styles.navIcon} me-1 me-lg-0 ms-1 ms-lg-0`}
+                    className={`${styles.navIcon} me-2`}
+                    fixedWidth
                   />
-                  {label}
+                  <span className={styles.navLink}>{label}</span>
                 </Nav.Link>
               ))}
             </Nav>
+
             <Nav className="d-flex flex-row justify-content-start">
               {socialLinks.map(({ id, icon, href, onClick, tooltip }) => (
                 <OverlayTrigger
