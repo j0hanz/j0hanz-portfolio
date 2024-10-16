@@ -30,14 +30,18 @@ const Hero = () => {
       <Container>
         <Row className="d-flex justify-content-center align-items-center">
           <Col xs="auto">
-            <h1 className={`mb-4 ${styles.gradientText}`}>Linus Johansson</h1>
             <img
               src={Image}
               alt="Linus Johansson"
               className={`mb-4 ${styles.heroImage}`}
             />
-            <h2>Junior Full-Stack Developer</h2>
+            <h1 className={styles.gradientText}>Linus Johansson</h1>
             <hr className="my-2" />
+            <p
+              className={`text-body-secondary fw-semibold  ${styles.developerTitle}`}
+            >
+              Junior Full-Stack Developer
+            </p>
             <div className="d-flex flex-column justify-content-start align-items-center mt-5 mb-1">
               <Button
                 onClick={handleModalOpen}
