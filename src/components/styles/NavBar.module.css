@@ -1,19 +1,49 @@
 .navIcon {
-  color: #ff7f5fde;
-  width: 20px;
+  color: #d3e1f2;
+  width: auto;
 }
 
 .navLink {
-  color: #ffffffd2;
+  color: #e0e0e0;
+  letter-spacing: 0.75px;
+  transition: all 0.3s ease;
+  font-size: 1.05rem;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .navLink:hover {
-  color: #fff;
+  color: #e0e0e069;
 }
 
 .navLink:active {
   transform: scale(0.99);
 }
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.customNavbar {
+  background: linear-gradient(180deg, #1a1a1a 0%, #252525 50%, #1a1a1a 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.customNavbar.scrolled {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(10px);
+}
+
 .customToggle {
   background-color: rgba(255, 127, 95, 0.1);
   border: 2px solid rgba(255, 127, 95, 0.3);
