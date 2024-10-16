@@ -27,11 +27,11 @@ const Footer = () => {
   const handleModalClose = () => setShowModal(false);
 
   return (
-    <footer className={`py-3 text-light ${styles.footerBg}`}>
+    <footer className={`py-3 ${styles.footerBg}`}>
       <Container fluid className="px-2">
         <Row className="mx-auto">
           <Col md={6} className="mb-md-0">
-            <h5>Contact Details</h5>
+            <h5 className={styles.footerLink}>Contact Details</h5>
             <p>
               <FontAwesomeIcon
                 icon={faEnvelope}
@@ -40,7 +40,7 @@ const Footer = () => {
               />
               <a
                 href="mailto:l.johansson93@outlook.com"
-                className="text-light text-decoration-none"
+                className={`${styles.footerLink} text-decoration-none`}
               >
                 l.johansson93@outlook.com
               </a>
@@ -53,7 +53,7 @@ const Footer = () => {
               />
               <a
                 href="tel:+46705292674"
-                className="text-light text-decoration-none"
+                className={`${styles.footerLink} text-decoration-none`}
               >
                 +46 70 529 26 74
               </a>
@@ -70,7 +70,6 @@ const Footer = () => {
               </span>
             </p>
             <div>
-              {/* LinkedIn profile link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -78,7 +77,7 @@ const Footer = () => {
                 }
               >
                 <a
-                  className="text-light me-4"
+                  className={`${styles.footerLink} me-4`}
                   href="https://www.linkedin.com/in/linus-johansson-software-dev/"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -88,13 +87,12 @@ const Footer = () => {
                 </a>
               </OverlayTrigger>
 
-              {/* GitHub profile link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip id="tooltip-github">GitHub Profile</Tooltip>}
               >
                 <a
-                  className="text-light me-4"
+                  className={`${styles.footerLink} me-4`}
                   href="https://github.com/j0hanz"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -104,13 +102,12 @@ const Footer = () => {
                 </a>
               </OverlayTrigger>
 
-              {/* CV download button with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
               >
                 <a
-                  className="text-light me-4"
+                  className={`${styles.footerLink} me-4`}
                   onClick={handleModalOpen}
                   style={{ cursor: 'pointer' }}
                   aria-label="Download CV"
@@ -119,7 +116,6 @@ const Footer = () => {
                 </a>
               </OverlayTrigger>
 
-              {/* Certificate link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -127,7 +123,7 @@ const Footer = () => {
                 }
               >
                 <a
-                  className="text-light me-4"
+                  className={`${styles.footerLink} me-4`}
                   href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -137,13 +133,12 @@ const Footer = () => {
                 </a>
               </OverlayTrigger>
 
-              {/* Source code link with tooltip */}
               <OverlayTrigger
                 placement="bottom"
                 overlay={<Tooltip id="tooltip-code">Source Code</Tooltip>}
               >
                 <a
-                  className="text-light"
+                  className={styles.footerLink}
                   href="https://github.com/j0hanz/j0hanz-portfolio"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -156,7 +151,6 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
-      {/* CV Modal component */}
       <ModalCv show={showModal} handleClose={handleModalClose} />
     </footer>
   );
