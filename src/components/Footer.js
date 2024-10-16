@@ -69,7 +69,7 @@ const Footer = () => {
                 2024 Linus Johansson
               </small>
             </p>
-            <div>
+            <div className="mt-4 mt-md-0">
               <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -77,7 +77,7 @@ const Footer = () => {
                 }
               >
                 <a
-                  className={`${styles.footerLink} me-4`}
+                  className={`${styles.footerLink} ${styles.iconSpacing} me-md-4`}
                   href="https://www.linkedin.com/in/linus-johansson-software-dev/"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -92,7 +92,7 @@ const Footer = () => {
                 overlay={<Tooltip id="tooltip-github">GitHub Profile</Tooltip>}
               >
                 <a
-                  className={`${styles.footerLink} me-4`}
+                  className={`${styles.footerLink} ${styles.iconSpacing} me-md-4`}
                   href="https://github.com/j0hanz"
                   rel="noopener noreferrer"
                   target="_blank"
@@ -107,7 +107,7 @@ const Footer = () => {
                 overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
               >
                 <a
-                  className={`${styles.footerLink} me-4`}
+                  className={`${styles.footerLink} ${styles.iconSpacing} me-md-4`}
                   onClick={handleModalOpen}
                   style={{ cursor: 'pointer' }}
                   aria-label="Download CV"
@@ -123,7 +123,7 @@ const Footer = () => {
                 }
               >
                 <a
-                  className={`${styles.footerLink} me-4`}
+                  className={`${styles.footerLink} ${styles.iconSpacing} me-md-4`}
                   href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
                   rel="noopener noreferrer"
                   target="_blank"
