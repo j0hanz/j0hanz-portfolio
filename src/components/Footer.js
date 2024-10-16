@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faLinkedin,
+  faLinkedinIn,
   faGithub,
   faCreativeCommons,
 } from '@fortawesome/free-brands-svg-icons';
 import {
   faEnvelope,
   faPhone,
-  faFilePdf,
   faCode,
   faAward,
 } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import styles from './styles/Footer.module.css';
 import ModalCv from './ModalCv';
 
@@ -61,13 +61,13 @@ const Footer = () => {
           </Col>
           <Col md={6} className="text-md-end my-1">
             <p className="d-flex align-items-center justify-content-md-end">
-              <span className={styles.copyrightText}>
-                <FontAwesomeIcon
-                  icon={faCreativeCommons}
-                  className={styles.footerIcon}
-                />
+              <FontAwesomeIcon
+                icon={faCreativeCommons}
+                className={styles.footerIcon}
+              />
+              <small className={styles.copyrightText}>
                 2024 Linus Johansson
-              </span>
+              </small>
             </p>
             <div>
               <OverlayTrigger
@@ -83,7 +83,7 @@ const Footer = () => {
                   target="_blank"
                   aria-label="LinkedIn Profile"
                 >
-                  <FontAwesomeIcon icon={faLinkedin} size="lg" />
+                  <FontAwesomeIcon icon={faLinkedinIn} size="lg" />
                 </a>
               </OverlayTrigger>
 
