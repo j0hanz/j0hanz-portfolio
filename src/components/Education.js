@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Credential from './Credential';
 import styles from './styles/Education.module.css';
+import appStyles from '../App.module.css';
 
 const education = [
   {
@@ -92,10 +93,14 @@ const Education = () => {
   return (
     <section id="education" className="py-4">
       <Container className="px-0">
-        <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faGraduationCap} className="me-2" />
-          Education
-        </h2>
+        <div className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon
+            icon={faGraduationCap}
+            size="2x"
+            className={appStyles.mainIcon}
+          />
+          <h2 className={`${appStyles.sectionTitle} pt-2`}>Education</h2>
+        </div>
         <Row className="mt-4 mx-auto">{education.map(renderEducationItem)}</Row>
         {/* Renders the credential modal if showModal is true */}
         <Credential show={showModal} handleClose={toggleModal} />
