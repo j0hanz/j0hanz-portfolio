@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faAward } from '@fortawesome/free-solid-svg-icons';
 import Credential from './Credential';
 import styles from './styles/AboutMe.module.css';
+import appStyles from '../App.module.css';
 
 const aboutMeContent = [
   {
@@ -48,10 +49,14 @@ const AboutMe = () => {
   return (
     <section id="about-me" className="py-4">
       <Container>
-        <h2 className={`text-center ${styles.sectionTitle}`}>
-          <FontAwesomeIcon icon={faUser} className="me-2" />
-          About Me
-        </h2>
+        <div className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon
+            icon={faUser}
+            size="2x"
+            className={appStyles.mainIcon}
+          />
+          <h2 className={`${appStyles.sectionTitle} pt-2`}>About Me</h2>
+        </div>
         <Row className="justify-content-center mt-4">
           <Col md={8}>
             <Card className={`p-3 shadow ${styles.aboutMeCard}`}>
