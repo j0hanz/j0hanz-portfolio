@@ -31,7 +31,7 @@ const Footer = () => {
       <Container fluid className="px-2">
         <Row className="mx-auto">
           <Col md={6} className="mb-md-0">
-            <h5 className={styles.footerLink}>Contact Details</h5>
+            <h5 className={styles.footerLinkHeader}>Contact Details</h5>
             <p>
               <FontAwesomeIcon
                 icon={faEnvelope}
