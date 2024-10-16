@@ -21,11 +21,19 @@
 }
 
 .gradientText {
-  background: linear-gradient(90deg, #1a1a1a, #fc7958);
+  background: linear-gradient(
+    180deg,
+    #012b47 0%,
+    #00487a 25%,
+    #006bb3 50%,
+    #4a7fc2 75%,
+    #5678b0 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 700;
-  letter-spacing: 2px;
+
+  font-weight: 600;
+  letter-spacing: 2.5px;
 }
 
 .customButton {
@@ -87,8 +95,8 @@
 
 @media (max-width: 768px) {
   .heroImage {
-    width: 200px;
-    height: 200px;
+    width: 175px;
+    height: 175px;
   }
 
   .developerTitle {
