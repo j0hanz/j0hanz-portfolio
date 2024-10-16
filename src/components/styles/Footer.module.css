@@ -29,4 +29,7 @@
   .footerIcon {
     margin-right: 12px;
   }
+  .iconSpacing {
+    margin-right: 2.5rem !important;
+  }
 }
