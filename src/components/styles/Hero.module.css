@@ -37,10 +37,10 @@
 }
 
 .customButton {
-  width: 160px;
+  width: 175px;
   height: 50px;
   background-image: linear-gradient(to top, #d8d9db 0%, #fff 80%, #fdfdfd 100%);
-  border-radius: 30px;
+  border-radius: 25px;
   border: 1px solid #d1d1d1;
   transition: all 0.3s ease;
   color: #404040;
@@ -82,14 +82,14 @@
 
 .buttonIcon {
   margin-right: 10px;
-  font-size: 1.1em;
   color: #252424;
+  height: 18px;
+  width: auto;
 }
 
 .buttonText {
-  font-size: 0.9em;
+  font-size: 1rem;
   margin-left: 0;
-  line-height: 1;
   color: #252424;
 }
 
