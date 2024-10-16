@@ -61,6 +61,18 @@ code {
   padding-top: 5rem;
 }
 
+.mainIcon {
+  color: #000000;
+  width: auto;
+  margin-right: 0.5rem;
+  font-size: 2rem;
+}
+
+.sectionTitle {
+  font-size: 2.1rem;
+  color: #343a40;
+}
+
 /* Scrollbar Styles */
 *::-webkit-scrollbar {
   width: 7px;
