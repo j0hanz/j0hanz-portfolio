@@ -4,7 +4,7 @@ import ImageCredential from '../assets/Credential.png';
 import styles from './styles/Credential.module.css';
 import Spinner from './Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faScroll } from '@fortawesome/free-solid-svg-icons';
+import { faScroll, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import faTimes
 
 const Credential = ({ show, handleClose }) => {
   /* State to manage the loading state of the credential image */
@@ -21,18 +21,14 @@ const Credential = ({ show, handleClose }) => {
 
   return (
     <Modal show={show} onHide={handleClose} centered>
-      <Modal.Header
-        closeButton
-        closeVariant="white"
-        className="bg-dark text-light border-0"
-      />
-      <Modal.Body className="bg-dark text-light p-0">
+      <Modal.Body className={`text-light p-4 ${styles.modalBody}`}>
+        <button className={styles.closeButton} onClick={handleClose}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
         <Container className="text-center">
           {loading ? (
-            /* Displays a spinner while the image is loading */
             <Spinner />
           ) : (
-            /* Link to the credential and image display */
             <a
               href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
               target="_blank"
@@ -51,21 +47,6 @@ const Credential = ({ show, handleClose }) => {
           )}
         </Container>
       </Modal.Body>
-      {!loading && (
-        /* Footer section with a button to view the credential */
-        <Modal.Footer className="d-flex justify-content-center bg-dark border-0">
-          <Button
-            href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="outline-secondary text-light"
-            className={styles.customButton}
-          >
-            <FontAwesomeIcon icon={faScroll} className={styles.buttonIcon} />
-            <span className={styles.buttonText}>View Credential</span>
-          </Button>
-        </Modal.Footer>
-      )}
     </Modal>
   );
 };
