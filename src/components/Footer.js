@@ -27,7 +27,7 @@ const Footer = () => {
   const handleModalClose = () => setShowModal(false);
 
   return (
-    <footer className="py-3 bg-dark text-light">
+    <footer className={`py-3 text-light ${styles.footerBg}`}>
       <Container fluid className="px-2">
         <Row className="mx-auto">
           <Col md={6} className="mb-md-0">
