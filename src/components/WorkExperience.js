@@ -78,12 +78,14 @@ const WorkExperience = () => {
     <section id="work-experience" className="py-4">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon
-            icon={faBriefcase}
-            size="2x"
-            className={appStyles.mainIcon}
-          />
-          <h2 className={`${appStyles.sectionTitle} pt-2`}>Work Experience</h2>
+          <div>
+            <FontAwesomeIcon
+              icon={faBriefcase}
+              size="2x"
+              className={appStyles.mainIcon}
+            />
+          </div>
+          <h2 className={appStyles.sectionTitle}>Work Experience</h2>
         </div>
         <Row className="mt-4 mx-auto">{experiences.map(renderExperience)}</Row>
       </Container>

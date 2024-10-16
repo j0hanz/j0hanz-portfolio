@@ -94,12 +94,14 @@ const Education = () => {
     <section id="education" className="py-4">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon
-            icon={faGraduationCap}
-            size="2x"
-            className={appStyles.mainIcon}
-          />
-          <h2 className={`${appStyles.sectionTitle} pt-2`}>Education</h2>
+          <div>
+            <FontAwesomeIcon
+              icon={faGraduationCap}
+              size="2x"
+              className={appStyles.mainIcon}
+            />
+          </div>
+          <h2 className={appStyles.sectionTitle}>Education</h2>
         </div>
         <Row className="mt-4 mx-auto">{education.map(renderEducationItem)}</Row>
         {/* Renders the credential modal if showModal is true */}

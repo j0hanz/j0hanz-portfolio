@@ -76,15 +76,15 @@ const ContactForm = () => {
     <section id="contact" className="contact-section py-4">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            size="2x"
-            className={appStyles.mainIcon}
-          />
-
-          <h2 className={`${appStyles.sectionTitle} pt-1`}>Contact</h2>
+          <div>
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              size="2x"
+              className={appStyles.mainIcon}
+            />
+          </div>
+          <h2 className={appStyles.sectionTitle}>Contact</h2>
         </div>
-
         <Row className="justify-content-center mx-auto mt-4">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
