@@ -4,7 +4,7 @@
 
 .footerIcon {
   color: #d3e1f2;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .footerLink {
@@ -22,4 +22,11 @@
 
 .copyrightText {
   color: #e0e0e0;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .footerIcon {
+    margin-right: 12px;
+  }
 }
