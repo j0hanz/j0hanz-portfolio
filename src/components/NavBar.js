@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
   faUser,
   faCogs,
@@ -15,9 +15,9 @@ import {
   faProjectDiagram,
   faEnvelope,
   faGraduationCap,
-  faFilePdf,
   faBars,
 } from '@fortawesome/free-solid-svg-icons';
+import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
@@ -47,7 +47,7 @@ const NavBar = () => {
   const socialLinks = [
     {
       id: 'linkedin',
-      icon: faLinkedin,
+      icon: faLinkedinIn,
       href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
       tooltip: 'LinkedIn Profile',
     },
