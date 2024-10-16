@@ -7,6 +7,7 @@ import {
   faCalendarAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/WorkExperience.module.css';
+import appStyles from '../App.module.css';
 
 const experiences = [
   {
@@ -76,10 +77,14 @@ const WorkExperience = () => {
   return (
     <section id="work-experience" className="py-4">
       <Container className="px-0">
-        <h2 className="d-flex justify-content-center align-items-center">
-          <FontAwesomeIcon icon={faBriefcase} className="me-2" />
-          Work Experience
-        </h2>
+        <div className="d-flex justify-content-center align-items-center">
+          <FontAwesomeIcon
+            icon={faBriefcase}
+            size="2x"
+            className={appStyles.mainIcon}
+          />
+          <h2 className={`${appStyles.sectionTitle} pt-2`}>Work Experience</h2>
+        </div>
         <Row className="mt-4 mx-auto">{experiences.map(renderExperience)}</Row>
       </Container>
     </section>
