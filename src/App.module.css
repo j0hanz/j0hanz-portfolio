@@ -1,5 +1,5 @@
 /* Importing the Roboto Flex font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100..900&display=swap');
 
 /* Global Styles */
 * {
@@ -65,7 +65,7 @@ code {
 .mainIcon {
   color: #000000;
   margin-right: 0.5rem;
-  vertical-align: middle;
+  vertical-align: auto;
 }
 
 .sectionTitle {
