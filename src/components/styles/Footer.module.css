@@ -57,20 +57,99 @@
   .iconSpacing {
     margin-right: 2.5rem !important;
   }
-
-  .linkedinIcon {
-    padding-right: 0.7rem;
-  }
-
-  .githubIcon {
-    padding-right: 0.7rem;
-  }
-
-  .pdfIcon {
-    padding-right: 0.7rem;
-  }
-
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
   .certificateIcon {
-    padding-right: 0.7rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (max-width: 525px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 3rem;
+  }
+}
+@media (max-width: 450px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 2.5rem;
+  }
+}
+
+@media (max-width: 425px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 1.7rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 0.9rem;
+  }
+}
+
+@media (max-width: 310px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 0.5rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 0.4rem;
+  }
+}
+
+@media (max-width: 290px) {
+  .linkedinIcon,
+  .githubIcon,
+  .pdfIcon,
+  .certificateIcon {
+    padding-right: 0.3rem;
   }
 }
