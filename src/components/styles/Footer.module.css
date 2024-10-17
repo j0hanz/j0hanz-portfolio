@@ -50,66 +50,13 @@
   opacity: 0.8;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 575px) {
   .footerIcon {
     margin-right: 12px;
   }
   .iconSpacing {
     margin-right: 2.5rem !important;
   }
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 3rem;
-  }
-}
-
-@media (max-width: 525px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 3rem;
-  }
-}
-@media (max-width: 450px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 2.5rem;
-  }
-}
-
-@media (max-width: 425px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 2rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 1.7rem;
-  }
-}
-
-@media (max-width: 375px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 1.5rem;
-  }
-}
-
-@media (max-width: 350px) {
   .linkedinIcon,
   .githubIcon,
   .pdfIcon,
@@ -132,7 +79,7 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 0.5rem;
+    padding-right: 0.75rem;
   }
 }
 
@@ -141,7 +88,7 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 0.4rem;
+    padding-right: 0.5rem;
   }
 }
 

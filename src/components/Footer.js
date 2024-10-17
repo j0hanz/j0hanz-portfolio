@@ -30,7 +30,7 @@ const Footer = () => {
     <footer className={`py-3 ${styles.footerBg}`}>
       <Container fluid className="px-2">
         <Row className="mx-auto">
-          <Col md={6} className="mb-md-0">
+          <Col sm={6} className="mb-sm-0">
             <h5 className={styles.footerLinkHeader}>Contact Details</h5>
             <p>
               <FontAwesomeIcon
@@ -59,8 +59,8 @@ const Footer = () => {
               </a>
             </p>
           </Col>
-          <Col md={6} className="text-md-end my-1">
-            <p className="d-flex align-items-center justify-content-md-end">
+          <Col sm={6} className="text-sm-end my-1">
+            <p className="d-flex align-items-center justify-content-sm-end">
               <FontAwesomeIcon
                 icon={faCreativeCommons}
                 className={styles.footerIcon}
@@ -69,9 +69,9 @@ const Footer = () => {
                 2024 Linus Johansson
               </small>
             </p>
-            <div className="mt-4 mt-md-0">
-              <Row className="justify-content-md-end">
-                <Col xs="auto" className="px-2 mb-2 mb-md-0">
+            <div className="mt-4 mt-sm-0">
+              <Row className="justify-content-sm-end">
+                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -92,7 +92,7 @@ const Footer = () => {
                     </a>
                   </OverlayTrigger>
                 </Col>
-                <Col xs="auto" className="px-2 mb-2 mb-md-0">
+                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -113,7 +113,7 @@ const Footer = () => {
                     </a>
                   </OverlayTrigger>
                 </Col>
-                <Col xs="auto" className="px-2 mb-2 mb-md-0">
+                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
@@ -131,7 +131,7 @@ const Footer = () => {
                     </a>
                   </OverlayTrigger>
                 </Col>
-                <Col xs="auto" className="px-2 mb-2 mb-md-0">
+                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={
