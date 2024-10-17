@@ -47,7 +47,7 @@ const AboutMe = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>About Me</h2>
         </div>
-        <Row className="justify-content-center mt-4">
+        <Row className="justify-content-center mt-4 mx-auto">
           <Col md={8}>
             <Card className={`p-3 shadow ${styles.aboutMeCard}`}>
               <Card.Body>

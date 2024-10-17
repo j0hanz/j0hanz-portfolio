@@ -28,7 +28,7 @@ const Hero = () => {
   return (
     <section id="hero" className="text-center py-4">
       <Container>
-        <Row className="d-flex justify-content-center align-items-center">
+        <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col xs="auto">
             <img
               src={Image}
