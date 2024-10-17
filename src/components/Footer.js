@@ -69,8 +69,8 @@ const Footer = () => {
                 2024 Linus Johansson
               </small>
             </p>
-            <div className="mt-4 mt-sm-0">
-              <Row className="justify-content-sm-end mx-auto">
+            <div className="mt-4 mt-sm-0 mx-auto">
+              <Row className="justify-content-sm-end">
                 <Col xs="auto" className="px-2 mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
