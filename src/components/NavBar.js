@@ -21,6 +21,7 @@ import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
+import navLogo from '../assets/navLogo.png';
 
 const NavBar = () => {
   /* Custom hook to handle the navbar's expanded state and detect clicks outside */
@@ -76,11 +77,13 @@ const NavBar = () => {
         expanded={expanded}
       >
         <Container fluid className="px-2">
-          <Navbar.Brand className={styles.navbarBrand}>
-            <Nav.Link href="#hero" className={styles.nameNav}>
-              Linus Johansson
-            </Nav.Link>
-          </Navbar.Brand>
+          <Nav.Link href="#hero" className="position-relative">
+            <img
+              src={navLogo}
+              className={`position-absolute translate-middle-y top-0 start-0 ${styles.navLogo}`}
+              alt="Linus Johansson"
+            />
+          </Nav.Link>
           <Navbar.Toggle
             aria-controls="navbar-nav"
             onClick={() => setExpanded(!expanded)}

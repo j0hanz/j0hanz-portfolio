@@ -64,6 +64,7 @@ code {
 .mainIcon {
   color: #000000;
   margin-right: 0.5rem;
+  vertical-align: middle;
 }
 
 .sectionTitle {

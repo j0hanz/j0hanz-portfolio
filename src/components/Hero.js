@@ -42,12 +42,12 @@ const Hero = () => {
             >
               Junior Full-Stack Developer
             </p>
-            <div className="d-flex flex-column justify-content-start align-items-center mt-5 mb-1">
+            <div className="d-flex flex-column align-items-center mt-5 mb-4 mb-1">
               <Button
                 onClick={handleModalOpen}
                 variant="outline-dark"
                 disabled={loading}
-                className={`mb-4 ${styles.customButton}`}
+                className={`d-flex align-items-center mb-4 ${styles.customButton}`}
               >
                 {loading ? (
                   <Spinner
@@ -79,7 +79,7 @@ const Hero = () => {
                 <span className={styles.buttonText}>Get in Touch</span>
               </Button>
             </div>
-          </Col>
+          </Col>{' '}
         </Row>
       </Container>
       <ModalCv show={showModal} handleClose={handleModalClose} />
