@@ -70,7 +70,7 @@ const Footer = () => {
               </small>
             </p>
             <div className="mt-4 mt-sm-0">
-              <Row className="justify-content-sm-end">
+              <Row className="justify-content-sm-end mx-auto">
                 <Col xs="auto" className="px-2 mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
