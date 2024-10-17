@@ -14,18 +14,6 @@ const aboutMeContent = [
     hasCredential: true,
   },
   {
-    title: 'Sales & Customer Service',
-    description:
-      'Over eight years of experience in customer relations, project management, and teamwork.',
-    hasCredential: false,
-  },
-  {
-    title: 'Leadership',
-    description:
-      'Proven leadership as a store and claims manager, focused on achieving goals.',
-    hasCredential: false,
-  },
-  {
     title: 'Tech Enthusiast',
     description:
       'Passionate about technology and eager to apply programming skills in team settings.',
@@ -64,11 +52,16 @@ const AboutMe = () => {
             <Card className={`p-3 shadow ${styles.aboutMeCard}`}>
               <Card.Body>
                 <Card.Text className={styles.cardText}>
-                  Passionate about technology and equipped with over eight years
-                  of experience in sales and management. After recently
-                  completing a Full-Stack Developer program, I'm ready to
-                  combine my technical skills with my leadership background to
-                  contribute to a collaborative team.
+                  I'm passionate about technology and eager to apply my new web
+                  development skills. My background includes over eight years in
+                  sales and customer service, where I honed my abilities in
+                  customer relations, project management, and teamwork. Previous
+                  roles as a store manager and complaints manager have made me
+                  goal-driven and results-oriented. I'm excited to merge my
+                  diverse experience with my programming skills, thriving on
+                  learning, problem-solving, and collaborative work. I'm
+                  actively seeking opportunities that will challenge me and
+                  foster professional growth.
                 </Card.Text>
                 <ul className="mt-4 list-unstyled ms-3">
                   {aboutMeContent.map((item, index) => (
