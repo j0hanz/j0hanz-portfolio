@@ -1,21 +1,36 @@
 .navIcon {
   color: #007acc;
-  height: 17px;
-  width: auto;
+  font-size: 1rem;
+}
+
+.socialIcon {
+  color: #007acc;
+}
+
+.linkedinIcon {
+  color: #0077b5;
+}
+
+.githubIcon {
+  color: #ffffff;
+}
+
+.pdfIcon {
+  color: #f40f02;
 }
 
 .navLink {
   color: #f0f0f0;
-  letter-spacing: 0.7px;
+  letter-spacing: 1px;
   font-weight: 500;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   transition:
     color 0.3s ease,
     transform 0.3s ease;
 }
 
 .navLogo {
-  width: 1.7rem;
+  width: 1.9rem;
 }
 
 .navLink:hover {
@@ -109,11 +124,4 @@
   background: linear-gradient(90deg, #d1d1d1cb, #d1d1d1cb, #d1d1d1cb);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-@media (max-width: 768px) {
-  .navIcon {
-    font-size: medium;
-    transform: translateY(1px);
-  }
 }

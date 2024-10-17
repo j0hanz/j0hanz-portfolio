@@ -51,18 +51,21 @@ const NavBar = () => {
       icon: faLinkedinIn,
       href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
       tooltip: 'LinkedIn Profile',
+      iconClass: styles.linkedinIcon,
     },
     {
       id: 'github',
       icon: faGithub,
       href: 'https://github.com/j0hanz',
       tooltip: 'GitHub Profile',
+      iconClass: styles.githubIcon,
     },
     {
       id: 'download-pdf',
       icon: faFilePdf,
       onClick: handleModalOpen,
       tooltip: 'Download CV',
+      iconClass: styles.pdfIcon,
     },
   ];
 
@@ -73,7 +76,7 @@ const NavBar = () => {
         fixed="top"
         variant="dark"
         expand="lg"
-        className={`${styles.customNavbar} py-1`}
+        className={styles.customNavbar}
         expanded={expanded}
       >
         <Container fluid className="px-2">
@@ -110,22 +113,28 @@ const NavBar = () => {
             </Nav>
 
             <Nav className="d-flex flex-row justify-content-start">
-              {socialLinks.map(({ id, icon, href, onClick, tooltip }) => (
-                <OverlayTrigger
-                  key={id}
-                  placement="bottom"
-                  overlay={<Tooltip id={`tooltip-${id}`}>{tooltip}</Tooltip>}
-                >
-                  <Nav.Link
-                    href={href}
-                    onClick={onClick}
-                    target={href ? '_blank' : undefined}
-                    className="mx-0 mx-lg-0 me-5 me-lg-0 mt-2 mt-lg-0"
+              {socialLinks.map(
+                ({ id, icon, href, onClick, tooltip, iconClass }) => (
+                  <OverlayTrigger
+                    key={id}
+                    placement="bottom"
+                    overlay={<Tooltip id={`tooltip-${id}`}>{tooltip}</Tooltip>}
                   >
-                    <FontAwesomeIcon icon={icon} size="lg" />
-                  </Nav.Link>
-                </OverlayTrigger>
-              ))}
+                    <Nav.Link
+                      href={href}
+                      onClick={onClick}
+                      target={href ? '_blank' : undefined}
+                      className="mx-0 mx-lg-0 me-5 me-lg-0 mt-2 mt-lg-0"
+                    >
+                      <FontAwesomeIcon
+                        icon={icon}
+                        size="lg"
+                        className={`${styles.socialIcon} ${iconClass}`}
+                      />
+                    </Nav.Link>
+                  </OverlayTrigger>
+                )
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

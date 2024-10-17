@@ -21,6 +21,30 @@
   color: #66b2ff;
 }
 
+.linkedinIcon {
+  color: #0077b5;
+  padding-right: 0.5rem;
+}
+
+.githubIcon {
+  color: #ffffff;
+  padding-right: 0.5rem;
+}
+
+.pdfIcon {
+  color: #f40f02;
+  padding-right: 0.5rem;
+}
+
+.certificateIcon {
+  color: #ffd700;
+  padding-right: 0.5rem;
+}
+
+.sourceCodeIcon {
+  color: #4caf50;
+}
+
 .copyrightText {
   color: #f0f0f0;
   opacity: 0.8;
@@ -32,5 +56,21 @@
   }
   .iconSpacing {
     margin-right: 2.5rem !important;
+  }
+
+  .linkedinIcon {
+    padding-right: 0.7rem;
+  }
+
+  .githubIcon {
+    padding-right: 0.7rem;
+  }
+
+  .pdfIcon {
+    padding-right: 0.7rem;
+  }
+
+  .certificateIcon {
+    padding-right: 0.7rem;
   }
 }
