@@ -92,10 +92,10 @@ const NavBar = () => {
             onClick={() => setExpanded(!expanded)}
             className={styles.customToggle}
           >
-            <FontAwesomeIcon icon={faBars} className={styles.navToggle} />
+            <FontAwesomeIcon icon={faBars} />
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
-            <Nav className="ms-auto my-1 my-lg-0">
+            <Nav className="ms-auto my-2 my-lg-0">
               {navLinks.map(({ id, icon, label }) => (
                 <Nav.Link
                   key={id}
@@ -124,7 +124,7 @@ const NavBar = () => {
                       href={href}
                       onClick={onClick}
                       target={href ? '_blank' : undefined}
-                      className="mx-0 mx-lg-0 me-5 me-lg-0 mt-2 mt-lg-0"
+                      className="mx-0 mx-lg-0 me-5 me-lg-1 mt-2 mt-lg-0"
                     >
                       <FontAwesomeIcon
                         icon={icon}
