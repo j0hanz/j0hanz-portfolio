@@ -40,7 +40,9 @@ const AboutMe = () => {
         </div>
         <Row className="justify-content-center mt-4 mx-auto">
           <Col md={8}>
-            <Card className={`p-4 shadow ${styles.aboutMeCard}`}>
+            <Card
+              className={`p-4 shadow ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
+            >
               <Card.Body>
                 <Card.Text className={styles.cardText}>
                   I'm a tech enthusiast who recently completed a Full-Stack
