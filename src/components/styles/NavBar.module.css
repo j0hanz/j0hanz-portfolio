@@ -8,7 +8,7 @@
 }
 
 .linkedinIcon {
-  color: #006bb3;
+  color: #0077b5;
 }
 
 .githubIcon {
@@ -67,12 +67,13 @@
   justify-content: center;
   cursor: pointer;
   --bs-navbar-color: transparent;
-  width: 50px;
+  width: 45px;
   height: 40px;
+  border: none !important;
 }
 
 .customToggle:hover {
-  border: 2px groove #006bb3;
+  border: 1px solid #0077b5 !important;
 }
 
 .customToggle:active {
@@ -80,11 +81,12 @@
 }
 
 .customToggle:focus {
-  border: 2px groove #006bb3;
+  border: 1px solid #0077b5 !important;
 }
 
 .navIconToggle {
   color: #007acc;
+  font-size: 1.75rem;
 }
 
 .navIconToggle:active {
