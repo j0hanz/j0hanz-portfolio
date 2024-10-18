@@ -61,26 +61,34 @@ code {
   padding-top: 2.5px;
 }
 
-.cardBgImage {
+.cardBgImage,
+.imgDarkBg {
   position: relative;
 }
 
-.cardBgImage::before {
+.cardBgImage::before,
+.imgDarkBg::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('../src/assets/imgBg.png');
+  inset: 0;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.1;
   z-index: 0;
 }
 
-.cardBgImage > * {
+.cardBgImage::before {
+  background-image: url('../src/assets/imgBg.png');
+  opacity: 0.1;
+}
+
+.imgDarkBg::before {
+  background-image: url('../src/assets/imgDarkBg.png');
+  opacity: 0.05;
+}
+
+.cardBgImage > *,
+.imgDarkBg > * {
   position: relative;
   z-index: 1;
 }
