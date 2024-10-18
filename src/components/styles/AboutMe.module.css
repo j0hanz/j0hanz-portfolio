@@ -3,7 +3,10 @@
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
-  border-radius: 10px;
+}
+
+.aboutMeCard .card-body {
+  padding: 1.2rem;
 }
 
 .aboutMeCard:hover {
@@ -27,11 +30,11 @@
 }
 
 .btnCredential:hover {
-  filter: brightness(0.7);
+  filter: brightness(0.8);
 }
 
 .btnCredential:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
 .certificateIcon {

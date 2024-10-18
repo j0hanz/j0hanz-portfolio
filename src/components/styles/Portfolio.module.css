@@ -4,11 +4,10 @@
     transform 0.3s ease,
     box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
 }
 
 .projectCard .card-body {
-  padding: 1.5rem;
+  padding: 1.2rem;
 }
 
 .projectCard .card-title {
@@ -75,11 +74,11 @@
 }
 
 .customButton:hover {
-  opacity: 0.9;
+  filter: brightness(0.8);
 }
 
 .customButton:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
 .buttonIcon {

@@ -73,7 +73,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="contact-section py-4">
+    <section id="contact" className="contact-section py-5">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>
@@ -85,7 +85,7 @@ const ContactForm = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Contact</h2>
         </div>
-        <Row className="justify-content-center mx-auto mt-4">
+        <Row className="justify-content-center mx-auto mt-3">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">

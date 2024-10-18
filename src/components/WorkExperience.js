@@ -77,7 +77,7 @@ const WorkExperience = () => {
   );
 
   return (
-    <section id="work-experience" className="py-4">
+    <section id="work-experience" className="py-5">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>
@@ -89,7 +89,7 @@ const WorkExperience = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Work Experience</h2>
         </div>
-        <Row className="mt-4 mx-auto">{experiences.map(renderExperience)}</Row>
+        <Row className="mt-3 mx-auto">{experiences.map(renderExperience)}</Row>
       </Container>
     </section>
   );

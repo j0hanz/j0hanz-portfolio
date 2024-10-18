@@ -178,7 +178,7 @@ const Portfolio = () => {
     </Col>
   );
   return (
-    <section id="portfolio" className="py-4">
+    <section id="portfolio" className="py-5">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>
@@ -190,7 +190,7 @@ const Portfolio = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Projects</h2>
         </div>
-        <Row className="mt-4 mx-auto">{projects.map(renderProject)}</Row>
+        <Row className="mt-3 mx-auto">{projects.map(renderProject)}</Row>
       </Container>
     </section>
   );

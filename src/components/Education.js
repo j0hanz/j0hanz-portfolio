@@ -91,7 +91,7 @@ const Education = () => {
   );
 
   return (
-    <section id="education" className="py-4">
+    <section id="education" className="py-5">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>
@@ -103,7 +103,7 @@ const Education = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Education</h2>
         </div>
-        <Row className="mt-4 mx-auto">{education.map(renderEducationItem)}</Row>
+        <Row className="mt-3 mx-auto">{education.map(renderEducationItem)}</Row>
         {/* Renders the credential modal if showModal is true */}
         <Credential show={showModal} handleClose={toggleModal} />
       </Container>

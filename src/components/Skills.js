@@ -39,11 +39,9 @@ const Skills = () => {
   /* Renders each skill as a card with an icon and label */
   const renderSkill = (skill, index) => (
     <Col md={4} sm={6} xs={6} key={index} className="text-center mb-4">
-      <Card
-        className={`shadow py-2 ${styles.skillCard} ${appStyles.cardBgColor}`}
-      >
+      <Card className={`shadow ${styles.skillCard} ${appStyles.cardBgColor}`}>
         <Card.Body>
-          <FontAwesomeIcon icon={skill.icon} size="3x" className="mb-3" />
+          <FontAwesomeIcon icon={skill.icon} size="3x" className="my-3" />
           <Card.Title className={styles.skillLabel}>{skill.label}</Card.Title>
         </Card.Body>
       </Card>
@@ -51,7 +49,7 @@ const Skills = () => {
   );
 
   return (
-    <section id="skills" className="py-4">
+    <section id="skills" className="py-5">
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>
@@ -63,7 +61,7 @@ const Skills = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Skills</h2>
         </div>
-        <Row className="mt-4 mx-auto">{skills.map(renderSkill)}</Row>
+        <Row className="mt-3 mx-auto">{skills.map(renderSkill)}</Row>
       </Container>
     </section>
   );

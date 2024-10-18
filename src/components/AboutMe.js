@@ -28,7 +28,7 @@ const AboutMe = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section id="about-me" className="py-4">
+    <section id="about-me" className="py-5">
       <Container>
         <div className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon
@@ -38,10 +38,10 @@ const AboutMe = () => {
           />
           <h2 className={appStyles.sectionTitle}>About Me</h2>
         </div>
-        <Row className="justify-content-center mt-4 mx-auto">
+        <Row className="justify-content-center mt-3 mx-auto">
           <Col md={8}>
             <Card
-              className={`p-4 shadow ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
+              className={`shadow ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
             >
               <Card.Body>
                 <Card.Text className={styles.cardText}>
