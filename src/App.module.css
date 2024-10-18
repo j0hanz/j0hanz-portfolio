@@ -61,6 +61,30 @@ code {
   padding-top: 2.5px;
 }
 
+.cardBgImage {
+  position: relative;
+}
+
+.cardBgImage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../src/assets/imgBg.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.cardBgImage > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Scrollbar Styles */
 *::-webkit-scrollbar {
   width: 7px;

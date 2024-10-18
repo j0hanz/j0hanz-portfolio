@@ -43,7 +43,9 @@ const WorkExperience = () => {
   /* Renders each work experience as a card with title, workplace, duration, and description */
   const renderExperience = (experience, index) => (
     <Col md={6} className="mb-4" key={index}>
-      <Card className={`h-100 ${styles.experienceCard}`}>
+      <Card
+        className={`h-100 ${styles.experienceCard} ${appStyles.cardBgImage}`}
+      >
         <Card.Body>
           <Card.Title className="d-flex align-items-center mb-3">
             <FontAwesomeIcon
