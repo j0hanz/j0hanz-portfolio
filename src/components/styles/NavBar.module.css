@@ -66,14 +66,13 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  --bs-navbar-color: #d8d9db;
-  --bs-navbar-toggler-focus-width: 0rem;
+  --bs-navbar-color: transparent;
   width: 40px;
   height: 35px;
 }
 
 .customToggle:hover {
-  border: 2px solid #007acc;
+  border: 2px groove #0077b5;
 }
 
 .customToggle:active {
@@ -81,7 +80,20 @@
 }
 
 .customToggle:focus {
-  border: 2px solid #007acc;
+  border: 2px groove #0077b5;
+}
+
+.navIconToggle {
+  color: #007acc;
+  font-size: 1.5rem;
+}
+
+.navIconToggle:hover {
+  transform: scale(1.025);
+}
+
+.navIconToggle:active {
+  transform: scale(0.975);
 }
 
 .navBarIcon {

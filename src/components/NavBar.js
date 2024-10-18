@@ -15,7 +15,7 @@ import {
   faProjectDiagram,
   faEnvelope,
   faGraduationCap,
-  faBars,
+  faBarsStaggered,
 } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
@@ -92,7 +92,10 @@ const NavBar = () => {
             onClick={() => setExpanded(!expanded)}
             className={styles.customToggle}
           >
-            <FontAwesomeIcon icon={faBars} />
+            <FontAwesomeIcon
+              icon={faBarsStaggered}
+              className={styles.navIconToggle}
+            />
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
             <Nav className="ms-auto my-2 my-lg-0">
