@@ -27,8 +27,8 @@ const Hero = () => {
   const handleModalClose = useCallback(() => setShowModal(false), []);
 
   return (
-    <section id="hero" className="text-center py-4">
-      <Container className={appStyles.imgDarkBg}>
+    <section id="hero" className={`text-center py-5 ${appStyles.imgDarkBg}`}>
+      <Container>
         <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col xs="auto">
             <img
@@ -43,7 +43,7 @@ const Hero = () => {
             >
               Junior Full-Stack Developer
             </p>
-            <div className="d-flex flex-column align-items-center mt-5 mb-4 mb-1">
+            <div className="d-flex flex-column align-items-center my-5">
               <Button
                 onClick={handleModalOpen}
                 variant="outline-dark"
