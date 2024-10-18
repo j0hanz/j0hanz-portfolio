@@ -21,7 +21,7 @@ import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
-import navLogo from '../assets/navLogo.png';
+import navLogo from '../assets/imgBg.png';
 
 const NavBar = () => {
   /* Custom hook to handle the navbar's expanded state and detect clicks outside */

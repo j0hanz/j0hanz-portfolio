@@ -15,6 +15,7 @@ import {
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import styles from './styles/Footer.module.css';
 import ModalCv from './ModalCv';
+import appStyles from '../App.module.css';
 
 const Footer = () => {
   /* State to manage the visibility of the CV modal */
@@ -28,7 +29,7 @@ const Footer = () => {
 
   return (
     <footer className={`py-3 ${styles.footerBg}`}>
-      <Container fluid className="px-2">
+      <Container fluid className={`px-2 ${appStyles.cardBgImage}`}>
         <Row className="mx-auto">
           <Col sm={6} className="mb-sm-0">
             <h5 className={styles.footerLinkHeader}>Contact Details</h5>

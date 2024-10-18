@@ -16,15 +16,15 @@ body {
   color: #333;
   background: linear-gradient(
     180deg,
-    #ffffff 0%,
-    #f7f7f7 12%,
-    #f0f0f0 24%,
-    #e8e8e8 36%,
-    #e0e0e0 48%,
-    #d8d8d8 60%,
-    #d0d0d0 72%,
-    #c8c8c8 84%,
-    #c0c0c0 100%
+    #f8f8f8 0%,
+    #f0f0f0 12%,
+    #e8e8e8 24%,
+    #e0e0e0 36%,
+    #d8d8d8 48%,
+    #d0d0d0 60%,
+    #c8c8c8 72%,
+    #c0c0c0 84%,
+    #b8b8b8 100%
   );
 }
 
@@ -72,11 +72,11 @@ code {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('../src/assets/navLogo.png');
+  background-image: url('../src/assets/imgBg.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.05;
+  opacity: 0.15;
   z-index: 0;
 }
 

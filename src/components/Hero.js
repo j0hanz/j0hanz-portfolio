@@ -5,6 +5,7 @@ import styles from './styles/Hero.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import ModalCv from './ModalCv';
+import appStyles from '../App.module.css';
 
 const Hero = () => {
   /* State to manage loading spinner for CV download */
@@ -27,7 +28,7 @@ const Hero = () => {
 
   return (
     <section id="hero" className="text-center py-4">
-      <Container>
+      <Container className={appStyles.cardBgImage}>
         <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col xs="auto">
             <img
