@@ -44,25 +44,54 @@
   width: 125px;
   max-width: 100%;
   height: auto;
+  border-radius: 25px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  color: #404040;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  cursor: pointer;
+}
+
+.githubButton {
+  background-image: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #3a3a3a 50%,
+    #2a2a2a 100%
+  );
+  color: #ffffff;
+}
+
+.demoButton {
+  background-image: linear-gradient(
+    180deg,
+    #0090ea 0%,
+    #007acc 50%,
+    #0979c4 100%
+  );
+  color: #ffffff;
+}
+
+.customButton:hover {
+  opacity: 0.9;
 }
 
 .customButton:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .buttonIcon {
-  margin-right: 0.2rem;
+  margin-right: 0.35rem;
+  width: auto;
+  color: #f0f0f0;
 }
 
 .buttonText {
-  margin-left: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  margin-left: 0;
+  color: #f0f0f0;
 }
