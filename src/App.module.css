@@ -93,6 +93,56 @@ code {
   z-index: 1;
 }
 
+.customButtonLight {
+  width: 180px;
+  height: 45px;
+  background-image: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fefefe 15%,
+    #fcfcfc 30%,
+    #fafafa 45%,
+    #f7f7f7 60%,
+    #f5f5f5 75%,
+    #f2f2f2 90%,
+    #f0f0f0 100%
+  );
+  border-radius: 25px;
+  transition:
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.8s ease;
+  color: #404040;
+  text-transform: uppercase;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.customButtonLight:hover {
+  transform: scale(1.01);
+}
+
+.customButtonLight:active {
+  transform: scale(0.99);
+}
+
+.buttonIcon {
+  margin-right: 10px;
+  color: #252424;
+  width: auto;
+}
+
+.buttonText {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-left: 0;
+  color: #252424;
+}
+
 /* Scrollbar Styles */
 *::-webkit-scrollbar {
   width: 7px;

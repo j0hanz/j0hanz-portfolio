@@ -48,7 +48,7 @@ const Hero = () => {
                 onClick={handleModalOpen}
                 variant="outline-dark"
                 disabled={loading}
-                className={`d-flex align-items-center mb-4 ${styles.customButton}`}
+                className={`d-flex align-items-center mb-4 ${appStyles.customButtonLight}`}
               >
                 {loading ? (
                   <Spinner
@@ -62,22 +62,22 @@ const Hero = () => {
                   <>
                     <FontAwesomeIcon
                       icon={faDownload}
-                      className={styles.buttonIcon}
+                      className={appStyles.buttonIcon}
                     />
-                    <span className={styles.buttonText}>Download CV</span>
+                    <span className={appStyles.buttonText}>Download CV</span>
                   </>
                 )}
               </Button>
               <Button
                 href="#contact"
                 variant="outline-dark"
-                className={`d-flex align-items-center ${styles.customButton}`}
+                className={`d-flex align-items-center ${appStyles.customButtonLight}`}
               >
                 <FontAwesomeIcon
                   icon={faEnvelope}
-                  className={styles.buttonIcon}
+                  className={appStyles.buttonIcon}
                 />
-                <span className={styles.buttonText}>Get in Touch</span>
+                <span className={appStyles.buttonText}>Get in Touch</span>
               </Button>
             </div>
           </Col>{' '}

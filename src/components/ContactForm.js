@@ -151,8 +151,8 @@ const ContactForm = () => {
 
               <div className="d-flex justify-content-center my-4">
                 <Button
-                  className={styles.customButton}
-                  variant="outline-success"
+                  variant="outline-dark"
+                  className={appStyles.customButtonLight}
                   type="submit"
                   disabled={isSending}
                 >
@@ -168,9 +168,9 @@ const ContactForm = () => {
                     <>
                       <FontAwesomeIcon
                         icon={faEnvelope}
-                        className={styles.buttonIcon}
+                        className={appStyles.buttonIcon}
                       />
-                      <span className={styles.buttonText}>Submit</span>
+                      <span className={appStyles.buttonText}>Submit</span>
                     </>
                   )}
                 </Button>

@@ -77,12 +77,15 @@ const Education = () => {
           )}
           {edu.hasCredential && (
             <Button
-              variant="outline-warning text-dark"
+              variant="outline-dark"
               onClick={toggleModal}
-              className={styles.credentialButton}
+              className={appStyles.customButtonLight}
             >
-              <FontAwesomeIcon icon={faAward} className={styles.buttonIcon} />
-              <span className={styles.buttonText}>Open Credential</span>
+              <FontAwesomeIcon
+                icon={faAward}
+                className={appStyles.buttonIcon}
+              />
+              <span className={appStyles.buttonText}>Credential</span>
             </Button>
           )}
         </Card.Body>
