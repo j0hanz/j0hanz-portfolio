@@ -84,7 +84,7 @@ code {
 
 .imgDarkBg::before {
   background-image: url('../src/assets/imgDarkBg.png');
-  opacity: 0.05;
+  opacity: 0.08;
 }
 
 .cardBgImage > *,
