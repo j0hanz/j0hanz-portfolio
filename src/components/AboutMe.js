@@ -9,11 +9,11 @@ import appStyles from '../App.module.css';
 const aboutMeItems = [
   {
     title: 'Full Stack Developer',
-    description: 'Finished a course on modern web tech.',
+    description: 'Finished a course as a Full Stack Developer.',
     hasCredential: true,
   },
   {
-    title: 'Tech Lover',
+    title: 'Tech Enthusiast',
     description: 'Eager to use coding skills in teams.',
     hasCredential: false,
   },

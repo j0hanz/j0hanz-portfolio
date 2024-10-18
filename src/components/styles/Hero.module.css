@@ -15,8 +15,8 @@
 }
 
 .developerTitle {
-  font-size: 1.25rem;
-  letter-spacing: 1px;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
@@ -32,7 +32,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 2.5px;
 }
 
