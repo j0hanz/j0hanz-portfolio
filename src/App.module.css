@@ -84,7 +84,7 @@ code {
 
 .imgDarkBg::before {
   background-image: url('../src/assets/imgDarkBg.png');
-  opacity: 0.08;
+  opacity: 0.09;
 }
 
 .cardBgImage > *,
@@ -108,9 +108,7 @@ code {
     #f0f0f0 100%
   );
   border-radius: 25px;
-  transition:
-    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.8s ease;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   color: #404040;
   text-transform: uppercase;
   max-width: 100%;
@@ -118,15 +116,14 @@ code {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .customButtonLight:hover {
-  transform: scale(1.01);
+  opacity: 0.8;
 }
 
 .customButtonLight:active {
-  transform: scale(0.99);
+  transform: scale(0.98);
 }
 
 .buttonIcon {
