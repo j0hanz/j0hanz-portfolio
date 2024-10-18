@@ -59,17 +59,13 @@ const AboutMe = () => {
                       {item.hasCredential && (
                         <div className="mt-2">
                           <Button
-                            variant="outline-dark"
                             onClick={() => setShowModal(true)}
-                            className={appStyles.customButtonLight}
+                            className={styles.btnCredential}
                           >
                             <FontAwesomeIcon
                               icon={faAward}
-                              className={appStyles.buttonIcon}
+                              className={styles.certificateIcon}
                             />
-                            <span className={appStyles.buttonText}>
-                              Credential
-                            </span>
                           </Button>
                         </div>
                       )}

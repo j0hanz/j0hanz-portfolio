@@ -36,6 +36,24 @@
   letter-spacing: 2.5px;
 }
 
+.downloadButton {
+  background-image: linear-gradient(
+    180deg,
+    #0090ea 0%,
+    #007acc 50%,
+    #0979c4 100%
+  );
+}
+
+.contactButton {
+  background-image: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #3a3a3a 50%,
+    #2a2a2a 100%
+  );
+}
+
 @media (max-width: 768px) {
   .heroImage {
     width: 175px;

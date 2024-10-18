@@ -152,7 +152,7 @@ const ContactForm = () => {
               <div className="d-flex justify-content-center my-4">
                 <Button
                   variant="outline-dark"
-                  className={appStyles.customButtonLight}
+                  className={styles.submitButton}
                   type="submit"
                   disabled={isSending}
                 >

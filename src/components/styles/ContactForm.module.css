@@ -5,3 +5,23 @@
   justify-content: center;
   align-items: center;
 }
+
+.submitButton {
+  width: 150px;
+  height: 40px;
+  border: none !important;
+  border-radius: 7.5px !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase;
+  max-width: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  background-image: linear-gradient(
+    180deg,
+    #4a7c59 0%,
+    #3a6b4a 50%,
+    #2a5a3b 100%
+  );
+}

@@ -44,9 +44,9 @@
   width: 125px;
   max-width: 100%;
   height: auto;
-  border-radius: 25px;
-  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-  color: #404040;
+  border: none !important;
+  border-radius: 7.5px !important;
+  transition: all 0.3s ease !important;
   text-transform: uppercase;
   display: flex;
   align-items: center;

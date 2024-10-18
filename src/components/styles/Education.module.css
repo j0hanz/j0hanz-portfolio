@@ -7,11 +7,6 @@
   border-radius: 10px;
 }
 
-.educationCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-}
-
 .educationCard .card-body {
   padding: 1.5rem;
 }
@@ -39,4 +34,28 @@
 .experienceIcon {
   width: 25px;
   margin-right: 0.5rem;
+}
+
+.btnCredential {
+  border: none !important;
+  border-radius: 7.5px !important;
+  transition: all 0.5s ease !important;
+  background-image: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #3a3a3a 50%,
+    #2a2a2a 100%
+  );
+}
+
+.btnCredential:hover {
+  filter: brightness(0.7);
+}
+
+.btnCredential:active {
+  transform: scale(0.98);
+}
+
+.certificateIcon {
+  color: #ffd700;
 }

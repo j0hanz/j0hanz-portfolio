@@ -46,12 +46,12 @@ const Hero = () => {
             <div className="d-flex flex-column align-items-center my-5">
               <Button
                 onClick={handleModalOpen}
-                variant="outline-dark"
                 disabled={loading}
-                className={`d-flex align-items-center my-4 ${appStyles.customButtonLight}`}
+                className={`d-flex align-items-center my-4 ${appStyles.customButtonLight} ${styles.downloadButton}`}
               >
                 {loading ? (
                   <Spinner
+                    variant="light"
                     as="span"
                     animation="border"
                     size="sm"
@@ -70,8 +70,7 @@ const Hero = () => {
               </Button>
               <Button
                 href="#contact"
-                variant="outline-dark"
-                className={`d-flex align-items-center ${appStyles.customButtonLight}`}
+                className={`d-flex align-items-center ${appStyles.customButtonLight} ${styles.contactButton}`}
               >
                 <FontAwesomeIcon
                   icon={faEnvelope}
