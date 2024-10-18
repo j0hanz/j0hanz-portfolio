@@ -129,17 +129,18 @@ const Portfolio = () => {
               variant="outline-dark"
               href={project.github}
               target="_blank"
-              className={styles.customButton}
+              className={`${styles.customButton} ${styles.githubButton}`}
             >
               <FontAwesomeIcon icon={faGithub} className={styles.buttonIcon} />
               <span className={styles.buttonText}>GitHub</span>
             </Button>
+
             {project.demo ? (
               <Button
                 variant="outline-primary"
                 href={project.demo}
                 target="_blank"
-                className={styles.customButton}
+                className={`${styles.customButton} ${styles.demoButton}`}
               >
                 <FontAwesomeIcon
                   icon={faRocket}
@@ -160,7 +161,7 @@ const Portfolio = () => {
                   <Button
                     variant="outline-secondary"
                     disabled
-                    className={styles.customButton}
+                    className={`${styles.customButton} ${styles.demoButton}`}
                   >
                     <FontAwesomeIcon
                       icon={faRocket}
