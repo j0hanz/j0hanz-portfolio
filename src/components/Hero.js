@@ -48,7 +48,7 @@ const Hero = () => {
                 onClick={handleModalOpen}
                 variant="outline-dark"
                 disabled={loading}
-                className={`d-flex align-items-center mb-4 ${appStyles.customButtonLight}`}
+                className={`d-flex align-items-center my-4 ${appStyles.customButtonLight}`}
               >
                 {loading ? (
                   <Spinner
