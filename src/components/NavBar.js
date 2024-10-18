@@ -94,6 +94,7 @@ const NavBar = () => {
           >
             <FontAwesomeIcon
               icon={faBarsStaggered}
+              size="lg"
               className={styles.navIconToggle}
             />
           </Navbar.Toggle>
