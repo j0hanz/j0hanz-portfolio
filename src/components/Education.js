@@ -45,7 +45,9 @@ const Education = () => {
   /* Renders each education item in a card with title, school, duration, and optional credential */
   const renderEducationItem = (edu, index) => (
     <Col md={6} className="mb-4" key={index}>
-      <Card className={`h-100 ${styles.educationCard}`}>
+      <Card
+        className={`h-100 ${styles.educationCard} ${appStyles.cardBgColor}`}
+      >
         <Card.Body>
           <Card.Title className="d-flex align-items-center mb-3">
             <FontAwesomeIcon
