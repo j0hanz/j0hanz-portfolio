@@ -78,13 +78,13 @@ code {
 }
 
 .cardBgImage::before {
-  background-image: url('../src/assets/imgBg.png');
-  opacity: 0.1;
+  background-image: url('../src/assets/imgBackground.png');
+  opacity: 0.09;
 }
 
 .imgDarkBg::before {
   background-image: url('../src/assets/imgDarkBg.png');
-  opacity: 0.09;
+  opacity: 0.1;
 }
 
 .cardBgImage > *,
