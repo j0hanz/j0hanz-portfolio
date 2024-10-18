@@ -22,6 +22,7 @@ import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
 import navLogo from '../assets/imgBg.png';
+import appStyles from '../App.module.css';
 
 const NavBar = () => {
   /* Custom hook to handle the navbar's expanded state and detect clicks outside */
@@ -95,7 +96,7 @@ const NavBar = () => {
             <FontAwesomeIcon icon={faBars} className={styles.navIconToggle} />
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
-            <Nav className="ms-auto my-2 my-lg-0">
+            <Nav className={`ms-auto my-2 my-lg-0 ${appStyles.cardBgImage}`}>
               {navLinks.map(({ id, icon, label }) => (
                 <Nav.Link
                   key={id}
