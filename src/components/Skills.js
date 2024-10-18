@@ -39,7 +39,9 @@ const Skills = () => {
   /* Renders each skill as a card with an icon and label */
   const renderSkill = (skill, index) => (
     <Col md={4} sm={6} xs={6} key={index} className="text-center mb-4">
-      <Card className={`shadow py-2 ${styles.skillCard}`}>
+      <Card
+        className={`shadow py-2 ${styles.skillCard} ${appStyles.cardBgColor}`}
+      >
         <Card.Body>
           <FontAwesomeIcon icon={skill.icon} size="3x" className="mb-3" />
           <Card.Title className={styles.skillLabel}>{skill.label}</Card.Title>

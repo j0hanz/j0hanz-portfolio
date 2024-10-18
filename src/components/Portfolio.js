@@ -112,7 +112,7 @@ const Portfolio = () => {
   const renderProject = (project, index) => (
     <Col md={6} key={index} className="mb-4">
       <Card className={`h-100 ${styles.projectCard}`}>
-        <Card.Body className="d-flex flex-column">
+        <Card.Body className={`d-flex flex-column ${appStyles.cardBgColor}`}>
           <Card.Title className="mb-3">{project.title}</Card.Title>
           <Card.Text className={styles.description}>
             {project.description}
