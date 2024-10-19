@@ -39,9 +39,9 @@ const AboutMe = () => {
           <h2 className={appStyles.sectionTitle}>About Me</h2>
         </div>
         <Row className="justify-content-center mt-3 mx-auto">
-          <Col md={8}>
+          <Col md={6} className="mb-4">
             <Card
-              className={`shadow ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
+              className={`shadow h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
             >
               <Card.Body>
                 <Card.Text className={styles.cardText}>
@@ -52,9 +52,17 @@ const AboutMe = () => {
                   I'm looking for opportunities that will help me grow and
                   develop.
                 </Card.Text>
-                <ul className="mt-4 list-unstyled">
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={6} className="mb-4">
+            <Card
+              className={`shadow ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
+            >
+              <Card.Body>
+                <ul className="list-unstyled">
                   {aboutMeItems.map((item, index) => (
-                    <li key={index} className="mb-4">
+                    <li key={index} className="mb-3">
                       <strong>{item.title}:</strong> {item.description}
                       {item.hasCredential && (
                         <div className="mt-2">
