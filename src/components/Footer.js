@@ -6,12 +6,7 @@ import {
   faGithub,
   faCreativeCommons,
 } from '@fortawesome/free-brands-svg-icons';
-import {
-  faEnvelope,
-  faPhone,
-  faCode,
-  faAward,
-} from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faCode, faAward } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import styles from './styles/Footer.module.css';
 import ModalCv from './ModalCv';
