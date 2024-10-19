@@ -61,7 +61,7 @@ const Skills = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Skills</h2>
         </div>
-        <Row className="mt-3 mx-auto">{skills.map(renderSkill)}</Row>
+        <Row className="mt-2 mx-auto">{skills.map(renderSkill)}</Row>
       </Container>
     </section>
   );

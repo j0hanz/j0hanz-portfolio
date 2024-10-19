@@ -29,7 +29,7 @@ const AboutMe = () => {
 
   return (
     <section id="about-me" className="py-5">
-      <Container>
+      <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon
             icon={faUser}
@@ -38,7 +38,7 @@ const AboutMe = () => {
           />
           <h2 className={appStyles.sectionTitle}>About Me</h2>
         </div>
-        <Row className="justify-content-center mt-3 mx-auto">
+        <Row className="justify-content-center mt-2 mx-auto">
           <Col md={6} className="mb-4">
             <Card
               className={`shadow h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}

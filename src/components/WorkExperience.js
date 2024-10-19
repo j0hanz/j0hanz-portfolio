@@ -89,7 +89,7 @@ const WorkExperience = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Work Experience</h2>
         </div>
-        <Row className="mt-3 mx-auto">{experiences.map(renderExperience)}</Row>
+        <Row className="mt-2 mx-auto">{experiences.map(renderExperience)}</Row>
       </Container>
     </section>
   );
