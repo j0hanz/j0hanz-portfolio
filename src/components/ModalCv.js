@@ -1,14 +1,11 @@
 import React, { useCallback } from 'react';
 import { Modal, Button, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFilePdf,
-  faChevronRight,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons'; // Import faTimes
+import { faFilePdf, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import faTimes
 import Cv_se from '../assets/Linus_Johansson_CV_sv.pdf';
 import Cv_en from '../assets/Linus_Johansson_CV_en.pdf';
 import styles from './styles/ModalCv.module.css';
+import appStyles from '../App.module.css';
 
 const ModalCv = ({ show, handleClose }) => {
   /* Handles the download of the selected CV by creating a link element and triggering the download */
@@ -39,21 +36,23 @@ const ModalCv = ({ show, handleClose }) => {
           <div className="d-flex flex-column align-items-center mt-4">
             <Button
               onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
-              variant="outline-light"
-              className={`mb-3 ${styles.customButton}`}
+              className={`mb-3 ${appStyles.customButtonLight} ${styles.cvButton}`}
             >
-              <FontAwesomeIcon icon={faFilePdf} className="me-1" />
-              Swedish CV
-              <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
+              <FontAwesomeIcon
+                icon={faFilePdf}
+                className={appStyles.buttonIcon}
+              />
+              <span className={appStyles.buttonText}>Swedish CV</span>
             </Button>
             <Button
               onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
-              variant="outline-light"
-              className={styles.customButton}
+              className={`${appStyles.customButtonLight} ${styles.cvButton}`}
             >
-              <FontAwesomeIcon icon={faFilePdf} className="me-1" />
-              English CV
-              <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
+              <FontAwesomeIcon
+                icon={faFilePdf}
+                className={appStyles.buttonIcon}
+              />
+              <span className={appStyles.buttonText}>English CV</span>
             </Button>
           </div>
         </Container>
