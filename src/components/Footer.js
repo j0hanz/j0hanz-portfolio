@@ -28,7 +28,7 @@ const Footer = () => {
   const handleModalClose = () => setShowModal(false);
 
   return (
-    <footer className={`py-3 ${styles.footerBg}`}>
+    <footer className={`py-4 ${styles.footerBg}`}>
       <Container fluid className={`px-2 ${appStyles.cardBgImage}`}>
         <Row className="mx-auto">
           <Col sm={6} className="mb-sm-0">
@@ -44,19 +44,6 @@ const Footer = () => {
                 className={`${styles.footerLink} text-decoration-none`}
               >
                 l.johansson93@outlook.com
-              </a>
-            </p>
-            <p>
-              <FontAwesomeIcon
-                icon={faPhone}
-                size="sm"
-                className={styles.footerIcon}
-              />
-              <a
-                href="tel:+46705292674"
-                className={`${styles.footerLink} text-decoration-none`}
-              >
-                +46 70 529 26 74
               </a>
             </p>
           </Col>
