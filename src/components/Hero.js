@@ -27,7 +27,10 @@ const Hero = () => {
   const handleModalClose = useCallback(() => setShowModal(false), []);
 
   return (
-    <section id="hero" className={`text-center py-5 ${appStyles.imgDarkBg}`}>
+    <section
+      id="hero"
+      className={`text-center ${appStyles.sectionPadding} ${appStyles.imgDarkBg}`}
+    >
       <Container className="px-0">
         <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col xs="auto">

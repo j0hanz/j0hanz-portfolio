@@ -71,7 +71,7 @@ const WorkExperience = () => {
   );
 
   return (
-    <section id="work-experience" className="py-5">
+    <section id="work-experience" className={appStyles.sectionPadding}>
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>

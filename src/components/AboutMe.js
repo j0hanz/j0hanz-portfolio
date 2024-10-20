@@ -28,7 +28,7 @@ const AboutMe = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <section id="about-me" className="py-5">
+    <section id="about-me" className={appStyles.sectionPadding}>
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <FontAwesomeIcon

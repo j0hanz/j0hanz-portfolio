@@ -178,7 +178,7 @@ const Portfolio = () => {
     </Col>
   );
   return (
-    <section id="portfolio" className="py-5">
+    <section id="portfolio" className={appStyles.sectionPadding}>
       <Container className="px-0">
         <div className="d-flex justify-content-center align-items-center">
           <div>
