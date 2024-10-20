@@ -206,21 +206,19 @@ code {
 }
 
 .mainContent {
-  width: 100%;
-  padding-top: 5rem;
+  width: 100% !important;
+  padding-top: 5rem !important;
 }
 
 .mainIcon {
-  color: #000000;
-  margin-right: 0.5rem;
-  vertical-align: auto;
+  color: #2a2a2a !important;
+  margin-right: 0.6rem !important;
 }
 
 .sectionTitle {
-  font-size: 2rem;
-  font-weight: 500;
-  color: #343a40;
-  padding-top: 2.5px;
+  font-size: 2rem !important;
+  font-weight: 500 !important;
+  color: #2a2a2a !important;
 }
 
 .titleIcon {
@@ -230,14 +228,14 @@ code {
 
 .buttonIcon {
   color: #f0f0f0 !important;
-  margin-right: 10px;
+  margin-right: 10px !important;
 }
 
 .buttonText {
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.8px;
-  color: #f0f0f0 !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.8px !important;
+  color: #f0f0f0 !important !important;
 }
 
 /* Responsive Adjustments */
