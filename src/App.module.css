@@ -242,6 +242,6 @@ code {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .mainContent {
-    padding-top: 3rem;
+    padding-top: 3rem !important;
   }
 }
