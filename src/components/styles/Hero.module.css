@@ -1,10 +1,10 @@
 .heroImage {
-  width: 225px;
-  height: 225px;
-  object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
+  width: 225px !important;
+  height: 225px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.3s ease !important;
 }
 
 .heroImage:hover {
@@ -14,9 +14,9 @@
 }
 
 .developerTitle {
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  font-size: 1.25rem !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
 }
 
 .gradientText {
@@ -28,11 +28,11 @@
     #4a7fc2 75%,
     #5678b0 100%
   );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  font-weight: 650;
-  letter-spacing: 2.5px;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-size: 2.5rem !important;
+  font-weight: 650 !important;
+  letter-spacing: 2.5px !important;
 }
 
 .downloadButton {
@@ -55,12 +55,17 @@
 
 @media (max-width: 768px) {
   .heroImage {
-    width: 175px;
-    height: 175px;
+    width: 175px !important;
+    height: 175px !important;
+  }
+
+  .gradientText {
+    font-size: 1.9rem !important;
+    letter-spacing: 1.5px !important;
   }
 
   .developerTitle {
-    font-size: 1rem;
-    letter-spacing: 0.25px;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
   }
 }

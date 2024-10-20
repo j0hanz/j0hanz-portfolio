@@ -20,11 +20,16 @@ const Hero = () => {
     setTimeout(() => {
       setLoading(false);
       setShowModal(true);
-    }, 1000); // Simulates a delay before showing the modal
+    }, 1000);
   }, []);
 
   /* Function to handle closing the modal */
   const handleModalClose = useCallback(() => setShowModal(false), []);
+
+  /* Common class names for buttons */
+  const buttonBaseClass = `d-flex align-items-center ${appStyles.customButtonLight}`;
+  const downloadButtonClass = `${buttonBaseClass} my-4 ${styles.downloadButton}`;
+  const contactButtonClass = `${buttonBaseClass} ${styles.contactButton}`;
 
   return (
     <section
@@ -50,7 +55,7 @@ const Hero = () => {
               <Button
                 onClick={handleModalOpen}
                 disabled={loading}
-                className={`d-flex align-items-center my-4 ${appStyles.customButtonLight} ${styles.downloadButton}`}
+                className={downloadButtonClass}
               >
                 {loading ? (
                   <Spinner
@@ -71,10 +76,7 @@ const Hero = () => {
                   </>
                 )}
               </Button>
-              <Button
-                href="#contact"
-                className={`d-flex align-items-center ${appStyles.customButtonLight} ${styles.contactButton}`}
-              >
+              <Button href="#contact" className={contactButtonClass}>
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   className={appStyles.buttonIcon}
@@ -82,7 +84,7 @@ const Hero = () => {
                 <span className={appStyles.buttonText}>Get in Touch</span>
               </Button>
             </div>
-          </Col>{' '}
+          </Col>
         </Row>
       </Container>
       <ModalCv show={showModal} handleClose={handleModalClose} />
