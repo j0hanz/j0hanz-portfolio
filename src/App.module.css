@@ -169,13 +169,13 @@ code {
 }
 
 .customBadge {
-  display: inline-block;
-  background-color: #f0f0f0;
-  color: #333;
-  padding: 0.3rem 0.3rem;
-  margin-right: 0.8rem;
-  border-radius: 0.25rem;
-  font-size: 0.7rem;
+  display: inline-block !important;
+  background-color: #f0f0f0 !important;
+  color: #333 !important;
+  padding: 0.3rem 0.2rem !important;
+  margin-right: 1rem !important;
+  border-radius: 0.25rem !important;
+  font-size: 0.75rem !important;
 }
 
 .customButtonLight {
