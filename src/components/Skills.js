@@ -50,7 +50,7 @@ const Skills = () => {
 
   return (
     <section id="skills" className={appStyles.sectionPadding}>
-      <Container className="px-0">
+      <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <div>
             <FontAwesomeIcon

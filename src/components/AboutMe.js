@@ -29,7 +29,7 @@ const AboutMe = () => {
 
   return (
     <section id="about-me" className={appStyles.sectionPadding}>
-      <Container className="px-0">
+      <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <FontAwesomeIcon
             icon={faUser}

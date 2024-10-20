@@ -179,7 +179,7 @@ const Portfolio = () => {
   );
   return (
     <section id="portfolio" className={appStyles.sectionPadding}>
-      <Container className="px-0">
+      <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <div>
             <FontAwesomeIcon
