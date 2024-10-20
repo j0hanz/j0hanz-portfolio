@@ -58,7 +58,6 @@ body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
   color: #333;
   background: linear-gradient(
     180deg,
@@ -99,6 +98,16 @@ code {
   padding-bottom: 3rem !important;
 }
 
+.sectionTitleContainer {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.cardText {
+  line-height: 1.8 !important;
+}
+
 .cardBgColor {
   background: linear-gradient(
     180deg,
@@ -119,6 +128,7 @@ code {
   );
   border: none !important;
   border-radius: 6.5px !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 .cardBgImage,
