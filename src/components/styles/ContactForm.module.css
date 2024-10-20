@@ -25,3 +25,11 @@
     #2a5a3b 100%
   );
 }
+
+.submitButton:hover {
+  filter: brightness(0.7);
+}
+
+.submitButton:active {
+  transform: scale(0.99);
+}

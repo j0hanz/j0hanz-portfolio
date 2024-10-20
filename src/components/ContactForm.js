@@ -151,13 +151,13 @@ const ContactForm = () => {
 
               <div className="d-flex justify-content-center my-4">
                 <Button
-                  variant="outline-dark"
                   className={styles.submitButton}
                   type="submit"
                   disabled={isSending}
                 >
                   {isSending ? (
                     <Spinner
+                      variant="light"
                       as="span"
                       animation="border"
                       size="sm"
