@@ -23,7 +23,7 @@ const Footer = () => {
   const handleModalClose = () => setShowModal(false);
 
   return (
-    <footer className={`pt-3 pb-1 ${styles.footerBg}`}>
+    <footer className={styles.footerBg}>
       <Container
         fluid
         className={`${appStyles.sectionContainer} ${appStyles.cardBgImage}`}
@@ -57,7 +57,7 @@ const Footer = () => {
             </p>
             <div className="mt-4 mt-sm-0 mx-auto">
               <Row className="justify-content-sm-end">
-                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
+                <Col xs="auto" className="mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -78,7 +78,7 @@ const Footer = () => {
                     </a>
                   </OverlayTrigger>
                 </Col>
-                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
+                <Col xs="auto" className="mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -99,7 +99,7 @@ const Footer = () => {
                     </a>
                   </OverlayTrigger>
                 </Col>
-                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
+                <Col xs="auto" className="mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
@@ -117,7 +117,7 @@ const Footer = () => {
                     </a>
                   </OverlayTrigger>
                 </Col>
-                <Col xs="auto" className="px-2 mb-2 mb-sm-0">
+                <Col xs="auto" className="mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
                     overlay={

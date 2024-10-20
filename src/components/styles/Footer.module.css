@@ -1,5 +1,7 @@
 .footerBg {
   background: linear-gradient(180deg, #1a1a1a 0%, #252525 50%, #1a1a1a 100%);
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
 }
 
 .footerIcon {
@@ -51,8 +53,11 @@
 }
 
 @media (max-width: 575px) {
+  .footerBg {
+    padding-bottom: 0.1rem !important;
+  }
   .footerIcon {
-    margin-right: 12px;
+    margin-right: 12px !important;
   }
   .iconSpacing {
     margin-right: 2.5rem !important;
@@ -61,7 +66,7 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 1rem;
+    padding-right: 0.8rem;
   }
 }
 
@@ -70,7 +75,7 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 0.9rem;
+    padding-right: 0.65rem;
   }
 }
 
@@ -79,7 +84,7 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 0.75rem;
+    padding-right: 0.5rem;
   }
 }
 
@@ -88,7 +93,7 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 0.5rem;
+    padding-right: 0.35rem;
   }
 }
 
@@ -97,6 +102,6 @@
   .githubIcon,
   .pdfIcon,
   .certificateIcon {
-    padding-right: 0.3rem;
+    padding-right: 0.2rem;
   }
 }
