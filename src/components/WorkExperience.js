@@ -62,7 +62,7 @@ const WorkExperience = () => {
             <FontAwesomeIcon size="sm" icon={faCalendarAlt} />
             <span className={appStyles.customBadge}>{experience.duration}</span>
           </Card.Subtitle>
-          <Card.Text className={styles.description}>
+          <Card.Text className={appStyles.cardText}>
             {experience.description}
           </Card.Text>
         </Card.Body>
@@ -73,7 +73,7 @@ const WorkExperience = () => {
   return (
     <section id="work-experience" className={appStyles.sectionPadding}>
       <Container className="px-0">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className={appStyles.sectionTitleContainer}>
           <div>
             <FontAwesomeIcon
               icon={faBriefcase}

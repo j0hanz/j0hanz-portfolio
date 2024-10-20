@@ -111,10 +111,10 @@ const Portfolio = () => {
   /* Renders each project card with its title, description, and buttons for GitHub and Live Demo */
   const renderProject = (project, index) => (
     <Col md={6} key={index} className="mb-4">
-      <Card className={`h-100 ${styles.projectCard} ${appStyles.cardBgColor}`}>
+      <Card className={`h-100 ${appStyles.cardBgColor}`}>
         <Card.Body className={`d-flex flex-column ${appStyles.cardBody}`}>
           <Card.Title className="mb-3">{project.title}</Card.Title>
-          <Card.Text className={styles.description}>
+          <Card.Text className={appStyles.cardText}>
             {project.description}
           </Card.Text>
           <div className={styles.technologies}>
@@ -180,7 +180,7 @@ const Portfolio = () => {
   return (
     <section id="portfolio" className={appStyles.sectionPadding}>
       <Container className="px-0">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className={appStyles.sectionTitleContainer}>
           <div>
             <FontAwesomeIcon
               icon={faProjectDiagram}

@@ -57,7 +57,7 @@ const Education = () => {
             <span className={appStyles.customBadge}>{edu.duration}</span>
           </Card.Subtitle>
           {edu.description && (
-            <Card.Text className={styles.description}>
+            <Card.Text className={appStyles.cardText}>
               {edu.description.map((desc, i) => (
                 <p key={i}>{desc}</p>
               ))}
@@ -79,7 +79,7 @@ const Education = () => {
   return (
     <section id="education" className={appStyles.sectionPadding}>
       <Container className="px-0">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className={appStyles.sectionTitleContainer}>
           <div>
             <FontAwesomeIcon
               icon={faGraduationCap}

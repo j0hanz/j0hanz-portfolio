@@ -1,38 +1,12 @@
 .educationCard {
-  border: none;
   transition:
     transform 0.3s ease,
-    box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.educationCard .card-body {
-  padding: 1.1rem;
+    box-shadow 0.3s ease !important;
 }
 
 .educationCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.educationCard .card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #343a40;
-}
-
-.educationCard .card-subtitle {
-  font-size: 1rem;
-  color: #6c757d;
-}
-
-.educationCard .card-text {
-  font-size: 0.95rem;
-  color: #495057;
-}
-
-.description {
-  line-height: 1.6;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
 .experienceIcon {

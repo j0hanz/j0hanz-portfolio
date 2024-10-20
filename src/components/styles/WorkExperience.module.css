@@ -1,29 +1,12 @@
 .experienceCard {
   transition:
     transform 0.3s ease,
-    box-shadow 0.3s ease;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow 0.3s ease !important;
 }
 
 .experienceCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-.experienceCard .card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #343a40;
-}
-
-.experienceCard .card-subtitle {
-  font-size: 1rem;
-  color: #6c757d;
-}
-
-.experienceCard .card-text {
-  font-size: 0.95rem;
-  color: #333;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
 .customBadge {
@@ -34,10 +17,6 @@
   margin-right: 0.8rem;
   border-radius: 0.25rem;
   font-size: 0.7rem;
-}
-
-.description {
-  line-height: 1.6;
 }
 
 #work-experience {

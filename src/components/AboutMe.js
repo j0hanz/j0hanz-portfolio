@@ -30,7 +30,7 @@ const AboutMe = () => {
   return (
     <section id="about-me" className={appStyles.sectionPadding}>
       <Container className="px-0">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className={appStyles.sectionTitleContainer}>
           <FontAwesomeIcon
             icon={faUser}
             size="2x"
@@ -44,7 +44,7 @@ const AboutMe = () => {
               className={`h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
             >
               <Card.Body className={appStyles.cardBody}>
-                <Card.Text className={styles.cardText}>
+                <Card.Text className={appStyles.cardText}>
                   I'm a tech enthusiast who recently completed a Full-Stack
                   Developer program, boosting my web development skills. I enjoy
                   using my coding experience to build creative solutions, and
@@ -56,9 +56,7 @@ const AboutMe = () => {
             </Card>
           </Col>
           <Col md={6} className="mb-4">
-            <Card
-              className={`shadow ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
-            >
+            <Card className={`${styles.aboutMeCard} ${appStyles.cardBgColor}`}>
               <Card.Body>
                 <ul className="list-unstyled">
                   {aboutMeItems.map((item, index) => (

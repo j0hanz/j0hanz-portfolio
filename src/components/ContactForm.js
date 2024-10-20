@@ -75,7 +75,7 @@ const ContactForm = () => {
   return (
     <section id="contact" className={appStyles.sectionPadding}>
       <Container className="px-0">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className={appStyles.sectionTitleContainer}>
           <div>
             <FontAwesomeIcon
               icon={faEnvelope}
