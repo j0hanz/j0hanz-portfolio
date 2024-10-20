@@ -42,7 +42,7 @@ const Hero = () => {
             <h1 className={styles.gradientText}>Linus Johansson</h1>
             <hr className="my-2" />
             <p
-              className={`text-body-secondary fw-semibold  ${styles.developerTitle}`}
+              className={`text-body-secondary fw-semibold ${styles.developerTitle}`}
             >
               Junior Full-Stack Developer
             </p>
