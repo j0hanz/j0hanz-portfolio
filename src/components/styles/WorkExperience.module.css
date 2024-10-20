@@ -1,21 +1,13 @@
 .experienceCard {
-  border: none;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.experienceCard .card-body {
-  padding: 1.1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .experienceCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-}
-
-.experienceCard .card-body {
-  padding: 1.5rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .experienceCard .card-title {
@@ -34,6 +26,16 @@
   color: #333;
 }
 
+.customBadge {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 0.2rem 0.5rem;
+  margin-right: 0.8rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+}
+
 .description {
   line-height: 1.6;
 }
@@ -43,7 +45,7 @@
   padding-bottom: 2rem;
 }
 
-.experienceIcon {
-  width: 25px;
+.titleIcon {
   margin-right: 0.5rem;
+  font-size: 1rem;
 }

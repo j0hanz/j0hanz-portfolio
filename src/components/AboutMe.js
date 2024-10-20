@@ -41,9 +41,9 @@ const AboutMe = () => {
         <Row className="justify-content-center mt-2 mx-auto">
           <Col md={6} className="mb-4">
             <Card
-              className={`shadow h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
+              className={`h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
             >
-              <Card.Body>
+              <Card.Body className={appStyles.cardBody}>
                 <Card.Text className={styles.cardText}>
                   I'm a tech enthusiast who recently completed a Full-Stack
                   Developer program, boosting my web development skills. I enjoy

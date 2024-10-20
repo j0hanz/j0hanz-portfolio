@@ -40,7 +40,7 @@ const Skills = () => {
   const renderSkill = (skill, index) => (
     <Col md={4} sm={6} xs={6} key={index} className="text-center mb-4">
       <Card className={`shadow ${styles.skillCard} ${appStyles.cardBgColor}`}>
-        <Card.Body>
+        <Card.Body className={appStyles.cardBody}>
           <FontAwesomeIcon icon={skill.icon} size="3x" className="my-3" />
           <Card.Title className={styles.skillLabel}>{skill.label}</Card.Title>
         </Card.Body>

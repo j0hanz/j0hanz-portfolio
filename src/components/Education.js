@@ -15,14 +15,8 @@ const education = [
   {
     title: 'Diploma in Full Stack Software Development',
     school: 'Code Institute',
-    duration: 'Feb 2024 - July 2024',
+    duration: 'Feb 2024 - Jul 2024',
     hasCredential: true,
-  },
-  {
-    title: 'Business and Administration Program',
-    school: 'Frans Möller Gymnasium',
-    duration: '2010 - 2013',
-    hasCredential: false,
   },
   {
     title: 'Leadership Training',
@@ -48,34 +42,26 @@ const Education = () => {
       <Card
         className={`h-100 ${styles.educationCard} ${appStyles.cardBgColor}`}
       >
-        <Card.Body>
-          <Card.Title className="d-flex align-items-center mb-3">
+        <Card.Body className={appStyles.cardBody}>
+          <Card.Title className="d-flex align-items-center mb-2">
             <FontAwesomeIcon
               icon={faGraduationCap}
-              className={styles.experienceIcon}
+              className={appStyles.titleIcon}
             />
             <span>{edu.title}</span>
           </Card.Title>
-          <Card.Subtitle className="mb-1 text-muted d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faSchool}
-              className={styles.experienceIcon}
-            />
-            <span>{edu.school}</span>
+          <Card.Subtitle className="mb-3 text-muted d-flex align-items-center">
+            <FontAwesomeIcon size="sm" icon={faSchool} />
+            <span className={appStyles.customBadge}>{edu.school}</span>
+            <FontAwesomeIcon size="sm" icon={faCalendarAlt} />
+            <span className={appStyles.customBadge}>{edu.duration}</span>
           </Card.Subtitle>
-          <div className="mb-3 text-muted d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className={styles.experienceIcon}
-            />
-            <span>{edu.duration}</span>
-          </div>
           {edu.description && (
-            <div className={styles.description}>
+            <Card.Text className={styles.description}>
               {edu.description.map((desc, i) => (
                 <p key={i}>{desc}</p>
               ))}
-            </div>
+            </Card.Text>
           )}
           {edu.hasCredential && (
             <Button onClick={toggleModal} className={styles.btnCredential}>

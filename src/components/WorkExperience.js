@@ -13,14 +13,14 @@ const experiences = [
   {
     title: 'Assistant Store Manager',
     workplace: 'Webhallen',
-    duration: 'March 2022 - February 2024',
+    duration: 'Mar 2022 - Feb 2024',
     description:
       'Managed store operations and staff in the absence of the store manager, trained new employees, and handled monthly reports and various administrative tasks.',
   },
   {
     title: 'Interim Store Manager & Complaints Manager',
     workplace: 'Webhallen',
-    duration: 'January 2016 - March 2022',
+    duration: 'Jan 2016 - Mar 2022',
     description:
       'Supervised staff, created work schedules, resolved customer complaints, coordinated with suppliers, and reported sales statistics, ensuring smooth overall store operations.',
   },
@@ -46,28 +46,22 @@ const WorkExperience = () => {
       <Card
         className={`h-100 ${styles.experienceCard} ${appStyles.cardBgColor}`}
       >
-        <Card.Body>
-          <Card.Title className="d-flex align-items-center mb-3">
+        <Card.Body className={appStyles.cardBody}>
+          <Card.Title className="d-flex align-items-center mb-2">
             <FontAwesomeIcon
               icon={faBriefcase}
-              className={styles.experienceIcon}
+              className={appStyles.titleIcon}
             />
             <span>{experience.title}</span>
           </Card.Title>
-          <Card.Subtitle className="mb-1 text-muted d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faBuilding}
-              className={styles.experienceIcon}
-            />
-            <span>{experience.workplace}</span>
+          <Card.Subtitle className="mb-3 text-muted d-flex align-items-center">
+            <FontAwesomeIcon size="sm" icon={faBuilding} />
+            <span className={appStyles.customBadge}>
+              {experience.workplace}
+            </span>
+            <FontAwesomeIcon size="sm" icon={faCalendarAlt} />
+            <span className={appStyles.customBadge}>{experience.duration}</span>
           </Card.Subtitle>
-          <Card.Text className="mb-3 text-muted d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className={styles.experienceIcon}
-            />
-            <span>{experience.duration}</span>
-          </Card.Text>
           <Card.Text className={styles.description}>
             {experience.description}
           </Card.Text>
