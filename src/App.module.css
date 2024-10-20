@@ -8,6 +8,52 @@
   box-sizing: border-box;
 }
 
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #012b47 0%,
+    #00487a 25%,
+    #006bb3 50%,
+    #4a7fc2 75%,
+    #5678b0 100%
+  );
+  transition: all 0.3s ease;
+  border-radius: 3px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #f8f8f8 0%,
+    #f6f6f6 8%,
+    #f4f4f4 16%,
+    #f2f2f2 24%,
+    #f0f0f0 32%,
+    #eeeeee 40%,
+    #ececec 48%,
+    #eaeaea 56%,
+    #e8e8e8 64%,
+    #e6e6e6 72%,
+    #e4e4e4 80%,
+    #e2e2e2 88%,
+    #e0e0e0 96%,
+    #dedede 100%
+  );
+  box-shadow:
+    inset 0 0 5px rgba(0, 0, 0, 0.3),
+    0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+*::-webkit-scrollbar-track {
+  background: #2c2c2c;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -46,44 +92,6 @@ code {
   min-height: 100vh;
   overflow-x: hidden;
   margin: 0;
-}
-
-.mainContent {
-  width: 100%;
-  padding-top: 5rem;
-}
-
-.mainIcon {
-  color: #000000;
-  margin-right: 0.5rem;
-  vertical-align: auto;
-}
-
-.sectionTitle {
-  font-size: 2rem;
-  font-weight: 500;
-  color: #343a40;
-  padding-top: 2.5px;
-}
-
-.cardBody {
-  padding: 0.9rem !important;
-  border: none !important;
-}
-
-.titleIcon {
-  margin-right: 0.5rem !important;
-  font-size: 1rem !important;
-}
-
-.customBadge {
-  display: inline-block;
-  background-color: #f0f0f0;
-  color: #333;
-  padding: 0.3rem 0.3rem;
-  margin-right: 0.8rem;
-  border-radius: 0.25rem;
-  font-size: 0.7rem;
 }
 
 .cardBgColor {
@@ -129,15 +137,25 @@ code {
   opacity: 0.09;
 }
 
-.imgDarkBg::before {
-  background-image: url('../src/assets/imgDarkBg.png');
-  opacity: 0.1;
-}
-
 .cardBgImage > *,
 .imgDarkBg > * {
   position: relative;
   z-index: 1;
+}
+
+.cardBody {
+  padding: 0.9rem !important;
+  border: none !important;
+}
+
+.customBadge {
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 0.3rem 0.3rem;
+  margin-right: 0.8rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
 }
 
 .customButtonLight {
@@ -154,12 +172,40 @@ code {
   cursor: pointer;
 }
 
+.customButtonLight:active {
+  transform: scale(0.99);
+}
+
 .customButtonLight:hover {
   filter: brightness(0.7);
 }
 
-.customButtonLight:active {
-  transform: scale(0.99);
+.imgDarkBg::before {
+  background-image: url('../src/assets/imgDarkBg.png');
+  opacity: 0.1;
+}
+
+.mainContent {
+  width: 100%;
+  padding-top: 5rem;
+}
+
+.mainIcon {
+  color: #000000;
+  margin-right: 0.5rem;
+  vertical-align: auto;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #343a40;
+  padding-top: 2.5px;
+}
+
+.titleIcon {
+  margin-right: 0.5rem !important;
+  font-size: 1rem !important;
 }
 
 .buttonIcon {
@@ -172,29 +218,6 @@ code {
   font-weight: 500;
   letter-spacing: 0.8px;
   color: #f0f0f0 !important;
-}
-
-/* Scrollbar Styles */
-*::-webkit-scrollbar {
-  width: 7px;
-}
-
-*::-webkit-scrollbar-track {
-  background: #2c2c2c;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-*::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #b0c4de, #d3d3d3, #a9a9a9);
-  border-radius: 5px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: #7a7a7a;
-  box-shadow:
-    inset 0 0 5px rgba(0, 0, 0, 0.3),
-    0 0 5px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive Adjustments */
