@@ -23,8 +23,11 @@ const Footer = () => {
   const handleModalClose = () => setShowModal(false);
 
   return (
-    <footer className={`py-4 ${styles.footerBg} ${appStyles.cardBgImage}`}>
-      <Container fluid className={appStyles.sectionContainer}>
+    <footer className={`pt-3 pb-1 ${styles.footerBg}`}>
+      <Container
+        fluid
+        className={`${appStyles.sectionContainer} ${appStyles.cardBgImage}`}
+      >
         <Row className="mx-auto">
           <Col sm={6} className="mb-sm-0">
             <h5 className={styles.footerLinkHeader}>Contact Details</h5>
