@@ -10,6 +10,11 @@
   padding: 1.2rem;
 }
 
+.educationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
 .educationCard .card-title {
   font-size: 1.25rem;
   font-weight: 600;
