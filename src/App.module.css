@@ -113,7 +113,7 @@ code {
     #dedede 100%
   );
   border: none !important;
-  border-radius: 7.5px !important;
+  border-radius: 6.5px !important;
 }
 
 .cardBgImage,
@@ -144,7 +144,7 @@ code {
 }
 
 .cardBody {
-  padding: 0.9rem !important;
+  padding: 0.75rem !important;
   border: none !important;
 }
 
