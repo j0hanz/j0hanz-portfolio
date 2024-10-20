@@ -51,10 +51,14 @@ const Education = () => {
             <span>{edu.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 text-muted d-flex align-items-center">
-            <FontAwesomeIcon size="sm" icon={faSchool} />
-            <span className={appStyles.customBadge}>{edu.school}</span>
-            <FontAwesomeIcon size="sm" icon={faCalendarAlt} />
-            <span className={appStyles.customBadge}>{edu.duration}</span>
+            <span className={appStyles.customBadge}>
+              <FontAwesomeIcon className="me-2" icon={faSchool} />
+              {edu.school}
+            </span>
+            <span className={appStyles.customBadge}>
+              <FontAwesomeIcon className="me-2" icon={faCalendarAlt} />
+              {edu.duration}
+            </span>
           </Card.Subtitle>
           {edu.description && (
             <Card.Text className={appStyles.cardText}>

@@ -55,12 +55,14 @@ const WorkExperience = () => {
             <span>{experience.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 text-muted d-flex align-items-center">
-            <FontAwesomeIcon size="sm" icon={faBuilding} />
             <span className={appStyles.customBadge}>
+              <FontAwesomeIcon className="me-2" icon={faBuilding} />
               {experience.workplace}
             </span>
-            <FontAwesomeIcon size="sm" icon={faCalendarAlt} />
-            <span className={appStyles.customBadge}>{experience.duration}</span>
+            <span className={appStyles.customBadge}>
+              <FontAwesomeIcon className="me-2" icon={faCalendarAlt} />
+              {experience.duration}
+            </span>
           </Card.Subtitle>
           <Card.Text className={appStyles.cardText}>
             {experience.description}
