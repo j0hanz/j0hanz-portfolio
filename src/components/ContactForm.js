@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Row,
@@ -19,13 +18,14 @@ import {
   faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from './EmailHandler';
+import SuccessMessage from './SuccessMessage';
 import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
 
 const ContactForm = () => {
-  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -67,10 +67,14 @@ const ContactForm = () => {
     setIsSending(false);
     if (success) {
       setFormData({ name: '', email: '', company: '', url: '', message: '' });
-      navigate('/success');
+      setShowSuccessModal(true);
     } else {
       console.error('Email sending failed.');
     }
+  };
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
   };
 
   return (
@@ -228,6 +232,10 @@ const ContactForm = () => {
             {validated && (
               <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
             )}
+            <SuccessMessage
+              show={showSuccessModal}
+              onClose={handleCloseSuccessModal}
+            />
           </Col>
         </Row>
       </Container>
