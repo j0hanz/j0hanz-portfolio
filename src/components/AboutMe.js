@@ -38,7 +38,7 @@ const AboutMe = () => {
           />
           <h2 className={appStyles.sectionTitle}>About Me</h2>
         </div>
-        <Row className="d-flex justify-content-center align-items-center mx-auto">
+        <Row className="mx-auto">
           <Col md={6} className="mb-4">
             <Card
               className={`h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}

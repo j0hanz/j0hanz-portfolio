@@ -89,9 +89,7 @@ const WorkExperience = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Work Experience</h2>
         </div>
-        <Row className="d-flex justify-content-center align-items-center mx-auto">
-          {experiences.map(renderExperience)}
-        </Row>
+        <Row className="mx-auto">{experiences.map(renderExperience)}</Row>
       </Container>
     </section>
   );

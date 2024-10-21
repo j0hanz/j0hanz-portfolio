@@ -14,7 +14,7 @@
   display: block !important;
   background-color: #f0f0f0 !important;
   color: #2c2c2c !important;
-  padding: 0.2rem 0.4rem !important;
+  padding: 0.2rem 0.3rem !important;
   border-bottom-left-radius: 6.5px !important;
   border-bottom-right-radius: 6.5px !important;
   font-size: 0.7rem !important;
@@ -26,12 +26,14 @@
   justify-content: center !important;
   align-items: baseline !important;
   padding-top: 0.75rem !important;
+  padding-left: 0.15rem !important;
+  padding-right: 0 !important;
   border: none !important;
-  width: 1rem !important;
+  width: 1.2rem !important;
 }
 
 .inputGroupControl {
-  padding: 0.4rem !important;
+  padding-left: 0.5rem !important;
   color: #2c2c2c !important;
   font-weight: 500 !important;
 }
