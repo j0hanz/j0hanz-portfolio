@@ -15,7 +15,7 @@
 .customButton {
   width: 125px !important;
   max-width: 100% !important;
-  height: auto;
+  height: auto !important;
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.3s ease !important;
