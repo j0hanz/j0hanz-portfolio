@@ -124,20 +124,20 @@ code {
 .cardBgColor {
   background: linear-gradient(
     180deg,
-    #f8f8f8 0%,
-    #f6f6f6 8%,
-    #f4f4f4 16%,
-    #f2f2f2 24%,
-    #f0f0f0 32%,
-    #eeeeee 40%,
-    #ececec 48%,
-    #eaeaea 56%,
-    #e8e8e8 64%,
-    #e6e6e6 72%,
-    #e4e4e4 80%,
-    #e2e2e2 88%,
-    #e0e0e0 96%,
-    #dedede 100%
+    #e8e8e8 0%,
+    #e6e6e6 8%,
+    #e4e4e4 16%,
+    #e2e2e2 24%,
+    #e0e0e0 32%,
+    #dedede 40%,
+    #dcdcdc 48%,
+    #dadada 56%,
+    #d8d8d8 64%,
+    #d6d6d6 72%,
+    #d4d4d4 80%,
+    #d2d2d2 88%,
+    #d0d0d0 96%,
+    #c8c8c8 100%
   );
   border: none !important;
   border-radius: 7.5px !important;
