@@ -7,12 +7,13 @@
   border-bottom: 2px solid #f0f0f0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+  transition: border-color 0.3s ease !important;
 }
 
 .errorMessage {
   display: block !important;
   background-color: #f0f0f0 !important;
-  color: #333 !important;
+  color: #2c2c2c !important;
   padding: 0.2rem 0.4rem !important;
   border-bottom-left-radius: 6.5px !important;
   border-bottom-right-radius: 6.5px !important;
@@ -30,6 +31,12 @@
 
 .inputGroupControl {
   padding: 0.5rem !important;
+  color: #2c2c2c !important;
+  font-weight: 500 !important;
+}
+
+.inputGroupControl::placeholder {
+  color: #999 !important;
 }
 
 .inputGroupControl:focus {
