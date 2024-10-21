@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 
 const EmailHandler = ({ formData, onEmailSent }) => {
-  const { name, email, message } = formData;
+  const { name, email, company, url, message } = formData;
   const form = useRef(null);
 
   /* useEffect hook to send the email when formData changes */
@@ -30,6 +30,8 @@ const EmailHandler = ({ formData, onEmailSent }) => {
       <input type="hidden" name="to_email" value="your_email@example.com" />
       <input type="hidden" name="from_name" value={name} />
       <input type="hidden" name="from_email" value={email} />
+      <input type="hidden" name="company" value={company} />
+      <input type="hidden" name="url" value={url} />
       <input type="hidden" name="message" value={message} />
     </form>
   );

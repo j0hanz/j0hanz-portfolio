@@ -14,6 +14,8 @@ import {
   faEnvelope,
   faUser,
   faComment,
+  faBuilding,
+  faLink,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from './EmailHandler';
 import styles from './styles/ContactForm.module.css';
@@ -26,6 +28,8 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    company: '',
+    url: '',
     message: '',
   });
   const [errors, setErrors] = useState({});
@@ -125,6 +129,36 @@ const ContactForm = () => {
                   <Form.Control.Feedback type="invalid">
                     {errors.email}
                   </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group controlId="formCompany" className="my-3">
+                <InputGroup>
+                  <InputGroup.Text className={styles.inputGroupIcon}>
+                    <FontAwesomeIcon size="sm" icon={faBuilding} />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="text"
+                    name="company"
+                    placeholder="Enter your company name..."
+                    value={formData.company}
+                    onChange={handleChange}
+                  />
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group controlId="formUrl" className="my-3">
+                <InputGroup>
+                  <InputGroup.Text className={styles.inputGroupIcon}>
+                    <FontAwesomeIcon size="sm" icon={faLink} />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="url"
+                    name="url"
+                    placeholder="Enter your website URL..."
+                    value={formData.url}
+                    onChange={handleChange}
+                  />
                 </InputGroup>
               </Form.Group>
 

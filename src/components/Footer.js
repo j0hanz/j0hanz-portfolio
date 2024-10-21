@@ -61,7 +61,12 @@ const Footer = () => {
                   <OverlayTrigger
                     placement="top"
                     overlay={
-                      <Tooltip id="tooltip-linkedin">LinkedIn Profile</Tooltip>
+                      <Tooltip
+                        id="tooltip-linkedin"
+                        className={appStyles.customTooltip}
+                      >
+                        LinkedIn Profile
+                      </Tooltip>
                     }
                   >
                     <a
@@ -82,7 +87,12 @@ const Footer = () => {
                   <OverlayTrigger
                     placement="top"
                     overlay={
-                      <Tooltip id="tooltip-github">GitHub Profile</Tooltip>
+                      <Tooltip
+                        id="tooltip-github"
+                        className={appStyles.customTooltip}
+                      >
+                        GitHub Profile
+                      </Tooltip>
                     }
                   >
                     <a
@@ -102,7 +112,14 @@ const Footer = () => {
                 <Col xs="auto" className="mb-2 mb-sm-0">
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip id="tooltip-pdf">Download CV</Tooltip>}
+                    overlay={
+                      <Tooltip
+                        id="tooltip-pdf"
+                        className={appStyles.customTooltip}
+                      >
+                        Download CV
+                      </Tooltip>
+                    }
                   >
                     <a
                       onClick={handleModalOpen}
@@ -121,7 +138,12 @@ const Footer = () => {
                   <OverlayTrigger
                     placement="top"
                     overlay={
-                      <Tooltip id="tooltip-certificate">Certificate</Tooltip>
+                      <Tooltip
+                        id="tooltip-certificate"
+                        className={appStyles.customTooltip}
+                      >
+                        Certificate
+                      </Tooltip>
                     }
                   >
                     <a
@@ -141,7 +163,14 @@ const Footer = () => {
                 <Col xs="auto" className="px-2">
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip id="tooltip-code">Source Code</Tooltip>}
+                    overlay={
+                      <Tooltip
+                        id="tooltip-code"
+                        className={appStyles.customTooltip}
+                      >
+                        Source Code
+                      </Tooltip>
+                    }
                   >
                     <a
                       href="https://github.com/j0hanz/j0hanz-portfolio"

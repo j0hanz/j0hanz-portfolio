@@ -119,7 +119,14 @@ const NavBar = () => {
                   <OverlayTrigger
                     key={id}
                     placement="bottom"
-                    overlay={<Tooltip id={`tooltip-${id}`}>{tooltip}</Tooltip>}
+                    overlay={
+                      <Tooltip
+                        id={`tooltip-${id}`}
+                        className={appStyles.customTooltip}
+                      >
+                        {tooltip}
+                      </Tooltip>
+                    }
                   >
                     <Nav.Link
                       href={href}
