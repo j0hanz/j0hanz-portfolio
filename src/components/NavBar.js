@@ -15,7 +15,8 @@ import {
   faProjectDiagram,
   faEnvelope,
   faGraduationCap,
-  faBars,
+  faBarsStaggered,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
@@ -26,7 +27,11 @@ import appStyles from '../App.module.css';
 
 const NavBar = () => {
   /* Custom hook to handle the navbar's expanded state and detect clicks outside */
-  const { expanded, setExpanded, ref } = useClickOutsideToggle();
+  const { expanded, setExpanded, ref } = useClickOutsideToggle(() => {
+    setIsMenuOpen(false);
+  });
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   /* State to manage the visibility of the CV modal */
   const [showModal, setShowModal] = useState(false);
@@ -90,10 +95,16 @@ const NavBar = () => {
           </Nav.Link>
           <Navbar.Toggle
             aria-controls="navbar-nav"
-            onClick={() => setExpanded(!expanded)}
+            onClick={() => {
+              setExpanded(!expanded);
+              setIsMenuOpen(!isMenuOpen);
+            }}
             className={styles.customToggle}
           >
-            <FontAwesomeIcon icon={faBars} className={styles.navIconToggle} />
+            <FontAwesomeIcon
+              icon={isMenuOpen ? faXmark : faBarsStaggered}
+              className={`${styles.navIconToggle} ${isMenuOpen ? styles.open : ''}`}
+            />
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
             <Nav className={`ms-auto my-2 my-lg-0 ${appStyles.cardBgImage}`}>
