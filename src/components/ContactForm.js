@@ -98,7 +98,7 @@ const ContactForm = () => {
                     type="text"
                     name="name"
                     className={styles.inputGroupControl}
-                    placeholder="Name..."
+                    placeholder="Your full name"
                     required
                     value={formData.name}
                     onChange={handleChange}
@@ -124,7 +124,7 @@ const ContactForm = () => {
                     type="email"
                     name="email"
                     className={styles.inputGroupControl}
-                    placeholder="Email..."
+                    placeholder="Your email address"
                     required
                     value={formData.email}
                     onChange={handleChange}
@@ -150,7 +150,7 @@ const ContactForm = () => {
                     type="text"
                     name="company"
                     className={styles.inputGroupControl}
-                    placeholder="Company name... (optional)"
+                    placeholder="Your company (optional)"
                     value={formData.company}
                     onChange={handleChange}
                   />
@@ -165,7 +165,7 @@ const ContactForm = () => {
                     type="url"
                     name="url"
                     className={styles.inputGroupControl}
-                    placeholder="Website URL... (optional)"
+                    placeholder="Your website (optional)"
                     value={formData.url}
                     onChange={handleChange}
                   />
@@ -181,7 +181,7 @@ const ContactForm = () => {
                     name="message"
                     className={styles.inputGroupControl}
                     rows={3}
-                    placeholder="Enter your message..."
+                    placeholder="How can I help you?"
                     required
                     value={formData.message}
                     onChange={handleChange}
