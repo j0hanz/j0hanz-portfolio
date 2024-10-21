@@ -74,7 +74,7 @@
 
 .customToggle:hover,
 .customToggle:focus {
-  border: 1px solid #0077b5 !important;
+  border: none !important;
 }
 
 .customToggle:active {
@@ -84,6 +84,11 @@
 .navIconToggle {
   color: #007acc;
   font-size: 1.65rem;
+  transition: transform 0.3s ease;
+}
+
+.navIconToggle.open {
+  transform: rotate(90deg);
 }
 
 .navBarIcon {
