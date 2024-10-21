@@ -1,6 +1,7 @@
 /* Input Group Icon Styling */
 .formGroup {
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+  margin-top: 0.25rem !important;
 }
 
 .inputGroup {
