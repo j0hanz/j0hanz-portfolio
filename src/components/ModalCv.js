@@ -24,10 +24,10 @@ const ModalCv = ({ show, handleClose }) => {
 
   return (
     <Modal show={show} onHide={handleClose} centered>
-      <Modal.Body className={`text-light p-4 ${styles.modalBody}`}>
-        <button className={styles.closeButton} onClick={handleClose}>
+      <Modal.Body className={appStyles.modalBody}>
+        <Button className={appStyles.closeButton} onClick={handleClose}>
           <FontAwesomeIcon icon={faTimes} />
-        </button>
+        </Button>
         <Container className="text-center">
           <h4 className="mb-4">Choose Language</h4>
           <p>

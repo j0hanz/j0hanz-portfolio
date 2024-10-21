@@ -136,6 +136,36 @@ code {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
+.modalBody {
+  background: linear-gradient(
+    180deg,
+    #1a1a1a 0%,
+    #252525 50%,
+    #1a1a1a 100%
+  ) !important;
+  border-radius: 7.5px !important;
+  position: relative !important;
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+  color: #f0f0f0 !important;
+}
+
+.closeButton {
+  position: absolute !important;
+  top: 0px !important;
+  right: 0px !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 1.3rem !important;
+  color: #adadade8 !important;
+  cursor: pointer !important;
+  transition: color 0.3s ease !important;
+}
+
+.closeButton:hover {
+  color: #505050 !important;
+}
+
 .cardBgImage,
 .imgDarkBg {
   position: relative;

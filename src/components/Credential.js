@@ -4,7 +4,8 @@ import ImageCredential from '../assets/Credential.png';
 import styles from './styles/Credential.module.css';
 import Spinner from './Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faScroll, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import faTimes
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import appStyles from '../App.module.css';
 
 const Credential = ({ show, handleClose }) => {
   /* State to manage the loading state of the credential image */
@@ -21,10 +22,10 @@ const Credential = ({ show, handleClose }) => {
 
   return (
     <Modal show={show} onHide={handleClose} centered>
-      <Modal.Body className={`text-light p-4 ${styles.modalBody}`}>
-        <button className={styles.closeButton} onClick={handleClose}>
+      <Modal.Body className={appStyles.modalBody}>
+        <Button className={appStyles.closeButton} onClick={handleClose}>
           <FontAwesomeIcon icon={faTimes} />
-        </button>
+        </Button>
         <Container className="text-center">
           {loading ? (
             <Spinner />
