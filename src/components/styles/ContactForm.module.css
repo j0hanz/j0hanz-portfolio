@@ -25,13 +25,13 @@
   display: flex !important;
   justify-content: center !important;
   align-items: baseline !important;
-  padding-top: 0.83rem !important;
+  padding-top: 0.75rem !important;
   border: none !important;
   width: 1rem !important;
 }
 
 .inputGroupControl {
-  padding: 0.5rem !important;
+  padding: 0.4rem !important;
   color: #2c2c2c !important;
   font-weight: 500 !important;
 }

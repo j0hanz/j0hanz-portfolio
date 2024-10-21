@@ -90,7 +90,7 @@ const ContactForm = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Contact</h2>
         </div>
-        <Row className="d-flex justify-content-center align-items-center mx-auto">
+        <Row className="d-flex justify-content-center align-items-center mx-auto mt-1">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName" className={styles.formGroup}>
@@ -184,7 +184,7 @@ const ContactForm = () => {
                     as="textarea"
                     name="message"
                     className={styles.inputGroupControl}
-                    rows={5}
+                    rows={3}
                     placeholder="How can I help you?"
                     required
                     value={formData.message}
@@ -202,7 +202,7 @@ const ContactForm = () => {
                   </div>
                 )}
               </Form.Group>
-              <div className="d-flex justify-content-center mt-5">
+              <div className="d-flex justify-content-center py-4">
                 <Button
                   className={styles.submitButton}
                   type="submit"
