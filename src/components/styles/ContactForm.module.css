@@ -41,7 +41,7 @@
 .submitButton {
   width: 125px !important;
   max-width: 100% !important;
-  height: auto !important;
+  height: 40px !important;
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.3s ease !important;
