@@ -145,7 +145,7 @@ code {
   ) !important;
   border-radius: 7.5px !important;
   position: relative !important;
-  padding-top: 2.5rem !important;
+  padding-top: 2.25rem !important;
   color: #f0f0f0 !important;
 }
 
@@ -155,7 +155,7 @@ code {
   right: 0px !important;
   background: transparent !important;
   border: none !important;
-  font-size: 1.3rem !important;
+  font-size: 1.2rem !important;
   color: #adadade8 !important;
   cursor: pointer !important;
   transition: color 0.3s ease !important;
