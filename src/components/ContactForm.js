@@ -16,6 +16,7 @@ import {
   faComment,
   faBuilding,
   faLink,
+  faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from './EmailHandler';
 import styles from './styles/ContactForm.module.css';
@@ -42,14 +43,14 @@ const ContactForm = () => {
   /* Validates the form data and sets errors if validation fails */
   const validateForm = () => {
     const newErrors = {};
-    if (!/^[a-zA-Z\s]{2,}$/.test(formData.name)) {
+    if (!/^[a-zA-Z\s]{2,}$/.test(formData.name.trim())) {
       newErrors.name = 'Please enter a valid name.';
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address.';
     }
-    if (formData.message.length < 10) {
-      newErrors.message = 'Your message is too short.';
+    if (formData.message.trim().length < 10) {
+      newErrors.message = 'Your message should be at least 10 characters long.';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -69,7 +70,7 @@ const ContactForm = () => {
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', company: '', url: '', message: '' });
       navigate('/success');
     } else {
       console.error('Email sending failed.');
@@ -108,11 +109,14 @@ const ContactForm = () => {
                     isInvalid={!!errors.name}
                   />
                   <Form.Control.Feedback type="invalid">
+                    <FontAwesomeIcon
+                      icon={faExclamationCircle}
+                      className="me-2"
+                    />
                     {errors.name}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-
               <Form.Group controlId="formEmail">
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
@@ -129,11 +133,14 @@ const ContactForm = () => {
                     isInvalid={!!errors.email}
                   />
                   <Form.Control.Feedback type="invalid">
+                    <FontAwesomeIcon
+                      icon={faExclamationCircle}
+                      className="me-2"
+                    />
                     {errors.email}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-
               <Form.Group controlId="formCompany">
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
@@ -143,13 +150,12 @@ const ContactForm = () => {
                     type="text"
                     name="company"
                     className={styles.inputGroupControl}
-                    placeholder="Enter your company name..."
+                    placeholder="Enter your company name (optional)..."
                     value={formData.company}
                     onChange={handleChange}
                   />
                 </InputGroup>
               </Form.Group>
-
               <Form.Group controlId="formUrl">
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
@@ -159,13 +165,12 @@ const ContactForm = () => {
                     type="url"
                     name="url"
                     className={styles.inputGroupControl}
-                    placeholder="Enter your website URL..."
+                    placeholder="Enter your website URL (optional)..."
                     value={formData.url}
                     onChange={handleChange}
                   />
                 </InputGroup>
               </Form.Group>
-
               <Form.Group controlId="formMessage">
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
@@ -183,11 +188,14 @@ const ContactForm = () => {
                     isInvalid={!!errors.message}
                   />
                   <Form.Control.Feedback type="invalid">
+                    <FontAwesomeIcon
+                      icon={faExclamationCircle}
+                      className="me-2"
+                    />
                     {errors.message}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-
               <div className="d-flex justify-content-center my-4">
                 <Button
                   className={styles.submitButton}
