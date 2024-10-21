@@ -98,7 +98,7 @@ const ContactForm = () => {
                     type="text"
                     name="name"
                     className={styles.inputGroupControl}
-                    placeholder="Enter your name..."
+                    placeholder="Name..."
                     required
                     value={formData.name}
                     onChange={handleChange}
@@ -124,7 +124,7 @@ const ContactForm = () => {
                     type="email"
                     name="email"
                     className={styles.inputGroupControl}
-                    placeholder="Enter your email..."
+                    placeholder="Email..."
                     required
                     value={formData.email}
                     onChange={handleChange}
@@ -150,7 +150,7 @@ const ContactForm = () => {
                     type="text"
                     name="company"
                     className={styles.inputGroupControl}
-                    placeholder="Enter your company name (optional)..."
+                    placeholder="Company name... (optional)"
                     value={formData.company}
                     onChange={handleChange}
                   />
@@ -165,7 +165,7 @@ const ContactForm = () => {
                     type="url"
                     name="url"
                     className={styles.inputGroupControl}
-                    placeholder="Enter your website URL (optional)..."
+                    placeholder="Website URL... (optional)"
                     value={formData.url}
                     onChange={handleChange}
                   />
@@ -198,7 +198,7 @@ const ContactForm = () => {
                   </div>
                 )}
               </Form.Group>
-              <div className="d-flex justify-content-center my-4">
+              <div className="d-flex justify-content-center mt-5">
                 <Button
                   className={styles.submitButton}
                   type="submit"
