@@ -92,7 +92,7 @@ const ContactForm = () => {
         <Row className="justify-content-center mx-auto mt-2">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formName" className={styles.formGroup}>
                 <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
@@ -112,7 +112,7 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formEmail" className="my-3">
+              <Form.Group controlId="formEmail" className={styles.formGroup}>
                 <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
@@ -132,7 +132,7 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formCompany" className="my-3">
+              <Form.Group controlId="formCompany" className={styles.formGroup}>
                 <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faBuilding} />
@@ -147,7 +147,7 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formUrl" className="my-3">
+              <Form.Group controlId="formUrl" className={styles.formGroup}>
                 <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faLink} />
@@ -162,7 +162,7 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formMessage">
+              <Form.Group controlId="formMessage" className={styles.formGroup}>
                 <InputGroup>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />

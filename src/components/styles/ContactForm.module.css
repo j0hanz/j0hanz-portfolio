@@ -1,9 +1,16 @@
 /* Input Group Icon Styling */
 .inputGroupIcon {
-  width: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 32px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  border: none !important;
+}
+
+.formGroup {
+  margin-bottom: 2rem !important;
+  border: 1px solid #f0f0f0 !important;
+  border-radius: 7.5px !important;
 }
 
 .submitButton {

@@ -149,7 +149,10 @@ const Portfolio = () => {
               <OverlayTrigger
                 placement="bottom"
                 overlay={
-                  <Tooltip id={`tooltip-no-demo-${index}`}>
+                  <Tooltip
+                    id={`tooltip-no-demo-${index}`}
+                    className={appStyles.customTooltip}
+                  >
                     Coming soon!
                   </Tooltip>
                 }

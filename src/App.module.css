@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 :root {
   --bs-body-bg: none !important;
+  --bs-tertiary-bg: none !important;
+  --bs-border-color: none !important;
 }
 
 *::-webkit-scrollbar {
@@ -110,12 +112,6 @@ code {
 }
 
 .customTooltip {
-  background: linear-gradient(
-    180deg,
-    #1a1a1a 0%,
-    #252525 50%,
-    #1a1a1a 100%
-  ) !important;
   color: #f0f0f0 !important;
   border: none !important;
   border-radius: 7.5px !important;
