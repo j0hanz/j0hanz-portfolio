@@ -93,7 +93,7 @@ const ContactForm = () => {
         <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
-              <Form.Group controlId="formName" className={styles.formGroup}>
+              <Form.Group controlId="formName">
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
