@@ -24,7 +24,8 @@
 .inputGroupIcon {
   display: flex !important;
   justify-content: center !important;
-  align-items: center !important;
+  align-items: baseline !important;
+  padding-top: 0.83rem !important;
   border: none !important;
   width: 1rem !important;
 }
@@ -36,7 +37,8 @@
 }
 
 .inputGroupControl::placeholder {
-  color: #999 !important;
+  color: #2c2c2c !important;
+  opacity: 0.5 !important;
 }
 
 .inputGroupControl:focus {

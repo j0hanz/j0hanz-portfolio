@@ -184,7 +184,7 @@ const ContactForm = () => {
                     as="textarea"
                     name="message"
                     className={styles.inputGroupControl}
-                    rows={3}
+                    rows={5}
                     placeholder="How can I help you?"
                     required
                     value={formData.message}
