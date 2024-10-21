@@ -158,8 +158,8 @@ code {
 .modalBody {
   background: linear-gradient(
     180deg,
-    #1a1a1ada 0%,
-    #252525d0 50%,
+    #1a1a1ae0 0%,
+    #252525ce 50%,
     #1a1a1ad0 100%
   ) !important;
   border: none !important;
