@@ -100,6 +100,7 @@ const ContactForm = () => {
                   <Form.Control
                     type="text"
                     name="name"
+                    className={styles.inputGroupControl}
                     placeholder="Enter your name..."
                     required
                     value={formData.name}
@@ -120,6 +121,7 @@ const ContactForm = () => {
                   <Form.Control
                     type="email"
                     name="email"
+                    className={styles.inputGroupControl}
                     placeholder="Enter your email..."
                     required
                     value={formData.email}
@@ -140,6 +142,7 @@ const ContactForm = () => {
                   <Form.Control
                     type="text"
                     name="company"
+                    className={styles.inputGroupControl}
                     placeholder="Enter your company name..."
                     value={formData.company}
                     onChange={handleChange}
@@ -155,6 +158,7 @@ const ContactForm = () => {
                   <Form.Control
                     type="url"
                     name="url"
+                    className={styles.inputGroupControl}
                     placeholder="Enter your website URL..."
                     value={formData.url}
                     onChange={handleChange}
@@ -170,6 +174,7 @@ const ContactForm = () => {
                   <Form.Control
                     as="textarea"
                     name="message"
+                    className={styles.inputGroupControl}
                     rows={3}
                     placeholder="Enter your message..."
                     required
