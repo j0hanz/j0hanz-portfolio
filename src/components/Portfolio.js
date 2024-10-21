@@ -189,7 +189,9 @@ const Portfolio = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Projects</h2>
         </div>
-        <Row className="mt-2 mx-auto">{projects.map(renderProject)}</Row>
+        <Row className="d-flex justify-content-center align-items-center mx-auto">
+          {projects.map(renderProject)}
+        </Row>
       </Container>
     </section>
   );

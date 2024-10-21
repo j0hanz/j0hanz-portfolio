@@ -11,44 +11,49 @@
 }
 
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 0.5rem !important;
 }
 
 *::-webkit-scrollbar-thumb {
   background: linear-gradient(
     180deg,
-    #012b47 0%,
-    #00487a 25%,
-    #006bb3 50%,
-    #4a7fc2 75%,
-    #5678b0 100%
+    #e8e8e8 0%,
+    #e6e6e6 10%,
+    #e4e4e4 20%,
+    #e2e2e2 30%,
+    #e0e0e0 40%,
+    #dedede 50%,
+    #dcdcdc 60%,
+    #dadada 70%,
+    #d8d8d8 80%,
+    #d6d6d6 90%,
+    #d4d4d4 100%
   );
+  box-shadow:
+    inset 0 0 5px rgba(0, 0, 0, 0.3),
+    0 0 5px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
-  border-radius: 3px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(
     180deg,
-    #f8f8f8 0%,
-    #f6f6f6 8%,
-    #f4f4f4 16%,
-    #f2f2f2 24%,
-    #f0f0f0 32%,
-    #eeeeee 40%,
-    #ececec 48%,
-    #eaeaea 56%,
-    #e8e8e8 64%,
-    #e6e6e6 72%,
-    #e4e4e4 80%,
-    #e2e2e2 88%,
-    #e0e0e0 96%,
-    #dedede 100%
+    #c8c8c8 0%,
+    #c0c0c0 10%,
+    #b8b8b8 20%,
+    #b0b0b0 30%,
+    #a8a8a8 40%,
+    #a0a0a0 50%,
+    #989898 60%,
+    #909090 70%,
+    #888888 80%,
+    #808080 90%,
+    #787878 100%
   );
   box-shadow:
-    inset 0 0 5px rgba(0, 0, 0, 0.3),
-    0 0 5px rgba(0, 0, 0, 0.4);
+    inset 0 0 5px rgba(0, 0, 0, 0.4),
+    0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 *::-webkit-scrollbar-track {
@@ -106,6 +111,7 @@ code {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  margin-bottom: 0.75rem !important;
 }
 
 .cardText {
@@ -139,6 +145,8 @@ code {
   border: none !important;
   border-radius: 7.5px !important;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 .modalBody {

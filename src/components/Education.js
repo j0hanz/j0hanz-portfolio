@@ -97,7 +97,9 @@ const Education = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Education</h2>
         </div>
-        <Row className="mt-2 mx-auto">{education.map(renderEducationItem)}</Row>
+        <Row className="d-flex justify-content-center align-items-center mx-auto">
+          {education.map(renderEducationItem)}
+        </Row>
         {/* Renders the credential modal if showModal is true */}
         <Credential show={showModal} handleClose={toggleModal} />
       </Container>

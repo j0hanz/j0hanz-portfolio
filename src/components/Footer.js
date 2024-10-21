@@ -28,7 +28,7 @@ const Footer = () => {
         fluid
         className={`${appStyles.sectionContainer} ${appStyles.cardBgImage}`}
       >
-        <Row className="mx-auto">
+        <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col sm={6} className="mb-sm-0">
             <h5 className={styles.footerLinkHeader}>Contact Details</h5>
             <p>

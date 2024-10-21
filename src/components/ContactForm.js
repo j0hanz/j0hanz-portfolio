@@ -90,7 +90,7 @@ const ContactForm = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Contact</h2>
         </div>
-        <Row className="d-flex justify-content-center align-items-center mx-auto mt-1">
+        <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName" className={styles.formGroup}>
