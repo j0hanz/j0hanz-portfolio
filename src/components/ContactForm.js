@@ -35,12 +35,10 @@ const ContactForm = () => {
   });
   const [errors, setErrors] = useState({});
 
-  /* Handles input change event and updates the form data state */
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  /* Validates the form data and sets errors if validation fails */
   const validateForm = () => {
     const newErrors = {};
     if (!/^[a-zA-Z\s]{2,}$/.test(formData.name.trim())) {
@@ -56,7 +54,6 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  /* Handles the form submission and triggers validation */
   const handleSubmit = (event) => {
     event.preventDefault();
     const formValid = validateForm();
@@ -66,7 +63,6 @@ const ContactForm = () => {
     }
   };
 
-  /* Handles the email sending status and navigates to success page if successful */
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
@@ -93,7 +89,7 @@ const ContactForm = () => {
         <Row className="justify-content-center mx-auto mt-2">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formName" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
@@ -108,16 +104,18 @@ const ContactForm = () => {
                     onChange={handleChange}
                     isInvalid={!!errors.name}
                   />
-                  <Form.Control.Feedback type="invalid">
+                </InputGroup>
+                {errors.name && (
+                  <div className={styles.errorMessage}>
                     <FontAwesomeIcon
                       icon={faExclamationCircle}
                       className="me-2"
                     />
                     {errors.name}
-                  </Form.Control.Feedback>
-                </InputGroup>
+                  </div>
+                )}
               </Form.Group>
-              <Form.Group controlId="formEmail">
+              <Form.Group controlId="formEmail" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
@@ -132,16 +130,18 @@ const ContactForm = () => {
                     onChange={handleChange}
                     isInvalid={!!errors.email}
                   />
-                  <Form.Control.Feedback type="invalid">
+                </InputGroup>
+                {errors.email && (
+                  <div className={styles.errorMessage}>
                     <FontAwesomeIcon
                       icon={faExclamationCircle}
                       className="me-2"
                     />
                     {errors.email}
-                  </Form.Control.Feedback>
-                </InputGroup>
+                  </div>
+                )}
               </Form.Group>
-              <Form.Group controlId="formCompany">
+              <Form.Group controlId="formCompany" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faBuilding} />
@@ -156,7 +156,7 @@ const ContactForm = () => {
                   />
                 </InputGroup>
               </Form.Group>
-              <Form.Group controlId="formUrl">
+              <Form.Group controlId="formUrl" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faLink} />
@@ -171,7 +171,7 @@ const ContactForm = () => {
                   />
                 </InputGroup>
               </Form.Group>
-              <Form.Group controlId="formMessage">
+              <Form.Group controlId="formMessage" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
@@ -187,14 +187,16 @@ const ContactForm = () => {
                     onChange={handleChange}
                     isInvalid={!!errors.message}
                   />
-                  <Form.Control.Feedback type="invalid">
+                </InputGroup>
+                {errors.message && (
+                  <div className={styles.errorMessage}>
                     <FontAwesomeIcon
                       icon={faExclamationCircle}
                       className="me-2"
                     />
                     {errors.message}
-                  </Form.Control.Feedback>
-                </InputGroup>
+                  </div>
+                )}
               </Form.Group>
               <div className="d-flex justify-content-center my-4">
                 <Button
