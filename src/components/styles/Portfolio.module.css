@@ -13,17 +13,17 @@
 }
 
 .customButton {
-  width: 125px;
-  max-width: 100%;
+  width: 125px !important;
+  max-width: 100% !important;
   height: auto;
   border: none !important;
-  border-radius: 7.5px !important;
+  border-radius: 6.5px !important;
   transition: all 0.3s ease !important;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  text-transform: uppercase !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
 }
 
 .githubButton {

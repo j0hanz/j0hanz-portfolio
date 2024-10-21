@@ -126,7 +126,6 @@ const Portfolio = () => {
           </div>
           <div className="mt-auto d-flex justify-content-between">
             <Button
-              variant="outline-dark"
               href={project.github}
               target="_blank"
               className={`${styles.customButton} ${styles.githubButton}`}
@@ -134,10 +133,8 @@ const Portfolio = () => {
               <FontAwesomeIcon icon={faGithub} className={styles.buttonIcon} />
               <span className={styles.buttonText}>GitHub</span>
             </Button>
-
             {project.demo ? (
               <Button
-                variant="outline-primary"
                 href={project.demo}
                 target="_blank"
                 className={`${styles.customButton} ${styles.demoButton}`}
@@ -159,7 +156,6 @@ const Portfolio = () => {
               >
                 <span className="d-inline-block">
                   <Button
-                    variant="outline-secondary"
                     disabled
                     className={`${styles.customButton} ${styles.demoButton}`}
                   >
