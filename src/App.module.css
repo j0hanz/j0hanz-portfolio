@@ -9,8 +9,11 @@
   --bs-form-valid-color: none !important;
   --bs-form-valid-border-color: none !important;
   --bs-modal-padding: 0 !important;
+  --bs-border-width: 0 !important;
   --bs-modal-border-width: 0 !important;
   --bs-modal-border-color: none !important;
+  --bs-modal-box-shadow: none !important;
+  --bs-modal-margin: 0 !important;
 }
 
 *::-webkit-scrollbar {
@@ -160,7 +163,8 @@ code {
     #1a1a1ad0 100%
   ) !important;
   border: none !important;
-  height: 100% !important;
+  width: 100% !important;
+  max-width: 500px !important;
   border-radius: 7.5px !important;
   position: relative !important;
   padding-top: 2.5rem !important;
@@ -177,7 +181,7 @@ code {
   background: none !important;
   border: none !important;
   font-size: 1.3rem !important;
-  color: #adadad !important;
+  color: #bdbcbc !important;
   cursor: pointer !important;
   transition: color 0.3s ease !important;
 }
