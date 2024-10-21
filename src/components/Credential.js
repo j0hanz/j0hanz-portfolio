@@ -26,7 +26,7 @@ const Credential = ({ show, handleClose }) => {
         <Button className={appStyles.closeButton} onClick={handleClose}>
           <FontAwesomeIcon icon={faTimes} />
         </Button>
-        <Container className="text-center">
+        <Container className="text-center px-0">
           {loading ? (
             <Spinner />
           ) : (
@@ -40,7 +40,7 @@ const Credential = ({ show, handleClose }) => {
                 <img
                   src={ImageCredential}
                   alt="Credential"
-                  className={`img-fluid rounded ${styles.credentialImage}`}
+                  className={styles.credentialImage}
                 />
                 <div className={styles.hoverText}>View Credential</div>
               </div>

@@ -8,6 +8,9 @@
   --bs-form-invalid-border-color: none !important;
   --bs-form-valid-color: none !important;
   --bs-form-valid-border-color: none !important;
+  --bs-modal-padding: 0 !important;
+  --bs-modal-border-width: 0 !important;
+  --bs-modal-border-color: none !important;
 }
 
 *::-webkit-scrollbar {
@@ -152,17 +155,18 @@ code {
 .modalBody {
   background: linear-gradient(
     180deg,
-    #1a1a1a 0%,
-    #252525 50%,
-    #1a1a1a 100%
+    #1a1a1ada 0%,
+    #252525d0 50%,
+    #1a1a1ad0 100%
   ) !important;
   border: none !important;
+  height: 100% !important;
   border-radius: 7.5px !important;
   position: relative !important;
-  padding-top: 2.25rem !important;
+  padding-top: 2.5rem !important;
   padding-bottom: 1.25rem !important;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   color: #f0f0f0 !important;
 }
 
@@ -170,10 +174,10 @@ code {
   position: absolute !important;
   top: 0px !important;
   right: 0px !important;
-  background: transparent !important;
+  background: none !important;
   border: none !important;
-  font-size: 1.2rem !important;
-  color: #adadade8 !important;
+  font-size: 1.3rem !important;
+  color: #adadad !important;
   cursor: pointer !important;
   transition: color 0.3s ease !important;
 }
