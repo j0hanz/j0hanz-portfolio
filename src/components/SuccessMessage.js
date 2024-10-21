@@ -18,7 +18,7 @@ const SuccessMessage = ({ show, onClose }) => {
           <FontAwesomeIcon
             icon={faCheck}
             size="5x"
-            className="my-3 text-success"
+            className={`my-3 ${styles.successIcon}`}
           />
           <p className="lead mb-4">Your message has been sent successfully.</p>
         </Container>
