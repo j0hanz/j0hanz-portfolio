@@ -92,8 +92,8 @@ const ContactForm = () => {
         <Row className="justify-content-center mx-auto mt-2">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
-              <Form.Group controlId="formName" className={styles.formGroup}>
-                <InputGroup>
+              <Form.Group controlId="formName">
+                <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faUser} />
                   </InputGroup.Text>
@@ -112,8 +112,8 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formEmail" className={styles.formGroup}>
-                <InputGroup>
+              <Form.Group controlId="formEmail">
+                <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faEnvelope} />
                   </InputGroup.Text>
@@ -132,8 +132,8 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formCompany" className={styles.formGroup}>
-                <InputGroup>
+              <Form.Group controlId="formCompany">
+                <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faBuilding} />
                   </InputGroup.Text>
@@ -147,8 +147,8 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formUrl" className={styles.formGroup}>
-                <InputGroup>
+              <Form.Group controlId="formUrl">
+                <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faLink} />
                   </InputGroup.Text>
@@ -162,8 +162,8 @@ const ContactForm = () => {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group controlId="formMessage" className={styles.formGroup}>
-                <InputGroup>
+              <Form.Group controlId="formMessage">
+                <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
                     <FontAwesomeIcon size="sm" icon={faComment} />
                   </InputGroup.Text>
