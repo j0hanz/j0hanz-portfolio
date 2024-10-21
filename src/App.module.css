@@ -1,11 +1,7 @@
 /* Importing the Poppins font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --bs-body-bg: transparent !important;
 }
 
 *::-webkit-scrollbar {
@@ -143,9 +139,13 @@ code {
     #252525 50%,
     #1a1a1a 100%
   ) !important;
+  border: none !important;
   border-radius: 7.5px !important;
   position: relative !important;
   padding-top: 2.25rem !important;
+  padding-bottom: 1.25rem !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
   color: #f0f0f0 !important;
 }
 
