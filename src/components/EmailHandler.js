@@ -10,7 +10,6 @@ const EmailHandler = ({ formData, onEmailSent }) => {
     /* Function to send the email using emailjs */
     const sendEmail = () => {
       if (!form.current) return;
-
       emailjs
         .sendForm(
           process.env.REACT_APP_SERVICE_ID,
@@ -21,7 +20,6 @@ const EmailHandler = ({ formData, onEmailSent }) => {
         .then(() => onEmailSent(true))
         .catch(() => onEmailSent(false));
     };
-
     sendEmail();
   }, [formData, onEmailSent]);
 
