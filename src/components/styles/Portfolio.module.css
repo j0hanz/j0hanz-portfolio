@@ -12,6 +12,18 @@
   font-size: 0.7rem !important;
 }
 
+.badgePosition {
+  position: relative !important;
+}
+
+.hackathonBadge {
+  position: absolute !important;
+  bottom: 15% !important;
+  right: 0.5rem !important;
+  width: 7rem !important;
+  opacity: 0.8 !important;
+}
+
 .customButton {
   width: 125px !important;
   max-width: 100% !important;
