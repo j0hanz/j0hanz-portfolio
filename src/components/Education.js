@@ -43,11 +43,7 @@ const Education = () => {
         className={`h-100 ${styles.educationCard} ${appStyles.cardBgColor}`}
       >
         <Card.Body className={appStyles.cardBody}>
-          <Card.Title className="d-flex align-items-center mb-2">
-            <FontAwesomeIcon
-              icon={faGraduationCap}
-              className={appStyles.titleIcon}
-            />
+          <Card.Title className="mb-2">
             <span>{edu.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
