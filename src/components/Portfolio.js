@@ -10,7 +10,12 @@ import {
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faProjectDiagram, faRocket } from '@fortawesome/free-solid-svg-icons';
+import {
+  faProjectDiagram,
+  faRocket,
+  faUser,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
 
@@ -32,6 +37,8 @@ const projects = [
       'SQL',
       'Agile',
     ],
+    collaborative: false,
+    isHackathon: false,
   },
   {
     title: 'Blog Beat',
@@ -51,6 +58,8 @@ const projects = [
       'SEO',
       'Agile',
     ],
+    collaborative: false,
+    isHackathon: false,
   },
   {
     title: 'Pick my Spell',
@@ -59,6 +68,7 @@ const projects = [
     github: 'https://github.com/j0hanz/PICK-my-SPELL',
     demo: 'https://j0hanz.github.io/PICK-my-SPELL/',
     technologies: ['HTML5', 'CSS3', 'JavaScript'],
+    isHackathon: false,
   },
   {
     title: 'Fix my Spell',
@@ -67,6 +77,8 @@ const projects = [
     github: 'https://github.com/j0hanz/FIX-my-SPELL',
     demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
     technologies: ['Python', 'Heruko'],
+    collaborative: false,
+    isHackathon: false,
   },
   {
     title: 'Corner',
@@ -85,9 +97,11 @@ const projects = [
       'SQL',
       'SEO',
     ],
+    collaborative: false,
+    isHackathon: false,
   },
   {
-    title: 'SonataCraft (Collaborative Project)',
+    title: 'SonataCraft',
     description:
       'A digital Baroque-era piano application allowing users to play and practice sheet music, with information on classical instruments.',
     github: 'https://github.com/Damitwhy/Team4-Sep2024-Hackathon',
@@ -104,6 +118,8 @@ const projects = [
       'Django',
       'Agile',
     ],
+    collaborative: true,
+    isHackathon: true,
   },
 ];
 
@@ -140,7 +156,12 @@ const Portfolio = () => {
       <Col md={6} key={index} className="mb-4">
         <Card className={`h-100 ${appStyles.cardBgColor}`}>
           <Card.Body className={`d-flex flex-column ${appStyles.cardBody}`}>
-            <Card.Title className="mb-3">{project.title}</Card.Title>
+            <Card.Title className="mb-3 d-flex justify-content-between">
+              {project.title}
+              <FontAwesomeIcon
+                icon={project.collaborative ? faUsers : faUser}
+              />
+            </Card.Title>
             <Card.Text className={appStyles.cardText}>
               {project.description}
             </Card.Text>
