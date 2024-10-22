@@ -14,44 +14,50 @@ const experiences = [
     title: 'Assistant Store Manager',
     workplace: 'Webhallen',
     duration: 'Mar 2022 - Feb 2024',
-    description:
-      'Managed store operations and staff in the absence of the store manager, trained new employees, and handled monthly reports and various administrative tasks.',
+    description: [
+      'Managed store operations and staff in the absence of the store manager',
+      'Training of new staff and scheduling responsibilities',
+      'Monthly reporting and handling administrative tasks',
+    ],
   },
   {
-    title: 'Interim Store Manager & Complaints Manager',
+    title: 'RMA | Salesperson',
     workplace: 'Webhallen',
     duration: 'Jan 2016 - Mar 2022',
-    description:
-      'Supervised staff, created work schedules, resolved customer complaints, coordinated with suppliers, and reported sales statistics, ensuring smooth overall store operations.',
+    description: [
+      'Customer service and support',
+      'Resolved customer complaints and issues',
+      'Sales of electronics and computer hardware',
+    ],
   },
   {
     title: 'Delivery Employee',
     workplace: 'Sängbutiken',
     duration: '2011 - 2016',
-    description: 'Delivery and assembly of beds at customer locations.',
+    description: [
+      'Delivery and assembly of beds at customer locations.',
+      'Responsible for goods reception and quality control.',
+    ],
   },
   {
     title: 'Warehouse Worker',
     workplace: 'House of Saki',
     duration: '2014 - 2016',
-    description:
-      'Handled goods receipt and shipping, ensuring accurate item selection and order fulfillment according to the packing list.',
+    description: [
+      'Responsible for in and outbound delivery of goods.',
+      'Picking and packing goods according to order.',
+    ],
   },
 ];
 
 const WorkExperience = () => {
-  /* Renders each work experience as a card with title, workplace, duration, and description */
   const renderExperience = (experience, index) => (
     <Col md={6} className="mb-4" key={index}>
       <Card
         className={`h-100 ${styles.experienceCard} ${appStyles.cardBgColor}`}
       >
         <Card.Body className={appStyles.cardBody}>
-          <Card.Title className="d-flex align-items-center mb-2">
-            <FontAwesomeIcon
-              icon={faBriefcase}
-              className={appStyles.titleIcon}
-            />
+          <Card.Title className="mb-2">
             <span>{experience.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
@@ -68,9 +74,13 @@ const WorkExperience = () => {
               {experience.duration}
             </span>
           </Card.Subtitle>
-          <Card.Text className={appStyles.cardText}>
-            {experience.description}
-          </Card.Text>
+          <ul className={`${styles.listItems} ${appStyles.cardText}`}>
+            {experience.description.map((item, i) => (
+              <li key={i}>
+                <small>{item}</small>
+              </li>
+            ))}
+          </ul>
         </Card.Body>
       </Card>
     </Col>
