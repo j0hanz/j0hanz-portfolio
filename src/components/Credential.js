@@ -3,9 +3,6 @@ import { Modal, Container, Button } from 'react-bootstrap';
 import ImageCredential from '../assets/Credential.png';
 import styles from './styles/Credential.module.css';
 import Spinner from './Spinner';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import appStyles from '../App.module.css';
 
 const Credential = ({ show, handleClose }) => {
   /* State to manage the loading state of the credential image */
@@ -22,10 +19,7 @@ const Credential = ({ show, handleClose }) => {
 
   return (
     <Modal show={show} onHide={handleClose} centered>
-      <Modal.Body className={appStyles.modalBody}>
-        <Button className={appStyles.closeButton} onClick={handleClose}>
-          <FontAwesomeIcon icon={faTimes} />
-        </Button>
+      <Modal.Body className={styles.credentialBody}>
         <Container className="text-center px-0">
           {loading ? (
             <Spinner />
