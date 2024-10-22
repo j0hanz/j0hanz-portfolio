@@ -46,8 +46,8 @@ const NavBar = () => {
     { id: 'about-me', icon: faUser, label: 'About Me' },
     { id: 'education', icon: faGraduationCap, label: 'Education' },
     { id: 'skills', icon: faCogs, label: 'Skills' },
-    { id: 'work-experience', icon: faBriefcase, label: 'Experience' },
     { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
+    { id: 'work-experience', icon: faBriefcase, label: 'Experience' },
     { id: 'contact', icon: faEnvelope, label: 'Contact' },
   ];
 

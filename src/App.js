@@ -39,8 +39,8 @@ const App = () => {
             <AboutMe />
             <Education />
             <Skills />
-            <WorkExperience />
             <Portfolio />
+            <WorkExperience />
             <ContactForm />
             <Badge />
             <Footer />
