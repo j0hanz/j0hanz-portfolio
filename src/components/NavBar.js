@@ -29,6 +29,7 @@ const NavBar = () => {
   /* Custom hook to handle the navbar's expanded state and detect clicks outside */
   const { expanded, setExpanded, ref } = useClickOutsideToggle(() => {
     setIsMenuOpen(false);
+    setExpanded(false);
   });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
