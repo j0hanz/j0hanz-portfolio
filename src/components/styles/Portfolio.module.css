@@ -67,3 +67,11 @@
   margin-left: 0;
   color: #f0f0f0;
 }
+
+.githubStats img {
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 0.5rem !important;
+  border: none !important;
+  border-radius: 6.5px !important;
+}

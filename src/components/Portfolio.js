@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Row,
@@ -90,7 +90,7 @@ const projects = [
     title: 'SonataCraft (Collaborative Project)',
     description:
       'A digital Baroque-era piano application allowing users to play and practice sheet music, with information on classical instruments.',
-    github: 'https://github.com/Damitwhy/Team4-Sep2024-Hackathon/tree/main',
+    github: 'https://github.com/Damitwhy/Team4-Sep2024-Hackathon',
     demo: 'https://team4-91bfea18c336.herokuapp.com/',
     technologies: [
       'HTML5',
@@ -108,74 +108,119 @@ const projects = [
 ];
 
 const Portfolio = () => {
-  /* Renders each project card with its title, description, and buttons for GitHub and Live Demo */
-  const renderProject = (project, index) => (
-    <Col md={6} key={index} className="mb-4">
-      <Card className={`h-100 ${appStyles.cardBgColor}`}>
-        <Card.Body className={`d-flex flex-column ${appStyles.cardBody}`}>
-          <Card.Title className="mb-3">{project.title}</Card.Title>
-          <Card.Text className={appStyles.cardText}>
-            {project.description}
-          </Card.Text>
-          <div className={styles.technologies}>
-            {project.technologies.map((tech, i) => (
-              <span key={i} className={styles.techBadge}>
-                {tech}
-              </span>
-            ))}
-          </div>
-          <div className="mt-auto d-flex justify-content-between">
-            <Button
-              href={project.github}
-              target="_blank"
-              className={`${styles.customButton} ${styles.githubButton}`}
-            >
-              <FontAwesomeIcon icon={faGithub} className={styles.buttonIcon} />
-              <span className={styles.buttonText}>GitHub</span>
-            </Button>
-            {project.demo ? (
+  const [commitHistory, setCommitHistory] = useState({});
+
+  const fetchCommitHistory = async (repo) => {
+    try {
+      const [owner, repoName] = repo.split('/').slice(-2);
+      const url = `https://api.github.com/repos/${owner}/${repoName}/commits`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return Array.isArray(data) ? data.slice(0, 5) : [];
+    } catch (error) {
+      console.error('Error fetching commit history:', error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    projects.forEach(async (project) => {
+      const history = await fetchCommitHistory(project.github);
+      setCommitHistory((prev) => ({ ...prev, [project.title]: history }));
+    });
+  }, []);
+
+  const renderProject = (project, index) => {
+    const repoPath = project.github.split('github.com/')[1];
+
+    return (
+      <Col md={6} key={index} className="mb-4">
+        <Card className={`h-100 ${appStyles.cardBgColor}`}>
+          <Card.Body className={`d-flex flex-column ${appStyles.cardBody}`}>
+            <Card.Title className="mb-3">{project.title}</Card.Title>
+            <Card.Text className={appStyles.cardText}>
+              {project.description}
+            </Card.Text>
+            <div className={styles.technologies}>
+              {project.technologies.map((tech, i) => (
+                <span key={i} className={styles.techBadge}>
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <div className={`mb-3 ${styles.githubStats}`}>
+              <img
+                src={`https://img.shields.io/github/commit-activity/t/${repoPath}`}
+                alt="Commit Activity"
+              />
+              <img
+                src={`https://img.shields.io/github/last-commit/${repoPath}`}
+                alt="Last Commit"
+              />
+              <img
+                src={`https://img.shields.io/github/repo-size/${repoPath}`}
+                alt="Repo Size"
+              />
+            </div>
+            <div className="mt-auto d-flex justify-content-between">
               <Button
-                href={project.demo}
+                href={project.github}
                 target="_blank"
-                className={`${styles.customButton} ${styles.demoButton}`}
+                className={`${styles.customButton} ${styles.githubButton}`}
               >
                 <FontAwesomeIcon
-                  icon={faRocket}
+                  icon={faGithub}
                   className={styles.buttonIcon}
                 />
-                <span className={styles.buttonText}>Live Demo</span>
+                <span className={styles.buttonText}>GitHub</span>
               </Button>
-            ) : (
-              <OverlayTrigger
-                placement="bottom"
-                overlay={
-                  <Tooltip
-                    id={`tooltip-no-demo-${index}`}
-                    className={appStyles.customTooltip}
-                  >
-                    Coming soon!
-                  </Tooltip>
-                }
-              >
-                <span className="d-inline-block">
-                  <Button
-                    disabled
-                    className={`${styles.customButton} ${styles.demoButton}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faRocket}
-                      className={styles.buttonIcon}
-                    />
-                    <span className={styles.buttonText}>Live Demo</span>
-                  </Button>
-                </span>
-              </OverlayTrigger>
-            )}
-          </div>
-        </Card.Body>
-      </Card>
-    </Col>
-  );
+              {project.demo ? (
+                <Button
+                  href={project.demo}
+                  target="_blank"
+                  className={`${styles.customButton} ${styles.demoButton}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faRocket}
+                    className={styles.buttonIcon}
+                  />
+                  <span className={styles.buttonText}>Live Demo</span>
+                </Button>
+              ) : (
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={
+                    <Tooltip
+                      id={`tooltip-no-demo-${index}`}
+                      className={appStyles.customTooltip}
+                    >
+                      Coming soon!
+                    </Tooltip>
+                  }
+                >
+                  <span className="d-inline-block">
+                    <Button
+                      disabled
+                      className={`${styles.customButton} ${styles.demoButton}`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faRocket}
+                        className={styles.buttonIcon}
+                      />
+                      <span className={styles.buttonText}>Live Demo</span>
+                    </Button>
+                  </span>
+                </OverlayTrigger>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
+    );
+  };
   return (
     <section id="portfolio" className={appStyles.sectionPadding}>
       <Container className={appStyles.sectionContainer}>
