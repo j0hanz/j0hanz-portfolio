@@ -18,6 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
+import hackathonBadge from '../assets/hackathonBadge.png';
 
 const projects = [
   {
@@ -123,14 +124,20 @@ const projects = [
   },
 ];
 
+/* Main Portfolio component that displays project cards with GitHub integration */
 const Portfolio = () => {
   const [commitHistory, setCommitHistory] = useState({});
-
+  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+  /* Fetches latest 5 commits for a GitHub repository */
   const fetchCommitHistory = async (repo) => {
     try {
       const [owner, repoName] = repo.split('/').slice(-2);
       const url = `https://api.github.com/repos/${owner}/${repoName}/commits`;
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -141,21 +148,31 @@ const Portfolio = () => {
       return [];
     }
   };
-
+  /* Fetches and combines commit histories for all projects on mount */
   useEffect(() => {
-    projects.forEach(async (project) => {
-      const history = await fetchCommitHistory(project.github);
-      setCommitHistory((prev) => ({ ...prev, [project.title]: history }));
-    });
+    const fetchAllCommitHistories = async () => {
+      const historyPromises = projects.map(async (project) => {
+        const history = await fetchCommitHistory(project.github);
+        return { [project.title]: history };
+      });
+      const histories = await Promise.all(historyPromises);
+      const combinedHistories = histories.reduce(
+        (acc, history) => ({ ...acc, ...history }),
+        {}
+      );
+      setCommitHistory(combinedHistories);
+    };
+    fetchAllCommitHistories();
   }, []);
-
   const renderProject = (project, index) => {
     const repoPath = project.github.split('github.com/')[1];
 
     return (
       <Col md={6} key={index} className="mb-4">
         <Card className={`h-100 ${appStyles.cardBgColor}`}>
-          <Card.Body className={`d-flex flex-column ${appStyles.cardBody}`}>
+          <Card.Body
+            className={`d-flex flex-column ${appStyles.cardBody} ${styles.badgePosition}`}
+          >
             <Card.Title className="mb-3 d-flex justify-content-between">
               {project.title}
               <FontAwesomeIcon
@@ -172,7 +189,7 @@ const Portfolio = () => {
                 </span>
               ))}
             </div>
-            <div className={`mb-3 ${styles.githubStats}`}>
+            <div className={`mb-4 ${styles.githubStats}`}>
               <img
                 src={`https://img.shields.io/github/commit-activity/t/${repoPath}`}
                 alt="Commit Activity"
@@ -186,6 +203,13 @@ const Portfolio = () => {
                 alt="Repo Size"
               />
             </div>
+            {project.isHackathon && (
+              <img
+                src={hackathonBadge}
+                alt="Hackathon Badge"
+                className={styles.hackathonBadge}
+              />
+            )}
             <div className="mt-auto d-flex justify-content-between">
               <Button
                 href={project.github}
@@ -242,6 +266,7 @@ const Portfolio = () => {
       </Col>
     );
   };
+
   return (
     <section id="portfolio" className={appStyles.sectionPadding}>
       <Container className={appStyles.sectionContainer}>
