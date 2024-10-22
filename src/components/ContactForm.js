@@ -18,7 +18,6 @@ import {
   faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from './EmailHandler';
-import SuccessMessage from './SuccessMessage';
 import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
 
@@ -90,7 +89,7 @@ const ContactForm = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Contact</h2>
         </div>
-        <Row className="d-flex justify-content-center align-items-center mx-auto">
+        <Row className="d-flex justify-content-center align-items-center">
           <Col md={8}>
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group controlId="formName">
@@ -232,10 +231,6 @@ const ContactForm = () => {
             {validated && (
               <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
             )}
-            <SuccessMessage
-              show={showSuccessModal}
-              onClose={handleCloseSuccessModal}
-            />
           </Col>
         </Row>
       </Container>

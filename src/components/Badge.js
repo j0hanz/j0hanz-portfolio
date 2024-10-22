@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import styles from './styles/Badge.module.css';
 
 const Badge = () => (
-  <Row className="mx-auto d-flex justify-content-center align-items-center">
+  <Row className="d-flex justify-content-center align-items-center">
     <Col md={8}>
       <blockquote className={styles.badge}>
         <a

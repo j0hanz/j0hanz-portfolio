@@ -124,7 +124,6 @@ const NavBar = () => {
                 </Nav.Link>
               ))}
             </Nav>
-
             <Nav className="d-flex flex-row justify-content-start">
               {socialLinks.map(
                 ({ id, icon, href, onClick, tooltip, iconClass }) => (

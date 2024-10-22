@@ -37,7 +37,7 @@ const Hero = () => {
       className={`text-center ${appStyles.sectionPadding} ${appStyles.imgDarkBg}`}
     >
       <Container className={appStyles.sectionContainer}>
-        <Row className="d-flex justify-content-center align-items-center mx-auto">
+        <Row className="d-flex justify-content-center align-items-center">
           <Col xs="auto">
             <img
               src={Image}

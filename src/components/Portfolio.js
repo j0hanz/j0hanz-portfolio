@@ -280,7 +280,7 @@ const Portfolio = () => {
           </div>
           <h2 className={appStyles.sectionTitle}>Projects</h2>
         </div>
-        <Row className="mx-auto">{projects.map(renderProject)}</Row>
+        <Row>{projects.map(renderProject)}</Row>
       </Container>
     </section>
   );
