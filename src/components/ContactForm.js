@@ -13,8 +13,8 @@ import {
   faEnvelope,
   faUser,
   faComment,
-  faBuilding,
-  faLink,
+  faBriefcase,
+  faGlobe,
   faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from './EmailHandler';
@@ -102,7 +102,7 @@ const ContactForm = () => {
                     type="text"
                     name="name"
                     className={styles.inputGroupControl}
-                    placeholder="Your full name"
+                    placeholder="enter your name..."
                     required
                     value={formData.name}
                     onChange={handleChange}
@@ -128,7 +128,7 @@ const ContactForm = () => {
                     type="email"
                     name="email"
                     className={styles.inputGroupControl}
-                    placeholder="Your email address"
+                    placeholder="enter your email..."
                     required
                     value={formData.email}
                     onChange={handleChange}
@@ -148,13 +148,13 @@ const ContactForm = () => {
               <Form.Group controlId="formCompany" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
-                    <FontAwesomeIcon size="sm" icon={faBuilding} />
+                    <FontAwesomeIcon size="sm" icon={faBriefcase} />
                   </InputGroup.Text>
                   <Form.Control
                     type="text"
                     name="company"
                     className={styles.inputGroupControl}
-                    placeholder="Your company (optional)"
+                    placeholder="company... (optional)"
                     value={formData.company}
                     onChange={handleChange}
                   />
@@ -163,13 +163,13 @@ const ContactForm = () => {
               <Form.Group controlId="formUrl" className={styles.formGroup}>
                 <InputGroup className={styles.inputGroup}>
                   <InputGroup.Text className={styles.inputGroupIcon}>
-                    <FontAwesomeIcon size="sm" icon={faLink} />
+                    <FontAwesomeIcon size="sm" icon={faGlobe} />
                   </InputGroup.Text>
                   <Form.Control
                     type="url"
                     name="url"
                     className={styles.inputGroupControl}
-                    placeholder="Your website (optional)"
+                    placeholder="website url... (optional)"
                     value={formData.url}
                     onChange={handleChange}
                   />
@@ -185,7 +185,7 @@ const ContactForm = () => {
                     name="message"
                     className={styles.inputGroupControl}
                     rows={4}
-                    placeholder="How can I help you?"
+                    placeholder="enter your message..."
                     required
                     value={formData.message}
                     onChange={handleChange}
