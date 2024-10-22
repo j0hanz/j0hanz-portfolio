@@ -1,27 +1,20 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
-// Custom hook for handling click outside to toggle a state
-const useClickOutsideToggle = ({ ignoreRefs = [] } = {}) => {
+/* Custom hook to handle the navbar's expanded state and detect clicks outside */
+const useClickOutsideToggle = (callback) => {
   const [expanded, setExpanded] = useState(false);
   const ref = useRef(null);
 
-  // Callback function to handle click outside
   const handleClickOutside = useCallback(
     (event) => {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        !ignoreRefs.some((ignoreRef) =>
-          ignoreRef.current?.contains(event.target)
-        )
-      ) {
+      if (ref.current && !ref.current.contains(event.target)) {
         setExpanded(false);
+        if (callback) callback();
       }
     },
-    [ignoreRefs]
+    [callback]
   );
 
-  // Effect to add and clean up the event listener for mouseup
   useEffect(() => {
     document.addEventListener('mouseup', handleClickOutside);
     return () => {
