@@ -28,7 +28,7 @@
 
 </div>
 
-### 🚀 Features
+<h2 align="center">🚀 Features</h2>
 
 - **Responsive Design**: Optimized for all devices, from desktop to mobile.
 - **Project Showcase**: Integrates with GitHub to display my work.
@@ -60,16 +60,20 @@
 
 ---
 
-### 🛠️ Technologies Used
+<h2 align="center">🛠️ Technologies Used</h2>
 
-- **React**
-- **Bootstrap**
-- **FontAwesome**
-- **EmailJS**
+<div align="center">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" height="35px" />
+  <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" height="35px" />
+  <img src="https://img.shields.io/badge/FontAwesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white" alt="FontAwesome" height="35px" />
+    <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku" height="35px" />
+  <img src="https://img.shields.io/badge/EmailJS-0078D4?style=for-the-badge&logo=emailjs&logoColor=white" alt="EmailJS" height="35px" />
+
+</div>
 
 ---
 
-### 🧑‍💻 Setup Instructions
+<h2 align="center">🧑‍💻 Setup Instructions</h2>
 
 1. **Clone the repository:**
 
@@ -92,7 +96,7 @@
 
 ---
 
-### 📂 Components
+<h2 align="center">📂 Components</h2>
 
 - **Credential Modal**: Displays certifications and credentials.
 - **Interactive Badge**: Showcases awarded badges from Badgr.
@@ -106,7 +110,7 @@
 
 ---
 
-### 🙏 Credits
+<h2 align="center">🙏 Credits</h2>
 
 - **Logo**: Created with [Logo.com](https://logo.com/).
 - **Icons**: Powered by [FontAwesome](https://fontawesome.com/).
