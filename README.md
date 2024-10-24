@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+<div align="center">
+  <img src="docs/logoBg.png" alt="Logo" width="150" height="150">
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+  <img src="https://img.shields.io/github/commit-activity/m/j0hanz/j0hanz-portfolio?label=Commit%20Activity&style=for-the-badge&color=blue" alt="Commit Activity"/>
+  <img src="https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&color=yellow" alt="Last Commit"/>
+  <img src="https://img.shields.io/github/commit-activity/m/j0hanz/j0hanz-portfolio?label=Commits%20per%20Month&style=for-the-badge&color=red" alt="Commits Per Month"/>
+</div>
 
-## Available Scripts
+<div align="center">
+  <img src="docs/amiBg.png" alt="Am I Responsive" width="100%">
+</div>
 
-In the project directory, you can run:
+Welcome to the personal portfolio website of **Linus Johansson**, where I showcase my projects, technical skills, and professional background.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🚀 Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Responsive Design**: Optimized for all devices, from desktop to mobile.
+- **Project Showcase**: Integrates with GitHub to display my work.
+- **Contact Form**: Get in touch with me directly.
+- **Credential Modal**: View my certifications and achievements.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### 🎨 Colors, Theme & Fonts
 
-### `npm run build`
+- **Fonts**: Sleek **Poppins** font for readability.
+- **Scrollbars**: Soft gray gradients for modern styling.
+- **Buttons & Hover**: Vibrant gradients for a dynamic feel.
+- **Backgrounds**: Minimal gray gradients to keep focus on content.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 🏅 Credential Handling
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Borderless**: Clean, no-border design for a polished look.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 📝 Download CV Modal
 
-### `npm run eject`
+- **Interactive Flags**: Provided by [flag-icons](https://github.com/lipis/flag-icons) for easy CV downloads.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### 📧 Contact Form
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Input Group**: Icons integrated into input fields for a modern look.
+- **Validation**: Real-time feedback for quick error handling.
+- **Custom Inputs**: Sleek and minimalistic for a clean interface.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🛠️ Technologies Used
 
-## Learn More
+- **React**
+- **Bootstrap**
+- **FontAwesome**
+- **EmailJS**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🧑‍💻 Setup Instructions
 
-### Code Splitting
+1. **Clone the repository:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   git clone https://github.com/j0hanz/portfolio.git
+   cd portfolio
+   ```
 
-### Analyzing the Bundle Size
+2. **Install dependencies:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   ```bash
+   npm install
+   ```
 
-### Making a Progressive Web App
+3. **Set up environment variables:**  
+   Create a `.env` file in the root directory and add your GitHub token:
+   ```env
+   REACT_APP_GITHUB_TOKEN=your_github_token
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+### 📂 Components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **Credential Modal**: Displays certifications and credentials.
+- **Interactive Badge**: Showcases awarded badges from Badgr.
+- **Portfolio Section**: Projects with GitHub integration and live demos.
+- **Contact Form**: Functional form to contact me directly.
+- **Education Section**: Lists education and certifications.
+- **Skills Section**: Highlights technical skills with icons.
+- **WorkExperience Section**: Details professional work experience.
+- **Spinner**: Reusable loading spinner component.
+- **OutsideClickHandler**: Custom hook for handling outside clicks.
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 🙏 Credits
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Logo**: Created with [Logo.com](https://logo.com/).
+- **Icons**: Powered by [FontAwesome](https://fontawesome.com/).
+- **GitHub API**: Used for displaying project data.
+- **Bootstrap**: Ensures responsive design.
