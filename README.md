@@ -10,7 +10,9 @@
   <a href="https://github.com/j0hanz">
     <img src="https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github" alt="GitHub Profile"/>
   </a>
+  <a href="https://linus-johansson-cv-d308be9b73e1.herokuapp.com/">
   <img src="https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=white" alt="Deployed on Heroku"/>
+  </a>
 </div>
 
 <div align="center">
