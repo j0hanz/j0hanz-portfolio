@@ -11,10 +11,18 @@
 <div align="center">
   <img src="docs/amiBg.png" alt="Am I Responsive" width="100%">
 </div>
-
 <div align="center">
+  <a href="https://www.linkedin.com/in/linus-johansson-software-dev/">
+    <img src="https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn Profile"/>
+  </a>
+  <a href="https://github.com/j0hanz">
+    <img src="https://img.shields.io/badge/GitHub-Profile-black?style=for-the-badge&logo=github" alt="GitHub Profile"/>
+  </a>
+</div>
 
 ---
+
+<div align="center">
 
 <strong>This is my personal portfolio website, where I showcase my projects, skills and professional background.</stong>
 
