@@ -12,9 +12,13 @@
   <img src="docs/amiBg.png" alt="Am I Responsive" width="100%">
 </div>
 
-Welcome to the personal portfolio website of **Linus Johansson**, where I showcase my projects, technical skills, and professional background.
+<div align="center">
 
 ---
+
+<strong>This is my personal portfolio website, where I showcase my projects, skills and professional background.</stong>
+
+</div>
 
 ### 🚀 Features
 
