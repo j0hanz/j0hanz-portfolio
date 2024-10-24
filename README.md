@@ -1,3 +1,8 @@
+Tänkte i 18 sekunder
+
+markdown
+Kopiera kod
+
 <div align="center">
   <img src="docs/logoBg.png" alt="Logo" width="150" height="150">
 </div>
@@ -23,9 +28,7 @@
 ---
 
 <div align="center">
-
-<strong>This is my personal portfolio website, where I showcase my projects, skills and professional background.</stong>
-
+  <strong>This is my personal portfolio website, where I showcase my projects, skills, and professional background.</strong>
 </div>
 
 <h2 align="center">🚀 Features</h2>
@@ -42,7 +45,7 @@
 - **Fonts**: Sleek **Poppins** font for readability.
 - **Scrollbars**: Soft gray gradients for modern styling.
 - **Buttons & Hover**: Vibrant gradients for a dynamic feel.
-- **Backgrounds**: Minimal gray gradients to keep focus on content.
+- **Backgrounds**: Minimal gray gradients to keep the focus on content.
 
 #### 🏅 Credential Handling
 
@@ -66,14 +69,19 @@
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" height="35px" />
   <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" height="35px" />
   <img src="https://img.shields.io/badge/FontAwesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white" alt="FontAwesome" height="35px" />
-    <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku" height="35px" />
+  <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku" height="35px" />
   <img src="https://img.shields.io/badge/EmailJS-0078D4?style=for-the-badge&logo=emailjs&logoColor=white" alt="EmailJS" height="35px" />
-
 </div>
 
 ---
 
 <h2 align="center">🧑‍💻 Setup Instructions</h2>
+
+<div align="center">
+   <a href="https://gitpod.io/#https://github.com/j0hanz/portfolio">
+      <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in Gitpod" width="200px">
+   </a>
+</div>
 
 1. **Clone the repository:**
 
@@ -90,8 +98,15 @@
 
 3. **Set up environment variables:**  
    Create a `.env` file in the root directory and add your GitHub token:
+
    ```env
    REACT_APP_GITHUB_TOKEN=your_github_token
+   ```
+
+4. **Start the development server:**
+
+   ```bash
+   npm start
    ```
 
 ---
