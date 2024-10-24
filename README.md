@@ -3,13 +3,14 @@
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&color=yellow" alt="Last Commit"/>
-    <a href="https://www.linkedin.com/in/linus-johansson-software-dev/">
-    <img src="https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn Profile"/>
+    <img src="https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&color=2a2a2a&logo=git" alt="Last Commit"/>
+  <a href="https://www.linkedin.com/in/linus-johansson-software-dev/">
+    <img src="https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin" alt="LinkedIn Profile"/>
   </a>
   <a href="https://github.com/j0hanz">
-    <img src="https://img.shields.io/badge/GitHub-Profile-black?style=for-the-badge&logo=github" alt="GitHub Profile"/>
+    <img src="https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github" alt="GitHub Profile"/>
   </a>
+  <img src="https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=white" alt="Deployed on Heroku"/>
 </div>
 
 <div align="center">
