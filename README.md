@@ -3,9 +3,7 @@
 </div>
 
 <div align="center">
-  <img src="https://img.shields.io/github/commit-activity/m/j0hanz/j0hanz-portfolio?label=Commit%20Activity&style=for-the-badge&color=blue" alt="Commit Activity"/>
   <img src="https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&color=yellow" alt="Last Commit"/>
-  <img src="https://img.shields.io/github/commit-activity/m/j0hanz/j0hanz-portfolio?label=Commits%20per%20Month&style=for-the-badge&color=red" alt="Commits Per Month"/>
 </div>
 
 <div align="center">
