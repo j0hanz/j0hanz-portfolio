@@ -1,8 +1,3 @@
-Tänkte i 18 sekunder
-
-markdown
-Kopiera kod
-
 <div align="center">
   <img src="docs/logoBg.png" alt="Logo" width="150" height="150">
 </div>
@@ -31,7 +26,7 @@ Kopiera kod
   <strong>This is my personal portfolio website, where I showcase my projects, skills, and professional background.</strong>
 </div>
 
-<h2 align="center">🚀 Features</h2>
+<h1 align="center">🚀 Features</h1>
 
 - **Responsive Design**: Optimized for all devices, from desktop to mobile.
 - **Project Showcase**: Integrates with GitHub to display my work.
@@ -63,7 +58,7 @@ Kopiera kod
 
 ---
 
-<h2 align="center">🛠️ Technologies Used</h2>
+<h1 align="center">🛠️ Technologies Used</h1>
 
 <div align="center">
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" height="35px" />
@@ -75,7 +70,7 @@ Kopiera kod
 
 ---
 
-<h2 align="center">🧑‍💻 Setup Instructions</h2>
+<h1 align="center">🧑‍💻 Setup Instructions</h1>
 
 <div align="center">
    <a href="https://gitpod.io/#https://github.com/j0hanz/portfolio">
@@ -111,7 +106,7 @@ Kopiera kod
 
 ---
 
-<h2 align="center">📂 Components</h2>
+<h1 align="center">📂 Components</h1>
 
 - **Credential Modal**: Displays certifications and credentials.
 - **Interactive Badge**: Showcases awarded badges from Badgr.
@@ -125,7 +120,7 @@ Kopiera kod
 
 ---
 
-<h2 align="center">🙏 Credits</h2>
+<h1 align="center">🙏 Credits</h1>
 
 - **Logo**: Created with [Logo.com](https://logo.com/).
 - **Icons**: Powered by [FontAwesome](https://fontawesome.com/).
