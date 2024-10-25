@@ -1,31 +1,18 @@
-<div align="center">
-  <img src="docs/logoBg.png" alt="Logo" width="175" height="175">
-</div>
+![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&logo=git)[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/linus-johansson-software-dev/)[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=white)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
 
-<div align="center">
-    <img src="https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&color=2a2a2a&logo=git" alt="Last Commit"/>
-  <a href="https://www.linkedin.com/in/linus-johansson-software-dev/">
-    <img src="https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin" alt="LinkedIn Profile"/>
-  </a>
-  <a href="https://github.com/j0hanz">
-    <img src="https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github" alt="GitHub Profile"/>
-  </a>
-  <a href="https://linus-johansson-cv-d308be9b73e1.herokuapp.com/">
-  <img src="https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=white" alt="Deployed on Heroku"/>
-  </a>
-</div>
+<!-- ![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&logo=git)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/linus-johansson-software-dev/)
+[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)
+[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=white)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
+![Site Status](https://img.shields.io/uptimerobot/status/mYOUR_MONITOR_ID?label=Status&style=for-the-badge) -->
 
-<div align="center">
-  <img src="docs/amiBg.png" alt="Am I Responsive" width="100%">
-</div>
+![Am I Responsive](docs/amiBg.png)
 
 ---
 
-<div align="center">
-  <strong>This is my personal portfolio website, where I showcase my projects, skills, and professional background.</strong>
-</div>
+**This is my personal portfolio website, where I showcase my projects, skills, and professional background.**
 
-<h1 align="center">🚀 Features</h1>
+# 🚀 Features
 
 - **Responsive Design**: Optimized for all devices, from desktop to mobile.
 - **Project Showcase**: Integrates with GitHub to display my work.
@@ -34,22 +21,24 @@
 
 ---
 
-#### 🎨 Colors, Theme & Fonts
+## 🎨 Design
+
+### 🖋️ Typography & Colors
 
 - **Fonts**: Sleek **Poppins** font for readability.
 - **Scrollbars**: Soft gray gradients for modern styling.
 - **Buttons & Hover**: Vibrant gradients for a dynamic feel.
 - **Backgrounds**: Minimal gray gradients to keep the focus on content.
 
-#### 🏅 Credential Handling
+### 🏅 Credential Handling
 
 - **Borderless**: Clean, no-border design for a polished look.
 
-#### 📝 Download CV Modal
+### 📄 Download CV Modal
 
 - **Interactive Flags**: Provided by [flag-icons](https://github.com/lipis/flag-icons) for easy CV downloads.
 
-#### 📧 Contact Form
+### 📬 Contact Form
 
 - **Input Group**: Icons integrated into input fields for a modern look.
 - **Validation**: Real-time feedback for quick error handling.
@@ -57,25 +46,15 @@
 
 ---
 
-<h1 align="center">🛠️ Technologies Used</h1>
+# 🛠️ Technologies Used
 
-<div align="center">
-  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" height="35px" />
-  <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" height="35px" />
-  <img src="https://img.shields.io/badge/FontAwesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white" alt="FontAwesome" height="35px" />
-  <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" alt="Heroku" height="35px" />
-  <img src="https://img.shields.io/badge/EmailJS-0078D4?style=for-the-badge&logo=emailjs&logoColor=white" alt="EmailJS" height="35px" />
-</div>
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)![FontAwesome](https://img.shields.io/badge/FontAwesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white)![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)![EmailJS](https://img.shields.io/badge/EmailJS-0078D4?style=for-the-badge&logo=emailjs&logoColor=white)
 
 ---
 
-<h1 align="center">🧑‍💻 Setup Instructions</h1>
+# 🧑‍💻 Setup Instructions
 
-<div align="center">
-   <a href="https://gitpod.io/#https://github.com/j0hanz/portfolio">
-      <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in Gitpod" width="200px">
-   </a>
-</div>
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/j0hanz/portfolio)
 
 1. **Clone the repository:**
 
@@ -105,7 +84,7 @@
 
 ---
 
-<h1 align="center">📂 Components</h1>
+# 📂 Components
 
 - **Credential Modal**: Displays certifications and credentials.
 - **Interactive Badge**: Showcases awarded badges from Badgr.
@@ -119,7 +98,7 @@
 
 ---
 
-<h1 align="center">🙏 Credits</h1>
+# 🙏 Credits
 
 - **Logo**: Created with [Logo.com](https://logo.com/).
 - **Icons**: Powered by [FontAwesome](https://fontawesome.com/).
