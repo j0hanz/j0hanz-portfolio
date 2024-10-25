@@ -1,4 +1,4 @@
-# Linus Johansson Portfolio
+# j0hanz Portfolio
 
 ![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Last%20Commit&style=for-the-badge&logo=git)![Site Status](https://img.shields.io/uptimerobot/status/m797912858-9dcdcff1e2f2fd603bd28fc0?label=Status&style=for-the-badge)[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/linus-johansson-software-dev/)[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=white)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
 
