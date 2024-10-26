@@ -189,18 +189,14 @@ const Portfolio = () => {
                 </span>
               ))}
             </div>
-            <div className={`mb-4 ${styles.githubStats}`}>
+            <div className={`mb-5 ${styles.githubStats}`}>
               <img
-                src={`https://img.shields.io/github/commit-activity/t/${repoPath}`}
+                src={`https://img.shields.io/github/commit-activity/t/${repoPath}?logo=git&logoColor=white&label=Commits`}
                 alt="Commit Activity"
               />
               <img
-                src={`https://img.shields.io/github/last-commit/${repoPath}`}
+                src={`https://img.shields.io/github/last-commit/${repoPath}?logo=github&logoColor=white&label=Updated`}
                 alt="Last Commit"
-              />
-              <img
-                src={`https://img.shields.io/github/repo-size/${repoPath}`}
-                alt="Repo Size"
               />
             </div>
             {project.isHackathon && (
