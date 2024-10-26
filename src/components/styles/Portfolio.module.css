@@ -18,7 +18,7 @@
 
 .hackathonBadge {
   position: absolute !important;
-  bottom: 4rem !important;
+  bottom: 3rem !important;
   right: 0.5rem !important;
   width: 6.5rem !important;
   opacity: 0.8 !important;
@@ -83,14 +83,13 @@
 .githubStats img {
   display: flex !important;
   flex-direction: column !important;
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0.4rem !important;
   border: none !important;
   border-radius: 6.5px !important;
 }
 
 @media (max-width: 425px) {
   .hackathonBadge {
-    width: 6rem !important;
-    bottom: 4.25rem !important;
+    width: 5.5rem !important;
   }
 }

@@ -189,7 +189,7 @@ const Portfolio = () => {
                 </span>
               ))}
             </div>
-            <div className={`mb-5 ${styles.githubStats}`}>
+            <div className={`mb-3 mt-2 ${styles.githubStats}`}>
               <img
                 src={`https://img.shields.io/github/commit-activity/t/${repoPath}?logo=git&logoColor=white&label=Commits`}
                 alt="Commit Activity"
