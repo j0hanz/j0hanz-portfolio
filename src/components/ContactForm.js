@@ -62,7 +62,7 @@ const ContactForm = () => {
       toast.error('Failed to send message! Please try again later.');
     }
   };
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const formValid = validateForm();
