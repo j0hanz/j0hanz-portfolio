@@ -20,11 +20,11 @@ import {
 import EmailHandler from './EmailHandler';
 import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
   const [validated, setValidated] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -66,14 +66,14 @@ const ContactForm = () => {
     setIsSending(false);
     if (success) {
       setFormData({ name: '', email: '', company: '', url: '', message: '' });
-      setShowSuccessModal(true);
+      toast.success('Your message was sent successfully!');
     } else {
-      console.error('Email sending failed.');
+      toast.error('Failed to send message! Please try again later.');
     }
   };
 
-  const handleCloseSuccessModal = () => {
-    setShowSuccessModal(false);
+  const toastDemo = () => {
+    toast.error('Failed to send message! Please try again later.');
   };
 
   return (
@@ -227,6 +227,7 @@ const ContactForm = () => {
                   )}
                 </Button>
               </div>
+              <Button onClick={toastDemo}>Toast Demo</Button>
             </Form>
             {validated && (
               <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
