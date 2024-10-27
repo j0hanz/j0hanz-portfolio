@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Container, Button } from 'react-bootstrap';
-import ImageCredential from '../assets/Credential.png';
+import ImageCredential from '../assets/Credential.webp';
 import styles from './styles/Credential.module.css';
 import Spinner from './Spinner';
 

@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
-import hackathonBadge from '../assets/hackathonBadge.png';
+import hackathonBadge from '../assets/hackathonBadge.webp';
 
 const projects = [
   {

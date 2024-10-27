@@ -207,7 +207,7 @@ code {
 }
 
 .cardBgImage::before {
-  background-image: url('../src/assets/imgBackground.png');
+  background-image: url('../src/assets/imgBackground.webp');
   opacity: 0.09;
 }
 
@@ -254,7 +254,7 @@ code {
 }
 
 .imgDarkBg::before {
-  background-image: url('../src/assets/imgDarkBg.png');
+  background-image: url('../src/assets/imgDarkBg.webp');
   opacity: 0.1;
 }
 

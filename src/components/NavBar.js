@@ -22,7 +22,7 @@ import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
-import navLogo from '../assets/imgBg.png';
+import navLogo from '../assets/imgBg.webp';
 import appStyles from '../App.module.css';
 
 const NavBar = () => {

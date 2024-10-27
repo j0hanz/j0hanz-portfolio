@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
-import Image from '../assets/image_me.jpeg';
+import Image from '../assets/image_me.webp';
 import styles from './styles/Hero.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
