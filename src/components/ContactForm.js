@@ -53,15 +53,6 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formValid = validateForm();
-    setValidated(formValid);
-    if (formValid) {
-      setIsSending(true);
-    }
-  };
-
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
@@ -71,9 +62,14 @@ const ContactForm = () => {
       toast.error('Failed to send message! Please try again later.');
     }
   };
-
-  const toastDemo = () => {
-    toast.error('Failed to send message! Please try again later.');
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formValid = validateForm();
+    setValidated(formValid);
+    if (formValid) {
+      setIsSending(true);
+    }
   };
 
   return (
@@ -227,7 +223,6 @@ const ContactForm = () => {
                   )}
                 </Button>
               </div>
-              <Button onClick={toastDemo}>Toast Demo</Button>
             </Form>
             {validated && (
               <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
