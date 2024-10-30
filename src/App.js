@@ -31,6 +31,8 @@ const App = () => {
 
   return (
     <div className={styles.appContainer}>
+      {/* Background element */}
+      <div className={styles.fixedBackground}></div>
       <NavBar />
       <Toast />
       <main className={styles.mainContent}>
