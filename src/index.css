@@ -1,16 +1,17 @@
-/* Importing the Poppins font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+/* Importing the Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap')
+!important;
 
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
+  font-family: 'Inter', sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  line-height: 1.6 !important;
 }
 
 code {
-  font-family: 'Poppins', 'Source Code Pro', Menlo, Monaco, Consolas,
-    'Courier New', monospace;
-  font-size: 0.96em;
+  font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
+    'Courier New', monospace !important;
+  font-size: 0.96em !important;
 }
