@@ -32,10 +32,7 @@ const Hero = () => {
   const contactButtonClass = `${buttonBaseClass} ${styles.contactButton}`;
 
   return (
-    <section
-      id="hero"
-      className={`text-center ${appStyles.sectionPadding} ${appStyles.imgDarkBg}`}
-    >
+    <section id="hero" className={`text-center ${appStyles.sectionPadding}`}>
       <Container className={appStyles.sectionContainer}>
         <Row className="d-flex justify-content-center align-items-center">
           <Col xs="auto">
