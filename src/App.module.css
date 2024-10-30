@@ -1,5 +1,7 @@
-/* Importing the Poppins font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+/* Importing the Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap')
+!important;
+
 :root {
   --bs-body-bg: none !important;
   --bs-tertiary-bg: none !important;
@@ -67,11 +69,26 @@
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
+.fixedBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../src/assets/imgDarkBg.webp');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.2;
+  z-index: -1;
+}
+
 body {
-  font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #333;
+  font-family: 'Inter', sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  color: #333 !important;
   background: linear-gradient(
     180deg,
     #e8e8e8 0%,
@@ -89,9 +106,9 @@ body {
 }
 
 code {
-  font-family: 'Poppins', 'Source Code Pro', Menlo, Monaco, Consolas,
-    'Courier New', monospace;
-  font-size: 0.96em;
+  font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
+    'Courier New', monospace !important;
+  font-size: 0.96em !important;
 }
 
 /* Container Styles */
