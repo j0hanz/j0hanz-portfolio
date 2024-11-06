@@ -88,6 +88,7 @@ body {
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
   color: #333 !important;
+  overflow: scroll !important;
   background: linear-gradient(
     180deg,
     #e8e8e8 0%,
@@ -190,29 +191,11 @@ code {
   color: #f0f0f0 !important;
 }
 
-.closeButton {
-  position: absolute !important;
-  top: 0px !important;
-  right: 0px !important;
-  background: none !important;
-  border: none !important;
-  font-size: 1.3rem !important;
-  color: #bdbcbc !important;
-  cursor: pointer !important;
-  transition: color 0.3s ease !important;
-}
-
-.closeButton:hover {
-  color: #505050 !important;
-}
-
-.cardBgImage,
-.imgDarkBg {
+.cardBgImage {
   position: relative;
 }
 
-.cardBgImage::before,
-.imgDarkBg::before {
+.cardBgImage::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -227,8 +210,7 @@ code {
   opacity: 0.09;
 }
 
-.cardBgImage > *,
-.imgDarkBg > * {
+.cardBgImage > * {
   position: relative;
   z-index: 1;
 }
@@ -267,11 +249,6 @@ code {
 
 .customButtonLight:hover {
   filter: brightness(0.7);
-}
-
-.imgDarkBg::before {
-  background-image: url('../src/assets/imgDarkBg.webp');
-  opacity: 0.1;
 }
 
 .mainContent {
