@@ -5,6 +5,7 @@ import styles from './styles/Hero.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import ModalCv from './ModalCv';
+import ImageModal from './ImageModal';
 import appStyles from '../App.module.css';
 
 const Hero = () => {
@@ -14,7 +15,10 @@ const Hero = () => {
   /* State to manage the visibility of the CV modal */
   const [showModal, setShowModal] = useState(false);
 
-  /* Function to handle opening the modal with a loading spinner */
+  /* State to manage the visibility of the image modal */
+  const [showImageModal, setShowImageModal] = useState(false);
+
+  /* Function to handle opening the CV modal with a loading spinner */
   const handleModalOpen = useCallback(() => {
     setLoading(true);
     setTimeout(() => {
@@ -23,8 +27,14 @@ const Hero = () => {
     }, 1000);
   }, []);
 
-  /* Function to handle closing the modal */
+  /* Function to handle closing the CV modal */
   const handleModalClose = useCallback(() => setShowModal(false), []);
+
+  /* Function to handle opening the image modal */
+  const handleImageModalOpen = useCallback(() => setShowImageModal(true), []);
+
+  /* Function to handle closing the image modal */
+  const handleImageModalClose = useCallback(() => setShowImageModal(false), []);
 
   /* Common class names for buttons */
   const buttonBaseClass = `d-flex align-items-center ${appStyles.customButtonLight}`;
@@ -40,6 +50,8 @@ const Hero = () => {
               src={Image}
               alt="Linus Johansson"
               className={`mb-4 ${styles.heroImage}`}
+              onClick={handleImageModalOpen}
+              style={{ cursor: 'pointer' }}
             />
             <h1 className={styles.gradientText}>Linus Johansson</h1>
             <hr className="my-2" />
@@ -85,6 +97,7 @@ const Hero = () => {
         </Row>
       </Container>
       <ModalCv show={showModal} handleClose={handleModalClose} />
+      <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
     </section>
   );
 };
