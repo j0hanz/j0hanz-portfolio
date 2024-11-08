@@ -32,6 +32,7 @@ const NavBar = () => {
     setExpanded(false);
   });
 
+  /* State to manage the visibility of the navbar */
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   /* State to manage the visibility of the CV modal */
@@ -43,6 +44,7 @@ const NavBar = () => {
   /* Handles closing the CV modal */
   const handleModalClose = useCallback(() => setShowModal(false), []);
 
+  /* Navlinks data */
   const navLinks = [
     { id: 'about-me', icon: faUser, label: 'About Me' },
     { id: 'education', icon: faGraduationCap, label: 'Education' },
@@ -52,6 +54,7 @@ const NavBar = () => {
     { id: 'contact', icon: faEnvelope, label: 'Contact' },
   ];
 
+  /* Social links data */
   const socialLinks = [
     {
       id: 'linkedin',
@@ -75,6 +78,12 @@ const NavBar = () => {
       iconClass: styles.pdfIcon,
     },
   ];
+
+  /* Handles closing the navbar when a navlink is clicked */
+  const handleNavLinkClick = () => {
+    setExpanded(false);
+    setIsMenuOpen(false);
+  };
 
   return (
     <>
@@ -114,6 +123,7 @@ const NavBar = () => {
                   key={id}
                   href={`#${id}`}
                   className={`${styles.navLink} my-1 my-lg-0`}
+                  onClick={handleNavLinkClick}
                 >
                   <FontAwesomeIcon
                     icon={icon}
