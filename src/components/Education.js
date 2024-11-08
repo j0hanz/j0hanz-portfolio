@@ -10,6 +10,7 @@ import {
 import Credential from './Credential';
 import styles from './styles/Education.module.css';
 import appStyles from '../App.module.css';
+import ScrollRevealWrapper from './ScrollWrapper';
 
 const education = [
   {
@@ -81,23 +82,25 @@ const Education = () => {
   );
 
   return (
-    <section id="education" className={appStyles.sectionPadding}>
-      <Container className={appStyles.sectionContainer}>
-        <div className={appStyles.sectionTitleContainer}>
-          <div>
-            <FontAwesomeIcon
-              icon={faGraduationCap}
-              size="2x"
-              className={appStyles.mainIcon}
-            />
+    <ScrollRevealWrapper>
+      <section id="education" className={appStyles.sectionPadding}>
+        <Container className={appStyles.sectionContainer}>
+          <div className={appStyles.sectionTitleContainer}>
+            <div>
+              <FontAwesomeIcon
+                icon={faGraduationCap}
+                size="2x"
+                className={appStyles.mainIcon}
+              />
+            </div>
+            <h2 className={appStyles.sectionTitle}>Education</h2>
           </div>
-          <h2 className={appStyles.sectionTitle}>Education</h2>
-        </div>
-        <Row>{education.map(renderEducationItem)}</Row>
-        {/* Renders the credential modal if showModal is true */}
-        <Credential show={showModal} handleClose={toggleModal} />
-      </Container>
-    </section>
+          <Row>{education.map(renderEducationItem)}</Row>
+          {/* Renders the credential modal if showModal is true */}
+          <Credential show={showModal} handleClose={toggleModal} />
+        </Container>
+      </section>
+    </ScrollRevealWrapper>
   );
 };
 

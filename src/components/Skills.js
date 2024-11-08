@@ -19,6 +19,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Skills.module.css';
 import appStyles from '../App.module.css';
+import ScrollRevealWrapper from './ScrollWrapper';
 
 const skills = [
   { icon: faHtml5, label: 'HTML5' },
@@ -49,21 +50,23 @@ const Skills = () => {
   );
 
   return (
-    <section id="skills" className={appStyles.sectionPadding}>
-      <Container className={appStyles.sectionContainer}>
-        <div className={appStyles.sectionTitleContainer}>
-          <div>
-            <FontAwesomeIcon
-              icon={faCogs}
-              size="2x"
-              className={appStyles.mainIcon}
-            />
+    <ScrollRevealWrapper>
+      <section id="skills" className={appStyles.sectionPadding}>
+        <Container className={appStyles.sectionContainer}>
+          <div className={appStyles.sectionTitleContainer}>
+            <div>
+              <FontAwesomeIcon
+                icon={faCogs}
+                size="2x"
+                className={appStyles.mainIcon}
+              />
+            </div>
+            <h2 className={appStyles.sectionTitle}>Skills</h2>
           </div>
-          <h2 className={appStyles.sectionTitle}>Skills</h2>
-        </div>
-        <Row>{skills.map(renderSkill)}</Row>
-      </Container>
-    </section>
+          <Row>{skills.map(renderSkill)}</Row>
+        </Container>
+      </section>
+    </ScrollRevealWrapper>
   );
 };
 

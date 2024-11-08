@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/WorkExperience.module.css';
 import appStyles from '../App.module.css';
+import ScrollRevealWrapper from './ScrollWrapper';
 
 const experiences = [
   {
@@ -87,21 +88,23 @@ const WorkExperience = () => {
   );
 
   return (
-    <section id="work-experience" className={appStyles.sectionPadding}>
-      <Container className={appStyles.sectionContainer}>
-        <div className={appStyles.sectionTitleContainer}>
-          <div>
-            <FontAwesomeIcon
-              icon={faBriefcase}
-              size="2x"
-              className={appStyles.mainIcon}
-            />
+    <ScrollRevealWrapper>
+      <section id="work-experience" className={appStyles.sectionPadding}>
+        <Container className={appStyles.sectionContainer}>
+          <div className={appStyles.sectionTitleContainer}>
+            <div>
+              <FontAwesomeIcon
+                icon={faBriefcase}
+                size="2x"
+                className={appStyles.mainIcon}
+              />
+            </div>
+            <h2 className={appStyles.sectionTitle}>Work Experience</h2>
           </div>
-          <h2 className={appStyles.sectionTitle}>Work Experience</h2>
-        </div>
-        <Row>{experiences.map(renderExperience)}</Row>
-      </Container>
-    </section>
+          <Row>{experiences.map(renderExperience)}</Row>
+        </Container>
+      </section>
+    </ScrollRevealWrapper>
   );
 };
 

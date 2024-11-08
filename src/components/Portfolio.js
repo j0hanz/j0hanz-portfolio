@@ -19,6 +19,7 @@ import {
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
 import hackathonBadge from '../assets/hackathonBadge.webp';
+import ScrollRevealWrapper from './ScrollWrapper';
 
 const projects = [
   {
@@ -264,21 +265,23 @@ const Portfolio = () => {
   };
 
   return (
-    <section id="portfolio" className={appStyles.sectionPadding}>
-      <Container className={appStyles.sectionContainer}>
-        <div className={appStyles.sectionTitleContainer}>
-          <div>
-            <FontAwesomeIcon
-              icon={faProjectDiagram}
-              size="2x"
-              className={appStyles.mainIcon}
-            />
+    <ScrollRevealWrapper>
+      <section id="portfolio" className={appStyles.sectionPadding}>
+        <Container className={appStyles.sectionContainer}>
+          <div className={appStyles.sectionTitleContainer}>
+            <div>
+              <FontAwesomeIcon
+                icon={faProjectDiagram}
+                size="2x"
+                className={appStyles.mainIcon}
+              />
+            </div>
+            <h2 className={appStyles.sectionTitle}>Projects</h2>
           </div>
-          <h2 className={appStyles.sectionTitle}>Projects</h2>
-        </div>
-        <Row>{projects.map(renderProject)}</Row>
-      </Container>
-    </section>
+          <Row>{projects.map(renderProject)}</Row>
+        </Container>
+      </section>
+    </ScrollRevealWrapper>
   );
 };
 

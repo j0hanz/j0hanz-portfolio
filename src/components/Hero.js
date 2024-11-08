@@ -7,6 +7,7 @@ import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import ModalCv from './ModalCv';
 import ImageModal from './ImageModal';
 import appStyles from '../App.module.css';
+import ScrollRevealWrapper from './ScrollWrapper';
 
 const Hero = () => {
   /* State to manage loading spinner for CV download */
@@ -42,63 +43,65 @@ const Hero = () => {
   const contactButtonClass = `${buttonBaseClass} ${styles.contactButton}`;
 
   return (
-    <section id="hero" className={`text-center ${appStyles.sectionPadding}`}>
-      <Container className={appStyles.sectionContainer}>
-        <Row className="d-flex justify-content-center align-items-center">
-          <Col xs="auto">
-            <img
-              src={Image}
-              alt="Linus Johansson"
-              className={`mb-4 ${styles.heroImage}`}
-              onClick={handleImageModalOpen}
-              style={{ cursor: 'pointer' }}
-            />
-            <h1 className={styles.gradientText}>Linus Johansson</h1>
-            <hr className="my-2" />
-            <p
-              className={`text-body-secondary fw-semibold ${styles.developerTitle}`}
-            >
-              Junior Full-Stack Developer
-            </p>
-            <div className="d-flex flex-column align-items-center my-5">
-              <Button
-                onClick={handleModalOpen}
-                disabled={loading}
-                className={downloadButtonClass}
+    <ScrollRevealWrapper>
+      <section id="hero" className={`text-center ${appStyles.sectionPadding}`}>
+        <Container className={appStyles.sectionContainer}>
+          <Row className="d-flex justify-content-center align-items-center">
+            <Col xs="auto">
+              <img
+                src={Image}
+                alt="Linus Johansson"
+                className={`mb-4 ${styles.heroImage}`}
+                onClick={handleImageModalOpen}
+                style={{ cursor: 'pointer' }}
+              />
+              <h1 className={styles.gradientText}>Linus Johansson</h1>
+              <hr className="my-2" />
+              <p
+                className={`text-body-secondary fw-semibold ${styles.developerTitle}`}
               >
-                {loading ? (
-                  <Spinner
-                    variant="light"
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <>
-                    <FontAwesomeIcon
-                      icon={faDownload}
-                      className={appStyles.buttonIcon}
+                Junior Full-Stack Developer
+              </p>
+              <div className="d-flex flex-column align-items-center my-5">
+                <Button
+                  onClick={handleModalOpen}
+                  disabled={loading}
+                  className={downloadButtonClass}
+                >
+                  {loading ? (
+                    <Spinner
+                      variant="light"
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
                     />
-                    <span className={appStyles.buttonText}>Download CV</span>
-                  </>
-                )}
-              </Button>
-              <Button href="#contact" className={contactButtonClass}>
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className={appStyles.buttonIcon}
-                />
-                <span className={appStyles.buttonText}>Get in Touch</span>
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-      <ModalCv show={showModal} handleClose={handleModalClose} />
-      <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
-    </section>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faDownload}
+                        className={appStyles.buttonIcon}
+                      />
+                      <span className={appStyles.buttonText}>Download CV</span>
+                    </>
+                  )}
+                </Button>
+                <Button href="#contact" className={contactButtonClass}>
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className={appStyles.buttonIcon}
+                  />
+                  <span className={appStyles.buttonText}>Get in Touch</span>
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+        <ModalCv show={showModal} handleClose={handleModalClose} />
+        <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
+      </section>
+    </ScrollRevealWrapper>
   );
 };
 
