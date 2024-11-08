@@ -16,6 +16,7 @@
 - **Project Showcase**: Integrates with GitHub to display my work.
 - **Contact Form**: Get in touch with me directly.
 - **Credential Modal**: View my certification.
+- **Scroll Animations**: Smooth scroll animations using ScrollReveal.
 
 ---
 
@@ -31,7 +32,7 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 
 ### 🖋️ Typography & Colors
 
-- **Fonts**: Sleek **Poppins** font for readability.
+- **Fonts**: Sleek **Inter** font for readability.
 - **Scrollbars**: Soft gray gradients for modern styling.
 - **Buttons & Hover**: Vibrant gradients for a dynamic feel.
 - **Backgrounds**: Minimal gray gradients to keep the focus on content.
@@ -60,6 +61,7 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 - **[Heroku](https://www.heroku.com/)**: A cloud platform for deploying and managing applications.
 - **[EmailJS](https://www.emailjs.com/)**: A service to send emails directly from JavaScript.
 - **[React Toastify](https://fkhadra.github.io/react-toastify/)**: A library for toast notifications in React.
+- **[ScrollReveal](https://scrollrevealjs.org/)**: A library for scroll animations.
 
 ---
 
@@ -136,6 +138,7 @@ The **Contact** section includes a form that allows visitors to get in touch wit
 - **ModalCv**: A modal component for downloading CVs in different languages.
 - **Toast**: A component to manage toast notifications using `react-toastify`.
 - **Badge**: A component to display badges with links and images.
+- **ScrollRevealWrapper**: A component to add scroll animations using `ScrollReveal`.
 
 ---
 
@@ -150,3 +153,4 @@ Acknowledgments for the tools and resources used in building this portfolio:
 - **[GitHub API](https://docs.github.com/en/rest)**: Used for displaying project data.
 - **[React Bootstrap](https://react-bootstrap.netlify.app/)**: Ensures responsive design.
 - **[Flag-icons](https://github.com/lipis/flag-icons)**: Provides interactive flags.
+- **[ScrollReveal](https://scrollrevealjs.org/)**: For smooth scroll animations.
