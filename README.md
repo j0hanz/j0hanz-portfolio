@@ -79,9 +79,9 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 
 2. **Install dependencies:**
 
-    ```bash
+   ```bash
    npm install
-    ```
+   ```
 
 3. **Set up environment variables:**
    Create a **.env** file in the root directory and add the following variables:
