@@ -15,6 +15,7 @@ import {
   faRocket,
   faUser,
   faUsers,
+  faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
@@ -23,29 +24,8 @@ import ScrollRevealWrapper from './ScrollWrapper';
 
 const projects = [
   {
-    title: 'Tech Corner',
-    description:
-      'A community blog and news site for tech enthusiasts to share and engage with the latest in technology.',
-    github: 'https://github.com/j0hanz/tech-corner-website',
-    demo: 'https://tech-corner-web-70b84e69e118.herokuapp.com/about/',
-    technologies: [
-      'HTML5',
-      'CSS3',
-      'Python',
-      'JavaScript',
-      'Bootstrap',
-      'Python',
-      'Django',
-      'SQL',
-      'Agile',
-    ],
-    collaborative: false,
-    isHackathon: false,
-  },
-  {
     title: 'Blog Beat',
-    description:
-      'An interactive platform for reading, writing, and engaging with blog posts, designed for bloggers and readers.',
+    description: 'A platform for reading and writing blog posts.',
     github: 'https://github.com/j0hanz/blog-beat-web',
     demo: 'https://blog-beat-17c62545ca2a.herokuapp.com/',
     technologies: [
@@ -54,53 +34,41 @@ const projects = [
       'JavaScript',
       'Bootstrap',
       'Node.js',
-      'Django Rest',
-      'Python',
-      'SQL',
-      'SEO',
       'Agile',
     ],
     collaborative: false,
     isHackathon: false,
+    api: false,
   },
   {
-    title: 'Pick my Spell',
+    title: 'Blog Beat API',
     description:
-      'A fun spelling quiz game where users pick the correct word within 10 seconds, perfect for improving spelling skills.',
-    github: 'https://github.com/j0hanz/PICK-my-SPELL',
-    demo: 'https://j0hanz.github.io/PICK-my-SPELL/',
-    technologies: ['HTML5', 'CSS3', 'JavaScript'],
-    isHackathon: false,
-  },
-  {
-    title: 'Fix my Spell',
-    description:
-      'A console-based game to correct misspelled words, designed to boost spelling and vocabulary in a playful way.',
-    github: 'https://github.com/j0hanz/FIX-my-SPELL',
-    demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
-    technologies: ['Python', 'Heruko'],
+      'RESTful API for Blog Beat with endpoints for posts, comments, and authentication.',
+    github: 'https://github.com/j0hanz/blog_beat_api',
+    demo: 'https://blog-beat-api-bab609deb9ee.herokuapp.com/',
+    technologies: ['Django', 'Django REST Framework', 'Python', 'PostgreSQL'],
     collaborative: false,
     isHackathon: false,
+    api: true,
   },
   {
-    title: 'Corner',
+    title: 'Portfolio',
     description:
-      'Corner is an upgraded version of Blog Beat, offering more features, better customization, and an improved user experience.',
-    github: 'https://github.com/j0hanz/corner',
-    demo: '', // No demo link available
+      'A personal portfolio site showcasing my skills, experience, and projects with custom gradient styling.',
+    github: 'https://github.com/j0hanz/j0hanz-portfolio',
+    demo: 'https://linus-johansson-cv-d308be9b73e1.herokuapp.com/',
     technologies: [
       'React.js',
       'CSS3',
       'JavaScript',
       'Bootstrap',
       'Node.js',
-      'Django Rest',
-      'Python',
-      'SQL',
-      'SEO',
+      'EmailJS',
+      'Heroku',
     ],
     collaborative: false,
     isHackathon: false,
+    api: false,
   },
   {
     title: 'SonataCraft',
@@ -122,6 +90,71 @@ const projects = [
     ],
     collaborative: true,
     isHackathon: true,
+    api: false,
+  },
+  {
+    title: 'Tech Corner',
+    description:
+      'A community blog and news site for tech enthusiasts to share and engage with the latest in technology.',
+    github: 'https://github.com/j0hanz/tech-corner-website',
+    demo: 'https://tech-corner-web-70b84e69e118.herokuapp.com/about/',
+    technologies: [
+      'HTML5',
+      'CSS3',
+      'Python',
+      'JavaScript',
+      'Bootstrap',
+      'Python',
+      'Django',
+      'SQL',
+      'Agile',
+    ],
+    collaborative: false,
+    isHackathon: false,
+    api: false,
+  },
+  {
+    title: 'Pick my Spell',
+    description:
+      'A fun spelling quiz game where users pick the correct word within 10 seconds, perfect for improving spelling skills.',
+    github: 'https://github.com/j0hanz/PICK-my-SPELL',
+    demo: 'https://j0hanz.github.io/PICK-my-SPELL/',
+    technologies: ['HTML5', 'CSS3', 'JavaScript'],
+    isHackathon: false,
+    collaborative: false,
+    api: false,
+  },
+  {
+    title: 'Fix my Spell',
+    description:
+      'A console-based game to correct misspelled words, designed to boost spelling and vocabulary in a playful way.',
+    github: 'https://github.com/j0hanz/FIX-my-SPELL',
+    demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
+    technologies: ['Python', 'Heruko'],
+    collaborative: false,
+    isHackathon: false,
+    api: false,
+  },
+  {
+    title: 'Corner',
+    description:
+      'Corner is an upgraded version of Blog Beat, offering more features, better customization, and an improved user experience.',
+    github: 'https://github.com/j0hanz/corner',
+    demo: '', // No demo link available
+    technologies: [
+      'React.js',
+      'CSS3',
+      'JavaScript',
+      'Bootstrap',
+      'Node.js',
+      'Django Rest',
+      'Python',
+      'SQL',
+      'SEO',
+    ],
+    collaborative: false,
+    isHackathon: false,
+    api: false,
   },
 ];
 
@@ -175,7 +208,12 @@ const Portfolio = () => {
             className={`d-flex flex-column ${appStyles.cardBody} ${styles.badgePosition}`}
           >
             <Card.Title className="mb-3 d-flex justify-content-between">
-              {project.title}
+              <div className="d-flex align-items-center">
+                {project.api && (
+                  <FontAwesomeIcon icon={faDatabase} className="me-2" />
+                )}
+                {project.title}
+              </div>
               <FontAwesomeIcon
                 icon={project.collaborative ? faUsers : faUser}
               />
