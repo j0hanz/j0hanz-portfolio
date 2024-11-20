@@ -17,6 +17,8 @@ import {
   faGraduationCap,
   faBarsStaggered,
   faXmark,
+  faAward,
+  faCode,
 } from '@fortawesome/free-solid-svg-icons';
 import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
@@ -77,6 +79,20 @@ const NavBar = () => {
       tooltip: 'Download CV',
       iconClass: styles.pdfIcon,
     },
+    {
+      id: 'certificate',
+      icon: faAward,
+      href: 'https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle',
+      tooltip: 'Certificate',
+      iconClass: styles.certificateIcon,
+    },
+    {
+      id: 'source-code',
+      icon: faCode,
+      href: 'https://github.com/j0hanz/j0hanz-portfolio',
+      tooltip: 'Source Code',
+      iconClass: styles.sourceCodeIcon,
+    },
   ];
 
   /* Handles closing the navbar when a navlink is clicked */
@@ -117,24 +133,24 @@ const NavBar = () => {
             />
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
-            <Nav className={`ms-auto my-2 my-lg-0 ${appStyles.cardBgImage}`}>
+            <Nav className={`ms-auto my-3 my-lg-0 ${appStyles.cardBgImage}`}>
               {navLinks.map(({ id, icon, label }) => (
                 <Nav.Link
                   key={id}
                   href={`#${id}`}
-                  className={`${styles.navLink} my-1 my-lg-0`}
+                  className={`${styles.navLink} my-2 my-lg-0`}
                   onClick={handleNavLinkClick}
                 >
                   <FontAwesomeIcon
                     icon={icon}
-                    className={`${styles.navIcon} me-2`}
+                    className={`${styles.navIcon} me-lg-2 me-3`}
                     fixedWidth
                   />
                   <span className={styles.navLink}>{label}</span>
                 </Nav.Link>
               ))}
             </Nav>
-            <Nav className="d-flex flex-row justify-content-start">
+            <Nav className="d-flex flex-row justify-content-between">
               {socialLinks.map(
                 ({ id, icon, href, onClick, tooltip, iconClass }) => (
                   <OverlayTrigger
@@ -153,7 +169,7 @@ const NavBar = () => {
                       href={href}
                       onClick={onClick}
                       target={href ? '_blank' : undefined}
-                      className="mx-0 mx-lg-0 me-5 me-lg-1 mt-2 mt-lg-0"
+                      className={`ms-lg-2 ms-1 me-lg-0 me-1 mt-3 mt-lg-0 ${id === 'certificate' || id === 'source-code' ? 'd-lg-none' : ''}`}
                     >
                       <FontAwesomeIcon
                         icon={icon}
