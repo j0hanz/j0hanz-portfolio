@@ -20,36 +20,29 @@ import {
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
 import hackathonBadge from '../assets/hackathonBadge.webp';
+import hackathonBadge3 from '../assets/hackathonBadgeThirdPlace.webp';
 import ScrollRevealWrapper from './ScrollWrapper';
 
 const projects = [
   {
-    title: 'Blog Beat',
-    description: 'A platform for reading and writing blog posts.',
-    github: 'https://github.com/j0hanz/blog-beat-web',
-    demo: 'https://blog-beat-17c62545ca2a.herokuapp.com/',
+    title: 'Script to Sound',
+    description:
+      'Developed for the November 2024 Code Institute Hackathon, this project is a text-to-speech application that enhances accessibility by converting written text into spoken words.',
+    github: 'https://github.com/hannahro15/Nov24Hackathon',
+    demo: 'https://script-to-sound-f697c5a0720c.herokuapp.com/',
     technologies: [
-      'React.js',
+      'Django',
+      'HTML5',
       'CSS3',
       'JavaScript',
       'Bootstrap',
-      'Node.js',
+      'Python',
       'Agile',
     ],
-    collaborative: false,
+    collaborative: true,
     isHackathon: false,
+    isHackathon_3: true,
     api: false,
-  },
-  {
-    title: 'Blog Beat API',
-    description:
-      'RESTful API for Blog Beat with endpoints for posts, comments, and authentication.',
-    github: 'https://github.com/j0hanz/blog_beat_api',
-    demo: 'https://blog-beat-api-bab609deb9ee.herokuapp.com/',
-    technologies: ['Django', 'Django REST Framework', 'Python', 'PostgreSQL'],
-    collaborative: false,
-    isHackathon: false,
-    api: true,
   },
   {
     title: 'Portfolio',
@@ -68,6 +61,7 @@ const projects = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_3: false,
     api: false,
   },
   {
@@ -90,7 +84,37 @@ const projects = [
     ],
     collaborative: true,
     isHackathon: true,
+    isHackathon_3: false,
     api: false,
+  },
+  {
+    title: 'Blog Beat',
+    description: 'A platform for reading and writing blog posts.',
+    github: 'https://github.com/j0hanz/blog-beat-web',
+    demo: 'https://blog-beat-17c62545ca2a.herokuapp.com/',
+    technologies: [
+      'React.js',
+      'CSS3',
+      'JavaScript',
+      'Bootstrap',
+      'Node.js',
+      'Agile',
+    ],
+    collaborative: false,
+    isHackathon: false,
+    isHackathon_3: false,
+    api: false,
+  },
+  {
+    title: 'Blog Beat API',
+    description:
+      'RESTful API for Blog Beat with endpoints for posts, comments, and authentication.',
+    github: 'https://github.com/j0hanz/blog_beat_api',
+    demo: 'https://blog-beat-api-bab609deb9ee.herokuapp.com/',
+    technologies: ['Django', 'Django REST Framework', 'Python', 'PostgreSQL'],
+    collaborative: false,
+    isHackathon: false,
+    api: true,
   },
   {
     title: 'Tech Corner',
@@ -111,6 +135,7 @@ const projects = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_3: false,
     api: false,
   },
   {
@@ -121,6 +146,7 @@ const projects = [
     demo: 'https://j0hanz.github.io/PICK-my-SPELL/',
     technologies: ['HTML5', 'CSS3', 'JavaScript'],
     isHackathon: false,
+    isHackathon_3: false,
     collaborative: false,
     api: false,
   },
@@ -133,6 +159,7 @@ const projects = [
     technologies: ['Python', 'Heruko'],
     collaborative: false,
     isHackathon: false,
+    isHackathon_3: false,
     api: false,
   },
   {
@@ -154,6 +181,7 @@ const projects = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_3: false,
     api: false,
   },
 ];
@@ -228,7 +256,7 @@ const Portfolio = () => {
                 </span>
               ))}
             </div>
-            <div className={`mb-3 mt-2 ${styles.githubStats}`}>
+            <div className={`mt-auto ${styles.githubStats}`}>
               <img
                 src={`https://img.shields.io/github/commit-activity/t/${repoPath}?logo=git&logoColor=white&label=Commits`}
                 alt="Commit Activity"
@@ -245,7 +273,14 @@ const Portfolio = () => {
                 className={styles.hackathonBadge}
               />
             )}
-            <div className="mt-auto d-flex justify-content-between">
+            {project.isHackathon_3 && (
+              <img
+                src={hackathonBadge3}
+                alt="Hackathon Badge"
+                className={styles.hackathonBadge}
+              />
+            )}
+            <div className="mt-3 d-flex justify-content-between">
               <Button
                 href={project.github}
                 target="_blank"
