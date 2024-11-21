@@ -48,7 +48,7 @@ const NavBar = () => {
         fixed="top"
         variant="dark"
         expand="lg"
-        className={styles.customNavbar}
+        className={`${styles.customNavbar} px-0 py-2`}
         expanded={expanded}
       >
         <Container fluid className="px-2">
