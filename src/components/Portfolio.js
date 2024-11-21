@@ -56,7 +56,9 @@ const Portfolio = () => {
             className={`d-flex flex-column ${appStyles.cardBody} ${styles.badgePosition}`}
           >
             <Card.Title className="mb-3 d-flex justify-content-between">
-              <div className="d-flex align-items-center">
+              <div
+                className={`${appStyles.cardHeader} d-flex align-items-center`}
+              >
                 {project.api && (
                   <FontAwesomeIcon icon={faDatabase} className="me-2" />
                 )}

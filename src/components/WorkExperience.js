@@ -18,7 +18,7 @@ const WorkExperience = () => {
         className={`h-100 ${styles.experienceCard} ${appStyles.cardBgColor}`}
       >
         <Card.Body className={appStyles.cardBody}>
-          <Card.Title className="mb-2">
+          <Card.Title className={`${appStyles.cardHeader} mb-2`}>
             <span>{experience.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
