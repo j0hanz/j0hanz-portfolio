@@ -19,7 +19,7 @@
 }
 
 *::-webkit-scrollbar {
-  width: 0.5rem !important;
+  width: 0.75rem !important;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -65,7 +65,7 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #2c2c2c;
+  background: linear-gradient(180deg, #252525 0%, #252525 50%, #252525 100%);
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -109,6 +109,35 @@ code {
   font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
     'Courier New', monospace !important;
   font-size: 0.96em !important;
+}
+
+.linkedinIcon {
+  color: #0077b5;
+  padding-right: 0.5rem;
+}
+
+.githubIcon {
+  color: #ffffff;
+  padding-right: 0.5rem;
+}
+
+.pdfIcon {
+  color: #f40f02;
+  padding-right: 0.5rem;
+}
+
+.certificateIcon {
+  color: #ffd700;
+  padding-right: 0.5rem;
+}
+
+.sourceCodeIcon {
+  color: #4caf50;
+}
+
+.copyrightText {
+  color: #f0f0f0;
+  opacity: 0.8;
 }
 
 /* Container Styles */

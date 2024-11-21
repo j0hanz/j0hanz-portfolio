@@ -7,25 +7,14 @@ import {
   Tooltip,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
-import {
-  faUser,
-  faCogs,
-  faBriefcase,
-  faProjectDiagram,
-  faEnvelope,
-  faGraduationCap,
-  faBarsStaggered,
-  faXmark,
-  faAward,
-  faCode,
-} from '@fortawesome/free-solid-svg-icons';
-import { faFilePdf } from '@fortawesome/free-regular-svg-icons';
+import { faBarsStaggered, faXmark } from '@fortawesome/free-solid-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
 import navLogo from '../assets/imgBg.webp';
 import appStyles from '../App.module.css';
+import { socialLinks } from '../data/socialLinks';
+import { navLinks } from '../data/navLinks';
 
 const NavBar = () => {
   /* Custom hook to handle the navbar's expanded state and detect clicks outside */
@@ -45,55 +34,6 @@ const NavBar = () => {
 
   /* Handles closing the CV modal */
   const handleModalClose = useCallback(() => setShowModal(false), []);
-
-  /* Navlinks data */
-  const navLinks = [
-    { id: 'about-me', icon: faUser, label: 'About Me' },
-    { id: 'education', icon: faGraduationCap, label: 'Education' },
-    { id: 'skills', icon: faCogs, label: 'Skills' },
-    { id: 'portfolio', icon: faProjectDiagram, label: 'Projects' },
-    { id: 'work-experience', icon: faBriefcase, label: 'Experience' },
-    { id: 'contact', icon: faEnvelope, label: 'Contact' },
-  ];
-
-  /* Social links data */
-  const socialLinks = [
-    {
-      id: 'linkedin',
-      icon: faLinkedinIn,
-      href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
-      tooltip: 'LinkedIn Profile',
-      iconClass: styles.linkedinIcon,
-    },
-    {
-      id: 'github',
-      icon: faGithub,
-      href: 'https://github.com/j0hanz',
-      tooltip: 'GitHub Profile',
-      iconClass: styles.githubIcon,
-    },
-    {
-      id: 'download-pdf',
-      icon: faFilePdf,
-      onClick: handleModalOpen,
-      tooltip: 'Download CV',
-      iconClass: styles.pdfIcon,
-    },
-    {
-      id: 'certificate',
-      icon: faAward,
-      href: 'https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle',
-      tooltip: 'Certificate',
-      iconClass: styles.certificateIcon,
-    },
-    {
-      id: 'source-code',
-      icon: faCode,
-      href: 'https://github.com/j0hanz/j0hanz-portfolio',
-      tooltip: 'Source Code',
-      iconClass: styles.sourceCodeIcon,
-    },
-  ];
 
   /* Handles closing the navbar when a navlink is clicked */
   const handleNavLinkClick = () => {
@@ -133,7 +73,7 @@ const NavBar = () => {
             />
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
-            <Nav className={`ms-auto my-3 my-lg-0 ${appStyles.cardBgImage}`}>
+            <Nav className={`ms-auto my-1 my-lg-0 ${appStyles.cardBgImage}`}>
               {navLinks.map(({ id, icon, label }) => (
                 <Nav.Link
                   key={id}
@@ -150,7 +90,7 @@ const NavBar = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            <Nav className="d-flex flex-row justify-content-between">
+            <Nav className="d-flex flex-row justify-content-between justify-content-sm-start">
               {socialLinks.map(
                 ({ id, icon, href, onClick, tooltip, iconClass }) => (
                   <OverlayTrigger
@@ -167,14 +107,16 @@ const NavBar = () => {
                   >
                     <Nav.Link
                       href={href}
-                      onClick={onClick}
+                      onClick={
+                        id === 'download-pdf' ? handleModalOpen : onClick
+                      }
                       target={href ? '_blank' : undefined}
-                      className={`ms-lg-2 ms-1 me-lg-0 me-2 mt-3 mt-lg-0 ${id === 'certificate' || id === 'source-code' ? 'd-lg-none' : ''}`}
+                      className={`ms-lg-2 ms-1 me-lg-0 me-sm-5 me-2 mt-3 mt-lg-0 ${id === 'certificate' || id === 'source-code' ? 'd-lg-none' : ''}`}
                     >
                       <FontAwesomeIcon
                         icon={icon}
                         size="lg"
-                        className={`${styles.socialIcon} ${iconClass}`}
+                        className={iconClass}
                       />
                     </Nav.Link>
                   </OverlayTrigger>

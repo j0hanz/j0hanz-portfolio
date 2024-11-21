@@ -11,24 +11,7 @@ import Credential from './Credential';
 import styles from './styles/Education.module.css';
 import appStyles from '../App.module.css';
 import ScrollRevealWrapper from './ScrollWrapper';
-
-const education = [
-  {
-    title: 'Diploma in Full Stack Software Development',
-    school: 'Code Institute',
-    duration: 'Feb 2024 - Jul 2024',
-    hasCredential: true,
-  },
-  {
-    title: 'Leadership Training',
-    school: 'Webhallen',
-    duration: '2019',
-    description: [
-      'Building successful teams through norms, values, and coaching leadership.',
-    ],
-    hasCredential: false,
-  },
-];
+import education from '../data/education';
 
 const Education = () => {
   /* State to manage the visibility of the credential modal */

@@ -7,27 +7,6 @@
   color: #007acc;
 }
 
-.linkedinIcon {
-  color: #0077b5;
-}
-
-.githubIcon {
-  color: #ffffff;
-}
-
-.pdfIcon {
-  color: #f40f02;
-}
-
-.certificateIcon {
-  color: #ffd700;
-  padding-right: 0.5rem;
-}
-
-.sourceCodeIcon {
-  color: #4caf50;
-}
-
 .navLink {
   color: #f0f0f0;
   letter-spacing: 2px;

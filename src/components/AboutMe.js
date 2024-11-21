@@ -6,24 +6,7 @@ import Credential from './Credential';
 import styles from './styles/AboutMe.module.css';
 import appStyles from '../App.module.css';
 import ScrollRevealWrapper from './ScrollWrapper';
-
-const aboutMeItems = [
-  {
-    title: 'Full Stack Developer',
-    description: 'Finished a course as a Full Stack Developer.',
-    hasCredential: true,
-  },
-  {
-    title: 'Tech Enthusiast',
-    description: 'Eager to use coding skills in teams.',
-    hasCredential: false,
-  },
-  {
-    title: 'Always Learning',
-    description: 'Ready to tackle new challenges.',
-    hasCredential: false,
-  },
-];
+import aboutMeItems from '../data/aboutMeItems';
 
 const AboutMe = () => {
   const [showModal, setShowModal] = useState(false);

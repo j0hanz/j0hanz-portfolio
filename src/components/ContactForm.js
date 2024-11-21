@@ -17,9 +17,10 @@ import {
   faGlobe,
   faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import EmailHandler from './EmailHandler';
+import EmailHandler from '../api/emailJs';
 import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
+import { validateForm } from '../utils/validation';
 import { toast } from 'react-toastify';
 import ScrollRevealWrapper from './ScrollWrapper';
 
@@ -39,21 +40,6 @@ const ContactForm = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!/^[a-zA-Z\s]{2,}$/.test(formData.name.trim())) {
-      newErrors.name = 'Please enter a valid name.';
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
-    }
-    if (formData.message.trim().length < 10) {
-      newErrors.message = 'Your message should be at least 10 characters long.';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
@@ -66,7 +52,9 @@ const ContactForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formValid = validateForm();
+    const newErrors = validateForm(formData);
+    setErrors(newErrors);
+    const formValid = Object.keys(newErrors).length === 0;
     setValidated(formValid);
     if (formValid) {
       setIsSending(true);

@@ -23,35 +23,6 @@
   color: #66b2ff;
 }
 
-.linkedinIcon {
-  color: #0077b5;
-  padding-right: 0.5rem;
-}
-
-.githubIcon {
-  color: #ffffff;
-  padding-right: 0.5rem;
-}
-
-.pdfIcon {
-  color: #f40f02;
-  padding-right: 0.5rem;
-}
-
-.certificateIcon {
-  color: #ffd700;
-  padding-right: 0.5rem;
-}
-
-.sourceCodeIcon {
-  color: #4caf50;
-}
-
-.copyrightText {
-  color: #f0f0f0;
-  opacity: 0.8;
-}
-
 @media (max-width: 575px) {
   .footerBg {
     padding-bottom: 0.1rem !important;

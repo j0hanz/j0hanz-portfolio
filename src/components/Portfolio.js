@@ -22,32 +22,13 @@ import appStyles from '../App.module.css';
 import hackathonBadge from '../assets/hackathonBadge.webp';
 import hackathonBadge3 from '../assets/hackathonBadgeThirdPlace.webp';
 import ScrollRevealWrapper from './ScrollWrapper';
-import projects from '../projects/projectsList';
+import projects from '../data/projects';
+import { fetchCommitHistory } from '../api/github';
 
 /* Main Portfolio component that displays project cards with GitHub integration */
 const Portfolio = () => {
   const [commitHistory, setCommitHistory] = useState({});
-  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
-  /* Fetches latest 5 commits for a GitHub repository */
-  const fetchCommitHistory = async (repo) => {
-    try {
-      const [owner, repoName] = repo.split('/').slice(-2);
-      const url = `https://api.github.com/repos/${owner}/${repoName}/commits`;
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      return Array.isArray(data) ? data.slice(0, 5) : [];
-    } catch (error) {
-      console.error('Error fetching commit history:', error);
-      return [];
-    }
-  };
+
   /* Fetches and combines commit histories for all projects on mount */
   useEffect(() => {
     const fetchAllCommitHistories = async () => {
@@ -64,6 +45,7 @@ const Portfolio = () => {
     };
     fetchAllCommitHistories();
   }, []);
+
   const renderProject = (project, index) => {
     const repoPath = project.github.split('github.com/')[1];
 

@@ -1,26 +1,21 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-/* Custom hook to handle the navbar's expanded state and detect clicks outside */
 const useClickOutsideToggle = (callback) => {
   const [expanded, setExpanded] = useState(false);
   const ref = useRef(null);
 
-  const handleClickOutside = useCallback(
-    (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setExpanded(false);
-        if (callback) callback();
-      }
-    },
-    [callback]
-  );
-
   useEffect(() => {
-    document.addEventListener('mouseup', handleClickOutside);
-    return () => {
-      document.removeEventListener('mouseup', handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback();
+      }
     };
-  }, [handleClickOutside]);
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [callback]);
 
   return { expanded, setExpanded, ref };
 };
