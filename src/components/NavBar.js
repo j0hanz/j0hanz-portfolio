@@ -111,7 +111,7 @@ const NavBar = () => {
                         id === 'download-pdf' ? handleModalOpen : onClick
                       }
                       target={href ? '_blank' : undefined}
-                      className={`ms-lg-2 ms-1 me-lg-0 me-sm-5 me-2 mt-3 mt-lg-0 ${id === 'certificate' || id === 'source-code' ? 'd-lg-none' : ''}`}
+                      className={`ms-lg-0 ms-1 me-lg-0 me-sm-5 me-2 mt-3 mt-lg-0 ${id === 'certificate' || id === 'source-code' ? 'd-lg-none' : ''}`}
                     >
                       <FontAwesomeIcon
                         icon={icon}
