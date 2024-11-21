@@ -33,46 +33,4 @@
   .iconSpacing {
     margin-right: 2.5rem !important;
   }
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 0.8rem;
-  }
-}
-
-@media (max-width: 320px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 0.65rem;
-  }
-}
-
-@media (max-width: 310px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 0.5rem;
-  }
-}
-
-@media (max-width: 300px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 0.35rem;
-  }
-}
-
-@media (max-width: 290px) {
-  .linkedinIcon,
-  .githubIcon,
-  .pdfIcon,
-  .certificateIcon {
-    padding-right: 0.2rem;
-  }
 }
