@@ -21,6 +21,7 @@ import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
 import hackathonBadge from '../assets/hackathonBadge.webp';
 import hackathonBadge3 from '../assets/hackathonBadgeThirdPlace.webp';
+import gitpodLogo from '../assets/gitpod.webp';
 import ScrollRevealWrapper from './ScrollWrapper';
 import projects from '../data/projects';
 import { fetchCommitHistory } from '../api/github';
@@ -100,6 +101,13 @@ const Portfolio = () => {
                 src={hackathonBadge3}
                 alt="Hackathon Badge"
                 className={styles.hackathonBadge}
+              />
+            )}
+            {project.gitpod_template && (
+              <img
+                src={gitpodLogo}
+                alt="Gitpod Template"
+                className={styles.gitpodLogo}
               />
             )}
             <div className="mt-3 d-flex justify-content-between">

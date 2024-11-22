@@ -24,6 +24,14 @@
   opacity: 0.8 !important;
 }
 
+.gitpodLogo {
+  position: absolute !important;
+  bottom: 4rem !important;
+  right: 1rem !important;
+  width: 3.5rem !important;
+  opacity: 0.8 !important;
+}
+
 .customButton {
   width: 125px !important;
   max-width: 100% !important;

@@ -63,6 +63,19 @@ const projects = [
     api: false,
   },
   {
+    title: 'j0hanz-gitpod-template',
+    description:
+      'A ready-to-use development environment for Python, Django, Node.js, MongoDB, PostgreSQL, and Heroku. Includes essential tools, linters, formatters, and VS Code extensions.',
+    github: 'https://github.com/j0hanz/j0hanz-gitpod-template',
+    demo: 'https://github.com/j0hanz/j0hanz-gitpod-template',
+    technologies: ['Python', 'Shell', 'JSON', 'Docker'],
+    collaborative: false,
+    isHackathon: false,
+    isHackathon_3: false,
+    api: false,
+    gitpod_template: true,
+  },
+  {
     title: 'Blog Beat',
     description: 'A platform for reading and writing blog posts.',
     github: 'https://github.com/j0hanz/blog-beat-web',
