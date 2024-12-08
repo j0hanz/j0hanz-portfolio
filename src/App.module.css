@@ -14,12 +14,6 @@ body {
   box-sizing: border-box !important;
 }
 
-code {
-  font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
-    'Courier New', monospace !important;
-  font-size: 0.96em !important;
-}
-
 *::-webkit-scrollbar {
   width: 0.9rem !important;
 }
