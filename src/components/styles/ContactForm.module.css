@@ -11,15 +11,17 @@
   transition: border-color 0.3s ease !important;
 }
 
+.errorIcon {
+  color: #e50914;
+}
+
 .errorMessage {
   display: block !important;
-  background-color: var(--card-background-gradient) !important;
   color: var(--text-color) !important;
-  padding: 0.2rem 0.225rem !important;
+  padding: 0.2rem 0.45rem !important;
   border-bottom-left-radius: 6.5px !important;
   border-bottom-right-radius: 6.5px !important;
   font-size: 0.7rem !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 .inputGroupIcon {
