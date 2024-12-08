@@ -1,14 +1,14 @@
 /* Input Group Icon Styling */
-.formGroup {
-  margin-bottom: 0.5rem !important;
-  margin-top: 0.75rem !important;
-}
-
 .inputGroup {
+  padding-left: 0.3rem !important;
   border-bottom: 2px solid var(--form-border-color) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   transition: border-color 0.3s ease !important;
+}
+
+.inputGroupBody {
+  border-bottom: none !important;
 }
 
 .errorIcon {
@@ -29,7 +29,7 @@
   justify-content: center !important;
   align-items: baseline !important;
   padding-top: 0.7rem !important;
-  padding-left: 0.13rem !important;
+  padding-left: 0 !important;
   padding-right: 0 !important;
   border: none !important;
   width: 1em !important;
@@ -37,14 +37,13 @@
 }
 
 .inputGroupControl {
-  padding-left: 0.6rem !important;
+  padding-left: 0.5rem !important;
   color: var(--text-color) !important;
-  font-weight: 500 !important;
 }
 
 .inputGroupControl::placeholder {
   color: var(--text-color) !important;
-  opacity: 0.5 !important;
+  opacity: 0.6 !important;
 }
 
 .inputGroupControl:focus {
