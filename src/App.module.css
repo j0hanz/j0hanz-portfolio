@@ -17,6 +17,37 @@
   --bs-modal-margin: 0 !important;
 }
 
+body {
+  font-family: 'Inter', sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  color: #333 !important;
+  overflow-y: scroll !important;
+  background: linear-gradient(
+    180deg,
+    #e8e8e8 0%,
+    #e6e6e6 10%,
+    #e4e4e4 20%,
+    #e2e2e2 30%,
+    #e0e0e0 40%,
+    #dedede 50%,
+    #dcdcdc 60%,
+    #dadada 70%,
+    #d8d8d8 80%,
+    #d6d6d6 90%,
+    #d4d4d4 100%
+  );
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+code {
+  font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
+    'Courier New', monospace !important;
+  font-size: 0.96em !important;
+}
+
 *::-webkit-scrollbar {
   width: 0.75rem !important;
 }
@@ -80,37 +111,6 @@
   background-repeat: no-repeat;
   opacity: 0.2;
   z-index: -1;
-}
-
-body {
-  font-family: 'Inter', sans-serif !important;
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
-  color: #333 !important;
-  overflow-y: scroll !important;
-  background: linear-gradient(
-    180deg,
-    #e8e8e8 0%,
-    #e6e6e6 10%,
-    #e4e4e4 20%,
-    #e2e2e2 30%,
-    #e0e0e0 40%,
-    #dedede 50%,
-    #dcdcdc 60%,
-    #dadada 70%,
-    #d8d8d8 80%,
-    #d6d6d6 90%,
-    #d4d4d4 100%
-  );
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-
-code {
-  font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
-    'Courier New', monospace !important;
-  font-size: 0.96em !important;
 }
 
 .linkedinIcon {
@@ -235,9 +235,6 @@ code {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
-}
-
-.cardBgImage::before {
   background-image: url('../src/assets/imgBackground.webp');
   opacity: 0.09;
 }
@@ -320,6 +317,26 @@ code {
   font-weight: 500 !important;
   letter-spacing: 0.8px !important;
   color: #f0f0f0 !important !important;
+}
+
+.btnCredential {
+  border: none !important;
+  border-radius: 6.5px !important;
+  transition: all 0.5s ease !important;
+  background-image: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #3a3a3a 50%,
+    #2a2a2a 100%
+  );
+}
+
+.btnCredential:hover {
+  filter: brightness(0.8);
+}
+
+.btnCredential:active {
+  transform: scale(0.99);
 }
 
 /* Responsive Adjustments */
