@@ -20,45 +20,21 @@
   --text-color: #333;
   --background-gradient: linear-gradient(
     180deg,
-    #e8e8e8 0%,
-    #e6e6e6 10%,
-    #e4e4e4 20%,
-    #e2e2e2 30%,
-    #e0e0e0 40%,
-    #dedede 50%,
-    #dcdcdc 60%,
-    #dadada 70%,
-    #d8d8d8 80%,
-    #d6d6d6 90%,
-    #d4d4d4 100%
+    #c8c8c8 0%,
+    #c4c4c4 50%,
+    #c0c0c0 100%
   );
   --scrollbar-thumb-gradient: linear-gradient(
     180deg,
-    #e8e8e8 0%,
-    #e6e6e6 10%,
-    #e4e4e4 20%,
-    #e2e2e2 30%,
-    #e0e0e0 40%,
-    #dedede 50%,
-    #dcdcdc 60%,
-    #dadada 70%,
-    #d8d8d8 80%,
-    #d6d6d6 90%,
-    #d4d4d4 100%
+    #d8d8d8 0%,
+    #d4d4d4 50%,
+    #d0d0d0 100%
   );
   --scrollbar-thumb-hover-gradient: linear-gradient(
     180deg,
-    #c8c8c8 0%,
-    #c0c0c0 10%,
-    #b8b8b8 20%,
-    #b0b0b0 30%,
-    #a8a8a8 40%,
-    #a0a0a0 50%,
-    #989898 60%,
-    #909090 70%,
-    #888888 80%,
-    #808080 90%,
-    #787878 100%
+    #b8b8b8 0%,
+    #a8a8a8 50%,
+    #989898 100%
   );
   --scrollbar-track-gradient: linear-gradient(
     180deg,
@@ -163,7 +139,7 @@ code {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.2;
+  opacity: 0.3;
   z-index: -1;
 }
 

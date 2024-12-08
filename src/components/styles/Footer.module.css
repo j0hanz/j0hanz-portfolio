@@ -5,18 +5,18 @@
 }
 
 .footerIcon {
-  color: #007acc;
+  color: var(--linkedin-color);
   margin-right: 10px;
   transition: color 0.3s ease;
 }
 
 .footerLink {
-  color: #f0f0f0;
+  color: var(--tooltip-text-color);
   transition: color 0.3s ease;
 }
 
 .footerLinkHeader {
-  color: #f0f0f0;
+  color: var(--tooltip-text-color);
 }
 
 .footerLink:hover {

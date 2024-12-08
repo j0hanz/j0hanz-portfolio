@@ -16,42 +16,49 @@ import styles from './App.module.css';
 import Spinner from './components/Spinner';
 import Toast from './components/Toast';
 
-const App = () => {
-  /* State to manage the loading status */
-  const [loading, setLoading] = useState(true);
+const useLoading = (initialState = true, delay = 2000) => {
+  const [loading, setLoading] = useState(initialState);
 
-  /* Simulates a loading period when the app is initialized */
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, delay);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [delay]);
+
+  return loading;
+};
+
+const MainContent = ({ loading }) => (
+  <main className={styles.mainContent}>
+    {loading ? (
+      <Spinner />
+    ) : (
+      <>
+        <Hero />
+        <AboutMe />
+        <Education />
+        <Skills />
+        <Portfolio />
+        <WorkExperience />
+        <ContactForm />
+        <Badge />
+        <Footer />
+      </>
+    )}
+  </main>
+);
+
+const App = () => {
+  const loading = useLoading();
 
   return (
     <div className={styles.appContainer}>
-      {/* Background element */}
       <div className={styles.fixedBackground}></div>
       <NavBar />
       <Toast />
-      <main className={styles.mainContent}>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <>
-            <Hero />
-            <AboutMe />
-            <Education />
-            <Skills />
-            <Portfolio />
-            <WorkExperience />
-            <ContactForm />
-            <Badge />
-            <Footer />
-          </>
-        )}
-      </main>
+      <MainContent loading={loading} />
     </div>
   );
 };

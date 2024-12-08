@@ -3,17 +3,12 @@
 }
 
 .modalCvBody {
-  background: linear-gradient(
-    180deg,
-    #1a1a1ae0 0%,
-    #252525ce 50%,
-    #1a1a1ad0 100%
-  ) !important;
+  background: var(--modal-background-gradient) !important;
   border: none !important;
   border-radius: 7.5px !important;
   position: relative !important;
   padding: 1rem !important;
-  color: #f0f0f0 !important;
+  color: var(--modal-text-color) !important;
   width: 100% !important;
 }
 
@@ -32,7 +27,8 @@
   opacity: 0.8;
   transition:
     transform 0.3s ease,
-    opacity 0.3s ease;
+    opacity 0.3s ease,
+    color 0.3s ease;
 }
 
 .flagIcon:hover {
