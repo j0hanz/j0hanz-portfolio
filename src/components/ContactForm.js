@@ -160,8 +160,18 @@ const ContactForm = () => {
                       placeholder="website url... (optional)"
                       value={formData.url}
                       onChange={handleChange}
+                      isInvalid={!!errors.url}
                     />
                   </InputGroup>
+                  {errors.url && (
+                    <div className={styles.errorMessage}>
+                      <FontAwesomeIcon
+                        icon={faExclamationCircle}
+                        className="me-2"
+                      />
+                      {errors.url}
+                    </div>
+                  )}
                 </Form.Group>
                 <Form.Group
                   controlId="formMessage"
