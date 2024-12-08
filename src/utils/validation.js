@@ -4,16 +4,16 @@ export const validateForm = (formData) => {
     newErrors.name = 'Please enter a valid name.';
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    newErrors.email = 'Please enter a valid email address.';
+    newErrors.email = 'Email address is invalid.';
   }
   if (
     formData.url.trim() &&
     !/^(https?:\/\/)?([\w\d\-]+\.)+\w{2,}(\/.+)?$/.test(formData.url.trim())
   ) {
-    newErrors.url = 'Please enter a valid URL.';
+    newErrors.url = 'URL is invalid.';
   }
   if (formData.message.trim().length < 10) {
-    newErrors.message = 'Your message should be at least 10 characters long.';
+    newErrors.message = 'Message must be at least 10 characters long.';
   }
   return newErrors;
 };
