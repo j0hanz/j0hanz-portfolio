@@ -3,12 +3,12 @@
 }
 
 .modalCvBody {
-  background: var(--modal-background-gradient) !important;
+  background: var(--modal-bg) !important;
   border: none !important;
   border-radius: 7.5px !important;
   position: relative !important;
   padding: 1rem !important;
-  color: var(--modal-text-color) !important;
+  color: var(--text-light) !important;
   width: 100% !important;
 }
 

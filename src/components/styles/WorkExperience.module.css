@@ -13,16 +13,6 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
-.customBadge {
-  display: inline-block !important;
-  background-color: #f0f0f0 !important;
-  color: #333 !important;
-  padding: 0.2rem 0.5rem !important;
-  margin-right: 0.8rem !important;
-  border-radius: 6.5px !important;
-  font-size: 0.7rem !important;
-}
-
 .titleIcon {
   margin-right: 0.5rem;
   font-size: 1rem;

@@ -1,26 +1,50 @@
 /* CSS variables for theme customization */
-
 :root {
+  --badge-bg-color: #f0f0f0;
+  --badge-color: #2c2c2c;
+  --bg-dark: linear-gradient(180deg, #1c1c1c 0%, #2a2a2a 50%, #1c1c1c 100%);
+  --bg-transparent: transparent;
+  --body-bg: linear-gradient(180deg, #e0e0e0 0%, #dcdcdc 50%, #d8d8d8 100%);
   --bs-body-bg: none !important;
-  --bs-tertiary-bg: none !important;
   --bs-border-color: none !important;
-  --bs-form-invalid-color: none !important;
-  --bs-form-invalid-border-color: none !important;
-  --bs-form-valid-color: none !important;
-  --bs-form-valid-border-color: none !important;
-  --bs-modal-padding: 0 !important;
   --bs-border-width: 0 !important;
-  --bs-modal-border-width: 0 !important;
+  --bs-form-invalid-border-color: none !important;
+  --bs-form-invalid-color: none !important;
+  --bs-form-valid-border-color: none !important;
+  --bs-form-valid-color: none !important;
   --bs-modal-border-color: none !important;
+  --bs-modal-border-width: 0 !important;
   --bs-modal-box-shadow: none !important;
   --bs-modal-margin: 0 !important;
-  --text-color: #2e2e2e;
-  --background-gradient: linear-gradient(
+  --bs-modal-padding: 0 !important;
+  --card-bg: linear-gradient(
     180deg,
-    #e0e0e0 0%,
-    #dcdcdc 50%,
-    #d8d8d8 100%
+    #f0f0f0 0%,
+    #e8e8e8 25%,
+    #e0e0e0 50%,
+    #d8d8d8 75%,
+    #d6d6d6 100%
   );
+  --card-bg-image-url: url('../src/assets/imgBackground.webp');
+  --certificate-color: #ffdf00;
+  --copyright-text-color: #e0e0e0;
+  --error-icon-color: #e50914;
+  --error-text-color: #2c2c2c;
+  --form-border-color: #f0f0f0;
+  --github-color: #ffffff;
+  --input-placeholder-color: #2c2c2c;
+  --linkedin-color: #0073b1;
+  --main-icon-color: #2c2c2c;
+  --modal-bg: linear-gradient(
+    180deg,
+    #1a1a1ad0 0%,
+    #252525b0 50%,
+    #1a1a1ab0 100%
+  );
+  --nav-icon-color: #005f99;
+  --nav-link-color: #e0e0e0;
+  --nav-link-hover-color: #3399ff;
+  --pdf-color: #e50914;
   --scrollbar-thumb-gradient: linear-gradient(
     180deg,
     #c0c0c0 0%,
@@ -39,49 +63,25 @@
     #1e1e1e 50%,
     #171717 100%
   );
-  --form-border-color: #f0f0f0;
-  --linkedin-color: #0073b1;
-  --github-color: #ffffff;
-  --pdf-color: #e50914;
-  --certificate-color: #ffdf00;
+  --section-title-color: #2c2c2c;
   --source-code-color: #4caf50;
-  --copyright-text-color: #e0e0e0;
-  --tooltip-text-color: #e0e0e0;
-  --error-icon-color: #e50914;
-  --card-background-gradient: linear-gradient(
-    180deg,
-    #f0f0f0 0%,
-    #e8e8e8 25%,
-    #e0e0e0 50%,
-    #d8d8d8 75%,
-    #d6d6d6 100%
+  --spinner-color: linear-gradient(
+    90deg,
+    #014069 0%,
+    #015d9b 25%,
+    #007acc 50%,
+    #0275c2 75%,
+    #0b88db 100%
   );
-  --modal-background-gradient: linear-gradient(
-    180deg,
-    #1a1a1ad0 0%,
-    #252525b0 50%,
-    #1a1a1ab0 100%
-  );
-  --modal-text-color: #e0e0e0;
-  --card-bg-image-url: url('../src/assets/imgBackground.webp');
-  --badge-text-color: #2e2e2e;
-  --main-icon-color: #2e2e2e;
-  --section-title-color: #2e2e2e;
-  --button-icon-color: #e0e0e0;
-  --button-text-color: #e0e0e0;
-  --btn-credential-background-gradient: linear-gradient(
-    180deg,
-    #4a4a4a 0%,
-    #3a3a3a 50%,
-    #2a2a2a 100%
-  );
-  --error-background-color: #f0f0f0;
-  --error-text-color: #2c2c2c;
-  --input-placeholder-color: #2c2c2c;
-  --submit-button-gradient: linear-gradient(
+  --text-color: #2c2c2c;
+  --text-hero: linear-gradient(180deg, #00487a 25%, #00487a 50%, #4a7fc2 75%);
+  --text-light: #f0f0f0;
+  --btn-bg-dark: linear-gradient(180deg, #3e3e3e 0%, #2e2e2e 50%, #1e1e1e 100%);
+  --btn-bg-primary: linear-gradient(
     180deg,
     #0077cc 0%,
     #0066b2 50%,
     #005599 100%
   );
+  --btn-icon-color: #f0f0f0;
 }

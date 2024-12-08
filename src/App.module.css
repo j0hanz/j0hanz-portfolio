@@ -8,7 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale !important;
   overflow-y: scroll !important;
   color: var(--text-color) !important;
-  background: var(--background-gradient);
+  background: var(--body-bg);
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
@@ -120,13 +120,13 @@ code {
 }
 
 .customTooltip {
-  color: var(--tooltip-text-color) !important;
+  color: var(--text-light) !important;
   border: none !important;
   border-radius: 7.5px !important;
 }
 
 .cardBgColor {
-  background: var(--card-background-gradient);
+  background: var(--card-bg);
   border: none !important;
   border-radius: 6.5px !important;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
@@ -135,7 +135,7 @@ code {
 }
 
 .modalBody {
-  background: var(--modal-background-gradient) !important;
+  background: var(--modal-bg) !important;
   border: none !important;
   width: 100% !important;
   max-width: 500px !important;
@@ -145,7 +145,7 @@ code {
   padding-bottom: 1.25rem !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  color: var(--modal-text-color) !important;
+  color: var(--text-light) !important;
 }
 
 .cardBgImage {
@@ -180,9 +180,10 @@ code {
 }
 
 .customBadge {
+  background-color: var(--badge-bg-color);
   display: inline-block !important;
-  color: var(--badge-text-color) !important;
-  padding: 0.3rem 0.15rem !important;
+  color: var(--badge-color) !important;
+  padding: 0.2rem !important;
   margin-right: 1rem !important;
   border-radius: 0.25rem !important;
   font-size: 0.75rem !important;
@@ -233,7 +234,7 @@ code {
 }
 
 .buttonIcon {
-  color: var(--button-icon-color) !important;
+  color: var(--btn-icon-color) !important;
   margin-right: 10px !important;
 }
 
@@ -241,14 +242,14 @@ code {
   font-size: 1rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.8px !important;
-  color: var(--button-text-color) !important !important;
+  color: var(--text-light) !important !important;
 }
 
 .btnCredential {
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.5s ease !important;
-  background-image: var(--btn-credential-background-gradient);
+  background-image: var(--btn-bg-dark);
 }
 
 .btnCredential:hover {

@@ -11,12 +11,12 @@
 }
 
 .badgeDate {
-  color: var(--badge-text-color) !important;
+  color: var(--badge-color) !important;
   font-size: 0.7rem !important;
 }
 
 .badgeText {
-  color: var(--badge-text-color);
+  color: var(--badge-color);
   text-decoration: none;
   text-transform: uppercase !important;
   font-size: 0.7rem;
