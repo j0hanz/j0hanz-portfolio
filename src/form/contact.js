@@ -15,7 +15,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
   return (
     <>
       <Form.Group controlId="formName">
-        <InputGroup className={`ps-1 ${styles.inputGroup}`}>
+        <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
             <FontAwesomeIcon size="sm" icon={faUser} />
           </InputGroup.Text>
@@ -40,8 +40,8 @@ const FormFields = ({ formData, errors, handleChange }) => {
           </div>
         )}
       </Form.Group>
-      <Form.Group controlId="formEmail" className={styles.formGroup}>
-        <InputGroup className={`ps-1 ${styles.inputGroup}`}>
+      <Form.Group controlId="formEmail">
+        <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
             <FontAwesomeIcon size="sm" icon={faEnvelope} />
           </InputGroup.Text>
@@ -66,8 +66,8 @@ const FormFields = ({ formData, errors, handleChange }) => {
           </div>
         )}
       </Form.Group>
-      <Form.Group controlId="formCompany" className={styles.formGroup}>
-        <InputGroup className={`ps-1 ${styles.inputGroup}`}>
+      <Form.Group controlId="formCompany">
+        <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
             <FontAwesomeIcon size="sm" icon={faBriefcase} />
           </InputGroup.Text>
@@ -81,8 +81,8 @@ const FormFields = ({ formData, errors, handleChange }) => {
           />
         </InputGroup>
       </Form.Group>
-      <Form.Group controlId="formUrl" className={styles.formGroup}>
-        <InputGroup className={`ps-1 ${styles.inputGroup}`}>
+      <Form.Group controlId="formUrl">
+        <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
             <FontAwesomeIcon size="sm" icon={faGlobe} />
           </InputGroup.Text>
@@ -106,8 +106,8 @@ const FormFields = ({ formData, errors, handleChange }) => {
           </div>
         )}
       </Form.Group>
-      <Form.Group controlId="formMessage" className={styles.formGroup}>
-        <InputGroup className={`ps-1 ${styles.inputGroup}`}>
+      <Form.Group controlId="formMessage">
+        <InputGroup className={`${styles.inputGroupBody} ${styles.inputGroup}`}>
           <InputGroup.Text className={styles.inputGroupIcon}>
             <FontAwesomeIcon size="sm" icon={faComment} />
           </InputGroup.Text>
