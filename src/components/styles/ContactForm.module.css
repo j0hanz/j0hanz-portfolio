@@ -12,7 +12,7 @@
 }
 
 .errorIcon {
-  color: #e50914;
+  color: var(--error-icon-color) !important;
 }
 
 .errorMessage {
