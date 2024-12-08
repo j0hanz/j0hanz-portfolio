@@ -91,6 +91,7 @@ body {
   font-family: 'Inter', sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+  overflow-y: scroll !important;
   color: var(--text-color) !important;
   background: var(--background-gradient);
   margin: 0 !important;
