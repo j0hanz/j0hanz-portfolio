@@ -42,6 +42,7 @@
     #303030 50%,
     #303030 100%
   );
+  --form-border-color: #f0f0f0;
   --linkedin-color: #0073b1;
   --github-color: #ffffff;
   --pdf-color: #e50914;
@@ -75,6 +76,15 @@
     #4a4a4a 0%,
     #3a3a3a 50%,
     #2a2a2a 100%
+  );
+  --error-background-color: #f0f0f0;
+  --error-text-color: #2c2c2c;
+  --input-placeholder-color: #2c2c2c;
+  --submit-button-gradient: linear-gradient(
+    180deg,
+    #0090ea 0%,
+    #007acc 50%,
+    #0979c4 100%
   );
 }
 

@@ -5,7 +5,7 @@
 }
 
 .inputGroup {
-  border-bottom: 2px solid #f0f0f0 !important;
+  border-bottom: 2px solid var(--form-border-color) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   transition: border-color 0.3s ease !important;
@@ -13,8 +13,8 @@
 
 .errorMessage {
   display: block !important;
-  background-color: #f0f0f0 !important;
-  color: #2c2c2c !important;
+  background-color: var(--card-background-gradient) !important;
+  color: var(--text-color) !important;
   padding: 0.2rem 0.225rem !important;
   border-bottom-left-radius: 6.5px !important;
   border-bottom-right-radius: 6.5px !important;
@@ -35,13 +35,13 @@
 
 .inputGroupControl {
   padding-left: 0.6rem !important;
-  color: #2c2c2c !important;
+  color: var(--text-color) !important;
   font-weight: 500 !important;
   font-size: 0.95rem !important;
 }
 
 .inputGroupControl::placeholder {
-  color: #2c2c2c !important;
+  color: var(--text-color) !important;
   opacity: 0.5 !important;
 }
 
@@ -63,12 +63,7 @@
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  background-image: linear-gradient(
-    180deg,
-    #0090ea 0%,
-    #007acc 50%,
-    #0979c4 100%
-  );
+  background-image: var(--submit-button-gradient);
 }
 
 .submitButton:hover {
