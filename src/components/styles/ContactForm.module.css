@@ -5,21 +5,23 @@
 }
 
 .inputGroup {
-  border-bottom: 2px solid #f0f0f0 !important;
+  border-bottom: 2px solid var(--form-border-color) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   transition: border-color 0.3s ease !important;
 }
 
+.errorIcon {
+  color: var(--error-icon-color) !important;
+}
+
 .errorMessage {
   display: block !important;
-  background-color: #f0f0f0 !important;
-  color: #2c2c2c !important;
-  padding: 0.2rem 0.225rem !important;
+  color: var(--text-color) !important;
+  padding: 0.2rem 0.45rem !important;
   border-bottom-left-radius: 6.5px !important;
   border-bottom-right-radius: 6.5px !important;
   font-size: 0.7rem !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 .inputGroupIcon {
@@ -31,17 +33,17 @@
   padding-right: 0 !important;
   border: none !important;
   width: 1em !important;
+  background-color: var(--bg-transparent) !important;
 }
 
 .inputGroupControl {
   padding-left: 0.6rem !important;
-  color: #2c2c2c !important;
+  color: var(--text-color) !important;
   font-weight: 500 !important;
-  font-size: 0.95rem !important;
 }
 
 .inputGroupControl::placeholder {
-  color: #2c2c2c !important;
+  color: var(--text-color) !important;
   opacity: 0.5 !important;
 }
 
@@ -52,7 +54,7 @@
 }
 
 .submitButton {
-  width: 125px !important;
+  width: 100px !important;
   max-width: 100% !important;
   height: 40px !important;
   border: none !important;
@@ -63,12 +65,7 @@
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  background-image: linear-gradient(
-    180deg,
-    #0090ea 0%,
-    #007acc 50%,
-    #0979c4 100%
-  );
+  background-image: var(--btn-bg-primary);
 }
 
 .submitButton:hover {
@@ -77,4 +74,13 @@
 
 .submitButton:active {
   transform: scale(0.99);
+}
+
+.clearButton {
+  background-image: var(--btn-bg-dark);
+  transition: all 0.3s ease !important;
+}
+
+.clearButton:hover {
+  filter: brightness(0.7);
 }

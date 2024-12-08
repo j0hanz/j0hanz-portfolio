@@ -1,0 +1,80 @@
+/* CSS variables for theme customization */
+:root {
+  --badge-bg-color: #eaeaea;
+  --badge-color: #333333;
+  --bg-dark: linear-gradient(180deg, #1b1b1b 0%, #292929 50%, #1b1b1b 100%);
+  --bg-transparent: transparent;
+  --body-bg: linear-gradient(180deg, #e5e5e5 0%, #d9d9d9 50%, #d4d4d4 100%);
+  --bs-body-bg: none !important;
+  --bs-border-color: none !important;
+  --bs-border-width: 0 !important;
+  --bs-form-invalid-border-color: none !important;
+  --bs-form-invalid-color: none !important;
+  --bs-form-valid-border-color: none !important;
+  --bs-form-valid-color: none !important;
+  --bs-modal-border-color: none !important;
+  --bs-modal-border-width: 0 !important;
+  --bs-modal-box-shadow: none !important;
+  --bs-modal-margin: 0 !important;
+  --bs-modal-padding: 0 !important;
+  --card-bg: linear-gradient(180deg, #f5f5f5 0%, #eaeaea 25%, #e0e0e0 75%);
+  --card-bg-image-url: url('../src/assets/imgBackground.webp');
+  --certificate-color: #ffd700;
+  --copyright-text-color: #dcdcdc;
+  --error-icon-color: #d90429;
+  --error-text-color: #333333;
+  --form-border-color: #eaeaea;
+  --github-color: #ffffff;
+  --input-placeholder-color: #333333;
+  --linkedin-color: #0077b5;
+  --main-icon-color: #333333;
+  --modal-bg: linear-gradient(
+    180deg,
+    #1a1a1ad0 0%,
+    #252525b0 50%,
+    #1a1a1ab0 100%
+  );
+  --nav-icon-color: #006699;
+  --nav-link-color: #dcdcdc;
+  --nav-link-hover-color: #3399ff;
+  --pdf-color: #d90429;
+  --scrollbar-thumb-gradient: linear-gradient(
+    180deg,
+    #bfbfbf 0%,
+    #b5b5b5 50%,
+    #ababab 100%
+  );
+  --scrollbar-thumb-hover-gradient: linear-gradient(
+    180deg,
+    #9e9e9e 0%,
+    #8e8e8e 50%,
+    #7e7e7e 100%
+  );
+  --scrollbar-track-gradient: linear-gradient(
+    180deg,
+    #2d2d2d 0%,
+    #1d1d1d 50%,
+    #161616 100%
+  );
+  --section-title-color: #333333;
+  --source-code-color: #4caf50;
+  --spinner-color: linear-gradient(
+    90deg,
+    #014069 0%,
+    #015d9b 25%,
+    #007acc 50%,
+    #0275c2 75%,
+    #0b88db 100%
+  );
+  --text-color: #333333;
+  --text-hero: linear-gradient(180deg, #00487a 25%, #00487a 50%, #4a7fc2 75%);
+  --text-light: #eaeaea;
+  --btn-bg-dark: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  --btn-bg-primary: linear-gradient(
+    180deg,
+    #0077cc 0%,
+    #0066b2 50%,
+    #005599 100%
+  );
+  --btn-icon-color: #eaeaea;
+}

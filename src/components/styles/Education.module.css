@@ -18,11 +18,11 @@
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.5s ease !important;
-  background-image: var(--btn-credential-background-gradient);
+  background-image: var(--btn-bg-dark);
 }
 
 .btnCredential:hover {
-  filter: brightness(0.8);
+  filter: brightness(0.7);
 }
 
 .btnCredential:active {

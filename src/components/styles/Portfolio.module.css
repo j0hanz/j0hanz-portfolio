@@ -2,16 +2,6 @@
   margin-bottom: 1.5rem !important;
 }
 
-.techBadge {
-  display: inline-block !important;
-  background-color: #f0f0f0 !important;
-  color: #333 !important;
-  padding: 0.2rem 0.5rem !important;
-  margin: 0.2rem !important;
-  border-radius: 0.25rem !important;
-  font-size: 0.7rem !important;
-}
-
 .badgePosition {
   position: relative !important;
 }
@@ -47,27 +37,15 @@
 }
 
 .githubButton {
-  background-image: linear-gradient(
-    180deg,
-    #4a4a4a 0%,
-    #3a3a3a 50%,
-    #2a2a2a 100%
-  );
-  color: #ffffff;
+  background-image: var(--btn-bg-dark);
 }
 
 .demoButton {
-  background-image: linear-gradient(
-    180deg,
-    #0090ea 0%,
-    #007acc 50%,
-    #0979c4 100%
-  );
-  color: #ffffff;
+  background-image: var(--btn-bg-primary);
 }
 
 .customButton:hover {
-  filter: brightness(0.8);
+  filter: brightness(0.7);
 }
 
 .customButton:active {
@@ -77,7 +55,7 @@
 .buttonIcon {
   margin-right: 0.35rem;
   width: auto;
-  color: #f0f0f0;
+  color: var(--btn-icon-color);
 }
 
 .buttonText {
@@ -85,7 +63,7 @@
   font-weight: 500;
   letter-spacing: 0.1px;
   margin-left: 0;
-  color: #f0f0f0;
+  color: var(--text-light);
 }
 
 .githubStats img {

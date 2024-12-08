@@ -1,82 +1,6 @@
 /* Importing the Inter font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
-:root {
-  --bs-body-bg: none !important;
-  --bs-tertiary-bg: none !important;
-  --bs-border-color: none !important;
-  --bs-form-invalid-color: none !important;
-  --bs-form-invalid-border-color: none !important;
-  --bs-form-valid-color: none !important;
-  --bs-form-valid-border-color: none !important;
-  --bs-modal-padding: 0 !important;
-  --bs-border-width: 0 !important;
-  --bs-modal-border-width: 0 !important;
-  --bs-modal-border-color: none !important;
-  --bs-modal-box-shadow: none !important;
-  --bs-modal-margin: 0 !important;
-
-  /* Optimized Color Variables */
-  --text-color: #2e2e2e;
-  --background-gradient: linear-gradient(
-    180deg,
-    #e0e0e0 0%,
-    #dcdcdc 50%,
-    #d8d8d8 100%
-  );
-  --scrollbar-thumb-gradient: linear-gradient(
-    180deg,
-    #c0c0c0 0%,
-    #bcbcbc 50%,
-    #b8b8b8 100%
-  );
-  --scrollbar-thumb-hover-gradient: linear-gradient(
-    180deg,
-    #a0a0a0 0%,
-    #909090 50%,
-    #808080 100%
-  );
-  --scrollbar-track-gradient: linear-gradient(
-    180deg,
-    #303030 0%,
-    #303030 50%,
-    #303030 100%
-  );
-  --linkedin-color: #0073b1;
-  --github-color: #ffffff;
-  --pdf-color: #e50914;
-  --certificate-color: #ffdf00;
-  --source-code-color: #4caf50;
-  --copyright-text-color: #e0e0e0;
-  --tooltip-text-color: #e0e0e0;
-  --card-background-gradient: linear-gradient(
-    180deg,
-    #f0f0f0 0%,
-    #e8e8e8 25%,
-    #e0e0e0 50%,
-    #d8d8d8 75%,
-    #d6d6d6 100%
-  );
-  --modal-background-gradient: linear-gradient(
-    180deg,
-    #1a1a1ad0 0%,
-    #252525b0 50%,
-    #1a1a1ab0 100%
-  );
-  --modal-text-color: #e0e0e0;
-  --card-bg-image-url: url('../src/assets/imgBackground.webp');
-  --badge-text-color: #2e2e2e;
-  --main-icon-color: #2e2e2e;
-  --section-title-color: #2e2e2e;
-  --button-icon-color: #e0e0e0;
-  --button-text-color: #e0e0e0;
-  --btn-credential-background-gradient: linear-gradient(
-    180deg,
-    #4a4a4a 0%,
-    #3a3a3a 50%,
-    #2a2a2a 100%
-  );
-}
+@import './variables.module.css';
 
 body {
   font-family: 'Inter', sans-serif !important;
@@ -84,20 +8,14 @@ body {
   -moz-osx-font-smoothing: grayscale !important;
   overflow-y: scroll !important;
   color: var(--text-color) !important;
-  background: var(--background-gradient);
+  background: var(--body-bg);
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
 }
 
-code {
-  font-family: 'Inter', 'Source Code Pro', Menlo, Monaco, Consolas,
-    'Courier New', monospace !important;
-  font-size: 0.96em !important;
-}
-
 *::-webkit-scrollbar {
-  width: 0.75rem !important;
+  width: 0.9rem !important;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -196,13 +114,13 @@ code {
 }
 
 .customTooltip {
-  color: var(--tooltip-text-color) !important;
+  color: var(--text-light) !important;
   border: none !important;
   border-radius: 7.5px !important;
 }
 
 .cardBgColor {
-  background: var(--card-background-gradient);
+  background: var(--card-bg);
   border: none !important;
   border-radius: 6.5px !important;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
@@ -211,7 +129,7 @@ code {
 }
 
 .modalBody {
-  background: var(--modal-background-gradient) !important;
+  background: var(--modal-bg) !important;
   border: none !important;
   width: 100% !important;
   max-width: 500px !important;
@@ -221,7 +139,7 @@ code {
   padding-bottom: 1.25rem !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  color: var(--modal-text-color) !important;
+  color: var(--text-light) !important;
 }
 
 .cardBgImage {
@@ -256,9 +174,10 @@ code {
 }
 
 .customBadge {
+  background-color: var(--badge-bg-color);
   display: inline-block !important;
-  color: var(--badge-text-color) !important;
-  padding: 0.3rem 0.15rem !important;
+  color: var(--badge-color) !important;
+  padding: 0.2rem !important;
   margin-right: 1rem !important;
   border-radius: 0.25rem !important;
   font-size: 0.75rem !important;
@@ -309,7 +228,7 @@ code {
 }
 
 .buttonIcon {
-  color: var(--button-icon-color) !important;
+  color: var(--btn-icon-color) !important;
   margin-right: 10px !important;
 }
 
@@ -317,18 +236,18 @@ code {
   font-size: 1rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.8px !important;
-  color: var(--button-text-color) !important !important;
+  color: var(--text-light) !important !important;
 }
 
 .btnCredential {
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.5s ease !important;
-  background-image: var(--btn-credential-background-gradient);
+  background-image: var(--btn-bg-dark);
 }
 
 .btnCredential:hover {
-  filter: brightness(0.8);
+  filter: brightness(0.7);
 }
 
 .btnCredential:active {

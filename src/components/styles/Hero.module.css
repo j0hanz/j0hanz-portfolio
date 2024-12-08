@@ -20,32 +20,20 @@
 }
 
 .gradientText {
-  background: linear-gradient(
-    180deg,
-    #012b47 0%,
-    #00487a 25%,
-    #006bb3 50%,
-    #4a7fc2 75%,
-    #5678b0 100%
-  );
+  background: var(--text-hero);
   -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+  -webkit-text-fill-color: var(--bg-transparent);
   font-size: 2.5rem !important;
   font-weight: 650 !important;
   letter-spacing: 2.5px !important;
 }
 
 .downloadButton {
-  background-image: linear-gradient(
-    180deg,
-    #0090ea 0%,
-    #007acc 50%,
-    #0979c4 100%
-  );
+  background-image: var(--btn-bg-primary);
 }
 
 .contactButton {
-  background-image: var(--btn-credential-background-gradient);
+  background-image: var(--btn-bg-dark);
 }
 
 @media (max-width: 768px) {
