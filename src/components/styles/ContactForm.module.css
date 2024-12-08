@@ -52,7 +52,7 @@
 }
 
 .submitButton {
-  width: 125px !important;
+  width: 100px !important;
   max-width: 100% !important;
   height: 40px !important;
   border: none !important;
@@ -72,4 +72,8 @@
 
 .submitButton:active {
   transform: scale(0.99);
+}
+
+.clearButton {
+  background-image: var(--btn-credential-background-gradient);
 }
