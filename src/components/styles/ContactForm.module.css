@@ -77,5 +77,10 @@
 }
 
 .clearButton {
-  background-image: var(--btn-credential-background-gradient);
+  background-image: linear-gradient(
+    180deg,
+    #3e3e3e 0%,
+    #2e2e2e 50%,
+    #1e1e1e 100%
+  );
 }
