@@ -16,6 +16,7 @@ import {
   faBriefcase,
   faGlobe,
   faExclamationCircle,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../api/emailJs';
 import styles from './styles/ContactForm.module.css';
@@ -61,6 +62,12 @@ const ContactForm = () => {
     }
   };
 
+  const handleReset = () => {
+    setFormData({ name: '', email: '', company: '', url: '', message: '' });
+    setErrors({});
+    setValidated(false);
+  };
+
   return (
     <ScrollRevealWrapper>
       <section id="contact" className={appStyles.sectionPadding}>
@@ -79,7 +86,7 @@ const ContactForm = () => {
             <Col md={8}>
               <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group controlId="formName">
-                  <InputGroup className={styles.inputGroup}>
+                  <InputGroup className={`ps-1 ${styles.inputGroup}`}>
                     <InputGroup.Text className={styles.inputGroupIcon}>
                       <FontAwesomeIcon size="sm" icon={faUser} />
                     </InputGroup.Text>
@@ -105,7 +112,7 @@ const ContactForm = () => {
                   )}
                 </Form.Group>
                 <Form.Group controlId="formEmail" className={styles.formGroup}>
-                  <InputGroup className={styles.inputGroup}>
+                  <InputGroup className={`ps-1 ${styles.inputGroup}`}>
                     <InputGroup.Text className={styles.inputGroupIcon}>
                       <FontAwesomeIcon size="sm" icon={faEnvelope} />
                     </InputGroup.Text>
@@ -134,7 +141,7 @@ const ContactForm = () => {
                   controlId="formCompany"
                   className={styles.formGroup}
                 >
-                  <InputGroup className={styles.inputGroup}>
+                  <InputGroup className={`ps-1 ${styles.inputGroup}`}>
                     <InputGroup.Text className={styles.inputGroupIcon}>
                       <FontAwesomeIcon size="sm" icon={faBriefcase} />
                     </InputGroup.Text>
@@ -149,7 +156,7 @@ const ContactForm = () => {
                   </InputGroup>
                 </Form.Group>
                 <Form.Group controlId="formUrl" className={styles.formGroup}>
-                  <InputGroup className={styles.inputGroup}>
+                  <InputGroup className={`ps-1 ${styles.inputGroup}`}>
                     <InputGroup.Text className={styles.inputGroupIcon}>
                       <FontAwesomeIcon size="sm" icon={faGlobe} />
                     </InputGroup.Text>
@@ -177,7 +184,7 @@ const ContactForm = () => {
                   controlId="formMessage"
                   className={styles.formGroup}
                 >
-                  <InputGroup className={styles.inputGroup}>
+                  <InputGroup className={`ps-1 ${styles.inputGroup}`}>
                     <InputGroup.Text className={styles.inputGroupIcon}>
                       <FontAwesomeIcon size="sm" icon={faComment} />
                     </InputGroup.Text>
@@ -203,7 +210,15 @@ const ContactForm = () => {
                     </div>
                   )}
                 </Form.Group>
-                <div className="d-flex justify-content-center py-4">
+                <div className="d-flex justify-content-between py-4 px-1">
+                  <Button
+                    className={styles.clearButton}
+                    type="button"
+                    onClick={handleReset}
+                    disabled={isSending}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </Button>
                   <Button
                     className={styles.submitButton}
                     type="submit"
@@ -224,7 +239,7 @@ const ContactForm = () => {
                           icon={faEnvelope}
                           className={appStyles.buttonIcon}
                         />
-                        <span className={appStyles.buttonText}>Submit</span>
+                        <span className={appStyles.buttonText}>Send</span>
                       </>
                     )}
                   </Button>
