@@ -40,7 +40,6 @@
   padding-left: 0.6rem !important;
   color: var(--text-color) !important;
   font-weight: 500 !important;
-  font-size: 0.95rem !important;
 }
 
 .inputGroupControl::placeholder {
