@@ -16,69 +16,60 @@
   --bs-modal-box-shadow: none !important;
   --bs-modal-margin: 0 !important;
 
-  /* Color Variables */
-  --text-color: #333;
+  /* Optimized Color Variables */
+  --text-color: #2e2e2e;
   --background-gradient: linear-gradient(
     180deg,
-    #c8c8c8 0%,
-    #c4c4c4 50%,
-    #c0c0c0 100%
+    #e0e0e0 0%,
+    #dcdcdc 50%,
+    #d8d8d8 100%
   );
   --scrollbar-thumb-gradient: linear-gradient(
     180deg,
-    #d8d8d8 0%,
-    #d4d4d4 50%,
-    #d0d0d0 100%
+    #c0c0c0 0%,
+    #bcbcbc 50%,
+    #b8b8b8 100%
   );
   --scrollbar-thumb-hover-gradient: linear-gradient(
     180deg,
-    #b8b8b8 0%,
-    #a8a8a8 50%,
-    #989898 100%
+    #a0a0a0 0%,
+    #909090 50%,
+    #808080 100%
   );
   --scrollbar-track-gradient: linear-gradient(
     180deg,
-    #252525 0%,
-    #252525 50%,
-    #252525 100%
+    #303030 0%,
+    #303030 50%,
+    #303030 100%
   );
-  --linkedin-color: #0077b5;
+  --linkedin-color: #0073b1;
   --github-color: #ffffff;
-  --pdf-color: #f40f02;
-  --certificate-color: #ffd700;
+  --pdf-color: #e50914;
+  --certificate-color: #ffdf00;
   --source-code-color: #4caf50;
-  --copyright-text-color: #f0f0f0;
-  --tooltip-text-color: #f0f0f0;
+  --copyright-text-color: #e0e0e0;
+  --tooltip-text-color: #e0e0e0;
   --card-background-gradient: linear-gradient(
     180deg,
-    #f8f8f8 0%,
-    #f6f6f6 8%,
-    #f4f4f4 16%,
-    #f2f2f2 24%,
-    #f0f0f0 32%,
-    #eeeeee 40%,
-    #ececec 48%,
-    #eaeaea 56%,
-    #e8e8e8 64%,
-    #e6e6e6 72%,
-    #e4e4e4 80%,
-    #e2e2e2 88%,
-    #e0e0e0 96%,
-    #dedede 100%
+    #f0f0f0 0%,
+    #e8e8e8 25%,
+    #e0e0e0 50%,
+    #d8d8d8 75%,
+    #d6d6d6 100%
   );
   --modal-background-gradient: linear-gradient(
     180deg,
-    #1a1a1ae0 0%,
-    #252525ce 50%,
-    #1a1a1ad0 100%
+    #1a1a1ad0 0%,
+    #252525b0 50%,
+    #1a1a1ab0 100%
   );
-  --modal-text-color: #f0f0f0;
+  --modal-text-color: #e0e0e0;
   --card-bg-image-url: url('../src/assets/imgBackground.webp');
-  --badge-text-color: #333;
-  --main-icon-color: #2a2a2a;
-  --section-title-color: #2a2a2a;
-  --button-icon-color: #f0f0f0;
-  --button-text-color: #f0f0f0;
+  --badge-text-color: #2e2e2e;
+  --main-icon-color: #2e2e2e;
+  --section-title-color: #2e2e2e;
+  --button-icon-color: #e0e0e0;
+  --button-text-color: #e0e0e0;
   --btn-credential-background-gradient: linear-gradient(
     180deg,
     #4a4a4a 0%,
