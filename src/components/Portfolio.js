@@ -74,7 +74,7 @@ const Portfolio = () => {
             </Card.Text>
             <div className={styles.technologies}>
               {project.technologies.map((tech, i) => (
-                <span key={i} className={styles.techBadge}>
+                <span key={i} className={appStyles.customBadge}>
                   {tech}
                 </span>
               ))}
