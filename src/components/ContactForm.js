@@ -16,7 +16,7 @@ import {
   faBriefcase,
   faGlobe,
   faExclamationCircle,
-  faTrashCan,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../api/emailJs';
 import styles from './styles/ContactForm.module.css';
@@ -105,7 +105,7 @@ const ContactForm = () => {
                     <div className={styles.errorMessage}>
                       <FontAwesomeIcon
                         icon={faExclamationCircle}
-                        className="me-2"
+                        className={`${styles.errorIcon} me-2`}
                       />
                       {errors.name}
                     </div>
@@ -131,7 +131,7 @@ const ContactForm = () => {
                     <div className={styles.errorMessage}>
                       <FontAwesomeIcon
                         icon={faExclamationCircle}
-                        className="me-2"
+                        className={`${styles.errorIcon} me-2`}
                       />
                       {errors.email}
                     </div>
@@ -174,7 +174,7 @@ const ContactForm = () => {
                     <div className={styles.errorMessage}>
                       <FontAwesomeIcon
                         icon={faExclamationCircle}
-                        className="me-2"
+                        className={`${styles.errorIcon} me-2`}
                       />
                       {errors.url}
                     </div>
@@ -204,7 +204,7 @@ const ContactForm = () => {
                     <div className={styles.errorMessage}>
                       <FontAwesomeIcon
                         icon={faExclamationCircle}
-                        className="me-2"
+                        className={`${styles.errorIcon} me-2`}
                       />
                       {errors.message}
                     </div>
@@ -217,7 +217,7 @@ const ContactForm = () => {
                     onClick={handleReset}
                     disabled={isSending}
                   >
-                    <FontAwesomeIcon icon={faTrashCan} />
+                    <FontAwesomeIcon icon={faTrash} />
                   </Button>
                   <Button
                     className={styles.submitButton}
