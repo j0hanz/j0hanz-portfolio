@@ -38,9 +38,9 @@
   );
   --scrollbar-track-gradient: linear-gradient(
     180deg,
-    #303030 0%,
-    #303030 50%,
-    #303030 100%
+    #2e2e2e 0%,
+    #1e1e1e 50%,
+    #171717 100%
   );
   --form-border-color: #f0f0f0;
   --linkedin-color: #0073b1;
@@ -107,7 +107,7 @@ code {
 }
 
 *::-webkit-scrollbar {
-  width: 0.75rem !important;
+  width: 0.9rem !important;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -338,7 +338,7 @@ code {
 }
 
 .btnCredential:hover {
-  filter: brightness(0.8);
+  filter: brightness(0.7);
 }
 
 .btnCredential:active {

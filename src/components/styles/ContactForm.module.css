@@ -83,4 +83,9 @@
     #2e2e2e 50%,
     #1e1e1e 100%
   );
+  transition: all 0.3s ease !important;
+}
+
+.clearButton:hover {
+  filter: brightness(0.7);
 }
