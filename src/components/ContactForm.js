@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Spinner,
+  Card,
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faTrash } from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../api/emailJs';
@@ -69,47 +77,51 @@ const ContactForm = () => {
           </div>
           <Row className="d-flex justify-content-center align-items-center">
             <Col md={8}>
-              <Form noValidate onSubmit={handleSubmit}>
-                <FormContact
-                  formData={formData}
-                  errors={errors}
-                  handleChange={handleChange}
-                />
-                <div className="d-flex justify-content-between py-4 px-1">
-                  <Button
-                    className={styles.clearButton}
-                    type="button"
-                    onClick={handleReset}
-                    disabled={isSending}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                  <Button
-                    className={styles.submitButton}
-                    type="submit"
-                    disabled={isSending}
-                  >
-                    {isSending ? (
-                      <Spinner
-                        variant="light"
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <>
-                        <FontAwesomeIcon
-                          icon={faEnvelope}
-                          className={appStyles.buttonIcon}
-                        />
-                        <span className={appStyles.buttonText}>Send</span>
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </Form>
+              <Card className={`h-100 ${appStyles.cardBgColor}`}>
+                <Card.Body className={appStyles.formBody}>
+                  <Form noValidate onSubmit={handleSubmit}>
+                    <FormContact
+                      formData={formData}
+                      errors={errors}
+                      handleChange={handleChange}
+                    />
+                    <div className="d-flex justify-content-between mt-3 p-2">
+                      <Button
+                        className={styles.clearButton}
+                        type="button"
+                        onClick={handleReset}
+                        disabled={isSending}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                      <Button
+                        className={styles.submitButton}
+                        type="submit"
+                        disabled={isSending}
+                      >
+                        {isSending ? (
+                          <Spinner
+                            variant="light"
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <>
+                            <FontAwesomeIcon
+                              icon={faEnvelope}
+                              className={appStyles.buttonIcon}
+                            />
+                            <span className={appStyles.buttonText}>Send</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </Form>
+                </Card.Body>
+              </Card>
               {validated && (
                 <EmailHandler
                   formData={formData}
