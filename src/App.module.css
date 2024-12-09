@@ -190,7 +190,7 @@ body {
 }
 
 .customButton {
-  width: 185px;
+  width: 180px;
   height: 40px;
   border: none !important;
   border-radius: 6.5px !important;
@@ -198,8 +198,8 @@ body {
   text-transform: uppercase;
   max-width: 100%;
   display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  justify-content: space-evenly !important;
+  padding: 0 !important;
   cursor: pointer;
 }
 
@@ -239,15 +239,12 @@ body {
 }
 
 .buttonIcon {
-  margin-right: 10px;
   font-size: 0.95rem;
   color: var(--btn-icon-color);
 }
 
 .buttonText {
-  font-size: 1rem !important;
   letter-spacing: 0.25px;
-  margin-left: 0;
   color: var(--text-light);
 }
 
