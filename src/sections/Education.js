@@ -7,10 +7,10 @@ import {
   faCalendarAlt,
   faAward,
 } from '@fortawesome/free-solid-svg-icons';
-import Credential from './Credential';
+import Credential from '../components/Credential';
 import styles from './styles/Education.module.css';
 import appStyles from '../App.module.css';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 import education from '../data/education';
 
 const Education = () => {

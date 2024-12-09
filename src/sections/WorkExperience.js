@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/WorkExperience.module.css';
 import appStyles from '../App.module.css';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 import experiences from '../data/experiences';
 
 const WorkExperience = () => {

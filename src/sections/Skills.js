@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Skills.module.css';
 import appStyles from '../App.module.css';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 import skills from '../data/skills';
 
 const Skills = () => {

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faAward } from '@fortawesome/free-solid-svg-icons';
-import Credential from './Credential';
+import Credential from '../components/Credential';
 import styles from './styles/AboutMe.module.css';
 import appStyles from '../App.module.css';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 import aboutMeItems from '../data/aboutMeItems';
 
 const AboutMeCard = ({ children }) => (

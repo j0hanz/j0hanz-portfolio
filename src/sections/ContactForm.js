@@ -15,9 +15,9 @@ import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
 import { validateForm } from '../utils/validation';
 import { toast } from 'react-toastify';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 import FormContact from '../form/contact';
-import Badge from './Badge';
+import Badge from '../components/Badge';
 
 const ContactForm = () => {
   const [validated, setValidated] = useState(false);

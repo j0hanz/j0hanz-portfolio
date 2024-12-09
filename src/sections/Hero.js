@@ -4,10 +4,10 @@ import Image from '../assets/image_me.webp';
 import styles from './styles/Hero.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import ModalCv from './ModalCv';
-import ImageModal from './ImageModal';
+import ModalCv from '../components/ModalCv';
+import ImageModal from '../components/ImageModal';
 import appStyles from '../App.module.css';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 
 const Hero = () => {
   /* State to manage loading spinner for CV download */

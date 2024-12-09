@@ -21,7 +21,7 @@ import appStyles from '../App.module.css';
 import hackathonBadge from '../assets/hackathonBadge.webp';
 import hackathonBadge3 from '../assets/hackathonBadgeThirdPlace.webp';
 import gitpodLogo from '../assets/gitpod.webp';
-import ScrollRevealWrapper from './ScrollWrapper';
+import ScrollRevealWrapper from '../components/ScrollWrapper';
 import projects from '../data/projects';
 import { fetchCommitHistory } from '../api/github';
 

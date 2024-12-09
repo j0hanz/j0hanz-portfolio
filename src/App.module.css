@@ -176,7 +176,7 @@ body {
 
 .cardHeader {
   letter-spacing: 0.25px !important;
-  font-size: 1.35rem !important;
+  font-size: 1.25rem !important;
 }
 
 .customBadge {
@@ -228,7 +228,7 @@ body {
 }
 
 .sectionTitle {
-  font-size: 2.1rem !important;
+  font-size: 2rem !important;
   font-weight: 500 !important;
   color: var(--section-title-color) !important;
 }

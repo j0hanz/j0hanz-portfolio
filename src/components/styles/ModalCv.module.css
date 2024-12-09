@@ -3,17 +3,17 @@
   border: none !important;
   border-radius: 7.5px !important;
   position: relative !important;
-  padding: 1.1rem !important;
+  padding: 1rem !important;
   color: var(--text-light) !important;
   width: 100% !important;
 }
 
 .modalCv {
-  --bs-modal-width: 325px !important;
+  --bs-modal-width: 350px !important;
 }
 
 .modalCvTitle {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .flagContainer {
@@ -21,7 +21,7 @@
 }
 
 .flagIcon {
-  font-size: 3.75rem;
+  font-size: 3.5rem;
   cursor: pointer;
   opacity: 0.8;
   transition:

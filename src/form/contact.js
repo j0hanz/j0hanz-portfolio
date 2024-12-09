@@ -9,7 +9,7 @@ import {
   faComment,
   faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from '../components/styles/ContactForm.module.css';
+import styles from '../sections/styles/ContactForm.module.css';
 
 const FormFields = ({ formData, errors, handleChange }) => {
   return (
