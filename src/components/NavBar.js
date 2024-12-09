@@ -115,8 +115,7 @@ const NavBar = () => {
                     >
                       <FontAwesomeIcon
                         icon={icon}
-                        size="lg"
-                        className={iconClass}
+                        className={`${styles.socialIcon} ${iconClass}`}
                       />
                     </Nav.Link>
                   </OverlayTrigger>

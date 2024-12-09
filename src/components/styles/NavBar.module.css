@@ -1,12 +1,17 @@
 .navIcon {
   color: var(--nav-icon-color);
-  font-size: 1rem;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.socialIcon {
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .navLink {
   color: var(--nav-link-color);
-  letter-spacing: 2px;
-  font-weight: 500;
+  letter-spacing: 1.3px;
   font-size: 1.1rem;
   transition:
     color 0.3s ease,
