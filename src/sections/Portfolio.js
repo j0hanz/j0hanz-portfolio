@@ -80,11 +80,11 @@ const Portfolio = () => {
             </div>
             <div className={`mt-auto ${styles.githubStats}`}>
               <img
-                src={`https://img.shields.io/github/commit-activity/t/${repoPath}?logo=git&logoColor=white&label=Commits`}
+                src={`https://img.shields.io/github/commit-activity/t/${repoPath}?style=flat-square&logo=git&logoColor=dc1a1a&labelColor=383838`}
                 alt="Commit Activity"
               />
               <img
-                src={`https://img.shields.io/github/last-commit/${repoPath}?logo=github&logoColor=white&label=Updated`}
+                src={`https://img.shields.io/github/last-commit/${repoPath}?style=flat-square&logo=github&logoColor=ffffff&labelColor=383838&label=Updated`}
                 alt="Last Commit"
               />
             </div>
