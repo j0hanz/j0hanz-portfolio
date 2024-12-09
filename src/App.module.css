@@ -239,7 +239,6 @@ body {
 
 .buttonIcon {
   margin-right: 10px;
-  width: auto;
   color: var(--btn-icon-color);
 }
 

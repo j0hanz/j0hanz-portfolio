@@ -25,7 +25,7 @@
 .customButton {
   width: 105px !important;
   max-width: 100% !important;
-  height: auto !important;
+  height: 30px !important;
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.3s ease !important;
@@ -34,6 +34,7 @@
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
+  line-height: 0 !important;
 }
 
 .githubButton {
@@ -54,7 +55,7 @@
 
 .buttonIcon {
   margin-right: 10px;
-  width: auto;
+  font-size: 0.9rem;
   color: var(--btn-icon-color);
 }
 
