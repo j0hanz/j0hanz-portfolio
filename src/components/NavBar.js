@@ -51,7 +51,7 @@ const NavBar = () => {
         className={`${styles.customNavbar} px-0 py-2`}
         expanded={expanded}
       >
-        <Container fluid className="px-2">
+        <Container fluid className="pe-1">
           <Nav.Link href="#hero" className="position-relative">
             <img
               src={navLogo}
