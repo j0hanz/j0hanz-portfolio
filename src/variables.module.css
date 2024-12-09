@@ -1,10 +1,10 @@
 /* CSS variables for theme customization */
 :root {
-  --badge-bg-color: #eaeaea;
-  --badge-color: #333333;
-  --bg-dark: linear-gradient(180deg, #1b1b1b 0%, #292929 50%, #1b1b1b 100%);
+  --badge-bg-color: #f2f2f2;
+  --badge-color: #2d2d2d;
+  --bg-dark: linear-gradient(180deg, #1a1a1a 0%, #282828 50%, #1a1a1a 100%);
   --bg-transparent: transparent;
-  --body-bg: linear-gradient(180deg, #e5e5e5 0%, #d9d9d9 50%, #d4d4d4 100%);
+  --body-bg: linear-gradient(180deg, #eeeeee 0%, #e2e2e2 50%, #dadada 100%);
   --bs-body-bg: none !important;
   --bs-border-color: none !important;
   --bs-border-width: 0 !important;
@@ -17,70 +17,70 @@
   --bs-modal-box-shadow: none !important;
   --bs-modal-margin: 0 !important;
   --bs-modal-padding: 0 !important;
-  --card-bg: linear-gradient(180deg, #f5f5f5 0%, #eaeaea 25%, #e0e0e0 75%);
+  --card-bg: linear-gradient(180deg, #ffffff 0%, #f5f5f5 25%, #eeeeee 75%);
   --card-bg-image-url: url('../src/assets/imgBackground.webp');
-  --certificate-color: #ffd700;
-  --copyright-text-color: #dcdcdc;
-  --error-icon-color: #d90429;
-  --error-text-color: #333333;
-  --form-border-color: #d4d4d4;
+  --certificate-color: #ffc800;
+  --copyright-text-color: #e6e6e6;
+  --error-icon-color: #dc1a1a;
+  --error-text-color: #2d2d2d;
+  --form-border-color: #dadada;
   --github-color: #ffffff;
-  --input-placeholder-color: #333333;
-  --linkedin-color: #0077b5;
-  --main-icon-color: #333333;
+  --input-placeholder-color: #2d2d2d;
+  --linkedin-color: #0a66c2;
+  --main-icon-color: #2d2d2d;
   --modal-bg: linear-gradient(
     180deg,
-    #1a1a1ad0 0%,
-    #252525b0 50%,
-    #1a1a1ab0 100%
+    #181818d8 0%,
+    #232323c9 50%,
+    #181818d8 100%
   );
-  --nav-icon-color: #0275c2;
-  --nav-link-color: #dcdcdc;
-  --nav-link-hover-color: #3399ff;
-  --pdf-color: #d90429;
+  --nav-icon-color: #0284d4;
+  --nav-link-color: #e6e6e6;
+  --nav-link-hover-color: #40a9ff;
+  --pdf-color: #dc1a1a;
   --scrollbar-thumb-gradient: linear-gradient(
     180deg,
-    #bfbfbf 0%,
-    #b5b5b5 50%,
-    #ababab 100%
+    #cccccc 0%,
+    #bebebe 50%,
+    #b0b0b0 100%
   );
   --scrollbar-thumb-hover-gradient: linear-gradient(
     180deg,
-    #9e9e9e 0%,
-    #8e8e8e 50%,
-    #7e7e7e 100%
+    #a8a8a8 0%,
+    #999999 50%,
+    #8a8a8a 100%
   );
   --scrollbar-track-gradient: linear-gradient(
     180deg,
-    #2d2d2d 0%,
-    #1d1d1d 50%,
-    #161616 100%
+    #2a2a2a 0%,
+    #1f1f1f 50%,
+    #171717 100%
   );
-  --section-title-color: #333333;
-  --source-code-color: #4caf50;
+  --section-title-color: #2d2d2d;
+  --source-code-color: #3fb950;
   --spinner-color: linear-gradient(
     90deg,
-    #014069 0%,
-    #015d9b 25%,
-    #007acc 50%,
-    #0275c2 75%,
-    #0b88db 100%
+    #015180 0%,
+    #0169b2 25%,
+    #0284d4 50%,
+    #0284d4 75%,
+    #1a91db 100%
   );
-  --text-color: #333333;
-  --text-hero: linear-gradient(180deg, #00487a 25%, #00487a 50%, #4a7fc2 75%);
-  --text-light: #eaeaea;
-  --btn-bg-dark: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  --text-color: #2d2d2d;
+  --text-hero: linear-gradient(180deg, #015180 25%, #015180 50%, #4b89cc 75%);
+  --text-light: #f2f2f2;
+  --btn-bg-dark: linear-gradient(180deg, #383838 0%, #282828 50%, #181818 100%);
   --btn-bg-primary: linear-gradient(
     180deg,
-    #0077cc 0%,
-    #0066b2 50%,
-    #005599 100%
+    #0284d4 0%,
+    #0169b2 50%,
+    #015180 100%
   );
-  --btn-icon-color: #eaeaea;
+  --btn-icon-color: #f2f2f2;
   --toast-bg: linear-gradient(
     180deg,
-    #1a1a1ae0 0%,
-    #252525ce 50%,
-    #1a1a1ad0 100%
+    #181818e6 0%,
+    #232323d9 50%,
+    #181818e6 100%
   );
 }
