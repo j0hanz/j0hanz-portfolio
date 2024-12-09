@@ -13,7 +13,7 @@ import experiences from '../data/experiences';
 
 const WorkExperience = () => {
   const renderExperience = (experience, index) => (
-    <Col md={6} className="mb-4" key={index}>
+    <Col lg={6} className="mb-4" key={index}>
       <Card
         className={`h-100 ${styles.experienceCard} ${appStyles.cardBgColor}`}
       >

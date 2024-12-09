@@ -50,7 +50,7 @@ const Portfolio = () => {
     const repoPath = project.github.split('github.com/')[1];
 
     return (
-      <Col md={6} key={index} className="mb-4">
+      <Col lg={6} key={index} className="mb-4">
         <Card className={`h-100 ${appStyles.cardBgColor}`}>
           <Card.Body
             className={`d-flex flex-column ${appStyles.cardBody} ${styles.badgePosition}`}
