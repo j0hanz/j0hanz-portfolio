@@ -1,20 +1,19 @@
-.modalCv {
-  --bs-modal-width: 20rem !important;
-}
-
 .modalCvBody {
   background: var(--modal-bg) !important;
   border: none !important;
   border-radius: 7.5px !important;
   position: relative !important;
-  padding: 1rem !important;
+  padding: 1.1rem !important;
   color: var(--text-light) !important;
   width: 100% !important;
 }
 
+.modalCv {
+  --bs-modal-width: 325px !important;
+}
+
 .modalCvTitle {
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-size: 1.6rem;
 }
 
 .flagContainer {
@@ -26,9 +25,9 @@
   cursor: pointer;
   opacity: 0.8;
   transition:
-    transform 0.3s ease,
-    opacity 0.3s ease,
-    color 0.3s ease;
+    transform 0.3s ease-in-out,
+    opacity 0.3s ease-in-out,
+    color 0.3s ease-in-out;
 }
 
 .flagIcon:hover {
