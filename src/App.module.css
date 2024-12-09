@@ -156,7 +156,7 @@ body {
   background-repeat: no-repeat;
   z-index: 0;
   background-image: var(--card-bg-image-url);
-  opacity: 0.09;
+  opacity: 0.1;
 }
 
 .cardBgImage > * {
