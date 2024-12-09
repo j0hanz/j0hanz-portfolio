@@ -78,7 +78,7 @@ body {
 }
 
 .copyrightText {
-  color: var(--copyright-text-color);
+  color: var(--text-light);
   opacity: 0.8;
 }
 
@@ -208,6 +208,11 @@ body {
 
 .customButton:hover {
   filter: brightness(0.7);
+}
+
+.socialIcon {
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .mainContent {
