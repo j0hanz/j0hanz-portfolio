@@ -4,8 +4,8 @@
 }
 
 .badgeImage {
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: auto;
   margin: 0 auto;
   display: block;
 }
@@ -20,4 +20,16 @@
   text-decoration: none;
   text-transform: uppercase !important;
   font-size: 0.7rem;
+}
+
+@media (max-width: 575px) {
+  .badgeImage {
+    width: 120px;
+  }
+}
+
+@media (max-width: 320px) {
+  .badgeImage {
+    width: 105px;
+  }
 }
