@@ -188,9 +188,9 @@ body {
   font-size: 0.75rem !important;
 }
 
-.customButtonLight {
+.customButton {
   width: 185px;
-  height: 45px;
+  height: 40px;
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.3s ease !important;
@@ -202,11 +202,11 @@ body {
   cursor: pointer;
 }
 
-.customButtonLight:active {
+.customButton:active {
   transform: scale(0.99);
 }
 
-.customButtonLight:hover {
+.customButton:hover {
   filter: brightness(0.7);
 }
 
@@ -233,15 +233,16 @@ body {
 }
 
 .buttonIcon {
-  color: var(--btn-icon-color) !important;
-  margin-right: 10px !important;
+  margin-right: 10px;
+  width: auto;
+  color: var(--btn-icon-color);
 }
 
 .buttonText {
   font-size: 1rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.8px !important;
-  color: var(--text-light) !important !important;
+  letter-spacing: 0.25px;
+  margin-left: 0;
+  color: var(--text-light);
 }
 
 .btnCredential {

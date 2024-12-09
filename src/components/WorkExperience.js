@@ -59,7 +59,7 @@ const WorkExperience = () => {
                 className={appStyles.mainIcon}
               />
             </div>
-            <h2 className={appStyles.sectionTitle}>Work Experience</h2>
+            <h2 className={appStyles.sectionTitle}>Experience</h2>
           </div>
           <Row>{experiences.map(renderExperience)}</Row>
         </Container>

@@ -113,9 +113,9 @@ const ContactForm = () => {
                           <>
                             <FontAwesomeIcon
                               icon={faEnvelope}
-                              className={appStyles.buttonIcon}
+                              className={styles.buttonIcon}
                             />
-                            <span className={appStyles.buttonText}>Send</span>
+                            <span className={styles.buttonText}>Send</span>
                           </>
                         )}
                       </Button>

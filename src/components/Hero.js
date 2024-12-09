@@ -38,7 +38,7 @@ const Hero = () => {
   const handleImageModalClose = useCallback(() => setShowImageModal(false), []);
 
   /* Common class names for buttons */
-  const buttonBaseClass = `d-flex align-items-center ${appStyles.customButtonLight}`;
+  const buttonBaseClass = `d-flex align-items-center ${appStyles.customButton}`;
   const downloadButtonClass = `${buttonBaseClass} my-4 ${styles.downloadButton}`;
   const contactButtonClass = `${buttonBaseClass} ${styles.contactButton}`;
 
@@ -51,7 +51,7 @@ const Hero = () => {
               <img
                 src={Image}
                 alt="Linus Johansson"
-                className={`mb-4 ${styles.heroImage}`}
+                className={`mb-3 ${styles.heroImage}`}
                 onClick={handleImageModalOpen}
                 style={{ cursor: 'pointer' }}
               />
@@ -62,7 +62,7 @@ const Hero = () => {
               >
                 Junior Full-Stack Developer
               </p>
-              <div className="d-flex flex-column align-items-center my-5">
+              <div className="d-flex flex-column align-items-center mt-4">
                 <Button
                   onClick={handleModalOpen}
                   disabled={loading}

@@ -132,7 +132,7 @@ const Portfolio = () => {
                     icon={faRocket}
                     className={styles.buttonIcon}
                   />
-                  <span className={styles.buttonText}>Live Demo</span>
+                  <span className={styles.buttonText}>Demo</span>
                 </Button>
               ) : (
                 <OverlayTrigger
@@ -155,7 +155,7 @@ const Portfolio = () => {
                         icon={faRocket}
                         className={styles.buttonIcon}
                       />
-                      <span className={styles.buttonText}>Live Demo</span>
+                      <span className={styles.buttonText}>Demo</span>
                     </Button>
                   </span>
                 </OverlayTrigger>
