@@ -81,7 +81,7 @@ const Hero = () => {
                     <>
                       <FontAwesomeIcon
                         icon={faDownload}
-                        className={appStyles.buttonIcon}
+                        className={`ps-1 ${appStyles.buttonIcon}`}
                       />
                       <span className={appStyles.buttonText}>Download CV</span>
                     </>
