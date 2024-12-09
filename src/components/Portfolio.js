@@ -50,7 +50,7 @@ const Portfolio = () => {
     const repoPath = project.github.split('github.com/')[1];
 
     return (
-      <Col md={6} key={index} className="mb-4">
+      <Col lg={6} key={index} className="mb-4">
         <Card className={`h-100 ${appStyles.cardBgColor}`}>
           <Card.Body
             className={`d-flex flex-column ${appStyles.cardBody} ${styles.badgePosition}`}
@@ -174,11 +174,10 @@ const Portfolio = () => {
             <div>
               <FontAwesomeIcon
                 icon={faProjectDiagram}
-                size="2x"
                 className={appStyles.mainIcon}
               />
             </div>
-            <h2 className={appStyles.sectionTitle}>Projects</h2>
+            <div className={appStyles.sectionTitle}>Projects</div>
           </div>
           <Row>{projects.map(renderProject)}</Row>
         </Container>

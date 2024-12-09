@@ -1,9 +1,9 @@
-/* Importing the Inter font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+/* Importing the Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 @import './variables.module.css';
 
 body {
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
   overflow-y: scroll !important;
@@ -49,7 +49,7 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.3;
+  opacity: 0.2;
   z-index: -1;
 }
 
@@ -78,7 +78,7 @@ body {
 }
 
 .copyrightText {
-  color: var(--copyright-text-color);
+  color: var(--text-light);
   opacity: 0.8;
 }
 
@@ -105,12 +105,13 @@ body {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  margin-bottom: 0.75rem !important;
+  margin-bottom: 1.2rem !important;
+  line-height: 0 !important;
 }
 
 .cardText {
-  line-height: 1.6 !important;
-  letter-spacing: 0.25px !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0.15px !important;
 }
 
 .customTooltip {
@@ -155,7 +156,7 @@ body {
   background-repeat: no-repeat;
   z-index: 0;
   background-image: var(--card-bg-image-url);
-  opacity: 0.09;
+  opacity: 0.1;
 }
 
 .cardBgImage > * {
@@ -210,6 +211,11 @@ body {
   filter: brightness(0.7);
 }
 
+.socialIcon {
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
 .mainContent {
   width: 100% !important;
   padding-top: 5rem !important;
@@ -217,14 +223,14 @@ body {
 
 .mainIcon {
   color: var(--main-icon-color) !important;
-  margin-right: 0.6rem !important;
+  margin-right: 0.65rem !important;
+  font-size: 1.75rem !important;
 }
 
 .sectionTitle {
-  font-size: 2rem !important;
+  font-size: 2.1rem !important;
   font-weight: 500 !important;
   color: var(--section-title-color) !important;
-  padding-top: 0.3rem !important;
 }
 
 .titleIcon {
@@ -234,7 +240,7 @@ body {
 
 .buttonIcon {
   margin-right: 10px;
-  width: auto;
+  font-size: 0.95rem;
   color: var(--btn-icon-color);
 }
 

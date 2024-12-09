@@ -8,6 +8,46 @@ import appStyles from '../App.module.css';
 import ScrollRevealWrapper from './ScrollWrapper';
 import aboutMeItems from '../data/aboutMeItems';
 
+const AboutMeCard = ({ children }) => (
+  <Card className={`h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}>
+    <Card.Body className={appStyles.cardBody}>{children}</Card.Body>
+  </Card>
+);
+
+const AboutMeText = () => (
+  <AboutMeCard>
+    <Card.Text className={appStyles.cardText}>
+      I'm a tech enthusiast who recently completed a Full-Stack Developer
+      program, boosting my web development skills. I enjoy using my coding
+      experience to build creative solutions, and I'm always eager to learn,
+      solve problems, and collaborate. I'm looking for opportunities that will
+      help me grow and develop.
+    </Card.Text>
+  </AboutMeCard>
+);
+
+const AboutMeList = ({ items, onShowModal }) => (
+  <AboutMeCard>
+    <ul className="list-unstyled">
+      {items.map((item, index) => (
+        <li key={index} className="mb-3">
+          <strong>{item.title}:</strong> {item.description}
+          {item.hasCredential && (
+            <div className="mt-2">
+              <Button onClick={onShowModal} className={styles.btnCredential}>
+                <FontAwesomeIcon
+                  icon={faAward}
+                  className={styles.certificateIcon}
+                />
+              </Button>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  </AboutMeCard>
+);
+
 const AboutMe = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -16,57 +56,18 @@ const AboutMe = () => {
       <section id="about-me" className={appStyles.sectionPadding}>
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
-            <FontAwesomeIcon
-              icon={faUser}
-              size="2x"
-              className={appStyles.mainIcon}
-            />
-            <h2 className={appStyles.sectionTitle}>About Me</h2>
+            <FontAwesomeIcon icon={faUser} className={appStyles.mainIcon} />
+            <div className={appStyles.sectionTitle}>About Me</div>
           </div>
           <Row>
             <Col md={6} className="mb-4">
-              <Card
-                className={`h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}
-              >
-                <Card.Body className={appStyles.cardBody}>
-                  <Card.Text className={appStyles.cardText}>
-                    I'm a tech enthusiast who recently completed a Full-Stack
-                    Developer program, boosting my web development skills. I
-                    enjoy using my coding experience to build creative
-                    solutions, and I'm always eager to learn, solve problems,
-                    and collaborate. I'm looking for opportunities that will
-                    help me grow and develop.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
+              <AboutMeText />
             </Col>
             <Col md={6} className="mb-4">
-              <Card
-                className={`${styles.aboutMeCard} ${appStyles.cardBgColor}`}
-              >
-                <Card.Body>
-                  <ul className="list-unstyled">
-                    {aboutMeItems.map((item, index) => (
-                      <li key={index} className="mb-3">
-                        <strong>{item.title}:</strong> {item.description}
-                        {item.hasCredential && (
-                          <div className="mt-2">
-                            <Button
-                              onClick={() => setShowModal(true)}
-                              className={styles.btnCredential}
-                            >
-                              <FontAwesomeIcon
-                                icon={faAward}
-                                className={styles.certificateIcon}
-                              />
-                            </Button>
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </Card.Body>
-              </Card>
+              <AboutMeList
+                items={aboutMeItems}
+                onShowModal={() => setShowModal(true)}
+              />
             </Col>
           </Row>
           <Credential

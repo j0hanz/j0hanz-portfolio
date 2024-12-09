@@ -78,7 +78,7 @@ const NavBar = () => {
                 <Nav.Link
                   key={id}
                   href={`#${id}`}
-                  className={`${styles.navLink} my-2 my-lg-0`}
+                  className={`${styles.navLink} my-2 my-lg-0 ms-lg-2`}
                   onClick={handleNavLinkClick}
                 >
                   <FontAwesomeIcon
@@ -90,7 +90,7 @@ const NavBar = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            <Nav className="d-flex flex-row justify-content-between justify-content-sm-start">
+            <Nav className="d-flex flex-row justify-content-between justify-content-sm-start ms-lg-2">
               {socialLinks.map(
                 ({ id, icon, href, onClick, tooltip, iconClass }) => (
                   <OverlayTrigger
@@ -115,8 +115,7 @@ const NavBar = () => {
                     >
                       <FontAwesomeIcon
                         icon={icon}
-                        size="lg"
-                        className={iconClass}
+                        className={`${appStyles.socialIcon} ${iconClass} px-0`}
                       />
                     </Nav.Link>
                   </OverlayTrigger>
