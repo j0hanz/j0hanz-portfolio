@@ -7,13 +7,17 @@ import styles from './styles/ModalCv.module.css';
 const ModalCv = ({ show, handleClose }) => {
   const handleDownload = useCallback(
     (cv, fileName) => {
-      const link = document.createElement('a');
-      link.href = cv;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      handleClose();
+      try {
+        const link = document.createElement('a');
+        link.href = cv;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        handleClose();
+      } catch (error) {
+        console.error('Download failed:', error);
+      }
     },
     [handleClose]
   );
