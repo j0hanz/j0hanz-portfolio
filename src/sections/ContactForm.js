@@ -9,7 +9,11 @@ import {
   Card,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEnvelope,
+  faTrash,
+  faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
 import EmailHandler from '../api/emailJs';
 import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
@@ -114,7 +118,7 @@ const ContactForm = () => {
                         ) : (
                           <>
                             <FontAwesomeIcon
-                              icon={faEnvelope}
+                              icon={faPaperPlane}
                               className={styles.buttonIcon}
                             />
                             <span className={styles.buttonText}>Send</span>
