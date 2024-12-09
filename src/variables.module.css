@@ -20,6 +20,7 @@
   --card-bg: linear-gradient(180deg, #ffffff 0%, #f5f5f5 25%, #eeeeee 75%);
   --card-bg-image-url: url('../src/assets/imgBackground.webp');
   --certificate-color: #ffc800;
+  --trash-icon-color: #ffc800;
   --error-icon-color: #dc1a1a;
   --error-text-color: #2d2d2d;
   --form-border-color: #dadada;

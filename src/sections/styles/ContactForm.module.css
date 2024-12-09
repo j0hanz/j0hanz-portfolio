@@ -76,6 +76,7 @@
 
 .buttonIconClear {
   font-size: 0.9rem;
+  color: var(--trash-icon-color);
 }
 
 .buttonText {
