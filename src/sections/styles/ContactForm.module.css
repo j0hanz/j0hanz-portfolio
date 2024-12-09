@@ -1,7 +1,7 @@
 /* Input Group Icon Styling */
 .inputGroup {
   padding-left: 0.3rem !important;
-  border-bottom: 2px solid var(--form-border-color) !important;
+  border-bottom: 3px solid var(--form-border-color) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   transition: border-color 0.3s ease !important;
