@@ -17,6 +17,7 @@ import { validateForm } from '../utils/validation';
 import { toast } from 'react-toastify';
 import ScrollRevealWrapper from './ScrollWrapper';
 import FormContact from '../form/contact';
+import Badge from './Badge';
 
 const ContactForm = () => {
   const [validated, setValidated] = useState(false);
@@ -76,7 +77,7 @@ const ContactForm = () => {
             <h2 className={appStyles.sectionTitle}>Contact</h2>
           </div>
           <Row className="d-flex justify-content-center align-items-center">
-            <Col md={8}>
+            <Col md={9}>
               <Card className={`h-100 ${appStyles.cardBgColor}`}>
                 <Card.Body className={appStyles.formBody}>
                   <Form noValidate onSubmit={handleSubmit}>
@@ -128,6 +129,7 @@ const ContactForm = () => {
                   onEmailSent={handleEmailSent}
                 />
               )}
+              <Badge />
             </Col>
           </Row>
         </Container>
