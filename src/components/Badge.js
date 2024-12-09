@@ -15,7 +15,7 @@ const BadgeItem = ({ href, imgSrc, date }) => (
 );
 
 const Badge = () => (
-  <Row className="d-flex justify-content-between text-center p-1 mt-5">
+  <Row className="d-flex justify-content-between text-center mt-5">
     <BadgeItem
       href="https://api.eu.badgr.io/public/assertions/pv52CsVuSI2V_KIyzgiahA"
       imgSrc="https://api.eu.badgr.io/public/assertions/pv52CsVuSI2V_KIyzgiahA/image"
