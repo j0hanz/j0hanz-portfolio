@@ -1,9 +1,9 @@
-/* Importing the Inter font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+/* Importing the Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 @import './variables.module.css';
 
 body {
-  font-family: 'Inter', sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
   overflow-y: scroll !important;
@@ -49,7 +49,7 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.3;
+  opacity: 0.2;
   z-index: -1;
 }
 
@@ -109,8 +109,8 @@ body {
 }
 
 .cardText {
-  line-height: 1.6 !important;
-  letter-spacing: 0.25px !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0.15px !important;
 }
 
 .customTooltip {
