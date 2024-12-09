@@ -92,7 +92,10 @@ const ContactForm = () => {
                         onClick={handleReset}
                         disabled={isSending}
                       >
-                        <FontAwesomeIcon icon={faTrash} />
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className={styles.buttonIconClear}
+                        />
                       </Button>
                       <Button
                         className={styles.submitButton}

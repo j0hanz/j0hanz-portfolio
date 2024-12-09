@@ -53,7 +53,7 @@
 }
 
 .submitButton {
-  width: 105px !important;
+  width: 90px !important;
   max-width: 100% !important;
   height: 30px !important;
   border: none !important;
@@ -74,11 +74,13 @@
   color: var(--btn-icon-color);
 }
 
+.buttonIconClear {
+  font-size: 0.9rem;
+}
+
 .buttonText {
   font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.15px;
-  margin-left: 0;
+  letter-spacing: 0.25px;
   color: var(--text-light);
 }
 
@@ -93,8 +95,24 @@
 .clearButton {
   background-image: var(--btn-bg-dark);
   transition: all 0.3s ease !important;
+  width: 35px !important;
+  max-width: 100% !important;
+  height: 30px !important;
+  border: none !important;
+  border-radius: 6.5px !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  line-height: 0 !important;
 }
 
 .clearButton:hover {
   filter: brightness(0.7);
+}
+
+.clearButton:active {
+  transform: scale(0.99);
 }
