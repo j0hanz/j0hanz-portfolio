@@ -14,8 +14,8 @@
 }
 
 .developerTitle {
-  font-size: 1.25rem !important;
-  letter-spacing: 1px !important;
+  font-size: 1.3rem !important;
+  letter-spacing: 1.2px !important;
   text-transform: uppercase !important;
 }
 
@@ -23,9 +23,8 @@
   background: var(--text-hero);
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: var(--bg-transparent);
-  font-size: 2.5rem !important;
-  font-weight: 650 !important;
-  letter-spacing: 2.5px !important;
+  font-size: 2.8rem !important;
+  letter-spacing: 3px !important;
 }
 
 .downloadButton {
@@ -38,17 +37,38 @@
 
 @media (max-width: 768px) {
   .heroImage {
-    width: 175px !important;
-    height: 175px !important;
+    width: 185px !important;
+    height: 185px !important;
   }
 
   .gradientText {
-    font-size: 1.9rem !important;
+    font-size: 2.5rem !important;
+    letter-spacing: 2px !important;
+  }
+
+  .developerTitle {
+    font-size: 1.3rem !important;
+    letter-spacing: 0.5px !important;
+  }
+}
+
+@media (max-width: 525px) {
+  .gradientText {
+    font-size: 2.3rem !important;
     letter-spacing: 1.5px !important;
   }
 
   .developerTitle {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .gradientText {
+    font-size: 1.9rem !important;
+  }
+
+  .developerTitle {
     font-size: 1rem !important;
-    letter-spacing: 0.5px !important;
   }
 }
