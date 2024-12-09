@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
   faProjectDiagram,
-  faRocket,
   faUser,
   faUsers,
   faDatabase,
@@ -129,7 +128,7 @@ const Portfolio = () => {
                   className={`${styles.customButton} ${styles.demoButton}`}
                 >
                   <FontAwesomeIcon
-                    icon={faRocket}
+                    icon={faProjectDiagram}
                     className={styles.buttonIcon}
                   />
                   <span className={styles.buttonText}>Demo</span>
@@ -152,7 +151,7 @@ const Portfolio = () => {
                       className={`${styles.customButton} ${styles.demoButton}`}
                     >
                       <FontAwesomeIcon
-                        icon={faRocket}
+                        icon={faProjectDiagram}
                         className={styles.buttonIcon}
                       />
                       <span className={styles.buttonText}>Demo</span>
