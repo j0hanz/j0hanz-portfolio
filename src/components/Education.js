@@ -72,11 +72,10 @@ const Education = () => {
             <div>
               <FontAwesomeIcon
                 icon={faGraduationCap}
-                size="2x"
                 className={appStyles.mainIcon}
               />
             </div>
-            <h2 className={appStyles.sectionTitle}>Education</h2>
+            <div className={appStyles.sectionTitle}>Education</div>
           </div>
           <Row>{education.map(renderEducationItem)}</Row>
           {/* Renders the credential modal if showModal is true */}

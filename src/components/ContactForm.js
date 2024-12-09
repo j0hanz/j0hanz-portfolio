@@ -70,11 +70,10 @@ const ContactForm = () => {
             <div>
               <FontAwesomeIcon
                 icon={faEnvelope}
-                size="2x"
                 className={appStyles.mainIcon}
               />
             </div>
-            <h2 className={appStyles.sectionTitle}>Contact</h2>
+            <div className={appStyles.sectionTitle}>Contact</div>
           </div>
           <Row className="d-flex justify-content-center align-items-center">
             <Col md={9}>

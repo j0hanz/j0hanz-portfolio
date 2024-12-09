@@ -56,12 +56,8 @@ const AboutMe = () => {
       <section id="about-me" className={appStyles.sectionPadding}>
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
-            <FontAwesomeIcon
-              icon={faUser}
-              size="2x"
-              className={appStyles.mainIcon}
-            />
-            <h2 className={appStyles.sectionTitle}>About Me</h2>
+            <FontAwesomeIcon icon={faUser} className={appStyles.mainIcon} />
+            <div className={appStyles.sectionTitle}>About Me</div>
           </div>
           <Row>
             <Col md={6} className="mb-4">

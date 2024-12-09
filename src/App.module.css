@@ -105,7 +105,8 @@ body {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  margin-bottom: 0.75rem !important;
+  margin-bottom: 1.15rem !important;
+  line-height: 0 !important;
 }
 
 .cardText {
@@ -222,14 +223,14 @@ body {
 
 .mainIcon {
   color: var(--main-icon-color) !important;
-  margin-right: 0.6rem !important;
+  margin-right: 0.65rem !important;
+  font-size: 1.75rem !important;
 }
 
 .sectionTitle {
-  font-size: 2rem !important;
+  font-size: 2.1rem !important;
   font-weight: 500 !important;
   color: var(--section-title-color) !important;
-  padding-top: 0.3rem !important;
 }
 
 .titleIcon {

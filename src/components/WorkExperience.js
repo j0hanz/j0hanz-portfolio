@@ -55,11 +55,10 @@ const WorkExperience = () => {
             <div>
               <FontAwesomeIcon
                 icon={faBriefcase}
-                size="2x"
                 className={appStyles.mainIcon}
               />
             </div>
-            <h2 className={appStyles.sectionTitle}>Experience</h2>
+            <div className={appStyles.sectionTitle}>Experience</div>
           </div>
           <Row>{experiences.map(renderExperience)}</Row>
         </Container>

@@ -26,13 +26,9 @@ const Skills = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faCogs}
-                size="2x"
-                className={appStyles.mainIcon}
-              />
+              <FontAwesomeIcon icon={faCogs} className={appStyles.mainIcon} />
             </div>
-            <h2 className={appStyles.sectionTitle}>Skills</h2>
+            <div className={appStyles.sectionTitle}>Skills</div>
           </div>
           <Row>{skills.map(renderSkill)}</Row>
         </Container>

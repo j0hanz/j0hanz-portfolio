@@ -174,11 +174,10 @@ const Portfolio = () => {
             <div>
               <FontAwesomeIcon
                 icon={faProjectDiagram}
-                size="2x"
                 className={appStyles.mainIcon}
               />
             </div>
-            <h2 className={appStyles.sectionTitle}>Projects</h2>
+            <div className={appStyles.sectionTitle}>Projects</div>
           </div>
           <Row>{projects.map(renderProject)}</Row>
         </Container>
