@@ -8,7 +8,6 @@ import Education from './components/Education';
 import Portfolio from './components/Portfolio';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
-import Badge from './components/Badge';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import './toastify.css';
@@ -43,7 +42,6 @@ const MainContent = ({ loading }) => (
         <Portfolio />
         <WorkExperience />
         <ContactForm />
-        <Badge />
         <Footer />
       </>
     )}
