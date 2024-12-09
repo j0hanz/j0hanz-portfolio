@@ -6,7 +6,7 @@
 
 .navLink {
   color: var(--nav-link-color);
-  letter-spacing: 1.3px;
+  letter-spacing: 1.5px;
   font-size: 1.1rem;
   transition:
     color 0.3s ease,
@@ -47,8 +47,6 @@
   justify-content: center;
   cursor: pointer;
   --bs-navbar-color: transparent;
-  width: 45px;
-  height: 40px;
   border: none !important;
 }
 
@@ -58,15 +56,15 @@
 }
 
 .customToggle:active {
-  transform: scale(0.95);
+  transform: scale(0.8);
 }
 
 .navIconToggle {
   color: var(--nav-icon-color);
-  font-size: 1.9rem;
-  transition: transform 0.3s ease;
+  font-size: 1.8rem;
+  transition: transform 0.4s ease;
 }
 
 .navIconToggle.open {
-  transform: rotate(90deg);
+  transform: rotate(180deg);
 }
