@@ -74,19 +74,15 @@ const NavBar = () => {
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
             <Nav className={`ms-auto my-1 my-lg-0 ${appStyles.cardBgImage}`}>
-              {navLinks.map(({ id, icon, label }) => (
+              {navLinks.map(({ id, icon: Icon, label }) => (
                 <Nav.Link
                   key={id}
                   href={`#${id}`}
                   className={`${styles.navLink} my-2 my-lg-0 ms-lg-2`}
                   onClick={handleNavLinkClick}
                 >
-                  <FontAwesomeIcon
-                    icon={icon}
-                    className={`${styles.navIcon} me-lg-2 me-3`}
-                    fixedWidth
-                  />
-                  <span className={styles.navLink}>{label}</span>
+                  <Icon className={`${styles.navIcon} me-lg-2 me-3`} />
+                  <span className={styles.navLinkText}>{label}</span>
                 </Nav.Link>
               ))}
             </Nav>
