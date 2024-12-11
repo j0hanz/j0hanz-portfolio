@@ -15,6 +15,7 @@ import {
   faUser,
   faUsers,
   faDatabase,
+  faLink,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
@@ -128,7 +129,7 @@ const Portfolio = () => {
                   className={`${styles.customButton} ${styles.demoButton}`}
                 >
                   <FontAwesomeIcon
-                    icon={faProjectDiagram}
+                    icon={faLink}
                     className={styles.buttonIcon}
                   />
                   <span className={styles.buttonText}>Demo</span>
@@ -151,7 +152,7 @@ const Portfolio = () => {
                       className={`${styles.customButton} ${styles.demoButton}`}
                     >
                       <FontAwesomeIcon
-                        icon={faProjectDiagram}
+                        icon={faLink}
                         className={styles.buttonIcon}
                       />
                       <span className={styles.buttonText}>Demo</span>
