@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { HiMiniAcademicCap, HiMiniCheckBadge } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faGraduationCap,
-  faSchool,
-  faCalendarAlt,
-  faAward,
-} from '@fortawesome/free-solid-svg-icons';
+import { faSchool, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import Credential from '../components/Credential';
 import styles from './styles/Education.module.css';
 import appStyles from '../App.module.css';
@@ -52,11 +48,8 @@ const Education = () => {
             </Card.Text>
           )}
           {edu.hasCredential && (
-            <Button onClick={toggleModal} className={styles.btnCredential}>
-              <FontAwesomeIcon
-                icon={faAward}
-                className={styles.certificateIcon}
-              />
+            <Button onClick={toggleModal} className={appStyles.btnCredential}>
+              <HiMiniCheckBadge className={appStyles.certificateIcon} />
             </Button>
           )}
         </Card.Body>
@@ -70,10 +63,7 @@ const Education = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faGraduationCap}
-                className={appStyles.mainIcon}
-              />
+              <HiMiniAcademicCap className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Education</div>
           </div>

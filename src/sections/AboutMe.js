@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faAward } from '@fortawesome/free-solid-svg-icons';
+import { HiMiniUser, HiMiniCheckBadge } from 'react-icons/hi2';
 import Credential from '../components/Credential';
 import styles from './styles/AboutMe.module.css';
 import appStyles from '../App.module.css';
@@ -34,11 +33,8 @@ const AboutMeList = ({ items, onShowModal }) => (
           <strong>{item.title}:</strong> {item.description}
           {item.hasCredential && (
             <div className="mt-2">
-              <Button onClick={onShowModal} className={styles.btnCredential}>
-                <FontAwesomeIcon
-                  icon={faAward}
-                  className={styles.certificateIcon}
-                />
+              <Button onClick={onShowModal} className={appStyles.btnCredential}>
+                <HiMiniCheckBadge className={appStyles.certificateIcon} />
               </Button>
             </div>
           )}
@@ -56,7 +52,7 @@ const AboutMe = () => {
       <section id="about-me" className={appStyles.sectionPadding}>
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
-            <FontAwesomeIcon icon={faUser} className={appStyles.mainIcon} />
+            <HiMiniUser className={appStyles.mainIcon} />
             <div className={appStyles.sectionTitle}>About Me</div>
           </div>
           <Row>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { HiMiniCog8Tooth } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCogs } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Skills.module.css';
 import appStyles from '../App.module.css';
 import ScrollRevealWrapper from '../components/ScrollWrapper';
@@ -26,7 +26,7 @@ const Skills = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon icon={faCogs} className={appStyles.mainIcon} />
+              <HiMiniCog8Tooth className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Skills</div>
           </div>

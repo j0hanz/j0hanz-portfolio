@@ -1,11 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { HiMiniBriefcase } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBriefcase,
-  faBuilding,
-  faCalendarAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/WorkExperience.module.css';
 import appStyles from '../App.module.css';
 import ScrollRevealWrapper from '../components/ScrollWrapper';
@@ -53,10 +50,7 @@ const WorkExperience = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faBriefcase}
-                className={appStyles.mainIcon}
-              />
+              <HiMiniBriefcase className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Experience</div>
           </div>

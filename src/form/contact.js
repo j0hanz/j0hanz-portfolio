@@ -1,14 +1,13 @@
 import React from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { HiMiniExclamationCircle } from 'react-icons/hi2';
 import {
-  faUser,
-  faEnvelope,
-  faBriefcase,
-  faGlobe,
-  faComment,
-  faExclamationCircle,
-} from '@fortawesome/free-solid-svg-icons';
+  HiOutlineUser,
+  HiOutlineEnvelope,
+  HiOutlineBriefcase,
+  HiOutlineGlobeAlt,
+  HiOutlineChatBubbleOvalLeft,
+} from 'react-icons/hi2';
 import styles from '../sections/styles/ContactForm.module.css';
 
 const FormFields = ({ formData, errors, handleChange }) => {
@@ -17,7 +16,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formName">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <FontAwesomeIcon size="sm" icon={faUser} />
+            <HiOutlineUser size="1em" />
           </InputGroup.Text>
           <Form.Control
             type="text"
@@ -32,10 +31,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
         </InputGroup>
         {errors.name && (
           <div className={styles.errorMessage}>
-            <FontAwesomeIcon
-              icon={faExclamationCircle}
-              className={`${styles.errorIcon} me-2`}
-            />
+            <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.name}
           </div>
         )}
@@ -43,7 +39,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formEmail">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <FontAwesomeIcon size="sm" icon={faEnvelope} />
+            <HiOutlineEnvelope size="1em" />
           </InputGroup.Text>
           <Form.Control
             type="email"
@@ -58,10 +54,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
         </InputGroup>
         {errors.email && (
           <div className={styles.errorMessage}>
-            <FontAwesomeIcon
-              icon={faExclamationCircle}
-              className={`${styles.errorIcon} me-2`}
-            />
+            <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.email}
           </div>
         )}
@@ -69,7 +62,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formCompany">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <FontAwesomeIcon size="sm" icon={faBriefcase} />
+            <HiOutlineBriefcase size="1em" />
           </InputGroup.Text>
           <Form.Control
             type="text"
@@ -84,7 +77,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formUrl">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <FontAwesomeIcon size="sm" icon={faGlobe} />
+            <HiOutlineGlobeAlt size="1em" />
           </InputGroup.Text>
           <Form.Control
             type="url"
@@ -98,10 +91,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
         </InputGroup>
         {errors.url && (
           <div className={styles.errorMessage}>
-            <FontAwesomeIcon
-              icon={faExclamationCircle}
-              className={`${styles.errorIcon} me-2`}
-            />
+            <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.url}
           </div>
         )}
@@ -109,7 +99,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formMessage">
         <InputGroup className={`${styles.inputGroupBody} ${styles.inputGroup}`}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <FontAwesomeIcon size="sm" icon={faComment} />
+            <HiOutlineChatBubbleOvalLeft size="1em" />
           </InputGroup.Text>
           <Form.Control
             as="textarea"
@@ -125,10 +115,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
         </InputGroup>
         {errors.message && (
           <div className={styles.errorMessage}>
-            <FontAwesomeIcon
-              icon={faExclamationCircle}
-              className={`${styles.errorIcon} me-2`}
-            />
+            <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.message}
           </div>
         )}
