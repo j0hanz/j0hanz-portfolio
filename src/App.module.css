@@ -70,7 +70,6 @@ body {
 
 .certificateIcon {
   color: var(--certificate-color);
-  padding-right: 0.5rem;
 }
 
 .sourceCodeIcon {
@@ -78,6 +77,7 @@ body {
 }
 
 .copyrightText {
+  font-size: 0.8rem !important;
   color: var(--text-light);
   opacity: 0.8;
 }
@@ -180,13 +180,18 @@ body {
 }
 
 .customBadge {
-  background-color: var(--badge-bg-color);
+  padding-top: 0.1rem !important;
   display: inline-block !important;
+  align-items: center !important;
   color: var(--badge-color) !important;
-  padding: 0.2rem !important;
   margin-right: 1rem !important;
-  border-radius: 0.25rem !important;
-  font-size: 0.75rem !important;
+  font-size: 0.8rem !important;
+}
+
+.badgeText {
+  color: var(--badge-color) !important;
+  text-transform: uppercase !important;
+  font-size: 0.7rem !important;
 }
 
 .customButton {
@@ -211,6 +216,32 @@ body {
   filter: brightness(0.7);
 }
 
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none !important;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+  background-color: #00000067;
+  border-radius: 0 10rem 0 50rem !important;
+  height: 35px !important;
+  width: 35px !important;
+  padding-left: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  opacity: 1;
+}
+
+.xMark {
+  font-size: 1.2rem;
+  color: var(--btn-close-color);
+}
+
 .socialIcon {
   font-size: 1.1rem;
   transition: color 0.3s ease;
@@ -224,7 +255,7 @@ body {
 .mainIcon {
   color: var(--main-icon-color) !important;
   margin-right: 0.65rem !important;
-  font-size: 1.75rem !important;
+  font-size: 1.8rem !important;
 }
 
 .sectionTitle {
@@ -239,7 +270,6 @@ body {
 }
 
 .buttonIcon {
-  font-size: 0.95rem;
   color: var(--btn-icon-color);
 }
 
@@ -249,6 +279,12 @@ body {
 }
 
 .btnCredential {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  line-height: 0 !important;
+  height: 30px !important;
   border: none !important;
   border-radius: 6.5px !important;
   transition: all 0.5s ease !important;
@@ -256,7 +292,7 @@ body {
 }
 
 .btnCredential:hover {
-  filter: brightness(0.7);
+  filter: brightness(0.5);
 }
 
 .btnCredential:active {

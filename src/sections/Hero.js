@@ -2,8 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import Image from '../assets/image_me.webp';
 import styles from './styles/Hero.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { HiOutlineEnvelope, HiOutlineArrowDownTray } from 'react-icons/hi2';
 import ModalCv from '../components/ModalCv';
 import ImageModal from '../components/ImageModal';
 import appStyles from '../App.module.css';
@@ -79,19 +78,15 @@ const Hero = () => {
                     />
                   ) : (
                     <>
-                      <FontAwesomeIcon
-                        icon={faDownload}
-                        className={`ps-1 ${appStyles.buttonIcon}`}
+                      <HiOutlineArrowDownTray
+                        className={`${appStyles.buttonIcon} ${styles.buttonIcon}`}
                       />
                       <span className={appStyles.buttonText}>Download CV</span>
                     </>
                   )}
                 </Button>
                 <Button href="#contact" className={contactButtonClass}>
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    className={appStyles.buttonIcon}
-                  />
+                  <HiOutlineEnvelope className={appStyles.buttonIcon} />
                   <span className={appStyles.buttonText}>Get in Touch</span>
                 </Button>
               </div>

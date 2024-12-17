@@ -1,6 +1,6 @@
 /* Input Group Icon Styling */
 .inputGroup {
-  padding-left: 0.3rem !important;
+  padding-left: 0.2rem !important;
   border-bottom: 3px solid var(--form-border-color) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -18,7 +18,7 @@
 .errorMessage {
   display: block !important;
   color: var(--text-color) !important;
-  padding: 0.2rem 0.45rem !important;
+  padding: 0.2rem 0.35rem !important;
   border-bottom-left-radius: 6.5px !important;
   border-bottom-right-radius: 6.5px !important;
   font-size: 0.7rem !important;
@@ -28,16 +28,17 @@
   display: flex !important;
   justify-content: center !important;
   align-items: baseline !important;
-  padding-top: 0.7rem !important;
+  padding-top: 0.5rem !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
   border: none !important;
-  width: 1em !important;
+  width: 1.1rem !important;
   background-color: var(--bg-transparent) !important;
 }
 
 .inputGroupControl {
-  padding-left: 0.5rem !important;
+  font-size: 0.8rem !important;
+  padding-left: 0.4rem !important;
   color: var(--text-color) !important;
 }
 
@@ -75,7 +76,6 @@
 }
 
 .buttonIconClear {
-  font-size: 0.9rem;
   color: var(--trash-icon-color);
 }
 
@@ -96,7 +96,6 @@
 .clearButton {
   background-image: var(--btn-bg-dark);
   transition: all 0.3s ease !important;
-  width: 35px !important;
   max-width: 100% !important;
   height: 30px !important;
   border: none !important;

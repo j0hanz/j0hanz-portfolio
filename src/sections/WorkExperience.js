@@ -1,11 +1,10 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBriefcase,
-  faBuilding,
-  faCalendarAlt,
-} from '@fortawesome/free-solid-svg-icons';
+  HiBriefcase,
+  HiOutlineBuildingOffice,
+  HiOutlineCalendar,
+} from 'react-icons/hi2';
 import styles from './styles/WorkExperience.module.css';
 import appStyles from '../App.module.css';
 import ScrollRevealWrapper from '../components/ScrollWrapper';
@@ -22,17 +21,15 @@ const WorkExperience = () => {
             <span>{experience.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
+            <div className={appStyles.customBadge}>
+              <HiOutlineBuildingOffice className="me-2" />
+              <span className={appStyles.badgeText}>
+                {experience.workplace}
+              </span>
+            </div>
             <span className={appStyles.customBadge}>
-              <FontAwesomeIcon size="sm" className="me-2" icon={faBuilding} />
-              {experience.workplace}
-            </span>
-            <span className={appStyles.customBadge}>
-              <FontAwesomeIcon
-                size="sm"
-                className="me-2"
-                icon={faCalendarAlt}
-              />
-              {experience.duration}
+              <HiOutlineCalendar className="me-2" />
+              <span className={appStyles.badgeText}>{experience.duration}</span>
             </span>
           </Card.Subtitle>
           <ul className={`${styles.listItems} ${appStyles.cardText}`}>
@@ -53,10 +50,7 @@ const WorkExperience = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faBriefcase}
-                className={appStyles.mainIcon}
-              />
+              <HiBriefcase className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Experience</div>
           </div>

@@ -8,12 +8,11 @@ import {
   Spinner,
   Card,
 } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEnvelope,
-  faTrash,
-  faPaperPlane,
-} from '@fortawesome/free-solid-svg-icons';
+  HiOutlineTrash,
+  HiOutlinePaperAirplane,
+  HiEnvelope,
+} from 'react-icons/hi2';
 import EmailHandler from '../api/emailJs';
 import styles from './styles/ContactForm.module.css';
 import appStyles from '../App.module.css';
@@ -72,10 +71,7 @@ const ContactForm = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className={appStyles.mainIcon}
-              />
+              <HiEnvelope className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Contact</div>
           </div>
@@ -96,10 +92,7 @@ const ContactForm = () => {
                         onClick={handleReset}
                         disabled={isSending}
                       >
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          className={styles.buttonIconClear}
-                        />
+                        <HiOutlineTrash className={styles.buttonIconClear} />
                       </Button>
                       <Button
                         className={styles.submitButton}
@@ -117,8 +110,7 @@ const ContactForm = () => {
                           />
                         ) : (
                           <>
-                            <FontAwesomeIcon
-                              icon={faPaperPlane}
+                            <HiOutlinePaperAirplane
                               className={styles.buttonIcon}
                             />
                             <span className={styles.buttonText}>Send</span>

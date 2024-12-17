@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Container } from 'react-bootstrap';
 import ImageCredential from '../assets/Credential.webp';
+import { HiXMark, HiArrowTopRightOnSquare } from 'react-icons/hi2';
 import styles from './styles/Credential.module.css';
+import appStyles from '../App.module.css';
 import Spinner from './Spinner';
 
 const Credential = ({ show, handleClose }) => {
@@ -20,6 +22,9 @@ const Credential = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Body className={styles.credentialBody}>
+        <button className={appStyles.closeButton} onClick={handleClose}>
+          <HiXMark className={appStyles.xMark} />
+        </button>
         <Container className="text-center px-0">
           {loading ? (
             <Spinner />
@@ -36,7 +41,10 @@ const Credential = ({ show, handleClose }) => {
                   alt="Credential"
                   className={styles.credentialImage}
                 />
-                <div className={styles.hoverText}>View Credential</div>
+                <div className={styles.hoverText}>
+                  <HiArrowTopRightOnSquare className={styles.hoverTextIcon} />
+                  View Credential
+                </div>
               </div>
             </a>
           )}

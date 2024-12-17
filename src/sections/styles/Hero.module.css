@@ -35,6 +35,10 @@
   background-image: var(--btn-bg-dark);
 }
 
+.buttonIcon {
+  margin-left: 0.25rem !important;
+}
+
 @media (max-width: 768px) {
   .heroImage {
     width: 185px !important;

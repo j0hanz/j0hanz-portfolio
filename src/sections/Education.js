@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faGraduationCap,
-  faSchool,
-  faCalendarAlt,
-  faAward,
-} from '@fortawesome/free-solid-svg-icons';
+  HiAcademicCap,
+  HiMiniCheckBadge,
+  HiOutlineBuildingLibrary,
+  HiOutlineCalendar,
+} from 'react-icons/hi2';
 import Credential from '../components/Credential';
 import styles from './styles/Education.module.css';
 import appStyles from '../App.module.css';
@@ -31,17 +30,13 @@ const Education = () => {
             <span>{edu.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
+            <div className={appStyles.customBadge}>
+              <HiOutlineBuildingLibrary className="me-2" />
+              <span className={appStyles.badgeText}>{edu.school}</span>
+            </div>
             <span className={appStyles.customBadge}>
-              <FontAwesomeIcon size="sm" className="me-2" icon={faSchool} />
-              {edu.school}
-            </span>
-            <span className={appStyles.customBadge}>
-              <FontAwesomeIcon
-                size="sm"
-                className="me-2"
-                icon={faCalendarAlt}
-              />
-              {edu.duration}
+              <HiOutlineCalendar className="me-2" />
+              <span className={appStyles.badgeText}>{edu.duration}</span>
             </span>
           </Card.Subtitle>
           {edu.description && (
@@ -52,11 +47,8 @@ const Education = () => {
             </Card.Text>
           )}
           {edu.hasCredential && (
-            <Button onClick={toggleModal} className={styles.btnCredential}>
-              <FontAwesomeIcon
-                icon={faAward}
-                className={styles.certificateIcon}
-              />
+            <Button onClick={toggleModal} className={appStyles.btnCredential}>
+              <HiMiniCheckBadge className={appStyles.certificateIcon} />
             </Button>
           )}
         </Card.Body>
@@ -70,10 +62,7 @@ const Education = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faGraduationCap}
-                className={appStyles.mainIcon}
-              />
+              <HiAcademicCap className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Education</div>
           </div>

@@ -8,15 +8,15 @@ import {
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap';
+import {
+  HiFolder,
+  HiMiniUser,
+  HiMiniUserGroup,
+  HiMiniPlay,
+  HiMiniServer,
+} from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import {
-  faProjectDiagram,
-  faUser,
-  faUsers,
-  faDatabase,
-  faLink,
-} from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Portfolio.module.css';
 import appStyles from '../App.module.css';
 import hackathonBadge from '../assets/hackathonBadge.webp';
@@ -60,14 +60,10 @@ const Portfolio = () => {
               <div
                 className={`${appStyles.cardHeader} d-flex align-items-center`}
               >
-                {project.api && (
-                  <FontAwesomeIcon icon={faDatabase} className="me-2" />
-                )}
+                {project.api && <HiMiniServer className="me-2" />}
                 {project.title}
               </div>
-              <FontAwesomeIcon
-                icon={project.collaborative ? faUsers : faUser}
-              />
+              {project.collaborative ? <HiMiniUserGroup /> : <HiMiniUser />}
             </Card.Title>
             <Card.Text className={appStyles.cardText}>
               {project.description}
@@ -128,10 +124,7 @@ const Portfolio = () => {
                   target="_blank"
                   className={`${styles.customButton} ${styles.demoButton}`}
                 >
-                  <FontAwesomeIcon
-                    icon={faLink}
-                    className={styles.buttonIcon}
-                  />
+                  <HiMiniPlay className={styles.buttonIcon} />
                   <span className={styles.buttonText}>Demo</span>
                 </Button>
               ) : (
@@ -151,10 +144,7 @@ const Portfolio = () => {
                       disabled
                       className={`${styles.customButton} ${styles.demoButton}`}
                     >
-                      <FontAwesomeIcon
-                        icon={faLink}
-                        className={styles.buttonIcon}
-                      />
+                      <HiMiniPlay className={styles.buttonIcon} />
                       <span className={styles.buttonText}>Demo</span>
                     </Button>
                   </span>
@@ -173,10 +163,7 @@ const Portfolio = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <FontAwesomeIcon
-                icon={faProjectDiagram}
-                className={appStyles.mainIcon}
-              />
+              <HiFolder className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Projects</div>
           </div>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { HiOutlineEnvelope } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreativeCommons } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import styles from './styles/Footer.module.css';
 import ModalCv from './ModalCv';
 import appStyles from '../App.module.css';
@@ -26,20 +26,14 @@ const Footer = () => {
       >
         <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col sm={6} className="mb-sm-0">
-            <h5 className={styles.footerLinkHeader}>Contact Details</h5>
-            <p>
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                size="sm"
-                className={styles.footerIcon}
-              />
-              <a
-                href="mailto:l.johansson93@outlook.com"
-                className={`${styles.footerLink} text-decoration-none`}
-              >
-                l.johansson93@outlook.com
-              </a>
-            </p>
+            <div className={styles.footerLinkHeader}>Contact Details</div>
+            <HiOutlineEnvelope className={styles.footerIcon} />
+            <a
+              href="mailto:l.johansson93@outlook.com"
+              className={`${styles.footerLink} text-decoration-none`}
+            >
+              l.johansson93@outlook.com
+            </a>
           </Col>
           <Col sm={6} className="text-sm-end my-1">
             <p className="d-flex align-items-center justify-content-sm-end">
