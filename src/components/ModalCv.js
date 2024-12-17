@@ -3,6 +3,8 @@ import { Modal, Container } from 'react-bootstrap';
 import Cv_se from '../assets/Linus_Johansson_CV_sv.pdf';
 import Cv_en from '../assets/Linus_Johansson_CV_en.pdf';
 import styles from './styles/ModalCv.module.css';
+import appStyles from '../App.module.css';
+import { HiXMark } from 'react-icons/hi2';
 
 const ModalCv = ({ show, handleClose }) => {
   const handleDownload = useCallback(
@@ -25,6 +27,9 @@ const ModalCv = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose} centered className={styles.modalCv}>
       <Modal.Body className={styles.modalCvBody}>
+        <button className={appStyles.closeButton} onClick={handleClose}>
+          <HiXMark className={appStyles.xMark} />
+        </button>
         <Container className="text-center">
           <h4 className={`${styles.modalCvTitle} mb-4`}>Choose Language</h4>
           <div
