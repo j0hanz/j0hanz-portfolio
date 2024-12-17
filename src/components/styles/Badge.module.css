@@ -1,6 +1,5 @@
-.badge {
-  text-align: center;
-  padding: 0 0.5rem;
+img {
+  box-shadow: none !important;
 }
 
 .badgeImage {
@@ -8,6 +7,7 @@
   height: auto;
   margin: 0 auto;
   display: block;
+  border: none !important;
 }
 
 .badgeDate {
