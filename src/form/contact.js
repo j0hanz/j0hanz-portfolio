@@ -16,7 +16,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formName">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <HiOutlineUser size="1em" />
+            <HiOutlineUser />
           </InputGroup.Text>
           <Form.Control
             type="text"
@@ -39,7 +39,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formEmail">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <HiOutlineEnvelope size="1em" />
+            <HiOutlineEnvelope />
           </InputGroup.Text>
           <Form.Control
             type="email"
@@ -62,7 +62,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formCompany">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <HiOutlineBriefcase size="1em" />
+            <HiOutlineBriefcase />
           </InputGroup.Text>
           <Form.Control
             type="text"
@@ -77,7 +77,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formUrl">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <HiOutlineGlobeAlt size="1em" />
+            <HiOutlineGlobeAlt />
           </InputGroup.Text>
           <Form.Control
             type="url"
@@ -99,7 +99,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
       <Form.Group controlId="formMessage">
         <InputGroup className={`${styles.inputGroupBody} ${styles.inputGroup}`}>
           <InputGroup.Text className={styles.inputGroupIcon}>
-            <HiOutlineChatBubbleOvalLeft size="1em" />
+            <HiOutlineChatBubbleOvalLeft />
           </InputGroup.Text>
           <Form.Control
             as="textarea"
