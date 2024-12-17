@@ -8,33 +8,3 @@
   transform: translateY(-5px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
 }
-
-.btnCredential {
-  background-image: var(--btn-bg-dark);
-  transition: all 0.3s ease !important;
-  width: 35px !important;
-  max-width: 100% !important;
-  height: 30px !important;
-  border: none !important;
-  border-radius: 6.5px !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  line-height: 0 !important;
-}
-
-.certificateIcon {
-  color: var(--certificate-color);
-  font-size: 0.9rem;
-}
-
-.btnCredential:hover {
-  filter: brightness(0.7);
-}
-
-.btnCredential:active {
-  transform: scale(0.99);
-}
