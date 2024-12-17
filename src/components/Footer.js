@@ -26,7 +26,7 @@ const Footer = () => {
       >
         <Row className="d-flex justify-content-center align-items-center mx-auto">
           <Col sm={6} className="mb-sm-0">
-            <h5 className={styles.footerLinkHeader}>Contact Details</h5>
+            <div className={styles.footerLinkHeader}>Contact Details</div>
             <HiOutlineEnvelope className={styles.footerIcon} />
             <a
               href="mailto:l.johansson93@outlook.com"
