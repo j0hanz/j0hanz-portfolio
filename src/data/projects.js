@@ -1,5 +1,17 @@
 const projects = [
   {
+    title: 'Magic December',
+    description:
+      'A festive advent-style calendar developed for the December 2024 Code Institute Hackathon, showcasing seasonal festivals and holidays worldwide.',
+    github: 'https://github.com/Morgana-S/magic-december',
+    demo: 'https://morgana-s.github.io/magic-december/',
+    technologies: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap', 'Agile', 'Git'],
+    collaborative: true,
+    isHackathon: true,
+    isHackathon_3: false,
+    api: false,
+  },
+  {
     title: 'Script to Sound',
     description:
       'Developed for the November 2024 Code Institute Hackathon, this project is a text-to-speech application that enhances accessibility by converting written text into spoken words.',
@@ -145,28 +157,6 @@ const projects = [
     github: 'https://github.com/j0hanz/FIX-my-SPELL',
     demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
     technologies: ['Python', 'Heruko'],
-    collaborative: false,
-    isHackathon: false,
-    isHackathon_3: false,
-    api: false,
-  },
-  {
-    title: 'Corner',
-    description:
-      'Corner is an upgraded version of Blog Beat, offering more features, better customization, and an improved user experience.',
-    github: 'https://github.com/j0hanz/corner',
-    demo: '', // No demo link available
-    technologies: [
-      'React.js',
-      'CSS3',
-      'JavaScript',
-      'Bootstrap',
-      'Node.js',
-      'Django Rest',
-      'Python',
-      'SQL',
-      'SEO',
-    ],
     collaborative: false,
     isHackathon: false,
     isHackathon_3: false,
