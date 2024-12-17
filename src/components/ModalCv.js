@@ -42,10 +42,12 @@ const ModalCv = ({ show, handleClose }) => {
           <span
             className={`fi fi-se ${styles.flagIcon}`}
             onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
+            title="Swedish"
           ></span>
           <span
             className={`fi fi-gb ${styles.flagIcon}`}
             onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
+            title="English"
           ></span>
         </div>
       </Modal.Body>
