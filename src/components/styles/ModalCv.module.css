@@ -6,14 +6,22 @@
   padding: 1rem !important;
   color: var(--text-light) !important;
   width: 100% !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
 }
 
 .modalCv {
-  --bs-modal-width: 350px !important;
+  --bs-modal-width: 400px !important;
 }
 
 .modalCvTitle {
+  display: flex;
+  align-items: center;
   font-size: 1.4rem;
+}
+
+.globeIcon {
+  font-size: 1.3rem;
+  margin-right: 0.5rem;
 }
 
 .flagContainer {
@@ -23,7 +31,7 @@
 .flagIcon {
   font-size: 3.5rem;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.7;
   transition:
     transform 0.3s ease-in-out,
     opacity 0.3s ease-in-out,
@@ -32,7 +40,7 @@
 
 .flagIcon:hover {
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .flagIcon:active {

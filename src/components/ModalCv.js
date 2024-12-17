@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { Modal, Container } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import { HiOutlineGlobeAlt } from 'react-icons/hi2';
 import Cv_se from '../assets/Linus_Johansson_CV_sv.pdf';
 import Cv_en from '../assets/Linus_Johansson_CV_en.pdf';
 import styles from './styles/ModalCv.module.css';
@@ -30,21 +31,23 @@ const ModalCv = ({ show, handleClose }) => {
         <button className={appStyles.closeButton} onClick={handleClose}>
           <HiXMark className={appStyles.xMark} />
         </button>
-        <Container className="text-center">
-          <h4 className={`${styles.modalCvTitle} mb-4`}>Choose Language</h4>
-          <div
-            className={`d-flex justify-content-between ${styles.flagContainer}`}
-          >
-            <span
-              className={`fi fi-se ${styles.flagIcon}`}
-              onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
-            ></span>
-            <span
-              className={`fi fi-gb ${styles.flagIcon}`}
-              onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
-            ></span>
-          </div>
-        </Container>
+        <div className={`${styles.modalCvTitle} mb-4`}>
+          <HiOutlineGlobeAlt className={styles.globeIcon} />
+          Choose Language
+        </div>
+        Select a language to download the CV.
+        <div
+          className={`d-flex justify-content-between ${styles.flagContainer}`}
+        >
+          <span
+            className={`fi fi-se ${styles.flagIcon}`}
+            onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
+          ></span>
+          <span
+            className={`fi fi-gb ${styles.flagIcon}`}
+            onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
+          ></span>
+        </div>
       </Modal.Body>
     </Modal>
   );
