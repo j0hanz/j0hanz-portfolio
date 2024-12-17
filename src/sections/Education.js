@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { HiMiniAcademicCap, HiMiniCheckBadge } from 'react-icons/hi2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSchool, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  HiAcademicCap,
+  HiMiniCheckBadge,
+  HiOutlineBuildingLibrary,
+  HiOutlineCalendar,
+} from 'react-icons/hi2';
 import Credential from '../components/Credential';
 import styles from './styles/Education.module.css';
 import appStyles from '../App.module.css';
@@ -28,15 +31,11 @@ const Education = () => {
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
             <span className={appStyles.customBadge}>
-              <FontAwesomeIcon size="sm" className="me-2" icon={faSchool} />
+              <HiOutlineBuildingLibrary className="me-2" />
               {edu.school}
             </span>
             <span className={appStyles.customBadge}>
-              <FontAwesomeIcon
-                size="sm"
-                className="me-2"
-                icon={faCalendarAlt}
-              />
+              <HiOutlineCalendar className="me-2" />
               {edu.duration}
             </span>
           </Card.Subtitle>
@@ -63,7 +62,7 @@ const Education = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <HiMiniAcademicCap className={appStyles.mainIcon} />
+              <HiAcademicCap className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Education</div>
           </div>

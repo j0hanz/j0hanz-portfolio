@@ -9,11 +9,11 @@ import {
   Tooltip,
 } from 'react-bootstrap';
 import {
-  HiMiniFolder,
+  HiFolder,
   HiMiniUser,
   HiMiniUserGroup,
   HiMiniPlay,
-  HiMiniCircleStack,
+  HiMiniServer,
 } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -60,7 +60,7 @@ const Portfolio = () => {
               <div
                 className={`${appStyles.cardHeader} d-flex align-items-center`}
               >
-                {project.api && <HiMiniCircleStack className="me-2" />}
+                {project.api && <HiMiniServer className="me-2" />}
                 {project.title}
               </div>
               {project.collaborative ? <HiMiniUserGroup /> : <HiMiniUser />}
@@ -163,7 +163,7 @@ const Portfolio = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <HiMiniFolder className={appStyles.mainIcon} />
+              <HiFolder className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Projects</div>
           </div>

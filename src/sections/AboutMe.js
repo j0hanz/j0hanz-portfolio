@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { HiMiniUser, HiMiniCheckBadge } from 'react-icons/hi2';
+import { HiUser, HiMiniCheckBadge } from 'react-icons/hi2';
 import Credential from '../components/Credential';
 import styles from './styles/AboutMe.module.css';
 import appStyles from '../App.module.css';
@@ -52,7 +52,7 @@ const AboutMe = () => {
       <section id="about-me" className={appStyles.sectionPadding}>
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
-            <HiMiniUser className={appStyles.mainIcon} />
+            <HiUser className={appStyles.mainIcon} />
             <div className={appStyles.sectionTitle}>About Me</div>
           </div>
           <Row>

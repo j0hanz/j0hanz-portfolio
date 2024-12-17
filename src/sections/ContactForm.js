@@ -11,7 +11,7 @@ import {
 import {
   HiOutlineTrash,
   HiOutlinePaperAirplane,
-  HiMiniEnvelope,
+  HiEnvelope,
 } from 'react-icons/hi2';
 import EmailHandler from '../api/emailJs';
 import styles from './styles/ContactForm.module.css';
@@ -71,7 +71,7 @@ const ContactForm = () => {
         <Container className={appStyles.sectionContainer}>
           <div className={appStyles.sectionTitleContainer}>
             <div>
-              <HiMiniEnvelope className={appStyles.mainIcon} />
+              <HiEnvelope className={appStyles.mainIcon} />
             </div>
             <div className={appStyles.sectionTitle}>Contact</div>
           </div>
