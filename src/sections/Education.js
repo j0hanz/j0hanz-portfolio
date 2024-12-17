@@ -30,13 +30,13 @@ const Education = () => {
             <span>{edu.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
-            <span className={appStyles.customBadge}>
+            <div className={appStyles.customBadge}>
               <HiOutlineBuildingLibrary className="me-2" />
-              {edu.school}
-            </span>
+              <span className={appStyles.badgeText}>{edu.school}</span>
+            </div>
             <span className={appStyles.customBadge}>
               <HiOutlineCalendar className="me-2" />
-              {edu.duration}
+              <span className={appStyles.badgeText}>{edu.duration}</span>
             </span>
           </Card.Subtitle>
           {edu.description && (
