@@ -210,6 +210,32 @@ body {
   filter: brightness(0.7);
 }
 
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none !important;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+  background-color: #00000067;
+  border-radius: 0 10rem 0 50rem !important;
+  height: 35px !important;
+  width: 35px !important;
+  padding-left: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  opacity: 1;
+}
+
+.xMark {
+  font-size: 1.2rem;
+  color: var(--btn-close-color);
+}
+
 .socialIcon {
   font-size: 1.1rem;
   transition: color 0.3s ease;
