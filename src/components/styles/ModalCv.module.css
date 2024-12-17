@@ -20,8 +20,8 @@
 }
 
 .globeIcon {
-  font-size: 1.3rem;
-  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  margin-right: 0.4rem;
 }
 
 .flagContainer {
@@ -45,4 +45,14 @@
 
 .flagIcon:active {
   transform: scale(0.98);
+}
+
+@media (max-width: 425px) {
+  .modalCvTitle {
+    font-size: 1.2rem;
+  }
+
+  .globeIcon {
+    font-size: 1rem;
+  }
 }
