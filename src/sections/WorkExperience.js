@@ -21,13 +21,15 @@ const WorkExperience = () => {
             <span>{experience.title}</span>
           </Card.Title>
           <Card.Subtitle className="mb-3 d-flex align-items-center">
-            <span className={appStyles.customBadge}>
+            <div className={appStyles.customBadge}>
               <HiOutlineBuildingOffice className="me-2" />
-              {experience.workplace}
-            </span>
+              <span className={appStyles.badgeText}>
+                {experience.workplace}
+              </span>
+            </div>
             <span className={appStyles.customBadge}>
               <HiOutlineCalendar className="me-2" />
-              {experience.duration}
+              <span className={appStyles.badgeText}>{experience.duration}</span>
             </span>
           </Card.Subtitle>
           <ul className={`${styles.listItems} ${appStyles.cardText}`}>
