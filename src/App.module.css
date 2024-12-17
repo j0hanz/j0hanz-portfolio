@@ -188,6 +188,12 @@ body {
   font-size: 0.8rem !important;
 }
 
+.badgeText {
+  color: var(--badge-color) !important;
+  text-transform: uppercase !important;
+  font-size: 0.7rem !important;
+}
+
 .customButton {
   width: 180px;
   height: 40px;
