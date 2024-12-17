@@ -37,6 +37,7 @@
 }
 
 .inputGroupControl {
+  font-size: 0.8rem !important;
   padding-left: 0.5rem !important;
   color: var(--text-color) !important;
 }
@@ -75,7 +76,6 @@
 }
 
 .buttonIconClear {
-  font-size: 0.9rem;
   color: var(--trash-icon-color);
 }
 
@@ -96,7 +96,6 @@
 .clearButton {
   background-image: var(--btn-bg-dark);
   transition: all 0.3s ease !important;
-  width: 35px !important;
   max-width: 100% !important;
   height: 30px !important;
   border: none !important;
