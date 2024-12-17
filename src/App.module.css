@@ -77,6 +77,7 @@ body {
 }
 
 .copyrightText {
+  font-size: 0.8rem !important;
   color: var(--text-light);
   opacity: 0.8;
 }
@@ -179,13 +180,12 @@ body {
 }
 
 .customBadge {
-  background-color: var(--badge-bg-color);
+  padding-top: 0.1rem !important;
   display: inline-block !important;
+  align-items: center !important;
   color: var(--badge-color) !important;
-  padding: 0.2rem !important;
   margin-right: 1rem !important;
-  border-radius: 0.25rem !important;
-  font-size: 0.75rem !important;
+  font-size: 0.8rem !important;
 }
 
 .customButton {
