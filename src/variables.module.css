@@ -4,7 +4,20 @@
   --badge-color: #2d2d2d;
   --bg-dark: linear-gradient(180deg, #1a1a1a 0%, #282828 50%, #1a1a1a 100%);
   --bg-transparent: transparent;
-  --body-bg: linear-gradient(180deg, #eeeeee 0%, #e2e2e2 50%, #dadada 100%);
+  --body-bg: linear-gradient(
+    180deg,
+    #f5f5f5 0%,
+    #e8e8e8 10%,
+    #dedede 20%,
+    #d3d3d3 30%,
+    #c8c8c8 40%,
+    #bdbdbd 50%,
+    #b2b2b2 60%,
+    #a7a7a7 70%,
+    #9c9c9c 80%,
+    #919191 90%,
+    #a3a3a3 100%
+  );
   --bs-body-bg: none !important;
   --bs-border-color: none !important;
   --bs-border-width: 0 !important;
