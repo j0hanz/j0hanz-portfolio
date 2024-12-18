@@ -3,8 +3,8 @@ import { Row, Col } from 'react-bootstrap';
 import styles from './styles/Badge.module.css';
 
 const BadgeItem = ({ href, imgSrc, date }) => (
-  <Col xs={'auto'}>
-    <a href={href} target="_blank">
+  <Col xs={'auto'} className={styles.badgeContainer}>
+    <a href={href} target="_blank" rel="noopener noreferrer">
       <img className={styles.badgeImage} src={imgSrc} alt="badge" />
     </a>
     <div className={styles.badgeText}>

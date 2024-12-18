@@ -2,6 +2,10 @@ img {
   box-shadow: none !important;
 }
 
+.badgeContainer {
+  text-align: center;
+}
+
 .badgeImage {
   width: 130px;
   height: auto;
