@@ -6,6 +6,7 @@ import styles from './styles/AboutMe.module.css';
 import appStyles from '../App.module.css';
 import ScrollRevealWrapper from '../components/ScrollWrapper';
 import aboutMeItems from '../data/aboutMeItems';
+import aboutMeText from '../data/aboutMeText';
 
 const AboutMeCard = ({ children }) => (
   <Card className={`h-100 ${styles.aboutMeCard} ${appStyles.cardBgColor}`}>
@@ -15,13 +16,7 @@ const AboutMeCard = ({ children }) => (
 
 const AboutMeText = () => (
   <AboutMeCard>
-    <Card.Text className={appStyles.cardText}>
-      I'm a tech enthusiast who recently completed a Full-Stack Developer
-      program, boosting my web development skills. I enjoy using my coding
-      experience to build creative solutions, and I'm always eager to learn,
-      solve problems, and collaborate. I'm looking for opportunities that will
-      help me grow and develop.
-    </Card.Text>
+    <Card.Text className={appStyles.cardText}>{aboutMeText}</Card.Text>
   </AboutMeCard>
 );
 
