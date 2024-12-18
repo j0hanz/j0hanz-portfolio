@@ -3,14 +3,14 @@
   height: 225px !important;
   object-fit: cover !important;
   border-radius: 50% !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
-  transition: all 0.3s ease !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 .heroImage:hover {
-  opacity: 0.9;
-  filter: brightness(0.6);
-  transform: scale(1.0075);
+  opacity: 0.95;
+  filter: brightness(0.8);
+  transform: scale(1.05);
 }
 
 .developerTitle {
