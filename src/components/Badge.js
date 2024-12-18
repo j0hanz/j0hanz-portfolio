@@ -26,6 +26,11 @@ const Badge = () => (
       imgSrc="https://api.eu.badgr.io/public/assertions/pO3q7BfdQFyGCP_gpMZb1A/image"
       date="20 nov. 2024"
     />
+    <BadgeItem
+      href="https://api.eu.badgr.io/public/assertions/7UoBkH6QRSKa8iGISrs9Zg"
+      imgSrc="https://api.eu.badgr.io/public/assertions/7UoBkH6QRSKa8iGISrs9Zg/image"
+      date="18 dec. 2024"
+    />
   </Row>
 );
 

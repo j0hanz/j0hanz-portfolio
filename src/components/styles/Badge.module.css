@@ -24,12 +24,19 @@ img {
 
 @media (max-width: 575px) {
   .badgeImage {
-    width: 120px;
+    width: 100px;
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 350px) {
   .badgeImage {
-    width: 105px;
+    width: 85px;
+  }
+
+  .badgeText {
+    font-size: 0.6rem;
+  }
+  .badgeDate {
+    font-size: 0.6rem !important;
   }
 }
