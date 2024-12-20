@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
 import Hero from './sections/Hero';
 import AboutMe from './sections/AboutMe';
@@ -14,20 +13,7 @@ import './toastify.css';
 import styles from './App.module.css';
 import Spinner from './components/Spinner';
 import Toast from './components/Toast';
-
-const useLoading = (initialState = true, delay = 2000) => {
-  const [loading, setLoading] = useState(initialState);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, [delay]);
-
-  return loading;
-};
+import useLoading from './hooks/useLoading';
 
 const MainContent = ({ loading }) => (
   <main className={styles.mainContent}>
