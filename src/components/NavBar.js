@@ -6,8 +6,8 @@ import {
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap';
+import { HiBarsArrowDown, HiBarsArrowUp } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBarsStaggered, faXmark } from '@fortawesome/free-solid-svg-icons';
 import useClickOutsideToggle from '../hooks/OutsideClickHandler';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
@@ -67,10 +67,11 @@ const NavBar = () => {
             }}
             className={styles.customToggle}
           >
-            <FontAwesomeIcon
-              icon={isMenuOpen ? faXmark : faBarsStaggered}
-              className={`${styles.navIconToggle} ${isMenuOpen ? styles.open : ''}`}
-            />
+            {isMenuOpen ? (
+              <HiBarsArrowUp className={styles.navIconToggle} />
+            ) : (
+              <HiBarsArrowDown className={styles.navIconToggle} />
+            )}
           </Navbar.Toggle>
           <Navbar.Collapse id="navbar-nav">
             <Nav className={`ms-auto my-1 my-lg-0 ${appStyles.cardBgImage}`}>
