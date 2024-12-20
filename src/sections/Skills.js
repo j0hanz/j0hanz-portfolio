@@ -13,7 +13,7 @@ const Skills = () => {
     <Col md={4} sm={6} xs={6} key={index} className="text-center mb-4">
       <Card className={`h-100 ${styles.skillCard} ${appStyles.cardBgColor}`}>
         <Card.Body className={appStyles.cardBody}>
-          <FontAwesomeIcon icon={skill.icon} size="3x" className="my-3" />
+          <FontAwesomeIcon icon={skill.icon} size="4x" className="my-2" />
           <Card.Title className={styles.skillLabel}>{skill.label}</Card.Title>
         </Card.Body>
       </Card>
