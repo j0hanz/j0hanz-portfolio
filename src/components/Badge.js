@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import styles from './styles/Badge.module.css';
 
-// Badge item component
+/* Badge item component */
 const BadgeItem = ({ href, imgSrc, date }) => (
   <Col xs={'auto'} className={styles.badgeContainer}>
     <a href={href} target="_blank" rel="noopener noreferrer">
@@ -15,7 +15,7 @@ const BadgeItem = ({ href, imgSrc, date }) => (
   </Col>
 );
 
-// Badge component
+/* Badge component */
 const Badge = () => (
   <Row className="d-flex justify-content-between text-center mt-5">
     <BadgeItem
