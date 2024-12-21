@@ -8,6 +8,7 @@ import appStyles from '../App.module.css';
 import { HiXMark } from 'react-icons/hi2';
 
 const ModalCv = ({ show, handleClose }) => {
+  /* Handle CV download */
   const handleDownload = useCallback(
     (cv, fileName) => {
       try {

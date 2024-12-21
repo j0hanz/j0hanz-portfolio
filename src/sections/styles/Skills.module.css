@@ -12,3 +12,8 @@
 .skillLabel {
   max-height: 100%;
 }
+
+.skillIcon {
+  font-size: 4rem;
+  color: var(--primary);
+}

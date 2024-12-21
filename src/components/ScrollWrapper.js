@@ -5,6 +5,7 @@ const ScrollRevealWrapper = ({ children, config }) => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    /* Initialize ScrollReveal with default and custom config */
     const sr = ScrollReveal({
       origin: 'bottom',
       distance: '20px',
@@ -14,6 +15,7 @@ const ScrollRevealWrapper = ({ children, config }) => {
       ...config,
     });
 
+    /* Apply reveal effect to the section */
     sr.reveal(sectionRef.current);
   }, [config]);
 

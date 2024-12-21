@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Modal, Container } from 'react-bootstrap';
 import ProfileImage from '../assets/image_me.webp';
 import styles from './styles/ImageModal.module.css';
 import appStyles from '../App.module.css';
 import { HiXMark } from 'react-icons/hi2';
 import Spinner from './Spinner';
+import useLoading from '../hooks/useLoading';
 
 const ImageModal = ({ show, handleClose }) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const image = new window.Image();
-    image.src = ProfileImage;
-    image.onload = () => {
-      setTimeout(() => setLoading(false), 2500); // Simulates loading delay
-    };
-  }, []);
+  /* Use custom hook to check if the image is loading */
+  const loading = useLoading(ProfileImage);
 
   return (
     <Modal show={show} onHide={handleClose} centered>

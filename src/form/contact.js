@@ -13,6 +13,7 @@ import styles from '../sections/styles/ContactForm.module.css';
 const FormFields = ({ formData, errors, handleChange }) => {
   return (
     <>
+      {/* Name field */}
       <Form.Group controlId="formName">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
@@ -36,6 +37,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
           </div>
         )}
       </Form.Group>
+      {/* Email field */}
       <Form.Group controlId="formEmail">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
@@ -59,6 +61,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
           </div>
         )}
       </Form.Group>
+      {/* Company field */}
       <Form.Group controlId="formCompany">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
@@ -74,6 +77,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
           />
         </InputGroup>
       </Form.Group>
+      {/* URL field */}
       <Form.Group controlId="formUrl">
         <InputGroup className={styles.inputGroup}>
           <InputGroup.Text className={styles.inputGroupIcon}>
@@ -96,6 +100,7 @@ const FormFields = ({ formData, errors, handleChange }) => {
           </div>
         )}
       </Form.Group>
+      {/* Message field */}
       <Form.Group controlId="formMessage">
         <InputGroup className={`${styles.inputGroupBody} ${styles.inputGroup}`}>
           <InputGroup.Text className={styles.inputGroupIcon}>

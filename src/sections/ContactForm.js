@@ -34,10 +34,12 @@ const ContactForm = () => {
   });
   const [errors, setErrors] = useState({});
 
+  /* Handle form input changes */
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  /* Handle email sent status */
   const handleEmailSent = (success) => {
     setIsSending(false);
     if (success) {
@@ -48,6 +50,7 @@ const ContactForm = () => {
     }
   };
 
+  /* Handle form submission */
   const handleSubmit = (event) => {
     event.preventDefault();
     const newErrors = validateForm(formData);
@@ -59,6 +62,7 @@ const ContactForm = () => {
     }
   };
 
+  /* Handle form reset */
   const handleReset = () => {
     setFormData({ name: '', email: '', company: '', url: '', message: '' });
     setErrors({});

@@ -1,23 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Modal, Container } from 'react-bootstrap';
 import ImageCredential from '../assets/Credential.webp';
 import { HiXMark, HiArrowTopRightOnSquare } from 'react-icons/hi2';
 import styles from './styles/Credential.module.css';
 import appStyles from '../App.module.css';
 import Spinner from './Spinner';
+import useLoading from '../hooks/useLoading';
 
 const Credential = ({ show, handleClose }) => {
-  /* State to manage the loading state of the credential image */
-  const [loading, setLoading] = useState(true);
-
-  /* Effect to load the image and simulate a delay before displaying it */
-  useEffect(() => {
-    const image = new Image();
-    image.src = ImageCredential;
-    image.onload = () => {
-      setTimeout(() => setLoading(false), 2500); // Simulates loading delay
-    };
-  }, []);
+  /* Use custom hook to check if the image is loading */
+  const loading = useLoading(ImageCredential);
 
   return (
     <Modal show={show} onHide={handleClose} centered>
