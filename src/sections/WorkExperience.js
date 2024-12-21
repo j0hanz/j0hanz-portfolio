@@ -11,6 +11,7 @@ import ScrollRevealWrapper from '../components/ScrollWrapper';
 import experiences from '../data/experiences';
 
 const WorkExperience = () => {
+  /* Render individual experience card */
   const renderExperience = (experience, index) => (
     <Col lg={6} className="mb-4" key={index}>
       <Card
