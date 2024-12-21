@@ -5,7 +5,7 @@ const EmailHandler = ({ formData, onEmailSent }) => {
   const { name, email, company, url, message } = formData;
   const form = useRef(null);
 
-  // Function to send email when explicitly called
+  /* Function to send email when explicitly called */
   const sendEmail = () => {
     if (!form.current) return;
 
