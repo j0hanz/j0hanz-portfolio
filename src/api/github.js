@@ -1,6 +1,6 @@
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
-/* Fetches latest 5 commits for a GitHub repository */
+/* Fetch commit history from GitHub */
 export const fetchCommitHistory = async (repo) => {
   try {
     const [owner, repoName] = repo.split('/').slice(-2);
