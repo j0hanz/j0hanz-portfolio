@@ -1,5 +1,24 @@
 const projects = [
   {
+    title: 'Memory Card Game',
+    description:
+      'A React-based memory game where players match card pairs with minimal moves and time.',
+    github: 'https://github.com/j0hanz/pick-and-pair',
+    demo: 'https://pick-and-pair-memory-game-b52f58695b31.herokuapp.com/',
+    technologies: [
+      'React.js',
+      'CSS3',
+      'JavaScript',
+      'Bootstrap',
+      'Howler.js',
+      'Axios',
+    ],
+    collaborative: false,
+    isHackathon: false,
+    isHackathon_3: false,
+    api: false,
+  },
+  {
     title: 'Magic December',
     description:
       'A festive advent-style calendar developed for the December 2024 Code Institute Hackathon, showcasing seasonal festivals and holidays worldwide.',
