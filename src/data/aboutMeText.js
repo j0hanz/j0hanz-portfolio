@@ -1,9 +1,7 @@
 const aboutMeText = `
-  I'm a tech enthusiast who recently completed a Full-Stack Developer
-  program, boosting my web development skills. I enjoy using my coding
-  experience to build creative solutions, and I'm always eager to learn,
-  solve problems, and collaborate. I'm looking for opportunities that will
-  help me grow and develop.
+I’m Linus Johansson, a solution-focused Junior Developer with a strong technical background and experience in leadership and customer service.
+I specialize in creating user-friendly, visually appealing interfaces, integrating APIs, and backend development with Django REST Framework.
+I’m excited to contribute to impactful projects and continue deepen my skills in modern frontend development.
 `;
 
 export default aboutMeText;
