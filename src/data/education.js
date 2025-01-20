@@ -3,6 +3,7 @@ const education = [
     title: 'Diploma in Full Stack Software Development',
     school: 'Code Institute',
     duration: 'Feb 2024 - Jul 2024',
+    description: ['Credit-rated by the University of the West of Scotland.'],
     hasCredential: true,
   },
   {
@@ -10,7 +11,7 @@ const education = [
     school: 'Webhallen',
     duration: '2019',
     description: [
-      'Building successful teams through norms, values, and coaching leadership.',
+      'Building winning teams through norms, values, and coaching leadership.',
     ],
     hasCredential: false,
   },
