@@ -1,10 +1,6 @@
 # j0hanz Portfolio
 
-![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Updated&style=for-the-badge)![Site Status](https://img.shields.io/uptimerobot/status/m797912858-9dcdcff1e2f2fd603bd28fc0?label=Status&style=for-the-badge)
-
-![Am I Responsive](docs/amiBg.png)
-
-[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin&logoColor=0077b5)](https://www.linkedin.com/in/linus-johansson-software-dev/)[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=79589f)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
+![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Updated&style=for-the-badge)![Site Status](https://img.shields.io/uptimerobot/status/m797912858-9dcdcff1e2f2fd603bd28fc0?label=Status&style=for-the-badge)[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin&logoColor=0077b5)](https://www.linkedin.com/in/linus-johansson-software-dev/)[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=79589f)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
 
 ---
 
@@ -28,9 +24,9 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 
 ---
 
-### 📄 Download CV Modal
+### 📄 Download CV
 
-- **Interactive Flags**: Provided by [flag-icons](https://github.com/lipis/flag-icons) for easy CV downloads.
+- **Download my CV in both English and Swedish**
 
 ---
 
@@ -46,7 +42,7 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 
 ---
 
-## 📂 Components Overview
+## 📂 Sections Overview
 
 This portfolio website is composed of several key sections, each designed to showcase different aspects of my professional background and skills. Below is an overview of each section:
 
@@ -87,7 +83,7 @@ The **Contact** section includes a form that allows visitors to get in touch wit
 
 ## 🙏 Credits
 
-Acknowledgments for the tools and resources used in building this portfolio:
+Acknowledgments for the tools and resources used in building my portfolio:
 
 - **[React Toastify](https://fkhadra.github.io/react-toastify/)**: For toast notifications.
 - **[EmailJS](https://www.emailjs.com/)**: For handling email submissions.
