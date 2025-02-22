@@ -125,10 +125,9 @@
 /* Media Queries */
 @media (max-width: 575px) {
   .navToggle {
-    padding: 0.2rem;
+    padding: 0.3rem;
   }
   .navToggleIcon {
     font-size: 2.3rem;
-    filter: brightness(1);
   }
 }
