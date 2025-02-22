@@ -64,7 +64,6 @@
   transition:
     transform 0.3s ease,
     filter 0.3s ease;
-  filter: brightness(0.8);
 }
 
 .navToggleIcon:focus {
@@ -73,7 +72,6 @@
 
 .navToggleIcon:hover {
   transform: scale(1.05);
-  filter: brightness(1);
 }
 
 .navToggleIcon:active {
@@ -126,8 +124,11 @@
 
 /* Media Queries */
 @media (max-width: 575px) {
+  .navToggle {
+    padding: 0.2rem;
+  }
   .navToggleIcon {
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     filter: brightness(1);
   }
 }
