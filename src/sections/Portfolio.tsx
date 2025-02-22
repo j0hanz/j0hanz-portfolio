@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { HiFolder } from 'react-icons/hi2';
 import appStyles from '@/App.module.css';
@@ -11,14 +11,14 @@ const Portfolio: React.FC = () => {
   const [commitHistory, setCommitHistory] = useState<Record<string, any>>({});
 
   // Fetch commit histories for projects
-  const fetchHistories = useCallback(async () => {
+  const fetchHistories = async () => {
     const combinedHistories = await fetchCommit(projects);
     setCommitHistory(combinedHistories);
-  }, []);
+  };
 
   useEffect(() => {
     fetchHistories();
-  }, [fetchHistories]);
+  }, []);
 
   return (
     <section id="portfolio" className={appStyles.sectionPadding}>

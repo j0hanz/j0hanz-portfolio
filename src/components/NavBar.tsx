@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, memo } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Nav,
   Container,
@@ -23,18 +23,12 @@ const NavBar: React.FC = () => {
   const offcanvasRef = useRef<HTMLDivElement>(null);
 
   // Handlers for opening and closing the modal
-  const handleModalOpen = useCallback((): void => setShowModal(true), []);
-  const handleModalClose = useCallback((): void => setShowModal(false), []);
+  const handleModalOpen = (): void => setShowModal(true);
+  const handleModalClose = (): void => setShowModal(false);
 
   // Handlers for opening and closing the offcanvas
-  const handleOffcanvasOpen = useCallback(
-    (): void => setShowOffcanvas(true),
-    [],
-  );
-  const handleOffcanvasClose = useCallback(
-    (): void => setShowOffcanvas(false),
-    [],
-  );
+  const handleOffcanvasOpen = (): void => setShowOffcanvas(true);
+  const handleOffcanvasClose = (): void => setShowOffcanvas(false);
 
   // Use custom hook to detect clicks outside the offcanvas
   useClickOutside(offcanvasRef, handleOffcanvasClose, `.${styles.navLink}`);
@@ -152,4 +146,4 @@ const NavBar: React.FC = () => {
   );
 };
 
-export default memo(NavBar);
+export default NavBar;

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import {
   HiAcademicCap,
@@ -24,8 +24,8 @@ interface EducationItem {
 // Rendering education section
 const Education: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const handleShowModal = useCallback(() => setShowModal(true), []);
-  const handleCloseModal = useCallback(() => setShowModal(false), []);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   // Render individual education item
   const renderEducationItem = (edu: EducationItem, index: number) => (

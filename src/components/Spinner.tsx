@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import styles from './styles/Spinner.module.css';
 
 // Component for displaying a loading spinner
@@ -12,4 +12,4 @@ const Spinner: FC = () => {
   );
 };
 
-export default memo(Spinner);
+export default Spinner;

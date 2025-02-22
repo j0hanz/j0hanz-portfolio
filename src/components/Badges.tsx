@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import styles from './styles/Badge.module.css';
 
@@ -9,7 +9,7 @@ interface BadgeItemProps {
 }
 
 // Component for individual badge items
-const BadgeItem: FC<BadgeItemProps> = memo(({ href, imgSrc, date }) => (
+const BadgeItem: FC<BadgeItemProps> = ({ href, imgSrc, date }) => (
   <Col xs={'auto'} className={styles.badgeContainer}>
     <a href={href} target="_blank" rel="noopener noreferrer">
       <img className={styles.badgeImage} src={imgSrc} alt="badge" />
@@ -19,7 +19,7 @@ const BadgeItem: FC<BadgeItemProps> = memo(({ href, imgSrc, date }) => (
       <span className={styles.badgeDate}>{date}</span>
     </div>
   </Col>
-));
+);
 
 // Component for displaying a list of badges
 const Badges: FC = () => (
@@ -42,4 +42,4 @@ const Badges: FC = () => (
   </Row>
 );
 
-export default memo(Badges);
+export default Badges;

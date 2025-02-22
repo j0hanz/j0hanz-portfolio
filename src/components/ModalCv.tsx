@@ -1,4 +1,4 @@
-import { FC, useCallback, memo } from 'react';
+import { FC, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { HiOutlineGlobeAlt } from 'react-icons/hi2';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
@@ -14,22 +14,19 @@ interface ModalCvProps {
 
 // Component for selecting and downloading CVs
 const ModalCv: FC<ModalCvProps> = ({ show, handleClose }) => {
-  const handleDownload = useCallback(
-    (cv: string, fileName: string): void => {
-      try {
-        const link = document.createElement('a');
-        link.href = cv;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        handleClose();
-      } catch (error) {
-        console.error('Download failed:', error);
-      }
-    },
-    [handleClose],
-  );
+  const handleDownload = (cv: string, fileName: string): void => {
+    try {
+      const link = document.createElement('a');
+      link.href = cv;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      handleClose();
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
 
   return (
     <Modal show={show} onHide={handleClose} centered className={styles.modalCv}>
@@ -61,4 +58,4 @@ const ModalCv: FC<ModalCvProps> = ({ show, handleClose }) => {
   );
 };
 
-export default memo(ModalCv);
+export default ModalCv;

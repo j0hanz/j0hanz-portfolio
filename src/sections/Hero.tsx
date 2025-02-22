@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Image from '@/assets/image_me.webp';
 import styles from './styles/Hero.module.css';
@@ -15,13 +15,13 @@ const Hero: React.FC = () => {
   const [showImageModal, setShowImageModal] = useState(false);
 
   // Handlers for opening and closing modals
-  const handleModalOpen = useCallback(() => {
+  const handleModalOpen = () => {
     setShowModal(true);
-  }, []);
+  };
 
-  const handleModalClose = useCallback(() => setShowModal(false), []);
-  const handleImageModalOpen = useCallback(() => setShowImageModal(true), []);
-  const handleImageModalClose = useCallback(() => setShowImageModal(false), []);
+  const handleModalClose = () => setShowModal(false);
+  const handleImageModalOpen = () => setShowImageModal(true);
+  const handleImageModalClose = () => setShowImageModal(false);
 
   const downloadButtonClass = `my-4 ${styles.downloadButton}`;
   const contactButtonClass = `${styles.contactButton}`;
