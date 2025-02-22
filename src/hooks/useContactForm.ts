@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { validateForm } from '@/utils/validation';
 import { toast } from 'react-toastify';
+import { validateForm } from '@/utils/validation';
 
 interface FormData {
   name: string;
