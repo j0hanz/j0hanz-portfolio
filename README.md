@@ -1,14 +1,10 @@
 # j0hanz Portfolio
 
-![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Updated&style=for-the-badge)![Site Status](https://img.shields.io/uptimerobot/status/m797912858-9dcdcff1e2f2fd603bd28fc0?label=Status&style=for-the-badge)
-
-![Am I Responsive](docs/amiBg.png)
-
-[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin&logoColor=0077b5)](https://www.linkedin.com/in/linus-johansson-software-dev/)[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=79589f)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
+![Last Commit](https://img.shields.io/github/last-commit/j0hanz/j0hanz-portfolio?label=Updated&style=for-the-badge)![Site Status](https://img.shields.io/uptimerobot/status/m797912858-9dcdcff1e2f2fd603bd28fc0?label=Status&style=for-the-badge)[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-2a2a2a?style=for-the-badge&logo=linkedin&logoColor=0077b5)](https://www.linkedin.com/in/linus-johansson-software-dev/)[![GitHub Profile](https://img.shields.io/badge/GitHub-2a2a2a?style=for-the-badge&logo=github)](https://github.com/j0hanz)[![Deployed on Heroku](https://img.shields.io/badge/Live-2a2a2a?style=for-the-badge&logo=heroku&logoColor=79589f)](https://linus-johansson-cv-d308be9b73e1.herokuapp.com/)
 
 ---
 
-**Welcome to my portfolio website! This site showcases my projects, skills, and professional background. It features a modern, responsive design and highlights my work in web development. Explore my projects, learn about my skills, and get in touch through the contact form.**
+**This site showcases my projects, skills, and professional background. It features a modern, responsive design and highlights my work in web development. Explore my projects, learn about my skills, and get in touch through the contact form.**
 
 ## 🚀 Features
 
@@ -16,7 +12,7 @@
 - **Project Showcase**: Integrates with GitHub to display my work.
 - **Contact Form**: Get in touch with me directly.
 - **Credential Modal**: View my certification.
-- **Scroll Animations**: Smooth scroll animations using ScrollReveal.
+- **Scroll Animations**: Smooth scroll animations using Framer Motion.
 
 ---
 
@@ -28,28 +24,9 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 
 ---
 
-## 🎨 Design
+### 📄 Download CV
 
-### 🖋️ Typography & Colors
-
-- **Fonts**: Sleek **Inter** font for readability.
-- **Scrollbars**: Soft gray gradients for modern styling.
-- **Buttons & Hover**: Vibrant gradients for a dynamic feel.
-- **Backgrounds**: Minimal gray gradients to keep the focus on content.
-
-### 🏅 Credential Handling
-
-- **Borderless**: Clean, no-border design for a polished look.
-
-### 📄 Download CV Modal
-
-- **Interactive Flags**: Provided by [flag-icons](https://github.com/lipis/flag-icons) for easy CV downloads.
-
-### 📬 Contact Form
-
-- **Input Group**: Icons integrated into input fields for a modern look.
-- **Validation**: Real-time feedback for quick error handling.
-- **Custom Inputs**: Sleek and minimalistic for a clean interface.
+- **Download my CV in both English and Swedish**
 
 ---
 
@@ -61,49 +38,11 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 - **[Heroku](https://www.heroku.com/)**: A cloud platform for deploying and managing applications.
 - **[EmailJS](https://www.emailjs.com/)**: A service to send emails directly from JavaScript.
 - **[React Toastify](https://fkhadra.github.io/react-toastify/)**: A library for toast notifications in React.
-- **[ScrollReveal](https://scrollrevealjs.org/)**: A library for scroll animations.
+- **[Framer Motion](https://www.framer.com/motion/)**: A library for animations in React.
 
 ---
 
-## 🧑‍💻 Setup Instructions
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/j0hanz/portfolio)
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/j0hanz/portfolio
-   ```
-
-   ```bash
-   cd portfolio
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables:**
-   Create a **.env** file in the root directory and add the following variables:
-
-   ```bash
-   REACT_APP_SERVICE_ID=your_service_id
-   REACT_APP_TEMPLATE_ID=your_template_id
-   REACT_APP_USER_ID=your_user_id
-   REACT_APP_GITHUB_TOKEN=your_github_token
-   ```
-
-4. **Start the development server:**
-
-   ```bash
-   npm start
-   ```
-
----
-
-## 📂 Components Overview
+## 📂 Sections Overview
 
 This portfolio website is composed of several key sections, each designed to showcase different aspects of my professional background and skills. Below is an overview of each section:
 
@@ -134,23 +73,22 @@ The **Contact** section includes a form that allows visitors to get in touch wit
 ### 🔄 Reusable Components
 
 - **Spinner**: A reusable loading spinner component used across various sections to indicate loading states.
-- **OutsideClickHandler**: A custom hook for handling outside clicks, enhancing user interactions.
+- **useClickOutside**: A custom hook for handling outside clicks, enhancing user interactions.
 - **ModalCv**: A modal component for downloading CVs in different languages.
 - **Toast**: A component to manage toast notifications using `react-toastify`.
 - **Badge**: A component to display badges with links and images.
-- **ScrollRevealWrapper**: A component to add scroll animations using `ScrollReveal`.
+- **MotionWrapper**: A component to add scroll animations using `Framer Motion`.
 
 ---
 
 ## 🙏 Credits
 
-Acknowledgments for the tools and resources used in building this portfolio:
+Acknowledgments for the tools and resources used in building my portfolio:
 
 - **[React Toastify](https://fkhadra.github.io/react-toastify/)**: For toast notifications.
 - **[EmailJS](https://www.emailjs.com/)**: For handling email submissions.
-- **[Logo](https://logo.com/)**: Created with Logo.com.
 - **[FontAwesome](https://fontawesome.com/)**: Powered by FontAwesome for icons.
 - **[GitHub API](https://docs.github.com/en/rest)**: Used for displaying project data.
 - **[React Bootstrap](https://react-bootstrap.netlify.app/)**: Ensures responsive design.
 - **[Flag-icons](https://github.com/lipis/flag-icons)**: Provides interactive flags.
-- **[ScrollReveal](https://scrollrevealjs.org/)**: For smooth scroll animations.
+- **[Framer Motion](https://www.framer.com/motion/)**: For smooth scroll animations.
