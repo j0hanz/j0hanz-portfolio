@@ -1,16 +1,16 @@
 .modalCvBody {
-  background: var(--modal-bg) !important;
-  border: none !important;
-  border-radius: 7.5px !important;
-  position: relative !important;
-  padding: 1rem !important;
-  color: var(--text-light) !important;
-  width: 100% !important;
+  background: var(--modal-bg);
+  border: none;
+  border-radius: 7.5px;
+  position: relative;
+  padding: 1rem;
+  color: var(--text-light);
+  width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
 }
 
 .modalCv {
-  --bs-modal-width: 400px !important;
+  --bs-modal-width: 400px;
 }
 
 .modalCvTitle {
@@ -25,7 +25,7 @@
 }
 
 .flagContainer {
-  margin-top: 2rem !important;
+  margin-top: 2rem;
 }
 
 .flagIcon {

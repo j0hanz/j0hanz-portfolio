@@ -1,22 +1,22 @@
 /* Custom Toastify Styles. This file contains custom styles for Toastify notifications to match the design of the application. */
 
 .Toastify__toast {
-  background: var(--toast-bg) !important;
-  color: #fff !important;
-  border-radius: 8px !important;
-  padding: 12px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid #333 !important;
-  font-family: 'Poppins', sans-serif !important;
+  background: var(--toast-bg);
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #333;
+  font-family: 'Poppins', sans-serif;
 }
 
 .Toastify__toast--success,
 .Toastify__toast--error {
-  background: var(--toast-bg) !important;
-  color: #fff !important;
-  border-radius: 8px !important;
-  padding: 12px !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid #333 !important;
-  font-family: 'Poppins', sans-serif !important;
+  background: var(--toast-bg);
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #333;
+  font-family: 'Poppins', sans-serif;
 }

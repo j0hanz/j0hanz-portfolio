@@ -1,78 +1,127 @@
 .heroImage {
-  width: 225px !important;
-  height: 225px !important;
-  object-fit: cover !important;
-  border-radius: 50% !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
-  transition: all 0.3s ease-in-out !important;
+  width: 280px;
+  height: 280px;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .heroImage:hover {
-  opacity: 0.95;
-  filter: brightness(0.8);
-  transform: scale(1.05);
+  filter: brightness(0.7);
+  transform: scale(1.02);
 }
 
 .developerTitle {
-  font-size: 1.3rem !important;
-  letter-spacing: 1.2px !important;
-  text-transform: uppercase !important;
+  font-size: 1.4rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--section-title-color);
 }
 
 .gradientText {
   background: var(--text-hero);
-  -webkit-background-clip: text !important;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: var(--bg-transparent);
-  font-size: 2.8rem !important;
-  letter-spacing: 3px !important;
+  font-size: 3rem;
+  letter-spacing: 3px;
+  font-weight: 500;
 }
 
 .downloadButton {
-  background-image: var(--btn-bg-primary);
+  width: 180px;
+  height: 45px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transform: skew(-10deg);
+  max-width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background: var(--btn-bg-primary);
+}
+
+.downloadButton:hover {
+  background: var(--btn-bg-primary);
+  filter: brightness(0.7);
+}
+
+.downloadButton:active {
+  background: var(--btn-bg-primary) !important;
+  transform: skew(-10deg) scale(0.96);
 }
 
 .contactButton {
-  background-image: var(--btn-bg-dark);
+  width: 180px;
+  height: 45px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transform: skew(-10deg);
+  max-width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background: var(--btn-bg-dark);
+  font-size: 1.05rem;
+}
+
+.contactButton:hover {
+  background: var(--btn-bg-dark);
+  filter: brightness(0.7);
+}
+
+.contactButton:active {
+  background: var(--btn-bg-dark) !important;
+  transform: skew(-10deg) scale(0.96);
 }
 
 .buttonIcon {
-  margin-left: 0.25rem !important;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 990px) {
+  .heroImage {
+    margin-bottom: 25px;
+    width: 245px;
+    height: 245px;
+  }
 }
 
 @media (max-width: 768px) {
   .heroImage {
-    width: 185px !important;
-    height: 185px !important;
+    width: 185px;
+    height: 185px;
   }
 
   .gradientText {
-    font-size: 2.5rem !important;
-    letter-spacing: 2px !important;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
   }
 
   .developerTitle {
-    font-size: 1.3rem !important;
-    letter-spacing: 0.5px !important;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
   }
 }
 
 @media (max-width: 525px) {
   .gradientText {
-    font-size: 2.3rem !important;
-    letter-spacing: 1.5px !important;
+    font-size: 2.3rem;
+    letter-spacing: 1.5px;
   }
 
   .developerTitle {
-    font-size: 1.2rem !important;
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 340px) {
   .gradientText {
-    font-size: 1.9rem !important;
+    font-size: 1.9rem;
   }
 
   .developerTitle {
-    font-size: 1rem !important;
+    font-size: 1rem;
   }
 }

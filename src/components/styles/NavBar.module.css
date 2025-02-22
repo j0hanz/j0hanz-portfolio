@@ -1,31 +1,23 @@
+.navLink,
+.navIcon,
+.navLinkText {
+  transition: color 0.3s ease;
+}
+
 .navLink {
   display: flex;
   align-items: center;
+  margin-top: 1.5rem;
 }
 
 .navIcon {
-  color: var(--nav-icon-color);
-  transition: color 0.3s ease;
-  margin-bottom: 2px;
-  font-size: 0.95rem;
+  color: var(--nav-link-icon-color);
 }
 
 .navLinkText {
   color: var(--nav-link-color);
   letter-spacing: 1.25px;
   font-size: 1.05rem;
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-.navLogo {
-  width: 1.9rem;
-  transition: opacity 0.3s ease;
-}
-
-.navLogo:hover {
-  opacity: 0.7;
 }
 
 .navLinkText:hover {
@@ -37,40 +29,88 @@
   transition: transform 0.1s ease;
 }
 
-.customNavbar {
-  background: var(--bg-dark);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease;
+.navLogo {
+  width: 1.9rem;
+  transition: opacity 0.3s ease;
 }
 
-.customToggle {
-  transition: transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  --bs-navbar-color: transparent;
-  border: none !important;
+.navLogo:hover {
+  opacity: 0.7;
 }
 
-.customToggle:hover,
-.customToggle:focus {
-  border: none !important;
+.navContainer {
+  position: relative;
 }
 
-.customToggle:active {
+.navToggle {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: var(--bg-transparent);
+  border: none;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.navToggle:focus {
+  outline: none;
+}
+
+.navToggle:hover {
+  background: var(--bg-transparent);
+}
+
+.navToggle:active {
+  background: var(--bg-transparent) !important;
   transform: scale(0.9);
+}
+
+.navToggleIcon {
+  color: var(--nav-icon-color);
+  font-size: 3rem;
   transition: transform 0.3s ease;
 }
 
-.navIconToggle {
-  color: var(--nav-icon-color);
-  font-size: 1.8rem;
-  transition:
-    transform 0.4s ease,
-    color 0.3s ease,
-    opacity 0.3s ease;
-  display: inline-block;
+.customOffcanvasHeader {
+  position: relative;
+  margin-top: 0.25rem;
+}
+
+.offcanvasTitle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.1rem;
+}
+
+.customOffcanvas {
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+
+.customOffcanvasBody {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.customOffcanvasNav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.socialLink {
+  text-align: center;
+}
+
+@media (max-width: 575px) {
+  .navToggle {
+    padding: 0.5rem;
+  }
+
+  .navToggleIcon {
+    font-size: 2.5rem;
+  }
 }

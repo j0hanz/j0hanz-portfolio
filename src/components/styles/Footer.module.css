@@ -1,24 +1,25 @@
 .footerBg {
   background: var(--bg-dark);
-  padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .footerIcon {
-  font-size: 0.9rem !important;
-  color: var(--linkedin-color);
-  margin-right: 15px;
-  transition: color 0.3s ease;
+  color: var(--text-light);
+  opacity: 0.8;
+  margin-right: 10px;
+  transition: color 0.2s ease;
 }
 
 .footerLink {
-  font-size: 0.8rem !important;
+  font-size: 0.8rem;
   color: var(--text-light);
   transition: color 0.3s ease;
 }
 
 .footerLinkHeader {
-  font-size: 1.1rem !important;
+  transform: skew(-10deg);
+  font-size: 1rem;
   color: var(--text-light);
 }
 
@@ -28,9 +29,9 @@
 
 @media (max-width: 575px) {
   .footerBg {
-    padding-bottom: 0.1rem !important;
+    padding-bottom: 0.1rem;
   }
   .footerIcon {
-    margin-right: 12px !important;
+    margin-right: 12px;
   }
 }

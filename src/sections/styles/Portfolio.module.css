@@ -1,48 +1,83 @@
 .technologies {
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 1.5rem;
+  transform: skew(-10deg);
 }
 
 .badgePosition {
-  position: relative !important;
+  position: relative;
 }
 
 .hackathonBadge {
-  position: absolute !important;
-  bottom: 3rem !important;
-  right: 0.5rem !important;
-  width: 6.5rem !important;
-  opacity: 0.8 !important;
+  position: absolute;
+  bottom: 3rem;
+  right: 0.5rem;
+  width: 6.5rem;
+  opacity: 0.8;
+}
+
+.userIcon {
+  font-size: 1.3rem;
 }
 
 .gitpodLogo {
-  position: absolute !important;
-  bottom: 4rem !important;
-  right: 1rem !important;
-  width: 3.5rem !important;
-  opacity: 0.8 !important;
+  position: absolute;
+  bottom: 4rem;
+  right: 1rem;
+  width: 3.5rem;
+  opacity: 0.8;
 }
 
 .customButton {
-  width: 100px !important;
-  max-width: 100% !important;
-  height: 30px !important;
-  border: none !important;
-  border-radius: 6.5px !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  line-height: 0 !important;
+  width: 104px;
+  max-width: 100%;
+  height: 30px;
+  border: none;
+  border-radius: 6.5px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: skew(-10deg);
+  font-size: 0.95rem;
 }
 
 .githubButton {
-  background-image: var(--btn-bg-dark);
+  background: var(--btn-bg-dark);
+}
+
+.githubButton:hover {
+  background: var(--btn-bg-dark);
+}
+
+.githubButton:active {
+  background: var(--btn-bg-dark) !important;
+}
+
+.newBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--btn-bg-primary);
+  margin-left: 0.5rem;
+  height: 1.3rem;
+  width: 2.7rem;
+  border: none;
+  font-size: 0.7rem;
+  border-radius: 6.5px;
+  transform: skew(-10deg);
 }
 
 .demoButton {
-  background-image: var(--btn-bg-primary);
+  background: var(--btn-bg-primary);
+}
+
+.demoButton:hover {
+  background: var(--btn-bg-primary);
+}
+
+.demoButton:active {
+  background: var(--btn-bg-primary) !important;
 }
 
 .customButton:hover {
@@ -50,7 +85,7 @@
 }
 
 .customButton:active {
-  transform: scale(0.99);
+  transform: skew(-10deg) scale(0.96);
 }
 
 .buttonIcon {
@@ -61,20 +96,21 @@
 
 .buttonText {
   font-size: 0.9rem;
-  letter-spacing: 0.25px;
+  letter-spacing: 0.3px;
   color: var(--text-light);
 }
 
 .githubStats img {
-  display: flex !important;
-  flex-direction: column !important;
-  margin-bottom: 0.4rem !important;
-  border: none !important;
-  border-radius: 6.5px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  transform: skew(-10deg);
+  border-bottom: 1px solid var(--img-shield-border-color);
+  border-radius: 0;
 }
 
 @media (max-width: 425px) {
   .hackathonBadge {
-    width: 5.5rem !important;
+    width: 5.5rem;
   }
 }

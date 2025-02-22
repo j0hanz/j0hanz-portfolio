@@ -1,0 +1,90 @@
+/* Importing the Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* CSS variables for theme customization */
+:root {
+  --badge-color: #2d2d2d;
+  --bg-dark: #181818ee;
+  --bg-transparent: transparent;
+  --body-bg: #d1d1d1;
+  --bs-body-bg: none;
+  --bs-border-color: none;
+  --bs-border-width: 0;
+  --bs-form-invalid-border-color: none;
+  --bs-form-invalid-color: none;
+  --bs-form-valid-border-color: none;
+  --bs-form-valid-color: none;
+  --bs-modal-border-color: none;
+  --bs-modal-border-width: 0;
+  --bs-modal-box-shadow: none;
+  --bs-modal-margin: 0;
+  --bs-modal-padding: 0;
+  --card-bg: #ececec;
+  --card-bg-image-url: url('../src/assets/imgBackground.webp');
+  --certificate-color: #ffc800;
+  --trash-icon-color: #ffc800;
+  --error-icon-color: #dc1a1a;
+  --form-border-color: #dadada;
+  --github-color: #ffffff;
+  --linkedin-color: #0a66c2;
+  --main-icon-color: #242424;
+  --modal-bg: #181818d8;
+  --nav-icon-color: #1d1d1d;
+  --nav-link-icon-color: #f3f3f3;
+  --nav-link-color: #f3f3f3;
+  --nav-link-hover-color: #40a9ff;
+  --pdf-color: #dc1a1a;
+  --scrollbar-thumb: #0169b2;
+  --scrollbar-thumb-hover: #005b9c;
+  --img-shield-border-color: #9e9e9e;
+  --scrollbar-track: #181818ee;
+  --section-title-color: #242424;
+  --source-code-color: #3fb950;
+  --spinner-color: linear-gradient(
+    90deg,
+    #015180 0%,
+    #0169b2 50%,
+    #0284d4 100%
+  );
+  --text-color: #1d1d1d;
+  --text-hero: linear-gradient(180deg, #015180 25%, #015180 50%, #4b89cc 75%);
+  --text-light: #f5f4f4;
+  --btn-bg-dark: #282828;
+  --btn-bg-primary: #0169b2;
+  --btn-icon-color: #f2f2f2;
+  --btn-close-color: #f2f2f2;
+  --toast-bg: linear-gradient(
+    180deg,
+    #181818e6 0%,
+    #232323d9 50%,
+    #181818e6 100%
+  );
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-color);
+  background: var(--body-bg);
+  -webkit-tap-highlight-color: transparent;
+  overflow-y: scroll !important;
+}
+
+*::-webkit-scrollbar {
+  width: 0.9rem;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  transition: all 0.5s ease;
+  border-bottom-left-radius: 7.5px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}

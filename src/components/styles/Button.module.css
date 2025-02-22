@@ -1,0 +1,5 @@
+.customButton {
+  border: none;
+  border-radius: 6.5px;
+  transition: all 0.2s ease;
+}
