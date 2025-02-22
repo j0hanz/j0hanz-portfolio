@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,4 +18,4 @@ const Toast: FC = () => {
   );
 };
 
-export default memo(Toast);
+export default Toast;

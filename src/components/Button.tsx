@@ -1,4 +1,4 @@
-import { FC, ReactNode, memo } from 'react';
+import { FC, ReactNode } from 'react';
 import { Button as BootstrapButton, ButtonProps } from 'react-bootstrap';
 import styles from './styles/Button.module.css';
 
@@ -23,4 +23,4 @@ const Button: FC<CustomButtonProps> = ({
   </BootstrapButton>
 );
 
-export default memo(Button);
+export default Button;

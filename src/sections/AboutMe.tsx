@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { HiUser, HiMiniCheckBadge } from 'react-icons/hi2';
 import Credential from '@/components/Credential';
@@ -53,8 +53,8 @@ const AboutMe: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   // Handlers for opening and closing the credential modal
-  const handleShowModal = useCallback(() => setShowModal(true), []);
-  const handleCloseModal = useCallback(() => setShowModal(false), []);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <section id="about-me" className={appStyles.sectionPadding}>

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, memo } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { Card as BootstrapCard } from 'react-bootstrap';
 import styles from './styles/Card.module.css';
 import appStyles from '@/App.module.css';
@@ -29,4 +29,4 @@ const Card: FC<CardProps> = ({ title, subtitle, children, className }) => (
   </BootstrapCard>
 );
 
-export default memo(Card);
+export default Card;

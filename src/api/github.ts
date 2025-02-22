@@ -1,4 +1,4 @@
-const GITHUB_TOKEN: string | undefined = import.meta.env.VITE_GITHUB_TOKEN;
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined;
 
 interface Commit {
   sha: string;
@@ -12,24 +12,45 @@ interface Commit {
 }
 
 // Fetch commit history from GitHub API
-export const fetchCommitHistory = async (repo: string): Promise<Commit[]> => {
-  try {
-    const [owner, repoName]: string[] = repo.split('/').slice(-2);
-    const url: string = `https://api.github.com/repos/${owner}/${repoName}/commits`;
-    const response: Response = await fetch(url, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
-    });
+export const fetchCommitHistory = async (
+  repo: string,
+  limit = 5,
+): Promise<Commit[]> => {
+  const parts = repo.split('/');
+  if (parts.length < 2) {
+    console.error('Invalid repository format. Expected "owner/repo".');
+    return [];
+  }
 
+  // Extract owner and repository name
+  const [owner, repoName] = parts.slice(-2);
+  const url = `https://api.github.com/repos/${owner}/${repoName}/commits`;
+
+  try {
+    // Add authorization header if token is available
+    const headers: Record<string, string> = GITHUB_TOKEN
+      ? { Authorization: `token ${GITHUB_TOKEN}` }
+      : {};
+
+    // Fetch the commit history from the GitHub API
+    const response = await fetch(url, { headers });
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `GitHub API error (${response.status}): ${response.statusText}`,
+      );
     }
 
-    const data: Commit[] = await response.json();
-    return Array.isArray(data) ? data.slice(0, 5) : [];
-  } catch (error) {
-    console.error('Error fetching commit history:', (error as Error).message);
+    // Parse the JSON response
+    const data = await response.json();
+    if (!Array.isArray(data)) {
+      console.error('Unexpected response format.');
+      return [];
+    }
+
+    // Return the limited number of commits
+    return data.slice(0, limit) as Commit[];
+  } catch (error: any) {
+    console.error('Error fetching commit history:', error.message);
     return [];
   }
 };

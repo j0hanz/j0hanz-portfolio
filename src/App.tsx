@@ -4,6 +4,7 @@ import Spinner from '@/components/Spinner';
 import Toast from '@/components/Toast';
 import useLoading from '@/hooks/useLoading';
 import SectionWrapper from '@/components/SectionWrapper';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import styles from '@/App.module.css';
 
 const Hero = lazy(() => import('@/sections/Hero'));
@@ -39,9 +40,11 @@ const MainContent: React.FC<{ loading: boolean }> = ({ loading }) => (
         <SectionWrapper sectionId="workExperience">
           <WorkExperience />
         </SectionWrapper>
-        <SectionWrapper sectionId="contact">
-          <ContactForm />
-        </SectionWrapper>
+        <ErrorBoundary>
+          <SectionWrapper sectionId="contact">
+            <ContactForm />
+          </SectionWrapper>
+        </ErrorBoundary>
         <Footer />
       </Suspense>
     )}

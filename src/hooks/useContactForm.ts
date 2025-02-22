@@ -1,6 +1,6 @@
-import { useState, useCallback, ChangeEvent, FormEvent } from 'react';
-import { validateForm } from '@/utils/validation';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { toast } from 'react-toastify';
+import { validateForm } from '@/utils/validation';
 
 interface FormData {
   name: string;
@@ -31,15 +31,14 @@ const useContactForm = () => {
   const [errors, setErrors] = useState<FormErrors>({});
 
   // Handle input changes
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormData({ ...formData, [event.target.name]: event.target.value });
-    },
-    [formData],
-  );
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
 
   // Handle email sent status
-  const handleEmailSent = useCallback((success: boolean) => {
+  const handleEmailSent = (success: boolean) => {
     setIsSending(false);
     if (success) {
       setFormData({ name: '', email: '', company: '', url: '', message: '' });
@@ -47,29 +46,26 @@ const useContactForm = () => {
     } else {
       toast.error('Failed to send message! Please try again later.');
     }
-  }, []);
+  };
 
   // Handle form submission
-  const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const newErrors = validateForm(formData);
-      setErrors(newErrors);
-      const formValid = Object.keys(newErrors).length === 0;
-      setValidated(formValid);
-      if (formValid) {
-        setIsSending(true);
-      }
-    },
-    [formData],
-  );
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newErrors = validateForm(formData);
+    setErrors(newErrors);
+    const formValid = Object.keys(newErrors).length === 0;
+    setValidated(formValid);
+    if (formValid) {
+      setIsSending(true);
+    }
+  };
 
   // Handle form reset
-  const handleReset = useCallback(() => {
+  const handleReset = () => {
     setFormData({ name: '', email: '', company: '', url: '', message: '' });
     setErrors({});
     setValidated(false);
-  }, []);
+  };
 
   return {
     validated,

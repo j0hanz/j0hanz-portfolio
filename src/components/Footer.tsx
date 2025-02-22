@@ -1,4 +1,4 @@
-import { useState, FC, memo } from 'react';
+import { useState, FC } from 'react';
 import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { HiOutlineEnvelope } from 'react-icons/hi2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -102,4 +102,4 @@ const Footer: FC = () => {
   );
 };
 
-export default memo(Footer);
+export default Footer;
