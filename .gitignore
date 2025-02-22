@@ -1,25 +1,48 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Python
+__pycache__/
+*.py[cod]
+db.sqlite3
 
-# testing
-/coverage
-
-# production
-/build
-
-# environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# logs
+# Node.js
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# misc
+# Environment
+.env
+env.py
+
+# Core dumps
+core.*
+
+# Git
+.github/
+.ruff_cache
+
+# Static files
+/staticfiles/
+
+# Logs
+logs
+*.log
+
+# Build
+dist
+dist-ssr
+
+# Local files
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,76 +1,75 @@
 /* Input Group Icon Styling */
 .inputGroup {
-  padding-left: 0.2rem !important;
-  border-bottom: 3px solid var(--form-border-color) !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  transition: border-color 0.3s ease !important;
+  padding-left: 0.2rem;
+  border-bottom: 3px solid var(--form-border-color);
+  border-radius: 0;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
 }
 
 .inputGroupBody {
-  border-bottom: none !important;
+  border-bottom: none;
 }
 
 .errorIcon {
-  color: var(--error-icon-color) !important;
+  color: var(--error-icon-color);
 }
 
 .errorMessage {
-  display: block !important;
-  color: var(--text-color) !important;
-  padding: 0.2rem 0.375rem !important;
-  border-bottom-left-radius: 6.5px !important;
-  border-bottom-right-radius: 6.5px !important;
-  font-size: 0.7rem !important;
+  display: block;
+  color: var(--text-color);
+  padding: 0.2rem 0.375rem;
+  border-bottom-left-radius: 6.5px;
+  border-bottom-right-radius: 6.5px;
+  font-size: 0.7rem;
 }
 
 .inputGroupIcon {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: baseline !important;
-  padding-top: 0.5rem !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  border: none !important;
-  width: 1.1rem !important;
-  background-color: var(--bg-transparent) !important;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding-top: 0.5rem;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  width: 1.1rem;
+  background-color: var(--bg-transparent);
 }
 
 .inputGroupControl {
-  font-size: 0.8rem !important;
-  padding-left: 0.4rem !important;
-  color: var(--text-color) !important;
+  font-size: 0.8rem;
+  padding-left: 0.4rem;
+  color: var(--text-color);
 }
 
 .inputGroupControl::placeholder {
-  color: var(--text-color) !important;
-  opacity: 0.6 !important;
+  color: var(--text-color);
+  opacity: 0.6;
 }
 
 .inputGroupControl:focus {
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .submitButton {
-  width: 90px !important;
-  max-width: 100% !important;
-  height: 30px !important;
-  border: none !important;
-  border-radius: 6.5px !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  line-height: 0 !important;
-  background-image: var(--btn-bg-primary);
+  width: 100px;
+  max-width: 100%;
+  height: 30px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6.5px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  transform: skew(-10deg);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: var(--btn-bg-primary);
 }
 
 .buttonIcon {
-  margin-right: 10px;
   font-size: 0.9rem;
   color: var(--btn-icon-color);
 }
@@ -81,38 +80,39 @@
 
 .buttonText {
   font-size: 0.9rem;
-  letter-spacing: 0.25px;
+  letter-spacing: 0.3px;
   color: var(--text-light);
 }
 
 .submitButton:hover {
   filter: brightness(0.7);
+  background: var(--btn-bg-primary);
 }
 
 .submitButton:active {
-  transform: scale(0.99);
+  transform: skew(-10deg) scale(0.96);
+  background: var(--btn-bg-primary) !important;
 }
 
 .clearButton {
-  background-image: var(--btn-bg-dark);
-  transition: all 0.3s ease !important;
-  max-width: 100% !important;
-  height: 30px !important;
-  border: none !important;
-  border-radius: 6.5px !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  line-height: 0 !important;
+  width: 40px;
+  max-width: 100%;
+  height: 30px;
+  border: none;
+  border-radius: 6.5px;
+  transition: all 0.2s ease;
+  transform: skew(-10deg);
+  display: flex;
+  align-items: center;
+  background: var(--btn-bg-dark);
 }
 
 .clearButton:hover {
   filter: brightness(0.7);
+  background: var(--btn-bg-dark);
 }
 
 .clearButton:active {
-  transform: scale(0.99);
+  transform: skew(-10deg) scale(0.96);
+  background: var(--btn-bg-dark) !important;
 }
