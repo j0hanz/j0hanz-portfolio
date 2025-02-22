@@ -7,7 +7,7 @@ import {
   Offcanvas,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { TbLayoutSidebarRightExpandFilled } from 'react-icons/tb';
+import { HiOutlineBars3 } from 'react-icons/hi2';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
 import navLogo from '@/assets/imgBg.webp';
@@ -121,11 +121,20 @@ const NavBar: React.FC = () => {
     <>
       <Container fluid>
         <div className={styles.navContainer}>
-          <Button onClick={openOffcanvas} className={styles.navToggle}>
-            <TbLayoutSidebarRightExpandFilled
-              className={styles.navToggleIcon}
-            />
-          </Button>
+          <div
+            onClick={openOffcanvas}
+            className={styles.navToggle}
+            role="button"
+            aria-label="Toggle navigation"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                openOffcanvas();
+              }
+            }}
+          >
+            <HiOutlineBars3 className={styles.navToggleIcon} />
+          </div>
           <OffcanvasMenu />
         </div>
       </Container>
