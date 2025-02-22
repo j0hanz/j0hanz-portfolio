@@ -7,7 +7,7 @@ import {
   Offcanvas,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HiOutlineBars3 } from 'react-icons/hi2';
+import { HiBars3 } from 'react-icons/hi2';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
 import navLogo from '@/assets/imgBg.webp';
@@ -133,7 +133,7 @@ const NavBar: React.FC = () => {
               }
             }}
           >
-            <HiOutlineBars3 className={styles.navToggleIcon} />
+            <HiBars3 className={styles.navToggleIcon} />
           </div>
           <OffcanvasMenu />
         </div>
