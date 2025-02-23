@@ -1,0 +1,20 @@
+.icon {
+  font-size: 1.7rem;
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+.icon:hover {
+  transform: scale(1.05);
+}
+
+.icon:active {
+  transform: scale(0.95);
+}
+
+/* Media Queries */
+@media (max-width: 575px) {
+  .icon {
+    font-size: 1.5rem;
+  }
+}
