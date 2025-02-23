@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
           <Col xs="auto" className="text-center text-lg-start">
             <SlideFromSide from="right">
               <div className={styles.gradientText}>Linus Johansson</div>
-              <div className={`fw-semibold my-2 ${styles.developerTitle}`}>
+              <div className={`my-2 ${styles.developerTitle}`}>
                 Junior Full-Stack Developer
               </div>
               <div className="d-flex flex-column align-items-center align-items-lg-start mt-3">
