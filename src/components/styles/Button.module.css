@@ -1,5 +1,16 @@
 .customButton {
+  text-transform: uppercase;
+  transform: skew(-10deg);
+  max-width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   border: none;
   border-radius: 6.5px;
-  transition: all 0.2s ease;
+  transition: var(--transition);
+  color: var(--text-light);
+}
+
+.customButton:active {
+  transform: skew(-10deg) scale(0.96);
 }
