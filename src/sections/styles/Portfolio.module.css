@@ -39,7 +39,7 @@
   width: 2.7rem;
   border: none;
   font-size: 0.7rem;
-  border-radius: 6.5px;
+  border-radius: var(--border-radius);
   transform: skew(-10deg);
 }
 

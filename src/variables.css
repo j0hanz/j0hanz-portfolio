@@ -21,6 +21,7 @@
 :root {
   --card-bg-image-url: url('../src/assets/imgBackground.webp');
   --transition: all 0.3s ease;
+  --border-radius: 7.5px;
 }
 
 /* Fixed color variables */

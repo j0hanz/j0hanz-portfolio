@@ -3,7 +3,7 @@
 .Toastify__toast {
   background: var(--bg-dark) !important;
   color: var(--text-light) !important;
-  border-radius: 8px !important;
+  border-radius: var(--border-radius) !important;
   padding: 12px !important;
   font-family: 'Poppins', sans-serif !important;
 }
@@ -12,7 +12,7 @@
 .Toastify__toast--error {
   background: var(--bg-dark) !important;
   color: var(--text-light) !important;
-  border-radius: 8px !important;
+  border-radius: var(--border-radius) !important;
   padding: 12px !important;
   font-family: 'Poppins', sans-serif !important;
 }

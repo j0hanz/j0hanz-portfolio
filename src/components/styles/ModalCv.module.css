@@ -1,7 +1,7 @@
 .modalCvBody {
   background: var(--bg-dark);
   border: none;
-  border-radius: 7.5px;
+  border-radius: var(--border-radius);
   position: relative;
   padding: 1rem;
   color: var(--text-light);
