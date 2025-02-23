@@ -62,7 +62,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
               rel="noopener noreferrer"
             >
               <img
-                src={`https://img.shields.io/github/commit-activity/t/${repoPath}?style=flat-square&logo=git&logoColor=dc1a1a&labelColor=ececec&label=Commits:&color=ececec`}
+                src={`https://img.shields.io/github/commit-activity/t/${repoPath}?style=flat-square&logo=git&logoColor=dc1a1a&labelColor=313131&label=Commits:&color=313131`}
                 alt="Commit Activity"
               />
             </a>
@@ -72,7 +72,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
               rel="noopener noreferrer"
             >
               <img
-                src={`https://img.shields.io/github/last-commit/${repoPath}?style=flat-square&logo=github&logoColor=1d1d1d&labelColor=ececec&label=Updated:&color=ececec`}
+                src={`https://img.shields.io/github/last-commit/${repoPath}?style=flat-square&logo=github&logoColor=f2f2f2&labelColor=313131&label=Updated:&color=313131`}
                 alt="Last Commit"
                 className="my-1"
               />
@@ -84,7 +84,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
                 rel="noopener noreferrer"
               >
                 <img
-                  src={`https://img.shields.io/github/issues/${repoPath}?style=flat-square&logo=github&logoColor=1d1d1d&labelColor=ececec&label=Issues:&color=ececec`}
+                  src={`https://img.shields.io/github/issues/${repoPath}?style=flat-square&logo=github&logoColor=f2f2f2&labelColor=313131&label=Issues:&color=313131`}
                   alt="Issues"
                   className="my-1"
                 />
@@ -116,7 +116,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
             <Button
               href={project.github}
               target="_blank"
-              className={`${styles.customButton} ${styles.githubButton}`}
+              className={styles.githubButton}
               icon={
                 <FontAwesomeIcon
                   icon={faGithub}
@@ -129,7 +129,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
               <Button
                 href={project.demo}
                 target="_blank"
-                className={`${styles.customButton} ${styles.demoButton}`}
+                className={styles.demoButton}
                 icon={<HiMiniPlay className={styles.buttonIcon} />}
                 text="Demo"
               />
@@ -148,7 +148,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
                 <div className="d-inline-block">
                   <Button
                     disabled
-                    className={`${styles.customButton} ${styles.demoButton}`}
+                    className={styles.demoButton}
                     icon={<HiMiniPlay className={styles.buttonIcon} />}
                     text="Demo"
                   />
