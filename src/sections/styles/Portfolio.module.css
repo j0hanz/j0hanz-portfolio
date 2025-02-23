@@ -11,12 +11,13 @@
   position: absolute;
   bottom: 3rem;
   right: 0.5rem;
-  width: 6.5rem;
-  opacity: 0.8;
+  width: 7rem;
+  opacity: 0.9;
 }
 
 .userIcon {
   font-size: 1.3rem;
+  color: var(--text-color);
 }
 
 .gitpodLogo {
@@ -24,41 +25,15 @@
   bottom: 4rem;
   right: 1rem;
   width: 3.5rem;
-  opacity: 0.8;
-}
-
-.customButton {
-  width: 104px;
-  max-width: 100%;
-  height: 30px;
-  border: none;
-  border-radius: 6.5px;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: skew(-10deg);
-  font-size: 0.95rem;
-}
-
-.githubButton {
-  background: var(--btn-bg-dark);
-}
-
-.githubButton:hover {
-  background: var(--btn-bg-dark);
-}
-
-.githubButton:active {
-  background: var(--btn-bg-dark) !important;
+  opacity: 0.9;
 }
 
 .newBadge {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--btn-bg-primary);
+  background: var(--btn-bg-primary) !important;
+  color: var(--text-light) !important;
   margin-left: 0.5rem;
   height: 1.3rem;
   width: 2.7rem;
@@ -69,34 +44,41 @@
 }
 
 .demoButton {
+  width: 104px;
+  height: 30px;
   background: var(--btn-bg-primary);
 }
 
 .demoButton:hover {
-  background: var(--btn-bg-primary);
+  background: var(--btn-bg-primary-hover);
 }
 
 .demoButton:active {
-  background: var(--btn-bg-primary) !important;
+  background: var(--btn-bg-primary-hover) !important;
 }
 
-.customButton:hover {
-  filter: brightness(0.7);
+.githubButton {
+  width: 104px;
+  height: 30px;
+  background: var(--btn-bg-dark);
 }
 
-.customButton:active {
-  transform: skew(-10deg) scale(0.96);
+.githubButton:hover {
+  background: var(--btn-bg-dark-hover);
+}
+
+.githubButton:active {
+  background: var(--btn-bg-dark-hover) !important;
 }
 
 .buttonIcon {
   margin-right: 10px;
   font-size: 0.9rem;
-  color: var(--btn-icon-color);
+  color: var(--text-light);
 }
 
 .buttonText {
   font-size: 0.9rem;
-  letter-spacing: 0.3px;
   color: var(--text-light);
 }
 
@@ -105,8 +87,7 @@
   flex-direction: column;
   align-items: start;
   transform: skew(-10deg);
-  border-bottom: 1px solid var(--img-shield-border-color);
-  border-radius: 0;
+  border-radius: 6.5px;
 }
 
 @media (max-width: 425px) {
