@@ -1,7 +1,7 @@
 .heroImage {
   width: 280px;
   height: 280px;
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   object-fit: cover;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   transition: var(--transition);
@@ -9,8 +9,7 @@
 }
 
 .heroImage:hover {
-  filter: brightness(0.7);
-  transform: scale(1.02);
+  filter: brightness(0.8);
 }
 
 .developerTitle {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import Image from '@/assets/image_me.webp';
+import { Container, Row, Col, Image } from 'react-bootstrap';
+import ProfileImage from '@/assets/image_me.webp';
 import styles from './styles/Hero.module.css';
 import { HiOutlineEnvelope, HiOutlineArrowDownTray } from 'react-icons/hi2';
 import ModalCv from '@/components/ModalCv';
@@ -35,11 +35,12 @@ const Hero: React.FC = () => {
         <Row className="d-flex justify-content-center">
           <Col md={5}>
             <SlideFromSide from="left">
-              <img
-                src={Image}
+              <Image
+                src={ProfileImage}
                 alt="Linus Johansson"
                 className={styles.heroImage}
                 onClick={handleImageModalOpen}
+                fluid
               />
             </SlideFromSide>
           </Col>
