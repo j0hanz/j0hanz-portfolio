@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { Button as BootstrapButton, ButtonProps } from 'react-bootstrap';
+import { Button as CustomButton, ButtonProps } from 'react-bootstrap';
 import styles from './styles/Button.module.css';
 
 interface CustomButtonProps extends ButtonProps {
@@ -11,16 +11,20 @@ interface CustomButtonProps extends ButtonProps {
 // Button component with optional icon and text
 const Button: FC<CustomButtonProps> = ({
   icon,
-  text,
-  className,
+  text = '',
+  className = '',
   children,
   ...props
-}) => (
-  <BootstrapButton {...props} className={`${styles.customButton} ${className}`}>
-    {icon && <span className={styles.buttonIcon}>{icon}</span>}
-    {text && <span className={styles.buttonText}>{text}</span>}
-    {children}
-  </BootstrapButton>
-);
+}) => {
+  const buttonClassName = `${styles.customButton} ${className}`.trim();
+
+  return (
+    <CustomButton {...props} className={buttonClassName}>
+      {icon && <span className={styles.buttonIcon}>{icon}</span>}
+      {text && <span className={styles.buttonText}>{text}</span>}
+      {children}
+    </CustomButton>
+  );
+};
 
 export default Button;
