@@ -56,7 +56,6 @@ const App: React.FC = () => {
 
   return (
     <div className={styles.appContainer}>
-      <div className={styles.fixedBackground}></div>
       <NavBar />
       <Toast />
       <MainContent loading={loading} />
