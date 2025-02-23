@@ -1,17 +1,3 @@
-.fixedBackground {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../src/assets/imgDarkBg.webp');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  z-index: -1;
-}
-
 .certificateIcon {
   color: var(--certificate-color);
   padding-right: 0.5rem;
@@ -39,7 +25,6 @@
 .copyrightText {
   transform: skew(-10deg);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
   font-size: 0.8rem;
   color: var(--text-light);
   opacity: 0.8;
@@ -52,6 +37,7 @@
   min-height: 100vh;
   overflow-x: hidden;
   margin: 0;
+  background-color: var(--body-bg);
 }
 
 .sectionContainer {
@@ -74,7 +60,7 @@
 
 .cardText {
   line-height: 1.8;
-  letter-spacing: 0.3px;
+  color: var(--text-color);
 }
 
 .customTooltip {
@@ -93,7 +79,7 @@
 }
 
 .modalBody {
-  background: var(--modal-bg);
+  background: var(--bg-dark);
   border: none;
   width: 100%;
   max-width: 500px;
@@ -138,23 +124,23 @@
 }
 
 .cardHeader {
-  letter-spacing: 0.3px;
   font-size: 1.25rem;
+  color: var(--text-color);
 }
 
 .customBadge {
   padding-top: 0.1rem;
   display: inline-block;
   align-items: center;
-  color: var(--badge-color);
+  color: var(--text-color);
   margin-right: 1.5rem;
   font-size: 0.8rem;
-  letter-spacing: 0.3px;
+  opacity: 0.9;
   transform: skew(-10deg);
 }
 
 .badgeText {
-  color: var(--badge-color);
+  color: var(--text-color);
   text-transform: uppercase;
   font-size: 0.7rem;
 }
@@ -166,7 +152,7 @@
   border: none;
   cursor: pointer;
   opacity: 0.7;
-  transition: opacity 0.5s ease;
+  transition: var(--transition);
   background-color: #00000067;
   border-radius: 0 10rem 0 50rem;
   height: 35px;
@@ -182,16 +168,16 @@
 
 .xMark {
   font-size: 1.2rem;
-  color: var(--btn-close-color);
+  color: var(--text-light);
 }
 
 .socialIcon {
   font-size: 1.1rem;
-  transition: color 0.3s ease;
+  transition: var(--transition);
 }
 
 .mainIcon {
-  color: var(--main-icon-color);
+  color: var(--text-color);
   margin-right: 0.65rem;
   font-size: 1.8rem;
 }
@@ -199,7 +185,7 @@
 .sectionTitle {
   font-size: 2.1rem;
   font-weight: 500;
-  color: var(--section-title-color);
+  color: var(--text-color);
 }
 
 .titleIcon {
@@ -208,10 +194,33 @@
 }
 
 .buttonIcon {
-  color: var(--btn-icon-color);
+  color: var(--text-light);
 }
 
 .buttonText {
-  letter-spacing: 0.3px;
   color: var(--text-light);
+}
+
+.btnPrimary {
+  background: var(--btn-bg-primary);
+}
+
+.btnPrimary:hover {
+  background: var(--btn-bg-primary-hover);
+}
+
+.btnPrimary:active {
+  background: var(--btn-bg-primary-hover) !important;
+}
+
+.btnDark {
+  background: var(--btn-bg-dark);
+}
+
+.btnDark:hover {
+  background: var(--btn-bg-dark-hover);
+}
+
+.btnDark:active {
+  background: var(--btn-bg-dark-hover) !important;
 }
