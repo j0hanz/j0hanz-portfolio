@@ -21,9 +21,9 @@ const Footer: FC = () => {
         fluid
         className={`${appStyles.sectionContainer} ${appStyles.cardBgImage}`}
       >
-        <Row className="d-flex justify-content-center align-items-center mx-auto">
-          <Col sm={6} className="mb-sm-0">
-            <div className={`mb-2 ${styles.footerLinkHeader}`}>
+        <Row className="mx-auto">
+          <Col sm={6}>
+            <div className={`pb-3 ${styles.footerLinkHeader}`}>
               Contact Details
             </div>
             <HiOutlineEnvelope className={styles.footerIcon} />
@@ -34,16 +34,18 @@ const Footer: FC = () => {
               l.johansson93@outlook.com
             </a>
           </Col>
-          <Col sm={6} className="text-sm-end my-1">
-            <div className="d-flex align-items-center justify-content-sm-end mb-3">
+          <Col sm={6} className="text-sm-end mt-2">
+            <div className="d-flex align-items-center justify-content-sm-end pb-3">
               <FontAwesomeIcon
                 icon={faCreativeCommons}
                 className={styles.footerIcon}
               />
               <small className={appStyles.copyrightText}>Copyright 2025</small>
             </div>
-            <div className="mt-4 mt-sm-0 mx-auto">
-              <Row className="d-flex justify-content-sm-end flex-row justify-content-between">
+            <div className="mt-4 mt-sm-0">
+              <Row
+                className={`${styles.footerSocialIcons} d-flex justify-content-sm-end flex-row justify-content-between`}
+              >
                 {socialLinks.map(
                   ({
                     id,
