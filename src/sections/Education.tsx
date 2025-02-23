@@ -55,7 +55,7 @@ const Education: React.FC = () => {
         {edu.hasCredential && (
           <Button
             onClick={handleShowModal}
-            className={`${styles.customButton} ${styles.credentialButton}`}
+            className={styles.credentialButton}
             icon={<HiMiniCheckBadge className={styles.buttonIcon} />}
             text="Credential"
           />
