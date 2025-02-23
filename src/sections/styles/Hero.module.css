@@ -4,7 +4,7 @@
   border-radius: 15px;
   object-fit: cover;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease-in-out;
+  transition: var(--transition);
   cursor: pointer;
 }
 
@@ -14,17 +14,18 @@
 }
 
 .developerTitle {
-  font-size: 1.4rem;
-  letter-spacing: 1.2px;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--section-title-color);
+  color: var(--text-color);
+  font-weight: 500;
 }
 
 .gradientText {
   background: var(--text-hero);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: var(--bg-transparent);
-  font-size: 3rem;
+  -webkit-text-fill-color: transparent;
+  font-size: 3.2rem;
   letter-spacing: 3px;
   font-weight: 500;
 }
@@ -32,48 +33,29 @@
 .downloadButton {
   width: 180px;
   height: 45px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transform: skew(-10deg);
-  max-width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
   background: var(--btn-bg-primary);
 }
 
 .downloadButton:hover {
-  background: var(--btn-bg-primary);
-  filter: brightness(0.7);
+  background: var(--btn-bg-primary-hover);
 }
 
 .downloadButton:active {
-  background: var(--btn-bg-primary) !important;
-  transform: skew(-10deg) scale(0.96);
+  background: var(--btn-bg-primary-hover) !important;
 }
 
 .contactButton {
   width: 180px;
   height: 45px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  transform: skew(-10deg);
-  max-width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
   background: var(--btn-bg-dark);
-  font-size: 1.05rem;
 }
 
 .contactButton:hover {
-  background: var(--btn-bg-dark);
-  filter: brightness(0.7);
+  background: var(--btn-bg-dark-hover);
 }
 
 .contactButton:active {
-  background: var(--btn-bg-dark) !important;
-  transform: skew(-10deg) scale(0.96);
+  background: var(--btn-bg-dark-hover) !important;
 }
 
 .buttonIcon {
