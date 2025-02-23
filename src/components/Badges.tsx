@@ -16,7 +16,7 @@ const BadgeItem: FC<BadgeItemProps> = ({ href, imgSrc, date }) => (
     </a>
     <div className={styles.badgeText}>
       <strong className="d-block">Awarded:</strong>
-      <span className={styles.badgeDate}>{date}</span>
+      <span>{date}</span>
     </div>
   </Col>
 );
