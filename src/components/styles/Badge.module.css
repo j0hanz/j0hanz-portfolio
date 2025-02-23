@@ -3,28 +3,27 @@ img {
 }
 
 .badgeContainer {
+  display: flex;
+  justify-content: space-between;
   text-align: center;
+  padding-top: 3rem;
 }
 
 .badgeImage {
-  width: 130px;
-  height: auto;
-  margin: 0 auto;
-  display: block;
-  border: none;
-  filter: brightness(0.9);
-  opacity: 0.8;
+  max-width: 140px;
+  width: 100%;
+  object-fit: cover;
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.15),
-    0 6px 24px rgba(0, 0, 0, 0.15);
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 6px 24px rgba(0, 0, 0, 0.3);
   transition: var(--transition);
+  cursor: pointer;
+  opacity: 0.8;
+  filter: contrast(1.1);
 }
 
 .badgeImage:hover {
   opacity: 1;
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    0 12px 48px rgba(0, 0, 0, 0.3);
 }
 
 .badgeText {
@@ -35,18 +34,27 @@ img {
   font-size: 0.7rem;
 }
 
-@media (max-width: 575px) {
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .badgeImage {
-    width: 105px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 576px) {
+  .badgeImage {
+    max-width: 110px;
   }
 }
 
 @media (max-width: 350px) {
   .badgeImage {
-    width: 90px;
+    max-width: 95px;
   }
 
-  .badgeText {
-    font-size: 0.6rem;
+  @media (max-width: 300px) {
+    .badgeImage {
+      max-width: 85px;
+    }
   }
 }
