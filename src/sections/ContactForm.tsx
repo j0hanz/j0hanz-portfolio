@@ -36,7 +36,7 @@ const ContactForm: React.FC = () => {
           <div className={appStyles.sectionTitle}>Contact</div>
         </div>
         <Row className="d-flex justify-content-center align-items-center">
-          <Col md={8}>
+          <Col md={10}>
             <Card className={`h-100 ${appStyles.cardBgColor}`}>
               <Card.Body className={appStyles.formBody}>
                 <Form noValidate onSubmit={handleSubmit}>
