@@ -12,13 +12,12 @@ img {
   margin: 0 auto;
   display: block;
   border: none;
+  filter: brightness(0.9);
   opacity: 0.8;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.15),
     0 6px 24px rgba(0, 0, 0, 0.15);
-  transition:
-    opacity 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: var(--transition);
 }
 
 .badgeImage:hover {
@@ -28,13 +27,9 @@ img {
     0 12px 48px rgba(0, 0, 0, 0.3);
 }
 
-.badgeDate {
-  color: var(--badge-color);
-  font-size: 0.7rem;
-}
-
 .badgeText {
   color: var(--badge-color);
+  opacity: 0.8;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 0.7rem;
@@ -42,19 +37,16 @@ img {
 
 @media (max-width: 575px) {
   .badgeImage {
-    width: 100px;
+    width: 105px;
   }
 }
 
 @media (max-width: 350px) {
   .badgeImage {
-    width: 85px;
+    width: 90px;
   }
 
   .badgeText {
-    font-size: 0.6rem;
-  }
-  .badgeDate {
     font-size: 0.6rem;
   }
 }
