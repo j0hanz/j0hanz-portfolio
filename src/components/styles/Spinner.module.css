@@ -17,7 +17,7 @@
 .loader {
   height: 30px;
   aspect-ratio: 2.5;
-  --_g: no-repeat radial-gradient(farthest-side, var(--btn-bg-dark) 80%, #0000);
+  --_g: no-repeat radial-gradient(farthest-side, var(--text-color) 80%, #0000);
   background: var(--_g), var(--_g), var(--_g), var(--_g);
   background-size: 20% 50%;
   animation: l43 1s infinite linear;
