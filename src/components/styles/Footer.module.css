@@ -8,13 +8,13 @@
   color: var(--text-light);
   opacity: 0.8;
   margin-right: 10px;
-  transition: color 0.2s ease;
+  transition: var(--transition);
 }
 
 .footerLink {
   font-size: 0.8rem;
   color: var(--text-light);
-  transition: color 0.3s ease;
+  transition: var(--transition);
 }
 
 .footerLinkHeader {
