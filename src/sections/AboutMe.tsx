@@ -36,7 +36,7 @@ const AboutMeList: React.FC<{
             <div className="mt-2">
               <Button
                 onClick={onShowModal}
-                className={`${styles.customButton} ${styles.credentialButton}`}
+                className={styles.credentialButton}
                 icon={<HiMiniCheckBadge className={styles.buttonIcon} />}
                 text="Credential"
               />
