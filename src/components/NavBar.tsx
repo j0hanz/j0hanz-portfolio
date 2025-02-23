@@ -14,8 +14,8 @@ import navLogo from '@/assets/imgBg.webp';
 import appStyles from '@/App.module.css';
 import { socialLinks } from '@/data/socialLinks';
 import { navLinks } from '@/data/navLinks';
-import Button from '@/components/Button';
 import useNavLinkClose from '@/hooks/useNavLinkClose';
+import DarkModeToggle from '@/components/DarkModeToggle';
 
 // Navbar component with Offcanvas menu
 const NavBar: React.FC = () => {
@@ -121,6 +121,9 @@ const NavBar: React.FC = () => {
     <>
       <Container fluid>
         <div className={styles.navContainer}>
+          <div className={styles.toggleButton}>
+            <DarkModeToggle />
+          </div>
           <div
             onClick={openOffcanvas}
             className={styles.navToggle}
