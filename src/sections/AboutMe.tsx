@@ -57,7 +57,7 @@ const AboutMe: React.FC = () => {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <section id="about-me" className={appStyles.sectionPadding}>
+    <section id="about-me">
       <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <HiUser className={appStyles.mainIcon} />

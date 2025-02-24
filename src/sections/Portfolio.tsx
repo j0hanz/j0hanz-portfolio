@@ -21,7 +21,7 @@ const Portfolio: React.FC = () => {
   }, []);
 
   return (
-    <section id="portfolio" className={appStyles.sectionPadding}>
+    <section id="portfolio">
       <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <div>
