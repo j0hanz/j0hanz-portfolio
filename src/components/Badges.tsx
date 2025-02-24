@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
+import Image from '@/components/Image';
 import styles from './styles/Badge.module.css';
 
 interface BadgeItemProps {
@@ -12,7 +13,7 @@ interface BadgeItemProps {
 const BadgeItem: FC<BadgeItemProps> = ({ href, imgSrc, date }) => (
   <Col xs={'auto'}>
     <a href={href} target="_blank" rel="noopener noreferrer">
-      <Image className={styles.badgeImage} src={imgSrc} alt="badge" fluid />
+      <Image className={styles.badgeImage} src={imgSrc} alt="badge" />
     </a>
     <div className={styles.badgeText}>
       <strong className="d-block">Awarded:</strong>

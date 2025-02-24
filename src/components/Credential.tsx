@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Modal, Container } from 'react-bootstrap';
+import Image from '@/components/Image';
 import ImageCredential from '@/assets/Credential.webp';
 import { HiXMark, HiArrowTopRightOnSquare } from 'react-icons/hi2';
 import styles from './styles/Credential.module.css';
@@ -33,7 +34,7 @@ const Credential: FC<CredentialProps> = ({ show, handleClose }) => {
               className={styles.credentialLink}
             >
               <div className={styles.credentialImageContainer}>
-                <img
+                <Image
                   src={ImageCredential}
                   alt="Credential"
                   className={styles.credentialImage}

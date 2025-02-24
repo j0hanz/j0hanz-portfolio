@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Modal, Container } from 'react-bootstrap';
+import Image from '@/components/Image';
 import ProfileImage from '@/assets/image_me.webp';
 import styles from './styles/ImageModal.module.css';
 import appStyles from '@/App.module.css';
@@ -26,7 +27,7 @@ const ImageModal: FC<ImageModalProps> = ({ show, handleClose }) => {
           {loading ? (
             <Spinner />
           ) : (
-            <img
+            <Image
               src={ProfileImage}
               alt="Linus Johansson"
               className={styles.fullScreenImage}
