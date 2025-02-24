@@ -27,7 +27,7 @@ const ContactForm: React.FC = () => {
   } = useContactForm();
 
   return (
-    <section id="contact" className={appStyles.sectionPadding}>
+    <section id="contact">
       <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <div>

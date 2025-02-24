@@ -27,10 +27,7 @@ const Hero: React.FC = () => {
   const contactButtonClass = `${styles.contactButton}`;
 
   return (
-    <section
-      id="hero"
-      className={`text-center mt-4 ${appStyles.sectionPadding}`}
-    >
+    <section id="hero" className={`text-center ${appStyles.heroSection}`}>
       <Container className={appStyles.sectionContainer}>
         <Row className="d-flex justify-content-center">
           <Col md={5}>

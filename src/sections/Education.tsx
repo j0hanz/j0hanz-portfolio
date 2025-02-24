@@ -65,7 +65,7 @@ const Education: React.FC = () => {
   );
 
   return (
-    <section id="education" className={appStyles.sectionPadding}>
+    <section id="education">
       <Container className={appStyles.sectionContainer}>
         <div className={appStyles.sectionTitleContainer}>
           <div>
