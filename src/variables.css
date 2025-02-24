@@ -38,9 +38,6 @@
   --main-icon-color: #242424;
   --nav-link-color: #f3f3f3;
   --nav-link-hover-color: #40a9ff;
-  --scrollbar-thumb: #0067dd;
-  --scrollbar-thumb-hover: #004797;
-  --scrollbar-track: #242424;
   --btn-bg-dark: #313131;
   --btn-bg-dark-hover: #242424;
   --btn-bg-primary: #0067dd;
@@ -86,15 +83,15 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
+  background: var(--btn-bg-primary);
   border-bottom-left-radius: 7.5px;
   transition: var(--transition);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
+  background: var(--btn-bg-primary-hover);
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
+  background: var(--body-bg);
 }
