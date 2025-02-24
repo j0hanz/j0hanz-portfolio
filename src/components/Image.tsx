@@ -8,7 +8,7 @@ interface ImageProps {
   className?: string;
   style?: React.CSSProperties;
   onClick?: () => void;
-  radius?: 'default' | 'circle';
+  radius?: 'rounded' | 'circle' | 'flat';
 }
 
 // Image component
@@ -20,13 +20,14 @@ const Image: React.FC<ImageProps> = ({
   className,
   style,
   onClick,
-  radius = 'default',
+  radius = 'rounded',
 }) => {
   // Default styles for the image
   const defaultStyle: React.CSSProperties = {
     maxWidth: '100%',
     objectFit: 'cover',
-    borderRadius: radius === 'circle' ? '50%' : '7.5px',
+    borderRadius:
+      radius === 'circle' ? '50%' : radius === 'flat' ? '0px' : '7.5px',
   };
 
   // Combine default styles with any additional styles passed in
