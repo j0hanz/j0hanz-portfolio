@@ -17,10 +17,7 @@ const Footer: FC = () => {
 
   return (
     <footer className={styles.footerBg}>
-      <Container
-        fluid
-        className={`${appStyles.sectionContainer} ${appStyles.cardBgImage}`}
-      >
+      <Container fluid className={appStyles.cardBgImage}>
         <Row className="mx-auto">
           <Col sm={6}>
             <div className={`pb-3 ${styles.footerLinkHeader}`}>
