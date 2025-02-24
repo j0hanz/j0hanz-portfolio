@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import Image from '@/components/Image';
 import ProfileImage from '@/assets/image_me.webp';
 import styles from './styles/Hero.module.css';
 import { HiOutlineEnvelope, HiOutlineArrowDownTray } from 'react-icons/hi2';
@@ -37,7 +38,6 @@ const Hero: React.FC = () => {
                 alt="Linus Johansson"
                 className={styles.heroImage}
                 onClick={handleImageModalOpen}
-                fluid
               />
             </SlideFromSide>
           </Col>

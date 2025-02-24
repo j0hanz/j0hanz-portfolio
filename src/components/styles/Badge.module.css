@@ -10,8 +10,7 @@ img {
 }
 
 .badgeImage {
-  max-width: 140px;
-  width: 100%;
+  width: 140px;
   object-fit: cover;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.3),
@@ -37,24 +36,24 @@ img {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .badgeImage {
-    max-width: 120px;
+    width: 120px;
   }
 }
 
 @media (max-width: 576px) {
   .badgeImage {
-    max-width: 110px;
+    width: 110px;
   }
 }
 
 @media (max-width: 350px) {
   .badgeImage {
-    max-width: 95px;
+    width: 95px;
   }
 
   @media (max-width: 300px) {
     .badgeImage {
-      max-width: 85px;
+      width: 85px;
     }
   }
 }
