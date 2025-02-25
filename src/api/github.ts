@@ -49,8 +49,12 @@ export const fetchCommitHistory = async (
 
     // Return the limited number of commits
     return data.slice(0, limit) as Commit[];
-  } catch (error: any) {
-    console.error('Error fetching commit history:', error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error fetching commit history:', error.message);
+    } else {
+      console.error('Error fetching commit history:', error);
+    }
     return [];
   }
 };
