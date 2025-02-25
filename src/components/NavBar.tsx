@@ -6,7 +6,6 @@ import {
   Tooltip,
   Offcanvas,
 } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HiOutlineBars3 } from 'react-icons/hi2';
 import styles from './styles/NavBar.module.css';
 import ModalCv from './ModalCv';
@@ -63,29 +62,31 @@ const NavBar: React.FC = () => {
   const SocialLinks: React.FC<SocialLinksProps> = ({ openModal }) => (
     <div className={styles.customOffcanvasSocialLinks}>
       <Nav className="d-flex flex-row justify-content-between">
-        {socialLinks.map(({ id, icon, href, onClick, tooltip, iconClass }) => (
-          <OverlayTrigger
-            key={id}
-            placement="top"
-            overlay={
-              <Tooltip id={`tooltip-${id}`} className={appStyles.customTooltip}>
-                {tooltip}
-              </Tooltip>
-            }
-          >
-            <Nav.Link
-              href={href}
-              onClick={id === 'download-pdf' ? openModal : onClick}
-              target={href ? '_blank' : undefined}
-              className={styles.socialLink}
+        {socialLinks.map(
+          ({ id, icon: Icon, href, onClick, tooltip, iconClass }) => (
+            <OverlayTrigger
+              key={id}
+              placement="top"
+              overlay={
+                <Tooltip
+                  id={`tooltip-${id}`}
+                  className={appStyles.customTooltip}
+                >
+                  {tooltip}
+                </Tooltip>
+              }
             >
-              <FontAwesomeIcon
-                icon={icon}
-                className={`${appStyles.socialIcon} ${iconClass}`}
-              />
-            </Nav.Link>
-          </OverlayTrigger>
-        ))}
+              <Nav.Link
+                href={href}
+                onClick={id === 'download-pdf' ? openModal : onClick}
+                target={href ? '_blank' : undefined}
+                className={styles.socialLink}
+              >
+                <Icon className={`${appStyles.socialIcon} ${iconClass}`} />
+              </Nav.Link>
+            </OverlayTrigger>
+          ),
+        )}
       </Nav>
     </div>
   );

@@ -1,8 +1,7 @@
 import { useState, FC } from 'react';
 import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { HiOutlineEnvelope } from 'react-icons/hi2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCreativeCommons } from '@fortawesome/free-brands-svg-icons';
+import { SiCreativecommons } from 'react-icons/si';
 import styles from './styles/Footer.module.css';
 import ModalCv from './ModalCv';
 import appStyles from '../App.module.css';
@@ -33,10 +32,7 @@ const Footer: FC = () => {
           </Col>
           <Col sm={6} className="text-sm-end mt-2">
             <div className="d-flex align-items-center justify-content-sm-end pb-3">
-              <FontAwesomeIcon
-                icon={faCreativeCommons}
-                className={styles.footerIcon}
-              />
+              <SiCreativecommons className={styles.footerIcon} />
               <small className={appStyles.copyrightText}>Copyright 2025</small>
             </div>
             <div className="mt-4 mt-sm-0">
@@ -44,21 +40,7 @@ const Footer: FC = () => {
                 className={`${styles.footerSocialIcons} d-flex justify-content-sm-end flex-row justify-content-between`}
               >
                 {socialLinks.map(
-                  ({
-                    id,
-                    icon,
-                    href,
-                    onClick,
-                    tooltip,
-                    iconClass,
-                  }: {
-                    id: string;
-                    icon: any;
-                    href?: string;
-                    onClick?: () => void;
-                    tooltip: string;
-                    iconClass: string;
-                  }) => (
+                  ({ id, icon: Icon, href, onClick, tooltip, iconClass }) => (
                     <Col xs="auto" className="mb-2 mb-sm-0" key={id}>
                       <OverlayTrigger
                         placement="top"
@@ -81,10 +63,8 @@ const Footer: FC = () => {
                           aria-label={tooltip}
                           style={{ cursor: href ? 'pointer' : 'default' }}
                         >
-                          <FontAwesomeIcon
-                            icon={icon}
-                            size="lg"
-                            className={iconClass}
+                          <Icon
+                            className={`${appStyles.socialIcon} ${iconClass}`}
                           />
                         </a>
                       </OverlayTrigger>

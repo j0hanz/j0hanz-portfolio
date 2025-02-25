@@ -6,8 +6,7 @@ import {
   HiMiniPlay,
   HiMiniServer,
 } from 'react-icons/hi2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { SiGithub } from 'react-icons/si';
 import styles from '@/sections/styles/Portfolio.module.css';
 import appStyles from '@/App.module.css';
 import hackathonBadge from '@/assets/hackathonBadge.webp';
@@ -117,12 +116,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
               href={project.github}
               target="_blank"
               className={styles.githubButton}
-              icon={
-                <FontAwesomeIcon
-                  icon={faGithub}
-                  className={styles.buttonIcon}
-                />
-              }
+              icon={<SiGithub className={styles.buttonIcon} />}
               text="GitHub"
             />
             {project.demo ? (
