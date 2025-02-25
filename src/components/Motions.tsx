@@ -1,41 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { motion, MotionProps } from 'framer-motion';
-
-// Transition settings for animations
-const transition = {
-  duration: 0.8,
-  delay: 0.2,
-  ease: 'easeInOut',
-};
-
-// Default animation variant
-const defaultVariant = {
-  initial: { opacity: 0, y: 95 },
-  whileInView: { opacity: 1, y: 0 },
-};
-
-// Different animation variants for sections
-const motionVariants = {
-  hero: { initial: { opacity: 0 }, whileInView: { opacity: 1 } },
-  aboutMe: defaultVariant,
-  education: defaultVariant,
-  skills: defaultVariant,
-  portfolio: defaultVariant,
-  workExperience: defaultVariant,
-  contact: defaultVariant,
-  slideFromLeft: {
-    initial: { opacity: 0, x: -95 },
-    whileInView: { opacity: 1, x: 0 },
-  },
-  slideFromRight: {
-    initial: { opacity: 0, x: 95 },
-    whileInView: { opacity: 1, x: 0 },
-  },
-  slideFromLeftAndRight: {
-    initial: { opacity: 0, x: -95 },
-    whileInView: { opacity: 1, x: 95 },
-  },
-};
+import { transition, motionVariants } from '@/utils/motionVariants';
 
 interface MotionWrapperProps extends MotionProps {
   children: ReactNode;
@@ -82,4 +47,4 @@ const SlideFromSide: FC<SlideFromSideProps> = ({
   );
 };
 
-export { MotionWrapper, SlideFromSide, motionVariants };
+export { MotionWrapper, SlideFromSide };
