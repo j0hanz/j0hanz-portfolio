@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { HiFolder } from 'react-icons/hi2';
 import appStyles from '@/App.module.css';
@@ -8,12 +8,9 @@ import ProjectList from '@/components/ProjectList';
 
 // Rendering portfolio section
 const Portfolio: React.FC = () => {
-  const [commitHistory, setCommitHistory] = useState<Record<string, any>>({});
-
   // Fetch commit histories for projects
   const fetchHistories = async () => {
-    const combinedHistories = await fetchCommit(projects);
-    setCommitHistory(combinedHistories);
+    await fetchCommit(projects);
   };
 
   useEffect(() => {
