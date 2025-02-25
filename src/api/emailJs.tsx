@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC } from 'react';
+import { useRef, useEffect, FC, useCallback } from 'react';
 import emailjs from '@emailjs/browser';
 
 interface FormData {
@@ -19,7 +19,7 @@ const EmailHandler: FC<EmailHandlerProps> = ({ formData, onEmailSent }) => {
   const { name, email, company, url, message } = formData;
   const form = useRef<HTMLFormElement | null>(null);
 
-  const sendEmail = (): void => {
+  const sendEmail = useCallback((): void => {
     if (!form.current) return;
 
     emailjs
@@ -37,11 +37,11 @@ const EmailHandler: FC<EmailHandlerProps> = ({ formData, onEmailSent }) => {
         console.error('Failed to send email. Error details:', error);
         onEmailSent(false);
       });
-  };
+  }, [onEmailSent]);
 
   useEffect(() => {
     sendEmail();
-  }, []);
+  }, [sendEmail]);
 
   return (
     <>
