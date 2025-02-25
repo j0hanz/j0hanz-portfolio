@@ -25,7 +25,9 @@ export const validateForm = (formData: FormData): FormErrors => {
   /* Validate URL if provided */
   if (
     formData.url.trim() &&
-    !/^(https?:\/\/)?([\w\d\-]+\.)+\w{2,}(\/.+)?$/.test(formData.url.trim())
+    !/^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*\/?$/.test(
+      formData.url.trim(),
+    )
   ) {
     newErrors.url = 'URL is invalid.';
   }
