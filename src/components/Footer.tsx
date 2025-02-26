@@ -16,7 +16,7 @@ const Footer: FC = () => {
 
   return (
     <footer className={styles.footerBg}>
-      <Container fluid className={appStyles.cardBgImage}>
+      <Container fluid>
         <Row className="mx-auto">
           <Col sm={6}>
             <div className={`pb-3 ${styles.footerLinkHeader}`}>
@@ -30,7 +30,7 @@ const Footer: FC = () => {
               l.johansson93@outlook.com
             </a>
           </Col>
-          <Col sm={6} className="text-sm-end mt-2">
+          <Col sm={6} className="text-sm-end mt-1">
             <div className="d-flex align-items-center justify-content-sm-end pb-3">
               <SiCreativecommons className={styles.footerIcon} />
               <small className={appStyles.copyrightText}>Copyright 2025</small>

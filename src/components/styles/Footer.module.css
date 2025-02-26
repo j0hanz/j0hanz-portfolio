@@ -1,5 +1,5 @@
 .footerBg {
-  background: var(--bg-dark);
+  background: var(--btn-bg-dark-hover);
   padding: 1rem 0;
 }
 
@@ -19,8 +19,7 @@
 }
 
 .footerLinkHeader {
-  transform: skew(-10deg);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-light);
   opacity: 0.8;
 }
