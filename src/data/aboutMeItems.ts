@@ -4,19 +4,19 @@ const aboutMeItems: Array<{
   hasCredential: boolean;
 }> = [
   {
-    title: 'Full Stack Developer',
-    description: 'Finished a course as a Full Stack Developer.',
-    hasCredential: true,
-  },
-  {
     title: 'Tech Enthusiast',
-    description: 'Eager to use coding skills in teams.',
+    description: 'Passionate about exploring new technologies.',
     hasCredential: false,
   },
   {
     title: 'Always Learning',
-    description: 'Ready to tackle new challenges.',
+    description: 'Enjoys new challenges.',
     hasCredential: false,
+  },
+  {
+    title: 'Full Stack Developer',
+    description: 'Completed Full Stack course.',
+    hasCredential: true,
   },
 ];
 
