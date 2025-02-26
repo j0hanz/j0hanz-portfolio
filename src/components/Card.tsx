@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { Card as BootstrapCard } from 'react-bootstrap';
+import { Card as CustomCard } from 'react-bootstrap';
 import styles from './styles/Card.module.css';
 import appStyles from '@/App.module.css';
 
@@ -12,21 +12,17 @@ interface CardProps {
 
 // Card component with title, subtitle, and children
 const Card: FC<CardProps> = ({ title, subtitle, children, className }) => (
-  <BootstrapCard
+  <CustomCard
     className={`h-100 ${styles.card} ${appStyles.cardBgColor} ${className}`}
   >
-    <BootstrapCard.Body className={appStyles.cardBody}>
-      <BootstrapCard.Title className={`${appStyles.cardHeader} pb-1`}>
-        <div>{title}</div>
-      </BootstrapCard.Title>
+    <CustomCard.Body className={appStyles.cardBody}>
+      <CustomCard.Title>{title}</CustomCard.Title>
       {subtitle && (
-        <BootstrapCard.Subtitle className="pb-3">
-          {subtitle}
-        </BootstrapCard.Subtitle>
+        <CustomCard.Subtitle className="mb-2">{subtitle}</CustomCard.Subtitle>
       )}
       {children}
-    </BootstrapCard.Body>
-  </BootstrapCard>
+    </CustomCard.Body>
+  </CustomCard>
 );
 
 export default Card;
