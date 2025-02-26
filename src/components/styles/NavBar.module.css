@@ -8,17 +8,19 @@
 .navLink {
   display: flex;
   align-items: center;
-  margin-top: 1.5rem;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .navIcon {
-  color: var(--nav-color);
+  color: var(--text-light);
+  font-size: 1.05rem;
 }
 
 .navLinkText {
-  color: var(--nav-color);
+  color: var(--text-light);
   letter-spacing: 1.25px;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 
 .navLinkText:hover {
@@ -46,13 +48,12 @@
   left: 0;
   background: var(--btn-bg-dark);
   border-radius: 0 0 12.5px 0px;
-  height: 2.7rem;
-  width: 2.5rem;
+  height: 3rem;
+  width: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: var(--transition);
 }
@@ -66,13 +67,12 @@
   position: fixed;
   background: var(--btn-bg-dark);
   border-radius: 0 0 0 12.5px;
-  height: 2.7rem;
+  height: 3rem;
   width: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   top: 0;
   right: 0;
   transition: var(--transition);
@@ -83,7 +83,7 @@
 }
 
 .navToggleIcon {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   color: var(--text-light);
   transition: var(--transition);
 }
@@ -112,28 +112,31 @@
 .customOffcanvas {
   background: var(--bg-dark);
   color: var(--text-light);
+  height: 100dvh;
 }
 
 .customOffcanvasBody {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 
 .customOffcanvasNav {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-}
-
-.socialLink {
-  text-align: center;
 }
 
 /* Media Queries */
 @media (max-width: 575px) {
   .navToggleIcon {
-    font-size: 2.1rem;
+    font-size: 2rem;
+  }
+
+  .navLinkText {
+    font-size: 1rem;
+  }
+
+  .navLink {
+    margin-top: 1.5rem;
   }
 }

@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
     <Nav className={`${styles.customOffcanvasNav} ${appStyles.cardBgImage}`}>
       {navLinks.map(({ id, icon: Icon, label }) => (
         <Nav.Link key={id} href={`#${id}`} className={styles.navLink}>
-          <Icon className={`${styles.navIcon} me-3`} />
+          <Icon className={styles.navIcon} />
           <span className={styles.navLinkText}>{label}</span>
         </Nav.Link>
       ))}
@@ -106,13 +106,10 @@ const NavBar: React.FC = () => {
         <Offcanvas.Title
           id="offcanvasNavbarLabel"
           className={styles.offcanvasTitle}
-        >
-          Menu
-        </Offcanvas.Title>
+        ></Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className={styles.customOffcanvasBody}>
         <NavLinks />
-        <hr className="my-2" />
         <SocialLinks openModal={openModal} />
       </Offcanvas.Body>
     </Offcanvas>
