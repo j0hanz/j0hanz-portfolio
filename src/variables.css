@@ -23,7 +23,7 @@
 
 /* Fixed color variables */
 :root {
-  --bg-dark: #181818ee;
+  --bg-dark: #181818f5;
   --bg-transparent: transparent;
   --certificate-color: #ffc800;
   --trash-icon-color: #ffc800;
@@ -68,7 +68,6 @@ body {
   color: var(--text-color);
   background: var(--body-bg);
   -webkit-tap-highlight-color: transparent;
-  overflow-y: scroll !important;
   letter-spacing: 0.4px;
 }
 
