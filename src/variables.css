@@ -1,6 +1,3 @@
-/* Importing the Poppins font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
-
 /* Bootstrap variables */
 :root {
   --bs-body-bg: none;
@@ -52,7 +49,7 @@
   --body-bg: #cccccc;
   --card-bg: #ececec;
   --form-border-color: #dadada;
-  --text-color: #202020;
+  --text-color: #181818;
 }
 
 /* Dark mode color variables */
@@ -65,14 +62,13 @@
 
 /* Global styles */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
   background: var(--body-bg);
   -webkit-tap-highlight-color: transparent;
   overflow-y: scroll !important;
-  font-weight: 300;
   letter-spacing: 0.4px;
 }
 
