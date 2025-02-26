@@ -3,7 +3,6 @@
   height: 280px;
   border-radius: var(--border-radius);
   object-fit: cover;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   transition: var(--transition);
   cursor: pointer;
 }
