@@ -21,3 +21,14 @@
 .buttonText {
   color: var(--text-light);
 }
+
+.listItem {
+  color: var(--text-color);
+  margin-top: 1rem;
+}
+
+.listTitle {
+  font-weight: 500;
+  margin-right: 0.5rem;
+  color: var(--text-color);
+}

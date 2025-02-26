@@ -28,12 +28,13 @@ const AboutMeList: React.FC<{
   onShowModal: () => void;
 }> = ({ items, onShowModal }) => (
   <Card title="Highlights">
-    <ul className="list-unstyled">
+    <ul className="list-unstyled mb-0">
       {items.map((item, index) => (
-        <li key={index} className="mb-3">
-          {item.title}:<span className="ms-2">{item.description}</span>
+        <li key={index} className={styles.listItem}>
+          <span className={styles.listTitle}>{item.title}:</span>
+          {item.description}
           {item.hasCredential && (
-            <div className="mt-2">
+            <div className="pt-3">
               <Button
                 onClick={onShowModal}
                 className={styles.credentialButton}
