@@ -1,7 +1,9 @@
 const aboutMeText: string = `
-I’m Linus Johansson, a solution-focused Junior Developer with a strong technical background and experience in leadership and customer service.
-I specialize in creating user-friendly, visually appealing interfaces, integrating APIs, and backend development with Django REST Framework.
-I’m excited to contribute to impactful projects and continue deepen my skills in modern frontend development.
+Motivated and solution-oriented Junior Developer with a strong technical
+background and several years of leadership and customer service experience.
+Passionate about developing user interfaces, API integrations, and backend
+systems using Django REST Framework. Dedicated to creating user-friendly and
+visually appealing interfaces.
 `;
 
 export default aboutMeText;
