@@ -16,8 +16,8 @@ const BadgeItem: FC<BadgeItemProps> = ({ href, imgSrc, date }) => (
       <Image className={styles.badgeImage} src={imgSrc} alt="badge" />
     </a>
     <div className={styles.badgeText}>
-      <strong className="d-block">Awarded:</strong>
-      <span>{date}</span>
+      <div className="d-block">Awarded:</div>
+      {date}
     </div>
   </Col>
 );

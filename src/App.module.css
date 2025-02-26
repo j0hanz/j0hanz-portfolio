@@ -201,27 +201,3 @@
 .buttonText {
   color: var(--text-light);
 }
-
-.btnPrimary {
-  background: var(--btn-bg-primary);
-}
-
-.btnPrimary:hover {
-  background: var(--btn-bg-primary-hover);
-}
-
-.btnPrimary:active {
-  background: var(--btn-bg-primary-hover) !important;
-}
-
-.btnDark {
-  background: var(--btn-bg-dark);
-}
-
-.btnDark:hover {
-  background: var(--btn-bg-dark-hover);
-}
-
-.btnDark:active {
-  background: var(--btn-bg-dark-hover) !important;
-}

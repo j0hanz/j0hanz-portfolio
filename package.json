@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@fontsource/roboto": "^5.1.1",
     "axios": "^1.7.9",
     "babel-plugin-react-compiler": "^19.0.0-beta-e1e972c-20250221",
     "bootstrap": "^5.3.3",

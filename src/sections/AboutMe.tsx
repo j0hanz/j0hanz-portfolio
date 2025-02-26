@@ -31,7 +31,7 @@ const AboutMeList: React.FC<{
     <ul className="list-unstyled">
       {items.map((item, index) => (
         <li key={index} className="mb-3">
-          <strong>{item.title}:</strong> {item.description}
+          {item.title}:<span className="ms-2">{item.description}</span>
           {item.hasCredential && (
             <div className="mt-2">
               <Button
