@@ -17,17 +17,12 @@ img {
     0 6px 24px rgba(0, 0, 0, 0.3);
   transition: var(--transition);
   cursor: pointer;
-  opacity: 0.8;
-  filter: contrast(1.1);
-}
-
-.badgeImage:hover {
-  opacity: 1;
+  filter: contrast(0.9) brightness(0.9);
 }
 
 .badgeText {
   color: var(--badge-color);
-  opacity: 0.8;
+  opacity: 0.9;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 0.7rem;
@@ -36,19 +31,19 @@ img {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .badgeImage {
-    width: 120px;
+    width: 115px;
   }
 }
 
 @media (max-width: 576px) {
   .badgeImage {
-    width: 110px;
+    width: 105px;
   }
 }
 
 @media (max-width: 350px) {
   .badgeImage {
-    width: 95px;
+    width: 90px;
   }
 
   @media (max-width: 300px) {
