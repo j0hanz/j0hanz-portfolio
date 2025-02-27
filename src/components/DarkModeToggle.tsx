@@ -21,7 +21,7 @@ const DarkModeToggle: React.FC = () => {
   };
 
   return (
-    <div onClick={toggleDarkMode}>
+    <div onClick={toggleDarkMode} className={styles.darkModeToggle}>
       {darkMode ? (
         <HiMiniSun className={styles.icon} />
       ) : (

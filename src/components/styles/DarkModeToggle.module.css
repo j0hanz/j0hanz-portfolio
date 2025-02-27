@@ -1,3 +1,11 @@
+.darkModeToggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 3rem;
+}
+
 .icon {
   font-size: 2rem;
   color: var(--text-light);
