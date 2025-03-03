@@ -20,8 +20,8 @@ const Button: FC<CustomButtonProps> = ({
 
   return (
     <CustomButton {...props} className={buttonClassName}>
-      {icon && <span className={styles.buttonIcon}>{icon}</span>}
-      {text && <span className={styles.buttonText}>{text}</span>}
+      {icon ? <span className={styles.buttonIcon}>{icon}</span> : null}
+      {text ? <span className={styles.buttonText}>{text}</span> : null}
       {children}
     </CustomButton>
   );
