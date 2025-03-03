@@ -33,7 +33,7 @@ const AboutMeList: React.FC<{
         <li key={index} className={styles.listItem}>
           <span className={styles.listTitle}>{item.title}:</span>
           {item.description}
-          {item.hasCredential && (
+          {item.hasCredential ? (
             <div className="pt-3">
               <Button
                 onClick={onShowModal}
@@ -42,7 +42,7 @@ const AboutMeList: React.FC<{
                 text="Credential"
               />
             </div>
-          )}
+          ) : null}
         </li>
       ))}
     </ul>
