@@ -34,15 +34,19 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
             <div
               className={`${appStyles.cardHeader} d-flex align-items-center`}
             >
-              {project.api && <HiMiniServer className="me-2" />}
+              {Boolean(project.api) && <HiMiniServer className="me-2" />}
               {project.title}
-              {project.isNew && <Badge className={styles.newBadge}>New</Badge>}
+              {Boolean(project.isNew) && (
+                <Badge className={styles.newBadge}>New</Badge>
+              )}
             </div>
-            {project.collaborative ? (
-              <HiMiniUserGroup className={styles.userIcon} />
-            ) : (
-              <HiMiniUser className={styles.userIcon} />
-            )}
+            <div>
+              {project.collaborative ? (
+                <HiMiniUserGroup className={styles.userIcon} />
+              ) : (
+                <HiMiniUser className={styles.userIcon} />
+              )}
+            </div>
           </Card.Title>
           <Card.Text className={appStyles.cardText}>
             {project.description}
@@ -76,7 +80,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
                 className="my-1"
               />
             </a>
-            {project.projectBoard && (
+            {Boolean(project.projectBoard) && (
               <a
                 href={`https://github.com/${repoPath}/issues`}
                 target="_blank"
@@ -90,21 +94,21 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
               </a>
             )}
           </div>
-          {project.isHackathon && (
+          {Boolean(project.isHackathon) && (
             <img
               src={hackathonBadge}
               alt="Hackathon Badge"
               className={styles.hackathonBadge}
             />
           )}
-          {project.isHackathon_3 && (
+          {Boolean(project.isHackathon_3) && (
             <img
               src={hackathonBadge3}
               alt="Hackathon Badge"
               className={styles.hackathonBadge}
             />
           )}
-          {project.gitpod_template && (
+          {Boolean(project.gitpod_template) && (
             <img
               src={gitpodLogo}
               alt="Gitpod Template"
