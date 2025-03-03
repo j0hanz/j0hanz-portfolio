@@ -17,9 +17,9 @@ const Card: FC<CardProps> = ({ title, subtitle, children, className }) => (
   >
     <CustomCard.Body className={appStyles.cardBody}>
       <CustomCard.Title>{title}</CustomCard.Title>
-      {subtitle && (
+      {subtitle ? (
         <CustomCard.Subtitle className="mb-2">{subtitle}</CustomCard.Subtitle>
-      )}
+      ) : null}
       {children}
     </CustomCard.Body>
   </CustomCard>
