@@ -44,15 +44,13 @@ const EmailHandler: FC<EmailHandlerProps> = ({ formData, onEmailSent }) => {
   }, [sendEmail]);
 
   return (
-    <>
-      <form ref={form} style={{ display: 'none' }}>
-        <input type="hidden" name="from_name" value={name} />
-        <input type="hidden" name="from_email" value={email} />
-        <input type="hidden" name="company" value={company} />
-        <input type="hidden" name="url" value={url} />
-        <input type="hidden" name="message" value={message} />
-      </form>
-    </>
+    <form ref={form} style={{ display: 'none' }}>
+      <input type="hidden" name="from_name" value={name} />
+      <input type="hidden" name="from_email" value={email} />
+      <input type="hidden" name="company" value={company} />
+      <input type="hidden" name="url" value={url} />
+      <input type="hidden" name="message" value={message} />
+    </form>
   );
 };
 
