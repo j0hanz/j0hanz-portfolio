@@ -81,9 +81,9 @@ const ContactForm: React.FC = () => {
                 </Form>
               </Card.Body>
             </Card>
-            {validated && (
+            {validated ? (
               <EmailHandler formData={formData} onEmailSent={handleEmailSent} />
-            )}
+            ) : null}
             <Badge />
           </Col>
         </Row>
