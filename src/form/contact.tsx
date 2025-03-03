@@ -1,3 +1,4 @@
+import { ChangeEvent, memo } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 import { HiMiniExclamationCircle } from 'react-icons/hi2';
 import {
@@ -8,7 +9,6 @@ import {
   HiOutlineChatBubbleOvalLeft,
 } from 'react-icons/hi2';
 import styles from '@/sections/styles/ContactForm.module.css';
-import { ChangeEvent, memo } from 'react';
 
 interface FormFieldsProps {
   formData: {
@@ -54,12 +54,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
             isInvalid={!!errors.name}
           />
         </InputGroup>
-        {errors.name && (
+        {errors.name ? (
           <div className={styles.errorMessage}>
             <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.name}
           </div>
-        )}
+        ) : null}
       </Form.Group>
       {/* Email field */}
       <Form.Group controlId="formEmail">
@@ -78,12 +78,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
             isInvalid={!!errors.email}
           />
         </InputGroup>
-        {errors.email && (
+        {errors.email ? (
           <div className={styles.errorMessage}>
             <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.email}
           </div>
-        )}
+        ) : null}
       </Form.Group>
       {/* Company field */}
       <Form.Group controlId="formCompany">
@@ -117,12 +117,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
             isInvalid={!!errors.url}
           />
         </InputGroup>
-        {errors.url && (
+        {errors.url ? (
           <div className={styles.errorMessage}>
             <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.url}
           </div>
-        )}
+        ) : null}
       </Form.Group>
       {/* Message field */}
       <Form.Group controlId="formMessage">
@@ -142,12 +142,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
             isInvalid={!!errors.message}
           />
         </InputGroup>
-        {errors.message && (
+        {errors.message ? (
           <div className={styles.errorMessage}>
             <HiMiniExclamationCircle className={`${styles.errorIcon} me-2`} />
             {errors.message}
           </div>
-        )}
+        ) : null}
       </Form.Group>
     </>
   );
