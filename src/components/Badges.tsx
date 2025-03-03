@@ -11,7 +11,7 @@ interface BadgeItemProps {
 
 // Component for individual badge items
 const BadgeItem: FC<BadgeItemProps> = ({ href, imgSrc, date }) => (
-  <Col xs={'auto'}>
+  <Col xs="auto">
     <a href={href} target="_blank" rel="noopener noreferrer">
       <Image className={styles.badgeImage} src={imgSrc} alt="badge" />
     </a>
