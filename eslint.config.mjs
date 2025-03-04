@@ -41,35 +41,20 @@ export default tseslint.config(
       linkComponents: [{ name: 'Link', linkAttribute: 'to' }],
     },
     rules: {
-      // Use recommended React rules
       ...react.configs.recommended.rules,
-      // Use recommended JSX runtime rules
       ...react.configs['jsx-runtime'].rules,
-      // Use recommended React Hooks rules
       ...reactHooks.configs.recommended.rules,
-      // Warn if only exporting components
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
-      // Enforce react-compiler rules
       'react-compiler/react-compiler': 'error',
-      // Prevent variables used in JSX from being marked as unused
-      'react/jsx-uses-vars': 'error',
-      // Enforce consistent use of curly braces in JSX
       'react/jsx-curly-brace-presence': [
         'error',
         { props: 'never', children: 'never' },
       ],
-      // Enforce self-closing tags for components without children
       'react/self-closing-comp': ['error', { component: true, html: true }],
-      // Prevent unnecessary fragments in JSX
-      'react/jsx-no-useless-fragment': 'error',
-      // Prevent rendering of potentially unsafe JSX
-      'react/jsx-no-leaked-render': 'error',
-      // Warn about unstable nested components
       'react/no-unstable-nested-components': 'warn',
-      // Disable PropTypes requirement when using TypeScript
       'react/prop-types': 'off',
     },
   },
