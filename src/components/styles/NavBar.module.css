@@ -47,7 +47,7 @@
   top: 0;
   left: 0;
   background: var(--btn-bg-dark);
-  border-radius: 0 0 12.5px 0px;
+  border-radius: 0 0 10px 0px;
   z-index: 1000;
   cursor: pointer;
   transition: var(--transition);
@@ -61,7 +61,7 @@
 .navToggle {
   position: fixed;
   background: var(--btn-bg-dark);
-  border-radius: 0 0 0 12.5px;
+  border-radius: 0 0 0 10px;
   height: 3rem;
   width: 3.5rem;
   display: flex;
