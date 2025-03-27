@@ -10,6 +10,7 @@ import { SiGithub } from 'react-icons/si';
 import styles from '@/sections/styles/Portfolio.module.css';
 import appStyles from '@/App.module.css';
 import hackathonBadge from '@/assets/hackathonBadge.webp';
+import hackathonBadge2 from '@/assets/hackathonBadge2.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
 import gitpodLogo from '@/assets/gitpod.webp';
 import { Project } from '@/data/projects';
@@ -97,6 +98,13 @@ const ProjectList: React.FC<ProjectListProps> = ({ project, index }) => {
           {Boolean(project.isHackathon) && (
             <img
               src={hackathonBadge}
+              alt="Hackathon Badge"
+              className={styles.hackathonBadge}
+            />
+          )}
+          {Boolean(project.isHackathon_2) && (
+            <img
+              src={hackathonBadge2}
               alt="Hackathon Badge"
               className={styles.hackathonBadge}
             />

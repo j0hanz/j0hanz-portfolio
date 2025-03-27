@@ -6,6 +6,7 @@ export interface Project {
   technologies: string[];
   collaborative: boolean;
   isHackathon: boolean;
+  isHackathon_2: boolean;
   isHackathon_3: boolean;
   api: boolean;
   gitpod_template?: boolean;
@@ -32,6 +33,7 @@ const projects: Project[] = [
     ],
     collaborative: true,
     isHackathon: false,
+    isHackathon_2: true,
     isHackathon_3: false,
     api: false,
     isNew: true,
@@ -55,6 +57,7 @@ const projects: Project[] = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: true,
@@ -70,6 +73,7 @@ const projects: Project[] = [
     technologies: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap', 'Agile', 'Git'],
     collaborative: true,
     isHackathon: true,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: false,
@@ -93,6 +97,7 @@ const projects: Project[] = [
     ],
     collaborative: true,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: true,
     api: false,
     isNew: false,
@@ -117,6 +122,7 @@ const projects: Project[] = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: true,
@@ -143,6 +149,7 @@ const projects: Project[] = [
     ],
     collaborative: true,
     isHackathon: true,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: false,
@@ -158,6 +165,7 @@ const projects: Project[] = [
     technologies: ['Python', 'Shell', 'JSON', 'Dockerfile', 'YAML', 'TOML'],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     gitpod_template: true,
@@ -181,6 +189,7 @@ const projects: Project[] = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: false,
@@ -204,6 +213,7 @@ const projects: Project[] = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: true,
     isNew: false,
@@ -229,6 +239,7 @@ const projects: Project[] = [
     ],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: false,
@@ -243,6 +254,7 @@ const projects: Project[] = [
     demo: 'https://j0hanz.github.io/PICK-my-SPELL/',
     technologies: ['HTML5', 'CSS3', 'JavaScript'],
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     collaborative: false,
     api: false,
@@ -259,6 +271,7 @@ const projects: Project[] = [
     technologies: ['Python', 'Heruko'],
     collaborative: false,
     isHackathon: false,
+    isHackathon_2: false,
     isHackathon_3: false,
     api: false,
     isNew: false,
