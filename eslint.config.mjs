@@ -17,7 +17,7 @@ export default tseslint.config(
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: globals.browser,
       parserOptions: {
         ecmaFeatures: {
@@ -41,21 +41,33 @@ export default tseslint.config(
       linkComponents: [{ name: 'Link', linkAttribute: 'to' }],
     },
     rules: {
-      ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
+      'react/jsx-key': 'error',
+      'react/jsx-no-comment-textnodes': 'error',
+      'react/jsx-no-duplicate-props': 'error',
+      'react/jsx-no-target-blank': ['error', { enforceDynamicLinks: 'always' }],
+      'react/jsx-no-undef': 'error',
+      'react/jsx-uses-vars': 'error',
+      'react/no-children-prop': 'error',
+      'react/no-danger-with-children': 'error',
+      'react/no-direct-mutation-state': 'error',
+      'react/no-unescaped-entities': 'error',
+      'react/no-unknown-property': ['error', { ignore: ['css'] }],
+      'react/require-render-return': 'error',
+      'react/self-closing-comp': ['error', { component: true, html: true }],
+      'react/jsx-curly-brace-presence': [
+        'error',
+        { props: 'never', children: 'never' },
+      ],
+      'react/jsx-fragments': ['error', 'syntax'],
+      'react/no-unstable-nested-components': 'warn',
+      'react/prop-types': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
       'react-compiler/react-compiler': 'error',
-      'react/jsx-curly-brace-presence': [
-        'error',
-        { props: 'never', children: 'never' },
-      ],
-      'react/self-closing-comp': ['error', { component: true, html: true }],
-      'react/no-unstable-nested-components': 'warn',
-      'react/prop-types': 'off',
     },
   },
 );
