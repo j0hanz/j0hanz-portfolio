@@ -125,7 +125,7 @@ const projects: Project[] = [
     isHackathon_2: false,
     isHackathon_3: false,
     api: false,
-    isNew: true,
+    isNew: false,
     gitpod_template: false,
     projectBoard: false,
   },
