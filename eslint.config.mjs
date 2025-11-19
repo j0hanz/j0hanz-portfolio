@@ -1,20 +1,24 @@
 import js from '@eslint/js';
-import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import react from 'eslint-plugin-react';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import unusedImports from 'eslint-plugin-unused-imports';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
+import { dirname } from 'path';
 import tseslint from 'typescript-eslint';
-import eslintConfigPrettier from 'eslint-config-prettier';
-import react from 'eslint-plugin-react';
+import { fileURLToPath } from 'url';
 
-export default tseslint.config(
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default defineConfig(
   { ignores: ['dist'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      eslintConfigPrettier,
-    ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2022,
@@ -24,13 +28,14 @@ export default tseslint.config(
           jsx: true,
         },
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: '.',
+        tsconfigRootDir: __dirname,
       },
     },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'react-compiler': reactCompiler,
+      'unused-imports': unusedImports,
       react,
     },
     settings: {
@@ -43,12 +48,27 @@ export default tseslint.config(
     rules: {
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      eqeqeq: 'error',
+      curly: 'error',
       'react/jsx-key': 'error',
       'react/jsx-no-comment-textnodes': 'error',
       'react/jsx-no-duplicate-props': 'error',
       'react/jsx-no-target-blank': ['error', { enforceDynamicLinks: 'always' }],
       'react/jsx-no-undef': 'error',
       'react/jsx-uses-vars': 'error',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
       'react/no-children-prop': 'error',
       'react/no-danger-with-children': 'error',
       'react/no-direct-mutation-state': 'error',
@@ -70,4 +90,5 @@ export default tseslint.config(
       'react-compiler/react-compiler': 'error',
     },
   },
+  eslintConfigPrettier
 );

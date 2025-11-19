@@ -1,30 +1,26 @@
-import { FC, ReactNode } from 'react';
-import { Button as CustomButton, ButtonProps } from 'react-bootstrap';
-import styles from './styles/Button.module.css';
+import React from 'react';
 
-interface CustomButtonProps extends ButtonProps {
-  icon?: ReactNode;
-  text?: string;
-  className?: string;
-}
+import { Button as MuiButton } from '@mui/material';
+
+import { CustomButtonProps } from '@/config/types';
+
+import styles from './Button.module.css';
 
 // Button component with optional icon and text
-const Button: FC<CustomButtonProps> = ({
+function Button({
   icon,
   text = '',
   className = '',
   children,
   ...props
-}) => {
-  const buttonClassName = `${styles.customButton} ${className}`.trim();
-
+}: CustomButtonProps): React.JSX.Element {
   return (
-    <CustomButton {...props} className={buttonClassName}>
+    <MuiButton {...props} className={`${styles.customButton} ${className}`}>
       {icon ? <span className={styles.buttonIcon}>{icon}</span> : null}
       {text ? <span className={styles.buttonText}>{text}</span> : null}
       {children}
-    </CustomButton>
+    </MuiButton>
   );
-};
+}
 
 export default Button;

@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import React from 'react';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Component for displaying toast notifications
-const Toast: FC = () => {
+function Toast(): React.JSX.Element {
   return (
     <ToastContainer
       position="top-center"
@@ -16,6 +17,6 @@ const Toast: FC = () => {
       pauseOnHover
     />
   );
-};
+}
 
 export default Toast;

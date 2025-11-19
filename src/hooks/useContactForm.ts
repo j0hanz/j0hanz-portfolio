@@ -1,79 +1,108 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+
 import { toast } from 'react-toastify';
-import { validateForm } from '@/utils/validation';
 
-interface FormData {
-  name: string;
-  email: string;
-  company: string;
-  url: string;
-  message: string;
-}
+import {
+  ContactFormErrors,
+  ContactFormValues,
+  FieldName,
+} from '@/config/types';
+import { useDebounce, useUpdateEffect } from '@/hooks';
+import { sendEmail } from '@/lib/emailJs';
+import { validateEmail, validateForm, validateUrl } from '@/utils/validation';
 
-interface FormErrors {
-  name?: string;
-  email?: string;
-  url?: string;
-  message?: string;
-}
+const buildInitialValues = (): ContactFormValues => ({
+  name: '',
+  email: '',
+  company: '',
+  url: '',
+  message: '',
+});
 
-// Custom hook for managing contact form state and logic
 const useContactForm = () => {
-  const [validated, setValidated] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    company: '',
-    url: '',
-    message: '',
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [formData, setFormData] =
+    useState<ContactFormValues>(buildInitialValues);
+  const [errors, setErrors] = useState<ContactFormErrors>({});
 
-  // Handle input changes
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
+  const debouncedEmail = useDebounce(formData.email, 350);
+  const debouncedUrl = useDebounce(formData.url, 350);
 
-  // Handle email sent status
-  const handleEmailSent = (success: boolean) => {
-    setIsSending(false);
-    if (success) {
-      setFormData({ name: '', email: '', company: '', url: '', message: '' });
-      toast.success('Your message was sent successfully!');
-    } else {
-      toast.error('Failed to send message! Please try again later.');
-    }
-  };
+  const updateFieldError = useCallback(
+    (field: keyof ContactFormErrors, message?: string) => {
+      setErrors((prevErrors) => {
+        if (!message) {
+          if (!(field in prevErrors)) return prevErrors;
 
-  // Handle form submission
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const newErrors = validateForm(formData);
-    setErrors(newErrors);
-    const formValid = Object.keys(newErrors).length === 0;
-    setValidated(formValid);
-    if (formValid) {
-      setIsSending(true);
-    }
-  };
+          const { [field]: _removed, ...nextErrors } = prevErrors;
+          return nextErrors;
+        }
+        if (prevErrors[field] === message) return prevErrors;
+        return { ...prevErrors, [field]: message };
+      });
+    },
+    []
+  );
 
-  // Handle form reset
-  const handleReset = () => {
-    setFormData({ name: '', email: '', company: '', url: '', message: '' });
+  useUpdateEffect(() => {
+    updateFieldError('email', validateEmail(debouncedEmail));
+  }, [debouncedEmail, updateFieldError]);
+
+  useUpdateEffect(() => {
+    updateFieldError('url', validateUrl(debouncedUrl));
+  }, [debouncedUrl, updateFieldError]);
+
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = event.target;
+      setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
+    },
+    []
+  );
+
+  const resetForm = useCallback(() => {
+    setFormData(buildInitialValues());
     setErrors({});
-    setValidated(false);
-  };
+  }, []);
+
+  const handleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const newErrors = validateForm(formData);
+      setErrors(newErrors);
+
+      if (Object.keys(newErrors).length > 0) {
+        return;
+      }
+
+      setIsSending(true);
+      try {
+        const success = await sendEmail(formData);
+        if (success) {
+          resetForm();
+          toast.success('Your message was sent successfully!');
+        } else {
+          toast.error('Failed to send message! Please try again later.');
+        }
+      } catch {
+        toast.error('Failed to send message! Please try again later.');
+      } finally {
+        setIsSending(false);
+      }
+    },
+    [formData, resetForm]
+  );
+
+  const handleReset = useCallback(() => {
+    resetForm();
+    setIsSending(false);
+  }, [resetForm]);
 
   return {
-    validated,
     isSending,
     formData,
     errors,
     handleChange,
-    handleEmailSent,
     handleSubmit,
     handleReset,
   };

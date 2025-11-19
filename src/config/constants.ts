@@ -1,0 +1,18 @@
+export const CACHE_TTL_MS = 1000 * 60 * 5; // 5 minutes
+export const MAX_CACHE_SIZE = 20;
+
+export const NAME_PATTERN = /^[a-zA-Z\s]{2,}$/;
+export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const URL_PATTERN = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*\/?$/;
+
+export const MIN_MESSAGE_LENGTH = 10;
+
+export const ERROR_MESSAGES = {
+  NAME_REQUIRED: 'Name is required.',
+  NAME_INVALID: 'Please enter a valid name (letters and spaces only).',
+  EMAIL_REQUIRED: 'Email is required.',
+  EMAIL_INVALID: 'Email address is invalid.',
+  URL_INVALID: 'URL is invalid.',
+  MESSAGE_REQUIRED: 'Message is required.',
+  MESSAGE_TOO_SHORT: `Message must be at least ${MIN_MESSAGE_LENGTH} characters long.`,
+} as const;

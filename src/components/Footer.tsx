@@ -1,80 +1,98 @@
-import { useState, FC } from 'react';
-import { Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { FC } from 'react';
+
 import { HiOutlineEnvelope } from 'react-icons/hi2';
 import { SiCreativecommons } from 'react-icons/si';
-import styles from './styles/Footer.module.css';
+
+import { Box, Container, Grid } from '@mui/material';
+
+import { SocialLinkList } from '@/components/NavBar';
+import { SocialLinkRenderProps } from '@/config/types';
+import { useToggle } from '@/hooks';
+
 import ModalCv from './ModalCv';
-import appStyles from '../App.module.css';
-import { socialLinks } from '../data/socialLinks';
+
+import styles from './Footer.module.css';
+import appStyles from '@/styles/App.module.css';
+
+const renderFooterSocialLink = ({
+  href,
+  onClick,
+  tooltip,
+  icon,
+}: SocialLinkRenderProps): React.JSX.Element => (
+  <a
+    href={href}
+    onClick={onClick}
+    target={href ? '_blank' : undefined}
+    rel={href ? 'noopener noreferrer' : undefined}
+    aria-label={tooltip}
+    style={{ cursor: href || onClick ? 'pointer' : 'default' }}
+  >
+    {icon}
+  </a>
+);
+
+const wrapFooterSocialLink = (
+  id: string,
+  node: React.JSX.Element
+): React.JSX.Element => (
+  <Grid size="auto" sx={{ mb: { xs: 2, sm: 0 } }} key={id}>
+    {node}
+  </Grid>
+);
 
 const Footer: FC = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-
-  // Handlers for opening and closing the modal
-  const handleModalOpen = (): void => setShowModal(true);
-  const handleModalClose = (): void => setShowModal(false);
+  const {
+    value: showModal,
+    setTrue: handleModalOpen,
+    setFalse: handleModalClose,
+  } = useToggle(false);
 
   return (
     <footer className={styles.footerBg}>
-      <Container fluid>
-        <Row className="mx-auto">
-          <Col sm={6}>
+      <Container maxWidth={false}>
+        <Grid container sx={{ mx: 'auto' }}>
+          <Grid size={{ sm: 6 }}>
             <div className={`pb-3 ${styles.footerLinkHeader}`}>
               Contact Details
             </div>
             <HiOutlineEnvelope className={styles.footerIcon} />
-            <a
+            <Box
+              component="a"
               href="mailto:l.johansson93@outlook.com"
-              className={`${styles.footerLink} text-decoration-none`}
+              className={styles.footerLink}
+              sx={{ textDecoration: 'none' }}
             >
               l.johansson93@outlook.com
-            </a>
-          </Col>
-          <Col sm={6} className="text-sm-end mt-1">
-            <div className="d-flex align-items-center justify-content-sm-end pb-3">
+            </Box>
+          </Grid>
+          <Grid size={{ sm: 6 }} sx={{ textAlign: { sm: 'right' }, mt: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: { xs: 'flex-start', sm: 'flex-end' },
+                pb: 3,
+              }}
+            >
               <SiCreativecommons className={styles.footerIcon} />
               <small className={appStyles.copyrightText}>Copyright 2025</small>
-            </div>
-            <div className="mt-4 mt-sm-0">
-              <Row
-                className={`${styles.footerSocialIcons} d-flex justify-content-sm-end flex-row justify-content-between`}
+            </Box>
+            <Box sx={{ mt: { xs: 4, sm: 0 } }}>
+              <Grid
+                container
+                className={styles.footerSocialIcons}
+                sx={{ justifyContent: { xs: 'space-between', sm: 'flex-end' } }}
               >
-                {socialLinks.map(
-                  ({ id, icon: Icon, href, onClick, tooltip, iconClass }) => (
-                    <Col xs="auto" className="mb-2 mb-sm-0" key={id}>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={
-                          <Tooltip
-                            id={`tooltip-${id}`}
-                            className={appStyles.customTooltip}
-                          >
-                            {tooltip}
-                          </Tooltip>
-                        }
-                      >
-                        <a
-                          href={href}
-                          onClick={
-                            id === 'download-pdf' ? handleModalOpen : onClick
-                          }
-                          target={href ? '_blank' : undefined}
-                          rel="noopener noreferrer"
-                          aria-label={tooltip}
-                          style={{ cursor: href ? 'pointer' : 'default' }}
-                        >
-                          <Icon
-                            className={`${appStyles.socialIcon} ${iconClass}`}
-                          />
-                        </a>
-                      </OverlayTrigger>
-                    </Col>
-                  ),
-                )}
-              </Row>
-            </div>
-          </Col>
-        </Row>
+                <SocialLinkList
+                  openModal={handleModalOpen}
+                  renderLink={renderFooterSocialLink}
+                  wrapItem={wrapFooterSocialLink}
+                />
+              </Grid>
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
       <ModalCv show={showModal} handleClose={handleModalClose} />
     </footer>

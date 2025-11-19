@@ -1,14 +1,14 @@
-import { FC, ReactNode } from 'react';
-import { MotionWrapper, motionVariants } from '@/components/Motions';
+import React from 'react';
 
-interface SectionWrapperProps {
-  sectionId: keyof typeof motionVariants;
-  children: ReactNode;
-}
+import { MotionWrapper } from '@/components/Motions';
+import { SectionWrapperProps } from '@/config/types';
 
 // Wrapper component for applying motion animations to sections
-const SectionWrapper: FC<SectionWrapperProps> = ({ sectionId, children }) => (
-  <MotionWrapper sectionId={sectionId}>{children}</MotionWrapper>
-);
+function SectionWrapper({
+  sectionId,
+  children,
+}: SectionWrapperProps): React.JSX.Element {
+  return <MotionWrapper sectionId={sectionId}>{children}</MotionWrapper>;
+}
 
 export default SectionWrapper;

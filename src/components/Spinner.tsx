@@ -1,8 +1,9 @@
-import { FC } from 'react';
-import styles from './styles/Spinner.module.css';
+import React from 'react';
+
+import styles from './Spinner.module.css';
 
 // Component for displaying a loading spinner
-const Spinner: FC = () => {
+function Spinner(): React.JSX.Element {
   return (
     <div className={styles.spinnerContainer}>
       <div className={styles.spinner}>
@@ -10,6 +11,6 @@ const Spinner: FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Spinner;

@@ -1,19 +1,18 @@
-import { FC } from 'react';
-import { Modal } from 'react-bootstrap';
-import { HiOutlineGlobeAlt } from 'react-icons/hi2';
-import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
-import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
-import styles from './styles/ModalCv.module.css';
-import appStyles from '@/App.module.css';
-import { HiXMark } from 'react-icons/hi2';
+import React from 'react';
 
-interface ModalCvProps {
-  show: boolean;
-  handleClose: () => void;
-}
+import { HiOutlineGlobeAlt } from 'react-icons/hi2';
+
+import { Box } from '@mui/material';
+
+import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
+import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
+import BaseModal from '@/components/BaseModal';
+import { ModalCvProps } from '@/config/types';
+
+import styles from './ModalCv.module.css';
 
 // Component for selecting and downloading CVs
-const ModalCv: FC<ModalCvProps> = ({ show, handleClose }) => {
+function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
   const handleDownload = (cv: string, fileName: string): void => {
     try {
       const link = document.createElement('a');
@@ -29,33 +28,44 @@ const ModalCv: FC<ModalCvProps> = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered className={styles.modalCv}>
-      <Modal.Body className={styles.modalCvBody}>
-        <button className={appStyles.closeButton} onClick={handleClose}>
-          <HiXMark className={appStyles.xMark} />
-        </button>
-        <div className={`${styles.modalCvTitle} mb-4`}>
-          <HiOutlineGlobeAlt className={styles.globeIcon} />
-          Choose Language
-        </div>
+    <BaseModal
+      show={show}
+      handleClose={handleClose}
+      className={styles.modalCv}
+      bodyClassName={styles.modalCvBody}
+    >
+      <Box
+        className={styles.modalCvTitle}
+        sx={{
+          mb: 4,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <HiOutlineGlobeAlt className={styles.globeIcon} />
+        Choose Language
+      </Box>
+      <Box sx={{ textAlign: 'center', mb: 2 }}>
         Select a language to download the CV.
-        <div
-          className={`d-flex justify-content-between ${styles.flagContainer}`}
-        >
-          <span
-            className={`fi fi-se ${styles.flagIcon}`}
-            onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
-            title="Swedish"
-          />
-          <span
-            className={`fi fi-gb ${styles.flagIcon}`}
-            onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
-            title="English"
-          />
-        </div>
-      </Modal.Body>
-    </Modal>
+      </Box>
+      <Box
+        className={styles.flagContainer}
+        sx={{ display: 'flex', justifyContent: 'space-between' }}
+      >
+        <span
+          className={`fi fi-se ${styles.flagIcon}`}
+          onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
+          title="Swedish"
+        />
+        <span
+          className={`fi fi-gb ${styles.flagIcon}`}
+          onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
+          title="English"
+        />
+      </Box>
+    </BaseModal>
   );
-};
+}
 
 export default ModalCv;

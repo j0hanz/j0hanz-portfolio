@@ -1,39 +1,59 @@
-interface FormData {
-  name: string;
-  email: string;
-  url: string;
-  message: string;
-}
+import {
+  EMAIL_PATTERN,
+  ERROR_MESSAGES,
+  MIN_MESSAGE_LENGTH,
+  NAME_PATTERN,
+  URL_PATTERN,
+} from '@/config/constants';
+import { ContactFormErrors, ContactFormValues } from '@/config/types';
 
-interface FormErrors {
-  name?: string;
-  email?: string;
-  url?: string;
-  message?: string;
-}
+const trim = (value: string): string => value.trim();
 
-export const validateForm = (formData: FormData): FormErrors => {
-  const newErrors: FormErrors = {};
-  /* Validate name */
-  if (!/^[a-zA-Z\s]{2,}$/.test(formData.name.trim())) {
-    newErrors.name = 'Please enter a valid name.';
+export const validateName = (value: string): string | undefined => {
+  const trimmedValue = trim(value);
+  if (!trimmedValue) return ERROR_MESSAGES.NAME_REQUIRED;
+  if (!NAME_PATTERN.test(trimmedValue)) return ERROR_MESSAGES.NAME_INVALID;
+  return undefined;
+};
+
+export const validateEmail = (value: string): string | undefined => {
+  const trimmedValue = trim(value);
+  if (!trimmedValue) return ERROR_MESSAGES.EMAIL_REQUIRED;
+  if (!EMAIL_PATTERN.test(trimmedValue)) return ERROR_MESSAGES.EMAIL_INVALID;
+  return undefined;
+};
+
+export const validateUrl = (value: string): string | undefined => {
+  const trimmedValue = trim(value);
+  if (trimmedValue && !URL_PATTERN.test(trimmedValue)) {
+    return ERROR_MESSAGES.URL_INVALID;
   }
-  /* Validate email */
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    newErrors.email = 'Email address is invalid.';
+  return undefined;
+};
+
+export const validateMessage = (value: string): string | undefined => {
+  const trimmedValue = trim(value);
+  if (!trimmedValue) return ERROR_MESSAGES.MESSAGE_REQUIRED;
+  if (trimmedValue.length < MIN_MESSAGE_LENGTH) {
+    return ERROR_MESSAGES.MESSAGE_TOO_SHORT;
   }
-  /* Validate URL if provided */
-  if (
-    formData.url.trim() &&
-    !/^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*\/?$/.test(
-      formData.url.trim(),
-    )
-  ) {
-    newErrors.url = 'URL is invalid.';
-  }
-  /* Validate message length */
-  if (formData.message.trim().length < 10) {
-    newErrors.message = 'Message must be at least 10 characters long.';
-  }
-  return newErrors;
+  return undefined;
+};
+
+export const validateForm = (
+  formData: ContactFormValues
+): ContactFormErrors => {
+  const errors: ContactFormErrors = {};
+
+  const nameError = validateName(formData.name);
+  const emailError = validateEmail(formData.email);
+  const urlError = validateUrl(formData.url);
+  const messageError = validateMessage(formData.message);
+
+  if (nameError) errors.name = nameError;
+  if (emailError) errors.email = emailError;
+  if (urlError) errors.url = urlError;
+  if (messageError) errors.message = messageError;
+
+  return errors;
 };

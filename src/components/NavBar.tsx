@@ -1,149 +1,234 @@
-import React, { useState } from 'react';
+import React, { forwardRef } from 'react';
+
+import { HiOutlineBars3, HiXMark } from 'react-icons/hi2';
+
 import {
-  Nav,
+  Box,
   Container,
-  OverlayTrigger,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Tooltip,
-  Offcanvas,
-} from 'react-bootstrap';
-import { HiOutlineBars3 } from 'react-icons/hi2';
-import styles from './styles/NavBar.module.css';
-import ModalCv from './ModalCv';
+} from '@mui/material';
+
 import navLogo from '@/assets/imgBg.webp';
-import appStyles from '@/App.module.css';
-import { socialLinks } from '@/data/socialLinks';
-import { navLinks } from '@/data/navLinks';
-import useNavLinkClose from '@/hooks/useNavLinkClose';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import {
+  OffcanvasMenuProps,
+  SocialLinkListProps,
+  SocialLinkRenderProps,
+} from '@/config/types';
+import { useToggle } from '@/hooks';
+import useNavLinkClose from '@/hooks/useNavLinkClose';
+import { navLinks } from '@/lib/data/navLinks';
+import { socialLinks } from '@/lib/data/socialLinks';
+
+import ModalCv from './ModalCv';
+
+import styles from './NavBar.module.css';
+import appStyles from '@/styles/App.module.css';
+
+const renderNavSocialLink = ({
+  href,
+  onClick,
+  icon,
+}: SocialLinkRenderProps): React.JSX.Element => (
+  <IconButton
+    href={href || ''}
+    onClick={onClick}
+    target={href ? '_blank' : undefined}
+    className={styles.socialLink}
+    size="large"
+    color="inherit"
+  >
+    {icon}
+  </IconButton>
+);
+
+export function SocialLinkList({
+  openModal,
+  renderLink,
+  wrapItem,
+}: SocialLinkListProps): React.JSX.Element {
+  return (
+    <>
+      {socialLinks.map(
+        ({ id, icon: Icon, href, onClick, tooltip, iconClass }) => {
+          const resolvedOnClick = id === 'download-pdf' ? openModal : onClick;
+          const linkElement = renderLink({
+            href,
+            onClick: resolvedOnClick,
+            tooltip,
+            icon: <Icon className={`${appStyles.socialIcon} ${iconClass}`} />,
+          });
+
+          const overlayNode = (
+            <Tooltip key={id} title={tooltip} placement="top">
+              <Box component="span">{linkElement}</Box>
+            </Tooltip>
+          );
+
+          return wrapItem ? wrapItem(id, overlayNode) : overlayNode;
+        }
+      )}
+    </>
+  );
+}
 
 // Logo in the Offcanvas menu
-const NavLogo: React.FC = () => (
-  <Nav.Link href="#hero" className="position-relative">
-    <img
-      src={navLogo}
-      alt="Linus Johansson"
-      className={`position-absolute translate-middle-y top-0 start-0 ${styles.navLogo}`}
-    />
-  </Nav.Link>
-);
+function NavLogo(): React.JSX.Element {
+  return (
+    <Box
+      component="a"
+      href="#hero"
+      sx={{
+        position: 'relative',
+        display: 'block',
+        width: '100%',
+        height: '50px',
+      }}
+    >
+      <img
+        src={navLogo}
+        alt="Linus Johansson"
+        className={styles.navLogo}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          transform: 'translateY(-50%)',
+        }}
+      />
+    </Box>
+  );
+}
 
 // Nav links
-const NavLinks: React.FC = () => (
-  <Nav className={`${styles.customOffcanvasNav} ${appStyles.cardBgImage}`}>
-    {navLinks.map(({ id, icon: Icon, label }) => (
-      <Nav.Link key={id} href={`#${id}`} className={styles.navLink}>
-        <Icon className={styles.navIcon} />
-        <span className={styles.navLinkText}>{label}</span>
-      </Nav.Link>
-    ))}
-  </Nav>
-);
+function NavLinks(): React.JSX.Element {
+  return (
+    <List className={`${styles.customOffcanvasNav} ${appStyles.cardBgImage}`}>
+      {navLinks.map(({ id, icon: Icon, label }) => (
+        <ListItem key={id} disablePadding>
+          <ListItemButton
+            component="a"
+            href={`#${id}`}
+            className={styles.navLink}
+          >
+            <ListItemIcon sx={{ minWidth: 'auto', mr: 2 }}>
+              <Icon className={styles.navIcon} />
+            </ListItemIcon>
+            <ListItemText
+              primary={label}
+              primaryTypographyProps={{ className: styles.navLinkText }}
+            />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
+  );
+}
 
 // Social links
-interface SocialLinksProps {
+function SocialLinks({
+  openModal,
+}: {
   openModal: () => void;
+}): React.JSX.Element {
+  return (
+    <div className={styles.customOffcanvasSocialLinks}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <SocialLinkList
+          openModal={openModal}
+          renderLink={renderNavSocialLink}
+        />
+      </Box>
+    </div>
+  );
 }
-
-const SocialLinks: React.FC<SocialLinksProps> = ({ openModal }) => (
-  <div className={styles.customOffcanvasSocialLinks}>
-    <Nav className="d-flex flex-row justify-content-between">
-      {socialLinks.map(
-        ({ id, icon: Icon, href, onClick, tooltip, iconClass }) => (
-          <OverlayTrigger
-            key={id}
-            placement="top"
-            overlay={
-              <Tooltip id={`tooltip-${id}`} className={appStyles.customTooltip}>
-                {tooltip}
-              </Tooltip>
-            }
-          >
-            <Nav.Link
-              href={href}
-              onClick={id === 'download-pdf' ? openModal : onClick}
-              target={href ? '_blank' : undefined}
-              className={styles.socialLink}
-            >
-              <Icon className={`${appStyles.socialIcon} ${iconClass}`} />
-            </Nav.Link>
-          </OverlayTrigger>
-        ),
-      )}
-    </Nav>
-  </div>
-);
 
 // Offcanvas menu
-interface OffcanvasMenuProps {
-  showOffcanvas: boolean;
-  closeOffcanvas: () => void;
-  openModal: () => void;
-}
-
-const OffcanvasMenu: React.FC<OffcanvasMenuProps> = ({
-  showOffcanvas,
-  closeOffcanvas,
-  openModal,
-}) => (
-  <Offcanvas
-    show={showOffcanvas}
-    onHide={closeOffcanvas}
-    placement="end"
-    backdrop
-    data-bs-theme="dark"
-    className={styles.customOffcanvas}
-  >
-    <Offcanvas.Header closeButton className={styles.customOffcanvasHeader}>
-      <NavLogo />
-      <Offcanvas.Title
-        id="offcanvasNavbarLabel"
-        className={styles.offcanvasTitle}
-      />
-    </Offcanvas.Header>
-    <Offcanvas.Body className={styles.customOffcanvasBody}>
-      <NavLinks />
-      <SocialLinks openModal={openModal} />
-    </Offcanvas.Body>
-  </Offcanvas>
+const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
+  ({ showOffcanvas, closeOffcanvas, openModal }, ref) => (
+    <Drawer
+      ref={ref}
+      anchor="right"
+      open={showOffcanvas}
+      onClose={closeOffcanvas}
+      className={styles.customOffcanvas}
+      PaperProps={{
+        className: styles.customOffcanvas,
+        sx: { width: '300px', backgroundColor: 'background.paper' },
+      }}
+    >
+      <Box
+        className={styles.customOffcanvasHeader}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          p: 2,
+        }}
+      >
+        <NavLogo />
+        <IconButton onClick={closeOffcanvas} color="inherit">
+          <HiXMark />
+        </IconButton>
+      </Box>
+      <Box className={styles.customOffcanvasBody} sx={{ p: 2 }}>
+        <NavLinks />
+        <SocialLinks openModal={openModal} />
+      </Box>
+    </Drawer>
+  )
 );
 
+OffcanvasMenu.displayName = 'OffcanvasMenu';
+
 // Main NavBar component
-const NavBar: React.FC = () => {
+function NavBar(): React.JSX.Element {
   // Modal state
-  const [showModal, setShowModal] = useState(false);
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+  const {
+    value: showModal,
+    setTrue: openModal,
+    setFalse: closeModal,
+  } = useToggle(false);
 
   // Offcanvas state
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
-  const openOffcanvas = () => setShowOffcanvas(true);
-  const closeOffcanvas = () => setShowOffcanvas(false);
+  const {
+    value: showOffcanvas,
+    setTrue: openOffcanvas,
+    setFalse: closeOffcanvas,
+  } = useToggle(false);
 
-  // Close Offcanvas on nav link click
-  useNavLinkClose(showOffcanvas, `.${styles.navLink}`, closeOffcanvas);
+  // Close Offcanvas on nav link click or outside click
+  const offcanvasRef = useNavLinkClose(
+    showOffcanvas,
+    `.${styles.navLink}`,
+    closeOffcanvas
+  );
 
   return (
     <>
-      <Container fluid>
+      <Container maxWidth={false}>
         <div className={styles.navContainer}>
           <div className={styles.toggleButton}>
             <DarkModeToggle />
           </div>
-          <div
+          <IconButton
             onClick={openOffcanvas}
             className={styles.navToggle}
-            role="button"
             aria-label="Toggle navigation"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                openOffcanvas();
-              }
-            }}
+            size="large"
+            color="inherit"
           >
             <HiOutlineBars3 className={styles.navToggleIcon} />
-          </div>
+          </IconButton>
           <OffcanvasMenu
+            ref={offcanvasRef}
             showOffcanvas={showOffcanvas}
             closeOffcanvas={closeOffcanvas}
             openModal={openModal}
@@ -154,6 +239,6 @@ const NavBar: React.FC = () => {
       <ModalCv show={showModal} handleClose={closeModal} />
     </>
   );
-};
+}
 
 export default NavBar;

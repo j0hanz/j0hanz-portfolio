@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Managing loading state with a delay
 const useLoading = (
   initialState: boolean = true,
-  delay: number = 2000,
+  delay: number = 2000
 ): boolean => {
   const [loading, setLoading] = useState(initialState);
 

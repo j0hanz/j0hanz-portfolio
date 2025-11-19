@@ -1,7 +1,9 @@
-const transition = {
+import { Transition } from 'framer-motion';
+
+const transition: Transition = {
   duration: 0.8,
   delay: 0.2,
-  ease: 'easeInOut',
+  ease: [0.42, 0, 0.58, 1],
 };
 
 const defaultVariant = {

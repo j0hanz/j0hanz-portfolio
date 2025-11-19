@@ -1,18 +1,9 @@
 import React from 'react';
 
-interface ImageProps {
-  src: string;
-  alt: string;
-  width?: string | number;
-  height?: string | number;
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: () => void;
-  radius?: 'rounded' | 'circle' | 'flat';
-}
+import { ImageProps } from '@/config/types';
 
 // Image component
-const Image: React.FC<ImageProps> = ({
+function Image({
   src,
   alt,
   width,
@@ -21,7 +12,7 @@ const Image: React.FC<ImageProps> = ({
   style,
   onClick,
   radius = 'rounded',
-}) => {
+}: ImageProps): React.JSX.Element {
   // Default styles for the image
   const defaultStyle: React.CSSProperties = {
     maxWidth: '100%',
@@ -47,6 +38,6 @@ const Image: React.FC<ImageProps> = ({
       onClick={onClick}
     />
   );
-};
+}
 
 export default Image;

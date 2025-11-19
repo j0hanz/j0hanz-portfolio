@@ -1,39 +1,34 @@
-import { FC, ReactNode } from 'react';
-import { motion, MotionProps } from 'framer-motion';
-import { transition, motionVariants } from '@/utils/motionVariants';
+import React from 'react';
 
-interface MotionWrapperProps extends MotionProps {
-  children: ReactNode;
-  sectionId: keyof typeof motionVariants;
-}
+import { motion } from 'framer-motion';
+
+import { MotionWrapperProps, SlideFromSideProps } from '@/config/types';
+import { motionVariants, transition } from '@/utils/motionVariants';
 
 // Wrapper component for applying motion animations to sections
-const MotionWrapper: FC<MotionWrapperProps> = ({
+function MotionWrapper({
   children,
   sectionId,
   ...props
-}) => (
-  <motion.div
-    initial={motionVariants[sectionId].initial}
-    whileInView={motionVariants[sectionId].whileInView}
-    transition={transition}
-    {...props}
-  >
-    {children}
-  </motion.div>
-);
-
-interface SlideFromSideProps extends MotionProps {
-  children: ReactNode;
-  from: 'left' | 'right';
+}: MotionWrapperProps): React.JSX.Element {
+  return (
+    <motion.div
+      initial={motionVariants[sectionId].initial}
+      whileInView={motionVariants[sectionId].whileInView}
+      transition={transition}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 // Component for sliding animations from left or right
-const SlideFromSide: FC<SlideFromSideProps> = ({
+function SlideFromSide({
   children,
   from,
   ...props
-}) => {
+}: SlideFromSideProps): React.JSX.Element {
   const initialX = from === 'left' ? -100 : 100;
   return (
     <motion.div
@@ -45,6 +40,6 @@ const SlideFromSide: FC<SlideFromSideProps> = ({
       {children}
     </motion.div>
   );
-};
+}
 
 export { MotionWrapper, SlideFromSide };

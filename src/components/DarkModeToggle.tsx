@@ -1,34 +1,44 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+
 import { HiMiniMoon, HiMiniSun } from 'react-icons/hi2';
-import styles from './styles/DarkModeToggle.module.css';
 
-const DarkModeToggle: React.FC = () => {
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark';
-  });
+import { useStorage } from '@/hooks';
 
-  useEffect(() => {
-    document.documentElement.setAttribute(
-      'data-theme',
-      darkMode ? 'dark' : 'light',
-    );
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
+import styles from './DarkModeToggle.module.css';
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+function DarkModeToggle(): React.JSX.Element {
+  const { value: storedTheme, set: setStoredTheme } = useStorage<
+    'dark' | 'light'
+  >('theme', 'light');
+
+  const isDark = storedTheme === 'dark';
+
+  const toggle = () => {
+    setStoredTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', storedTheme);
+      document.documentElement.setAttribute('data-bs-theme', storedTheme);
+    }
+  }, [storedTheme]);
+
   return (
-    <div onClick={toggleDarkMode} className={styles.darkModeToggle}>
-      {darkMode ? (
+    <button
+      type="button"
+      className={styles.darkModeToggle}
+      aria-pressed={isDark}
+      aria-label="Toggle dark mode"
+      onClick={toggle}
+    >
+      {isDark ? (
         <HiMiniSun className={styles.icon} />
       ) : (
         <HiMiniMoon className={styles.icon} />
       )}
-    </div>
+    </button>
   );
-};
+}
 
 export default DarkModeToggle;
