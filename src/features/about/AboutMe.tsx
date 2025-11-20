@@ -7,6 +7,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
+import { COLORS } from '@/config/constants';
 import { AboutMeListProps } from '@/config/types';
 import Credential from '@/features/education/Credential';
 import { useToggle } from '@/hooks';
@@ -57,19 +58,19 @@ function AboutMeList({
               {item.title}:
             </Typography>
             {item.description}
-            {item.hasCredential ? (
+            {item.hasCredential && (
               <Box sx={{ pt: 3 }}>
                 <Button
                   onClick={onShowModal}
                   sx={{
                     width: '145px',
                     height: '30px',
-                    bgcolor: '#313131', // var(--btn-bg-dark)
+                    bgcolor: COLORS.BTN_BG_DARK,
                     '&:hover': {
-                      bgcolor: '#242424', // var(--btn-bg-dark-hover)
+                      bgcolor: COLORS.BTN_BG_DARK_HOVER,
                     },
                     '&:active': {
-                      bgcolor: '#242424',
+                      bgcolor: COLORS.BTN_BG_DARK_HOVER,
                     },
                   }}
                   icon={
@@ -77,14 +78,14 @@ function AboutMeList({
                       style={{
                         marginRight: '5px',
                         fontSize: '0.9rem',
-                        color: '#f5f4f4', // var(--text-light)
+                        color: COLORS.TEXT_LIGHT,
                       }}
                     />
                   }
                   text="Credential"
                 />
               </Box>
-            ) : null}
+            )}
           </Box>
         ))}
       </Box>

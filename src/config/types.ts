@@ -10,7 +10,12 @@ import {
 
 import { IconType } from 'react-icons';
 
-import { ButtonProps as MuiButtonProps, SxProps, Theme } from '@mui/material';
+import {
+  ButtonProps as MuiButtonProps,
+  PaletteMode,
+  SxProps,
+  Theme,
+} from '@mui/material';
 import { MotionProps } from 'framer-motion';
 
 // --- Constants Types ---
@@ -56,6 +61,8 @@ export interface BadgeConfig {
   src: string;
   alt: string;
   className: string;
+  width?: number;
+  height?: number;
 }
 
 export interface ShieldConfig {
@@ -92,17 +99,19 @@ export interface ProjectBadgesProps {
 
 export interface ProjectLinksProps {
   project: Project;
-  tooltipId: string;
 }
 
 export interface ProjectMeta {
   repoPath: string | null;
-  tooltipId: string;
   badges: BadgeConfig[];
   hasProjectBoard: boolean;
 }
 
 // --- Components ---
+export interface AppThemeProviderProps {
+  children: ReactNode;
+}
+
 export interface BadgeItemProps {
   href: string;
   imgSrc: string;
@@ -138,6 +147,17 @@ export interface IconBadgeProps {
   text: string;
 }
 
+export interface IconBadgeMetaItem {
+  id: string;
+  icon: ElementType;
+  text: string;
+}
+
+export interface IconBadgeListProps {
+  items: IconBadgeMetaItem[];
+  keyPrefix: string;
+}
+
 export interface ImageModalProps {
   show: boolean;
   handleClose: () => void;
@@ -157,6 +177,21 @@ export interface ImageProps {
 export interface ModalCvProps {
   show: boolean;
   handleClose: () => void;
+}
+
+export interface ScrollToTopProps {
+  window?: () => Window;
+}
+
+// --- Theme ---
+export type ThemeModeUpdater = (
+  value: PaletteMode | ((previous: PaletteMode) => PaletteMode)
+) => void;
+
+export interface ThemeModeValue {
+  mode: PaletteMode;
+  toggleMode: () => void;
+  setMode: ThemeModeUpdater;
 }
 
 // Motion variants keys - hardcoded to avoid runtime import if possible, or just use string

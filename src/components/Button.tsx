@@ -51,8 +51,8 @@ function Button({
         ...sx,
       }}
     >
-      {icon ? <span className="button-icon">{icon}</span> : null}
-      {text ? <span className="button-text">{text}</span> : null}
+      {icon && <span className="button-icon">{icon}</span>}
+      {text && <span className="button-text">{text}</span>}
       {children}
     </StyledButton>
   );

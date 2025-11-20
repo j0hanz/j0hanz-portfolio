@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Typography } from '@mui/material';
 
-import { IconBadgeProps } from '@/config/types';
+import { IconBadgeListProps, IconBadgeProps } from '@/config/types';
 
 function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
   return (
@@ -34,3 +34,20 @@ function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
 }
 
 export default IconBadge;
+
+export function IconBadgeList({
+  items,
+  keyPrefix,
+}: IconBadgeListProps): React.JSX.Element | null {
+  if (!items.length) {
+    return null;
+  }
+
+  return (
+    <>
+      {items.map(({ id, icon, text }) => (
+        <IconBadge key={`${keyPrefix}-${id}`} icon={icon} text={text} />
+      ))}
+    </>
+  );
+}

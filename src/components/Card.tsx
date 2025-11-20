@@ -34,7 +34,7 @@ function Card({
         <Typography variant="h5" component="div" gutterBottom>
           {title}
         </Typography>
-        {subtitle ? (
+        {subtitle && (
           <Typography
             variant="body1"
             component="div"
@@ -43,7 +43,7 @@ function Card({
           >
             {subtitle}
           </Typography>
-        ) : null}
+        )}
         {children}
       </CardContent>
     </MuiCard>

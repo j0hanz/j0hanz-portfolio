@@ -9,34 +9,48 @@ import {
 import { Grid } from '@mui/material';
 
 import Card from '@/components/Card';
-import IconBadge from '@/components/IconBadge';
+import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
-import { ExperienceCardProps } from '@/config/types';
+import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
 import experiences from '@/lib/data/experiences';
 
 import styles from './WorkExperience.module.css';
 import appStyles from '@/styles/App.module.css';
 
+const createExperienceMeta = (
+  experience: ExperienceCardProps['experience']
+): IconBadgeMetaItem[] => [
+  {
+    id: 'workplace',
+    icon: HiOutlineBuildingOffice,
+    text: experience.workplace,
+  },
+  {
+    id: 'duration',
+    icon: HiOutlineCalendar,
+    text: experience.duration,
+  },
+];
+
+const buildExperienceKey = (experience: ExperienceCardProps['experience']) =>
+  `${experience.title}-${experience.duration}`;
+
 function ExperienceCard({
   experience,
 }: ExperienceCardProps): React.JSX.Element {
+  const metadata = createExperienceMeta(experience);
+
   return (
     <Grid size={{ lg: 6 }} sx={{ mb: 4 }}>
       <Card
         title={experience.title}
         subtitle={
-          <>
-            <IconBadge
-              icon={HiOutlineBuildingOffice}
-              text={experience.workplace}
-            />
-            <IconBadge icon={HiOutlineCalendar} text={experience.duration} />
-          </>
+          <IconBadgeList items={metadata} keyPrefix={experience.title} />
         }
       >
         <ul className={`${styles.listItems} ${appStyles.cardText}`}>
-          {experience.description.map((item, i) => (
-            <li key={i}>
+          {experience.description.map((item, index) => (
+            <li key={`${experience.title}-${index}`}>
               <small>{item}</small>
             </li>
           ))}
@@ -56,8 +70,11 @@ function WorkExperience(): React.JSX.Element {
       className={appStyles.sectionPadding}
     >
       <Grid container spacing={4}>
-        {experiences.map((experience, index) => (
-          <ExperienceCard key={index} experience={experience} />
+        {experiences.map((experience) => (
+          <ExperienceCard
+            key={buildExperienceKey(experience)}
+            experience={experience}
+          />
         ))}
       </Grid>
     </SectionContainer>

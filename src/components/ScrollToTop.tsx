@@ -4,9 +4,7 @@ import { HiArrowUp } from 'react-icons/hi2';
 
 import { Box, Fab, Fade, useScrollTrigger } from '@mui/material';
 
-interface ScrollToTopProps {
-  window?: () => Window;
-}
+import { ScrollToTopProps } from '@/config/types';
 
 function ScrollToTop(props: ScrollToTopProps): React.JSX.Element {
   const { window } = props;

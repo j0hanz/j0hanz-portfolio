@@ -1,4 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useState,
+} from 'react';
 
 import { toast } from 'react-toastify';
 
@@ -19,6 +25,31 @@ const buildInitialValues = (): ContactFormValues => ({
   message: '',
 });
 
+const SEND_ERROR_MESSAGE = 'Failed to send message! Please try again later.';
+
+const applyValidationResult = (
+  setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
+  field: keyof ContactFormErrors,
+  message?: string
+) => {
+  setErrors((prevErrors) => {
+    if (!message) {
+      if (!(field in prevErrors)) {
+        return prevErrors;
+      }
+
+      const { [field]: _removed, ...nextErrors } = prevErrors;
+      return nextErrors;
+    }
+
+    if (prevErrors[field] === message) {
+      return prevErrors;
+    }
+
+    return { ...prevErrors, [field]: message };
+  });
+};
+
 const useContactForm = () => {
   const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] =
@@ -28,29 +59,13 @@ const useContactForm = () => {
   const debouncedEmail = useDebounce(formData.email, 350);
   const debouncedUrl = useDebounce(formData.url, 350);
 
-  const updateFieldError = (
-    field: keyof ContactFormErrors,
-    message?: string
-  ) => {
-    setErrors((prevErrors) => {
-      if (!message) {
-        if (!(field in prevErrors)) return prevErrors;
-
-        const { [field]: _removed, ...nextErrors } = prevErrors;
-        return nextErrors;
-      }
-      if (prevErrors[field] === message) return prevErrors;
-      return { ...prevErrors, [field]: message };
-    });
-  };
+  useUpdateEffect(() => {
+    applyValidationResult(setErrors, 'email', validateEmail(debouncedEmail));
+  }, [debouncedEmail]);
 
   useUpdateEffect(() => {
-    updateFieldError('email', validateEmail(debouncedEmail));
-  }, [debouncedEmail, updateFieldError]);
-
-  useUpdateEffect(() => {
-    updateFieldError('url', validateUrl(debouncedUrl));
-  }, [debouncedUrl, updateFieldError]);
+    applyValidationResult(setErrors, 'url', validateUrl(debouncedUrl));
+  }, [debouncedUrl]);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -80,10 +95,10 @@ const useContactForm = () => {
         resetForm();
         toast.success('Your message was sent successfully!');
       } else {
-        toast.error('Failed to send message! Please try again later.');
+        toast.error(SEND_ERROR_MESSAGE);
       }
     } catch {
-      toast.error('Failed to send message! Please try again later.');
+      toast.error(SEND_ERROR_MESSAGE);
     } finally {
       setIsSending(false);
     }

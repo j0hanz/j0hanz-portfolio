@@ -8,10 +8,10 @@ import {
 
 import { Box, Card, CardContent, CircularProgress, Grid } from '@mui/material';
 
-import Badge from '@/components/Badges';
+import Badges from '@/components/Badges';
 import Button from '@/components/Button';
 import SectionContainer from '@/components/SectionContainer';
-import useContactForm from '@/hooks/useContactForm';
+import { useContactForm } from '@/hooks';
 
 import FormContact from './ContactFormFields';
 
@@ -74,7 +74,7 @@ function ContactForm(): React.JSX.Element {
               </Box>
             </CardContent>
           </Card>
-          <Badge />
+          <Badges />
         </Grid>
       </Grid>
     </SectionContainer>

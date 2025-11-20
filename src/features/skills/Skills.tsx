@@ -17,12 +17,12 @@ function SkillCard({ skill }: SkillCardProps): React.JSX.Element {
     <Grid size={{ xs: 6, sm: 6, md: 3 }} sx={{ textAlign: 'center', mb: 4 }}>
       <Card title={skill.label} className={styles.skillCard}>
         <skill.icon className={styles.skillIcon} />
-        {skill.learning ? (
+        {skill.learning && (
           <div className={styles.learningBadge}>
             <HiOutlineBookOpen className={styles.learningIcon} />
             <span className={styles.skillsLearning}>Learning</span>
           </div>
-        ) : null}
+        )}
       </Card>
     </Grid>
   );

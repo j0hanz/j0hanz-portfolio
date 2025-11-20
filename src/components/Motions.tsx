@@ -16,6 +16,7 @@ function MotionWrapper({
       initial={motionVariants[sectionId].initial}
       whileInView={motionVariants[sectionId].whileInView}
       transition={transition}
+      viewport={{ once: true, amount: 0.2 }}
       {...props}
     >
       {children}

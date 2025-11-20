@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, lazy, Suspense } from 'react';
 
 import { HiOutlineBars3, HiXMark } from 'react-icons/hi2';
 
@@ -17,6 +17,8 @@ import {
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
+import Spinner from '@/components/Spinner';
+import { COLORS } from '@/config/constants';
 import {
   OffcanvasMenuProps,
   SocialLinkListProps,
@@ -27,7 +29,7 @@ import useNavLinkClose from '@/hooks/useNavLinkClose';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
 
-import ModalCv from './ModalCv';
+const ModalCv = lazy(() => import('@/components/ModalCv'));
 
 const renderNavSocialLink = ({
   href,
@@ -43,7 +45,7 @@ const renderNavSocialLink = ({
     sx={{
       transition: 'all 0.3s ease',
       '&:hover': {
-        color: '#40a9ff', // var(--nav-link-hover-color)
+        color: COLORS.NAV_HOVER,
         transform: 'translateY(-3px)',
       },
     }}
@@ -162,7 +164,7 @@ function NavLinks(): React.JSX.Element {
               marginTop: { xs: '1.5rem', sm: '2rem' },
               transition: 'all 0.3s ease',
               '&:hover .MuiListItemText-primary': {
-                color: '#40a9ff', // var(--nav-link-hover-color)
+                color: COLORS.NAV_HOVER,
               },
               '&:active .MuiListItemText-primary': {
                 transform: 'scale(0.98)',
@@ -173,7 +175,7 @@ function NavLinks(): React.JSX.Element {
             <ListItemIcon sx={{ minWidth: 'auto', mr: 2 }}>
               <Icon
                 style={{
-                  color: '#f5f4f4', // var(--text-light)
+                  color: COLORS.TEXT_LIGHT,
                   fontSize: '1.05rem',
                   transition: 'all 0.3s ease',
                 }}
@@ -183,7 +185,7 @@ function NavLinks(): React.JSX.Element {
               primary={label}
               primaryTypographyProps={{
                 sx: {
-                  color: '#f5f4f4', // var(--text-light)
+                  color: COLORS.TEXT_LIGHT,
                   letterSpacing: '1.25px',
                   fontSize: { xs: '1rem', sm: '1.1rem' },
                   transition: 'all 0.3s ease',
@@ -226,8 +228,8 @@ const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
       PaperProps={{
         sx: {
           width: '300px',
-          backgroundColor: '#181818f5', // var(--bg-dark)
-          color: '#f5f4f4', // var(--text-light)
+          backgroundColor: COLORS.BG_DARK,
+          color: COLORS.TEXT_LIGHT,
           height: '100dvh',
         },
       }}
@@ -297,13 +299,13 @@ function NavBar(): React.JSX.Element {
               position: 'fixed',
               top: 0,
               left: 0,
-              background: '#313131', // var(--btn-bg-dark)
+              background: COLORS.BTN_BG_DARK,
               borderRadius: '0 0 10px 0px',
               zIndex: 1000,
               cursor: 'pointer',
               transition: 'all 0.3s ease',
               '&:hover': {
-                background: '#242424', // var(--btn-bg-dark-hover)
+                background: COLORS.BTN_BG_DARK_HOVER,
               },
             }}
           >
@@ -316,7 +318,7 @@ function NavBar(): React.JSX.Element {
             color="inherit"
             sx={{
               position: 'fixed',
-              background: '#313131', // var(--btn-bg-dark)
+              background: COLORS.BTN_BG_DARK,
               borderRadius: '0 0 0 10px',
               height: '3rem',
               width: '3.5rem',
@@ -328,14 +330,14 @@ function NavBar(): React.JSX.Element {
               right: 0,
               transition: 'all 0.3s ease',
               '&:hover': {
-                background: '#242424', // var(--btn-bg-dark-hover)
+                background: COLORS.BTN_BG_DARK_HOVER,
               },
             }}
           >
             <HiOutlineBars3
               style={{
                 fontSize: '2.2rem',
-                color: '#f5f4f4', // var(--text-light)
+                color: COLORS.TEXT_LIGHT,
                 transition: 'all 0.3s ease',
               }}
             />
@@ -349,7 +351,11 @@ function NavBar(): React.JSX.Element {
         </Box>
       </Container>
 
-      <ModalCv show={showModal} handleClose={closeModal} />
+      {showModal && (
+        <Suspense fallback={<Spinner />}>
+          <ModalCv show={showModal} handleClose={closeModal} />
+        </Suspense>
+      )}
     </>
   );
 }

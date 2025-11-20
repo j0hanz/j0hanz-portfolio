@@ -4,15 +4,12 @@ import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
 
 import { darkTheme, lightTheme } from '@/config/theme';
 import {
-  ThemeMode,
+  AppThemeProviderProps,
   ThemeModeUpdater,
   ThemeModeValue,
-} from '@/contexts/themeContext';
+} from '@/config/types';
+import { ThemeMode } from '@/contexts/themeContext';
 import { useStorage } from '@/hooks';
-
-interface AppThemeProviderProps {
-  children: React.ReactNode;
-}
 
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
   const { value: storedTheme = 'light', set: setStoredTheme } =

@@ -34,6 +34,10 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
           component="img"
           src={imgSrc}
           alt="badge"
+          loading="lazy"
+          decoding="async"
+          width={140}
+          height={140}
           sx={{
             width: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
             objectFit: 'cover',

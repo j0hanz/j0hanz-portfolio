@@ -16,3 +16,14 @@ export const ERROR_MESSAGES = {
   MESSAGE_REQUIRED: 'Message is required.',
   MESSAGE_TOO_SHORT: `Message must be at least ${MIN_MESSAGE_LENGTH} characters long.`,
 } as const;
+
+// UI Color Constants
+export const COLORS = {
+  NAV_HOVER: '#40a9ff',
+  TEXT_LIGHT: '#f5f4f4',
+  BG_DARK: '#181818f5',
+  BTN_BG_DARK: '#313131',
+  BTN_BG_DARK_HOVER: '#242424',
+  PRIMARY_BLUE: '#0067dd',
+  PRIMARY_BLUE_HOVER: '#004797',
+} as const;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
 import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
 
@@ -7,9 +7,12 @@ import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
-import ModalCv from '@/components/ModalCv';
 import { SlideFromSide } from '@/components/Motions';
+import Spinner from '@/components/Spinner';
+import { COLORS } from '@/config/constants';
 import { useToggle } from '@/hooks';
+
+const ModalCv = lazy(() => import('@/components/ModalCv'));
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
@@ -90,13 +93,13 @@ function Hero(): React.JSX.Element {
                     my: 4,
                     width: 180,
                     height: 45,
-                    bgcolor: '#0067dd',
-                    '&:hover': { bgcolor: '#004797' },
+                    bgcolor: COLORS.PRIMARY_BLUE,
+                    '&:hover': { bgcolor: COLORS.PRIMARY_BLUE_HOVER },
                   }}
                   icon={
                     <HiOutlineArrowDownTray
                       size="1.05rem"
-                      style={{ color: '#f5f4f4' }}
+                      style={{ color: COLORS.TEXT_LIGHT }}
                     />
                   }
                   text="Download CV"
@@ -106,13 +109,13 @@ function Hero(): React.JSX.Element {
                   sx={{
                     width: 180,
                     height: 45,
-                    bgcolor: '#313131',
-                    '&:hover': { bgcolor: '#242424' },
+                    bgcolor: COLORS.BTN_BG_DARK,
+                    '&:hover': { bgcolor: COLORS.BTN_BG_DARK_HOVER },
                   }}
                   icon={
                     <HiOutlineEnvelope
                       size="1.05rem"
-                      style={{ color: '#f5f4f4' }}
+                      style={{ color: COLORS.TEXT_LIGHT }}
                     />
                   }
                   text="Get in Touch"
@@ -122,7 +125,11 @@ function Hero(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      <ModalCv show={showModal} handleClose={handleModalClose} />
+      {showModal && (
+        <Suspense fallback={<Spinner />}>
+          <ModalCv show={showModal} handleClose={handleModalClose} />
+        </Suspense>
+      )}
       <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
     </Box>
   );

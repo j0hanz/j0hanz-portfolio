@@ -1,15 +1,7 @@
 import { createContext } from 'react';
 
-import { PaletteMode } from '@mui/material';
+import { ThemeModeValue } from '@/config/types';
 
-export type ThemeModeUpdater = (
-  value: PaletteMode | ((previous: PaletteMode) => PaletteMode)
-) => void;
-
-export interface ThemeModeValue {
-  mode: PaletteMode;
-  toggleMode: () => void;
-  setMode: ThemeModeUpdater;
-}
+export type { ThemeModeUpdater, ThemeModeValue } from '@/config/types';
 
 export const ThemeMode = createContext<ThemeModeValue | null>(null);
