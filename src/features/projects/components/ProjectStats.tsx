@@ -17,6 +17,15 @@ interface RepoStats {
   issues: number;
 }
 
+interface CachedStats {
+  data: RepoStats;
+  timestamp: number;
+}
+
+// Cache stats for 10 minutes to avoid rate limiting
+const statsCache = new Map<string, CachedStats>();
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+
 interface AnimatedStatProps {
   label: string;
   value: number;
@@ -91,6 +100,18 @@ const ProjectStats = ({
 
     const fetchStats = async () => {
       try {
+        // Check cache first
+        const cached = statsCache.get(repoPath);
+        const now = Date.now();
+        
+        if (cached && now - cached.timestamp < CACHE_DURATION) {
+          if (!isCancelled) {
+            setStats(cached.data);
+            setStatus('idle');
+          }
+          return;
+        }
+
         setStatus('loading');
         const response = await fetch(
           `https://api.github.com/repos/${repoPath}`,
@@ -103,20 +124,34 @@ const ProjectStats = ({
         );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch repo stats');
+          if (response.status === 403) {
+            const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
+            if (rateLimitRemaining === '0') {
+              console.warn(`GitHub API rate limit exceeded for ${repoPath}`);
+            } else {
+              console.warn(`GitHub API 403 (Forbidden) for ${repoPath}`);
+            }
+          }
+          throw new Error(`Failed to fetch repo stats: ${response.status}`);
         }
 
         const data = await response.json();
         if (isCancelled) return;
-        setStats({
+        
+        const newStats = {
           stars: data.stargazers_count ?? 0,
           forks: data.forks_count ?? 0,
           issues: data.open_issues_count ?? 0,
-        });
+        };
+        
+        // Cache the results
+        statsCache.set(repoPath, { data: newStats, timestamp: now });
+        
+        setStats(newStats);
         setStatus('idle');
       } catch (error) {
         if (controller.signal.aborted || isCancelled) return;
-        console.error('Unable to load GitHub stats', error);
+        console.error(`Unable to load GitHub stats for ${repoPath}:`, error);
         setStatus('error');
       }
     };
@@ -152,7 +187,7 @@ const ProjectStats = ({
       ))}
       {status === 'error' && (
         <Typography variant="caption" color="error.main">
-          Unable to load live GitHub stats.
+          Stats temporarily unavailable (API rate limit).
         </Typography>
       )}
       {status === 'loading' && !stats && (

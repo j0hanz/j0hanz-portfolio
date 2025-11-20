@@ -66,6 +66,7 @@ function MotionWrapper({
         delay: prefersReducedMotion ? 0 : batchDelay,
       })}
       viewport={{ once: false, amount: 0.3, margin: '-100px' }}
+      style={{ position: 'relative' }}
       {...props}
     >
       {children}
