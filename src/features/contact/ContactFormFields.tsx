@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
-import { HiMiniExclamationCircle } from 'react-icons/hi2';
+import { ErrorOutlineOutlined } from '@mui/icons-material';
 import {
-  HiOutlineBriefcase,
-  HiOutlineChatBubbleOvalLeft,
-  HiOutlineEnvelope,
-  HiOutlineGlobeAlt,
-  HiOutlineUser,
-} from 'react-icons/hi2';
-
+  ChatBubbleOutlineOutlined,
+  EmailOutlined,
+  LanguageOutlined,
+  PersonOutlineOutlined,
+  WorkOutlineOutlined,
+} from '@mui/icons-material';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -26,7 +25,7 @@ const getHelperText = (error?: string): React.ReactNode => {
   if (!error) return ' ';
   return (
     <Stack component="span" direction="row" alignItems="center" gap={0.5}>
-      <HiMiniExclamationCircle />
+      <ErrorOutlineOutlined sx={{ fontSize: '1rem' }} />
       {error}
     </Stack>
   );
@@ -51,7 +50,7 @@ const contactFieldConfigs: ContactFieldConfig[] = [
   {
     key: 'name',
     controlId: 'formName',
-    icon: HiOutlineUser,
+    icon: PersonOutlineOutlined,
     label: 'Name',
     placeholder: 'enter your name...',
     required: true,
@@ -60,7 +59,7 @@ const contactFieldConfigs: ContactFieldConfig[] = [
   {
     key: 'email',
     controlId: 'formEmail',
-    icon: HiOutlineEnvelope,
+    icon: EmailOutlined,
     type: 'email',
     label: 'Email',
     placeholder: 'enter your email...',
@@ -70,14 +69,14 @@ const contactFieldConfigs: ContactFieldConfig[] = [
   {
     key: 'company',
     controlId: 'formCompany',
-    icon: HiOutlineBriefcase,
+    icon: WorkOutlineOutlined,
     label: 'Company',
     placeholder: 'company... (optional)',
   },
   {
     key: 'url',
     controlId: 'formUrl',
-    icon: HiOutlineGlobeAlt,
+    icon: LanguageOutlined,
     type: 'url',
     label: 'Website',
     placeholder: 'website url... (optional)',
@@ -86,7 +85,7 @@ const contactFieldConfigs: ContactFieldConfig[] = [
   {
     key: 'message',
     controlId: 'formMessage',
-    icon: HiOutlineChatBubbleOvalLeft,
+    icon: ChatBubbleOutlineOutlined,
     type: 'textarea',
     label: 'Message',
     placeholder: 'enter your message...',

@@ -236,7 +236,7 @@ const ProjectStats = ({
       ref={statsRef}
       spacing={1.5}
       alignItems="flex-start"
-      sx={{ mb: 3, position: 'relative' }}
+      sx={{ position: 'relative', flexShrink: 0 }}
     >
       {statItems.map(({ key, label, value }) => (
         <AnimatedStat

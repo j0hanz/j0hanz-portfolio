@@ -1,7 +1,6 @@
 import React, { forwardRef, useEffect, useRef } from 'react';
 
-import { HiOutlineBars3, HiXMark } from 'react-icons/hi2';
-
+import { CloseRounded, MenuRounded } from '@mui/icons-material';
 import {
   Box,
   Container,
@@ -342,7 +341,7 @@ const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
       >
         <NavLogo />
         <IconButton onClick={closeOffcanvas} color="inherit">
-          <HiXMark />
+          <CloseRounded />
         </IconButton>
       </Stack>
       <Box
@@ -437,8 +436,8 @@ function NavBar(): React.JSX.Element {
               },
             }}
           >
-            <HiOutlineBars3
-              style={{
+            <MenuRounded
+              sx={{
                 fontSize: '2.2rem',
                 color: 'inherit',
                 transition: 'all 0.3s ease',

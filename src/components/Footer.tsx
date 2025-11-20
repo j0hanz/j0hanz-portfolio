@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { HiOutlineClipboardDocument, HiOutlineEnvelope } from 'react-icons/hi2';
 import { SiCreativecommons } from 'react-icons/si';
 import { toast } from 'react-toastify';
 
+import { ContentCopyRounded, EmailRounded } from '@mui/icons-material';
 import {
   Box,
   Container,
@@ -116,12 +116,12 @@ const Footer: FC = () => {
               Contact Details
             </Typography>
             <Stack direction="row" alignItems="center">
-              <HiOutlineEnvelope
-                style={{
+              <EmailRounded
+                sx={{
                   color: 'inherit',
                   opacity: 0.8,
                   fontSize: '0.9rem',
-                  marginRight: '10px',
+                  mr: 1.25,
                   transition: 'all 0.3s ease',
                 }}
               />
@@ -156,8 +156,8 @@ const Footer: FC = () => {
                     },
                   }}
                 >
-                  <HiOutlineClipboardDocument
-                    style={{ fontSize: '1rem', opacity: 0.85 }}
+                  <ContentCopyRounded
+                    sx={{ fontSize: '1rem', opacity: 0.85 }}
                   />
                 </IconButton>
               </Tooltip>

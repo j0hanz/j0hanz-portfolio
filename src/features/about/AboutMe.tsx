@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiMiniCheckBadge, HiUser } from 'react-icons/hi2';
-
+import { PersonOutlined, VerifiedTwoTone } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
@@ -64,7 +63,7 @@ function AboutMeList({
                   onClick={onShowModal}
                   variant="contained"
                   color="neutral"
-                  startIcon={<HiMiniCheckBadge />}
+                  startIcon={<VerifiedTwoTone />}
                   sx={{
                     minWidth: 145,
                     height: 30,
@@ -90,7 +89,7 @@ function AboutMe(): React.JSX.Element {
   } = useToggle(false);
 
   return (
-    <SectionContainer id="about-me" title="About Me" icon={HiUser}>
+    <SectionContainer id="about-me" title="About Me" icon={PersonOutlined}>
       <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
         <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
           <AboutMeText />

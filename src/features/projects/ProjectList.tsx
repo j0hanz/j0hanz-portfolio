@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -9,14 +9,13 @@ import { Project, ProjectListProps } from '@/config/types';
 import { motionVariants } from '@/utils/motionVariants';
 import { getProjectMeta } from '@/utils/project';
 
-import ProjectBadges from './components/ProjectBadges';
 import ProjectHeader from './components/ProjectHeader';
 import ProjectLinks from './components/ProjectLinks';
 import ProjectStats from './components/ProjectStats';
 import ProjectTechStack from './components/ProjectTechStack';
 
 function ProjectCard({ project }: { project: Project }): React.JSX.Element {
-  const { repoPath, badges, hasProjectBoard } = getProjectMeta(project);
+  const { repoPath, hasProjectBoard } = getProjectMeta(project);
 
   return (
     <AnimatedCard
@@ -24,43 +23,54 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
       noContentPadding
       sx={{
         height: 1,
+        display: 'flex',
+        flexDirection: 'column',
         borderRadius: 2,
         WebkitBackdropFilter: 'blur(10px)',
         backdropFilter: 'blur(10px)',
         backgroundColor: 'rgba(0, 0, 0, 0.20)',
       }}
     >
-      <Box
+      <Stack
         component="article"
         sx={{
+          height: 1,
+          p: { xs: 1.5, sm: 2, md: 2.5 },
           display: 'flex',
           flexDirection: 'column',
-          height: 1,
-          position: 'relative',
-          p: 2,
         }}
       >
-        <ProjectHeader project={project} />
-        <Typography sx={{ mb: 2, lineHeight: 1.8, color: 'text.secondary' }}>
-          {project.description}
-        </Typography>
-        <ProjectTechStack technologies={project.technologies} />
-        {repoPath && (
-          <ProjectStats repoPath={repoPath} hasProjectBoard={hasProjectBoard} />
-        )}
-        <ProjectBadges badges={badges} />
+        <Stack spacing={2} sx={{ flex: '1 1 auto' }}>
+          <ProjectHeader project={project} />
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              flexShrink: 0,
+            }}
+          >
+            {project.description}
+          </Typography>
+          <ProjectTechStack technologies={project.technologies} />
+          {repoPath && (
+            <ProjectStats
+              repoPath={repoPath}
+              hasProjectBoard={hasProjectBoard}
+            />
+          )}
+          {/*  <ProjectBadges badges={badges} /> */}
+        </Stack>
         <ProjectLinks project={project} />
-      </Box>
+      </Stack>
     </AnimatedCard>
   );
 }
 
 function ProjectList({ project }: ProjectListProps): React.JSX.Element {
   return (
-    <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
+    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={{ display: 'flex' }}>
       <motion.div
         variants={motionVariants.stagger.item}
-        style={{ height: '100%', position: 'relative' }}
+        style={{ height: '100%', width: '100%', display: 'flex' }}
       >
         <ProjectCard project={project} />
       </motion.div>

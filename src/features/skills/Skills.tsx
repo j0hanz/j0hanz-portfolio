@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiMiniCog8Tooth, HiOutlineBookOpen } from 'react-icons/hi2';
-
+import { MenuBookTwoTone, SettingsTwoTone } from '@mui/icons-material';
 import { Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
@@ -50,9 +49,9 @@ function SkillCard({ skill }: SkillCardProps): React.JSX.Element {
               fontSize: '0.8rem',
             }}
           >
-            <HiOutlineBookOpen
-              style={{
-                marginRight: '0.25rem',
+            <MenuBookTwoTone
+              sx={{
+                mr: 0.35,
                 transform: 'skew(-10deg)',
               }}
             />
@@ -72,7 +71,7 @@ function Skills(): React.JSX.Element {
     <SectionContainer
       id="skills"
       title="Skills"
-      icon={HiMiniCog8Tooth}
+      icon={SettingsTwoTone}
       sx={{
         px: 0,
         pb: 5,

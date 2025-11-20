@@ -1,11 +1,10 @@
 import React, { useRef } from 'react';
 
 import {
-  HiBriefcase,
-  HiOutlineBuildingOffice,
-  HiOutlineCalendar,
-} from 'react-icons/hi2';
-
+  ApartmentTwoTone,
+  CalendarTodayTwoTone,
+  WorkOutlineTwoTone,
+} from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { stagger, useMotionValueEvent, useScroll } from 'motion/react';
@@ -22,12 +21,12 @@ const createExperienceMeta = (
 ): IconBadgeMetaItem[] => [
   {
     id: 'workplace',
-    icon: HiOutlineBuildingOffice,
+    icon: ApartmentTwoTone,
     text: experience.workplace,
   },
   {
     id: 'duration',
-    icon: HiOutlineCalendar,
+    icon: CalendarTodayTwoTone,
     text: experience.duration,
   },
 ];
@@ -139,7 +138,7 @@ function WorkExperience(): React.JSX.Element {
     <SectionContainer
       id="work-experience"
       title="Experience"
-      icon={HiBriefcase}
+      icon={WorkOutlineTwoTone}
       sx={{
         px: 0,
         pb: 5,

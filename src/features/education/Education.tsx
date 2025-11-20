@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
 
 import {
-  HiAcademicCap,
-  HiMiniCheckBadge,
-  HiOutlineBuildingLibrary,
-  HiOutlineCalendar,
-} from 'react-icons/hi2';
-
+  ApartmentTwoTone,
+  CalendarTodayTwoTone,
+  SchoolTwoTone,
+  VerifiedTwoTone,
+} from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
@@ -39,12 +38,12 @@ import Credential from './Credential';
 const createEducationMeta = (education: EducationItem): IconBadgeMetaItem[] => [
   {
     id: 'school',
-    icon: HiOutlineBuildingLibrary,
+    icon: ApartmentTwoTone,
     text: education.school,
   },
   {
     id: 'duration',
-    icon: HiOutlineCalendar,
+    icon: CalendarTodayTwoTone,
     text: education.duration,
   },
 ];
@@ -86,7 +85,7 @@ function EducationCard({
           <Button
             onClick={onShowModal}
             variant="contained"
-            startIcon={<HiMiniCheckBadge />}
+            startIcon={<VerifiedTwoTone />}
             data-edu-cta
             sx={{
               minWidth: 145,
@@ -183,7 +182,7 @@ function Education(): React.JSX.Element {
   });
 
   return (
-    <SectionContainer id="education" title="Education" icon={HiAcademicCap}>
+    <SectionContainer id="education" title="Education" icon={SchoolTwoTone}>
       <Box ref={attachRefs} sx={{ position: 'relative', py: { xs: 1, md: 2 } }}>
         <Box
           component={motion.div}

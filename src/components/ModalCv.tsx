@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiOutlineGlobeAlt } from 'react-icons/hi2';
-
+import { LanguageRounded } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
@@ -61,7 +60,7 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
           fontSize: { xs: '1.2rem', sm: '1.4rem' },
         }}
       >
-        <HiOutlineGlobeAlt size="1.2rem" style={{ marginRight: '0.4rem' }} />
+        <LanguageRounded sx={{ fontSize: '1.2rem', mr: 0.5 }} />
         Choose Language
       </Stack>
       <Typography sx={{ textAlign: 'center', mb: 2 }}>

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiArrowUp } from 'react-icons/hi2';
-
+import { KeyboardArrowUpRounded } from '@mui/icons-material';
 import { Box, Fab, Fade, useScrollTrigger } from '@mui/material';
 
 import { ScrollToTopProps } from '@/config/types';
@@ -39,7 +38,7 @@ function ScrollToTop(props: ScrollToTopProps): React.JSX.Element {
         sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 100 }}
       >
         <Fab size="small" color="primary" aria-label="scroll back to top">
-          <HiArrowUp size={20} />
+          <KeyboardArrowUpRounded sx={{ fontSize: 20 }} />
         </Fab>
       </Box>
     </Fade>

@@ -2,12 +2,7 @@ import React from 'react';
 
 import { useFormStatus } from 'react-dom';
 
-import {
-  HiEnvelope,
-  HiOutlinePaperAirplane,
-  HiOutlineTrash,
-} from 'react-icons/hi2';
-
+import { DeleteRounded, EmailRounded, SendRounded } from '@mui/icons-material';
 import { Box, Paper, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { AnimatePresence, motion } from 'motion/react';
@@ -98,7 +93,7 @@ function ContactSubmitButton(): React.JSX.Element {
       type="submit"
       loading={pending}
       disabled={pending}
-      startIcon={<HiOutlinePaperAirplane style={{ fontSize: '0.9rem' }} />}
+      startIcon={<SendRounded sx={{ fontSize: '0.9rem' }} />}
       aria-label={pending ? 'Sending message' : 'Send message'}
       sx={{
         minWidth: 0,
@@ -159,8 +154,8 @@ function ContactFormContent(): React.JSX.Element {
               onClick={handleReset}
               disabled={isSending}
               startIcon={
-                <HiOutlineTrash
-                  style={{
+                <DeleteRounded
+                  sx={{
                     color: '#ffc800',
                     fontSize: '0.9rem',
                   }}
@@ -184,7 +179,7 @@ function ContactFormContent(): React.JSX.Element {
 // Rendering contact form section
 function ContactForm(): React.JSX.Element {
   return (
-    <SectionContainer id="contact" title="Contact" icon={HiEnvelope}>
+    <SectionContainer id="contact" title="Contact" icon={EmailRounded}>
       <Grid
         container
         justifyContent="center"

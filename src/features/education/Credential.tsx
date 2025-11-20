@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiArrowTopRightOnSquare, HiXMark } from 'react-icons/hi2';
-
+import { Close, OpenInNewRounded } from '@mui/icons-material';
 import { Box, Dialog, DialogContent, IconButton, Stack } from '@mui/material';
 
 import ImageCredential from '@/assets/Credential.webp';
@@ -53,7 +52,7 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
             },
           }}
         >
-          <HiXMark style={{ fontSize: '1.2rem' }} />
+          <Close sx={{ fontSize: '1.2rem' }} />
         </IconButton>
         <Box sx={{ textAlign: 'center', px: 0, width: '100%' }}>
           {loading ? (
@@ -121,10 +120,10 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
                     pointerEvents: 'none',
                   }}
                 >
-                  <HiArrowTopRightOnSquare
-                    style={{
+                  <OpenInNewRounded
+                    sx={{
                       fontSize: '2.8rem',
-                      marginBottom: '0.5rem',
+                      mb: 1,
                     }}
                   />
                   View Credential

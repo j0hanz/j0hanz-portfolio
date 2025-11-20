@@ -1,19 +1,19 @@
 import {
-  HiOutlineAcademicCap,
-  HiOutlineBriefcase,
-  HiOutlineCog8Tooth,
-  HiOutlineEnvelope,
-  HiOutlineFolder,
-  HiOutlineUser,
-} from 'react-icons/hi2';
+  EmailRounded,
+  FolderTwoTone,
+  PersonOutlineOutlined,
+  SchoolTwoTone,
+  SettingsTwoTone,
+  WorkOutlineTwoTone,
+} from '@mui/icons-material';
 
 import { NavLink } from '@/config/types';
 
 export const navLinks: NavLink[] = [
-  { id: 'about-me', icon: HiOutlineUser, label: 'About Me' },
-  { id: 'education', icon: HiOutlineAcademicCap, label: 'Education' },
-  { id: 'skills', icon: HiOutlineCog8Tooth, label: 'Skills' },
-  { id: 'portfolio', icon: HiOutlineFolder, label: 'Projects' },
-  { id: 'work-experience', icon: HiOutlineBriefcase, label: 'Experience' },
-  { id: 'contact', icon: HiOutlineEnvelope, label: 'Contact' },
+  { id: 'about-me', icon: PersonOutlineOutlined, label: 'About Me' },
+  { id: 'education', icon: SchoolTwoTone, label: 'Education' },
+  { id: 'skills', icon: SettingsTwoTone, label: 'Skills' },
+  { id: 'portfolio', icon: FolderTwoTone, label: 'Projects' },
+  { id: 'work-experience', icon: WorkOutlineTwoTone, label: 'Experience' },
+  { id: 'contact', icon: EmailRounded, label: 'Contact' },
 ];

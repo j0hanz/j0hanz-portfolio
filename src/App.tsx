@@ -69,7 +69,7 @@ function BackgroundMorph(): React.JSX.Element {
         zIndex: 0,
         pointerEvents: 'none',
         background:
-          'linear-gradient(135deg, rgba(50, 107, 255, 0.35), rgba(99, 102, 241, 0.25))',
+          'linear-gradient(150deg, rgba(26, 29, 204, 0.35), rgba(87, 89, 214, 0.25))',
         filter: 'blur(30px)',
       }}
       aria-hidden

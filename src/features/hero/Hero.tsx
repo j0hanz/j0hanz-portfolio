@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
-
+import { DownloadRounded, EmailRounded } from '@mui/icons-material';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
@@ -278,7 +277,7 @@ function Hero(): React.JSX.Element {
                   <Button
                     variant="contained"
                     onClick={handleModalOpen}
-                    startIcon={<HiOutlineArrowDownTray size="1.05rem" />}
+                    startIcon={<DownloadRounded sx={{ fontSize: '1.05rem' }} />}
                     sx={{
                       ...buttonBaseStyles,
                       bgcolor: 'primary.main',
@@ -292,7 +291,7 @@ function Hero(): React.JSX.Element {
                   <Button
                     variant="contained"
                     href="#contact"
-                    startIcon={<HiOutlineEnvelope size="1.05rem" />}
+                    startIcon={<EmailRounded sx={{ fontSize: '1.05rem' }} />}
                     sx={{
                       ...buttonBaseStyles,
                       bgcolor: 'neutral.main',

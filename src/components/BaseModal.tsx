@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiXMark } from 'react-icons/hi2';
-
+import { Close } from '@mui/icons-material';
 import { Dialog, DialogContent, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -82,7 +81,7 @@ function BaseModal({
                 },
               }}
             >
-              <HiXMark size="1.2rem" />
+              <Close sx={{ fontSize: '1.2rem' }} />
             </IconButton>
             {children}
           </MotionDialogContent>

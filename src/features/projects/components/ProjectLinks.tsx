@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { HiMiniPlay, HiOutlineClipboardDocument } from 'react-icons/hi2';
 import { SiGithub } from 'react-icons/si';
 import { toast } from 'react-toastify';
 
+import { ContentCopyRounded, PlayArrowRounded } from '@mui/icons-material';
 import { Box, Stack, Tooltip } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
 import { CustomButtonProps, ProjectLinksProps } from '@/config/types';
@@ -16,9 +17,7 @@ type ActionButtonProps = Omit<CustomButtonProps, 'startIcon' | 'text'> & {
 };
 
 const iconStyle = {
-  marginRight: '10px',
   fontSize: '0.9rem',
-  color: 'inherit',
 } as const;
 
 const actionButtonSx = { minWidth: 104, height: 30 } as const;
@@ -59,7 +58,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           href={project.demo}
           target="_blank"
           rel="noopener noreferrer"
-          icon={<HiMiniPlay style={iconStyle} />}
+          icon={<PlayArrowRounded sx={iconStyle} />}
           label="Demo"
         />
       );
@@ -70,7 +69,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         <Box component="span" sx={{ display: 'inline-block' }}>
           <ActionButton
             disabled
-            icon={<HiMiniPlay style={iconStyle} />}
+            icon={<PlayArrowRounded sx={iconStyle} />}
             label="Demo"
           />
         </Box>
@@ -79,15 +78,13 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
   };
 
   return (
-    <Stack
-      direction={{ xs: 'column', sm: 'row' }}
-      justifyContent="space-between"
-      alignItems={{ xs: 'stretch', sm: 'center' }}
-      gap={1}
-      flexWrap="wrap"
-      sx={{ mt: 'auto' }}
-    >
-      <Stack direction="row" flexWrap="wrap" gap={1}>
+    <Grid sx={{ mt: 2 }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={1}
+      >
         <ActionButton
           href={project.github}
           target="_blank"
@@ -101,13 +98,12 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           onClick={handleCopyRepo}
           color="secondary"
           variant="outlined"
-          icon={<HiOutlineClipboardDocument style={iconStyle} />}
+          icon={<ContentCopyRounded sx={iconStyle} />}
           label="Copy"
-          sx={{ minWidth: 96 }}
         />
+        {renderDemoButton()}
       </Stack>
-      {renderDemoButton()}
-    </Stack>
+    </Grid>
   );
 };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiMiniServer, HiMiniUser, HiMiniUserGroup } from 'react-icons/hi2';
-
+import { DnsTwoTone, GroupsTwoTone, PersonTwoTone } from '@mui/icons-material';
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import { motion } from 'motion/react';
 
@@ -12,12 +11,7 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
   return (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{ mb: 3 }}
-    >
+    <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography
         variant="h6"
         component="h3"
@@ -27,7 +21,7 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
         }}
       >
         <Stack direction="row" alignItems="center" component="span">
-          {project.api && <HiMiniServer style={{ marginRight: '0.5rem' }} />}
+          {project.api && <DnsTwoTone sx={{ mr: 0.75 }} />}
           {project.title}
           {project.isNew && (
             <Box
@@ -72,9 +66,9 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
       </Typography>
       <Box>
         {project.collaborative ? (
-          <HiMiniUserGroup style={{ fontSize: '1.3rem', color: 'inherit' }} />
+          <GroupsTwoTone sx={{ fontSize: '1.3rem', color: 'inherit' }} />
         ) : (
-          <HiMiniUser style={{ fontSize: '1.3rem', color: 'inherit' }} />
+          <PersonTwoTone sx={{ fontSize: '1.3rem', color: 'inherit' }} />
         )}
       </Box>
     </Stack>

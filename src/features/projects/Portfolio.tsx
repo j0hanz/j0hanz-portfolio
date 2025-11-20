@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiFolder } from 'react-icons/hi2';
-
+import { FolderTwoTone } from '@mui/icons-material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -17,7 +16,7 @@ function Portfolio(): React.JSX.Element {
   const { prefersReducedMotion, motionViewport } = useAnimationConfig();
 
   return (
-    <SectionContainer id="portfolio" title="Projects" icon={HiFolder}>
+    <SectionContainer id="portfolio" title="Projects" icon={FolderTwoTone}>
       <motion.div
         variants={motionVariants.stagger.container}
         initial={prefersReducedMotion ? 'show' : 'hidden'}
@@ -25,7 +24,7 @@ function Portfolio(): React.JSX.Element {
         viewport={motionViewport}
         style={{ width: '100%' }}
       >
-        <Grid container spacing={4}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {projects.map((project) => (
             <ProjectList key={project.github} project={project} />
           ))}

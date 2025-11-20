@@ -30,13 +30,13 @@ const BaseCard = React.forwardRef<HTMLDivElement, InternalCardProps>(
       <MotionPaper
         ref={ref}
         className={className}
-
+        elevation={0}
         sx={{
           height: 1,
           borderRadius: 2,
           WebkitBackdropFilter: 'blur(10px)',
           backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.20)',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
           ...sx,
         }}
         {...(motionProps ?? {})}
@@ -49,11 +49,7 @@ const BaseCard = React.forwardRef<HTMLDivElement, InternalCardProps>(
               {title}
             </Typography>
             {subtitle && (
-              <Typography
-                variant="body1"
-                component="div"
-                sx={{ mb: 1.5 }}
-              >
+              <Typography variant="body1" component="div" sx={{ mb: 1.5 }}>
                 {subtitle}
               </Typography>
             )}

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { HiMiniMoon, HiMiniSun } from 'react-icons/hi2';
-
+import { DarkMode, LightMode } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -30,7 +29,11 @@ function DarkModeToggle(): React.JSX.Element {
           },
         }}
       >
-        {isDark ? <HiMiniSun size={24} /> : <HiMiniMoon size={24} />}
+        {isDark ? (
+          <LightMode sx={{ fontSize: 24 }} />
+        ) : (
+          <DarkMode sx={{ fontSize: 24 }} />
+        )}
       </IconButton>
     </Tooltip>
   );

@@ -7,15 +7,17 @@ import {
   ReactNode,
 } from 'react';
 
-import { IconType } from 'react-icons';
-
 import {
   ButtonProps as MuiButtonProps,
   PaletteMode,
   SxProps,
   Theme,
 } from '@mui/material';
+import type { SvgIconProps } from '@mui/material/SvgIcon';
 import type { MotionProps, Transition, Variants } from 'motion/react';
+
+// --- Icon Type ---
+export type IconComponent = ComponentType<SvgIconProps>;
 
 // --- Constants Types ---
 // (None needed for constants themselves, but maybe for their usage)
@@ -407,7 +409,7 @@ export interface FormFieldsProps {
 
 // --- Feature: Skills ---
 export interface Skill {
-  icon: IconType; // Unifying to IconType as it is used in data
+  icon: IconComponent;
   label: string;
   learning?: boolean;
 }
@@ -434,13 +436,13 @@ export interface SectionConfig {
 // --- Navigation ---
 export interface NavLink {
   id: string;
-  icon: IconType;
+  icon: IconComponent;
   label: string;
 }
 
 export interface SocialLink {
   id: string;
-  icon: IconType;
+  icon: IconComponent;
   href?: string;
   onClick?: () => void;
   tooltip: string;

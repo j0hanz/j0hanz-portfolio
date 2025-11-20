@@ -7,7 +7,7 @@ import { ProjectTechStackProps } from '@/config/types';
 const ProjectTechStack = ({
   technologies,
 }: ProjectTechStackProps): React.JSX.Element => (
-  <Box sx={{ mb: 1.5, transform: 'skew(-10deg)' }}>
+  <Box sx={{ transform: 'skew(-10deg)', flexShrink: 0 }}>
     {technologies.map((tech, index) => (
       <Chip
         key={`${tech}-${index}`}
