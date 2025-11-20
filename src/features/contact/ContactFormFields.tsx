@@ -1,31 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { ErrorOutlineOutlined } from '@mui/icons-material';
 import {
-  ChatBubbleOutlineOutlined,
+  ChatBubbleOutline,
   EmailOutlined,
+  ErrorOutline,
   LanguageOutlined,
-  PersonOutlineOutlined,
-  WorkOutlineOutlined,
+  PersonOutline,
+  WorkOutline,
 } from '@mui/icons-material';
+import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { motion } from 'motion/react';
 
 import {
   ContactFormValues,
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
-import { motionVariants } from '@/utils/motionVariants';
 
 const getHelperText = (error?: string): React.ReactNode => {
-  if (!error) return ' ';
+  if (!error) return undefined;
   return (
     <Stack component="span" direction="row" alignItems="center" gap={0.5}>
-      <ErrorOutlineOutlined sx={{ fontSize: '1rem' }} />
+      <ErrorOutline sx={{ fontSize: '1rem' }} />
       {error}
     </Stack>
   );
@@ -37,24 +35,26 @@ type ContactFieldErrorKey = keyof FormFieldsProps['errors'];
 interface ContactFieldConfig {
   key: ContactFieldKey;
   controlId: string;
-  icon: FormFieldProps['icon'];
+  icon: React.ElementType;
   type?: FormFieldProps['type'];
   label: string;
   placeholder: string;
   required?: boolean;
   rows?: number;
   errorKey?: ContactFieldErrorKey;
+  gridProps?: { xs?: number; md?: number };
 }
 
 const contactFieldConfigs: ContactFieldConfig[] = [
   {
     key: 'name',
     controlId: 'formName',
-    icon: PersonOutlineOutlined,
+    icon: PersonOutline,
     label: 'Name',
     placeholder: 'enter your name...',
     required: true,
     errorKey: 'name',
+    gridProps: { xs: 12, md: 6 },
   },
   {
     key: 'email',
@@ -65,13 +65,15 @@ const contactFieldConfigs: ContactFieldConfig[] = [
     placeholder: 'enter your email...',
     required: true,
     errorKey: 'email',
+    gridProps: { xs: 12, md: 6 },
   },
   {
     key: 'company',
     controlId: 'formCompany',
-    icon: WorkOutlineOutlined,
+    icon: WorkOutline,
     label: 'Company',
     placeholder: 'company... (optional)',
+    gridProps: { xs: 12, md: 6 },
   },
   {
     key: 'url',
@@ -81,17 +83,19 @@ const contactFieldConfigs: ContactFieldConfig[] = [
     label: 'Website',
     placeholder: 'website url... (optional)',
     errorKey: 'url',
+    gridProps: { xs: 12, md: 6 },
   },
   {
     key: 'message',
     controlId: 'formMessage',
-    icon: ChatBubbleOutlineOutlined,
+    icon: ChatBubbleOutline,
     type: 'textarea',
     label: 'Message',
     placeholder: 'enter your message...',
     required: true,
     rows: 4,
     errorKey: 'message',
+    gridProps: { xs: 12 },
   },
 ];
 
@@ -109,102 +113,65 @@ function FormField({
   onChange,
 }: FormFieldProps): React.JSX.Element {
   const isTextarea = type === 'textarea';
-  const [isFocused, setIsFocused] = useState(false);
-  const { getTransition, prefersReducedMotion } = useAnimationConfig();
 
   return (
-    <motion.div
-      initial={false}
-      animate={
-        prefersReducedMotion
-          ? { scale: 1, boxShadow: 'none' }
-          : {
-              scale: isFocused ? 1.01 : 1,
-              boxShadow: isFocused
-                ? '0 18px 40px rgba(15, 23, 42, 0.28)'
-                : '0 8px 22px rgba(15, 23, 42, 0.12)',
-            }
-      }
-      transition={getTransition('smooth', { duration: 0.35 })}
-      style={{
-        borderRadius: 16,
-        padding: prefersReducedMotion ? 0 : '6px 10px',
+    <TextField
+      id={controlId}
+      name={name}
+      label={label}
+      type={isTextarea ? undefined : type}
+      multiline={isTextarea}
+      rows={isTextarea ? rows : undefined}
+      minRows={isTextarea ? rows : undefined}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      required={required}
+      error={!!error}
+      fullWidth
+      variant="standard"
+      aria-invalid={!!error}
+      aria-required={required}
+      slotProps={{
+        input: {
+          startAdornment: (
+            <InputAdornment
+              position="start"
+              sx={{
+                alignSelf: isTextarea ? 'flex-start' : 'center',
+                mt: 0,
+                mr: 1,
+              }}
+            >
+              <Icon sx={{ fontSize: '1.1rem', color: 'action.active' }} />
+            </InputAdornment>
+          ),
+        },
+        inputLabel: {
+          shrink: true,
+          sx: { fontSize: '0.875rem' },
+        },
       }}
-    >
-      <TextField
-        id={controlId}
-        name={name}
-        label={label ?? placeholder}
-        type={isTextarea ? undefined : type}
-        multiline={isTextarea}
-        rows={isTextarea ? rows : undefined}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        required={required}
-        error={!!error}
-        fullWidth
-        variant="standard"
-        aria-invalid={!!error}
-        aria-required={required}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon
-                  style={{
-                    width: '1.1rem',
-                    height: '1.1rem',
-                  }}
-                />
-              </InputAdornment>
-            ),
-            sx: {
-              fontSize: '0.8rem',
-              pl: 0.4,
-              color: 'text.primary',
-            },
+      sx={{
+        '& .MuiInput-root': {
+          '&:before': {
+            borderBottom: '2px solid',
+            borderBottomColor: 'divider',
           },
-          inputLabel: {
-            shrink: Boolean(value) || isTextarea,
+          '&:hover:not(.Mui-disabled, .Mui-error):before': {
+            borderBottom: '2px solid',
+            borderBottomColor: 'divider',
           },
-          formHelperText: {
-            sx: {
-              mx: 0,
-            },
+          '&.Mui-error:before': {
+            borderBottomColor: 'error.main',
           },
-          htmlInput: {
-            sx: {
-              '&::placeholder': {
-                color: 'text.primary',
-                opacity: 0.6,
-              },
-            },
+          '&.Mui-focused:after': {
+            borderBottomColor: 'primary.main',
           },
-        }}
-        sx={{
-          '& .MuiInput-root': {
-            '&:before': {
-              borderBottom: '3px solid',
-              borderBottomColor: 'divider',
-            },
-            '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: '3px solid',
-              borderBottomColor: 'divider',
-            },
-            '&.Mui-error:before': {
-              borderBottomColor: 'error.main',
-            },
-            '&.Mui-focused:after': {
-              borderBottomColor: 'primary.main',
-            },
-          },
-        }}
-        helperText={getHelperText(error)}
-      />
-    </motion.div>
+        },
+      }}
+      helperText={getHelperText(error)}
+    />
   );
 }
 
@@ -214,33 +181,20 @@ function ContactFormFields({
   errors,
   handleChange,
 }: FormFieldsProps): React.JSX.Element {
-  const { getDelay } = useAnimationConfig();
-  const fieldVariants = motionVariants.exit.formField;
-
   return (
-    <Stack spacing={2}>
-      {contactFieldConfigs.map(({ key, errorKey, ...fieldConfig }, index) => (
-        <motion.div
-          key={fieldConfig.controlId}
-          custom={{
-            delay: getDelay(index + 1),
-            direction: index % 2 === 0 ? 'up' : 'down',
-          }}
-          variants={fieldVariants}
-          initial="initial"
-          animate="animate"
-          layout
-        >
+    <Grid container spacing={1.25}>
+      {contactFieldConfigs.map((config) => (
+        <Grid key={config.key} size={config.gridProps}>
           <FormField
-            {...fieldConfig}
-            name={key}
-            value={formData[key] ?? ''}
-            error={errorKey ? errors[errorKey] : undefined}
+            {...config}
+            name={config.key}
+            value={formData[config.key] ?? ''}
+            error={config.errorKey ? errors[config.errorKey] : undefined}
             onChange={handleChange}
           />
-        </motion.div>
+        </Grid>
       ))}
-    </Stack>
+    </Grid>
   );
 }
 

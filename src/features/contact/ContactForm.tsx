@@ -3,12 +3,13 @@ import React from 'react';
 import { useFormStatus } from 'react-dom';
 
 import { DeleteRounded, EmailRounded, SendRounded } from '@mui/icons-material';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { AnimatePresence, motion } from 'motion/react';
 
 import Badges from '@/components/Badges';
 import Button from '@/components/Button';
+import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { useAnimationConfig, useContactForm } from '@/hooks';
 
@@ -93,13 +94,10 @@ function ContactSubmitButton(): React.JSX.Element {
       type="submit"
       loading={pending}
       disabled={pending}
-      startIcon={<SendRounded sx={{ fontSize: '0.9rem' }} />}
+      startIcon={<SendRounded sx={{ fontSize: '1rem' }} />}
       aria-label={pending ? 'Sending message' : 'Send message'}
       sx={{
-        minWidth: 0,
-        flexGrow: { xs: 1, sm: 0 },
-        px: 3,
-        py: 0.75,
+        minWidth: 120,
       }}
     >
       {!pending && 'Send'}
@@ -120,59 +118,49 @@ function ContactFormContent(): React.JSX.Element {
   const showSuccess = submissionState === 'success';
 
   return (
-    <Paper
-      elevation={4}
-      sx={{
-        height: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 3,
-      }}
-    >
-      <Box sx={{ p: 0 }}>
-        <Stack component="form" noValidate action={submitAction}>
-          <ContactFormFields
-            formData={formData}
-            errors={errors}
-            handleChange={handleChange}
-          />
-          <SuccessIndicator visible={showSuccess} />
-          <Stack
-            direction="row"
-            justifyContent={{ xs: 'center', sm: 'space-between' }}
-            flexWrap="wrap"
-            gap={2}
+    <Card title="" sx={{ height: 'auto' }}>
+      <Stack component="form" noValidate action={submitAction} spacing={2}>
+        <ContactFormFields
+          formData={formData}
+          errors={errors}
+          handleChange={handleChange}
+        />
+        <SuccessIndicator visible={showSuccess} />
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          gap={1}
+        >
+          <Button
+            variant="text"
+            color="inherit"
+            type="button"
+            onClick={handleReset}
+            disabled={isSending}
+            startIcon={
+              <DeleteRounded
+                sx={{
+                  fontSize: '1rem',
+                }}
+              />
+            }
+            aria-label="Clear form"
             sx={{
-              mt: 3,
-              px: 2,
-              pb: 2,
+              minWidth: 120,
             }}
           >
-            <Button
-              variant="contained"
-              color="neutral"
-              type="button"
-              onClick={handleReset}
-              disabled={isSending}
-              startIcon={
-                <DeleteRounded
-                  sx={{
-                    color: '#ffc800',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              }
-              aria-label="Clear form"
-              sx={{
-                minWidth: 0,
-                px: 1.5,
-                py: 0.75,
-              }}
-            />
-            <ContactSubmitButton />
-          </Stack>
+            <Box
+              component="span"
+              sx={{ display: { xs: 'none', sm: 'inline' } }}
+            >
+              Clear
+            </Box>
+          </Button>
+          <ContactSubmitButton />
         </Stack>
-      </Box>
-    </Paper>
+      </Stack>
+    </Card>
   );
 }
 
@@ -180,13 +168,8 @@ function ContactFormContent(): React.JSX.Element {
 function ContactForm(): React.JSX.Element {
   return (
     <SectionContainer id="contact" title="Contact" icon={EmailRounded}>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        spacing={{ xs: 3, md: 4 }}
-      >
-        <Grid size={{ xs: 12, md: 10 }}>
+      <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+        <Grid size={12}>
           <ContactFormContent />
           <Badges />
         </Grid>
