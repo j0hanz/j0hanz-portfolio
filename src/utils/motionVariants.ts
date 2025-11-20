@@ -35,6 +35,22 @@ const WILL_CHANGE_TRANSFORM_OPACITY = {
   willChange: 'transform, opacity' as const,
 };
 
+type SlideDirection = 'left' | 'right';
+
+const createSlideVariant = (offset: number): Variants => ({
+  initial: { opacity: 0, x: offset, ...WILL_CHANGE_TRANSFORM_OPACITY },
+  whileInView: { opacity: 1, x: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
+});
+
+const createBidirectionalSlideVariant = (): Variants => ({
+  initial: (direction: SlideDirection = 'left') => ({
+    opacity: 0,
+    x: direction === 'right' ? 95 : -95,
+    ...WILL_CHANGE_TRANSFORM_OPACITY,
+  }),
+  whileInView: { opacity: 1, x: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
+});
+
 const createFadeVariant = (offset = 72): SectionVariant => ({
   initial: { opacity: 0, y: offset, ...WILL_CHANGE_TRANSFORM_OPACITY },
   whileInView: { opacity: 1, y: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
@@ -54,21 +70,18 @@ const sections: Record<SectionMotionVariantId, SectionVariant> = {
 };
 
 const slides: Record<
-  'slideFromLeft' | 'slideFromRight' | 'slideFromLeftAndRight',
+  | 'slideFromLeft'
+  | 'slideFromRight'
+  | 'slideFromLeftAndRight'
+  | 'slideLeftToCenter'
+  | 'slideRightToCenter',
   Variants
 > = {
-  slideFromLeft: {
-    initial: { opacity: 0, x: -95, ...WILL_CHANGE_TRANSFORM_OPACITY },
-    whileInView: { opacity: 1, x: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
-  },
-  slideFromRight: {
-    initial: { opacity: 0, x: 95, ...WILL_CHANGE_TRANSFORM_OPACITY },
-    whileInView: { opacity: 1, x: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
-  },
-  slideFromLeftAndRight: {
-    initial: { opacity: 0, x: -95, ...WILL_CHANGE_TRANSFORM_OPACITY },
-    whileInView: { opacity: 1, x: 95, ...WILL_CHANGE_TRANSFORM_OPACITY },
-  },
+  slideFromLeft: createSlideVariant(-95),
+  slideFromRight: createSlideVariant(95),
+  slideFromLeftAndRight: createBidirectionalSlideVariant(),
+  slideLeftToCenter: createSlideVariant(-95),
+  slideRightToCenter: createSlideVariant(95),
 };
 
 const stagger: StaggerConfig = {
