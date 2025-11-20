@@ -473,6 +473,7 @@ export interface SocialLinkListProps {
 export interface OffcanvasMenuProps {
   showOffcanvas: boolean;
   closeOffcanvas: () => void;
+  openOffcanvas: () => void;
   openModal: () => void;
 }
 

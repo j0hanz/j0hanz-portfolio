@@ -28,7 +28,7 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
         borderRadius: 2,
         WebkitBackdropFilter: 'blur(10px)',
         backdropFilter: 'blur(10px)',
-        backgroundColor: 'rgba(0, 0, 0, 0.20)',
+        backgroundColor: 'backdrop.glass',
       }}
     >
       <Stack

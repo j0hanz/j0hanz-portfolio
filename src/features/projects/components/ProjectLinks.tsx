@@ -96,8 +96,8 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         <ActionButton
           type="button"
           onClick={handleCopyRepo}
-          color="secondary"
-          variant="outlined"
+          color="inherit"
+          variant="text"
           icon={<ContentCopyRounded sx={iconStyle} />}
           label="Copy"
         />

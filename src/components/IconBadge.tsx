@@ -16,7 +16,7 @@ function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
         gap: 0.75,
       }}
     >
-      <Icon  sx={{ fontSize: 17 }} />
+      <Icon sx={{ fontSize: 17 }} />
       <Typography
         component="span"
         sx={{

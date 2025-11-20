@@ -4,7 +4,7 @@ import { CloseRounded, MenuRounded } from '@mui/icons-material';
 import {
   Box,
   Container,
-  Drawer,
+  Divider,
   IconButton,
   List,
   ListItem,
@@ -12,7 +12,9 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
+  SwipeableDrawer,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 import type { MotionStyle } from 'motion/react';
@@ -135,7 +137,8 @@ function NavSocialLinkButton({
         aria-label={tooltip}
         sx={{
           '&:hover': {
-            color: 'primary.light',
+            color: 'primary.main',
+            bgcolor: 'action.hover',
           },
         }}
       >
@@ -169,7 +172,7 @@ export function SocialLinkList({
             icon: (
               <Icon
                 style={{
-                  fontSize: '1.4rem',
+                  fontSize: '1.5rem',
                   color: color,
                   paddingRight: isSourceCode ? 0 : '0.5rem',
                 }}
@@ -209,10 +212,11 @@ function NavLogo(): React.JSX.Element {
         src={navLogo}
         alt="Linus Johansson"
         sx={{
-          width: '1.9rem',
+          width: '2.2rem',
           transition: 'all 0.3s ease',
           '&:hover': {
-            opacity: 0.7,
+            opacity: 0.8,
+            transform: 'scale(1.05)',
           },
         }}
       />
@@ -229,6 +233,7 @@ function NavLinks(): React.JSX.Element {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
+        p: 2,
         // Replicating .cardBgImage
         '&::before': {
           content: '""',
@@ -239,7 +244,8 @@ function NavLinks(): React.JSX.Element {
           backgroundRepeat: 'no-repeat',
           zIndex: 0,
           backgroundImage: 'var(--card-bg-image-url)',
-          opacity: 0.05,
+          opacity: 0.03,
+          pointerEvents: 'none',
         },
         '& > *': {
           position: 'relative',
@@ -248,42 +254,48 @@ function NavLinks(): React.JSX.Element {
       }}
     >
       {navLinks.map(({ id, icon: Icon, label }) => (
-        <ListItem key={id} disablePadding>
+        <ListItem key={id} disablePadding sx={{ mb: 1 }}>
           <ListItemButton
             component="a"
             href={`#${id}`}
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2,
-              mt: { xs: 3, sm: 4 },
-              transition: 'all 0.3s ease',
-              '&:hover .MuiListItemText-primary': {
-                color: 'primary.light',
+              borderRadius: 2,
+              py: 1.5,
+              px: 2,
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                bgcolor: 'action.hover',
+                '& .MuiListItemIcon-root': {
+                  color: 'primary.main',
+                  transform: 'scale(1.1)',
+                },
+                '& .MuiListItemText-primary': {
+                  color: 'primary.main',
+                },
               },
-              '&:active .MuiListItemText-primary': {
+              '&:active': {
                 transform: 'scale(0.98)',
-                transition: 'all 0.3s ease',
               },
             }}
           >
-            <ListItemIcon sx={{ minWidth: 'auto', mr: 2 }}>
-              <Icon
-                style={{
-                  color: 'inherit',
-                  fontSize: '1.05rem',
-                  transition: 'all 0.3s ease',
-                }}
-              />
+            <ListItemIcon
+              sx={{
+                minWidth: 40,
+                color: 'text.secondary',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <Icon fontSize="medium" />
             </ListItemIcon>
             <ListItemText
               primary={label}
-              primaryTypographyProps={{
-                sx: {
-                  color: 'inherit',
-                  letterSpacing: '1.25px',
-                  fontSize: { xs: '1rem', sm: '1.1rem' },
-                  transition: 'all 0.3s ease',
+              slotProps={{
+                primary: {
+                  variant: 'body1',
+                  sx: {
+                    letterSpacing: '0.5px',
+                    transition: 'all 0.2s ease',
+                  },
                 },
               }}
             />
@@ -302,7 +314,13 @@ function SocialLinks({
 }): React.JSX.Element {
   return (
     <Box sx={{ mt: 'auto' }}>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack
+        direction="row"
+        justifyContent="center"
+        flexWrap="wrap"
+        gap={1}
+        sx={{ px: 1 }}
+      >
         <SocialLinkList
           openModal={openModal}
           renderLink={renderNavSocialLink}
@@ -316,21 +334,37 @@ function SocialLinks({
 function OffcanvasMenu({
   showOffcanvas,
   closeOffcanvas,
+  openOffcanvas,
   openModal,
   ref,
-}: OffcanvasMenuProps & { ref?: React.Ref<HTMLDivElement> }): React.JSX.Element {
+}: OffcanvasMenuProps & {
+  openOffcanvas: () => void;
+  ref?: React.Ref<HTMLDivElement>;
+}): React.JSX.Element {
+  const iOS =
+    typeof navigator !== 'undefined' &&
+    /iPad|iPhone|iPod/.test(navigator.userAgent);
+
   return (
-    <Drawer
+    <SwipeableDrawer
       ref={ref}
       anchor="right"
       open={showOffcanvas}
       onClose={closeOffcanvas}
-      PaperProps={{
-        sx: {
-          width: 300,
-          bgcolor: 'neutral.dark',
-          color: 'neutral.contrastText',
-          height: '100dvh',
+      onOpen={openOffcanvas}
+      disableBackdropTransition={!iOS}
+      disableDiscovery={iOS}
+      slotProps={{
+        paper: {
+          sx: {
+            width: { xs: '85%', sm: 350 },
+            backgroundColor: 'background.paper',
+            backgroundImage: 'none',
+            height: '100dvh',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: 24,
+          },
         },
       }}
     >
@@ -340,27 +374,55 @@ function OffcanvasMenu({
         alignItems="center"
         sx={{
           p: 2,
-          position: 'relative',
-          mt: 0.5,
+          pt: 3,
+          borderBottom: 1,
+          borderColor: 'divider',
         }}
       >
         <NavLogo />
-        <IconButton onClick={closeOffcanvas} color="inherit">
+        <IconButton
+          onClick={closeOffcanvas}
+          color="inherit"
+          aria-label="Close menu"
+          edge="end"
+          sx={{
+            '&:hover': {
+              color: 'error.main',
+              bgcolor: 'error.light',
+              opacity: 0.2,
+            },
+          }}
+        >
           <CloseRounded />
         </IconButton>
       </Stack>
+
       <Box
         sx={{
-          p: 2,
+          flexGrow: 1,
+          overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          flexGrow: 1,
         }}
       >
         <NavLinks />
+      </Box>
+
+      <Divider />
+
+      <Box sx={{ p: 3, backgroundColor: 'background.paper' }}>
+        <Typography
+          variant="overline"
+          display="block"
+          align="center"
+          color="text.secondary"
+          sx={{ mb: 2, fontWeight: 500, letterSpacing: 1.5 }}
+        >
+          Connect
+        </Typography>
         <SocialLinks openModal={openModal} />
       </Box>
-    </Drawer>
+    </SwipeableDrawer>
   );
 }
 
@@ -381,10 +443,9 @@ function NavBar(): React.JSX.Element {
   } = useToggle(false);
 
   // Close Offcanvas on nav link click or outside click
-  // Note: We need to target the anchor elements inside the list items
   const offcanvasRef = useNavLinkClose(
     showOffcanvas,
-    'a[href^="#"]', // Updated selector to match anchor tags with hash links
+    'a[href^="#"]',
     closeOffcanvas
   );
 
@@ -404,13 +465,14 @@ function NavBar(): React.JSX.Element {
               position: 'fixed',
               top: 0,
               left: 0,
-              bgcolor: 'neutral.main',
-              borderRadius: '0 0 10px 0px',
+              bgcolor: 'background.paper',
+              borderRadius: '0 0 16px 0px',
               zIndex: (theme) => theme.zIndex.appBar,
               cursor: 'pointer',
+              boxShadow: 3,
               transition: 'all 0.3s ease',
               '&:hover': {
-                bgcolor: 'neutral.dark',
+                transform: 'translateY(2px)',
               },
             }}
           >
@@ -420,29 +482,30 @@ function NavBar(): React.JSX.Element {
             onClick={openOffcanvas}
             aria-label="Toggle navigation"
             size="large"
-            color="inherit"
             sx={{
               position: 'fixed',
-              bgcolor: 'neutral.main',
-              borderRadius: '0 0 0 10px',
-              height: 48,
-              width: 56,
+              bgcolor: 'background.paper',
+              color: 'text.primary',
+              borderRadius: '0 0 0 16px',
+              height: 56,
+              width: 64,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: (theme) => theme.zIndex.appBar,
               top: 0,
               right: 0,
+              boxShadow: 3,
               transition: 'all 0.3s ease',
               '&:hover': {
-                bgcolor: 'neutral.dark',
+                bgcolor: 'background.default',
+                color: 'primary.main',
               },
             }}
           >
             <MenuRounded
               sx={{
                 fontSize: '2.2rem',
-                color: 'inherit',
                 transition: 'all 0.3s ease',
               }}
             />
@@ -451,6 +514,7 @@ function NavBar(): React.JSX.Element {
             ref={offcanvasRef}
             showOffcanvas={showOffcanvas}
             closeOffcanvas={closeOffcanvas}
+            openOffcanvas={openOffcanvas}
             openModal={openModal}
           />
         </Box>

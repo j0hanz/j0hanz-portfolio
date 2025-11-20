@@ -4,22 +4,36 @@ import {
   ThemeOptions,
 } from '@mui/material/styles';
 
+// Augment the palette to include a backdrop color
+declare module '@mui/material/styles' {
+  interface Palette {
+    backdrop: {
+      glass: string;
+    };
+  }
+  interface PaletteOptions {
+    backdrop?: {
+      glass?: string;
+    };
+  }
+}
+
 const getBaseTheme = (): ThemeOptions => ({
   cssVariables: true,
   typography: {
     fontFamily: 'Roboto, sans-serif',
     h1: {
-      fontWeight: 700,
+      fontWeight: 500,
     },
     h2: {
-      fontWeight: 600,
+      fontWeight: 500,
     },
     h3: {
-      fontWeight: 600,
+      fontWeight: 400,
     },
     button: {
       textTransform: 'none',
-      fontWeight: 500,
+      fontWeight: 300,
     },
   },
   shape: {
@@ -120,6 +134,9 @@ const createResponsiveTheme = (mode: 'light' | 'dark') => {
               primary: '#0a0a0a',
               secondary: '#4a4a4a',
             },
+            backdrop: {
+              glass: 'rgba(255, 255, 255, 0.2)',
+            },
           }
         : {
             background: {
@@ -129,6 +146,9 @@ const createResponsiveTheme = (mode: 'light' | 'dark') => {
             text: {
               primary: '#ececec',
               secondary: '#b0b0b0',
+            },
+            backdrop: {
+              glass: 'rgba(0, 0, 0, 0.2)',
             },
           }),
     },

@@ -13,18 +13,18 @@ interface InternalCardProps extends CardProps {
   motionProps?: MotionProps;
 }
 
-const BaseCard = function Card(
-  {
-    title,
-    subtitle,
-    children,
-    className = '',
-    sx,
-    noContentPadding = false,
-    motionProps,
-    ref,
-  }: InternalCardProps & { ref?: React.Ref<HTMLDivElement> },
-): React.ReactElement {
+const BaseCard = function Card({
+  title,
+  subtitle,
+  children,
+  className = '',
+  sx,
+  noContentPadding = false,
+  motionProps,
+  ref,
+}: InternalCardProps & {
+  ref?: React.Ref<HTMLDivElement>;
+}): React.ReactElement {
   return (
     <MotionPaper
       ref={ref}
@@ -35,7 +35,7 @@ const BaseCard = function Card(
         borderRadius: 2,
         WebkitBackdropFilter: 'blur(10px)',
         backdropFilter: 'blur(10px)',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: 'backdrop.glass',
         ...sx,
       }}
       {...(motionProps ?? {})}
@@ -43,7 +43,7 @@ const BaseCard = function Card(
       {noContentPadding ? (
         children
       ) : (
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2.5 }}>
           <Typography variant="h5" component="div" gutterBottom>
             {title}
           </Typography>

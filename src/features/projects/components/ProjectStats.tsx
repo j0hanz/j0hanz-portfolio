@@ -80,7 +80,7 @@ function AnimatedStat({
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}
         transition={getTransition('snappy')}
-        sx={{ fontWeight: 600, fontSize: '1.05rem', color: 'text.primary' }}
+        sx={{ fontWeight: 500, fontSize: '1.05rem', color: 'text.primary' }}
       >
         {displayValue.toLocaleString()}
       </Typography>

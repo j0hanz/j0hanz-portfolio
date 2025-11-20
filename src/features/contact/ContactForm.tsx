@@ -75,7 +75,7 @@ function SuccessIndicator({
           <Typography
             variant="body2"
             color="success.main"
-            sx={{ fontWeight: 600 }}
+            sx={{ fontWeight: 500 }}
           >
             Message sent!
           </Typography>

@@ -8,24 +8,21 @@ import { motion } from 'motion/react';
 import { useAnimationConfig } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
 
-const MotionToastTransition = (
-  {
-    children,
-    isIn,
-    nodeRef: _nodeRef,
-    done,
-    preventExitTransition,
-    playToast,
-    ref,
-  }: ToastTransitionProps & { ref?: React.Ref<HTMLDivElement> },
-) => {
+const MotionToastTransition = ({
+  children,
+  isIn,
+  nodeRef: _nodeRef,
+  done,
+  preventExitTransition,
+  playToast,
+  ref,
+}: ToastTransitionProps & { ref?: React.Ref<HTMLDivElement> }) => {
   const { getTransition } = useAnimationConfig();
   const assignRefs = (instance: HTMLDivElement | null) => {
     if (typeof ref === 'function') {
       ref(instance);
     } else if (ref) {
-      (ref as React.MutableRefObject<HTMLDivElement | null>).current =
-        instance;
+      (ref as React.MutableRefObject<HTMLDivElement | null>).current = instance;
     }
   };
 

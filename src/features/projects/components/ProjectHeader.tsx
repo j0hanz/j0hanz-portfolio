@@ -33,7 +33,7 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
                   ? { opacity: 1, scale: 1 }
                   : {
                       opacity: 1,
-                      scale: [1, 1.08, 1],
+                      scale: [1, 1.1, 1],
                     }
               }
               transition={
@@ -42,7 +42,7 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
                   : {
                       duration: 1.6,
                       repeat: Infinity,
-                      repeatType: 'mirror',
+                      repeatType: 'reverse',
                     }
               }
             >
@@ -53,9 +53,9 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
                   bgcolor: 'primary.main',
                   color: 'primary.contrastText',
                   height: 21,
-                  minWidth: 43,
+                  minWidth: 45,
                   border: 'none',
-                  fontSize: '0.7rem',
+                  fontSize: '0.8rem',
                   borderRadius: 1,
                   transform: 'skew(-5deg)',
                 }}

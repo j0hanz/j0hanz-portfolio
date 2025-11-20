@@ -33,7 +33,6 @@ function SectionContainer({
           <Box
             component={Icon}
             sx={{
-              color: 'text.primary',
               mr: 2,
               fontSize: '2.5rem',
             }}
@@ -43,7 +42,6 @@ function SectionContainer({
             component="h3"
             sx={{
               fontWeight: 400,
-              color: 'text.primary',
             }}
           >
             {title}

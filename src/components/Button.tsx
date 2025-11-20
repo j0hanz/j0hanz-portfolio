@@ -8,15 +8,12 @@ import { CustomButtonProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks/useMotions';
 import { motionVariants } from '@/utils/motionVariants';
 
-const StyledButton = styled(MuiButton)(({ theme }) => ({
+const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({
   textTransform: 'uppercase',
   maxWidth: '100%',
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
-  borderRadius: theme.shape.borderRadius,
-  color: theme.palette.primary.contrastText,
-  padding: theme.spacing(1, 2),
   '& .MuiButton-startIcon, & .MuiButton-endIcon': {
     lineHeight: 0,
     display: 'flex',
@@ -27,22 +24,22 @@ const StyledButton = styled(MuiButton)(({ theme }) => ({
 const MotionButton = motion.create(StyledButton);
 
 // Button component with optional icon and text, supports MUI v7 best practices
-const Button = function Button(
-  {
-    text = '',
-    className = '',
-    children,
-    sx,
-    variant = 'contained',
-    startIcon,
-    endIcon,
-    motionWhileTap,
-    motionWhileHover,
-    motionWhileFocus,
-    ref,
-    ...props
-  }: CustomButtonProps & { ref?: React.Ref<HTMLButtonElement> },
-): React.ReactElement {
+const Button = function Button({
+  text = '',
+  className = '',
+  children,
+  sx,
+  variant = 'contained',
+  startIcon,
+  endIcon,
+  motionWhileTap,
+  motionWhileHover,
+  motionWhileFocus,
+  ref,
+  ...props
+}: CustomButtonProps & {
+  ref?: React.Ref<HTMLButtonElement>;
+}): React.ReactElement {
   const {
     onDrag: _deprecatedDrag,
     onDragStart: _deprecatedDragStart,
@@ -61,8 +58,7 @@ const Button = function Button(
   const restState = 'rest';
   const hoverState =
     motionWhileHover ?? (prefersReducedMotion ? restState : 'hover');
-  const tapState =
-    motionWhileTap ?? (prefersReducedMotion ? restState : 'tap');
+  const tapState = motionWhileTap ?? (prefersReducedMotion ? restState : 'tap');
   const focusState =
     motionWhileFocus ?? (prefersReducedMotion ? restState : 'focus');
 
