@@ -49,34 +49,37 @@ const Footer: FC = () => {
     tooltip,
     icon,
     index,
-  }: SocialLinkRenderProps) => (
-    <Box
-      component={motion.a}
-      href={href}
-      onClick={onClick}
-      target={href ? '_blank' : undefined}
-      rel={href ? 'noopener noreferrer' : undefined}
-      aria-label={tooltip}
-      sx={{
-        cursor: href || onClick ? 'pointer' : 'default',
-        color: 'inherit',
-        textDecoration: 'none',
-        display: 'inline-flex',
-        '&:hover': {
-          color: 'primary.light',
-        },
-      }}
-      whileHover={
-        prefersReducedMotion ? { scale: 1.05 } : { scale: 1.2, rotate: 5 }
-      }
-      whileTap={{ scale: 0.92 }}
-      transition={getTransition('snappy', {
-        delay: prefersReducedMotion ? 0 : index * 0.05,
-      })}
-    >
-      {icon}
-    </Box>
-  );
+  }: SocialLinkRenderProps) => {
+    const hasInteraction = Boolean(href || onClick);
+    const staggerDelay = prefersReducedMotion ? 0 : index * 0.05;
+
+    return (
+      <Box
+        component={motion.a}
+        href={href}
+        onClick={onClick}
+        target={href ? '_blank' : undefined}
+        rel={href ? 'noopener noreferrer' : undefined}
+        aria-label={tooltip}
+        sx={{
+          cursor: hasInteraction ? 'pointer' : 'default',
+          color: 'inherit',
+          textDecoration: 'none',
+          display: 'inline-flex',
+          '&:hover': {
+            color: 'primary.light',
+          },
+        }}
+        whileHover={
+          prefersReducedMotion ? { scale: 1.05 } : { scale: 1.2, rotate: 5 }
+        }
+        whileTap={{ scale: 0.92 }}
+        transition={getTransition('snappy', { delay: staggerDelay })}
+      >
+        {icon}
+      </Box>
+    );
+  };
 
   const handleCopyEmail = async () => {
     const copied = await copyEmail(CONTACT_EMAIL);

@@ -22,7 +22,7 @@ function Portfolio(): React.JSX.Element {
         variants={motionVariants.stagger.container}
         initial={prefersReducedMotion ? 'show' : 'hidden'}
         whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
+        viewport={{ once: true, amount: 0.15 }}
         style={{ width: '100%' }}
       >
         <Grid container spacing={4}>

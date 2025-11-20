@@ -38,8 +38,8 @@ const MagneticWrapper = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 260, damping: 28, mass: 0.9 });
-  const springY = useSpring(y, { stiffness: 260, damping: 28, mass: 0.9 });
+  const springX = useSpring(x, { stiffness: 180, damping: 24, mass: 0.8 });
+  const springY = useSpring(y, { stiffness: 180, damping: 24, mass: 0.8 });
 
   const reset = () => {
     x.set(0);
@@ -47,31 +47,23 @@ const MagneticWrapper = ({
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (disabled) {
-      return;
-    }
+    if (disabled || !containerRef.current) return;
 
-    const node = containerRef.current;
-
-    if (!node) {
-      return;
-    }
-
-    const rect = node.getBoundingClientRect();
-    const offsetX = event.clientX - (rect.left + rect.width / 2);
-    const offsetY = event.clientY - (rect.top + rect.height / 2);
-
-    x.set(offsetX * 0.08);
-    y.set(offsetY * 0.08);
+    const rect = containerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((event.clientX - centerX) * 0.08);
+    y.set((event.clientY - centerY) * 0.08);
   };
+
+  const motionStyle = disabled
+    ? { display: 'inline-flex' as const }
+    : { display: 'inline-flex' as const, x: springX, y: springY };
 
   return (
     <motion.div
       ref={containerRef}
-      style={{
-        display: 'inline-flex',
-        ...(disabled ? {} : { x: springX, y: springY }),
-      }}
+      style={motionStyle}
       onPointerMove={disabled ? undefined : handlePointerMove}
       onPointerLeave={disabled ? undefined : reset}
       onPointerUp={disabled ? undefined : reset}
@@ -104,8 +96,6 @@ function Hero(): React.JSX.Element {
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, parallaxRange]);
   const imageReveal = motionVariants.scroll.scrollFadeUp;
   const textReveal = motionVariants.scroll.scrollFadeUp;
-  const letterInitial = prefersReducedMotion ? false : 'hidden';
-  const letterAnimate = prefersReducedMotion ? undefined : 'show';
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
 
@@ -178,9 +168,16 @@ function Hero(): React.JSX.Element {
               <Typography
                 variant="h1"
                 component={motion.h1}
-                variants={motionVariants.stagger.container}
-                initial={letterInitial}
-                animate={letterAnimate}
+                initial={
+                  prefersReducedMotion ? undefined : { opacity: 0, y: 24 }
+                }
+                animate={
+                  prefersReducedMotion ? undefined : { opacity: 1, y: 0 }
+                }
+                transition={getTransition('smooth', {
+                  duration: 0.8,
+                  delay: 0.1,
+                })}
                 sx={{
                   background: (theme) => theme.palette.heroGradient,
                   WebkitBackgroundClip: 'text',
@@ -189,21 +186,9 @@ function Hero(): React.JSX.Element {
                   letterSpacing: { xs: '2px', sm: '3px' },
                   fontWeight: 500,
                   lineHeight: 1.2,
-                  display: 'inline-flex',
-                  flexWrap: 'wrap',
-                  gap: '0.1rem',
                 }}
               >
-                {heroName.split('').map((character, index) => (
-                  <Box
-                    component={motion.span}
-                    key={`${character}-${index}`}
-                    variants={motionVariants.stagger.item}
-                    sx={{ display: 'inline-block' }}
-                  >
-                    {character === ' ' ? '\u00A0' : character}
-                  </Box>
-                ))}
+                {heroName}
               </Typography>
               <Typography
                 variant="h2"

@@ -1,10 +1,9 @@
-import React, { useEffect, useEffectEvent, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
 import { Alert, AlertColor, Box, Collapse } from '@mui/material';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
-import type { TargetAndTransition } from 'motion/react';
 
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -32,28 +31,8 @@ const getInitialBanner = (): StatusBanner | null => {
   };
 };
 
-const MORPH_PATHS = [
-  'M0 320L80 282.7C160 245 320 170 480 165.3C640 160 800 224 960 229.3C1120 235 1280 181 1360 154.7L1440 128V0H0Z',
-  'M0 288L80 266.7C160 245 320 203 480 170.7C640 139 800 117 960 133.3C1120 149 1280 203 1360 229.3L1440 256V0H0Z',
-  'M0 256L80 234.7C160 213 320 171 480 170.7C640 171 800 213 960 213.3C1120 213 1280 171 1360 149.3L1440 128V0H0Z',
-];
-
 function BackgroundMorph(): React.JSX.Element {
   const priority = useAnimationPriority();
-  const animateConfig: TargetAndTransition =
-    priority === 'high'
-      ? {
-          d: MORPH_PATHS,
-          transition: {
-            duration: 18,
-            repeat: Infinity,
-            repeatType: 'mirror',
-            ease: [0.42, 0, 0.58, 1],
-          },
-        }
-      : {
-          d: MORPH_PATHS[0],
-        };
 
   return (
     <Box
@@ -63,34 +42,20 @@ function BackgroundMorph(): React.JSX.Element {
         overflow: 'hidden',
         zIndex: 0,
         pointerEvents: 'none',
+        background:
+          'linear-gradient(135deg, rgba(50, 107, 255, 0.35), rgba(99, 102, 241, 0.25))',
+        filter: 'blur(32px)',
+        animation:
+          priority === 'high'
+            ? 'morphGradient 18s ease-in-out infinite'
+            : 'none',
+        '@keyframes morphGradient': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(2%, 3%) scale(1.05)' },
+        },
       }}
       aria-hidden
-    >
-      <motion.svg
-        viewBox="0 0 1440 320"
-        preserveAspectRatio="none"
-        style={{ width: '100%', height: '100%', display: 'block' }}
-      >
-        <defs>
-          <linearGradient
-            id="bgMorphGradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="rgba(50, 107, 255, 0.35)" />
-            <stop offset="100%" stopColor="rgba(99, 102, 241, 0.25)" />
-          </linearGradient>
-        </defs>
-        <motion.path
-          fill="url(#bgMorphGradient)"
-          initial={false}
-          animate={animateConfig}
-          style={{ filter: 'blur(32px)' }}
-        />
-      </motion.svg>
-    </Box>
+    />
   );
 }
 
@@ -101,26 +66,29 @@ function App(): React.JSX.Element {
   );
   const bannerTimeoutRef = useRef<number | null>(null);
 
-  const clearBannerTimeout = () => {
+  const clearBannerTimeout = useCallback(() => {
     if (bannerTimeoutRef.current !== null) {
       window.clearTimeout(bannerTimeoutRef.current);
       bannerTimeoutRef.current = null;
     }
-  };
+  }, []);
 
-  const showBanner = (nextBanner: StatusBanner) => {
-    clearBannerTimeout();
-    setStatusBanner(nextBanner);
+  const showBanner = useCallback(
+    (nextBanner: StatusBanner) => {
+      clearBannerTimeout();
+      setStatusBanner(nextBanner);
 
-    if (!nextBanner.persistent) {
+      if (nextBanner.persistent) return;
+
       bannerTimeoutRef.current = window.setTimeout(() => {
         setStatusBanner(null);
         bannerTimeoutRef.current = null;
       }, 3500);
-    }
-  };
+    },
+    [clearBannerTimeout]
+  );
 
-  const handleOffline = useEffectEvent(() => {
+  const handleOffline = useCallback(() => {
     toast.warn('You appear to be offline. Some features may not work.', {
       toastId: NETWORK_STATUS_TOAST_ID,
       autoClose: false,
@@ -132,9 +100,9 @@ function App(): React.JSX.Element {
       severity: 'warning',
       persistent: true,
     });
-  });
+  }, [showBanner]);
 
-  const handleOnline = useEffectEvent(() => {
+  const handleOnline = useCallback(() => {
     if (toast.isActive(NETWORK_STATUS_TOAST_ID)) {
       toast.update(NETWORK_STATUS_TOAST_ID, {
         render: 'Connection restored',
@@ -154,7 +122,7 @@ function App(): React.JSX.Element {
       severity: 'success',
       persistent: false,
     });
-  });
+  }, [showBanner]);
 
   useEffectOnce(() => {
     document.title = 'Linus Johansson | Portfolio';
@@ -177,7 +145,7 @@ function App(): React.JSX.Element {
       window.removeEventListener('online', handleOnline);
       clearBannerTimeout();
     };
-  }, []);
+  }, [handleOffline, handleOnline, clearBannerTimeout]);
 
   return (
     <LayoutGroup>

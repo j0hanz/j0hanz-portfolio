@@ -39,7 +39,8 @@ const updateError = (
       const { [field]: _, ...rest } = prev;
       return rest;
     }
-    return prev[field] === message ? prev : { ...prev, [field]: message };
+    if (prev[field] === message) return prev;
+    return { ...prev, [field]: message };
   });
 };
 
@@ -52,8 +53,8 @@ const useContactForm = () => {
     'idle'
   );
 
-  const debouncedEmail = useDebounce(formData.email, 350);
-  const debouncedUrl = useDebounce(formData.url, 350);
+  const debouncedEmail = useDebounce(formData.email, 600);
+  const debouncedUrl = useDebounce(formData.url, 600);
 
   useUpdateEffect(() => {
     updateError(setErrors, 'email', validateEmail(debouncedEmail));
@@ -81,9 +82,7 @@ const useContactForm = () => {
   };
 
   useEffect(() => {
-    if (submissionState !== 'success') {
-      return undefined;
-    }
+    if (submissionState !== 'success') return;
 
     const timeoutId = window.setTimeout(() => {
       setSubmissionState('idle');

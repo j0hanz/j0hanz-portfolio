@@ -6,7 +6,6 @@ import { motion } from 'motion/react';
 
 import { AnimatedCard } from '@/components/Card';
 import { Project, ProjectListProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks/useMotions';
 import { motionVariants } from '@/utils/motionVariants';
 import { getProjectMeta } from '@/utils/project';
 
@@ -56,15 +55,10 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
 }
 
 function ProjectList({ project }: ProjectListProps): React.JSX.Element {
-  const { prefersReducedMotion } = useAnimationConfig();
-
   return (
     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
       <motion.div
         variants={motionVariants.stagger.item}
-        initial={prefersReducedMotion ? 'show' : 'hidden'}
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
         style={{ height: '100%' }}
       >
         <ProjectCard project={project} />

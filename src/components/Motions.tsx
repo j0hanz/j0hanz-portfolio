@@ -1,4 +1,4 @@
-import React, { useEffect, useId } from 'react';
+import React from 'react';
 
 import { motion } from 'motion/react';
 import type { MotionProps } from 'motion/react';
@@ -9,25 +9,18 @@ import { motionVariants } from '@/utils/motionVariants';
 
 // Use a stable fallback variant so missing ids do not break motion rendering.
 const fallbackVariant = motionVariants.sections.aboutMe;
-const SECTION_BATCH_SIZE = 3;
-const SECTION_BATCH_WINDOW = 0.8;
-const sectionDelayMap = new Map<string, number>();
 
-const assignBatchDelay = (id: string): number => {
-  if (sectionDelayMap.has(id)) {
-    return sectionDelayMap.get(id)!;
-  }
-
-  const index = sectionDelayMap.size;
-  const batchGroup = Math.floor(index / SECTION_BATCH_SIZE);
-  const delay = batchGroup * SECTION_BATCH_WINDOW;
-  sectionDelayMap.set(id, delay);
-  return delay;
-};
-
-const releaseBatchDelay = (id: string): void => {
-  sectionDelayMap.delete(id);
-};
+// Static section order for predictable batch delays
+const SECTION_ORDER = [
+  'hero',
+  'aboutMe',
+  'education',
+  'skills',
+  'portfolio',
+  'workExperience',
+  'contact',
+] as const;
+const BATCH_DELAY_INCREMENT = 0.1;
 
 // Wrapper component for applying motion animations to sections
 function MotionWrapper({
@@ -37,24 +30,22 @@ function MotionWrapper({
 }: MotionWrapperProps): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const variant = motionVariants.sections[sectionId] ?? fallbackVariant;
-  const instanceId = useId();
 
-  useEffect(
-    () => () => {
-      if (!prefersReducedMotion) {
-        releaseBatchDelay(instanceId);
-      }
-    },
-    [instanceId, prefersReducedMotion]
+  // Calculate delay based on section order
+  const sectionIndex = SECTION_ORDER.indexOf(
+    sectionId as (typeof SECTION_ORDER)[number]
   );
+  const batchDelay =
+    prefersReducedMotion || sectionIndex === -1
+      ? 0
+      : sectionIndex * BATCH_DELAY_INCREMENT;
 
-  const batchDelay = prefersReducedMotion ? 0 : assignBatchDelay(instanceId);
-
+  const baseMotion = { opacity: prefersReducedMotion ? 1 : 0, y: 0 };
   const resolvedInitial: MotionProps['initial'] = prefersReducedMotion
-    ? ({ opacity: 1, y: 0 } as MotionProps['initial'])
-    : ((variant.initial ?? { opacity: 0 }) as MotionProps['initial']);
+    ? baseMotion
+    : ((variant.initial ?? baseMotion) as MotionProps['initial']);
   const resolvedWhileInView: MotionProps['whileInView'] = prefersReducedMotion
-    ? ({ opacity: 1, y: 0 } as MotionProps['whileInView'])
+    ? baseMotion
     : ((variant.whileInView ??
         variant.animate ?? { opacity: 1 }) as MotionProps['whileInView']);
 
@@ -62,10 +53,8 @@ function MotionWrapper({
     <motion.div
       initial={resolvedInitial}
       whileInView={resolvedWhileInView}
-      transition={getTransition('smooth', {
-        delay: prefersReducedMotion ? 0 : batchDelay,
-      })}
-      viewport={{ once: false, amount: 0.3, margin: '-100px' }}
+      transition={getTransition('smooth', { delay: batchDelay })}
+      viewport={{ once: true, amount: 0.15, margin: '0px' }}
       style={{ position: 'relative' }}
       {...props}
     >
@@ -83,9 +72,10 @@ function SlideFromSide({
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const initialX = from === 'left' ? -100 : 100;
   const initial = prefersReducedMotion
-    ? { opacity: 1, x: 0 }
-    : { opacity: 0, x: initialX };
-  const target = { opacity: 1, x: 0 };
+    ? ({ opacity: 1, x: 0 } as const)
+    : ({ opacity: 0, x: initialX } as const);
+  const target = { opacity: 1, x: 0 } as const;
+
   return (
     <motion.div
       initial={initial}

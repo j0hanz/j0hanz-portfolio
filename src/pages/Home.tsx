@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
-import SectionWrapper from '@/components/SectionWrapper';
+import { MotionWrapper } from '@/components/Motions';
 import Spinner from '@/components/Spinner';
 import { SectionConfig } from '@/config/types';
 
@@ -33,14 +33,14 @@ function MainContent(): React.JSX.Element {
     <main>
       <Suspense fallback={<Spinner />}>
         {primarySections.map(({ id, Component }) => (
-          <SectionWrapper key={id} sectionId={id}>
+          <MotionWrapper key={id} sectionId={id}>
             <Component />
-          </SectionWrapper>
+          </MotionWrapper>
         ))}
         <ErrorBoundary>
-          <SectionWrapper sectionId={contactSection.id}>
+          <MotionWrapper sectionId={contactSection.id}>
             <ContactSectionComponent />
-          </SectionWrapper>
+          </MotionWrapper>
         </ErrorBoundary>
         <Footer />
       </Suspense>

@@ -43,8 +43,8 @@ interface MagnetMotionProps {
 function useCursorMagnet(disabled: boolean): MagnetMotionProps {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 320, damping: 28, mass: 0.9 });
-  const springY = useSpring(y, { stiffness: 320, damping: 28, mass: 0.9 });
+  const springX = useSpring(x, { stiffness: 200, damping: 24, mass: 0.8 });
+  const springY = useSpring(y, { stiffness: 200, damping: 24, mass: 0.8 });
 
   const reset = () => {
     x.set(0);
@@ -52,23 +52,18 @@ function useCursorMagnet(disabled: boolean): MagnetMotionProps {
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (disabled || event.pointerType !== 'mouse') {
-      return;
-    }
+    if (disabled || event.pointerType !== 'mouse') return;
+
     const rect = event.currentTarget.getBoundingClientRect();
-    const offsetX = event.clientX - (rect.left + rect.width / 2);
-    const offsetY = event.clientY - (rect.top + rect.height / 2);
-    x.set(offsetX * 0.15);
-    y.set(offsetY * 0.15);
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((event.clientX - centerX) * 0.15);
+    y.set((event.clientY - centerY) * 0.15);
   };
 
-  const handlePointerLeave = () => {
-    reset();
-  };
+  const handlePointerLeave = reset;
 
-  if (disabled) {
-    return {};
-  }
+  if (disabled) return {};
 
   return {
     style: { x: springX, y: springY },
@@ -89,6 +84,15 @@ function NavSocialLinkButton({
     ? { ...magnetProps.style, display: 'inline-flex' }
     : { display: 'inline-flex' };
 
+  const linkProps = href
+    ? {
+        component: 'a' as const,
+        href,
+        target: '_blank' as const,
+        rel: 'noopener noreferrer' as const,
+      }
+    : {};
+
   return (
     <motion.div
       style={wrapperStyle}
@@ -96,14 +100,7 @@ function NavSocialLinkButton({
       onPointerLeave={magnetProps.onPointerLeave}
     >
       <IconButton
-        {...(href
-          ? {
-              component: 'a',
-              href,
-              target: '_blank',
-              rel: 'noopener noreferrer',
-            }
-          : {})}
+        {...linkProps}
         onClick={onClick}
         size="large"
         color="inherit"

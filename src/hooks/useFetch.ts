@@ -76,10 +76,10 @@ export function useFetch<T = unknown>(
       return typedResult;
     } catch (error) {
       const fetchError = error as Error;
-      if (fetchError.name !== 'AbortError') {
-        setState((prev) => ({ ...prev, loading: false, error: fetchError }));
-        onError?.(fetchError);
-      }
+      if (fetchError.name === 'AbortError') return null;
+
+      setState((prev) => ({ ...prev, loading: false, error: fetchError }));
+      onError?.(fetchError);
       return null;
     }
   };

@@ -80,26 +80,23 @@ export function useAnimationConfig(): AnimationConfig {
 
   const getStagger = (multiplier = 1) =>
     prefersReducedMotion ? 0 : BASE_STAGGER * multiplier;
+
   const getTransition = (
     preset: TransitionPreset = 'smooth',
     overrides?: Partial<Transition>
   ) => {
-    const fallback = transitions.smooth;
-    const base = transitions[preset] ?? fallback;
+    const base = transitions[preset] ?? transitions.smooth;
 
     if (prefersReducedMotion) {
       return {
         ...base,
         duration: 0.01,
-        ease: base.ease ?? fallback.ease,
+        ease: base.ease,
         ...overrides,
       };
     }
 
-    return {
-      ...base,
-      ...overrides,
-    };
+    return { ...base, ...overrides };
   };
 
   return {
@@ -166,8 +163,6 @@ export function usePresence(): PresenceControls {
   return { isPresent, safeToRemove: safeToRemove ?? null };
 }
 
-type SequenceScope = ReturnType<typeof useAnimate>[0];
-
 type SequenceAnimator = (
   target: ElementOrSelector,
   keyframes: DOMKeyframesDefinition,
@@ -181,17 +176,17 @@ export interface AnimationSequenceControls {
   ) => Promise<void>;
 }
 
-const assignScope = (scope: SequenceScope, node: Element | null) => {
-  if (scope && typeof scope === 'object') {
-    (scope as MutableRefObject<Element | null>).current = node;
-  }
-};
-
 export function useAnimationSequence(): AnimationSequenceControls {
   const [scope, animate] = useAnimate();
+
   const scopeRef = useCallback(
     (node: Element | null) => {
-      assignScope(scope, node);
+      if (scope && typeof scope === 'object') {
+        // This is the official pattern from motion/react documentation
+        // The scope ref mutation is required by the library's API design
+        // eslint-disable-next-line react-compiler/react-compiler, react-hooks/immutability
+        (scope as MutableRefObject<Element | null>).current = node;
+      }
     },
     [scope]
   );
@@ -220,18 +215,20 @@ export function useMeasure<
   const [node, setNode] = useState<T | null>(null);
   const [bounds, setBounds] = useState<MeasureRect>(defaultMeasureRect);
 
-  const remeasure = () => {
-    if (!node || typeof window === 'undefined') {
-      return;
-    }
-
-    const rect = node.getBoundingClientRect();
+  const measureNode = useCallback((element: T) => {
+    const rect = element.getBoundingClientRect();
     setBounds({
       width: rect.width,
       height: rect.height,
       top: rect.top + window.scrollY,
       left: rect.left + window.scrollX,
     });
+  }, []);
+
+  const remeasure = () => {
+    if (node && typeof window !== 'undefined') {
+      measureNode(node);
+    }
   };
 
   useLayoutEffect(() => {
@@ -239,15 +236,7 @@ export function useMeasure<
       return;
     }
 
-    const measure = () => {
-      const rect = node.getBoundingClientRect();
-      setBounds({
-        width: rect.width,
-        height: rect.height,
-        top: rect.top + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
-    };
+    const measure = () => measureNode(node);
 
     const frame = window.requestAnimationFrame(measure);
 
@@ -267,7 +256,7 @@ export function useMeasure<
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [node]);
+  }, [node, measureNode]);
 
   return {
     ref: (instance: T | null) => {
