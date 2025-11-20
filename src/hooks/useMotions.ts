@@ -1,7 +1,9 @@
 import {
   MutableRefObject,
   useCallback,
+  useEffect,
   useLayoutEffect,
+  useRef,
   useState,
   useSyncExternalStore,
 } from 'react';
@@ -200,6 +202,14 @@ export interface AnimationSequenceControls {
 
 export function useAnimationSequence(): AnimationSequenceControls {
   const [scope, animate] = useAnimate();
+  const controlsRef = useRef<AnimationPlaybackControls[]>([]);
+
+  const stopAndClearControls = useCallback(() => {
+    controlsRef.current.forEach((control) => control.stop());
+    controlsRef.current = [];
+  }, []);
+
+  useEffect(() => stopAndClearControls, [stopAndClearControls]);
 
   const scopeRef = useCallback(
     (node: Element | null) => {
@@ -217,11 +227,26 @@ export function useAnimationSequence(): AnimationSequenceControls {
     },
     [scope]
   );
-  const runSequence = async (
-    builder: (animate: SequenceAnimator) => Promise<void> | void
-  ) => {
-    await builder(animate);
-  };
+  const runSequence = useCallback(
+    async (builder: (animate: SequenceAnimator) => Promise<void> | void) => {
+      const registeringAnimator: SequenceAnimator = (
+        target,
+        keyframes,
+        options
+      ) => {
+        const control = animate(target, keyframes, options);
+        controlsRef.current.push(control);
+        return control;
+      };
+
+      try {
+        await builder(registeringAnimator);
+      } finally {
+        controlsRef.current = [];
+      }
+    },
+    [animate]
+  );
 
   return {
     scopeRef,
