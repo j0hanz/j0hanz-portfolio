@@ -1,4 +1,4 @@
-import React, { forwardRef, lazy, Suspense } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 
 import { HiOutlineBars3, HiXMark } from 'react-icons/hi2';
 
@@ -20,7 +20,7 @@ import type { MotionStyle } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
-import Spinner from '@/components/Spinner';
+import ModalCv from '@/components/ModalCv';
 import {
   OffcanvasMenuProps,
   SocialLinkListProps,
@@ -31,8 +31,6 @@ import { useAnimationConfig } from '@/hooks/useMotions';
 import useNavLinkClose from '@/hooks/useNavLinkClose';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
-
-const ModalCv = lazy(() => import('@/components/ModalCv'));
 
 interface MagnetMotionProps {
   style?: MotionStyle;
@@ -45,23 +43,54 @@ function useCursorMagnet(disabled: boolean): MagnetMotionProps {
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 200, damping: 24, mass: 0.8 });
   const springY = useSpring(y, { stiffness: 200, damping: 24, mass: 0.8 });
+  const boundsRef = useRef<{ centerX: number; centerY: number } | null>(null);
+
+  const resolveBounds = (
+    element: HTMLElement
+  ): { centerX: number; centerY: number } | null => {
+    if (boundsRef.current) {
+      return boundsRef.current;
+    }
+
+    const rect = element.getBoundingClientRect();
+    const bounds = {
+      centerX: rect.left + rect.width / 2,
+      centerY: rect.top + rect.height / 2,
+    };
+    boundsRef.current = bounds;
+    return bounds;
+  };
 
   const reset = () => {
     x.set(0);
     y.set(0);
+    boundsRef.current = null;
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (disabled || event.pointerType !== 'mouse') return;
 
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((event.clientX - centerX) * 0.15);
-    y.set((event.clientY - centerY) * 0.15);
+    const bounds = resolveBounds(event.currentTarget);
+    if (!bounds) return;
+
+    x.set((event.clientX - bounds.centerX) * 0.15);
+    y.set((event.clientY - bounds.centerY) * 0.15);
   };
 
   const handlePointerLeave = reset;
+
+  useEffect(() => {
+    if (disabled || typeof window === 'undefined') return;
+
+    const handleResize = () => {
+      boundsRef.current = null;
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [disabled]);
 
   if (disabled) return {};
 
@@ -425,11 +454,7 @@ function NavBar(): React.JSX.Element {
         </Box>
       </Container>
 
-      {showModal && (
-        <Suspense fallback={<Spinner />}>
-          <ModalCv show={showModal} handleClose={closeModal} />
-        </Suspense>
-      )}
+      {showModal && <ModalCv show={showModal} handleClose={closeModal} />}
     </>
   );
 }

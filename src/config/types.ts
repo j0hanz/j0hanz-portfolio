@@ -3,7 +3,6 @@ import {
   ComponentType,
   CSSProperties,
   ElementType,
-  LazyExoticComponent,
   ReactElement,
   ReactNode,
 } from 'react';
@@ -420,7 +419,7 @@ export type SectionId =
 
 export interface SectionConfig {
   id: SectionId;
-  Component: LazyExoticComponent<ComponentType>;
+  Component: ComponentType;
 }
 
 // --- Navigation ---

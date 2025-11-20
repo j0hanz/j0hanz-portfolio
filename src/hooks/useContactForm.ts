@@ -15,6 +15,7 @@ import {
   FieldName,
 } from '@/config/types';
 import { useDebounce, useUpdateEffect } from '@/hooks';
+import useEventCallback from '@/hooks/useEventCallback';
 import { sendEmail } from '@/lib/emailJs';
 import { validateEmail, validateForm, validateUrl } from '@/utils/validation';
 
@@ -64,22 +65,22 @@ const useContactForm = () => {
     updateError(setErrors, 'url', validateUrl(debouncedUrl));
   }, [debouncedUrl]);
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
-  };
+  const handleChange = useEventCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = event.target;
+      setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
+    }
+  )!;
 
-  const resetFields = () => {
+  const resetFields = useEventCallback(() => {
     setFormData(buildInitialValues());
     setErrors({});
-  };
+  })!;
 
-  const resetForm = () => {
+  const resetForm = useEventCallback(() => {
     resetFields();
     setSubmissionState('idle');
-  };
+  })!;
 
   useEffect(() => {
     if (submissionState !== 'success') return;
@@ -91,38 +92,40 @@ const useContactForm = () => {
     return () => window.clearTimeout(timeoutId);
   }, [submissionState]);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const newErrors = validateForm(formData);
-    setErrors(newErrors);
+  const handleSubmit = useEventCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const newErrors = validateForm(formData);
+      setErrors(newErrors);
 
-    if (Object.keys(newErrors).length > 0) {
-      return;
-    }
+      if (Object.keys(newErrors).length > 0) {
+        return;
+      }
 
-    setIsSending(true);
-    try {
-      const success = await sendEmail(formData);
-      if (success) {
-        resetFields();
-        setSubmissionState('success');
-        toast.success('Your message was sent successfully!');
-      } else {
+      setIsSending(true);
+      try {
+        const success = await sendEmail(formData);
+        if (success) {
+          resetFields();
+          setSubmissionState('success');
+          toast.success('Your message was sent successfully!');
+        } else {
+          setSubmissionState('idle');
+          toast.error(SEND_ERROR_MESSAGE);
+        }
+      } catch {
         setSubmissionState('idle');
         toast.error(SEND_ERROR_MESSAGE);
+      } finally {
+        setIsSending(false);
       }
-    } catch {
-      setSubmissionState('idle');
-      toast.error(SEND_ERROR_MESSAGE);
-    } finally {
-      setIsSending(false);
     }
-  };
+  )!;
 
-  const handleReset = () => {
+  const handleReset = useEventCallback(() => {
     resetForm();
     setIsSending(false);
-  };
+  })!;
 
   return {
     isSending,

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Stack, Typography } from '@mui/material';
 import {
   animate,
   motion,
+  useInView,
   useMotionValue,
   useMotionValueEvent,
 } from 'motion/react';
@@ -93,12 +94,19 @@ const ProjectStats = ({
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const [stats, setStats] = useState<RepoStats | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(statsRef, {
+    once: true,
+    margin: '0px 0px -20% 0px',
+  });
 
   useEffect(() => {
     let isCancelled = false;
     const controller = new AbortController();
 
     const fetchStats = async () => {
+      if (!repoPath) return;
+
       try {
         // Check cache first
         const cached = statsCache.get(repoPath);
@@ -158,13 +166,19 @@ const ProjectStats = ({
       }
     };
 
+    if (!repoPath || !isInView) {
+      return () => {
+        controller.abort();
+      };
+    }
+
     fetchStats();
 
     return () => {
       isCancelled = true;
       controller.abort();
     };
-  }, [repoPath]);
+  }, [repoPath, isInView]);
 
   const fallback = stats ?? { stars: 0, forks: 0, issues: 0 };
   const statItems = [
@@ -177,7 +191,7 @@ const ProjectStats = ({
   }
 
   return (
-    <Stack spacing={1.5} alignItems="flex-start" sx={{ mb: 3 }}>
+    <Stack ref={statsRef} spacing={1.5} alignItems="flex-start" sx={{ mb: 3 }}>
       {statItems.map(({ key, label, value }) => (
         <AnimatedStat
           key={key}

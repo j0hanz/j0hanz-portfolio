@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { InitialToggleState, UseToggleReturn } from '@/config/types';
+import useEventCallback from '@/hooks/useEventCallback';
 
 /**
  * Boolean state helper that provides ergonomic helpers for toggling UI flags.
@@ -15,17 +16,17 @@ export function useToggle(
     typeof initialState === 'function' ? initialState() : initialState
   );
 
-  const toggle = (nextValue?: boolean) => {
-    setValue((prev) => nextValue ?? !prev);
-  };
+  const toggle = useEventCallback((nextValue?: boolean) => {
+    setValue((prev) => (typeof nextValue === 'boolean' ? nextValue : !prev));
+  })!;
 
-  const setTrue = () => {
+  const setTrue = useEventCallback(() => {
     setValue(true);
-  };
+  })!;
 
-  const setFalse = () => {
+  const setFalse = useEventCallback(() => {
     setValue(false);
-  };
+  })!;
 
   return { value, toggle, setTrue, setFalse };
 }

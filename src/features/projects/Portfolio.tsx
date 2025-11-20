@@ -27,7 +27,7 @@ function Portfolio(): React.JSX.Element {
       >
         <Grid container spacing={4}>
           {projects.map((project) => (
-            <ProjectList key={project.title} project={project} />
+            <ProjectList key={project.github} project={project} />
           ))}
         </Grid>
       </motion.div>

@@ -1,20 +1,16 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
+import Footer from '@/components/Footer';
 import { MotionWrapper } from '@/components/Motions';
-import Spinner from '@/components/Spinner';
 import { SectionConfig } from '@/config/types';
-
-const Hero = lazy(() => import('@/features/hero/Hero'));
-const AboutMe = lazy(() => import('@/features/about/AboutMe'));
-const Skills = lazy(() => import('@/features/skills/Skills'));
-const WorkExperience = lazy(
-  () => import('@/features/experience/WorkExperience')
-);
-const Education = lazy(() => import('@/features/education/Education'));
-const Portfolio = lazy(() => import('@/features/projects/Portfolio'));
-const ContactForm = lazy(() => import('@/features/contact/ContactForm'));
-const Footer = lazy(() => import('@/components/Footer'));
+import AboutMe from '@/features/about/AboutMe';
+import ContactForm from '@/features/contact/ContactForm';
+import Education from '@/features/education/Education';
+import WorkExperience from '@/features/experience/WorkExperience';
+import Hero from '@/features/hero/Hero';
+import Portfolio from '@/features/projects/Portfolio';
+import Skills from '@/features/skills/Skills';
 
 const primarySections: SectionConfig[] = [
   { id: 'hero', Component: Hero },
@@ -31,19 +27,17 @@ const ContactSectionComponent = contactSection.Component;
 function MainContent(): React.JSX.Element {
   return (
     <main>
-      <Suspense fallback={<Spinner />}>
-        {primarySections.map(({ id, Component }) => (
-          <MotionWrapper key={id} sectionId={id}>
-            <Component />
-          </MotionWrapper>
-        ))}
-        <ErrorBoundary>
-          <MotionWrapper sectionId={contactSection.id}>
-            <ContactSectionComponent />
-          </MotionWrapper>
-        </ErrorBoundary>
-        <Footer />
-      </Suspense>
+      {primarySections.map(({ id, Component }) => (
+        <MotionWrapper key={id} sectionId={id}>
+          <Component />
+        </MotionWrapper>
+      ))}
+      <ErrorBoundary>
+        <MotionWrapper sectionId={contactSection.id}>
+          <ContactSectionComponent />
+        </MotionWrapper>
+      </ErrorBoundary>
+      <Footer />
     </main>
   );
 }

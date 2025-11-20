@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
 
@@ -9,7 +9,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
-import Spinner from '@/components/Spinner';
+import ModalCv from '@/components/ModalCv';
 import {
   useAnimationConfig,
   useAnimationPriority,
@@ -18,8 +18,6 @@ import {
   useToggle,
 } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
-
-const ModalCv = lazy(() => import('@/components/ModalCv'));
 
 const buttonBaseStyles = {
   minWidth: 180,
@@ -36,25 +34,56 @@ const MagneticWrapper = ({
   children,
 }: MagneticWrapperProps): React.JSX.Element => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const boundsRef = useRef<{ centerX: number; centerY: number } | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 180, damping: 24, mass: 0.8 });
   const springY = useSpring(y, { stiffness: 180, damping: 24, mass: 0.8 });
 
+  const measureBounds = () => {
+    if (!containerRef.current) return null;
+    const rect = containerRef.current.getBoundingClientRect();
+    const bounds = {
+      centerX: rect.left + rect.width / 2,
+      centerY: rect.top + rect.height / 2,
+    };
+    boundsRef.current = bounds;
+    return bounds;
+  };
+
   const reset = () => {
     x.set(0);
     y.set(0);
+    boundsRef.current = null;
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (disabled || !containerRef.current) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((event.clientX - centerX) * 0.08);
-    y.set((event.clientY - centerY) * 0.08);
+    const bounds = boundsRef.current ?? measureBounds();
+    if (!bounds) return;
+
+    x.set((event.clientX - bounds.centerX) * 0.08);
+    y.set((event.clientY - bounds.centerY) * 0.08);
   };
+
+  const handlePointerEnter = () => {
+    if (disabled) return;
+    measureBounds();
+  };
+
+  useEffect(() => {
+    if (disabled || typeof window === 'undefined') return;
+
+    const handleResize = () => {
+      boundsRef.current = null;
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [disabled]);
 
   const motionStyle = disabled
     ? { display: 'inline-flex' as const }
@@ -64,6 +93,7 @@ const MagneticWrapper = ({
     <motion.div
       ref={containerRef}
       style={motionStyle}
+      onPointerEnter={disabled ? undefined : handlePointerEnter}
       onPointerMove={disabled ? undefined : handlePointerMove}
       onPointerLeave={disabled ? undefined : reset}
       onPointerUp={disabled ? undefined : reset}
@@ -275,11 +305,7 @@ function Hero(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      {showModal && (
-        <Suspense fallback={<Spinner />}>
-          <ModalCv show={showModal} handleClose={handleModalClose} />
-        </Suspense>
-      )}
+      {showModal && <ModalCv show={showModal} handleClose={handleModalClose} />}
       <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
     </Box>
   );
