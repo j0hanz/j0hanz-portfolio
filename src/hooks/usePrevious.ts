@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function usePrevious<T>(value: T): T | undefined {
-  const [previous, setPrevious] = useState<T | undefined>(undefined);
+  const [state, setState] = useState<{ value: T; prev: T | undefined }>({
+    value,
+    prev: undefined,
+  });
 
-  useEffect(() => {
-    setPrevious(value);
-  }, [value]);
+  if (state.value !== value) {
+    setState({
+      value,
+      prev: state.value,
+    });
+  }
 
-  return previous;
+  return state.prev;
 }
 
 export default usePrevious;

@@ -34,7 +34,7 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>(
         event.target instanceof Node &&
         !ref.current.contains(event.target)
       ) {
-        stableHandler?.();
+        stableHandler();
       }
     };
 

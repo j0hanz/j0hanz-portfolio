@@ -12,6 +12,7 @@ import {
   useAnimationConfig,
   useAnimationPriority,
   useOnlineStatus,
+  usePrevious,
 } from '@/hooks';
 import Home from '@/pages/Home';
 
@@ -79,6 +80,7 @@ function BackgroundMorph(): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isOnline = useOnlineStatus();
+  const prevOnline = usePrevious(isOnline);
   const [statusBanner, setStatusBanner] = useState<StatusBanner | null>(
     getInitialBanner
   );
@@ -159,25 +161,22 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     document.title = 'Linus Johansson | Portfolio';
-
-    if (typeof navigator !== 'undefined' && !navigator.onLine) {
-      handleOffline();
-    }
   }, []);
 
   useEffect(() => {
-    const offlineListener = () => handleOffline();
-    const onlineListener = () => handleOnline();
+    // Handle initial offline state on mount
+    if (prevOnline === undefined) {
+      if (!isOnline) handleOffline();
+      return;
+    }
 
-    window.addEventListener('offline', offlineListener);
-    window.addEventListener('online', onlineListener);
-
-    return () => {
-      window.removeEventListener('offline', offlineListener);
-      window.removeEventListener('online', onlineListener);
-      clearBannerTimeout();
-    };
-  }, []);
+    // Handle status changes
+    if (isOnline && !prevOnline) {
+      handleOnline();
+    } else if (!isOnline && prevOnline) {
+      handleOffline();
+    }
+  }, [isOnline, prevOnline]);
 
   return (
     <Box

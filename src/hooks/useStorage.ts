@@ -68,7 +68,7 @@ export function useStorage<T>(
   };
 
   // Wrap with useEventCallback for stable reference in effects
-  const readValue: () => T = useEventCallback(readValueImpl) as () => T;
+  const readValue = useEventCallback(readValueImpl);
 
   const [value, setValue] = useState<T>(() => readValueImpl());
 

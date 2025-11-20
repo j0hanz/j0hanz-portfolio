@@ -18,15 +18,15 @@ export function useToggle(
 
   const toggle = useEventCallback((nextValue?: boolean) => {
     setValue((prev) => (typeof nextValue === 'boolean' ? nextValue : !prev));
-  })!;
+  });
 
   const setTrue = useEventCallback(() => {
     setValue(true);
-  })!;
+  });
 
   const setFalse = useEventCallback(() => {
     setValue(false);
-  })!;
+  });
 
   return { value, toggle, setTrue, setFalse };
 }

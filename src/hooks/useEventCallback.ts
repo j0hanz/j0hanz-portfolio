@@ -18,17 +18,9 @@ import { useCallback, useInsertionEffect, useRef } from 'react';
  * });
  */
 function useEventCallback<Args extends unknown[], R>(
-  fn: ((...args: Args) => R) | undefined
-): ((...args: Args) => R) | undefined;
-
-function useEventCallback<Args extends unknown[], R>(
   fn: (...args: Args) => R
-): (...args: Args) => R;
-
-function useEventCallback<Args extends unknown[], R>(
-  fn: ((...args: Args) => R) | undefined
-): ((...args: Args) => R) | undefined {
-  const ref = useRef<((...args: Args) => R) | undefined>(fn);
+): (...args: Args) => R {
+  const ref = useRef<((...args: Args) => R)>(fn);
 
   // useInsertionEffect fires before DOM mutations, ideal for ref updates
   useInsertionEffect(() => {
@@ -37,11 +29,7 @@ function useEventCallback<Args extends unknown[], R>(
 
   // Return a stable callback reference that calls the latest function
   return useCallback((...args: Args) => {
-    const currentFn = ref.current;
-    if (!currentFn) {
-      throw new Error('Cannot call useEventCallback with undefined function');
-    }
-    return currentFn(...args);
+    return ref.current(...args);
   }, []);
 }
 

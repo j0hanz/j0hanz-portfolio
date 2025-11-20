@@ -8,65 +8,60 @@ import { motion } from 'motion/react';
 import { useAnimationConfig } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
 
-const MotionToastTransition = React.forwardRef<
-  HTMLDivElement,
-  ToastTransitionProps
->(
-  (
-    {
-      children,
-      isIn,
-      nodeRef: _nodeRef,
-      done,
-      preventExitTransition,
-      playToast,
-    },
-    ref
-  ) => {
-    const { getTransition } = useAnimationConfig();
-    const assignRefs = (instance: HTMLDivElement | null) => {
-      if (typeof ref === 'function') {
-        ref(instance);
-      } else if (ref) {
-        (ref as React.MutableRefObject<HTMLDivElement | null>).current =
-          instance;
-      }
-    };
-
-    if (!isIn && preventExitTransition) {
-      done();
-      return (
-        <div ref={assignRefs} style={{ opacity: 0 }}>
-          {children}
-        </div>
-      );
+const MotionToastTransition = (
+  {
+    children,
+    isIn,
+    nodeRef: _nodeRef,
+    done,
+    preventExitTransition,
+    playToast,
+    ref,
+  }: ToastTransitionProps & { ref?: React.Ref<HTMLDivElement> },
+) => {
+  const { getTransition } = useAnimationConfig();
+  const assignRefs = (instance: HTMLDivElement | null) => {
+    if (typeof ref === 'function') {
+      ref(instance);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+        instance;
     }
+  };
 
+  if (!isIn && preventExitTransition) {
+    done();
     return (
-      <motion.div
-        ref={assignRefs}
-        initial={motionVariants.exit.toast.initial}
-        animate={
-          isIn
-            ? motionVariants.exit.toast.animate
-            : motionVariants.exit.toast.exit
-        }
-        transition={getTransition('snappy', { duration: 0.32 })}
-        onAnimationComplete={() => {
-          if (isIn) {
-            playToast();
-          } else {
-            done();
-          }
-        }}
-      >
+      <div ref={assignRefs} style={{ opacity: 0 }}>
         {children}
-      </motion.div>
+      </div>
     );
   }
-);
 
-MotionToastTransition.displayName = 'MotionToastTransition';
+  return (
+    <motion.div
+      ref={assignRefs}
+      initial={motionVariants.exit.toast.initial}
+      animate={
+        isIn
+          ? motionVariants.exit.toast.animate
+          : motionVariants.exit.toast.exit
+      }
+      transition={getTransition('snappy', { duration: 0.32 })}
+      onAnimationComplete={() => {
+        if (isIn) {
+          playToast();
+        } else {
+          done();
+        }
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// MotionToastTransition.displayName = 'MotionToastTransition';
 
 // Component for displaying toast notifications
 function Toast(): React.JSX.Element {

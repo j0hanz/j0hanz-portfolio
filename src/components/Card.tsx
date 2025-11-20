@@ -13,69 +13,61 @@ interface InternalCardProps extends CardProps {
   motionProps?: MotionProps;
 }
 
-const BaseCard = React.forwardRef<HTMLDivElement, InternalCardProps>(
-  function Card(
-    {
-      title,
-      subtitle,
-      children,
-      className = '',
-      sx,
-      noContentPadding = false,
-      motionProps,
-    },
-    ref
-  ): React.ReactElement {
-    return (
-      <MotionPaper
-        ref={ref}
-        className={className}
-        elevation={0}
-        sx={{
-          height: 1,
-          borderRadius: 2,
-          WebkitBackdropFilter: 'blur(10px)',
-          backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          ...sx,
-        }}
-        {...(motionProps ?? {})}
-      >
-        {noContentPadding ? (
-          children
-        ) : (
-          <Box sx={{ p: 2 }}>
-            <Typography variant="h5" component="div" gutterBottom>
-              {title}
-            </Typography>
-            {subtitle && (
-              <Typography variant="body1" component="div" sx={{ mb: 1.5 }}>
-                {subtitle}
-              </Typography>
-            )}
-            {children}
-          </Box>
-        )}
-      </MotionPaper>
-    );
-  }
-);
-
-BaseCard.displayName = 'Card';
-
-function AnimatedCard(
-  props: CardProps,
-  ref: React.Ref<HTMLDivElement>
+const BaseCard = function Card(
+  {
+    title,
+    subtitle,
+    children,
+    className = '',
+    sx,
+    noContentPadding = false,
+    motionProps,
+    ref,
+  }: InternalCardProps & { ref?: React.Ref<HTMLDivElement> },
 ): React.ReactElement {
+  return (
+    <MotionPaper
+      ref={ref}
+      className={className}
+      elevation={0}
+      sx={{
+        height: 1,
+        borderRadius: 2,
+        WebkitBackdropFilter: 'blur(10px)',
+        backdropFilter: 'blur(10px)',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        ...sx,
+      }}
+      {...(motionProps ?? {})}
+    >
+      {noContentPadding ? (
+        children
+      ) : (
+        <Box sx={{ p: 2 }}>
+          <Typography variant="h5" component="div" gutterBottom>
+            {title}
+          </Typography>
+          {subtitle && (
+            <Typography variant="body1" component="div" sx={{ mb: 1.5 }}>
+              {subtitle}
+            </Typography>
+          )}
+          {children}
+        </Box>
+      )}
+    </MotionPaper>
+  );
+};
+
+// BaseCard.displayName = 'Card'; // Optional
+
+function AnimatedCard({
+  ref,
+  ...props
+}: CardProps & { ref?: React.Ref<HTMLDivElement> }): React.ReactElement {
   const hoverMotion = useCardHover();
   return <BaseCard ref={ref} motionProps={hoverMotion} {...props} />;
 }
 
-const ForwardAnimatedCard = React.forwardRef<HTMLDivElement, CardProps>(
-  AnimatedCard
-);
-
-ForwardAnimatedCard.displayName = 'AnimatedCard';
-
-export { ForwardAnimatedCard as AnimatedCard };
+export { AnimatedCard };
 export default BaseCard;

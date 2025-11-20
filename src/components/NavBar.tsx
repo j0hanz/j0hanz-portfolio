@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { CloseRounded, MenuRounded } from '@mui/icons-material';
 import {
@@ -313,8 +313,13 @@ function SocialLinks({
 }
 
 // Offcanvas menu
-const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
-  ({ showOffcanvas, closeOffcanvas, openModal }, ref) => (
+function OffcanvasMenu({
+  showOffcanvas,
+  closeOffcanvas,
+  openModal,
+  ref,
+}: OffcanvasMenuProps & { ref?: React.Ref<HTMLDivElement> }): React.JSX.Element {
+  return (
     <Drawer
       ref={ref}
       anchor="right"
@@ -356,10 +361,8 @@ const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
         <SocialLinks openModal={openModal} />
       </Box>
     </Drawer>
-  )
-);
-
-OffcanvasMenu.displayName = 'OffcanvasMenu';
+  );
+}
 
 // Main NavBar component
 function NavBar(): React.JSX.Element {

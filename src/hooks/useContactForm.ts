@@ -93,17 +93,17 @@ const useContactForm = () => {
       const { name, value } = event.target;
       setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
     }
-  )!;
+  );
 
   const resetFields = useEventCallback(() => {
     setFormData(buildInitialValues());
     setErrors({});
-  })!;
+  });
 
   const resetForm = useEventCallback(() => {
     resetFields();
     setSubmissionState('idle');
-  })!;
+  });
 
   useEffect(() => {
     if (submissionState !== 'success') return;
@@ -151,7 +151,7 @@ const useContactForm = () => {
 
   const handleReset = useEventCallback(() => {
     resetForm();
-  })!;
+  });
 
   return {
     isSending: isPending,

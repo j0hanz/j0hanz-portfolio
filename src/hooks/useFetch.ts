@@ -25,7 +25,7 @@ export function useFetch<T = unknown>(
     controllerRef.current = null;
   };
 
-  const abort: () => void = useEventCallback(abortImpl) as () => void;
+  const abort = useEventCallback(abortImpl);
 
   const executeImpl = async (
     overrideUrl?: string,
@@ -84,10 +84,7 @@ export function useFetch<T = unknown>(
     }
   };
 
-  const execute: (
-    overrideUrl?: string,
-    overrideOptions?: RequestInit
-  ) => Promise<T | null> = useEventCallback(executeImpl) as typeof executeImpl;
+  const execute = useEventCallback(executeImpl);
 
   const reset = () => {
     abortImpl();
