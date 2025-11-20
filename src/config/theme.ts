@@ -54,7 +54,7 @@ const getBaseTheme = (): ThemeOptions => ({
         },
       },
     },
-    MuiCard: {
+    MuiPaper: {
       styleOverrides: {
         root: {
           borderRadius: 12,

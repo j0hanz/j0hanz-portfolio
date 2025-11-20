@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CardContent, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -24,12 +24,13 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
       noContentPadding
       sx={{
         height: 1,
-        bgcolor: 'background.paper',
-        borderRadius: 3,
-        boxShadow: 4,
+        borderRadius: 2,
+        WebkitBackdropFilter: 'blur(10px)',
+        backdropFilter: 'blur(10px)',
+        backgroundColor: 'rgba(0, 0, 0, 0.20)',
       }}
     >
-      <CardContent
+      <Box
         component="article"
         sx={{
           display: 'flex',
@@ -49,7 +50,7 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
         )}
         <ProjectBadges badges={badges} />
         <ProjectLinks project={project} />
-      </CardContent>
+      </Box>
     </AnimatedCard>
   );
 }

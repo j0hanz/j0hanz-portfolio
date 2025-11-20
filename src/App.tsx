@@ -48,15 +48,15 @@ function BackgroundMorph(): React.JSX.Element {
         shouldAnimate
           ? {
               scale: [1, 1.05, 1],
-              x: ['0%', '2%', '0%'],
-              y: ['0%', '3%', '0%'],
+              x: ['0%', '3%', '0%'],
+              y: ['0%', '2%', '0%'],
             }
           : { scale: 1, x: '0%', y: '0%' }
       }
       transition={
         shouldAnimate
           ? getTransition('smooth', {
-              duration: 18,
+              duration: 15,
               repeat: Infinity,
               repeatType: 'mirror',
             })
@@ -70,7 +70,7 @@ function BackgroundMorph(): React.JSX.Element {
         pointerEvents: 'none',
         background:
           'linear-gradient(135deg, rgba(50, 107, 255, 0.35), rgba(99, 102, 241, 0.25))',
-        filter: 'blur(32px)',
+        filter: 'blur(30px)',
       }}
       aria-hidden
     />

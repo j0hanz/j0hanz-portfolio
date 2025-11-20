@@ -9,22 +9,22 @@ import type {
 const transitions: Record<TransitionPreset, Transition> = {
   springy: {
     type: 'spring',
-    stiffness: 220,
-    damping: 24,
+    stiffness: 200,
+    damping: 20,
     mass: 1,
   },
   smooth: {
-    duration: 0.65,
+    duration: 0.8,
     ease: [0.42, 0, 0.58, 1],
   },
   snappy: {
-    duration: 0.28,
+    duration: 0.4,
     ease: [0.33, 1, 0.68, 1],
   },
   bounce: {
     type: 'spring',
-    stiffness: 320,
-    damping: 18,
+    stiffness: 250,
+    damping: 25,
     mass: 0.85,
   },
 };
@@ -138,7 +138,7 @@ const scroll = {
   scrollParallax: {
     initial: { y: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
     animate: { y: [-12, 12], ...WILL_CHANGE_TRANSFORM_OPACITY },
-    transition: { duration: 6, repeat: Infinity, repeatType: 'mirror' },
+    transition: { duration: 5, repeat: Infinity, repeatType: 'mirror' },
   },
 };
 

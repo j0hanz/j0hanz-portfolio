@@ -8,7 +8,7 @@ import {
   HiOutlineTrash,
 } from 'react-icons/hi2';
 
-import { Card, CardContent, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -125,15 +125,15 @@ function ContactFormContent(): React.JSX.Element {
   const showSuccess = submissionState === 'success';
 
   return (
-    <Card
+    <Paper
+      elevation={4}
       sx={{
         height: 1,
         bgcolor: 'background.paper',
         borderRadius: 3,
-        boxShadow: 4,
       }}
     >
-      <CardContent sx={{ p: 0, '&:last-child': { pb: 0 } }}>
+      <Box sx={{ p: 0 }}>
         <Stack component="form" noValidate action={submitAction}>
           <ContactFormFields
             formData={formData}
@@ -176,8 +176,8 @@ function ContactFormContent(): React.JSX.Element {
             <ContactSubmitButton />
           </Stack>
         </Stack>
-      </CardContent>
-    </Card>
+      </Box>
+    </Paper>
   );
 }
 

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { CardContent, Card as MuiCard, Typography } from '@mui/material';
+import { Box, Paper as MuiPaper, Typography } from '@mui/material';
 import { motion } from 'motion/react';
 import type { MotionProps } from 'motion/react';
 
 import { CardProps } from '@/config/types';
 import { useCardHover } from '@/hooks/useMotions';
 
-const MotionCard = motion.create(MuiCard);
+const MotionPaper = motion.create(MuiPaper);
 
 interface InternalCardProps extends CardProps {
   motionProps?: MotionProps;
@@ -27,12 +27,16 @@ const BaseCard = React.forwardRef<HTMLDivElement, InternalCardProps>(
     ref
   ): React.ReactElement {
     return (
-      <MotionCard
+      <MotionPaper
         ref={ref}
         className={className}
+
         sx={{
           height: 1,
-          boxShadow: 3,
+          borderRadius: 2,
+          WebkitBackdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(0, 0, 0, 0.20)',
           ...sx,
         }}
         {...(motionProps ?? {})}
@@ -40,7 +44,7 @@ const BaseCard = React.forwardRef<HTMLDivElement, InternalCardProps>(
         {noContentPadding ? (
           children
         ) : (
-          <CardContent sx={{ p: 2 }}>
+          <Box sx={{ p: 2 }}>
             <Typography variant="h5" component="div" gutterBottom>
               {title}
             </Typography>
@@ -49,15 +53,14 @@ const BaseCard = React.forwardRef<HTMLDivElement, InternalCardProps>(
                 variant="body1"
                 component="div"
                 sx={{ mb: 1.5 }}
-                color="text.secondary"
               >
                 {subtitle}
               </Typography>
             )}
             {children}
-          </CardContent>
+          </Box>
         )}
-      </MotionCard>
+      </MotionPaper>
     );
   }
 );
