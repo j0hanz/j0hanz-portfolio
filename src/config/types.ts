@@ -475,3 +475,24 @@ export interface UseToggleReturn {
 }
 
 export type FieldName = keyof ContactFormValues;
+
+// --- Utils ---
+export type ValidationError = string | undefined;
+
+// --- Theme Module Augmentation ---
+declare module '@mui/material/styles' {
+  interface Palette {
+    heroGradient: string;
+    neutral: Palette['primary'];
+  }
+  interface PaletteOptions {
+    heroGradient?: string;
+    neutral?: PaletteOptions['primary'];
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    neutral: true;
+  }
+}

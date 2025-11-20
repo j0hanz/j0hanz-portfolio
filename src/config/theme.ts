@@ -4,24 +4,6 @@ import {
   ThemeOptions,
 } from '@mui/material/styles';
 
-// Extend the Palette interface to include custom colors
-declare module '@mui/material/styles' {
-  interface Palette {
-    heroGradient: string;
-    neutral: Palette['primary'];
-  }
-  interface PaletteOptions {
-    heroGradient?: string;
-    neutral?: PaletteOptions['primary'];
-  }
-}
-
-declare module '@mui/material/Button' {
-  interface ButtonPropsColorOverrides {
-    neutral: true;
-  }
-}
-
 const getBaseTheme = (): ThemeOptions => ({
   cssVariables: true,
   typography: {

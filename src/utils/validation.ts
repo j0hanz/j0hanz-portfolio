@@ -1,4 +1,8 @@
-import { ContactFormErrors, ContactFormValues } from '@/config/types';
+import {
+  ContactFormErrors,
+  ContactFormValues,
+  ValidationError,
+} from '@/config/types';
 
 const NAME_PATTERN = /^[a-zA-Z\s]{2,}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -17,8 +21,6 @@ const ERROR_MESSAGES = {
 } as const;
 
 const trim = (value: string): string => value.trim();
-
-type ValidationError = string | undefined;
 
 export const validateName = (value: string): ValidationError => {
   const trimmedValue = trim(value);
