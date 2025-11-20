@@ -76,3 +76,18 @@ export { default as useNavLinkClose } from './useNavLinkClose';
 
 /** Accesses the ThemeMode context with helpful error messaging. */
 export { useTheme } from './useTheme';
+
+/** Copies text to the clipboard and provides success/error feedback. */
+export { default as useCopyToClipboard } from './useCopyToClipboard';
+
+/** Detects if the mouse is hovering over a specific element. */
+export { default as useHover } from './useHover';
+
+/** Detects if the user is currently online or offline. */
+export { default as useOnlineStatus } from './useOnlineStatus';
+
+/** Runs an effect only once on mount (strict mode safe). */
+export { default as useEffectOnce } from './useEffectOnce';
+
+/** Attaches an event listener to a DOM element, window, or document. */
+export { default as useEventListener } from './useEventListener';

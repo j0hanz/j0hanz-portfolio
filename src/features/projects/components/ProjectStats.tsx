@@ -24,13 +24,31 @@ const githubShields: ShieldConfig[] = [
   },
 ];
 
+const shieldVariants = githubShields.reduce(
+  (acc, shield) => {
+    if (!shield.shouldRender || shield.shouldRender(false)) {
+      acc.withoutProjectBoard.push(shield);
+    }
+    if (!shield.shouldRender || shield.shouldRender(true)) {
+      acc.withProjectBoard.push(shield);
+    }
+    return acc;
+  },
+  {
+    withProjectBoard: [] as ShieldConfig[],
+    withoutProjectBoard: [] as ShieldConfig[],
+  }
+);
+
+const shieldImageStyle = { borderRadius: '6.5px', transform: 'skew(-10deg)' };
+
 const ProjectStats = ({
   repoPath,
   hasProjectBoard,
 }: ProjectStatsProps): React.JSX.Element => {
-  const visibleShields = githubShields.filter((shield) =>
-    shield.shouldRender ? shield.shouldRender(hasProjectBoard) : true
-  );
+  const visibleShields = hasProjectBoard
+    ? shieldVariants.withProjectBoard
+    : shieldVariants.withoutProjectBoard;
 
   return (
     <Stack spacing={1} alignItems="flex-start" sx={{ mb: 3 }}>
@@ -50,7 +68,7 @@ const ProjectStats = ({
               width="140"
               loading="lazy"
               decoding="async"
-              style={{ borderRadius: '6.5px', transform: 'skew(-10deg)' }}
+              style={shieldImageStyle}
             />
           </a>
         )

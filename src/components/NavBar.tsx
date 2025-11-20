@@ -24,7 +24,7 @@ import {
   SocialLinkListProps,
   SocialLinkRenderProps,
 } from '@/config/types';
-import { useToggle } from '@/hooks';
+import { useEventListener, useToggle } from '@/hooks';
 import useNavLinkClose from '@/hooks/useNavLinkClose';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
@@ -296,6 +296,13 @@ function NavBar(): React.JSX.Element {
     'a[href^="#"]', // Updated selector to match anchor tags with hash links
     closeOffcanvas
   );
+
+  useEventListener('keydown', (event) => {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Escape' && showOffcanvas) {
+      closeOffcanvas();
+    }
+  });
 
   return (
     <>

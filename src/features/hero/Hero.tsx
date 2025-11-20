@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useRef } from 'react';
 
 import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
 
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Container, Fade, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import ProfileImage from '@/assets/image_me.webp';
@@ -10,7 +10,7 @@ import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
 import { SlideFromSide } from '@/components/Motions';
 import Spinner from '@/components/Spinner';
-import { useToggle } from '@/hooks';
+import { useHover, useToggle } from '@/hooks';
 
 const ModalCv = lazy(() => import('@/components/ModalCv'));
 
@@ -31,6 +31,8 @@ function Hero(): React.JSX.Element {
     setTrue: handleImageModalOpen,
     setFalse: handleImageModalClose,
   } = useToggle(false);
+  const profileImageRef = useRef<HTMLImageElement | null>(null);
+  const isProfileHovered = useHover(profileImageRef);
 
   return (
     <Box component="section" id="hero" sx={{ pt: 8 }}>
@@ -38,27 +40,49 @@ function Hero(): React.JSX.Element {
         <Grid container justifyContent="center" spacing={2}>
           <Grid size={{ md: 5 }}>
             <SlideFromSide from="left">
-              <Box
-                component="img"
-                src={ProfileImage}
-                alt="Linus Johansson"
-                onClick={handleImageModalOpen}
-                sx={{
-                  width: { xs: 185, md: 245, lg: 280 },
-                  height: { xs: 185, md: 245, lg: 280 },
-                  borderRadius: 2,
-                  objectFit: 'cover',
-                  transition: (theme) =>
-                    theme.transitions.create('filter', {
-                      duration: theme.transitions.duration.standard,
-                    }),
-                  cursor: 'pointer',
-                  mb: { xs: 3, lg: 0 },
-                  '&:hover': {
-                    filter: 'brightness(0.8)',
-                  },
-                }}
-              />
+              <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                <Box
+                  component="img"
+                  ref={profileImageRef}
+                  src={ProfileImage}
+                  alt="Linus Johansson"
+                  onClick={handleImageModalOpen}
+                  sx={{
+                    width: { xs: 185, md: 245, lg: 280 },
+                    height: { xs: 185, md: 245, lg: 280 },
+                    borderRadius: 2,
+                    objectFit: 'cover',
+                    transition: (theme) =>
+                      theme.transitions.create('filter', {
+                        duration: theme.transitions.duration.standard,
+                      }),
+                    cursor: 'pointer',
+                    mb: { xs: 3, lg: 0 },
+                    filter: isProfileHovered ? 'brightness(0.8)' : 'none',
+                  }}
+                />
+                <Fade in={isProfileHovered} timeout={200}>
+                  <Box
+                    aria-hidden
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      borderRadius: 2,
+                      bgcolor: 'rgba(0, 0, 0, 0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'common.white',
+                      letterSpacing: 1,
+                      fontSize: '0.9rem',
+                      pointerEvents: 'none',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Click to enlarge
+                  </Box>
+                </Fade>
+              </Box>
             </SlideFromSide>
           </Grid>
           <Grid size="auto" sx={{ textAlign: { xs: 'center', lg: 'left' } }}>

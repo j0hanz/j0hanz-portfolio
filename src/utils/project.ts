@@ -51,20 +51,36 @@ export const badgeConfig: BadgeConfig[] = [
   },
 ];
 
+const repoPathCache = new Map<string, string | null>();
+const projectMetaCache = new WeakMap<Project, ProjectMeta>();
+
 export const extractRepoPath = (githubUrl: string): string | null => {
+  if (repoPathCache.has(githubUrl)) {
+    return repoPathCache.get(githubUrl) ?? null;
+  }
+
   try {
     const parsedUrl = new URL(githubUrl);
     if (parsedUrl.hostname !== 'github.com') {
+      repoPathCache.set(githubUrl, null);
       return null;
     }
 
-    return parsedUrl.pathname.replace(/^\/+/, '');
+    const repoPath = parsedUrl.pathname.replace(/^\/+/, '');
+    repoPathCache.set(githubUrl, repoPath);
+    return repoPath;
   } catch {
+    repoPathCache.set(githubUrl, null);
     return null;
   }
 };
 
 export const getProjectMeta = (project: Project): ProjectMeta => {
+  const cachedMeta = projectMetaCache.get(project);
+  if (cachedMeta) {
+    return cachedMeta;
+  }
+
   const {
     github,
     projectBoard = false,
@@ -83,9 +99,11 @@ export const getProjectMeta = (project: Project): ProjectMeta => {
   };
   const badges = badgeConfig.filter(({ flag }) => badgeFlags[flag]);
 
-  return {
+  const meta: ProjectMeta = {
     repoPath,
     badges,
     hasProjectBoard: projectBoard,
   };
+  projectMetaCache.set(project, meta);
+  return meta;
 };

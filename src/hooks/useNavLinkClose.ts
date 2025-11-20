@@ -9,9 +9,12 @@ export default function useNavLinkClose(
   onClose: () => void
 ): RefObject<HTMLDivElement | null> {
   const stableOnClose = useEventCallback(onClose);
-  const offcanvasRef = useClickOutside<HTMLDivElement>(() => {
-    if (show) stableOnClose?.();
-  });
+  const offcanvasRef = useClickOutside<HTMLDivElement>(
+    () => {
+      if (show) stableOnClose?.();
+    },
+    { enabled: show }
+  );
 
   useEffect(() => {
     if (!show) return undefined;

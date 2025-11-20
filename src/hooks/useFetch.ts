@@ -13,7 +13,6 @@ export function useFetch<T = unknown>(
   });
 
   const controllerRef = useRef<AbortController | null>(null);
-  // Keep options in ref to avoid re-triggering effects or stale closures in execute
   const optionsRef = useRef(options);
 
   useEffect(() => {
@@ -78,7 +77,7 @@ export function useFetch<T = unknown>(
           setState((prev) => ({ ...prev, loading: false, error: fetchError }));
           onError?.(fetchError);
         }
-        throw fetchError;
+        return null;
       }
     },
     [url, abort]

@@ -5,16 +5,21 @@ import { motion } from 'framer-motion';
 import { MotionWrapperProps, SlideFromSideProps } from '@/config/types';
 import { motionVariants, transition } from '@/utils/motionVariants';
 
+// Use a stable fallback variant so missing ids do not break motion rendering.
+const fallbackVariant = motionVariants.aboutMe;
+
 // Wrapper component for applying motion animations to sections
 function MotionWrapper({
   children,
   sectionId,
   ...props
 }: MotionWrapperProps): React.JSX.Element {
+  const variant = motionVariants[sectionId] ?? fallbackVariant;
+
   return (
     <motion.div
-      initial={motionVariants[sectionId].initial}
-      whileInView={motionVariants[sectionId].whileInView}
+      initial={variant.initial}
+      whileInView={variant.whileInView}
       transition={transition}
       viewport={{ once: true, amount: 0.2 }}
       {...props}

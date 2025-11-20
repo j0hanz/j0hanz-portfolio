@@ -139,7 +139,7 @@ export function useStorage<T>(
 
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
-  }, [key, listen, readValue, resolvedStorage]);
+  }, [key, listen, resolvedStorage, readValue]);
 
   return {
     value,

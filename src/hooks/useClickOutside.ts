@@ -2,6 +2,10 @@ import { useEffect, useRef } from 'react';
 
 import useEventCallback from './useEventCallback';
 
+interface UseClickOutsideOptions {
+  enabled?: boolean;
+}
+
 /**
  * Custom hook to handle clicks outside of a referenced element
  * Useful for closing modals, dropdowns, etc.
@@ -11,12 +15,18 @@ import useEventCallback from './useEventCallback';
  * return <div ref={ref}>...</div>
  */
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
-  handler: () => void
+  handler: () => void,
+  options?: UseClickOutsideOptions
 ) {
   const ref = useRef<T>(null);
   const stableHandler = useEventCallback(handler);
+  const { enabled = true } = options ?? {};
 
   useEffect(() => {
+    if (!enabled) {
+      return undefined;
+    }
+
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (
         ref.current instanceof HTMLElement &&
@@ -36,7 +46,7 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>(
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, [stableHandler]);
+  }, [enabled, stableHandler]);
 
   return ref;
 }

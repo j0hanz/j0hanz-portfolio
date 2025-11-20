@@ -1,16 +1,26 @@
 import { FC } from 'react';
 
-import { HiOutlineEnvelope } from 'react-icons/hi2';
+import { HiOutlineClipboardDocument, HiOutlineEnvelope } from 'react-icons/hi2';
 import { SiCreativecommons } from 'react-icons/si';
+import { toast } from 'react-toastify';
 
-import { Box, Container, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import { SocialLinkList } from '@/components/NavBar';
 import { SocialLinkRenderProps } from '@/config/types';
-import { useToggle } from '@/hooks';
+import { useCopyToClipboard, useToggle } from '@/hooks';
 
 import ModalCv from './ModalCv';
+
+const CONTACT_EMAIL = 'l.johansson93@outlook.com';
 
 const renderFooterSocialLink = ({
   href,
@@ -47,12 +57,26 @@ const wrapFooterSocialLink = (
   </Grid>
 );
 
+const EMAIL_TOAST_ID = 'contact-email-toast';
+
 const Footer: FC = () => {
   const {
     value: showModal,
     setTrue: handleModalOpen,
     setFalse: handleModalClose,
   } = useToggle(false);
+  const [copyEmail] = useCopyToClipboard();
+
+  const handleCopyEmail = async () => {
+    const copied = await copyEmail(CONTACT_EMAIL);
+
+    if (copied) {
+      toast.success('Email copied to clipboard', { toastId: EMAIL_TOAST_ID });
+      return;
+    }
+
+    toast.error('Unable to copy email', { toastId: EMAIL_TOAST_ID });
+  };
 
   return (
     <Box
@@ -89,7 +113,7 @@ const Footer: FC = () => {
               />
               <Box
                 component="a"
-                href="mailto:l.johansson93@outlook.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 sx={{
                   textDecoration: 'none',
                   fontSize: '0.9rem',
@@ -102,8 +126,27 @@ const Footer: FC = () => {
                   },
                 }}
               >
-                l.johansson93@outlook.com
+                {CONTACT_EMAIL}
               </Box>
+              <Tooltip title="Copy email" placement="top">
+                <IconButton
+                  onClick={handleCopyEmail}
+                  color="inherit"
+                  aria-label="Copy email address"
+                  size="small"
+                  sx={{
+                    ml: 1,
+                    bgcolor: 'rgba(255, 255, 255, 0.08)',
+                    '&:hover': {
+                      bgcolor: 'rgba(255, 255, 255, 0.15)',
+                    },
+                  }}
+                >
+                  <HiOutlineClipboardDocument
+                    style={{ fontSize: '1rem', opacity: 0.85 }}
+                  />
+                </IconButton>
+              </Tooltip>
             </Stack>
           </Grid>
           <Grid size={{ sm: 6 }} sx={{ textAlign: { sm: 'right' }, mt: 1 }}>

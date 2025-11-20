@@ -13,7 +13,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-import { FormFieldProps, FormFieldsProps } from '@/config/types';
+import {
+  ContactFormValues,
+  FormFieldProps,
+  FormFieldsProps,
+} from '@/config/types';
 
 const getHelperText = (error?: string): React.ReactNode => {
   if (!error) return ' ';
@@ -24,6 +28,70 @@ const getHelperText = (error?: string): React.ReactNode => {
     </Stack>
   );
 };
+
+type ContactFieldKey = keyof ContactFormValues;
+type ContactFieldErrorKey = keyof FormFieldsProps['errors'];
+
+interface ContactFieldConfig {
+  key: ContactFieldKey;
+  controlId: string;
+  icon: FormFieldProps['icon'];
+  type?: FormFieldProps['type'];
+  label: string;
+  placeholder: string;
+  required?: boolean;
+  rows?: number;
+  errorKey?: ContactFieldErrorKey;
+}
+
+const contactFieldConfigs: ContactFieldConfig[] = [
+  {
+    key: 'name',
+    controlId: 'formName',
+    icon: HiOutlineUser,
+    label: 'Name',
+    placeholder: 'enter your name...',
+    required: true,
+    errorKey: 'name',
+  },
+  {
+    key: 'email',
+    controlId: 'formEmail',
+    icon: HiOutlineEnvelope,
+    type: 'email',
+    label: 'Email',
+    placeholder: 'enter your email...',
+    required: true,
+    errorKey: 'email',
+  },
+  {
+    key: 'company',
+    controlId: 'formCompany',
+    icon: HiOutlineBriefcase,
+    label: 'Company',
+    placeholder: 'company... (optional)',
+  },
+  {
+    key: 'url',
+    controlId: 'formUrl',
+    icon: HiOutlineGlobeAlt,
+    type: 'url',
+    label: 'Website',
+    placeholder: 'website url... (optional)',
+    errorKey: 'url',
+  },
+  {
+    key: 'message',
+    controlId: 'formMessage',
+    icon: HiOutlineChatBubbleOvalLeft,
+    type: 'textarea',
+    label: 'Message',
+    placeholder: 'enter your message...',
+    required: true,
+    rows: 4,
+    errorKey: 'message',
+  },
+];
 
 function FormField({
   controlId,
@@ -123,62 +191,16 @@ function ContactFormFields({
 }: FormFieldsProps): React.JSX.Element {
   return (
     <Stack spacing={2}>
-      <FormField
-        controlId="formName"
-        icon={HiOutlineUser}
-        name="name"
-        label="Name"
-        placeholder="enter your name..."
-        value={formData.name}
-        error={errors.name}
-        required
-        onChange={handleChange}
-      />
-      <FormField
-        controlId="formEmail"
-        icon={HiOutlineEnvelope}
-        type="email"
-        name="email"
-        label="Email"
-        placeholder="enter your email..."
-        value={formData.email}
-        error={errors.email}
-        required
-        onChange={handleChange}
-      />
-      <FormField
-        controlId="formCompany"
-        icon={HiOutlineBriefcase}
-        name="company"
-        label="Company"
-        placeholder="company... (optional)"
-        value={formData.company ?? ''}
-        onChange={handleChange}
-      />
-      <FormField
-        controlId="formUrl"
-        icon={HiOutlineGlobeAlt}
-        type="url"
-        name="url"
-        label="Website"
-        placeholder="website url... (optional)"
-        value={formData.url ?? ''}
-        error={errors.url}
-        onChange={handleChange}
-      />
-      <FormField
-        controlId="formMessage"
-        icon={HiOutlineChatBubbleOvalLeft}
-        type="textarea"
-        name="message"
-        label="Message"
-        placeholder="enter your message..."
-        value={formData.message}
-        error={errors.message}
-        required
-        rows={4}
-        onChange={handleChange}
-      />
+      {contactFieldConfigs.map(({ key, errorKey, ...fieldConfig }) => (
+        <FormField
+          key={fieldConfig.controlId}
+          {...fieldConfig}
+          name={key}
+          value={formData[key] ?? ''}
+          error={errorKey ? errors[errorKey] : undefined}
+          onChange={handleChange}
+        />
+      ))}
     </Stack>
   );
 }
