@@ -468,6 +468,7 @@ export interface SocialLinkListProps {
   openModal: () => void;
   renderLink: SocialLinkRenderer;
   wrapItem?: SocialLinkWrapper;
+  iconSize?: string | number;
 }
 
 export interface OffcanvasMenuProps {

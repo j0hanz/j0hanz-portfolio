@@ -156,13 +156,13 @@ export function SocialLinkList({
   openModal,
   renderLink,
   wrapItem,
+  iconSize = '1.5rem',
 }: SocialLinkListProps): React.JSX.Element {
   return (
     <>
       {socialLinks.map(
         ({ id, icon: Icon, href, onClick, tooltip, color }, index) => {
           const isDownloadPdf = id === 'download-pdf';
-          const isSourceCode = id === 'source-code';
           const resolvedOnClick = isDownloadPdf ? openModal : onClick;
 
           const linkElement = renderLink({
@@ -172,9 +172,8 @@ export function SocialLinkList({
             icon: (
               <Icon
                 style={{
-                  fontSize: '1.5rem',
+                  fontSize: iconSize,
                   color: color,
-                  paddingRight: isSourceCode ? 0 : '0.5rem',
                 }}
               />
             ),
@@ -309,8 +308,10 @@ function NavLinks(): React.JSX.Element {
 // Social links
 function SocialLinks({
   openModal,
+  iconSize,
 }: {
   openModal: () => void;
+  iconSize?: string | number;
 }): React.JSX.Element {
   return (
     <Box sx={{ mt: 'auto' }}>
@@ -318,12 +319,12 @@ function SocialLinks({
         direction="row"
         justifyContent="center"
         flexWrap="wrap"
-        gap={1}
-        sx={{ px: 1 }}
+        gap={1.5}
       >
         <SocialLinkList
           openModal={openModal}
           renderLink={renderNavSocialLink}
+          iconSize={iconSize}
         />
       </Stack>
     </Box>
