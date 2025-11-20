@@ -27,23 +27,19 @@ const buildInitialValues = (): ContactFormValues => ({
 
 const SEND_ERROR_MESSAGE = 'Failed to send message! Please try again later.';
 
-const applyValidationResult = (
+const updateError = (
   setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
   field: keyof ContactFormErrors,
   message?: string
 ): void => {
-  setErrors((prevErrors) => {
-    // Early return if no message and field not present
+  setErrors((prev) => {
     if (!message) {
-      if (!(field in prevErrors)) return prevErrors;
-      const { [field]: _removed, ...nextErrors } = prevErrors;
-      return nextErrors;
+      if (!(field in prev)) return prev;
+      const { [field]: _removed, ...rest } = prev;
+      return rest;
     }
-
-    // Early return if message hasn't changed
-    if (prevErrors[field] === message) return prevErrors;
-
-    return { ...prevErrors, [field]: message };
+    if (prev[field] === message) return prev;
+    return { ...prev, [field]: message };
   });
 };
 
@@ -57,11 +53,11 @@ const useContactForm = () => {
   const debouncedUrl = useDebounce(formData.url, 350);
 
   useUpdateEffect(() => {
-    applyValidationResult(setErrors, 'email', validateEmail(debouncedEmail));
+    updateError(setErrors, 'email', validateEmail(debouncedEmail));
   }, [debouncedEmail]);
 
   useUpdateEffect(() => {
-    applyValidationResult(setErrors, 'url', validateUrl(debouncedUrl));
+    updateError(setErrors, 'url', validateUrl(debouncedUrl));
   }, [debouncedUrl]);
 
   const handleChange = (

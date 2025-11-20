@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useEventCallback } from '@/hooks';
 
 import {
   StorageSource,
@@ -57,13 +59,11 @@ export function useStorage<T>(
   const resolvedStorage = resolveStorage(storage);
   const isSupported = Boolean(resolvedStorage);
 
-  const getDefaultValue = useCallback((): T => {
-    return evaluateDefaultValue(defaultValue);
-  }, [defaultValue]);
+  const getDefaultValue = (): T => evaluateDefaultValue(defaultValue);
 
   const [error, setError] = useState<Error | null>(null);
 
-  const readValue = useCallback((): T => {
+  const readValueImpl = (): T => {
     if (!resolvedStorage) return getDefaultValue();
 
     try {
@@ -77,9 +77,12 @@ export function useStorage<T>(
       setError(normalized);
       return getDefaultValue();
     }
-  }, [getDefaultValue, key, parser, resolvedStorage]);
+  };
 
-  const [value, setValue] = useState<T>(() => readValue());
+  // Wrap with useEventCallback for stable reference in effects
+  const readValue: () => T = useEventCallback(readValueImpl) as () => T;
+
+  const [value, setValue] = useState<T>(() => readValueImpl());
 
   const persist = (nextValue: T): void => {
     if (!resolvedStorage) return;

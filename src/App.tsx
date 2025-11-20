@@ -37,12 +37,15 @@ function App(): React.JSX.Element {
   );
   const bannerTimeoutRef = useRef<number | null>(null);
 
-  const showBanner = (nextBanner: StatusBanner) => {
+  const clearBannerTimeout = () => {
     if (bannerTimeoutRef.current !== null) {
       window.clearTimeout(bannerTimeoutRef.current);
       bannerTimeoutRef.current = null;
     }
+  };
 
+  const showBanner = (nextBanner: StatusBanner) => {
+    clearBannerTimeout();
     setStatusBanner(nextBanner);
 
     if (!nextBanner.persistent) {
@@ -108,14 +111,7 @@ function App(): React.JSX.Element {
     return () => {
       window.removeEventListener('offline', handleOffline);
       window.removeEventListener('online', handleOnline);
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (bannerTimeoutRef.current !== null) {
-        window.clearTimeout(bannerTimeoutRef.current);
-      }
+      clearBannerTimeout();
     };
   }, []);
 

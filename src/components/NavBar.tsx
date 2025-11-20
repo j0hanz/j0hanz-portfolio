@@ -36,35 +36,31 @@ const renderNavSocialLink = ({
   onClick,
   tooltip,
   icon,
-}: SocialLinkRenderProps): React.JSX.Element => {
-  const linkProps = href
-    ? {
-        component: 'a',
-        href,
-        target: '_blank',
-        rel: 'noopener noreferrer',
-      }
-    : {};
-
-  return (
-    <IconButton
-      {...linkProps}
-      onClick={onClick}
-      size="large"
-      color="inherit"
-      aria-label={tooltip}
-      sx={{
-        transition: 'all 0.3s ease',
-        '&:hover': {
-          color: 'primary.light',
-          transform: 'translateY(-3px)',
-        },
-      }}
-    >
-      {icon}
-    </IconButton>
-  );
-};
+}: SocialLinkRenderProps): React.JSX.Element => (
+  <IconButton
+    {...(href
+      ? {
+          component: 'a',
+          href,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        }
+      : {})}
+    onClick={onClick}
+    size="large"
+    color="inherit"
+    aria-label={tooltip}
+    sx={{
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        color: 'primary.light',
+        transform: 'translateY(-3px)',
+      },
+    }}
+  >
+    {icon}
+  </IconButton>
+);
 
 export function SocialLinkList({
   openModal,
@@ -74,7 +70,10 @@ export function SocialLinkList({
   return (
     <>
       {socialLinks.map(({ id, icon: Icon, href, onClick, tooltip, color }) => {
-        const resolvedOnClick = id === 'download-pdf' ? openModal : onClick;
+        const isDownloadPdf = id === 'download-pdf';
+        const isSourceCode = id === 'source-code';
+        const resolvedOnClick = isDownloadPdf ? openModal : onClick;
+        
         const linkElement = renderLink({
           href,
           onClick: resolvedOnClick,
@@ -85,19 +84,19 @@ export function SocialLinkList({
                 fontSize: '1.4rem',
                 transition: 'all 0.3s ease',
                 color: color,
-                paddingRight: id === 'source-code' ? 0 : '0.5rem',
+                paddingRight: isSourceCode ? 0 : '0.5rem',
               }}
             />
           ),
         });
 
-        const overlayNode = (
+        const wrappedLink = (
           <Tooltip key={id} title={tooltip} placement="top">
             <Box component="span">{linkElement}</Box>
           </Tooltip>
         );
 
-        return wrapItem ? wrapItem(id, overlayNode) : overlayNode;
+        return wrapItem ? wrapItem(id, wrappedLink) : wrappedLink;
       })}
     </>
   );

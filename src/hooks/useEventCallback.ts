@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useInsertionEffect, useRef } from 'react';
 
 /**
  * Creates a stable callback reference that always has access to the latest values.
@@ -30,8 +30,8 @@ function useEventCallback<Args extends unknown[], R>(
 ): ((...args: Args) => R) | undefined {
   const ref = useRef<((...args: Args) => R) | undefined>(fn);
 
-  // Update ref to always point to the latest function
-  useLayoutEffect(() => {
+  // useInsertionEffect fires before DOM mutations, ideal for ref updates
+  useInsertionEffect(() => {
     ref.current = fn;
   });
 
