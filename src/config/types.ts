@@ -218,6 +218,8 @@ export type MotionVariantId =
   | 'slideFromLeft'
   | 'slideFromRight'
   | 'slideFromLeftAndRight'
+  | 'slideLeftToCenter'
+  | 'slideRightToCenter'
   | 'staggerContainer'
   | 'staggerItem'
   | 'cardHover'
