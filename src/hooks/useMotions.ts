@@ -181,6 +181,11 @@ export function useAnimationSequence(): AnimationSequenceControls {
 
   const scopeRef = useCallback(
     (node: Element | null) => {
+      if (typeof scope === 'function') {
+        scope(node);
+        return;
+      }
+
       if (scope && typeof scope === 'object') {
         // This is the official pattern from motion/react documentation
         // The scope ref mutation is required by the library's API design
