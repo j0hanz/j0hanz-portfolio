@@ -28,7 +28,12 @@ function MotionWrapper({
   sectionId,
   ...props
 }: MotionWrapperProps): React.JSX.Element {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const {
+    prefersReducedMotion,
+    getTransition,
+    motionViewport,
+    resolveMotionState,
+  } = useAnimationConfig();
   const variant = motionVariants.sections[sectionId] ?? fallbackVariant;
 
   // Calculate delay based on section order
@@ -40,21 +45,22 @@ function MotionWrapper({
       ? 0
       : sectionIndex * BATCH_DELAY_INCREMENT;
 
-  const baseMotion = { opacity: prefersReducedMotion ? 1 : 0, y: 0 };
-  const resolvedInitial: MotionProps['initial'] = prefersReducedMotion
-    ? baseMotion
-    : ((variant.initial ?? baseMotion) as MotionProps['initial']);
-  const resolvedWhileInView: MotionProps['whileInView'] = prefersReducedMotion
-    ? baseMotion
-    : ((variant.whileInView ??
-        variant.animate ?? { opacity: 1 }) as MotionProps['whileInView']);
+  const resolvedInitial: MotionProps['initial'] = resolveMotionState(
+    prefersReducedMotion,
+    (variant.initial ?? { opacity: 0, y: 0 }) as MotionProps['initial']
+  );
+  const resolvedWhileInView: MotionProps['whileInView'] = resolveMotionState(
+    prefersReducedMotion,
+    (variant.whileInView ??
+      variant.animate ?? { opacity: 1, y: 0 }) as MotionProps['whileInView']
+  );
 
   return (
     <motion.div
       initial={resolvedInitial}
       whileInView={resolvedWhileInView}
       transition={getTransition('smooth', { delay: batchDelay })}
-      viewport={{ once: true, amount: 0.15, margin: '0px' }}
+      viewport={motionViewport}
       style={{ position: 'relative' }}
       {...props}
     >

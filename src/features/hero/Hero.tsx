@@ -119,7 +119,8 @@ function Hero(): React.JSX.Element {
   } = useToggle(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const isProfileHovered = useHover(profileImageRef);
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const { prefersReducedMotion, getTransition, motionViewport } =
+    useAnimationConfig();
   const animationPriority = useAnimationPriority();
   const { value: scrollYProgress } = useScrollProgress();
   const parallaxRange = prefersReducedMotion ? 0 : 80;
@@ -139,6 +140,7 @@ function Hero(): React.JSX.Element {
               initial={imageReveal.initial}
               whileInView={imageReveal.whileInView}
               transition={getTransition('smooth')}
+              viewport={motionViewport}
               style={{ y: parallaxY }}
               sx={{ position: 'relative', display: 'inline-flex' }}
             >
@@ -194,6 +196,7 @@ function Hero(): React.JSX.Element {
               initial={textReveal.initial}
               whileInView={textReveal.whileInView}
               transition={getTransition('smooth')}
+              viewport={motionViewport}
             >
               <Typography
                 variant="h1"
