@@ -34,16 +34,15 @@ function SectionContainer({
             component={Icon}
             sx={{
               color: 'text.primary',
-              mr: 1.5,
-              fontSize: '1.8rem',
+              mr: 2,
+              fontSize: '2.5rem',
             }}
           />
           <Typography
-            variant="h2"
-            component="h2"
+            variant="h3"
+            component="h3"
             sx={{
-              fontSize: '2.1rem',
-              fontWeight: 500,
+              fontWeight: 400,
               color: 'text.primary',
             }}
           >

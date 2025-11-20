@@ -8,24 +8,21 @@ function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
   return (
     <Box
       sx={{
-        paddingTop: '0.1rem',
         display: 'inline-flex',
         alignItems: 'center',
         color: 'text.primary',
-        marginRight: '1.5rem',
-        fontSize: '0.8rem',
-        opacity: 0.9,
-        transform: 'skew(-10deg)',
-        gap: 0.5,
+        marginRight: '2rem',
+        transform: 'skew(-5deg)',
+        gap: 0.75,
       }}
     >
-      <Icon />
+      <Icon  sx={{ fontSize: 17 }} />
       <Typography
         component="span"
         sx={{
           color: 'text.primary',
           textTransform: 'uppercase',
-          fontSize: '0.7rem',
+          fontSize: '0.9rem',
         }}
       >
         {text}

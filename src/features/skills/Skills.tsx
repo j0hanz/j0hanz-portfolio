@@ -52,10 +52,10 @@ function SkillCard({ skill }: SkillCardProps): React.JSX.Element {
             <MenuBookTwoTone
               sx={{
                 mr: 0.35,
-                transform: 'skew(-10deg)',
+                transform: 'skew(-5deg)',
               }}
             />
-            <Box component="span" sx={{ transform: 'skew(-10deg)' }}>
+            <Box component="span" sx={{ transform: 'skew(-5deg)' }}>
               Learning
             </Box>
           </Stack>

@@ -7,7 +7,7 @@ import { ProjectTechStackProps } from '@/config/types';
 const ProjectTechStack = ({
   technologies,
 }: ProjectTechStackProps): React.JSX.Element => (
-  <Box sx={{ transform: 'skew(-10deg)', flexShrink: 0 }}>
+  <Box sx={{ transform: 'skew(-5deg)', flexShrink: 0 }}>
     {technologies.map((tech, index) => (
       <Chip
         key={`${tech}-${index}`}
@@ -22,7 +22,7 @@ const ProjectTechStack = ({
           color: 'text.primary',
           fontSize: '0.8rem',
           opacity: 0.9,
-          transform: 'skew(-10deg)',
+          transform: 'skew(-5deg)',
           '& .MuiChip-label': {
             color: 'text.primary',
             textTransform: 'uppercase',

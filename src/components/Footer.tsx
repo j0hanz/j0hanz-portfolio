@@ -182,7 +182,7 @@ const Footer: FC = () => {
               <Box
                 component="small"
                 sx={{
-                  transform: 'skew(-10deg)',
+                  transform: 'skew(-5deg)',
                   textTransform: 'uppercase',
                   fontSize: '0.8rem',
                   color: 'inherit',

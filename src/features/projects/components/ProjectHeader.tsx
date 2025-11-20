@@ -57,7 +57,7 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
                   border: 'none',
                   fontSize: '0.7rem',
                   borderRadius: 1,
-                  transform: 'skew(-10deg)',
+                  transform: 'skew(-5deg)',
                 }}
               />
             </Box>
