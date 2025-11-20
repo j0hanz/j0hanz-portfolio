@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { UseLazyReturn } from '@/config/types';
 
@@ -17,9 +17,9 @@ export function useLazy<T>(initializer: () => T): UseLazyReturn<T> {
 
   const [value, setValue] = useState<T>(() => initializer());
 
-  const refresh = useCallback(() => {
+  const refresh = () => {
     setValue(initializerRef.current());
-  }, []);
+  };
 
   return { value, refresh };
 }

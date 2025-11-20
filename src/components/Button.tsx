@@ -1,10 +1,34 @@
 import React from 'react';
 
 import { Button as MuiButton } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 import { CustomButtonProps } from '@/config/types';
 
-import styles from './Button.module.css';
+const StyledButton = styled(MuiButton)(({ theme }) => ({
+  textTransform: 'uppercase',
+  transform: 'skew(-10deg)',
+  maxWidth: '100%',
+  display: 'flex',
+  justifyContent: 'space-evenly',
+  alignItems: 'center',
+  borderRadius: '10px',
+  transition: 'all 0.3s ease',
+  color: '#f5f4f4',
+  padding: '8px 16px',
+  '&:active': {
+    transform: 'skew(-10deg) scale(0.96)',
+  },
+  '& .button-icon': {
+    lineHeight: 0,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  '& .button-text': {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+}));
 
 // Button component with optional icon and text
 function Button({
@@ -12,14 +36,25 @@ function Button({
   text = '',
   className = '',
   children,
+  sx,
   ...props
 }: CustomButtonProps): React.JSX.Element {
   return (
-    <MuiButton {...props} className={`${styles.customButton} ${className}`}>
-      {icon ? <span className={styles.buttonIcon}>{icon}</span> : null}
-      {text ? <span className={styles.buttonText}>{text}</span> : null}
+    <StyledButton
+      {...props}
+      className={className}
+      sx={{
+        '&:hover': {
+          transform: 'skew(-10deg) translateY(-2px)',
+          boxShadow: 2,
+        },
+        ...sx,
+      }}
+    >
+      {icon ? <span className="button-icon">{icon}</span> : null}
+      {text ? <span className="button-text">{text}</span> : null}
       {children}
-    </MuiButton>
+    </StyledButton>
   );
 }
 

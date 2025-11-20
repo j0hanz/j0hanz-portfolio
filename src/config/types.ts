@@ -10,7 +10,7 @@ import {
 
 import { IconType } from 'react-icons';
 
-import { ButtonProps as MuiButtonProps } from '@mui/material';
+import { ButtonProps as MuiButtonProps, SxProps, Theme } from '@mui/material';
 import { MotionProps } from 'framer-motion';
 
 // --- Constants Types ---
@@ -115,6 +115,7 @@ export interface BaseModalProps {
   children: ReactNode;
   className?: string;
   bodyClassName?: string;
+  contentSx?: SxProps<Theme>;
 }
 
 export interface CardProps {

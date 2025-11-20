@@ -4,13 +4,10 @@ import { Box } from '@mui/material';
 
 import ProfileImage from '@/assets/image_me.webp';
 import BaseModal from '@/components/BaseModal';
-import Image from '@/components/Image';
 import { ImageModalProps } from '@/config/types';
 import useLoading from '@/hooks/useLoading';
 
 import Spinner from './Spinner';
-
-import styles from './ImageModal.module.css';
 
 // Component for displaying an image
 function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
@@ -20,16 +17,22 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
     <BaseModal
       show={show}
       handleClose={handleClose}
-      bodyClassName={styles.imageModalBody}
+      contentSx={{ bgcolor: 'transparent', border: 'none', p: 0 }}
     >
       <Box sx={{ p: 0, textAlign: 'center' }}>
         {loading ? (
           <Spinner />
         ) : (
-          <Image
+          <Box
+            component="img"
             src={ProfileImage}
             alt="Linus Johansson"
-            className={styles.fullScreenImage}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: '10px',
+            }}
           />
         )}
       </Box>

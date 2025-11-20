@@ -1,15 +1,35 @@
 import React from 'react';
 
-import { IconBadgeProps } from '@/config/types';
+import { Box, Typography } from '@mui/material';
 
-import appStyles from '@/styles/App.module.css';
+import { IconBadgeProps } from '@/config/types';
 
 function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
   return (
-    <div className={appStyles.customBadge}>
+    <Box
+      sx={{
+        paddingTop: '0.1rem',
+        display: 'inline-flex',
+        alignItems: 'center',
+        color: 'text.primary',
+        marginRight: '1.5rem',
+        fontSize: '0.8rem',
+        opacity: 0.9,
+        transform: 'skew(-10deg)',
+      }}
+    >
       <Icon className="me-1" />
-      <span className={appStyles.badgeText}>{text}</span>
-    </div>
+      <Typography
+        component="span"
+        sx={{
+          color: 'text.primary',
+          textTransform: 'uppercase',
+          fontSize: '0.7rem',
+        }}
+      >
+        {text}
+      </Typography>
+    </Box>
   );
 }
 

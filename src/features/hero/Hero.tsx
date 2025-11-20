@@ -2,19 +2,14 @@ import React from 'react';
 
 import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
 
-import { Box, Container, Stack } from '@mui/material';
-import { Grid } from '@mui/material';
+import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
-import Image from '@/components/Image';
 import ImageModal from '@/components/ImageModal';
 import ModalCv from '@/components/ModalCv';
 import { SlideFromSide } from '@/components/Motions';
 import { useToggle } from '@/hooks';
-
-import styles from './Hero.module.css';
-import appStyles from '@/styles/App.module.css';
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
@@ -30,28 +25,60 @@ function Hero(): React.JSX.Element {
   } = useToggle(false);
 
   return (
-    <section id="hero" className={appStyles.heroSection}>
-      <Container
-        className={appStyles.sectionContainer}
-        sx={{ textAlign: 'center' }}
-      >
+    <Box component="section" id="hero" sx={{ pt: '4rem' }}>
+      <Container sx={{ textAlign: 'center', px: 0, pb: '2.5rem' }}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid size={{ md: 5 }}>
             <SlideFromSide from="left">
-              <Image
+              <Box
+                component="img"
                 src={ProfileImage}
                 alt="Linus Johansson"
-                className={styles.heroImage}
                 onClick={handleImageModalOpen}
+                sx={{
+                  width: { xs: 185, md: 245, lg: 280 },
+                  height: { xs: 185, md: 245, lg: 280 },
+                  borderRadius: '10px',
+                  objectFit: 'cover',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  mb: { xs: 3, lg: 0 },
+                  '&:hover': {
+                    filter: 'brightness(0.8)',
+                  },
+                }}
               />
             </SlideFromSide>
           </Grid>
           <Grid size="auto" sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
             <SlideFromSide from="right">
-              <div className={styles.gradientText}>Linus Johansson</div>
-              <Box sx={{ my: 2 }} className={styles.developerTitle}>
+              <Typography
+                variant="h1"
+                sx={{
+                  background:
+                    'linear-gradient(180deg, #017bb5 25%, #026a99 50%, #3a8cc1 75%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontSize: { xs: '2.5rem', sm: '3.2rem' },
+                  letterSpacing: { xs: '2px', sm: '3px' },
+                  fontWeight: 500,
+                  lineHeight: 1.2,
+                }}
+              >
+                Linus Johansson
+              </Typography>
+              <Typography
+                sx={{
+                  my: 2,
+                  fontSize: { xs: '1.2rem', sm: '1.3rem' },
+                  letterSpacing: { xs: '0.5px', sm: '2px' },
+                  textTransform: 'uppercase',
+                  color: 'text.primary',
+                  fontWeight: 500,
+                }}
+              >
                 Junior Full-Stack Developer
-              </Box>
+              </Typography>
               <Stack
                 direction="column"
                 alignItems={{ xs: 'center', lg: 'flex-start' }}
@@ -59,19 +86,35 @@ function Hero(): React.JSX.Element {
               >
                 <Button
                   onClick={handleModalOpen}
-                  className={`${styles.downloadButton}`}
-                  sx={{ my: 4 }}
+                  sx={{
+                    my: 4,
+                    width: 180,
+                    height: 45,
+                    bgcolor: '#0067dd',
+                    '&:hover': { bgcolor: '#004797' },
+                  }}
                   icon={
                     <HiOutlineArrowDownTray
-                      className={`${appStyles.buttonIcon} ${styles.buttonIcon}`}
+                      size="1.05rem"
+                      style={{ color: '#f5f4f4' }}
                     />
                   }
                   text="Download CV"
                 />
                 <Button
                   href="#contact"
-                  className={styles.contactButton}
-                  icon={<HiOutlineEnvelope className={appStyles.buttonIcon} />}
+                  sx={{
+                    width: 180,
+                    height: 45,
+                    bgcolor: '#313131',
+                    '&:hover': { bgcolor: '#242424' },
+                  }}
+                  icon={
+                    <HiOutlineEnvelope
+                      size="1.05rem"
+                      style={{ color: '#f5f4f4' }}
+                    />
+                  }
                   text="Get in Touch"
                 />
               </Stack>
@@ -81,7 +124,7 @@ function Hero(): React.JSX.Element {
       </Container>
       <ModalCv show={showModal} handleClose={handleModalClose} />
       <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
-    </section>
+    </Box>
   );
 }
 

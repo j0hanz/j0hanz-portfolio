@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React from 'react';
 
 import {
   HiMiniPlay,
@@ -107,157 +107,140 @@ const extractRepoPath = (githubUrl: string): string | null => {
   }
 };
 
-const ProjectHeader = memo(
-  ({ project }: ProjectHeaderProps): React.JSX.Element => {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 3,
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            fontSize: '1.25rem',
-            color: 'text.primary',
-          }}
-        >
-          {Boolean(project.api) && (
-            <HiMiniServer style={{ marginRight: '0.5rem' }} />
-          )}
-          {project.title}
-          {Boolean(project.isNew) && (
-            <Chip
-              label="New"
-              size="small"
-              className={styles.newBadge}
-              sx={{ ml: 1 }}
-            />
-          )}
-        </Box>
-        <Box>
-          {project.collaborative ? (
-            <HiMiniUserGroup className={styles.userIcon} />
-          ) : (
-            <HiMiniUser className={styles.userIcon} />
-          )}
-        </Box>
-      </Box>
-    );
-  }
+const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      mb: 3,
+    }}
+  >
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '1.25rem',
+        color: 'text.primary',
+      }}
+    >
+      {Boolean(project.api) && (
+        <HiMiniServer style={{ marginRight: '0.5rem' }} />
+      )}
+      {project.title}
+      {Boolean(project.isNew) && (
+        <Chip
+          label="New"
+          size="small"
+          className={styles.newBadge}
+          sx={{ ml: 1 }}
+        />
+      )}
+    </Box>
+    <Box>
+      {project.collaborative ? (
+        <HiMiniUserGroup className={styles.userIcon} />
+      ) : (
+        <HiMiniUser className={styles.userIcon} />
+      )}
+    </Box>
+  </Box>
 );
 
 ProjectHeader.displayName = 'ProjectHeader';
 
-const ProjectTechStack = memo(
-  ({ technologies }: ProjectTechStackProps): React.JSX.Element => {
-    return (
-      <div className={styles.technologies}>
-        {technologies.map((tech, index) => (
-          <Chip
-            key={`${tech}-${index}`}
-            label={tech}
-            className={appStyles.customBadge}
-            size="small"
-            sx={{ mr: 1, mb: 1 }}
-          />
-        ))}
-      </div>
-    );
-  }
+const ProjectTechStack = ({
+  technologies,
+}: ProjectTechStackProps): React.JSX.Element => (
+  <div className={styles.technologies}>
+    {technologies.map((tech, index) => (
+      <Chip
+        key={`${tech}-${index}`}
+        label={tech}
+        className={appStyles.customBadge}
+        size="small"
+        sx={{ mr: 1, mb: 1 }}
+      />
+    ))}
+  </div>
 );
 
 ProjectTechStack.displayName = 'ProjectTechStack';
 
-const ProjectStats = memo(
-  ({ repoPath, hasProjectBoard }: ProjectStatsProps): React.JSX.Element => {
-    const visibleShields = useMemo(
-      () =>
-        githubShields.filter((shield) =>
-          shield.shouldRender ? shield.shouldRender(hasProjectBoard) : true
-        ),
-      [hasProjectBoard]
-    );
+const ProjectStats = ({
+  repoPath,
+  hasProjectBoard,
+}: ProjectStatsProps): React.JSX.Element => {
+  const visibleShields = githubShields.filter((shield) =>
+    shield.shouldRender ? shield.shouldRender(hasProjectBoard) : true
+  );
 
-    return (
-      <Box className={styles.githubStats} sx={{ mb: 3 }}>
-        {visibleShields.map(
-          ({ key, hrefPath, imgPath, query, alt, className, style }) => (
-            <a
-              key={key}
-              href={`https://github.com/${repoPath}${hrefPath}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={`https://img.shields.io/github/${imgPath}/${repoPath}?${query}`}
-                alt={alt}
-                className={className}
-                style={style}
-                height="20"
-              />
-            </a>
-          )
-        )}
-      </Box>
-    );
-  }
-);
+  return (
+    <Box className={styles.githubStats} sx={{ mb: 3 }}>
+      {visibleShields.map(
+        ({ key, hrefPath, imgPath, query, alt, className, style }) => (
+          <a
+            key={key}
+            href={`https://github.com/${repoPath}${hrefPath}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={`https://img.shields.io/github/${imgPath}/${repoPath}?${query}`}
+              alt={alt}
+              className={className}
+              style={style}
+              height="20"
+            />
+          </a>
+        )
+      )}
+    </Box>
+  );
+};
 
 ProjectStats.displayName = 'ProjectStats';
 
-const ProjectBadges = memo(
-  ({ badges }: ProjectBadgesProps): React.JSX.Element => (
-    <>
-      {badges.map(({ flag, src, alt, className }) => (
-        <img key={flag} src={src} alt={alt} className={className} />
-      ))}
-    </>
-  )
+const ProjectBadges = ({ badges }: ProjectBadgesProps): React.JSX.Element => (
+  <>
+    {badges.map(({ flag, src, alt, className }) => (
+      <img key={flag} src={src} alt={alt} className={className} />
+    ))}
+  </>
 );
 
 ProjectBadges.displayName = 'ProjectBadges';
 
-const ProjectLinks = memo(
-  ({ project }: ProjectLinksProps): React.JSX.Element => {
-    return (
-      <Box
-        sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between' }}
-      >
-        <Button
-          href={project.github}
-          target="_blank"
-          className={styles.githubButton}
-          icon={<SiGithub className={styles.buttonIcon} />}
-          text="GitHub"
-        />
-        {project.demo ? (
+const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => (
+  <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between' }}>
+    <Button
+      href={project.github}
+      target="_blank"
+      className={styles.githubButton}
+      icon={<SiGithub className={styles.buttonIcon} />}
+      text="GitHub"
+    />
+    {project.demo ? (
+      <Button
+        href={project.demo}
+        target="_blank"
+        className={styles.demoButton}
+        icon={<HiMiniPlay className={styles.buttonIcon} />}
+        text="Demo"
+      />
+    ) : (
+      <Tooltip title="Coming soon!" placement="bottom">
+        <Box component="span" sx={{ display: 'inline-block' }}>
           <Button
-            href={project.demo}
-            target="_blank"
+            disabled
             className={styles.demoButton}
             icon={<HiMiniPlay className={styles.buttonIcon} />}
             text="Demo"
           />
-        ) : (
-          <Tooltip title="Coming soon!" placement="bottom">
-            <Box component="span" sx={{ display: 'inline-block' }}>
-              <Button
-                disabled
-                className={styles.demoButton}
-                icon={<HiMiniPlay className={styles.buttonIcon} />}
-                text="Demo"
-              />
-            </Box>
-          </Tooltip>
-        )}
-      </Box>
-    );
-  }
+        </Box>
+      </Tooltip>
+    )}
+  </Box>
 );
 
 ProjectLinks.displayName = 'ProjectLinks';
@@ -273,43 +256,31 @@ const useProjectMeta = (project: Project): ProjectMeta => {
     gitpod_template,
   } = project;
 
-  return useMemo(() => {
-    const repoPath = extractRepoPath(github);
-    const badges = badgeConfig.filter(({ flag }) => {
-      switch (flag) {
-        case 'isHackathon':
-          return Boolean(isHackathon);
-        case 'isHackathon_2':
-          return Boolean(isHackathon_2);
-        case 'isHackathon_3':
-          return Boolean(isHackathon_3);
-        case 'gitpod_template':
-          return Boolean(gitpod_template);
-        default:
-          return false;
-      }
-    });
-    return {
-      repoPath,
-      tooltipId: `tooltip-no-demo-${slugify(title)}`,
-      badges,
-      hasProjectBoard: Boolean(projectBoard),
-    };
-  }, [
-    github,
-    gitpod_template,
-    isHackathon,
-    isHackathon_2,
-    isHackathon_3,
-    projectBoard,
-    title,
-  ]);
+  const repoPath = extractRepoPath(github);
+  const badges = badgeConfig.filter(({ flag }) => {
+    switch (flag) {
+      case 'isHackathon':
+        return Boolean(isHackathon);
+      case 'isHackathon_2':
+        return Boolean(isHackathon_2);
+      case 'isHackathon_3':
+        return Boolean(isHackathon_3);
+      case 'gitpod_template':
+        return Boolean(gitpod_template);
+      default:
+        return false;
+    }
+  });
+
+  return {
+    repoPath,
+    tooltipId: `tooltip-no-demo-${slugify(title)}`,
+    badges,
+    hasProjectBoard: Boolean(projectBoard),
+  };
 };
 
-// Component for displaying a list of projects
-function ProjectListComponent({
-  project,
-}: ProjectListProps): React.JSX.Element {
+function ProjectList({ project }: ProjectListProps): React.JSX.Element {
   const { repoPath, tooltipId, badges, hasProjectBoard } =
     useProjectMeta(project);
 
@@ -339,7 +310,6 @@ function ProjectListComponent({
   );
 }
 
-const ProjectList = memo(ProjectListComponent);
 ProjectList.displayName = 'ProjectList';
 
 export default ProjectList;

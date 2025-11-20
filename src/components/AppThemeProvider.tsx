@@ -1,8 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useLayoutEffect } from 'react';
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
 
 import { darkTheme, lightTheme } from '@/config/theme';
+import {
+  ThemeMode,
+  ThemeModeUpdater,
+  ThemeModeValue,
+} from '@/contexts/themeContext';
 import { useStorage } from '@/hooks';
 
 interface AppThemeProviderProps {
@@ -10,17 +15,40 @@ interface AppThemeProviderProps {
 }
 
 const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
-  const { value: storedTheme } = useStorage<'dark' | 'light'>('theme', 'light');
+  const { value: storedTheme = 'light', set: setStoredTheme } =
+    useStorage<PaletteMode>('theme', 'light', {
+      serializer: (value) => value,
+      parser: (value) => (value === 'dark' ? 'dark' : 'light'),
+    });
 
-  const theme = useMemo(() => {
-    return storedTheme === 'dark' ? darkTheme : lightTheme;
-  }, [storedTheme]);
+  const mode = storedTheme ?? 'light';
+
+  const theme = mode === 'dark' ? darkTheme : lightTheme;
+
+  const toggleMode = () => {
+    setStoredTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const setMode: ThemeModeUpdater = (nextMode) => {
+    setStoredTheme(nextMode);
+  };
+
+  useLayoutEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', mode);
+      document.documentElement.setAttribute('data-bs-theme', mode);
+    }
+  }, [mode]);
+
+  const contextValue: ThemeModeValue = { mode, toggleMode, setMode };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <ThemeMode.Provider value={contextValue}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </ThemeMode.Provider>
   );
 };
 

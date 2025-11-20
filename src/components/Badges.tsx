@@ -1,11 +1,8 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
-import Image from '@/components/Image';
 import { BadgeItemProps } from '@/config/types';
-
-import styles from './Badge.module.css';
 
 const badgeItems: BadgeItemProps[] = [
   {
@@ -33,12 +30,35 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
   return (
     <Box sx={{ width: 'auto' }}>
       <a href={href} target="_blank" rel="noopener noreferrer">
-        <Image className={styles.badgeImage} src={imgSrc} alt="badge" />
+        <Box
+          component="img"
+          src={imgSrc}
+          alt="badge"
+          sx={{
+            width: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
+            objectFit: 'cover',
+            boxShadow:
+              '0 4px 12px rgba(0, 0, 0, 0.3), 0 6px 24px rgba(0, 0, 0, 0.3)',
+            transition: 'all 0.3s ease',
+            cursor: 'pointer',
+            filter: 'contrast(0.9) brightness(0.9)',
+          }}
+        />
       </a>
-      <div className={styles.badgeText}>
+      <Typography
+        component="div"
+        sx={{
+          color: 'text.secondary',
+          opacity: 0.9,
+          textDecoration: 'none',
+          textTransform: 'uppercase',
+          fontSize: '0.7rem',
+          mt: 1,
+        }}
+      >
         <div>Awarded:</div>
         {date}
-      </div>
+      </Typography>
     </Box>
   );
 }
@@ -46,11 +66,18 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
 // Component for displaying a list of badges
 function Badges(): React.JSX.Element {
   return (
-    <div className={styles.badgeContainer}>
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      sx={{
+        textAlign: 'center',
+        pt: '3rem',
+      }}
+    >
       {badgeItems.map((badge) => (
         <BadgeItem key={badge.href} {...badge} />
       ))}
-    </div>
+    </Stack>
   );
 }
 

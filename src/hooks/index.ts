@@ -73,3 +73,6 @@ export { default as useLoading } from './useLoading';
 
 /** Handles closing the navigation menu when clicking outside or on a link. */
 export { default as useNavLinkClose } from './useNavLinkClose';
+
+/** Accesses the ThemeMode context with helpful error messaging. */
+export { useTheme } from './useTheme';

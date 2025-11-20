@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 import { HiMiniExclamationCircle } from 'react-icons/hi2';
 import {
@@ -9,7 +9,9 @@ import {
   HiOutlineUser,
 } from 'react-icons/hi2';
 
-import { Box, InputAdornment, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 
 import { FormFieldProps, FormFieldsProps } from '@/config/types';
 
@@ -52,35 +54,39 @@ function FormField({
               </InputAdornment>
             ),
             className: styles.inputGroupControl,
-            disableUnderline: false, // Keep underline or use custom border
+            disableUnderline: false,
+          },
+          formHelperText: {
+            sx: {
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              mx: 0,
+            },
           },
         }}
         sx={{
           '& .MuiInput-root': {
-            // Apply custom styles if needed to match previous look
-            // The previous look had border-bottom on the group.
-            // Standard variant has border-bottom.
             '&:before': {
               borderBottom: '3px solid var(--form-border-color)',
             },
             '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: '3px solid var(--form-border-color)', // Keep same on hover?
+              borderBottom: '3px solid var(--form-border-color)',
+            },
+            '&.Mui-error:before': {
+              borderBottomColor: 'error.main',
+            },
+            '&.Mui-focused:after': {
+              borderBottomColor: 'primary.main',
             },
           },
         }}
         helperText={
           error ? (
-            <Box
-              component="span"
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                color: 'error.main',
-              }}
-            >
-              <HiMiniExclamationCircle style={{ marginRight: '0.5rem' }} />
+            <>
+              <HiMiniExclamationCircle />
               {error}
-            </Box>
+            </>
           ) : null
         }
       />
@@ -151,4 +157,4 @@ function FormFields({
   );
 }
 
-export default memo(FormFields);
+export default FormFields;

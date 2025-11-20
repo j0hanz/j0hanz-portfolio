@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
@@ -28,21 +28,21 @@ const useContactForm = () => {
   const debouncedEmail = useDebounce(formData.email, 350);
   const debouncedUrl = useDebounce(formData.url, 350);
 
-  const updateFieldError = useCallback(
-    (field: keyof ContactFormErrors, message?: string) => {
-      setErrors((prevErrors) => {
-        if (!message) {
-          if (!(field in prevErrors)) return prevErrors;
+  const updateFieldError = (
+    field: keyof ContactFormErrors,
+    message?: string
+  ) => {
+    setErrors((prevErrors) => {
+      if (!message) {
+        if (!(field in prevErrors)) return prevErrors;
 
-          const { [field]: _removed, ...nextErrors } = prevErrors;
-          return nextErrors;
-        }
-        if (prevErrors[field] === message) return prevErrors;
-        return { ...prevErrors, [field]: message };
-      });
-    },
-    []
-  );
+        const { [field]: _removed, ...nextErrors } = prevErrors;
+        return nextErrors;
+      }
+      if (prevErrors[field] === message) return prevErrors;
+      return { ...prevErrors, [field]: message };
+    });
+  };
 
   useUpdateEffect(() => {
     updateFieldError('email', validateEmail(debouncedEmail));
@@ -52,51 +52,47 @@ const useContactForm = () => {
     updateFieldError('url', validateUrl(debouncedUrl));
   }, [debouncedUrl, updateFieldError]);
 
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = event.target;
-      setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
-    },
-    []
-  );
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
+  };
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     setFormData(buildInitialValues());
     setErrors({});
-  }, []);
+  };
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const newErrors = validateForm(formData);
-      setErrors(newErrors);
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newErrors = validateForm(formData);
+    setErrors(newErrors);
 
-      if (Object.keys(newErrors).length > 0) {
-        return;
-      }
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
 
-      setIsSending(true);
-      try {
-        const success = await sendEmail(formData);
-        if (success) {
-          resetForm();
-          toast.success('Your message was sent successfully!');
-        } else {
-          toast.error('Failed to send message! Please try again later.');
-        }
-      } catch {
+    setIsSending(true);
+    try {
+      const success = await sendEmail(formData);
+      if (success) {
+        resetForm();
+        toast.success('Your message was sent successfully!');
+      } else {
         toast.error('Failed to send message! Please try again later.');
-      } finally {
-        setIsSending(false);
       }
-    },
-    [formData, resetForm]
-  );
+    } catch {
+      toast.error('Failed to send message! Please try again later.');
+    } finally {
+      setIsSending(false);
+    }
+  };
 
-  const handleReset = useCallback(() => {
+  const handleReset = () => {
     resetForm();
     setIsSending(false);
-  }, [resetForm]);
+  };
 
   return {
     isSending,

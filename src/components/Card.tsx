@@ -4,9 +4,6 @@ import { CardContent, Card as MuiCard, Typography } from '@mui/material';
 
 import { CardProps } from '@/config/types';
 
-import styles from './Card.module.css';
-import appStyles from '@/styles/App.module.css';
-
 // Card component with title, subtitle, and children
 function Card({
   title,
@@ -16,10 +13,24 @@ function Card({
 }: CardProps): React.JSX.Element {
   return (
     <MuiCard
-      className={`${styles.card} ${appStyles.cardBgColor} ${className}`}
-      sx={{ height: '100%' }}
+      className={className}
+      sx={{
+        height: '100%',
+        transition: 'all 0.3s ease',
+        bgcolor: 'background.paper', // var(--card-bg)
+        color: 'text.primary', // var(--text-color)
+        borderRadius: '10px', // var(--border-radius)
+        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
+        maxWidth: '100%',
+        width: '100%',
+        border: 'none',
+        '&:hover': {
+          transform: 'translateY(-5px)',
+          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+        },
+      }}
     >
-      <CardContent className={appStyles.cardBody}>
+      <CardContent sx={{ padding: '0.9rem', border: 'none' }}>
         <Typography variant="h5" component="div" gutterBottom>
           {title}
         </Typography>

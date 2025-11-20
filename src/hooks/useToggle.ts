@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { InitialToggleState, UseToggleReturn } from '@/config/types';
 
@@ -17,17 +17,17 @@ export function useToggle(
       : initialState
   );
 
-  const toggle = useCallback((nextValue?: boolean) => {
+  const toggle = (nextValue?: boolean) => {
     setValue((prev) => (typeof nextValue === 'boolean' ? nextValue : !prev));
-  }, []);
+  };
 
-  const setTrue = useCallback(() => {
+  const setTrue = () => {
     setValue(true);
-  }, []);
+  };
 
-  const setFalse = useCallback(() => {
+  const setFalse = () => {
     setValue(false);
-  }, []);
+  };
 
   return { value, toggle, setTrue, setFalse };
 }

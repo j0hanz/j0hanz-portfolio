@@ -2,8 +2,7 @@ import React from 'react';
 
 import { HiMiniCheckBadge, HiUser } from 'react-icons/hi2';
 
-import { Box } from '@mui/material';
-import { Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -14,14 +13,18 @@ import { useToggle } from '@/hooks';
 import aboutMeItems from '@/lib/data/aboutMeItems';
 import aboutMeText from '@/lib/data/aboutMeText';
 
-import styles from './AboutMe.module.css';
-import appStyles from '@/styles/App.module.css';
-
 // Displaying the overview text
 function AboutMeText(): React.JSX.Element {
   return (
     <Card title="Overview">
-      <div className={appStyles.cardText}>{aboutMeText}</div>
+      <Typography
+        sx={{
+          lineHeight: 1.8,
+          color: 'text.primary',
+        }}
+      >
+        {aboutMeText}
+      </Typography>
     </Card>
   );
 }
@@ -35,20 +38,54 @@ function AboutMeList({
     <Card title="Highlights">
       <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
         {items.map((item) => (
-          <li key={item.title} className={styles.listItem}>
-            <span className={styles.listTitle}>{item.title}:</span>
+          <Box
+            component="li"
+            key={item.title}
+            sx={{
+              color: 'text.primary',
+              marginTop: '1rem',
+            }}
+          >
+            <Typography
+              component="span"
+              sx={{
+                fontWeight: 500,
+                marginRight: '0.5rem',
+                color: 'text.primary',
+              }}
+            >
+              {item.title}:
+            </Typography>
             {item.description}
             {item.hasCredential ? (
               <Box sx={{ pt: 3 }}>
                 <Button
                   onClick={onShowModal}
-                  className={styles.credentialButton}
-                  icon={<HiMiniCheckBadge className={styles.buttonIcon} />}
+                  sx={{
+                    width: '145px',
+                    height: '30px',
+                    bgcolor: '#313131', // var(--btn-bg-dark)
+                    '&:hover': {
+                      bgcolor: '#242424', // var(--btn-bg-dark-hover)
+                    },
+                    '&:active': {
+                      bgcolor: '#242424',
+                    },
+                  }}
+                  icon={
+                    <HiMiniCheckBadge
+                      style={{
+                        marginRight: '5px',
+                        fontSize: '0.9rem',
+                        color: '#f5f4f4', // var(--text-light)
+                      }}
+                    />
+                  }
                   text="Credential"
                 />
               </Box>
             ) : null}
-          </li>
+          </Box>
         ))}
       </Box>
     </Card>

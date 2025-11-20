@@ -1,19 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { UseArrayReturn } from '@/config/types';
 
 export function useArray<T>(initialArray: T[] = []): UseArrayReturn<T> {
   const [array, setArray] = useState<T[]>(initialArray);
 
-  const set = useCallback((nextArray: T[]) => {
+  const set = (nextArray: T[]) => {
     setArray(nextArray);
-  }, []);
+  };
 
-  const push = useCallback((...items: T[]) => {
+  const push = (...items: T[]) => {
     setArray((prev) => [...prev, ...items]);
-  }, []);
+  };
 
-  const pop = useCallback((): T | undefined => {
+  const pop = (): T | undefined => {
     let removed: T | undefined;
     setArray((prev) => {
       if (!prev.length) return prev;
@@ -21,9 +21,9 @@ export function useArray<T>(initialArray: T[] = []): UseArrayReturn<T> {
       return prev.slice(0, -1);
     });
     return removed;
-  }, []);
+  };
 
-  const shift = useCallback((): T | undefined => {
+  const shift = (): T | undefined => {
     let removed: T | undefined;
     setArray((prev) => {
       if (!prev.length) return prev;
@@ -31,71 +31,64 @@ export function useArray<T>(initialArray: T[] = []): UseArrayReturn<T> {
       return prev.slice(1);
     });
     return removed;
-  }, []);
+  };
 
-  const unshift = useCallback((...items: T[]) => {
+  const unshift = (...items: T[]) => {
     setArray((prev) => [...items, ...prev]);
-  }, []);
+  };
 
-  const insert = useCallback((index: number, ...items: T[]) => {
+  const insert = (index: number, ...items: T[]) => {
     setArray((prev) => {
       const copy = [...prev];
       copy.splice(index, 0, ...items);
       return copy;
     });
-  }, []);
+  };
 
-  const remove = useCallback((index: number) => {
+  const remove = (index: number) => {
     setArray((prev) => prev.filter((_, i) => i !== index));
-  }, []);
+  };
 
-  const removeById = useCallback(
-    (id: unknown, key: keyof T = 'id' as keyof T) => {
-      setArray((prev) => prev.filter((item) => item?.[key] !== id));
-    },
-    []
-  );
+  const removeById = (id: unknown, key: keyof T = 'id' as keyof T) => {
+    setArray((prev) => prev.filter((item) => item?.[key] !== id));
+  };
 
-  const update = useCallback((index: number, item: T) => {
+  const update = (index: number, item: T) => {
     setArray((prev) => {
       if (index < 0 || index >= prev.length) return prev;
       const copy = [...prev];
       copy[index] = item;
       return copy;
     });
-  }, []);
+  };
 
-  const updateById = useCallback(
-    (id: unknown, item: Partial<T>, key: keyof T = 'id' as keyof T) => {
-      setArray((prev) =>
-        prev.map((entry) =>
-          entry?.[key] === id ? { ...entry, ...item } : entry
-        )
-      );
-    },
-    []
-  );
+  const updateById = (
+    id: unknown,
+    item: Partial<T>,
+    key: keyof T = 'id' as keyof T
+  ) => {
+    setArray((prev) =>
+      prev.map((entry) => (entry?.[key] === id ? { ...entry, ...item } : entry))
+    );
+  };
 
-  const clear = useCallback(() => {
+  const clear = () => {
     setArray([]);
-  }, []);
+  };
 
-  const filter = useCallback(
-    (predicate: (item: T, index: number) => boolean) => {
-      setArray((prev) => prev.filter(predicate));
-    },
-    []
-  );
+  const filter = (predicate: (item: T, index: number) => boolean) => {
+    setArray((prev) => prev.filter(predicate));
+  };
 
-  const sort = useCallback((compareFn?: (a: T, b: T) => number) => {
+  const sort = (compareFn?: (a: T, b: T) => number) => {
     setArray((prev) => [...prev].sort(compareFn));
-  }, []);
+  };
 
-  const reverse = useCallback(() => {
+  const reverse = () => {
     setArray((prev) => [...prev].reverse());
-  }, []);
+  };
 
-  const replace = useCallback((target: T, replacement: T) => {
+  const replace = (target: T, replacement: T) => {
     setArray((prev) => {
       const index = prev.indexOf(target);
       if (index === -1) return prev;
@@ -103,15 +96,15 @@ export function useArray<T>(initialArray: T[] = []): UseArrayReturn<T> {
       copy[index] = replacement;
       return copy;
     });
-  }, []);
+  };
 
-  const toggle = useCallback((item: T) => {
+  const toggle = (item: T) => {
     setArray((prev) => {
       const index = prev.indexOf(item);
       if (index === -1) return [...prev, item];
       return prev.filter((_, i) => i !== index);
     });
-  }, []);
+  };
 
   return {
     array,

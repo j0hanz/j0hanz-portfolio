@@ -29,9 +29,6 @@ import { socialLinks } from '@/lib/data/socialLinks';
 
 import ModalCv from './ModalCv';
 
-import styles from './NavBar.module.css';
-import appStyles from '@/styles/App.module.css';
-
 const renderNavSocialLink = ({
   href,
   onClick,
@@ -41,9 +38,15 @@ const renderNavSocialLink = ({
     href={href || ''}
     onClick={onClick}
     target={href ? '_blank' : undefined}
-    className={styles.socialLink}
     size="large"
     color="inherit"
+    sx={{
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        color: '#40a9ff', // var(--nav-link-hover-color)
+        transform: 'translateY(-3px)',
+      },
+    }}
   >
     {icon}
   </IconButton>
@@ -63,7 +66,15 @@ export function SocialLinkList({
             href,
             onClick: resolvedOnClick,
             tooltip,
-            icon: <Icon className={`${appStyles.socialIcon} ${iconClass}`} />,
+            icon: (
+              <Icon
+                className={iconClass}
+                style={{
+                  fontSize: '1.4rem',
+                  transition: 'all 0.3s ease',
+                }}
+              />
+            ),
           });
 
           const overlayNode = (
@@ -92,15 +103,20 @@ function NavLogo(): React.JSX.Element {
         height: '50px',
       }}
     >
-      <img
+      <Box
+        component="img"
         src={navLogo}
         alt="Linus Johansson"
-        className={styles.navLogo}
-        style={{
+        sx={{
+          width: '1.9rem',
+          transition: 'all 0.3s ease',
           position: 'absolute',
           top: 0,
           left: 0,
           transform: 'translateY(-50%)',
+          '&:hover': {
+            opacity: 0.7,
+          },
         }}
       />
     </Box>
@@ -110,20 +126,69 @@ function NavLogo(): React.JSX.Element {
 // Nav links
 function NavLinks(): React.JSX.Element {
   return (
-    <List className={`${styles.customOffcanvasNav} ${appStyles.cardBgImage}`}>
+    <List
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        // Replicating .cardBgImage
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          backgroundSize: 'contain',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: 0,
+          backgroundImage: 'var(--card-bg-image-url)',
+          opacity: 0.05,
+        },
+        '& > *': {
+          position: 'relative',
+          zIndex: 1,
+        },
+      }}
+    >
       {navLinks.map(({ id, icon: Icon, label }) => (
         <ListItem key={id} disablePadding>
           <ListItemButton
             component="a"
             href={`#${id}`}
-            className={styles.navLink}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              marginTop: { xs: '1.5rem', sm: '2rem' },
+              transition: 'all 0.3s ease',
+              '&:hover .MuiListItemText-primary': {
+                color: '#40a9ff', // var(--nav-link-hover-color)
+              },
+              '&:active .MuiListItemText-primary': {
+                transform: 'scale(0.98)',
+                transition: 'all 0.3s ease',
+              },
+            }}
           >
             <ListItemIcon sx={{ minWidth: 'auto', mr: 2 }}>
-              <Icon className={styles.navIcon} />
+              <Icon
+                style={{
+                  color: '#f5f4f4', // var(--text-light)
+                  fontSize: '1.05rem',
+                  transition: 'all 0.3s ease',
+                }}
+              />
             </ListItemIcon>
             <ListItemText
               primary={label}
-              primaryTypographyProps={{ className: styles.navLinkText }}
+              primaryTypographyProps={{
+                sx: {
+                  color: '#f5f4f4', // var(--text-light)
+                  letterSpacing: '1.25px',
+                  fontSize: { xs: '1rem', sm: '1.1rem' },
+                  transition: 'all 0.3s ease',
+                },
+              }}
             />
           </ListItemButton>
         </ListItem>
@@ -139,14 +204,14 @@ function SocialLinks({
   openModal: () => void;
 }): React.JSX.Element {
   return (
-    <div className={styles.customOffcanvasSocialLinks}>
+    <Box sx={{ mt: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <SocialLinkList
           openModal={openModal}
           renderLink={renderNavSocialLink}
         />
       </Box>
-    </div>
+    </Box>
   );
 }
 
@@ -158,19 +223,23 @@ const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
       anchor="right"
       open={showOffcanvas}
       onClose={closeOffcanvas}
-      className={styles.customOffcanvas}
       PaperProps={{
-        className: styles.customOffcanvas,
-        sx: { width: '300px', backgroundColor: 'background.paper' },
+        sx: {
+          width: '300px',
+          backgroundColor: '#181818f5', // var(--bg-dark)
+          color: '#f5f4f4', // var(--text-light)
+          height: '100dvh',
+        },
       }}
     >
       <Box
-        className={styles.customOffcanvasHeader}
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           p: 2,
+          position: 'relative',
+          marginTop: '0.25rem',
         }}
       >
         <NavLogo />
@@ -178,7 +247,14 @@ const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
           <HiXMark />
         </IconButton>
       </Box>
-      <Box className={styles.customOffcanvasBody} sx={{ p: 2 }}>
+      <Box
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+        }}
+      >
         <NavLinks />
         <SocialLinks openModal={openModal} />
       </Box>
@@ -205,27 +281,64 @@ function NavBar(): React.JSX.Element {
   } = useToggle(false);
 
   // Close Offcanvas on nav link click or outside click
+  // Note: We need to target the anchor elements inside the list items
   const offcanvasRef = useNavLinkClose(
     showOffcanvas,
-    `.${styles.navLink}`,
+    'a[href^="#"]', // Updated selector to match anchor tags with hash links
     closeOffcanvas
   );
 
   return (
     <>
       <Container maxWidth={false}>
-        <div className={styles.navContainer}>
-          <div className={styles.toggleButton}>
+        <Box sx={{ position: 'relative' }}>
+          <Box
+            sx={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              background: '#313131', // var(--btn-bg-dark)
+              borderRadius: '0 0 10px 0px',
+              zIndex: 1000,
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                background: '#242424', // var(--btn-bg-dark-hover)
+              },
+            }}
+          >
             <DarkModeToggle />
-          </div>
+          </Box>
           <IconButton
             onClick={openOffcanvas}
-            className={styles.navToggle}
             aria-label="Toggle navigation"
             size="large"
             color="inherit"
+            sx={{
+              position: 'fixed',
+              background: '#313131', // var(--btn-bg-dark)
+              borderRadius: '0 0 0 10px',
+              height: '3rem',
+              width: '3.5rem',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1000,
+              top: 0,
+              right: 0,
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                background: '#242424', // var(--btn-bg-dark-hover)
+              },
+            }}
           >
-            <HiOutlineBars3 className={styles.navToggleIcon} />
+            <HiOutlineBars3
+              style={{
+                fontSize: '2.2rem',
+                color: '#f5f4f4', // var(--text-light)
+                transition: 'all 0.3s ease',
+              }}
+            />
           </IconButton>
           <OffcanvasMenu
             ref={offcanvasRef}
@@ -233,7 +346,7 @@ function NavBar(): React.JSX.Element {
             closeOffcanvas={closeOffcanvas}
             openModal={openModal}
           />
-        </div>
+        </Box>
       </Container>
 
       <ModalCv show={showModal} handleClose={closeModal} />

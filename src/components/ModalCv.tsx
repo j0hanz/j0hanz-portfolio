@@ -2,14 +2,12 @@ import React from 'react';
 
 import { HiOutlineGlobeAlt } from 'react-icons/hi2';
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
 import { ModalCvProps } from '@/config/types';
-
-import styles from './ModalCv.module.css';
 
 // Component for selecting and downloading CVs
 function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
@@ -31,37 +29,74 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
     <BaseModal
       show={show}
       handleClose={handleClose}
-      className={styles.modalCv}
-      bodyClassName={styles.modalCvBody}
+      contentSx={{
+        bgcolor: '#181818f5',
+        borderRadius: '10px',
+        p: 3,
+        color: '#f5f4f4',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      }}
     >
       <Box
-        className={styles.modalCvTitle}
         sx={{
           mb: 4,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          fontSize: { xs: '1.2rem', sm: '1.4rem' },
         }}
       >
-        <HiOutlineGlobeAlt className={styles.globeIcon} />
+        <HiOutlineGlobeAlt size="1.2rem" style={{ marginRight: '0.4rem' }} />
         Choose Language
       </Box>
-      <Box sx={{ textAlign: 'center', mb: 2 }}>
+      <Typography sx={{ textAlign: 'center', mb: 2 }}>
         Select a language to download the CV.
-      </Box>
+      </Typography>
       <Box
-        className={styles.flagContainer}
-        sx={{ display: 'flex', justifyContent: 'space-between' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mt: 4,
+          px: 4,
+        }}
       >
-        <span
-          className={`fi fi-se ${styles.flagIcon}`}
+        <Box
+          component="span"
+          className="fi fi-se"
           onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
           title="Swedish"
+          sx={{
+            fontSize: '3.5rem',
+            cursor: 'pointer',
+            opacity: 0.7,
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              opacity: 1,
+              transform: 'scale(1.15)',
+            },
+            '&:active': {
+              transform: 'scale(0.98)',
+            },
+          }}
         />
-        <span
-          className={`fi fi-gb ${styles.flagIcon}`}
+        <Box
+          component="span"
+          className="fi fi-gb"
           onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
           title="English"
+          sx={{
+            fontSize: '3.5rem',
+            cursor: 'pointer',
+            opacity: 0.7,
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              opacity: 1,
+              transform: 'scale(1.15)',
+            },
+            '&:active': {
+              transform: 'scale(0.98)',
+            },
+          }}
         />
       </Box>
     </BaseModal>

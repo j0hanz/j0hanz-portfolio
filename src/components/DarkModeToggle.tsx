@@ -1,43 +1,38 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { HiMiniMoon, HiMiniSun } from 'react-icons/hi2';
 
-import { useStorage } from '@/hooks';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
-import styles from './DarkModeToggle.module.css';
+import { useTheme } from '@/hooks/useTheme';
 
 function DarkModeToggle(): React.JSX.Element {
-  const { value: storedTheme, set: setStoredTheme } = useStorage<
-    'dark' | 'light'
-  >('theme', 'light');
+  const { mode, toggleMode } = useTheme();
 
-  const isDark = storedTheme === 'dark';
-
-  const toggle = () => {
-    setStoredTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-theme', storedTheme);
-      document.documentElement.setAttribute('data-bs-theme', storedTheme);
-    }
-  }, [storedTheme]);
+  const isDark = mode === 'dark';
 
   return (
-    <button
-      type="button"
-      className={styles.darkModeToggle}
-      aria-pressed={isDark}
-      aria-label="Toggle dark mode"
-      onClick={toggle}
+    <Tooltip
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      arrow
     >
-      {isDark ? (
-        <HiMiniSun className={styles.icon} />
-      ) : (
-        <HiMiniMoon className={styles.icon} />
-      )}
-    </button>
+      <IconButton
+        onClick={toggleMode}
+        aria-label="Toggle dark mode"
+        aria-pressed={isDark}
+        sx={{
+          color: 'primary.main',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            backgroundColor: 'action.hover',
+            transform: 'rotate(180deg)',
+          },
+        }}
+      >
+        {isDark ? <HiMiniSun size={24} /> : <HiMiniMoon size={24} />}
+      </IconButton>
+    </Tooltip>
   );
 }
 
