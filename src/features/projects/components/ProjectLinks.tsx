@@ -3,28 +3,62 @@ import React from 'react';
 import { HiMiniPlay } from 'react-icons/hi2';
 import { SiGithub } from 'react-icons/si';
 
-import { Box, Tooltip } from '@mui/material';
+import { Box, Stack, Tooltip } from '@mui/material';
 
 import Button from '@/components/Button';
 import { ProjectLinksProps } from '@/config/types';
 
-import styles from '../ProjectList.module.css';
-
 const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => (
-  <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between' }}>
+  <Stack direction="row" justifyContent="space-between" sx={{ mt: 'auto' }}>
     <Button
       href={project.github}
       target="_blank"
-      className={styles.githubButton}
-      icon={<SiGithub className={styles.buttonIcon} />}
+      sx={{
+        minWidth: 104,
+        height: 30,
+        bgcolor: 'neutral.main',
+        '&:hover': {
+          bgcolor: 'neutral.dark',
+        },
+        '&:active': {
+          bgcolor: 'neutral.dark',
+        },
+      }}
+      icon={
+        <SiGithub
+          style={{
+            marginRight: '10px',
+            fontSize: '0.9rem',
+            color: 'inherit',
+          }}
+        />
+      }
       text="GitHub"
     />
     {project.demo ? (
       <Button
         href={project.demo}
         target="_blank"
-        className={styles.demoButton}
-        icon={<HiMiniPlay className={styles.buttonIcon} />}
+        sx={{
+          minWidth: 104,
+          height: 30,
+          bgcolor: 'primary.main',
+          '&:hover': {
+            bgcolor: 'primary.dark',
+          },
+          '&:active': {
+            bgcolor: 'primary.dark',
+          },
+        }}
+        icon={
+          <HiMiniPlay
+            style={{
+              marginRight: '10px',
+              fontSize: '0.9rem',
+              color: 'inherit',
+            }}
+          />
+        }
         text="Demo"
       />
     ) : (
@@ -32,14 +66,32 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => (
         <Box component="span" sx={{ display: 'inline-block' }}>
           <Button
             disabled
-            className={styles.demoButton}
-            icon={<HiMiniPlay className={styles.buttonIcon} />}
+            sx={{
+              minWidth: 104,
+              height: 30,
+              bgcolor: 'primary.main',
+              '&:hover': {
+                bgcolor: 'primary.dark',
+              },
+              '&:active': {
+                bgcolor: 'primary.dark',
+              },
+            }}
+            icon={
+              <HiMiniPlay
+                style={{
+                  marginRight: '10px',
+                  fontSize: '0.9rem',
+                  color: 'inherit',
+                }}
+              />
+            }
             text="Demo"
           />
         </Box>
       </Tooltip>
     )}
-  </Box>
+  </Stack>
 );
 
 ProjectLinks.displayName = 'ProjectLinks';

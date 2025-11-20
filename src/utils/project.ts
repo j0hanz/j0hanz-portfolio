@@ -4,14 +4,18 @@ import hackathonBadge from '@/assets/hackathonBadge.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
 import { BadgeConfig, BadgeFlag, Project, ProjectMeta } from '@/config/types';
 
-import styles from '@/features/projects/ProjectList.module.css';
-
 export const badgeConfig: BadgeConfig[] = [
   {
     flag: 'isHackathon',
     src: hackathonBadge,
     alt: 'Hackathon Badge',
-    className: styles.hackathonBadge,
+    style: {
+      position: 'absolute',
+      bottom: '3rem',
+      right: '0.5rem',
+      width: '7rem',
+      filter: 'contrast(0.9)',
+    },
     width: 112,
     height: 112,
   },
@@ -19,7 +23,13 @@ export const badgeConfig: BadgeConfig[] = [
     flag: 'isHackathon_2',
     src: hackathonBadge2,
     alt: 'Hackathon Badge',
-    className: styles.hackathonBadge,
+    style: {
+      position: 'absolute',
+      bottom: '3rem',
+      right: '0.5rem',
+      width: '7rem',
+      filter: 'contrast(0.9)',
+    },
     width: 112,
     height: 112,
   },
@@ -27,7 +37,13 @@ export const badgeConfig: BadgeConfig[] = [
     flag: 'isHackathon_3',
     src: hackathonBadge3,
     alt: 'Hackathon Badge',
-    className: styles.hackathonBadge,
+    style: {
+      position: 'absolute',
+      bottom: '3rem',
+      right: '0.5rem',
+      width: '7rem',
+      filter: 'contrast(0.9)',
+    },
     width: 112,
     height: 112,
   },
@@ -35,7 +51,13 @@ export const badgeConfig: BadgeConfig[] = [
     flag: 'gitpod_template',
     src: gitpodLogo,
     alt: 'Gitpod Template',
-    className: styles.gitpodLogo,
+    style: {
+      position: 'absolute',
+      bottom: '4rem',
+      right: '1rem',
+      width: '3.5rem',
+      filter: 'contrast(0.9)',
+    },
     width: 56,
     height: 56,
   },

@@ -6,16 +6,14 @@ import {
   HiOutlineCalendar,
 } from 'react-icons/hi2';
 
-import { Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
 import experiences from '@/lib/data/experiences';
-
-import styles from './WorkExperience.module.css';
-import appStyles from '@/styles/App.module.css';
 
 const createExperienceMeta = (
   experience: ExperienceCardProps['experience']
@@ -48,13 +46,23 @@ function ExperienceCard({
           <IconBadgeList items={metadata} keyPrefix={experience.title} />
         }
       >
-        <ul className={`${styles.listItems} ${appStyles.cardText}`}>
+        <Box
+          component="ul"
+          sx={{
+            pl: 2.5,
+            m: 0,
+            lineHeight: 1.8,
+            color: 'text.secondary',
+          }}
+        >
           {experience.description.map((item, index) => (
             <li key={`${experience.title}-${index}`}>
-              <small>{item}</small>
+              <Typography variant="body2" component="small">
+                {item}
+              </Typography>
             </li>
           ))}
-        </ul>
+        </Box>
       </Card>
     </Grid>
   );
@@ -67,7 +75,10 @@ function WorkExperience(): React.JSX.Element {
       id="work-experience"
       title="Experience"
       icon={HiBriefcase}
-      className={appStyles.sectionPadding}
+      sx={{
+        px: 0,
+        pb: 5,
+      }}
     >
       <Grid container spacing={4}>
         {experiences.map((experience) => (

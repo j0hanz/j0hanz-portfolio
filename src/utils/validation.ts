@@ -1,11 +1,20 @@
-import {
-  EMAIL_PATTERN,
-  ERROR_MESSAGES,
-  MIN_MESSAGE_LENGTH,
-  NAME_PATTERN,
-  URL_PATTERN,
-} from '@/config/constants';
 import { ContactFormErrors, ContactFormValues } from '@/config/types';
+
+const NAME_PATTERN = /^[a-zA-Z\s]{2,}$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const URL_PATTERN = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*\/?$/;
+
+const MIN_MESSAGE_LENGTH = 10;
+
+const ERROR_MESSAGES = {
+  NAME_REQUIRED: 'Name is required.',
+  NAME_INVALID: 'Please enter a valid name (letters and spaces only).',
+  EMAIL_REQUIRED: 'Email is required.',
+  EMAIL_INVALID: 'Email address is invalid.',
+  URL_INVALID: 'URL is invalid.',
+  MESSAGE_REQUIRED: 'Message is required.',
+  MESSAGE_TOO_SHORT: `Message must be at least ${MIN_MESSAGE_LENGTH} characters long.`,
+} as const;
 
 const trim = (value: string): string => value.trim();
 

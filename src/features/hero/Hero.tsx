@@ -2,14 +2,14 @@ import React, { lazy, Suspense } from 'react';
 
 import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
 
-import { Box, Container, Grid, Stack, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
 import { SlideFromSide } from '@/components/Motions';
 import Spinner from '@/components/Spinner';
-import { COLORS } from '@/config/constants';
 import { useToggle } from '@/hooks';
 
 const ModalCv = lazy(() => import('@/components/ModalCv'));
@@ -28,8 +28,8 @@ function Hero(): React.JSX.Element {
   } = useToggle(false);
 
   return (
-    <Box component="section" id="hero" sx={{ pt: '4rem' }}>
-      <Container sx={{ textAlign: 'center', px: 0, pb: '2.5rem' }}>
+    <Box component="section" id="hero" sx={{ pt: 8 }}>
+      <Container maxWidth="lg" sx={{ textAlign: 'center', px: 0, pb: 5 }}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid size={{ md: 5 }}>
             <SlideFromSide from="left">
@@ -41,9 +41,12 @@ function Hero(): React.JSX.Element {
                 sx={{
                   width: { xs: 185, md: 245, lg: 280 },
                   height: { xs: 185, md: 245, lg: 280 },
-                  borderRadius: '10px',
+                  borderRadius: 2,
                   objectFit: 'cover',
-                  transition: 'all 0.3s ease',
+                  transition: (theme) =>
+                    theme.transitions.create('filter', {
+                      duration: theme.transitions.duration.standard,
+                    }),
                   cursor: 'pointer',
                   mb: { xs: 3, lg: 0 },
                   '&:hover': {
@@ -57,9 +60,9 @@ function Hero(): React.JSX.Element {
             <SlideFromSide from="right">
               <Typography
                 variant="h1"
+                component="h1"
                 sx={{
-                  background:
-                    'linear-gradient(180deg, #017bb5 25%, #026a99 50%, #3a8cc1 75%)',
+                  background: (theme) => theme.palette.heroGradient,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   fontSize: { xs: '2.5rem', sm: '3.2rem' },
@@ -71,6 +74,8 @@ function Hero(): React.JSX.Element {
                 Linus Johansson
               </Typography>
               <Typography
+                variant="h2"
+                component="h2"
                 sx={{
                   my: 2,
                   fontSize: { xs: '1.2rem', sm: '1.3rem' },
@@ -84,42 +89,36 @@ function Hero(): React.JSX.Element {
               </Typography>
               <Stack
                 direction="column"
+                spacing={2}
                 alignItems={{ xs: 'center', lg: 'flex-start' }}
                 sx={{ mt: 3 }}
               >
                 <Button
+                  variant="contained"
                   onClick={handleModalOpen}
+                  startIcon={<HiOutlineArrowDownTray size="1.05rem" />}
                   sx={{
-                    my: 4,
-                    width: 180,
+                    minWidth: 180,
                     height: 45,
-                    bgcolor: COLORS.PRIMARY_BLUE,
-                    '&:hover': { bgcolor: COLORS.PRIMARY_BLUE_HOVER },
+                    bgcolor: 'primary.main',
+                    '&:hover': { bgcolor: 'primary.dark' },
                   }}
-                  icon={
-                    <HiOutlineArrowDownTray
-                      size="1.05rem"
-                      style={{ color: COLORS.TEXT_LIGHT }}
-                    />
-                  }
-                  text="Download CV"
-                />
+                >
+                  Download CV
+                </Button>
                 <Button
+                  variant="contained"
                   href="#contact"
+                  startIcon={<HiOutlineEnvelope size="1.05rem" />}
                   sx={{
-                    width: 180,
+                    minWidth: 180,
                     height: 45,
-                    bgcolor: COLORS.BTN_BG_DARK,
-                    '&:hover': { bgcolor: COLORS.BTN_BG_DARK_HOVER },
+                    bgcolor: 'neutral.main',
+                    '&:hover': { bgcolor: 'neutral.dark' },
                   }}
-                  icon={
-                    <HiOutlineEnvelope
-                      size="1.05rem"
-                      style={{ color: COLORS.TEXT_LIGHT }}
-                    />
-                  }
-                  text="Get in Touch"
-                />
+                >
+                  Get in Touch
+                </Button>
               </Stack>
             </SlideFromSide>
           </Grid>

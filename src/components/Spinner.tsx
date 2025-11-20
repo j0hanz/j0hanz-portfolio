@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { Box, CircularProgress } from '@mui/material';
+import { CircularProgress, Stack } from '@mui/material';
 
 // Component for displaying a loading spinner
 function Spinner(): React.JSX.Element {
   return (
-    <Box
+    <Stack
+      role="status"
+      aria-live="polite"
+      aria-label="Loading content"
+      justifyContent="center"
+      alignItems="center"
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         height: '60vh',
       }}
     >
-      <CircularProgress size={60} thickness={4} />
-    </Box>
+      <CircularProgress size={60} thickness={4} aria-label="Loading" />
+    </Stack>
   );
 }
 

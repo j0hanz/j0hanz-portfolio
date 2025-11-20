@@ -3,7 +3,8 @@ import { FC } from 'react';
 import { HiOutlineEnvelope } from 'react-icons/hi2';
 import { SiCreativecommons } from 'react-icons/si';
 
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import { SocialLinkList } from '@/components/NavBar';
 import { SocialLinkRenderProps } from '@/config/types';
@@ -29,7 +30,7 @@ const renderFooterSocialLink = ({
       color: 'inherit',
       textDecoration: 'none',
       '&:hover': {
-        color: '#66b2ff',
+        color: 'primary.light',
       },
     }}
   >
@@ -57,9 +58,10 @@ const Footer: FC = () => {
     <Box
       component="footer"
       sx={{
-        background: '#242424', // var(--btn-bg-dark-hover)
-        padding: '1rem 0',
-        pb: { xs: '0.1rem', sm: '1rem' },
+        bgcolor: 'neutral.dark',
+        py: 2,
+        pb: { xs: 0.25, sm: 2 },
+        color: 'primary.contrastText',
       }}
     >
       <Container maxWidth={false}>
@@ -69,50 +71,51 @@ const Footer: FC = () => {
               sx={{
                 pb: 3,
                 fontSize: '1.1rem',
-                color: '#f5f4f4', // var(--text-light)
+                color: 'inherit',
                 opacity: 0.8,
               }}
             >
               Contact Details
             </Typography>
-            <HiOutlineEnvelope
-              style={{
-                color: '#f5f4f4', // var(--text-light)
-                opacity: 0.8,
-                fontSize: '0.9rem',
-                marginRight: '10px',
-                transition: 'all 0.3s ease',
-              }}
-            />
-            <Box
-              component="a"
-              href="mailto:l.johansson93@outlook.com"
-              sx={{
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                color: '#f5f4f4', // var(--text-light)
-                transition: 'all 0.3s ease',
-                opacity: 0.8,
-                '&:hover': {
-                  color: '#66b2ff',
-                },
-              }}
-            >
-              l.johansson93@outlook.com
-            </Box>
+            <Stack direction="row" alignItems="center">
+              <HiOutlineEnvelope
+                style={{
+                  color: 'inherit',
+                  opacity: 0.8,
+                  fontSize: '0.9rem',
+                  marginRight: '10px',
+                  transition: 'all 0.3s ease',
+                }}
+              />
+              <Box
+                component="a"
+                href="mailto:l.johansson93@outlook.com"
+                sx={{
+                  textDecoration: 'none',
+                  fontSize: '0.9rem',
+                  color: 'inherit',
+                  transition: 'all 0.3s ease',
+                  opacity: 0.8,
+                  '&:hover': {
+                    color: 'primary.light',
+                    opacity: 1,
+                  },
+                }}
+              >
+                l.johansson93@outlook.com
+              </Box>
+            </Stack>
           </Grid>
           <Grid size={{ sm: 6 }} sx={{ textAlign: { sm: 'right' }, mt: 1 }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                pb: 3,
-              }}
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+              sx={{ pb: 3 }}
             >
               <SiCreativecommons
                 style={{
-                  color: '#f5f4f4', // var(--text-light)
+                  color: 'inherit',
                   opacity: 0.8,
                   fontSize: '0.9rem',
                   marginRight: '10px',
@@ -125,13 +128,13 @@ const Footer: FC = () => {
                   transform: 'skew(-10deg)',
                   textTransform: 'uppercase',
                   fontSize: '0.8rem',
-                  color: '#f5f4f4', // var(--text-light)
+                  color: 'inherit',
                   opacity: 0.8,
                 }}
               >
                 Copyright 2025
               </Box>
-            </Box>
+            </Stack>
             <Box sx={{ mt: { xs: 4, sm: 0 } }}>
               <Grid
                 container

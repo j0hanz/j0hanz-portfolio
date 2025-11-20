@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 
 import { ProjectStatsProps, ShieldConfig } from '@/config/types';
-
-import styles from '../ProjectList.module.css';
 
 const shieldBaseQuery = 'style=flat-square&labelColor=313131&color=313131';
 
@@ -15,7 +13,6 @@ const githubShields: ShieldConfig[] = [
     imgPath: 'last-commit',
     query: `${shieldBaseQuery}&logo=github&logoColor=f2f2f2&label=Updated:`,
     alt: 'Last Commit',
-    style: { margin: '0.25rem 0' },
   },
   {
     key: 'issues',
@@ -23,7 +20,6 @@ const githubShields: ShieldConfig[] = [
     imgPath: 'issues',
     query: `${shieldBaseQuery}&logo=github&logoColor=f2f2f2&label=Issues:`,
     alt: 'Issues',
-    style: { margin: '0.25rem 0' },
     shouldRender: (hasProjectBoard?: boolean) => Boolean(hasProjectBoard),
   },
 ];
@@ -37,9 +33,9 @@ const ProjectStats = ({
   );
 
   return (
-    <Box className={styles.githubStats} sx={{ mb: 3 }}>
+    <Stack spacing={1} alignItems="flex-start" sx={{ mb: 3 }}>
       {visibleShields.map(
-        ({ key, hrefPath, imgPath, query, alt, className, style }) => (
+        ({ key, hrefPath, imgPath, query, alt, className }) => (
           <a
             key={key}
             href={`https://github.com/${repoPath}${hrefPath}`}
@@ -50,16 +46,16 @@ const ProjectStats = ({
               src={`https://img.shields.io/github/${imgPath}/${repoPath}?${query}`}
               alt={alt}
               className={className}
-              style={style}
               height="20"
               width="140"
               loading="lazy"
               decoding="async"
+              style={{ borderRadius: '6.5px', transform: 'skew(-10deg)' }}
             />
           </a>
         )
       )}
-    </Box>
+    </Stack>
   );
 };
 

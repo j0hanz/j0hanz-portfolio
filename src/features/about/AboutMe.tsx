@@ -2,12 +2,12 @@ import React from 'react';
 
 import { HiMiniCheckBadge, HiUser } from 'react-icons/hi2';
 
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
-import { COLORS } from '@/config/constants';
 import { AboutMeListProps } from '@/config/types';
 import Credential from '@/features/education/Credential';
 import { useToggle } from '@/hooks';
@@ -44,14 +44,14 @@ function AboutMeList({
             key={item.title}
             sx={{
               color: 'text.primary',
-              marginTop: '1rem',
+              mt: 2,
             }}
           >
             <Typography
               component="span"
               sx={{
                 fontWeight: 500,
-                marginRight: '0.5rem',
+                mr: 1,
                 color: 'text.primary',
               }}
             >
@@ -62,28 +62,19 @@ function AboutMeList({
               <Box sx={{ pt: 3 }}>
                 <Button
                   onClick={onShowModal}
+                  variant="contained"
+                  startIcon={<HiMiniCheckBadge />}
                   sx={{
-                    width: '145px',
-                    height: '30px',
-                    bgcolor: COLORS.BTN_BG_DARK,
+                    minWidth: 145,
+                    height: 30,
+                    bgcolor: 'neutral.main',
                     '&:hover': {
-                      bgcolor: COLORS.BTN_BG_DARK_HOVER,
-                    },
-                    '&:active': {
-                      bgcolor: COLORS.BTN_BG_DARK_HOVER,
+                      bgcolor: 'neutral.dark',
                     },
                   }}
-                  icon={
-                    <HiMiniCheckBadge
-                      style={{
-                        marginRight: '5px',
-                        fontSize: '0.9rem',
-                        color: COLORS.TEXT_LIGHT,
-                      }}
-                    />
-                  }
-                  text="Credential"
-                />
+                >
+                  Credential
+                </Button>
               </Box>
             )}
           </Box>
@@ -103,11 +94,11 @@ function AboutMe(): React.JSX.Element {
 
   return (
     <SectionContainer id="about-me" title="About Me" icon={HiUser}>
-      <Grid container spacing={4}>
-        <Grid size={{ lg: 6 }} sx={{ mb: 4 }}>
+      <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
           <AboutMeText />
         </Grid>
-        <Grid size={{ lg: 6 }} sx={{ mb: 4 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
           <AboutMeList items={aboutMeItems} onShowModal={handleShowModal} />
         </Grid>
       </Grid>

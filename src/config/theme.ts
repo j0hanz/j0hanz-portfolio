@@ -4,6 +4,18 @@ import {
   ThemeOptions,
 } from '@mui/material/styles';
 
+// Extend the Palette interface to include custom colors
+declare module '@mui/material/styles' {
+  interface Palette {
+    heroGradient: string;
+    neutral: Palette['primary'];
+  }
+  interface PaletteOptions {
+    heroGradient?: string;
+    neutral?: PaletteOptions['primary'];
+  }
+}
+
 const getBaseTheme = (): ThemeOptions => ({
   cssVariables: true,
   typography: {
@@ -22,7 +34,6 @@ const getBaseTheme = (): ThemeOptions => ({
       fontWeight: 500,
     },
   },
-  spacing: 8,
   shape: {
     borderRadius: 8,
   },
@@ -101,7 +112,16 @@ const createResponsiveTheme = (mode: 'light' | 'dark') => {
         main: '#0067dd',
         light: '#3385e3',
         dark: '#004797',
+        contrastText: '#f5f4f4',
       },
+      neutral: {
+        main: '#313131',
+        light: '#4a4a4a',
+        dark: '#242424',
+        contrastText: '#f5f4f4',
+      },
+      heroGradient:
+        'linear-gradient(180deg, #017bb5 25%, #026a99 50%, #3a8cc1 75%)',
       ...(mode === 'light'
         ? {
             background: {

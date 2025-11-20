@@ -5,8 +5,6 @@ import SectionWrapper from '@/components/SectionWrapper';
 import Spinner from '@/components/Spinner';
 import { MainContentProps, SectionConfig } from '@/config/types';
 
-import styles from '@/styles/App.module.css';
-
 const Hero = lazy(() => import('@/features/hero/Hero'));
 const AboutMe = lazy(() => import('@/features/about/AboutMe'));
 const Skills = lazy(() => import('@/features/skills/Skills'));
@@ -32,7 +30,7 @@ const ContactSectionComponent = contactSection.Component;
 
 function MainContent({ loading }: MainContentProps): React.JSX.Element {
   return (
-    <main className={styles.mainContent} aria-busy={loading}>
+    <main aria-busy={loading}>
       {loading ? (
         <Spinner />
       ) : (

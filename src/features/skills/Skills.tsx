@@ -2,26 +2,64 @@ import React from 'react';
 
 import { HiMiniCog8Tooth, HiOutlineBookOpen } from 'react-icons/hi2';
 
-import { Grid } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { SkillCardProps } from '@/config/types';
 import skills from '@/lib/data/skills';
 
-import styles from './Skills.module.css';
-import appStyles from '@/styles/App.module.css';
-
 function SkillCard({ skill }: SkillCardProps): React.JSX.Element {
   return (
     <Grid size={{ xs: 6, sm: 6, md: 3 }} sx={{ textAlign: 'center', mb: 4 }}>
-      <Card title={skill.label} className={styles.skillCard}>
-        <skill.icon className={styles.skillIcon} />
+      <Card
+        title={skill.label}
+        sx={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mt: 0.5,
+        }}
+      >
+        <Box
+          component={skill.icon}
+          sx={{
+            fontSize: '4rem',
+            color: 'primary.main',
+            mb: 0.7,
+          }}
+        />
         {skill.learning && (
-          <div className={styles.learningBadge}>
-            <HiOutlineBookOpen className={styles.learningIcon} />
-            <span className={styles.skillsLearning}>Learning</span>
-          </div>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              bgcolor: 'neutral.dark',
+              color: 'common.white',
+              width: 1,
+              height: '1.4rem',
+              borderRadius: '0 0 10px 10px',
+              fontSize: '0.8rem',
+            }}
+          >
+            <HiOutlineBookOpen
+              style={{
+                marginRight: '0.25rem',
+                transform: 'skew(-10deg)',
+              }}
+            />
+            <Box component="span" sx={{ transform: 'skew(-10deg)' }}>
+              Learning
+            </Box>
+          </Stack>
         )}
       </Card>
     </Grid>
@@ -35,9 +73,12 @@ function Skills(): React.JSX.Element {
       id="skills"
       title="Skills"
       icon={HiMiniCog8Tooth}
-      className={appStyles.sectionPadding}
+      sx={{
+        px: 0,
+        pb: 5,
+      }}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={{ xs: 2, sm: 2, md: 2 }}>
         {skills.map((skill) => (
           <SkillCard key={skill.label} skill={skill} />
         ))}

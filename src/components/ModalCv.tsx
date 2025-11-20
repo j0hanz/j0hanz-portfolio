@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HiOutlineGlobeAlt } from 'react-icons/hi2';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
@@ -37,25 +37,25 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
       }}
     >
-      <Box
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
         sx={{
           mb: 4,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           fontSize: { xs: '1.2rem', sm: '1.4rem' },
         }}
       >
         <HiOutlineGlobeAlt size="1.2rem" style={{ marginRight: '0.4rem' }} />
         Choose Language
-      </Box>
+      </Stack>
       <Typography sx={{ textAlign: 'center', mb: 2 }}>
         Select a language to download the CV.
       </Typography>
-      <Box
+      <Stack
+        direction="row"
+        justifyContent="space-between"
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
           mt: 4,
           px: 4,
         }}
@@ -98,7 +98,7 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
             },
           }}
         />
-      </Box>
+      </Stack>
     </BaseModal>
   );
 }

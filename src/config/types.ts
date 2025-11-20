@@ -60,7 +60,7 @@ export interface BadgeConfig {
   flag: BadgeFlag;
   src: string;
   alt: string;
-  className: string;
+  style?: CSSProperties;
   width?: number;
   height?: number;
 }
@@ -133,13 +133,18 @@ export interface CardProps {
   children: ReactNode;
   className?: string;
   bodyClassName?: string;
+  sx?: SxProps<Theme>;
+  noContentPadding?: boolean;
 }
 
 export interface CustomButtonProps extends MuiButtonProps {
-  icon?: ReactNode;
+  icon?: ReactNode; // Deprecated: use startIcon or endIcon instead
   text?: string;
   className?: string;
   target?: string;
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
+  variant?: 'text' | 'contained' | 'outlined';
 }
 
 export interface IconBadgeProps {
@@ -223,6 +228,7 @@ export interface SectionContainerProps {
   icon: ElementType;
   children: ReactNode;
   className?: string;
+  sx?: SxProps<Theme>;
 }
 
 export interface SectionWrapperProps {
@@ -287,6 +293,7 @@ export interface FormFieldProps {
   icon: ElementType;
   type?: 'text' | 'email' | 'url' | 'textarea';
   name: string;
+  label?: string;
   placeholder: string;
   value: string;
   error?: string;
@@ -357,7 +364,7 @@ export interface SocialLink {
   href?: string;
   onClick?: () => void;
   tooltip: string;
-  iconClass: string;
+  color?: string;
 }
 
 export interface SocialLinkRenderProps {

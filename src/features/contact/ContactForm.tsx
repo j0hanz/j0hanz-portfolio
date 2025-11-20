@@ -6,7 +6,8 @@ import {
   HiOutlineTrash,
 } from 'react-icons/hi2';
 
-import { Box, Card, CardContent, CircularProgress, Grid } from '@mui/material';
+import { Card, CardContent, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Badges from '@/components/Badges';
 import Button from '@/components/Button';
@@ -14,9 +15,6 @@ import SectionContainer from '@/components/SectionContainer';
 import { useContactForm } from '@/hooks';
 
 import FormContact from './ContactFormFields';
-
-import styles from './ContactForm.module.css';
-import appStyles from '@/styles/App.module.css';
 
 // Rendering contact form section
 function ContactForm(): React.JSX.Element {
@@ -31,47 +29,87 @@ function ContactForm(): React.JSX.Element {
 
   return (
     <SectionContainer id="contact" title="Contact" icon={HiEnvelope}>
-      <Grid container justifyContent="center" alignItems="center">
-        <Grid size={{ md: 10 }}>
-          <Card className={`${appStyles.cardBgColor}`} sx={{ height: '100%' }}>
-            <CardContent className={appStyles.formBody}>
-              <Box component="form" noValidate onSubmit={handleSubmit}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        spacing={{ xs: 3, md: 4 }}
+      >
+        <Grid size={{ xs: 12, md: 10 }}>
+          <Card
+            sx={{
+              height: 1,
+              bgcolor: 'background.paper',
+              borderRadius: 3,
+              boxShadow: 4,
+            }}
+          >
+            <CardContent sx={{ p: 0, '&:last-child': { pb: 0 } }}>
+              <Stack component="form" noValidate onSubmit={handleSubmit}>
                 <FormContact
                   formData={formData}
                   errors={errors}
                   handleChange={handleChange}
                 />
-                <Box
+                <Stack
+                  direction="row"
+                  justifyContent={{ xs: 'center', sm: 'space-between' }}
+                  flexWrap="wrap"
+                  gap={2}
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
                     mt: 3,
-                    p: 2,
+                    px: 2,
+                    pb: 2,
                   }}
                 >
                   <Button
-                    className={styles.clearButton}
+                    variant="contained"
                     type="button"
                     onClick={handleReset}
                     disabled={isSending}
-                    icon={<HiOutlineTrash className={styles.buttonIconClear} />}
+                    startIcon={
+                      <HiOutlineTrash
+                        style={{
+                          color: '#ffc800',
+                          fontSize: '0.9rem',
+                        }}
+                      />
+                    }
+                    aria-label="Clear form"
+                    sx={{
+                      minWidth: 0,
+                      px: 1.5,
+                      py: 0.75,
+                      bgcolor: 'neutral.main',
+                      '&:hover': {
+                        bgcolor: 'neutral.dark',
+                      },
+                    }}
                   />
                   <Button
-                    className={styles.submitButton}
+                    variant="contained"
                     type="submit"
+                    loading={isSending}
                     disabled={isSending}
-                    aria-label={isSending ? 'Sending message' : 'Send message'}
-                    icon={
-                      isSending ? (
-                        <CircularProgress size={20} color="inherit" />
-                      ) : (
-                        <HiOutlinePaperAirplane className={styles.buttonIcon} />
-                      )
+                    startIcon={
+                      <HiOutlinePaperAirplane style={{ fontSize: '0.9rem' }} />
                     }
-                    text={isSending ? '' : 'Send'}
-                  />
-                </Box>
-              </Box>
+                    aria-label={isSending ? 'Sending message' : 'Send message'}
+                    sx={{
+                      minWidth: 0,
+                      flexGrow: { xs: 1, sm: 0 },
+                      px: 3,
+                      py: 0.75,
+                      bgcolor: 'primary.main',
+                      '&:hover': {
+                        bgcolor: 'primary.dark',
+                      },
+                    }}
+                  >
+                    {!isSending && 'Send'}
+                  </Button>
+                </Stack>
+              </Stack>
             </CardContent>
           </Card>
           <Badges />

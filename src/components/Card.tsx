@@ -10,42 +10,42 @@ function Card({
   subtitle,
   children,
   className = '',
+  sx,
+  noContentPadding = false,
 }: CardProps): React.JSX.Element {
   return (
     <MuiCard
       className={className}
       sx={{
-        height: '100%',
-        transition: 'all 0.3s ease',
-        bgcolor: 'background.paper', // var(--card-bg)
-        color: 'text.primary', // var(--text-color)
-        borderRadius: '10px', // var(--border-radius)
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
-        maxWidth: '100%',
-        width: '100%',
-        border: 'none',
+        height: 1,
+        boxShadow: 3,
         '&:hover': {
           transform: 'translateY(-5px)',
-          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+          boxShadow: 6,
         },
+        ...sx,
       }}
     >
-      <CardContent sx={{ padding: '0.9rem', border: 'none' }}>
-        <Typography variant="h5" component="div" gutterBottom>
-          {title}
-        </Typography>
-        {subtitle && (
-          <Typography
-            variant="body1"
-            component="div"
-            sx={{ mb: 1.5 }}
-            color="text.secondary"
-          >
-            {subtitle}
+      {noContentPadding ? (
+        children
+      ) : (
+        <CardContent sx={{ p: 2 }}>
+          <Typography variant="h5" component="div" gutterBottom>
+            {title}
           </Typography>
-        )}
-        {children}
-      </CardContent>
+          {subtitle && (
+            <Typography
+              variant="body1"
+              component="div"
+              sx={{ mb: 1.5 }}
+              color="text.secondary"
+            >
+              {subtitle}
+            </Typography>
+          )}
+          {children}
+        </CardContent>
+      )}
     </MuiCard>
   );
 }

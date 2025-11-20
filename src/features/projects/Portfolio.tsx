@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HiFolder } from 'react-icons/hi2';
 
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import SectionContainer from '@/components/SectionContainer';
 import projects from '@/lib/data/projects';

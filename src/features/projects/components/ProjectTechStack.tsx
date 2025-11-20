@@ -1,26 +1,37 @@
 import React from 'react';
 
-import { Chip } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 
 import { ProjectTechStackProps } from '@/config/types';
-
-import styles from '../ProjectList.module.css';
-import appStyles from '@/styles/App.module.css';
 
 const ProjectTechStack = ({
   technologies,
 }: ProjectTechStackProps): React.JSX.Element => (
-  <div className={styles.technologies}>
+  <Box sx={{ mb: 1.5, transform: 'skew(-10deg)' }}>
     {technologies.map((tech, index) => (
       <Chip
         key={`${tech}-${index}`}
         label={tech}
-        className={appStyles.customBadge}
         size="small"
-        sx={{ mr: 1, mb: 1 }}
+        sx={{
+          mr: 1,
+          mb: 1,
+          pt: 0.1,
+          display: 'inline-flex',
+          alignItems: 'center',
+          color: 'text.primary',
+          fontSize: '0.8rem',
+          opacity: 0.9,
+          transform: 'skew(-10deg)',
+          '& .MuiChip-label': {
+            color: 'text.primary',
+            textTransform: 'uppercase',
+            fontSize: '0.7rem',
+          },
+        }}
       />
     ))}
-  </div>
+  </Box>
 );
 
 ProjectTechStack.displayName = 'ProjectTechStack';

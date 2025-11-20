@@ -7,8 +7,8 @@ import {
   HiOutlineCalendar,
 } from 'react-icons/hi2';
 
-import { Box } from '@mui/material';
-import { Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -23,9 +23,6 @@ import { useToggle } from '@/hooks';
 import education from '@/lib/data/education';
 
 import Credential from './Credential';
-
-import styles from './Education.module.css';
-import appStyles from '@/styles/App.module.css';
 
 const createEducationMeta = (education: EducationItem): IconBadgeMetaItem[] => [
   {
@@ -58,19 +55,36 @@ function EducationCard({
         }
       >
         {education.description && (
-          <Box className={appStyles.cardText} sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2 }}>
             {education.description.map((desc, index) => (
-              <div key={`${education.title}-${index}`}>{desc}</div>
+              <Typography
+                key={`${education.title}-${index}`}
+                sx={{
+                  lineHeight: 1.8,
+                  color: 'text.secondary',
+                }}
+              >
+                {desc}
+              </Typography>
             ))}
           </Box>
         )}
         {education.hasCredential && (
           <Button
             onClick={onShowModal}
-            className={styles.credentialButton}
-            icon={<HiMiniCheckBadge className={styles.buttonIcon} />}
-            text="Credential"
-          />
+            variant="contained"
+            startIcon={<HiMiniCheckBadge />}
+            sx={{
+              minWidth: 145,
+              height: 30,
+              bgcolor: 'neutral.main',
+              '&:hover': {
+                bgcolor: 'neutral.dark',
+              },
+            }}
+          >
+            Credential
+          </Button>
         )}
       </Card>
     </Grid>

@@ -12,36 +12,46 @@ const StyledButton = styled(MuiButton)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
-  borderRadius: '10px',
-  transition: 'all 0.3s ease',
-  color: '#f5f4f4',
-  padding: '8px 16px',
+  borderRadius: theme.shape.borderRadius,
+  transition: theme.transitions.create(
+    ['transform', 'box-shadow', 'background-color'],
+    {
+      duration: theme.transitions.duration.short,
+    }
+  ),
+  color: theme.palette.primary.contrastText,
+  padding: theme.spacing(1, 2),
   '&:active': {
     transform: 'skew(-10deg) scale(0.96)',
   },
-  '& .button-icon': {
+  '& .MuiButton-startIcon, & .MuiButton-endIcon': {
     lineHeight: 0,
     display: 'flex',
     alignItems: 'center',
   },
-  '& .button-text': {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
 }));
 
-// Button component with optional icon and text
+// Button component with optional icon and text, supports MUI v7 best practices
 function Button({
   icon,
   text = '',
   className = '',
   children,
   sx,
+  variant = 'contained',
+  startIcon,
+  endIcon,
   ...props
 }: CustomButtonProps): React.JSX.Element {
+  // Use startIcon/endIcon if provided, fallback to icon prop for backward compatibility
+  const resolvedStartIcon = startIcon || icon;
+
   return (
     <StyledButton
       {...props}
+      variant={variant}
+      startIcon={resolvedStartIcon}
+      endIcon={endIcon}
       className={className}
       sx={{
         '&:hover': {
@@ -51,9 +61,7 @@ function Button({
         ...sx,
       }}
     >
-      {icon && <span className="button-icon">{icon}</span>}
-      {text && <span className="button-text">{text}</span>}
-      {children}
+      {text || children}
     </StyledButton>
   );
 }

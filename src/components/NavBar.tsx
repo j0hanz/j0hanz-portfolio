@@ -12,13 +12,13 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Stack,
   Tooltip,
 } from '@mui/material';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import Spinner from '@/components/Spinner';
-import { COLORS } from '@/config/constants';
 import {
   OffcanvasMenuProps,
   SocialLinkListProps,
@@ -34,25 +34,37 @@ const ModalCv = lazy(() => import('@/components/ModalCv'));
 const renderNavSocialLink = ({
   href,
   onClick,
+  tooltip,
   icon,
-}: SocialLinkRenderProps): React.JSX.Element => (
-  <IconButton
-    href={href || ''}
-    onClick={onClick}
-    target={href ? '_blank' : undefined}
-    size="large"
-    color="inherit"
-    sx={{
-      transition: 'all 0.3s ease',
-      '&:hover': {
-        color: COLORS.NAV_HOVER,
-        transform: 'translateY(-3px)',
-      },
-    }}
-  >
-    {icon}
-  </IconButton>
-);
+}: SocialLinkRenderProps): React.JSX.Element => {
+  const linkProps = href
+    ? {
+        component: 'a',
+        href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
+    : {};
+
+  return (
+    <IconButton
+      {...linkProps}
+      onClick={onClick}
+      size="large"
+      color="inherit"
+      aria-label={tooltip}
+      sx={{
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          color: 'primary.light',
+          transform: 'translateY(-3px)',
+        },
+      }}
+    >
+      {icon}
+    </IconButton>
+  );
+};
 
 export function SocialLinkList({
   openModal,
@@ -61,33 +73,32 @@ export function SocialLinkList({
 }: SocialLinkListProps): React.JSX.Element {
   return (
     <>
-      {socialLinks.map(
-        ({ id, icon: Icon, href, onClick, tooltip, iconClass }) => {
-          const resolvedOnClick = id === 'download-pdf' ? openModal : onClick;
-          const linkElement = renderLink({
-            href,
-            onClick: resolvedOnClick,
-            tooltip,
-            icon: (
-              <Icon
-                className={iconClass}
-                style={{
-                  fontSize: '1.4rem',
-                  transition: 'all 0.3s ease',
-                }}
-              />
-            ),
-          });
+      {socialLinks.map(({ id, icon: Icon, href, onClick, tooltip, color }) => {
+        const resolvedOnClick = id === 'download-pdf' ? openModal : onClick;
+        const linkElement = renderLink({
+          href,
+          onClick: resolvedOnClick,
+          tooltip,
+          icon: (
+            <Icon
+              style={{
+                fontSize: '1.4rem',
+                transition: 'all 0.3s ease',
+                color: color,
+                paddingRight: id === 'source-code' ? 0 : '0.5rem',
+              }}
+            />
+          ),
+        });
 
-          const overlayNode = (
-            <Tooltip key={id} title={tooltip} placement="top">
-              <Box component="span">{linkElement}</Box>
-            </Tooltip>
-          );
+        const overlayNode = (
+          <Tooltip key={id} title={tooltip} placement="top">
+            <Box component="span">{linkElement}</Box>
+          </Tooltip>
+        );
 
-          return wrapItem ? wrapItem(id, overlayNode) : overlayNode;
-        }
-      )}
+        return wrapItem ? wrapItem(id, overlayNode) : overlayNode;
+      })}
     </>
   );
 }
@@ -95,14 +106,14 @@ export function SocialLinkList({
 // Logo in the Offcanvas menu
 function NavLogo(): React.JSX.Element {
   return (
-    <Box
+    <Stack
       component="a"
       href="#hero"
+      direction="row"
+      alignItems="center"
       sx={{
-        position: 'relative',
-        display: 'block',
-        width: '100%',
-        height: '50px',
+        height: 50,
+        textDecoration: 'none',
       }}
     >
       <Box
@@ -112,16 +123,12 @@ function NavLogo(): React.JSX.Element {
         sx={{
           width: '1.9rem',
           transition: 'all 0.3s ease',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          transform: 'translateY(-50%)',
           '&:hover': {
             opacity: 0.7,
           },
         }}
       />
-    </Box>
+    </Stack>
   );
 }
 
@@ -160,11 +167,11 @@ function NavLinks(): React.JSX.Element {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: '1rem',
-              marginTop: { xs: '1.5rem', sm: '2rem' },
+              gap: 2,
+              mt: { xs: 3, sm: 4 },
               transition: 'all 0.3s ease',
               '&:hover .MuiListItemText-primary': {
-                color: COLORS.NAV_HOVER,
+                color: 'primary.light',
               },
               '&:active .MuiListItemText-primary': {
                 transform: 'scale(0.98)',
@@ -175,7 +182,7 @@ function NavLinks(): React.JSX.Element {
             <ListItemIcon sx={{ minWidth: 'auto', mr: 2 }}>
               <Icon
                 style={{
-                  color: COLORS.TEXT_LIGHT,
+                  color: 'inherit',
                   fontSize: '1.05rem',
                   transition: 'all 0.3s ease',
                 }}
@@ -185,7 +192,7 @@ function NavLinks(): React.JSX.Element {
               primary={label}
               primaryTypographyProps={{
                 sx: {
-                  color: COLORS.TEXT_LIGHT,
+                  color: 'inherit',
                   letterSpacing: '1.25px',
                   fontSize: { xs: '1rem', sm: '1.1rem' },
                   transition: 'all 0.3s ease',
@@ -207,12 +214,12 @@ function SocialLinks({
 }): React.JSX.Element {
   return (
     <Box sx={{ mt: 'auto' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Stack direction="row" justifyContent="space-between">
         <SocialLinkList
           openModal={openModal}
           renderLink={renderNavSocialLink}
         />
-      </Box>
+      </Stack>
     </Box>
   );
 }
@@ -227,28 +234,28 @@ const OffcanvasMenu = forwardRef<HTMLDivElement, OffcanvasMenuProps>(
       onClose={closeOffcanvas}
       PaperProps={{
         sx: {
-          width: '300px',
-          backgroundColor: COLORS.BG_DARK,
-          color: COLORS.TEXT_LIGHT,
+          width: 300,
+          bgcolor: 'neutral.dark',
+          color: 'neutral.contrastText',
           height: '100dvh',
         },
       }}
     >
-      <Box
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
           p: 2,
           position: 'relative',
-          marginTop: '0.25rem',
+          mt: 0.5,
         }}
       >
         <NavLogo />
         <IconButton onClick={closeOffcanvas} color="inherit">
           <HiXMark />
         </IconButton>
-      </Box>
+      </Stack>
       <Box
         sx={{
           p: 2,
@@ -299,13 +306,13 @@ function NavBar(): React.JSX.Element {
               position: 'fixed',
               top: 0,
               left: 0,
-              background: COLORS.BTN_BG_DARK,
+              bgcolor: 'neutral.main',
               borderRadius: '0 0 10px 0px',
-              zIndex: 1000,
+              zIndex: (theme) => theme.zIndex.appBar,
               cursor: 'pointer',
               transition: 'all 0.3s ease',
               '&:hover': {
-                background: COLORS.BTN_BG_DARK_HOVER,
+                bgcolor: 'neutral.dark',
               },
             }}
           >
@@ -318,26 +325,26 @@ function NavBar(): React.JSX.Element {
             color="inherit"
             sx={{
               position: 'fixed',
-              background: COLORS.BTN_BG_DARK,
+              bgcolor: 'neutral.main',
               borderRadius: '0 0 0 10px',
-              height: '3rem',
-              width: '3.5rem',
+              height: 48,
+              width: 56,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              zIndex: 1000,
+              zIndex: (theme) => theme.zIndex.appBar,
               top: 0,
               right: 0,
               transition: 'all 0.3s ease',
               '&:hover': {
-                background: COLORS.BTN_BG_DARK_HOVER,
+                bgcolor: 'neutral.dark',
               },
             }}
           >
             <HiOutlineBars3
               style={{
                 fontSize: '2.2rem',
-                color: COLORS.TEXT_LIGHT,
+                color: 'inherit',
                 transition: 'all 0.3s ease',
               }}
             />

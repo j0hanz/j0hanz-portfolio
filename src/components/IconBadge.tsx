@@ -16,9 +16,10 @@ function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
         fontSize: '0.8rem',
         opacity: 0.9,
         transform: 'skew(-10deg)',
+        gap: 0.5,
       }}
     >
-      <Icon className="me-1" />
+      <Icon />
       <Typography
         component="span"
         sx={{

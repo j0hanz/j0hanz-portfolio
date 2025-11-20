@@ -4,12 +4,12 @@ import { ProjectBadgesProps } from '@/config/types';
 
 const ProjectBadges = ({ badges }: ProjectBadgesProps): React.JSX.Element => (
   <>
-    {badges.map(({ flag, src, alt, className, width, height }) => (
+    {badges.map(({ flag, src, alt, style, width, height }) => (
       <img
         key={flag}
         src={src}
         alt={alt}
-        className={className}
+        style={style}
         loading="lazy"
         decoding="async"
         width={width}
