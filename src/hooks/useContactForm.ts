@@ -3,6 +3,7 @@ import {
   Dispatch,
   FormEvent,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react';
 
@@ -48,6 +49,9 @@ const useContactForm = () => {
   const [formData, setFormData] =
     useState<ContactFormValues>(buildInitialValues);
   const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [submissionState, setSubmissionState] = useState<'idle' | 'success'>(
+    'idle'
+  );
 
   const debouncedEmail = useDebounce(formData.email, 350);
   const debouncedUrl = useDebounce(formData.url, 350);
@@ -67,10 +71,27 @@ const useContactForm = () => {
     setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
   };
 
-  const resetForm = () => {
+  const resetFields = () => {
     setFormData(buildInitialValues());
     setErrors({});
   };
+
+  const resetForm = () => {
+    resetFields();
+    setSubmissionState('idle');
+  };
+
+  useEffect(() => {
+    if (submissionState !== 'success') {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setSubmissionState('idle');
+    }, 3200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [submissionState]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -85,12 +106,15 @@ const useContactForm = () => {
     try {
       const success = await sendEmail(formData);
       if (success) {
-        resetForm();
+        resetFields();
+        setSubmissionState('success');
         toast.success('Your message was sent successfully!');
       } else {
+        setSubmissionState('idle');
         toast.error(SEND_ERROR_MESSAGE);
       }
     } catch {
+      setSubmissionState('idle');
       toast.error(SEND_ERROR_MESSAGE);
     } finally {
       setIsSending(false);
@@ -104,6 +128,7 @@ const useContactForm = () => {
 
   return {
     isSending,
+    submissionState,
     formData,
     errors,
     handleChange,

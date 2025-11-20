@@ -13,40 +13,15 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { motion } from 'motion/react';
 
 import { SocialLinkList } from '@/components/NavBar';
 import { SocialLinkRenderProps } from '@/config/types';
-import { useCopyToClipboard, useToggle } from '@/hooks';
+import { useAnimationConfig, useCopyToClipboard, useToggle } from '@/hooks';
 
 import ModalCv from './ModalCv';
 
 const CONTACT_EMAIL = 'l.johansson93@outlook.com';
-
-const renderFooterSocialLink = ({
-  href,
-  onClick,
-  tooltip,
-  icon,
-}: SocialLinkRenderProps): React.JSX.Element => (
-  <Box
-    component="a"
-    href={href}
-    onClick={onClick}
-    target={href ? '_blank' : undefined}
-    rel={href ? 'noopener noreferrer' : undefined}
-    aria-label={tooltip}
-    sx={{
-      cursor: href || onClick ? 'pointer' : 'default',
-      color: 'inherit',
-      textDecoration: 'none',
-      '&:hover': {
-        color: 'primary.light',
-      },
-    }}
-  >
-    {icon}
-  </Box>
-);
 
 const wrapFooterSocialLink = (
   id: string,
@@ -66,6 +41,42 @@ const Footer: FC = () => {
     setFalse: handleModalClose,
   } = useToggle(false);
   const [copyEmail] = useCopyToClipboard();
+  const { getTransition, prefersReducedMotion } = useAnimationConfig();
+
+  const renderFooterSocialLink = ({
+    href,
+    onClick,
+    tooltip,
+    icon,
+    index,
+  }: SocialLinkRenderProps) => (
+    <Box
+      component={motion.a}
+      href={href}
+      onClick={onClick}
+      target={href ? '_blank' : undefined}
+      rel={href ? 'noopener noreferrer' : undefined}
+      aria-label={tooltip}
+      sx={{
+        cursor: href || onClick ? 'pointer' : 'default',
+        color: 'inherit',
+        textDecoration: 'none',
+        display: 'inline-flex',
+        '&:hover': {
+          color: 'primary.light',
+        },
+      }}
+      whileHover={
+        prefersReducedMotion ? { scale: 1.05 } : { scale: 1.2, rotate: 5 }
+      }
+      whileTap={{ scale: 0.92 }}
+      transition={getTransition('snappy', {
+        delay: prefersReducedMotion ? 0 : index * 0.05,
+      })}
+    >
+      {icon}
+    </Box>
+  );
 
   const handleCopyEmail = async () => {
     const copied = await copyEmail(CONTACT_EMAIL);

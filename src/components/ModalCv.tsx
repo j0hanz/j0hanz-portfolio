@@ -50,6 +50,7 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
         color: '#f5f4f4',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
       }}
+      animationPreset="slideDown"
     >
       <Stack
         direction="row"

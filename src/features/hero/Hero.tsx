@@ -2,15 +2,22 @@ import React, { lazy, Suspense, useRef } from 'react';
 
 import { HiOutlineArrowDownTray, HiOutlineEnvelope } from 'react-icons/hi2';
 
-import { Box, Container, Fade, Stack, Typography } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
-import { SlideFromSide } from '@/components/Motions';
 import Spinner from '@/components/Spinner';
-import { useHover, useToggle } from '@/hooks';
+import {
+  useAnimationConfig,
+  useAnimationPriority,
+  useHover,
+  useScrollProgress,
+  useToggle,
+} from '@/hooks';
+import { motionVariants } from '@/utils/motionVariants';
 
 const ModalCv = lazy(() => import('@/components/ModalCv'));
 
@@ -19,8 +26,65 @@ const buttonBaseStyles = {
   height: 45,
 } as const;
 
+interface MagneticWrapperProps {
+  disabled: boolean;
+  children: React.ReactNode;
+}
+
+const MagneticWrapper = ({
+  disabled,
+  children,
+}: MagneticWrapperProps): React.JSX.Element => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 260, damping: 28, mass: 0.9 });
+  const springY = useSpring(y, { stiffness: 260, damping: 28, mass: 0.9 });
+
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return;
+    }
+
+    const node = containerRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const rect = node.getBoundingClientRect();
+    const offsetX = event.clientX - (rect.left + rect.width / 2);
+    const offsetY = event.clientY - (rect.top + rect.height / 2);
+
+    x.set(offsetX * 0.08);
+    y.set(offsetY * 0.08);
+  };
+
+  return (
+    <motion.div
+      ref={containerRef}
+      style={{
+        display: 'inline-flex',
+        ...(disabled ? {} : { x: springX, y: springY }),
+      }}
+      onPointerMove={disabled ? undefined : handlePointerMove}
+      onPointerLeave={disabled ? undefined : reset}
+      onPointerUp={disabled ? undefined : reset}
+      onBlur={disabled ? undefined : reset}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 // Rendering hero section
 function Hero(): React.JSX.Element {
+  const heroName = 'Linus Johansson';
   const {
     value: showModal,
     setTrue: handleModalOpen,
@@ -33,63 +97,90 @@ function Hero(): React.JSX.Element {
   } = useToggle(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const isProfileHovered = useHover(profileImageRef);
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const animationPriority = useAnimationPriority();
+  const { value: scrollYProgress } = useScrollProgress();
+  const parallaxRange = prefersReducedMotion ? 0 : 80;
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, parallaxRange]);
+  const imageReveal = motionVariants.scroll.scrollFadeUp;
+  const textReveal = motionVariants.scroll.scrollFadeUp;
+  const letterInitial = prefersReducedMotion ? false : 'hidden';
+  const letterAnimate = prefersReducedMotion ? undefined : 'show';
+  const disableMagnetic =
+    prefersReducedMotion || animationPriority === 'reduced';
 
   return (
     <Box component="section" id="hero" sx={{ pt: 8 }}>
       <Container maxWidth="lg" sx={{ textAlign: 'center', px: 0, pb: 5 }}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid size={{ md: 5 }}>
-            <SlideFromSide from="left">
-              <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                <Box
-                  component="img"
-                  ref={profileImageRef}
-                  src={ProfileImage}
-                  alt="Linus Johansson"
-                  onClick={handleImageModalOpen}
-                  sx={{
-                    width: { xs: 185, md: 245, lg: 280 },
-                    height: { xs: 185, md: 245, lg: 280 },
-                    borderRadius: 2,
-                    objectFit: 'cover',
-                    transition: (theme) =>
-                      theme.transitions.create('filter', {
-                        duration: theme.transitions.duration.standard,
-                      }),
-                    cursor: 'pointer',
-                    mb: { xs: 3, lg: 0 },
-                    filter: isProfileHovered ? 'brightness(0.8)' : 'none',
-                  }}
-                />
-                <Fade in={isProfileHovered} timeout={200}>
-                  <Box
-                    aria-hidden
-                    sx={{
-                      position: 'absolute',
-                      inset: 0,
-                      borderRadius: 2,
-                      bgcolor: 'rgba(0, 0, 0, 0.4)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'common.white',
-                      letterSpacing: 1,
-                      fontSize: '0.9rem',
-                      pointerEvents: 'none',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Click to enlarge
-                  </Box>
-                </Fade>
+            <Box
+              component={motion.div}
+              initial={imageReveal.initial}
+              whileInView={imageReveal.whileInView}
+              transition={getTransition('smooth')}
+              style={{ y: parallaxY }}
+              sx={{ position: 'relative', display: 'inline-flex' }}
+            >
+              <Box
+                component={motion.img}
+                ref={profileImageRef}
+                src={ProfileImage}
+                alt="Linus Johansson"
+                onClick={handleImageModalOpen}
+                animate={{
+                  filter: isProfileHovered
+                    ? 'brightness(0.8)'
+                    : 'brightness(1)',
+                }}
+                transition={getTransition('smooth')}
+                sx={{
+                  width: { xs: 185, md: 245, lg: 280 },
+                  height: { xs: 185, md: 245, lg: 280 },
+                  borderRadius: 2,
+                  objectFit: 'cover',
+                  cursor: 'pointer',
+                  mb: { xs: 3, lg: 0 },
+                }}
+              />
+              <Box
+                component={motion.div}
+                aria-hidden
+                initial={false}
+                animate={{ opacity: isProfileHovered ? 1 : 0 }}
+                transition={getTransition('snappy')}
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: 2,
+                  bgcolor: 'rgba(0, 0, 0, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'common.white',
+                  letterSpacing: 1,
+                  fontSize: '0.9rem',
+                  pointerEvents: 'none',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Click to enlarge
               </Box>
-            </SlideFromSide>
+            </Box>
           </Grid>
           <Grid size="auto" sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
-            <SlideFromSide from="right">
+            <Box
+              component={motion.div}
+              initial={textReveal.initial}
+              whileInView={textReveal.whileInView}
+              transition={getTransition('smooth')}
+            >
               <Typography
                 variant="h1"
-                component="h1"
+                component={motion.h1}
+                variants={motionVariants.stagger.container}
+                initial={letterInitial}
+                animate={letterAnimate}
                 sx={{
                   background: (theme) => theme.palette.heroGradient,
                   WebkitBackgroundClip: 'text',
@@ -98,13 +189,39 @@ function Hero(): React.JSX.Element {
                   letterSpacing: { xs: '2px', sm: '3px' },
                   fontWeight: 500,
                   lineHeight: 1.2,
+                  display: 'inline-flex',
+                  flexWrap: 'wrap',
+                  gap: '0.1rem',
                 }}
               >
-                Linus Johansson
+                {heroName.split('').map((character, index) => (
+                  <Box
+                    component={motion.span}
+                    key={`${character}-${index}`}
+                    variants={motionVariants.stagger.item}
+                    sx={{ display: 'inline-block' }}
+                  >
+                    {character === ' ' ? '\u00A0' : character}
+                  </Box>
+                ))}
               </Typography>
               <Typography
                 variant="h2"
-                component="h2"
+                component={motion.h2}
+                initial={
+                  prefersReducedMotion
+                    ? undefined
+                    : { clipPath: 'inset(0 100% 0 0)' }
+                }
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { clipPath: 'inset(0 0% 0 0)' }
+                }
+                transition={getTransition('smooth', {
+                  duration: 1.1,
+                  delay: 0.2,
+                })}
                 sx={{
                   my: 2,
                   fontSize: { xs: '1.2rem', sm: '1.3rem' },
@@ -112,9 +229,26 @@ function Hero(): React.JSX.Element {
                   textTransform: 'uppercase',
                   color: 'text.primary',
                   fontWeight: 500,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 0.5,
                 }}
               >
                 Junior Full-Stack Developer
+                {!prefersReducedMotion && (
+                  <motion.span
+                    aria-hidden
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 0.9, repeat: Infinity }}
+                    style={{
+                      display: 'inline-block',
+                      width: 2,
+                      height: '1.3em',
+                      backgroundColor: 'currentColor',
+                      marginLeft: '0.35rem',
+                    }}
+                  />
+                )}
               </Typography>
               <Stack
                 direction="column"
@@ -122,32 +256,37 @@ function Hero(): React.JSX.Element {
                 alignItems={{ xs: 'center', lg: 'flex-start' }}
                 sx={{ mt: 3 }}
               >
-                <Button
-                  variant="contained"
-                  onClick={handleModalOpen}
-                  startIcon={<HiOutlineArrowDownTray size="1.05rem" />}
-                  sx={{
-                    ...buttonBaseStyles,
-                    bgcolor: 'primary.main',
-                    '&:hover': { bgcolor: 'primary.dark' },
-                  }}
-                >
-                  Download CV
-                </Button>
-                <Button
-                  variant="contained"
-                  href="#contact"
-                  startIcon={<HiOutlineEnvelope size="1.05rem" />}
-                  sx={{
-                    ...buttonBaseStyles,
-                    bgcolor: 'neutral.main',
-                    '&:hover': { bgcolor: 'neutral.dark' },
-                  }}
-                >
-                  Get in Touch
-                </Button>
+                <MagneticWrapper disabled={disableMagnetic}>
+                  <Button
+                    variant="contained"
+                    onClick={handleModalOpen}
+                    startIcon={<HiOutlineArrowDownTray size="1.05rem" />}
+                    sx={{
+                      ...buttonBaseStyles,
+                      bgcolor: 'primary.main',
+                    }}
+                    motionWhileTap={{ scale: 0.95, rotate: -2 }}
+                  >
+                    Download CV
+                  </Button>
+                </MagneticWrapper>
+                <MagneticWrapper disabled={disableMagnetic}>
+                  <Button
+                    variant="contained"
+                    href="#contact"
+                    startIcon={<HiOutlineEnvelope size="1.05rem" />}
+                    sx={{
+                      ...buttonBaseStyles,
+                      bgcolor: 'neutral.main',
+                      '&:hover': { bgcolor: 'neutral.dark' },
+                    }}
+                    motionWhileTap={{ scale: 0.95, rotate: 2 }}
+                  >
+                    Get in Touch
+                  </Button>
+                </MagneticWrapper>
               </Stack>
-            </SlideFromSide>
+            </Box>
           </Grid>
         </Grid>
       </Container>

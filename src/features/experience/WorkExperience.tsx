@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import {
   HiBriefcase,
@@ -8,11 +8,13 @@ import {
 
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { stagger, useMotionValueEvent, useScroll } from 'motion/react';
 
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
+import { useAnimationConfig, useAnimationSequence } from '@/hooks';
 import experiences from '@/lib/data/experiences';
 
 const createExperienceMeta = (
@@ -39,15 +41,18 @@ function ExperienceCard({
   const metadata = createExperienceMeta(experience);
 
   return (
-    <Grid size={{ lg: 6 }} sx={{ mb: 4 }}>
+    <Grid size={{ lg: 6 }} sx={{ mb: 4 }} data-exp-card>
       <Card
         title={experience.title}
         subtitle={
-          <IconBadgeList items={metadata} keyPrefix={experience.title} />
+          <Box data-exp-meta>
+            <IconBadgeList items={metadata} keyPrefix={experience.title} />
+          </Box>
         }
       >
         <Box
           component="ul"
+          data-exp-description
           sx={{
             pl: 2.5,
             m: 0,
@@ -70,6 +75,53 @@ function ExperienceCard({
 
 // Rendering work experience section
 function WorkExperience(): React.JSX.Element {
+  const { prefersReducedMotion } = useAnimationConfig();
+  const { scopeRef, runSequence } = useAnimationSequence();
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const hasPlayed = useRef(false);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 0.9', 'end 0.25'],
+  });
+
+  const attachRefs = (node: HTMLDivElement | null) => {
+    sectionRef.current = node;
+    scopeRef(node);
+  };
+
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    if (prefersReducedMotion || hasPlayed.current || value <= 0.15) {
+      return;
+    }
+
+    hasPlayed.current = true;
+    runSequence(async (animate) => {
+      await animate(
+        '[data-exp-card]',
+        { opacity: [0, 1], y: [32, 0] },
+        {
+          duration: 0.5,
+          delay: stagger(0.12),
+        }
+      );
+      await animate(
+        '[data-exp-meta]',
+        { opacity: [0, 1], y: [16, 0] },
+        {
+          duration: 0.35,
+          delay: stagger(0.1),
+        }
+      );
+      await animate(
+        '[data-exp-description]',
+        { opacity: [0, 1], x: [-12, 0] },
+        {
+          duration: 0.4,
+        }
+      );
+    });
+  });
+
   return (
     <SectionContainer
       id="work-experience"
@@ -80,14 +132,16 @@ function WorkExperience(): React.JSX.Element {
         pb: 5,
       }}
     >
-      <Grid container spacing={4}>
-        {experiences.map((experience) => (
-          <ExperienceCard
-            key={buildExperienceKey(experience)}
-            experience={experience}
-          />
-        ))}
-      </Grid>
+      <Box ref={attachRefs}>
+        <Grid container spacing={4}>
+          {experiences.map((experience) => (
+            <ExperienceCard
+              key={buildExperienceKey(experience)}
+              experience={experience}
+            />
+          ))}
+        </Grid>
+      </Box>
     </SectionContainer>
   );
 }

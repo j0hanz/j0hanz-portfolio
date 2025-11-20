@@ -2,9 +2,12 @@ import React from 'react';
 
 import { CardContent, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { motion } from 'motion/react';
 
-import Card from '@/components/Card';
+import { AnimatedCard } from '@/components/Card';
 import { Project, ProjectListProps } from '@/config/types';
+import { useAnimationConfig } from '@/hooks/useMotions';
+import { motionVariants } from '@/utils/motionVariants';
 import { getProjectMeta } from '@/utils/project';
 
 import ProjectBadges from './components/ProjectBadges';
@@ -17,7 +20,7 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
   const { repoPath, badges, hasProjectBoard } = getProjectMeta(project);
 
   return (
-    <Card
+    <AnimatedCard
       title="" // Title is handled by ProjectHeader
       noContentPadding
       sx={{
@@ -48,14 +51,24 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
         <ProjectBadges badges={badges} />
         <ProjectLinks project={project} />
       </CardContent>
-    </Card>
+    </AnimatedCard>
   );
 }
 
 function ProjectList({ project }: ProjectListProps): React.JSX.Element {
+  const { prefersReducedMotion } = useAnimationConfig();
+
   return (
     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
-      <ProjectCard project={project} />
+      <motion.div
+        variants={motionVariants.stagger.item}
+        initial={prefersReducedMotion ? 'show' : 'hidden'}
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+        style={{ height: '100%' }}
+      >
+        <ProjectCard project={project} />
+      </motion.div>
     </Grid>
   );
 }

@@ -15,6 +15,8 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
+import { motion, useMotionValue, useSpring } from 'motion/react';
+import type { MotionStyle } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -25,42 +27,102 @@ import {
   SocialLinkRenderProps,
 } from '@/config/types';
 import { useEventListener, useToggle } from '@/hooks';
+import { useAnimationConfig } from '@/hooks/useMotions';
 import useNavLinkClose from '@/hooks/useNavLinkClose';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
 
 const ModalCv = lazy(() => import('@/components/ModalCv'));
 
-const renderNavSocialLink = ({
+interface MagnetMotionProps {
+  style?: MotionStyle;
+  onPointerMove?: React.PointerEventHandler<HTMLDivElement>;
+  onPointerLeave?: React.PointerEventHandler<HTMLDivElement>;
+}
+
+function useCursorMagnet(disabled: boolean): MagnetMotionProps {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 320, damping: 28, mass: 0.9 });
+  const springY = useSpring(y, { stiffness: 320, damping: 28, mass: 0.9 });
+
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (disabled || event.pointerType !== 'mouse') {
+      return;
+    }
+    const rect = event.currentTarget.getBoundingClientRect();
+    const offsetX = event.clientX - (rect.left + rect.width / 2);
+    const offsetY = event.clientY - (rect.top + rect.height / 2);
+    x.set(offsetX * 0.15);
+    y.set(offsetY * 0.15);
+  };
+
+  const handlePointerLeave = () => {
+    reset();
+  };
+
+  if (disabled) {
+    return {};
+  }
+
+  return {
+    style: { x: springX, y: springY },
+    onPointerMove: handlePointerMove,
+    onPointerLeave: handlePointerLeave,
+  };
+}
+
+function NavSocialLinkButton({
   href,
   onClick,
   tooltip,
   icon,
-}: SocialLinkRenderProps): React.JSX.Element => (
-  <IconButton
-    {...(href
-      ? {
-          component: 'a',
-          href,
-          target: '_blank',
-          rel: 'noopener noreferrer',
-        }
-      : {})}
-    onClick={onClick}
-    size="large"
-    color="inherit"
-    aria-label={tooltip}
-    sx={{
-      transition: 'all 0.3s ease',
-      '&:hover': {
-        color: 'primary.light',
-        transform: 'translateY(-3px)',
-      },
-    }}
-  >
-    {icon}
-  </IconButton>
-);
+}: SocialLinkRenderProps): React.JSX.Element {
+  const { prefersReducedMotion } = useAnimationConfig();
+  const magnetProps = useCursorMagnet(prefersReducedMotion);
+  const wrapperStyle: MotionStyle = magnetProps.style
+    ? { ...magnetProps.style, display: 'inline-flex' }
+    : { display: 'inline-flex' };
+
+  return (
+    <motion.div
+      style={wrapperStyle}
+      onPointerMove={magnetProps.onPointerMove}
+      onPointerLeave={magnetProps.onPointerLeave}
+    >
+      <IconButton
+        {...(href
+          ? {
+              component: 'a',
+              href,
+              target: '_blank',
+              rel: 'noopener noreferrer',
+            }
+          : {})}
+        onClick={onClick}
+        size="large"
+        color="inherit"
+        aria-label={tooltip}
+        sx={{
+          '&:hover': {
+            color: 'primary.light',
+          },
+        }}
+      >
+        {icon}
+      </IconButton>
+    </motion.div>
+  );
+}
+
+const renderNavSocialLink = (
+  props: SocialLinkRenderProps
+): React.JSX.Element => <NavSocialLinkButton {...props} />;
 
 export function SocialLinkList({
   openModal,
@@ -69,35 +131,37 @@ export function SocialLinkList({
 }: SocialLinkListProps): React.JSX.Element {
   return (
     <>
-      {socialLinks.map(({ id, icon: Icon, href, onClick, tooltip, color }) => {
-        const isDownloadPdf = id === 'download-pdf';
-        const isSourceCode = id === 'source-code';
-        const resolvedOnClick = isDownloadPdf ? openModal : onClick;
-        
-        const linkElement = renderLink({
-          href,
-          onClick: resolvedOnClick,
-          tooltip,
-          icon: (
-            <Icon
-              style={{
-                fontSize: '1.4rem',
-                transition: 'all 0.3s ease',
-                color: color,
-                paddingRight: isSourceCode ? 0 : '0.5rem',
-              }}
-            />
-          ),
-        });
+      {socialLinks.map(
+        ({ id, icon: Icon, href, onClick, tooltip, color }, index) => {
+          const isDownloadPdf = id === 'download-pdf';
+          const isSourceCode = id === 'source-code';
+          const resolvedOnClick = isDownloadPdf ? openModal : onClick;
 
-        const wrappedLink = (
-          <Tooltip key={id} title={tooltip} placement="top">
-            <Box component="span">{linkElement}</Box>
-          </Tooltip>
-        );
+          const linkElement = renderLink({
+            href,
+            onClick: resolvedOnClick,
+            tooltip,
+            icon: (
+              <Icon
+                style={{
+                  fontSize: '1.4rem',
+                  color: color,
+                  paddingRight: isSourceCode ? 0 : '0.5rem',
+                }}
+              />
+            ),
+            index,
+          });
 
-        return wrapItem ? wrapItem(id, wrappedLink) : wrappedLink;
-      })}
+          const wrappedLink = (
+            <Tooltip key={id} title={tooltip} placement="top">
+              <Box component="span">{linkElement}</Box>
+            </Tooltip>
+          );
+
+          return wrapItem ? wrapItem(id, wrappedLink) : wrappedLink;
+        }
+      )}
     </>
   );
 }

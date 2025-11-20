@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { useEventCallback } from '@/hooks';
-
 import {
   StorageSource,
   UseStorageOptions,
   UseStorageReturn,
 } from '@/config/types';
+import { useEventCallback } from '@/hooks';
 
 type DefaultValue<T> = T | (() => T);
 

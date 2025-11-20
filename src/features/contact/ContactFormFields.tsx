@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { HiMiniExclamationCircle } from 'react-icons/hi2';
 import {
@@ -12,12 +12,15 @@ import {
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import { AnimatePresence, motion } from 'motion/react';
 
 import {
   ContactFormValues,
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
+import { useAnimationConfig } from '@/hooks';
+import { motionVariants } from '@/utils/motionVariants';
 
 const getHelperText = (error?: string): React.ReactNode => {
   if (!error) return ' ';
@@ -107,79 +110,102 @@ function FormField({
   onChange,
 }: FormFieldProps): React.JSX.Element {
   const isTextarea = type === 'textarea';
+  const [isFocused, setIsFocused] = useState(false);
+  const { getTransition, prefersReducedMotion } = useAnimationConfig();
 
   return (
-    <TextField
-      id={controlId}
-      name={name}
-      label={label ?? placeholder}
-      type={isTextarea ? undefined : type}
-      multiline={isTextarea}
-      rows={isTextarea ? rows : undefined}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      required={required}
-      error={!!error}
-      fullWidth
-      variant="standard"
-      aria-invalid={!!error}
-      aria-required={required}
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment position="start">
-              <Icon
-                style={{
-                  width: '1.1rem',
-                  height: '1.1rem',
-                }}
-              />
-            </InputAdornment>
-          ),
-          sx: {
-            fontSize: '0.8rem',
-            pl: 0.4,
-            color: 'text.primary',
-          },
-        },
-        inputLabel: {
-          shrink: Boolean(value) || isTextarea,
-        },
-        formHelperText: {
-          sx: {
-            mx: 0,
-          },
-        },
-        htmlInput: {
-          sx: {
-            '&::placeholder': {
+    <motion.div
+      initial={false}
+      animate={
+        prefersReducedMotion
+          ? { scale: 1, boxShadow: 'none' }
+          : {
+              scale: isFocused ? 1.01 : 1,
+              boxShadow: isFocused
+                ? '0 18px 40px rgba(15, 23, 42, 0.28)'
+                : '0 8px 22px rgba(15, 23, 42, 0.12)',
+            }
+      }
+      transition={getTransition('smooth', { duration: 0.35 })}
+      style={{
+        borderRadius: 16,
+        padding: prefersReducedMotion ? 0 : '6px 10px',
+      }}
+    >
+      <TextField
+        id={controlId}
+        name={name}
+        label={label ?? placeholder}
+        type={isTextarea ? undefined : type}
+        multiline={isTextarea}
+        rows={isTextarea ? rows : undefined}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
+        error={!!error}
+        fullWidth
+        variant="standard"
+        aria-invalid={!!error}
+        aria-required={required}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon
+                  style={{
+                    width: '1.1rem',
+                    height: '1.1rem',
+                  }}
+                />
+              </InputAdornment>
+            ),
+            sx: {
+              fontSize: '0.8rem',
+              pl: 0.4,
               color: 'text.primary',
-              opacity: 0.6,
             },
           },
-        },
-      }}
-      sx={{
-        '& .MuiInput-root': {
-          '&:before': {
-            borderBottom: '3px solid',
-            borderBottomColor: 'divider',
+          inputLabel: {
+            shrink: Boolean(value) || isTextarea,
           },
-          '&:hover:not(.Mui-disabled, .Mui-error):before': {
-            borderBottom: '3px solid',
-            borderBottomColor: 'divider',
+          formHelperText: {
+            sx: {
+              mx: 0,
+            },
           },
-          '&.Mui-error:before': {
-            borderBottomColor: 'error.main',
+          htmlInput: {
+            sx: {
+              '&::placeholder': {
+                color: 'text.primary',
+                opacity: 0.6,
+              },
+            },
           },
-          '&.Mui-focused:after': {
-            borderBottomColor: 'primary.main',
+        }}
+        sx={{
+          '& .MuiInput-root': {
+            '&:before': {
+              borderBottom: '3px solid',
+              borderBottomColor: 'divider',
+            },
+            '&:hover:not(.Mui-disabled, .Mui-error):before': {
+              borderBottom: '3px solid',
+              borderBottomColor: 'divider',
+            },
+            '&.Mui-error:before': {
+              borderBottomColor: 'error.main',
+            },
+            '&.Mui-focused:after': {
+              borderBottomColor: 'primary.main',
+            },
           },
-        },
-      }}
-      helperText={getHelperText(error)}
-    />
+        }}
+        helperText={getHelperText(error)}
+      />
+    </motion.div>
   );
 }
 
@@ -189,18 +215,31 @@ function ContactFormFields({
   errors,
   handleChange,
 }: FormFieldsProps): React.JSX.Element {
+  const { getTransition, getDelay } = useAnimationConfig();
+  const fieldVariant = motionVariants.exit.formField;
+
   return (
     <Stack spacing={2}>
-      {contactFieldConfigs.map(({ key, errorKey, ...fieldConfig }) => (
-        <FormField
-          key={fieldConfig.controlId}
-          {...fieldConfig}
-          name={key}
-          value={formData[key] ?? ''}
-          error={errorKey ? errors[errorKey] : undefined}
-          onChange={handleChange}
-        />
-      ))}
+      <AnimatePresence>
+        {contactFieldConfigs.map(({ key, errorKey, ...fieldConfig }, index) => (
+          <motion.div
+            key={fieldConfig.controlId}
+            {...fieldVariant}
+            transition={getTransition('smooth', {
+              delay: getDelay(index + 1),
+            })}
+            layout
+          >
+            <FormField
+              {...fieldConfig}
+              name={key}
+              value={formData[key] ?? ''}
+              error={errorKey ? errors[errorKey] : undefined}
+              onChange={handleChange}
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </Stack>
   );
 }

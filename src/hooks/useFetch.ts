@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useEventCallback } from '@/hooks';
-
 import { UseFetchOptions, UseFetchReturn, UseFetchState } from '@/config/types';
+import { useEventCallback } from '@/hooks';
 
 export function useFetch<T = unknown>(
   url?: string,

@@ -91,3 +91,15 @@ export { default as useEffectOnce } from './useEffectOnce';
 
 /** Attaches an event listener to a DOM element, window, or document. */
 export { default as useEventListener } from './useEventListener';
+
+/** Motion helpers respecting reduced-motion preferences. */
+export {
+  useReducedMotion,
+  useAnimationConfig,
+  useCardHover,
+  useScrollProgress,
+  usePresence,
+  useAnimationSequence,
+  useMeasure,
+  useAnimationPriority,
+} from './useMotions';

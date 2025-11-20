@@ -16,7 +16,7 @@ import {
   SxProps,
   Theme,
 } from '@mui/material';
-import { MotionProps } from 'framer-motion';
+import type { MotionProps, Transition, Variants } from 'motion/react';
 
 // --- Constants Types ---
 // (None needed for constants themselves, but maybe for their usage)
@@ -125,7 +125,10 @@ export interface BaseModalProps {
   className?: string;
   bodyClassName?: string;
   contentSx?: SxProps<Theme>;
+  animationPreset?: ModalAnimationPreset;
 }
+
+export type ModalAnimationPreset = 'modal' | 'slideDown' | 'zoomOut';
 
 export interface CardProps {
   title: string;
@@ -144,6 +147,9 @@ export interface CustomButtonProps extends MuiButtonProps {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   variant?: 'text' | 'contained' | 'outlined';
+  motionWhileTap?: MotionProps['whileTap'];
+  motionWhileHover?: MotionProps['whileHover'];
+  motionWhileFocus?: MotionProps['whileFocus'];
 }
 
 export interface IconBadgeProps {
@@ -198,22 +204,93 @@ export interface ThemeModeValue {
   setMode: ThemeModeUpdater;
 }
 
-// Motion variants keys - hardcoded to avoid runtime import if possible, or just use string
-export type MotionVariantId =
+export type SectionMotionVariantId =
   | 'hero'
   | 'aboutMe'
   | 'education'
   | 'skills'
   | 'portfolio'
   | 'workExperience'
-  | 'contact'
+  | 'contact';
+
+// Motion variants keys - hardcoded to avoid runtime import if possible, or just use string
+export type MotionVariantId =
+  | SectionMotionVariantId
   | 'slideFromLeft'
   | 'slideFromRight'
-  | 'slideFromLeftAndRight';
+  | 'slideFromLeftAndRight'
+  | 'staggerContainer'
+  | 'staggerItem'
+  | 'cardHover'
+  | 'buttonTap'
+  | 'scrollFadeUp'
+  | 'scrollParallax'
+  | 'layoutGroup';
+
+export type TransitionPreset = 'springy' | 'smooth' | 'snappy' | 'bounce';
+
+export interface AnimationConfig {
+  prefersReducedMotion: boolean;
+  getDuration: (multiplier?: number) => number;
+  getDelay: (steps?: number) => number;
+  getStagger: (multiplier?: number) => number;
+  getTransition: (
+    preset?: TransitionPreset,
+    overrides?: Partial<Transition>
+  ) => Transition;
+}
+
+export type AnimationPriority = 'high' | 'reduced';
+
+export interface MeasureRect {
+  width: number;
+  height: number;
+  top: number;
+  left: number;
+}
+
+export interface UseMeasureReturn<T extends HTMLElement = HTMLElement> {
+  ref: (node: T | null) => void;
+  bounds: MeasureRect;
+  remeasure: () => void;
+}
+
+export interface GestureVariants {
+  variants: Variants;
+  initial?: string;
+  animate?: string;
+  whileHover?: string;
+  whileTap?: string;
+  whileFocus?: string;
+  transition?: Transition;
+}
+
+export type CardHoverMotion = GestureVariants;
+
+export interface StaggerConfig {
+  container: Variants;
+  item: Variants;
+}
+
+export interface ScrollAnimationConfig {
+  initial?: MotionProps['initial'];
+  animate?: MotionProps['animate'];
+  whileInView?: MotionProps['whileInView'];
+  viewport?: MotionProps['viewport'];
+  transition?: Transition;
+}
+
+export type MotionLayoutSetting = boolean | 'position' | 'size';
+
+export interface LayoutAnimationProps {
+  layout?: MotionLayoutSetting;
+  layoutId?: string;
+  transition?: Transition;
+}
 
 export interface MotionWrapperProps extends MotionProps {
   children: ReactNode;
-  sectionId: MotionVariantId;
+  sectionId: SectionMotionVariantId;
 }
 
 export interface SlideFromSideProps extends MotionProps {
@@ -231,7 +308,7 @@ export interface SectionContainerProps {
 }
 
 export interface SectionWrapperProps {
-  sectionId: MotionVariantId;
+  sectionId: SectionMotionVariantId;
   children: ReactNode;
 }
 
@@ -367,6 +444,7 @@ export interface SocialLinkRenderProps {
   onClick?: () => void;
   tooltip: string;
   icon: ReactNode;
+  index: number;
 }
 
 export type SocialLinkRenderer = (props: SocialLinkRenderProps) => ReactElement;
