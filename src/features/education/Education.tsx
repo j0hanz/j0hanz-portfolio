@@ -169,7 +169,10 @@ function Education(): React.JSX.Element {
 
   return (
     <SectionContainer id="education" title="Education" icon={HiAcademicCap}>
-      <Box ref={attachRefs} sx={{ position: 'relative', py: { xs: 1, md: 2 } }}>
+      <Box
+        ref={attachRefs}
+        sx={{ position: 'relative', py: { xs: 1, md: 2 } }}
+      >
         <Box
           component={motion.div}
           aria-hidden

@@ -53,6 +53,7 @@ body {
   background: var(--body-bg);
   -webkit-tap-highlight-color: transparent;
   letter-spacing: 0.4px;
+  position: relative;
 }
 
 /* Scrollbar styles */

@@ -132,7 +132,7 @@ function WorkExperience(): React.JSX.Element {
         pb: 5,
       }}
     >
-      <Box ref={attachRefs}>
+      <Box ref={attachRefs} sx={{ position: 'relative' }}>
         <Grid container spacing={4}>
           {experiences.map((experience) => (
             <ExperienceCard
