@@ -19,9 +19,9 @@ import type {
   AnimationPlaybackControls,
   DOMKeyframesDefinition,
   ElementOrSelector,
+  MotionProps,
   MotionValue,
   Transition,
-  MotionProps,
 } from 'motion/react';
 
 import type {
@@ -193,6 +193,11 @@ type SequenceAnimator = (
   options?: AnimationOptions
 ) => AnimationPlaybackControls;
 
+type AnimateScope =
+  | ((node: Element | null) => void)
+  | MutableRefObject<Element | null>
+  | null;
+
 export interface AnimationSequenceControls {
   scopeRef: (node: Element | null) => void;
   runSequence: (
@@ -201,7 +206,7 @@ export interface AnimationSequenceControls {
 }
 
 export function useAnimationSequence(): AnimationSequenceControls {
-  const [scope, animate] = useAnimate();
+  const [scope, animate] = useAnimate() as [AnimateScope, SequenceAnimator];
   const controlsRef = useRef<AnimationPlaybackControls[]>([]);
 
   const stopAndClearControls = useCallback(() => {
@@ -221,7 +226,6 @@ export function useAnimationSequence(): AnimationSequenceControls {
       if (scope && typeof scope === 'object') {
         // This is the official pattern from motion/react documentation
         // The scope ref mutation is required by the library's API design
-        // eslint-disable-next-line react-compiler/react-compiler, react-hooks/immutability
         (scope as MutableRefObject<Element | null>).current = node;
       }
     },

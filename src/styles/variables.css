@@ -1,6 +1,6 @@
 /* CSS variables */
 :root {
-  --card-bg-image-url: url('../src/assets/imgBackground.webp');
+  --card-bg-image-url: url('../assets/imgBackground.webp');
   --transition: all 0.3s ease;
   --border-radius: 10px;
 }

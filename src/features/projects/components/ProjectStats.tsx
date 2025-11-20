@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Stack, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import {
   animate,
   motion,
@@ -94,7 +95,12 @@ const ProjectStats = ({
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const [stats, setStats] = useState<RepoStats | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+  const [refreshIndex, setRefreshIndex] = useState(0);
+  const [optimisticStarCount, setOptimisticStarCount] = useState<number | null>(
+    null
+  );
   const statsRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInView = useInView(statsRef, {
     once: true,
     margin: '0px 0px -20% 0px',
@@ -103,6 +109,7 @@ const ProjectStats = ({
   useEffect(() => {
     let isCancelled = false;
     const controller = new AbortController();
+    const forceRefresh = refreshIndex > 0;
 
     const fetchStats = async () => {
       if (!repoPath) return;
@@ -112,7 +119,11 @@ const ProjectStats = ({
         const cached = statsCache.get(repoPath);
         const now = Date.now();
 
-        if (cached && now - cached.timestamp < CACHE_DURATION) {
+        if (
+          !forceRefresh &&
+          cached &&
+          now - cached.timestamp < CACHE_DURATION
+        ) {
           if (!isCancelled) {
             setStats(cached.data);
             setStatus('idle');
@@ -177,12 +188,20 @@ const ProjectStats = ({
     return () => {
       isCancelled = true;
       controller.abort();
+
+      // Clean up timeout on unmount
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
     };
-  }, [repoPath, isInView]);
+  }, [repoPath, isInView, refreshIndex]);
 
   const fallback = stats ?? { stars: 0, forks: 0, issues: 0 };
+  const displayStars = optimisticStarCount ?? fallback.stars;
+
   const statItems = [
-    { key: 'stars', label: 'Stars', value: fallback.stars },
+    { key: 'stars', label: 'Stars', value: displayStars },
     { key: 'forks', label: 'Forks', value: fallback.forks },
   ];
 
@@ -190,8 +209,35 @@ const ProjectStats = ({
     statItems.push({ key: 'issues', label: 'Issues', value: fallback.issues });
   }
 
+  const handleOptimisticStar = (): void => {
+    if (!stats) return;
+
+    // Clear any existing timeout to prevent overlapping updates
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    const newStarCount = stats.stars + 1;
+
+    // Immediately show the optimistic update
+    setOptimisticStarCount(newStarCount);
+
+    // Clear the optimistic state and trigger refresh after delay
+    timeoutRef.current = setTimeout(() => {
+      setOptimisticStarCount(null);
+      setRefreshIndex((prev) => prev + 1);
+      timeoutRef.current = null;
+    }, 2000);
+  };
+
   return (
-    <Stack ref={statsRef} spacing={1.5} alignItems="flex-start" sx={{ mb: 3 }}>
+    <Stack
+      ref={statsRef}
+      spacing={1.5}
+      alignItems="flex-start"
+      sx={{ mb: 3, position: 'relative' }}
+    >
       {statItems.map(({ key, label, value }) => (
         <AnimatedStat
           key={key}
@@ -210,6 +256,17 @@ const ProjectStats = ({
         <Typography variant="caption" color="text.secondary">
           Fetching GitHub activity…
         </Typography>
+      )}
+      {repoPath && (
+        <Button
+          variant="text"
+          size="small"
+          onClick={handleOptimisticStar}
+          disabled={status === 'loading'}
+          sx={{ px: 0, fontSize: '0.75rem' }}
+        >
+          Already starred it? Reflect it instantly
+        </Button>
       )}
     </Stack>
   );

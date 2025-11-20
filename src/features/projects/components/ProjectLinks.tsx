@@ -58,6 +58,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         <ActionButton
           href={project.demo}
           target="_blank"
+          rel="noopener noreferrer"
           icon={<HiMiniPlay style={iconStyle} />}
           label="Demo"
         />
@@ -90,6 +91,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         <ActionButton
           href={project.github}
           target="_blank"
+          rel="noopener noreferrer"
           color="neutral"
           icon={<SiGithub style={iconStyle} />}
           label="GitHub"

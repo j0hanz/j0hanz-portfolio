@@ -9,6 +9,9 @@ type CopyFn = (text: string) => Promise<boolean>;
 
 type UseCopyToClipboardReturn = [CopyFn, CopyResult];
 
+const isClipboardSupported = () =>
+  typeof navigator !== 'undefined' && Boolean(navigator.clipboard);
+
 /**
  * Hook for copying text to the clipboard with success/error state tracking.
  *
@@ -21,14 +24,14 @@ export function useCopyToClipboard(): UseCopyToClipboardReturn {
   });
 
   const copyToClipboard: CopyFn = async (text) => {
-    if (!navigator?.clipboard) {
+    if (!isClipboardSupported()) {
       console.warn('Clipboard not supported');
       setState({ value: null, success: false });
       return false;
     }
 
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator!.clipboard!.writeText(text);
       setState({ value: text, success: true });
       return true;
     } catch (error) {

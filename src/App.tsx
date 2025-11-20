@@ -8,7 +8,11 @@ import { AnimatePresence, motion } from 'motion/react';
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
 import Toast from '@/components/Toast';
-import { useAnimationPriority, useOnlineStatus } from '@/hooks';
+import {
+  useAnimationConfig,
+  useAnimationPriority,
+  useOnlineStatus,
+} from '@/hooks';
 import Home from '@/pages/Home';
 
 const NETWORK_STATUS_TOAST_ID = 'network-status-toast';
@@ -33,9 +37,31 @@ const getInitialBanner = (): StatusBanner | null => {
 
 function BackgroundMorph(): React.JSX.Element {
   const priority = useAnimationPriority();
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const shouldAnimate = priority === 'high' && !prefersReducedMotion;
 
   return (
     <Box
+      component={motion.div}
+      initial={false}
+      animate={
+        shouldAnimate
+          ? {
+              scale: [1, 1.05, 1],
+              x: ['0%', '2%', '0%'],
+              y: ['0%', '3%', '0%'],
+            }
+          : { scale: 1, x: '0%', y: '0%' }
+      }
+      transition={
+        shouldAnimate
+          ? getTransition('smooth', {
+              duration: 18,
+              repeat: Infinity,
+              repeatType: 'mirror',
+            })
+          : undefined
+      }
       sx={{
         position: 'absolute',
         inset: 0,
@@ -45,14 +71,6 @@ function BackgroundMorph(): React.JSX.Element {
         background:
           'linear-gradient(135deg, rgba(50, 107, 255, 0.35), rgba(99, 102, 241, 0.25))',
         filter: 'blur(32px)',
-        animation:
-          priority === 'high'
-            ? 'morphGradient 18s ease-in-out infinite'
-            : 'none',
-        '@keyframes morphGradient': {
-          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(2%, 3%) scale(1.05)' },
-        },
       }}
       aria-hidden
     />
@@ -64,7 +82,26 @@ function App(): React.JSX.Element {
   const [statusBanner, setStatusBanner] = useState<StatusBanner | null>(
     getInitialBanner
   );
+  const { prefersReducedMotion, getTransition, resolveMotionState } =
+    useAnimationConfig();
   const bannerTimeoutRef = useRef<number | null>(null);
+  const reducedMotionState = { opacity: 1, y: 0 } as const;
+  const contentInitial = resolveMotionState(
+    prefersReducedMotion,
+    { opacity: 0, y: 24 },
+    reducedMotionState
+  );
+  const contentAnimate = resolveMotionState(
+    prefersReducedMotion,
+    { opacity: 1, y: 0 },
+    reducedMotionState
+  );
+  const contentExit = resolveMotionState(
+    prefersReducedMotion,
+    { opacity: 0, y: -24 },
+    reducedMotionState
+  );
+  const contentTransition = getTransition('smooth', { duration: 0.55 });
 
   const clearBannerTimeout = useEffectEvent(() => {
     if (bannerTimeoutRef.current === null) return;
@@ -185,10 +222,10 @@ function App(): React.JSX.Element {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key="home"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -24 }}
-          transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+          initial={contentInitial}
+          animate={contentAnimate}
+          exit={contentExit}
+          transition={contentTransition}
           style={{ flex: 1, position: 'relative', zIndex: 1 }}
         >
           <Home />

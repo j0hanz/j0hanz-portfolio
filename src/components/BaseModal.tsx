@@ -2,12 +2,14 @@ import React from 'react';
 
 import { HiXMark } from 'react-icons/hi2';
 
-import { Box, Dialog, DialogContent, IconButton } from '@mui/material';
+import { Dialog, DialogContent, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
 import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
+
+const MotionDialogContent = motion.create(DialogContent);
 
 function BaseModal({
   show,
@@ -41,48 +43,49 @@ function BaseModal({
           className={className}
           maxWidth="md"
           fullWidth
+          PaperProps={{
+            sx: {
+              position: 'relative',
+            },
+          }}
         >
-          <DialogContent
+          <MotionDialogContent
+            {...modalVariant}
+            transition={transition}
             className={bodyClassName}
             sx={{
               p: 0,
               position: 'relative',
               overflow: 'visible',
+              transformOrigin: 'center',
               ...contentSx,
             }}
           >
-            <Box
-              component={motion.div}
-              {...modalVariant}
-              transition={transition}
-              style={{ transformOrigin: 'center' }}
-            >
-              <IconButton
-                onClick={handleClose}
-                sx={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
+            <IconButton
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bgcolor: '#00000067',
+                borderRadius: '0 10rem 0 50rem',
+                height: 35,
+                width: 35,
+                pl: 1,
+                pb: 1,
+                zIndex: 10,
+                color: '#f5f4f4',
+                opacity: 0.7,
+                '&:hover': {
                   bgcolor: '#00000067',
-                  borderRadius: '0 10rem 0 50rem',
-                  height: 35,
-                  width: 35,
-                  pl: 1,
-                  pb: 1,
-                  zIndex: 10,
-                  color: '#f5f4f4',
-                  opacity: 0.7,
-                  '&:hover': {
-                    bgcolor: '#00000067',
-                    opacity: 1,
-                  },
-                }}
-              >
-                <HiXMark size="1.2rem" />
-              </IconButton>
-              {children}
-            </Box>
-          </DialogContent>
+                  opacity: 1,
+                },
+              }}
+            >
+              <HiXMark size="1.2rem" />
+            </IconButton>
+            {children}
+          </MotionDialogContent>
         </Dialog>
       ) : null}
     </AnimatePresence>

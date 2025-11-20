@@ -26,6 +26,9 @@ const BATCH_DELAY_INCREMENT = 0.1;
 function MotionWrapper({
   children,
   sectionId,
+  style,
+  transition: transitionOverride,
+  viewport: viewportOverride,
   ...props
 }: MotionWrapperProps): React.JSX.Element {
   const {
@@ -33,6 +36,7 @@ function MotionWrapper({
     getTransition,
     motionViewport,
     resolveMotionState,
+    reducedMotionTarget,
   } = useAnimationConfig();
   const variant = motionVariants.sections[sectionId] ?? fallbackVariant;
 
@@ -47,21 +51,40 @@ function MotionWrapper({
 
   const resolvedInitial: MotionProps['initial'] = resolveMotionState(
     prefersReducedMotion,
-    (variant.initial ?? { opacity: 0, y: 0 }) as MotionProps['initial']
+    (variant.initial ??
+      fallbackVariant.initial ??
+      reducedMotionTarget) as MotionProps['initial'],
+    reducedMotionTarget as MotionProps['initial']
   );
   const resolvedWhileInView: MotionProps['whileInView'] = resolveMotionState(
     prefersReducedMotion,
     (variant.whileInView ??
-      variant.animate ?? { opacity: 1, y: 0 }) as MotionProps['whileInView']
+      variant.animate ??
+      fallbackVariant.whileInView ??
+      fallbackVariant.animate ??
+      reducedMotionTarget) as MotionProps['whileInView'],
+    reducedMotionTarget as MotionProps['whileInView']
   );
+  const viewport =
+    viewportOverride ?? (prefersReducedMotion ? undefined : motionViewport);
+  const transition =
+    transitionOverride ?? getTransition('smooth', { delay: batchDelay });
+  const motionStates = prefersReducedMotion
+    ? {
+        initial: reducedMotionTarget,
+        animate: reducedMotionTarget,
+      }
+    : {
+        initial: resolvedInitial,
+        whileInView: resolvedWhileInView,
+      };
 
   return (
     <motion.div
-      initial={resolvedInitial}
-      whileInView={resolvedWhileInView}
-      transition={getTransition('smooth', { delay: batchDelay })}
-      viewport={motionViewport}
-      style={{ position: 'relative' }}
+      {...motionStates}
+      transition={transition}
+      viewport={viewport}
+      style={{ position: 'relative', ...(style ?? {}) }}
       {...props}
     >
       {children}
@@ -73,20 +96,37 @@ function MotionWrapper({
 function SlideFromSide({
   children,
   from,
+  style,
+  transition: transitionOverride,
+  viewport: viewportOverride,
   ...props
 }: SlideFromSideProps): React.JSX.Element {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const {
+    prefersReducedMotion,
+    getTransition,
+    motionViewport,
+    reducedMotionTarget,
+  } = useAnimationConfig();
   const initialX = from === 'left' ? -100 : 100;
-  const initial = prefersReducedMotion
-    ? ({ opacity: 1, x: 0 } as const)
-    : ({ opacity: 0, x: initialX } as const);
-  const target = { opacity: 1, x: 0 } as const;
+  const viewport =
+    viewportOverride ?? (prefersReducedMotion ? undefined : motionViewport);
+  const transition = transitionOverride ?? getTransition('smooth');
+  const motionStates = prefersReducedMotion
+    ? {
+        initial: reducedMotionTarget,
+        animate: reducedMotionTarget,
+      }
+    : {
+        initial: { opacity: 0, x: initialX } as const,
+        whileInView: { opacity: 1, x: 0 } as const,
+      };
 
   return (
     <motion.div
-      initial={initial}
-      whileInView={target}
-      transition={getTransition('smooth')}
+      {...motionStates}
+      transition={transition}
+      viewport={viewport}
+      style={style}
       {...props}
     >
       {children}

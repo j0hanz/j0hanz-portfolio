@@ -36,6 +36,10 @@ const WILL_CHANGE_TRANSFORM_OPACITY = {
 };
 
 type SlideDirection = 'left' | 'right';
+type FormFieldVariantContext = {
+  delay?: number;
+  direction?: 'up' | 'down';
+};
 
 const createSlideVariant = (offset: number): Variants => ({
   initial: { opacity: 0, x: offset, ...WILL_CHANGE_TRANSFORM_OPACITY },
@@ -155,9 +159,26 @@ const exit = {
     exit: { opacity: 0, scale: 0.8, ...WILL_CHANGE_TRANSFORM_OPACITY },
   },
   formField: {
-    initial: { opacity: 0, y: 12, ...WILL_CHANGE_TRANSFORM_OPACITY },
-    animate: { opacity: 1, y: 0, ...WILL_CHANGE_TRANSFORM_OPACITY },
-    exit: { opacity: 0, y: -12, scale: 0.96, ...WILL_CHANGE_TRANSFORM_OPACITY },
+    initial: ({ direction = 'up' }: FormFieldVariantContext = {}) => ({
+      opacity: 0,
+      y: direction === 'down' ? -14 : 14,
+      ...WILL_CHANGE_TRANSFORM_OPACITY,
+    }),
+    animate: ({ delay = 0 }: FormFieldVariantContext = {}) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        ...transitions.smooth,
+        delay,
+      },
+      ...WILL_CHANGE_TRANSFORM_OPACITY,
+    }),
+    exit: ({ direction = 'up' }: FormFieldVariantContext = {}) => ({
+      opacity: 0,
+      y: direction === 'down' ? 14 : -14,
+      scale: 0.96,
+      ...WILL_CHANGE_TRANSFORM_OPACITY,
+    }),
   },
   toast: {
     initial: {

@@ -62,9 +62,6 @@ export type {
 export { useToggle } from './useToggle';
 export type { UseToggleReturn } from '@/config/types';
 
-/** Runs side-effects on updates only, skipping the initial mount. */
-export { useUpdateEffect } from './useUpdateEffect';
-
 /** Manages contact form state, validation, and submission. */
 export { default as useContactForm } from './useContactForm';
 

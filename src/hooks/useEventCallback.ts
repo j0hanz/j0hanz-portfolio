@@ -1,4 +1,4 @@
-import { useInsertionEffect, useRef } from 'react';
+import { useCallback, useInsertionEffect, useRef } from 'react';
 
 /**
  * Creates a stable callback reference that always has access to the latest values.
@@ -36,13 +36,13 @@ function useEventCallback<Args extends unknown[], R>(
   });
 
   // Return a stable callback reference that calls the latest function
-  return (...args: Args) => {
+  return useCallback((...args: Args) => {
     const currentFn = ref.current;
     if (!currentFn) {
       throw new Error('Cannot call useEventCallback with undefined function');
     }
     return currentFn(...args);
-  };
+  }, []);
 }
 
 export default useEventCallback;

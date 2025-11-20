@@ -59,7 +59,7 @@ function ProjectList({ project }: ProjectListProps): React.JSX.Element {
     <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
       <motion.div
         variants={motionVariants.stagger.item}
-        style={{ height: '100%' }}
+        style={{ height: '100%', position: 'relative' }}
       >
         <ProjectCard project={project} />
       </motion.div>

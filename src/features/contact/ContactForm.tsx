@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useFormStatus } from 'react-dom';
+
 import {
   HiEnvelope,
   HiOutlinePaperAirplane,
@@ -27,7 +29,7 @@ function SuccessIndicator({
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false} mode="wait">
       {visible && (
         <Stack
           component={motion.div}
@@ -87,6 +89,29 @@ function SuccessIndicator({
   );
 }
 
+function ContactSubmitButton(): React.JSX.Element {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      variant="contained"
+      type="submit"
+      loading={pending}
+      disabled={pending}
+      startIcon={<HiOutlinePaperAirplane style={{ fontSize: '0.9rem' }} />}
+      aria-label={pending ? 'Sending message' : 'Send message'}
+      sx={{
+        minWidth: 0,
+        flexGrow: { xs: 1, sm: 0 },
+        px: 3,
+        py: 0.75,
+      }}
+    >
+      {!pending && 'Send'}
+    </Button>
+  );
+}
+
 function ContactFormContent(): React.JSX.Element {
   const {
     isSending,
@@ -94,7 +119,7 @@ function ContactFormContent(): React.JSX.Element {
     formData,
     errors,
     handleChange,
-    handleSubmit,
+    submitAction,
     handleReset,
   } = useContactForm();
   const showSuccess = submissionState === 'success';
@@ -109,7 +134,7 @@ function ContactFormContent(): React.JSX.Element {
       }}
     >
       <CardContent sx={{ p: 0, '&:last-child': { pb: 0 } }}>
-        <Stack component="form" noValidate onSubmit={handleSubmit}>
+        <Stack component="form" noValidate action={submitAction}>
           <ContactFormFields
             formData={formData}
             errors={errors}
@@ -148,24 +173,7 @@ function ContactFormContent(): React.JSX.Element {
                 py: 0.75,
               }}
             />
-            <Button
-              variant="contained"
-              type="submit"
-              loading={isSending}
-              disabled={isSending}
-              startIcon={
-                <HiOutlinePaperAirplane style={{ fontSize: '0.9rem' }} />
-              }
-              aria-label={isSending ? 'Sending message' : 'Send message'}
-              sx={{
-                minWidth: 0,
-                flexGrow: { xs: 1, sm: 0 },
-                px: 3,
-                py: 0.75,
-              }}
-            >
-              {!isSending && 'Send'}
-            </Button>
+            <ContactSubmitButton />
           </Stack>
         </Stack>
       </CardContent>

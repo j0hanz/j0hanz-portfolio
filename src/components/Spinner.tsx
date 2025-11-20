@@ -7,7 +7,12 @@ import { useAnimationConfig } from '@/hooks';
 
 // Component for displaying a loading spinner
 function Spinner(): React.JSX.Element {
-  const { prefersReducedMotion } = useAnimationConfig();
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const spinnerTransition = getTransition('smooth', {
+    duration: 1.25,
+    repeat: Infinity,
+    ease: 'linear',
+  });
 
   return (
     <Stack
@@ -29,11 +34,7 @@ function Spinner(): React.JSX.Element {
             ? { opacity: 0.7 }
             : { rotate: 360, scale: [1, 1.08, 1] }
         }
-        transition={
-          prefersReducedMotion
-            ? undefined
-            : { duration: 1.25, repeat: Infinity, ease: 'linear' }
-        }
+        transition={prefersReducedMotion ? undefined : spinnerTransition}
         sx={{
           width: 80,
           height: 80,

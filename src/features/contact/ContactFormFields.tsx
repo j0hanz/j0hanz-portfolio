@@ -12,7 +12,7 @@ import {
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 
 import {
   ContactFormValues,
@@ -215,31 +215,32 @@ function ContactFormFields({
   errors,
   handleChange,
 }: FormFieldsProps): React.JSX.Element {
-  const { getTransition, getDelay } = useAnimationConfig();
-  const fieldVariant = motionVariants.exit.formField;
+  const { getDelay } = useAnimationConfig();
+  const fieldVariants = motionVariants.exit.formField;
 
   return (
     <Stack spacing={2}>
-      <AnimatePresence>
-        {contactFieldConfigs.map(({ key, errorKey, ...fieldConfig }, index) => (
-          <motion.div
-            key={fieldConfig.controlId}
-            {...fieldVariant}
-            transition={getTransition('smooth', {
-              delay: getDelay(index + 1),
-            })}
-            layout
-          >
-            <FormField
-              {...fieldConfig}
-              name={key}
-              value={formData[key] ?? ''}
-              error={errorKey ? errors[errorKey] : undefined}
-              onChange={handleChange}
-            />
-          </motion.div>
-        ))}
-      </AnimatePresence>
+      {contactFieldConfigs.map(({ key, errorKey, ...fieldConfig }, index) => (
+        <motion.div
+          key={fieldConfig.controlId}
+          custom={{
+            delay: getDelay(index + 1),
+            direction: index % 2 === 0 ? 'up' : 'down',
+          }}
+          variants={fieldVariants}
+          initial="initial"
+          animate="animate"
+          layout
+        >
+          <FormField
+            {...fieldConfig}
+            name={key}
+            value={formData[key] ?? ''}
+            error={errorKey ? errors[errorKey] : undefined}
+            onChange={handleChange}
+          />
+        </motion.div>
+      ))}
     </Stack>
   );
 }

@@ -85,8 +85,21 @@ function WorkExperience(): React.JSX.Element {
   });
 
   const attachRefs = (node: HTMLDivElement | null) => {
+    if (!node) {
+      sectionRef.current = null;
+      scopeRef(null);
+      return;
+    }
+
     sectionRef.current = node;
     scopeRef(node);
+
+    return () => {
+      if (sectionRef.current === node) {
+        sectionRef.current = null;
+      }
+      scopeRef(null);
+    };
   };
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {

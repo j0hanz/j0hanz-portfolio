@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import ProfileImage from '@/assets/image_me.webp';
 import BaseModal from '@/components/BaseModal';
 import { ImageModalProps } from '@/config/types';
+import { useAnimationConfig } from '@/hooks';
 import useLoading from '@/hooks/useLoading';
 
 import Spinner from './Spinner';
@@ -14,6 +15,15 @@ import Spinner from './Spinner';
 function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
   const loading: boolean = useLoading();
   const constraintsRef = React.useRef<HTMLDivElement>(null);
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const dragProps = prefersReducedMotion
+    ? { drag: false as const }
+    : {
+        drag: true as const,
+        dragConstraints: constraintsRef,
+        dragElastic: 0.2,
+        whileTap: { scale: 0.98 },
+      };
 
   return (
     <BaseModal
@@ -29,16 +39,16 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
           <motion.img
             src={ProfileImage}
             alt="Linus Johansson"
-            drag
-            dragConstraints={constraintsRef}
-            dragElastic={0.2}
-            whileTap={{ scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={getTransition('springy', { duration: 0.6 })}
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
               borderRadius: '10px',
             }}
+            {...dragProps}
           />
         )}
       </Box>

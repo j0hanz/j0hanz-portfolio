@@ -40,12 +40,12 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
   const contextValue: ThemeModeValue = { mode, toggleMode, setMode };
 
   return (
-    <ThemeMode.Provider value={contextValue}>
+    <ThemeMode value={contextValue}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </ThemeProvider>
-    </ThemeMode.Provider>
+    </ThemeMode>
   );
 };
 

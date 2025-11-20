@@ -1,9 +1,10 @@
 import {
   ChangeEvent,
   Dispatch,
-  FormEvent,
   SetStateAction,
+  useActionState,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -14,7 +15,7 @@ import {
   ContactFormValues,
   FieldName,
 } from '@/config/types';
-import { useDebounce, useUpdateEffect } from '@/hooks';
+import { useDebounce } from '@/hooks';
 import useEventCallback from '@/hooks/useEventCallback';
 import { sendEmail } from '@/lib/emailJs';
 import { validateEmail, validateForm, validateUrl } from '@/utils/validation';
@@ -45,8 +46,20 @@ const updateError = (
   });
 };
 
+type SubmissionResult = {
+  status: 'idle' | 'success' | 'error';
+  errorMessage?: string;
+};
+
+const buildValuesFromFormData = (formData: FormData): ContactFormValues => ({
+  name: (formData.get('name') ?? '') as string,
+  email: (formData.get('email') ?? '') as string,
+  company: (formData.get('company') ?? '') as string,
+  url: (formData.get('url') ?? '') as string,
+  message: (formData.get('message') ?? '') as string,
+});
+
 const useContactForm = () => {
-  const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] =
     useState<ContactFormValues>(buildInitialValues);
   const [errors, setErrors] = useState<ContactFormErrors>({});
@@ -56,12 +69,22 @@ const useContactForm = () => {
 
   const debouncedEmail = useDebounce(formData.email, 600);
   const debouncedUrl = useDebounce(formData.url, 600);
+  const hasValidatedEmailRef = useRef(false);
+  const hasValidatedUrlRef = useRef(false);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
+    if (!hasValidatedEmailRef.current) {
+      hasValidatedEmailRef.current = true;
+      return;
+    }
     updateError(setErrors, 'email', validateEmail(debouncedEmail));
   }, [debouncedEmail]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
+    if (!hasValidatedUrlRef.current) {
+      hasValidatedUrlRef.current = true;
+      return;
+    }
     updateError(setErrors, 'url', validateUrl(debouncedUrl));
   }, [debouncedUrl]);
 
@@ -92,48 +115,52 @@ const useContactForm = () => {
     return () => window.clearTimeout(timeoutId);
   }, [submissionState]);
 
-  const handleSubmit = useEventCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const newErrors = validateForm(formData);
+  const [actionResult, submitAction, isPending] = useActionState<
+    SubmissionResult,
+    FormData
+  >(
+    async (_previousState, submittedFormData) => {
+      const submittedValues = buildValuesFromFormData(submittedFormData);
+      const newErrors = validateForm(submittedValues);
       setErrors(newErrors);
 
       if (Object.keys(newErrors).length > 0) {
-        return;
+        return { status: 'error' };
       }
 
-      setIsSending(true);
       try {
-        const success = await sendEmail(formData);
+        const success = await sendEmail(submittedValues);
         if (success) {
           resetFields();
           setSubmissionState('success');
           toast.success('Your message was sent successfully!');
-        } else {
-          setSubmissionState('idle');
-          toast.error(SEND_ERROR_MESSAGE);
+          return { status: 'success' };
         }
+
+        setSubmissionState('idle');
+        toast.error(SEND_ERROR_MESSAGE);
+        return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
       } catch {
         setSubmissionState('idle');
         toast.error(SEND_ERROR_MESSAGE);
-      } finally {
-        setIsSending(false);
+        return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
       }
-    }
-  )!;
+    },
+    { status: 'idle' }
+  );
 
   const handleReset = useEventCallback(() => {
     resetForm();
-    setIsSending(false);
   })!;
 
   return {
-    isSending,
+    isSending: isPending,
     submissionState,
     formData,
     errors,
+    actionResult,
     handleChange,
-    handleSubmit,
+    submitAction,
     handleReset,
   };
 };

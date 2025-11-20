@@ -128,9 +128,24 @@ function Education(): React.JSX.Element {
       : Math.max(Math.min(bounds.height / 1600, 0.2), 0.08);
 
   const attachRefs = (node: HTMLDivElement | null) => {
+    if (!node) {
+      sectionNodeRef.current = null;
+      scopeRef(null);
+      measureRef(null);
+      return;
+    }
+
     sectionNodeRef.current = node;
     scopeRef(node);
     measureRef(node);
+
+    return () => {
+      if (sectionNodeRef.current === node) {
+        sectionNodeRef.current = null;
+      }
+      scopeRef(null);
+      measureRef(null);
+    };
   };
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
@@ -169,10 +184,7 @@ function Education(): React.JSX.Element {
 
   return (
     <SectionContainer id="education" title="Education" icon={HiAcademicCap}>
-      <Box
-        ref={attachRefs}
-        sx={{ position: 'relative', py: { xs: 1, md: 2 } }}
-      >
+      <Box ref={attachRefs} sx={{ position: 'relative', py: { xs: 1, md: 2 } }}>
         <Box
           component={motion.div}
           aria-hidden
