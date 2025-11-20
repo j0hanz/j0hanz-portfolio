@@ -63,14 +63,11 @@ function AboutMeList({
                 <Button
                   onClick={onShowModal}
                   variant="contained"
+                  color="neutral"
                   startIcon={<HiMiniCheckBadge />}
                   sx={{
                     minWidth: 145,
                     height: 30,
-                    bgcolor: 'neutral.main',
-                    '&:hover': {
-                      bgcolor: 'neutral.dark',
-                    },
                   }}
                 >
                   Credential

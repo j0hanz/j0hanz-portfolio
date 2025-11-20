@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
   StorageSource,
@@ -57,23 +57,18 @@ export function useStorage<T>(
   const resolvedStorage = resolveStorage(storage);
   const isSupported = Boolean(resolvedStorage);
 
-  const getDefaultValue = (): T => {
+  const getDefaultValue = useCallback((): T => {
     return evaluateDefaultValue(defaultValue);
-  };
+  }, [defaultValue]);
 
   const [error, setError] = useState<Error | null>(null);
 
-  const readValue = (): T => {
-    if (!resolvedStorage) {
-      return getDefaultValue();
-    }
+  const readValue = useCallback((): T => {
+    if (!resolvedStorage) return getDefaultValue();
 
     try {
       const raw = resolvedStorage.getItem(key);
-      if (raw === null) {
-        return getDefaultValue();
-      }
-      return parser(raw);
+      return raw === null ? getDefaultValue() : parser(raw);
     } catch (readError) {
       const normalized = normalizeError(
         readError,
@@ -82,25 +77,20 @@ export function useStorage<T>(
       setError(normalized);
       return getDefaultValue();
     }
-  };
+  }, [getDefaultValue, key, parser, resolvedStorage]);
 
   const [value, setValue] = useState<T>(() => readValue());
 
-  const persist = (nextValue: T) => {
-    if (!resolvedStorage) {
-      return;
-    }
+  const persist = (nextValue: T): void => {
+    if (!resolvedStorage) return;
 
     try {
-      const serialized = serializer(nextValue);
-      resolvedStorage.setItem(key, serialized);
+      resolvedStorage.setItem(key, serializer(nextValue));
       setError(null);
     } catch (writeError) {
-      const normalized = normalizeError(
-        writeError,
-        `Failed to store "${key}" in storage`
+      setError(
+        normalizeError(writeError, `Failed to store "${key}" in storage`)
       );
-      setError(normalized);
     }
   };
 
@@ -115,17 +105,15 @@ export function useStorage<T>(
     });
   };
 
-  const remove = () => {
+  const remove = (): void => {
     if (resolvedStorage) {
       try {
         resolvedStorage.removeItem(key);
         setError(null);
       } catch (removeError) {
-        const normalized = normalizeError(
-          removeError,
-          `Failed to remove "${key}" from storage`
+        setError(
+          normalizeError(removeError, `Failed to remove "${key}" from storage`)
         );
-        setError(normalized);
       }
     }
     setValue(getDefaultValue());
@@ -141,43 +129,17 @@ export function useStorage<T>(
   const get = () => readValue();
 
   useEffect(() => {
-    if (!listen || !resolvedStorage || !isBrowser) {
-      return undefined;
-    }
+    if (!listen || !resolvedStorage || !isBrowser) return undefined;
 
-    const readLatestValue = (): T => {
-      if (!resolvedStorage) {
-        return evaluateDefaultValue(defaultValue);
+    const handleStorage = (event: StorageEvent): void => {
+      if (event.key === key && event.storageArea === resolvedStorage) {
+        setValue(readValue());
       }
-
-      try {
-        const raw = resolvedStorage.getItem(key);
-        if (raw === null) {
-          return evaluateDefaultValue(defaultValue);
-        }
-        return parser(raw);
-      } catch (readError) {
-        const normalized = normalizeError(
-          readError,
-          `Failed to read "${key}" from storage`
-        );
-        setError(normalized);
-        return evaluateDefaultValue(defaultValue);
-      }
-    };
-
-    const handleStorage = (event: StorageEvent) => {
-      if (event.key !== key || event.storageArea !== resolvedStorage) {
-        return;
-      }
-      setValue(readLatestValue());
     };
 
     window.addEventListener('storage', handleStorage);
-    return () => {
-      window.removeEventListener('storage', handleStorage);
-    };
-  }, [defaultValue, key, listen, parser, resolvedStorage]);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, [key, listen, readValue, resolvedStorage]);
 
   return {
     value,

@@ -21,7 +21,7 @@ function Image({
       radius === 'circle' ? '50%' : radius === 'flat' ? '0px' : '7.5px',
   };
 
-  // Combine default styles with any additional styles passed in
+  // Merge default styles with custom styles
   const combinedStyle: React.CSSProperties = {
     ...defaultStyle,
     ...style,

@@ -12,33 +12,15 @@ export function useUpdateEffect(
   deps: DependencyList | undefined
 ): void {
   const isFirstRender = useRef(true);
-  const previousDepsRef = useRef<DependencyList | undefined>(undefined);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      previousDepsRef.current = deps;
-      return;
+      return undefined;
     }
 
-    if (!deps) {
-      return effect();
-    }
-
-    const previousDeps = previousDepsRef.current;
-    previousDepsRef.current = deps;
-
-    if (!previousDeps || previousDeps.length !== deps.length) {
-      return effect();
-    }
-
-    const hasChanged = deps.some(
-      (dependency, index) => !Object.is(dependency, previousDeps[index])
-    );
-    if (hasChanged) {
-      return effect();
-    }
-  });
+    return effect();
+  }, [effect, deps]);
 }
 
 export default useUpdateEffect;

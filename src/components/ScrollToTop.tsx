@@ -14,24 +14,21 @@ function ScrollToTop(props: ScrollToTopProps): React.JSX.Element {
     threshold: 100,
   });
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const anchor = (
-      (event.target as HTMLDivElement).ownerDocument || document
-    ).querySelector('#back-to-top-anchor');
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
+    const ownerDoc = (event.target as HTMLDivElement).ownerDocument || document;
+    const anchor = ownerDoc.querySelector('#back-to-top-anchor');
 
     if (anchor) {
       anchor.scrollIntoView({
         block: 'center',
         behavior: 'smooth',
       });
-    } else {
-      // Fallback if anchor is not found (e.g. top of page)
-      if (window) {
-        window().scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      return;
     }
+
+    // Fallback: scroll to top of page
+    const scrollTarget = window ? window() : document.documentElement;
+    scrollTarget.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

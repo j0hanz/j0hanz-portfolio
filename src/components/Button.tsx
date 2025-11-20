@@ -33,7 +33,6 @@ const StyledButton = styled(MuiButton)(({ theme }) => ({
 
 // Button component with optional icon and text, supports MUI v7 best practices
 function Button({
-  icon,
   text = '',
   className = '',
   children,
@@ -43,14 +42,11 @@ function Button({
   endIcon,
   ...props
 }: CustomButtonProps): React.JSX.Element {
-  // Use startIcon/endIcon if provided, fallback to icon prop for backward compatibility
-  const resolvedStartIcon = startIcon || icon;
-
   return (
     <StyledButton
       {...props}
       variant={variant}
-      startIcon={resolvedStartIcon}
+      startIcon={startIcon}
       endIcon={endIcon}
       className={className}
       sx={{

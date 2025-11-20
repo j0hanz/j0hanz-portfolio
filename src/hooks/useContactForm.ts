@@ -31,20 +31,17 @@ const applyValidationResult = (
   setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
   field: keyof ContactFormErrors,
   message?: string
-) => {
+): void => {
   setErrors((prevErrors) => {
+    // Early return if no message and field not present
     if (!message) {
-      if (!(field in prevErrors)) {
-        return prevErrors;
-      }
-
+      if (!(field in prevErrors)) return prevErrors;
       const { [field]: _removed, ...nextErrors } = prevErrors;
       return nextErrors;
     }
 
-    if (prevErrors[field] === message) {
-      return prevErrors;
-    }
+    // Early return if message hasn't changed
+    if (prevErrors[field] === message) return prevErrors;
 
     return { ...prevErrors, [field]: message };
   });

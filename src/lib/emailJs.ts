@@ -22,11 +22,11 @@ const getEnvVariable = (key: string): string => {
 export const sendEmail = async (formData: FormData): Promise<boolean> => {
   const { name, email, company, url, message } = formData;
 
-  const templateParams: Record<string, unknown> = {
+  const templateParams: Record<string, string> = {
     from_name: name,
     from_email: email,
-    company,
-    url,
+    company: company || '',
+    url: url || '',
     message,
   };
 
@@ -39,11 +39,9 @@ export const sendEmail = async (formData: FormData): Promise<boolean> => {
     return true;
   } catch (error) {
     if (import.meta.env.DEV) {
-      if (error instanceof Error) {
-        console.error('Failed to send email:', error.message);
-      } else {
-        console.error('Failed to send email:', error);
-      }
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      console.error('Failed to send email:', errorMessage);
     }
     return false;
   }

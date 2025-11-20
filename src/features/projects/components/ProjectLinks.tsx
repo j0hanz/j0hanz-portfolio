@@ -13,18 +13,12 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => (
     <Button
       href={project.github}
       target="_blank"
+      color="neutral"
       sx={{
         minWidth: 104,
         height: 30,
-        bgcolor: 'neutral.main',
-        '&:hover': {
-          bgcolor: 'neutral.dark',
-        },
-        '&:active': {
-          bgcolor: 'neutral.dark',
-        },
       }}
-      icon={
+      startIcon={
         <SiGithub
           style={{
             marginRight: '10px',
@@ -42,15 +36,8 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => (
         sx={{
           minWidth: 104,
           height: 30,
-          bgcolor: 'primary.main',
-          '&:hover': {
-            bgcolor: 'primary.dark',
-          },
-          '&:active': {
-            bgcolor: 'primary.dark',
-          },
         }}
-        icon={
+        startIcon={
           <HiMiniPlay
             style={{
               marginRight: '10px',
@@ -69,15 +56,8 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => (
             sx={{
               minWidth: 104,
               height: 30,
-              bgcolor: 'primary.main',
-              '&:hover': {
-                bgcolor: 'primary.dark',
-              },
-              '&:active': {
-                bgcolor: 'primary.dark',
-              },
             }}
-            icon={
+            startIcon={
               <HiMiniPlay
                 style={{
                   marginRight: '10px',

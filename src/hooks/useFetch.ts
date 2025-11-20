@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { UseFetchOptions, UseFetchReturn, UseFetchState } from '@/config/types';
 
@@ -13,92 +13,90 @@ export function useFetch<T = unknown>(
   });
 
   const controllerRef = useRef<AbortController | null>(null);
+  // Keep options in ref to avoid re-triggering effects or stale closures in execute
   const optionsRef = useRef(options);
-  const abortRef = useRef<() => void>(() => {});
-  const executeRef = useRef<
-    (overrideUrl?: string, overrideOptions?: RequestInit) => Promise<T | null>
-  >(async () => null);
 
   useEffect(() => {
     optionsRef.current = options;
   }, [options]);
 
-  const abort = () => {
+  const abort = useCallback(() => {
     controllerRef.current?.abort();
     controllerRef.current = null;
-  };
+  }, []);
 
-  const execute = async (
-    overrideUrl?: string,
-    overrideOptions?: RequestInit
-  ): Promise<T | null> => {
-    const requestUrl = overrideUrl ?? url;
-    const { onSuccess, onError, validator, ...requestInit } =
-      optionsRef.current;
-    if (!requestUrl) {
-      const error = new Error('useFetch: URL is required');
-      setState((prev) => ({ ...prev, error }));
-      onError?.(error);
-      throw error;
-    }
+  const execute = useCallback(
+    async (
+      overrideUrl?: string,
+      overrideOptions?: RequestInit
+    ): Promise<T | null> => {
+      const requestUrl = overrideUrl ?? url;
+      const { onSuccess, onError, validator, ...requestInit } =
+        optionsRef.current;
 
-    abort();
-    const controller = new AbortController();
-    controllerRef.current = controller;
-
-    setState((prev) => ({ ...prev, loading: true, error: null }));
-
-    try {
-      const response = await fetch(requestUrl, {
-        ...requestInit,
-        ...overrideOptions,
-        signal: controller.signal,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
+      if (!requestUrl) {
+        const error = new Error('useFetch: URL is required');
+        setState((prev) => ({ ...prev, error }));
+        onError?.(error);
+        throw error;
       }
 
-      const contentType = response.headers.get('content-type') ?? '';
-      const result: unknown = contentType.includes('application/json')
-        ? await response.json()
-        : await response.text();
+      abort();
+      const controller = new AbortController();
+      controllerRef.current = controller;
 
-      if (validator && !validator(result)) {
-        throw new Error('Data validation failed');
+      setState((prev) => ({ ...prev, loading: true, error: null }));
+
+      try {
+        const response = await fetch(requestUrl, {
+          ...requestInit,
+          ...overrideOptions,
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type') ?? '';
+        const result: unknown = contentType.includes('application/json')
+          ? await response.json()
+          : await response.text();
+
+        if (validator && !validator(result)) {
+          throw new Error('Data validation failed');
+        }
+
+        const typedResult = result as T;
+
+        setState({ data: typedResult, loading: false, error: null });
+        onSuccess?.(typedResult);
+        return typedResult;
+      } catch (error) {
+        const fetchError = error as Error;
+        if (fetchError.name !== 'AbortError') {
+          setState((prev) => ({ ...prev, loading: false, error: fetchError }));
+          onError?.(fetchError);
+        }
+        throw fetchError;
       }
+    },
+    [url, abort]
+  );
 
-      const typedResult = result as T;
-
-      setState({ data: typedResult, loading: false, error: null });
-      onSuccess?.(typedResult);
-      return typedResult;
-    } catch (error) {
-      const fetchError = error as Error;
-      if (fetchError.name !== 'AbortError') {
-        setState((prev) => ({ ...prev, loading: false, error: fetchError }));
-        onError?.(fetchError);
-      }
-      throw fetchError;
-    }
-  };
-
-  const reset = () => {
+  const reset = useCallback(() => {
     abort();
     setState({ data: null, loading: false, error: null });
-  };
-
-  abortRef.current = abort;
-  executeRef.current = execute;
+  }, [abort]);
 
   useEffect(() => {
     if (options.immediate && url) {
-      executeRef.current().catch(() => undefined);
+      execute().catch(() => undefined);
     }
     return () => {
-      abortRef.current();
+      abort();
     };
-  }, [options.immediate, url]);
+  }, [options.immediate, url, execute, abort]);
 
   return {
     ...state,

@@ -138,7 +138,6 @@ export interface CardProps {
 }
 
 export interface CustomButtonProps extends MuiButtonProps {
-  icon?: ReactNode; // Deprecated: use startIcon or endIcon instead
   text?: string;
   className?: string;
   target?: string;
@@ -333,10 +332,6 @@ export interface SkillCardProps {
 }
 
 // --- Pages ---
-export interface MainContentProps {
-  loading: boolean;
-}
-
 export type SectionId =
   | 'hero'
   | 'aboutMe'

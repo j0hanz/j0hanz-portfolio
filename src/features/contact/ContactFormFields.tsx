@@ -15,6 +15,16 @@ import TextField from '@mui/material/TextField';
 
 import { FormFieldProps, FormFieldsProps } from '@/config/types';
 
+const getHelperText = (error?: string): React.ReactNode => {
+  if (!error) return ' ';
+  return (
+    <Stack component="span" direction="row" alignItems="center" gap={0.5}>
+      <HiMiniExclamationCircle />
+      {error}
+    </Stack>
+  );
+};
+
 function FormField({
   controlId,
   icon: Icon,
@@ -29,14 +39,6 @@ function FormField({
   onChange,
 }: FormFieldProps): React.JSX.Element {
   const isTextarea = type === 'textarea';
-  const helperContent = error ? (
-    <Stack component="span" direction="row" alignItems="center" gap={0.5}>
-      <HiMiniExclamationCircle />
-      {error}
-    </Stack>
-  ) : (
-    ' '
-  );
 
   return (
     <TextField
@@ -108,13 +110,13 @@ function FormField({
           },
         },
       }}
-      helperText={helperContent}
+      helperText={getHelperText(error)}
     />
   );
 }
 
-// Rendering form fields
-function FormFields({
+// Rendering contact form fields
+function ContactFormFields({
   formData,
   errors,
   handleChange,
@@ -181,4 +183,4 @@ function FormFields({
   );
 }
 
-export default FormFields;
+export default ContactFormFields;

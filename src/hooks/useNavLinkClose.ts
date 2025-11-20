@@ -9,18 +9,18 @@ export default function useNavLinkClose(
   onClose: () => void
 ): RefObject<HTMLDivElement | null> {
   const stableOnClose = useEventCallback(onClose);
-
   const offcanvasRef = useClickOutside<HTMLDivElement>(() => {
-    if (show) {
-      stableOnClose?.();
-    }
+    if (show) stableOnClose?.();
   });
 
   useEffect(() => {
-    if (!show) return;
-    const handleClick = (e: MouseEvent) => {
-      if ((e.target as Element).closest(selector)) stableOnClose?.();
+    if (!show) return undefined;
+
+    const handleClick = (e: MouseEvent): void => {
+      const target = e.target as Element;
+      if (target.closest(selector)) stableOnClose?.();
     };
+
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
   }, [show, selector, stableOnClose]);

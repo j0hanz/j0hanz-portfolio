@@ -21,7 +21,7 @@ function App(): React.JSX.Element {
       <div id="back-to-top-anchor" />
       <NavBar />
       <Toast />
-      <Home loading={false} />
+      <Home />
       <ScrollToTop />
     </Box>
   );

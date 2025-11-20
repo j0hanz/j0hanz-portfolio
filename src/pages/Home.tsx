@@ -3,7 +3,7 @@ import React, { lazy, Suspense } from 'react';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import SectionWrapper from '@/components/SectionWrapper';
 import Spinner from '@/components/Spinner';
-import { MainContentProps, SectionConfig } from '@/config/types';
+import { SectionConfig } from '@/config/types';
 
 const Hero = lazy(() => import('@/features/hero/Hero'));
 const AboutMe = lazy(() => import('@/features/about/AboutMe'));
@@ -28,26 +28,22 @@ const primarySections: SectionConfig[] = [
 const contactSection: SectionConfig = { id: 'contact', Component: ContactForm };
 const ContactSectionComponent = contactSection.Component;
 
-function MainContent({ loading }: MainContentProps): React.JSX.Element {
+function MainContent(): React.JSX.Element {
   return (
-    <main aria-busy={loading}>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Suspense fallback={<Spinner />}>
-          {primarySections.map(({ id, Component }) => (
-            <SectionWrapper key={id} sectionId={id}>
-              <Component />
-            </SectionWrapper>
-          ))}
-          <ErrorBoundary>
-            <SectionWrapper sectionId={contactSection.id}>
-              <ContactSectionComponent />
-            </SectionWrapper>
-          </ErrorBoundary>
-          <Footer />
-        </Suspense>
-      )}
+    <main>
+      <Suspense fallback={<Spinner />}>
+        {primarySections.map(({ id, Component }) => (
+          <SectionWrapper key={id} sectionId={id}>
+            <Component />
+          </SectionWrapper>
+        ))}
+        <ErrorBoundary>
+          <SectionWrapper sectionId={contactSection.id}>
+            <ContactSectionComponent />
+          </SectionWrapper>
+        </ErrorBoundary>
+        <Footer />
+      </Suspense>
     </main>
   );
 }

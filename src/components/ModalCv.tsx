@@ -9,6 +9,20 @@ import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
 import { ModalCvProps } from '@/config/types';
 
+const flagIconStyles = {
+  fontSize: '3.5rem',
+  cursor: 'pointer',
+  opacity: 0.7,
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    opacity: 1,
+    transform: 'scale(1.15)',
+  },
+  '&:active': {
+    transform: 'scale(0.98)',
+  },
+} as const;
+
 // Component for selecting and downloading CVs
 function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
   const handleDownload = (cv: string, fileName: string): void => {
@@ -65,38 +79,14 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
           className="fi fi-se"
           onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
           title="Swedish"
-          sx={{
-            fontSize: '3.5rem',
-            cursor: 'pointer',
-            opacity: 0.7,
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              opacity: 1,
-              transform: 'scale(1.15)',
-            },
-            '&:active': {
-              transform: 'scale(0.98)',
-            },
-          }}
+          sx={flagIconStyles}
         />
         <Box
           component="span"
           className="fi fi-gb"
           onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
           title="English"
-          sx={{
-            fontSize: '3.5rem',
-            cursor: 'pointer',
-            opacity: 0.7,
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              opacity: 1,
-              transform: 'scale(1.15)',
-            },
-            '&:active': {
-              transform: 'scale(0.98)',
-            },
-          }}
+          sx={flagIconStyles}
         />
       </Stack>
     </BaseModal>

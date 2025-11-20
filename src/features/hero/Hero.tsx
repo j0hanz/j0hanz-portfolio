@@ -14,6 +14,11 @@ import { useToggle } from '@/hooks';
 
 const ModalCv = lazy(() => import('@/components/ModalCv'));
 
+const buttonBaseStyles = {
+  minWidth: 180,
+  height: 45,
+} as const;
+
 // Rendering hero section
 function Hero(): React.JSX.Element {
   const {
@@ -98,8 +103,7 @@ function Hero(): React.JSX.Element {
                   onClick={handleModalOpen}
                   startIcon={<HiOutlineArrowDownTray size="1.05rem" />}
                   sx={{
-                    minWidth: 180,
-                    height: 45,
+                    ...buttonBaseStyles,
                     bgcolor: 'primary.main',
                     '&:hover': { bgcolor: 'primary.dark' },
                   }}
@@ -111,8 +115,7 @@ function Hero(): React.JSX.Element {
                   href="#contact"
                   startIcon={<HiOutlineEnvelope size="1.05rem" />}
                   sx={{
-                    minWidth: 180,
-                    height: 45,
+                    ...buttonBaseStyles,
                     bgcolor: 'neutral.main',
                     '&:hover': { bgcolor: 'neutral.dark' },
                   }}

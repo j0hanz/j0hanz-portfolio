@@ -4,48 +4,36 @@ import hackathonBadge from '@/assets/hackathonBadge.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
 import { BadgeConfig, BadgeFlag, Project, ProjectMeta } from '@/config/types';
 
+const commonBadgeStyle = {
+  position: 'absolute',
+  bottom: '3rem',
+  right: '0.5rem',
+  width: '7rem',
+  filter: 'contrast(0.9)',
+} as const;
+
+const hackathonBadgeBase = {
+  alt: 'Hackathon Badge',
+  style: commonBadgeStyle,
+  width: 112,
+  height: 112,
+} as const;
+
 export const badgeConfig: BadgeConfig[] = [
   {
     flag: 'isHackathon',
     src: hackathonBadge,
-    alt: 'Hackathon Badge',
-    style: {
-      position: 'absolute',
-      bottom: '3rem',
-      right: '0.5rem',
-      width: '7rem',
-      filter: 'contrast(0.9)',
-    },
-    width: 112,
-    height: 112,
+    ...hackathonBadgeBase,
   },
   {
     flag: 'isHackathon_2',
     src: hackathonBadge2,
-    alt: 'Hackathon Badge',
-    style: {
-      position: 'absolute',
-      bottom: '3rem',
-      right: '0.5rem',
-      width: '7rem',
-      filter: 'contrast(0.9)',
-    },
-    width: 112,
-    height: 112,
+    ...hackathonBadgeBase,
   },
   {
     flag: 'isHackathon_3',
     src: hackathonBadge3,
-    alt: 'Hackathon Badge',
-    style: {
-      position: 'absolute',
-      bottom: '3rem',
-      right: '0.5rem',
-      width: '7rem',
-      filter: 'contrast(0.9)',
-    },
-    width: 112,
-    height: 112,
+    ...hackathonBadgeBase,
   },
   {
     flag: 'gitpod_template',
@@ -76,28 +64,28 @@ export const extractRepoPath = (githubUrl: string): string | null => {
   }
 };
 
-export const useProjectMeta = (project: Project): ProjectMeta => {
+export const getProjectMeta = (project: Project): ProjectMeta => {
   const {
     github,
-    projectBoard,
-    isHackathon,
-    isHackathon_2,
-    isHackathon_3,
-    gitpod_template,
+    projectBoard = false,
+    isHackathon = false,
+    isHackathon_2 = false,
+    isHackathon_3 = false,
+    gitpod_template = false,
   } = project;
 
   const repoPath = extractRepoPath(github);
   const badgeFlags: Record<BadgeFlag, boolean> = {
-    isHackathon: isHackathon ?? false,
-    isHackathon_2: isHackathon_2 ?? false,
-    isHackathon_3: isHackathon_3 ?? false,
-    gitpod_template: gitpod_template ?? false,
+    isHackathon,
+    isHackathon_2,
+    isHackathon_3,
+    gitpod_template,
   };
   const badges = badgeConfig.filter(({ flag }) => badgeFlags[flag]);
 
   return {
     repoPath,
     badges,
-    hasProjectBoard: projectBoard ?? false,
+    hasProjectBoard: projectBoard,
   };
 };
