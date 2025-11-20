@@ -239,6 +239,13 @@ export interface AnimationConfig {
     preset?: TransitionPreset,
     overrides?: Partial<Transition>
   ) => Transition;
+  motionViewport: MotionProps['viewport'];
+  reducedMotionTarget: MotionProps['initial'];
+  resolveMotionState: <T extends MotionProps['initial']>(
+    prefersReducedMotion: boolean,
+    state?: T,
+    fallback?: T
+  ) => T;
 }
 
 export type AnimationPriority = 'high' | 'reduced';

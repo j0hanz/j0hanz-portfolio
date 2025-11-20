@@ -19,6 +19,7 @@ import type {
   ElementOrSelector,
   MotionValue,
   Transition,
+  MotionProps,
 } from 'motion/react';
 
 import type {
@@ -35,6 +36,24 @@ const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const BASE_DURATION = 0.65;
 const BASE_DELAY = 0.08;
 const BASE_STAGGER = 0.12;
+const REDUCED_MOTION_TARGET = { opacity: 1, x: 0, y: 0, scale: 1 } as const;
+const MOTION_VIEWPORT: MotionProps['viewport'] = {
+  once: true,
+  amount: 0.15,
+  margin: '0px',
+};
+
+const resolveMotionState = <T extends MotionProps['initial']>(
+  prefersReducedMotion: boolean,
+  state?: T,
+  fallback: T = REDUCED_MOTION_TARGET as T
+): T => {
+  if (prefersReducedMotion) {
+    return fallback;
+  }
+
+  return state ?? fallback;
+};
 
 const subscribeToReducedMotion = (listener: () => void): (() => void) => {
   if (typeof window === 'undefined') {
@@ -105,6 +124,9 @@ export function useAnimationConfig(): AnimationConfig {
     getDelay,
     getStagger,
     getTransition,
+    motionViewport: MOTION_VIEWPORT,
+    reducedMotionTarget: REDUCED_MOTION_TARGET,
+    resolveMotionState,
   };
 }
 
