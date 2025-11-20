@@ -36,11 +36,10 @@ const updateError = (
   setErrors((prev) => {
     if (!message) {
       if (!(field in prev)) return prev;
-      const { [field]: _removed, ...rest } = prev;
+      const { [field]: _, ...rest } = prev;
       return rest;
     }
-    if (prev[field] === message) return prev;
-    return { ...prev, [field]: message };
+    return prev[field] === message ? prev : { ...prev, [field]: message };
   });
 };
 

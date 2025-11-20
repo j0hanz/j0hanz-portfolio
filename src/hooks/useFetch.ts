@@ -37,7 +37,7 @@ export function useFetch<T = unknown>(
 
     if (!requestUrl) {
       const error = new Error('useFetch: URL is required');
-      setState((prev) => ({ ...prev, error }));
+      setState({ data: null, loading: false, error });
       onError?.(error);
       throw error;
     }
@@ -59,8 +59,9 @@ export function useFetch<T = unknown>(
         throw new Error(`Request failed with status ${response.status}`);
       }
 
-      const contentType = response.headers.get('content-type') ?? '';
-      const result: unknown = contentType.includes('application/json')
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType?.includes('application/json') ?? false;
+      const result: unknown = isJson
         ? await response.json()
         : await response.text();
 

@@ -20,34 +20,32 @@ const ERROR_MESSAGES = {
   MESSAGE_TOO_SHORT: `Message must be at least ${MIN_MESSAGE_LENGTH} characters long.`,
 } as const;
 
-const trim = (value: string): string => value.trim();
-
 export const validateName = (value: string): ValidationError => {
-  const trimmedValue = trim(value);
-  if (!trimmedValue) return ERROR_MESSAGES.NAME_REQUIRED;
-  if (!NAME_PATTERN.test(trimmedValue)) return ERROR_MESSAGES.NAME_INVALID;
+  const trimmed = value.trim();
+  if (!trimmed) return ERROR_MESSAGES.NAME_REQUIRED;
+  if (!NAME_PATTERN.test(trimmed)) return ERROR_MESSAGES.NAME_INVALID;
   return undefined;
 };
 
 export const validateEmail = (value: string): ValidationError => {
-  const trimmedValue = trim(value);
-  if (!trimmedValue) return ERROR_MESSAGES.EMAIL_REQUIRED;
-  if (!EMAIL_PATTERN.test(trimmedValue)) return ERROR_MESSAGES.EMAIL_INVALID;
+  const trimmed = value.trim();
+  if (!trimmed) return ERROR_MESSAGES.EMAIL_REQUIRED;
+  if (!EMAIL_PATTERN.test(trimmed)) return ERROR_MESSAGES.EMAIL_INVALID;
   return undefined;
 };
 
 export const validateUrl = (value: string): ValidationError => {
-  const trimmedValue = trim(value);
-  if (trimmedValue && !URL_PATTERN.test(trimmedValue)) {
+  const trimmed = value.trim();
+  if (trimmed && !URL_PATTERN.test(trimmed)) {
     return ERROR_MESSAGES.URL_INVALID;
   }
   return undefined;
 };
 
 export const validateMessage = (value: string): ValidationError => {
-  const trimmedValue = trim(value);
-  if (!trimmedValue) return ERROR_MESSAGES.MESSAGE_REQUIRED;
-  if (trimmedValue.length < MIN_MESSAGE_LENGTH) {
+  const trimmed = value.trim();
+  if (!trimmed) return ERROR_MESSAGES.MESSAGE_REQUIRED;
+  if (trimmed.length < MIN_MESSAGE_LENGTH) {
     return ERROR_MESSAGES.MESSAGE_TOO_SHORT;
   }
   return undefined;

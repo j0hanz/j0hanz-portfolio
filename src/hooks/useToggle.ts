@@ -12,13 +12,11 @@ export function useToggle(
   initialState: InitialToggleState = false
 ): UseToggleReturn {
   const [value, setValue] = useState<boolean>(() =>
-    typeof initialState === 'function'
-      ? (initialState as () => boolean)()
-      : initialState
+    typeof initialState === 'function' ? initialState() : initialState
   );
 
   const toggle = (nextValue?: boolean) => {
-    setValue((prev) => (typeof nextValue === 'boolean' ? nextValue : !prev));
+    setValue((prev) => nextValue ?? !prev);
   };
 
   const setTrue = () => {

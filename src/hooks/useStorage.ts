@@ -16,26 +16,15 @@ const defaultParser = <T>(value: string) => JSON.parse(value) as T;
 const evaluateDefaultValue = <T>(value: DefaultValue<T>): T =>
   typeof value === 'function' ? (value as () => T)() : value;
 
-const normalizeError = (error: unknown, fallback: string): Error => {
-  if (error instanceof Error) {
-    return error;
-  }
-  const message =
-    typeof error === 'string' ? `${fallback}: ${error}` : fallback;
-  return new Error(message);
-};
+const normalizeError = (error: unknown, fallback: string): Error =>
+  error instanceof Error
+    ? error
+    : new Error(typeof error === 'string' ? `${fallback}: ${error}` : fallback);
 
 const resolveStorage = (source?: StorageSource): Storage | null => {
-  if (!isBrowser) {
-    return null;
-  }
-  if (!source || source === 'local') {
-    return window.localStorage;
-  }
-  if (source === 'session') {
-    return window.sessionStorage;
-  }
-  return source;
+  if (!isBrowser) return null;
+  if (!source || source === 'local') return window.localStorage;
+  return source === 'session' ? window.sessionStorage : source;
 };
 
 /**

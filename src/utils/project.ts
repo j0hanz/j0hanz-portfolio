@@ -77,9 +77,7 @@ export const extractRepoPath = (githubUrl: string): string | null => {
 
 export const getProjectMeta = (project: Project): ProjectMeta => {
   const cachedMeta = projectMetaCache.get(project);
-  if (cachedMeta) {
-    return cachedMeta;
-  }
+  if (cachedMeta) return cachedMeta;
 
   const {
     github,
@@ -97,7 +95,7 @@ export const getProjectMeta = (project: Project): ProjectMeta => {
     isHackathon_3,
     gitpod_template,
   };
-  const badges = badgeConfig.filter(({ flag }) => badgeFlags[flag]);
+  const badges = badgeConfig.filter((config) => badgeFlags[config.flag]);
 
   const meta: ProjectMeta = {
     repoPath,

@@ -103,7 +103,7 @@ const ProjectStats = ({
         // Check cache first
         const cached = statsCache.get(repoPath);
         const now = Date.now();
-        
+
         if (cached && now - cached.timestamp < CACHE_DURATION) {
           if (!isCancelled) {
             setStats(cached.data);
@@ -125,7 +125,9 @@ const ProjectStats = ({
 
         if (!response.ok) {
           if (response.status === 403) {
-            const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
+            const rateLimitRemaining = response.headers.get(
+              'x-ratelimit-remaining'
+            );
             if (rateLimitRemaining === '0') {
               console.warn(`GitHub API rate limit exceeded for ${repoPath}`);
             } else {
@@ -137,16 +139,16 @@ const ProjectStats = ({
 
         const data = await response.json();
         if (isCancelled) return;
-        
+
         const newStats = {
           stars: data.stargazers_count ?? 0,
           forks: data.forks_count ?? 0,
           issues: data.open_issues_count ?? 0,
         };
-        
+
         // Cache the results
         statsCache.set(repoPath, { data: newStats, timestamp: now });
-        
+
         setStats(newStats);
         setStatus('idle');
       } catch (error) {

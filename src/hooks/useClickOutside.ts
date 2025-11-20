@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import type React from 'react';
 
 import useEventCallback from './useEventCallback';
 
@@ -7,17 +8,17 @@ interface UseClickOutsideOptions {
 }
 
 /**
- * Custom hook to handle clicks outside of a referenced element
- * Useful for closing modals, dropdowns, etc.
+ * Custom hook to handle clicks outside of a referenced element.
+ * Useful for closing modals, dropdowns, and other dismissible UI elements.
  *
- * @example
- * const ref = useClickOutside(() => setIsOpen(false));
- * return <div ref={ref}>...</div>
+ * @param handler - Callback to execute when clicking outside
+ * @param options - Configuration options
+ * @returns Ref to attach to the element
  */
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
   handler: () => void,
   options?: UseClickOutsideOptions
-) {
+): React.RefObject<T | null> {
   const ref = useRef<T>(null);
   const stableHandler = useEventCallback(handler);
   const { enabled = true } = options ?? {};

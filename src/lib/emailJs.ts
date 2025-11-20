@@ -19,16 +19,16 @@ const getEnvVariable = (key: string): string => {
   return value;
 };
 
-export const sendEmail = async (formData: FormData): Promise<boolean> => {
-  const { name, email, company, url, message } = formData;
+const buildTemplateParams = (formData: FormData): Record<string, string> => ({
+  from_name: formData.name,
+  from_email: formData.email,
+  company: formData.company || '',
+  url: formData.url || '',
+  message: formData.message,
+});
 
-  const templateParams: Record<string, string> = {
-    from_name: name,
-    from_email: email,
-    company: company || '',
-    url: url || '',
-    message,
-  };
+export const sendEmail = async (formData: FormData): Promise<boolean> => {
+  const templateParams = buildTemplateParams(formData);
 
   try {
     const serviceId = getEnvVariable('VITE_SERVICE_ID');

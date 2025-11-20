@@ -1,35 +1,44 @@
 import { useState } from 'react';
 
+type CopyResult = {
+  value: string | null;
+  success: boolean | null;
+};
+
 type CopyFn = (text: string) => Promise<boolean>;
 
-export function useCopyToClipboard(): [
-  CopyFn,
-  { value: string | null; success: boolean | null },
-] {
-  const [value, setValue] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean | null>(null);
+type UseCopyToClipboardReturn = [CopyFn, CopyResult];
+
+/**
+ * Hook for copying text to the clipboard with success/error state tracking.
+ *
+ * @returns Tuple of [copyFn, { value, success }]
+ */
+export function useCopyToClipboard(): UseCopyToClipboardReturn {
+  const [state, setState] = useState<CopyResult>({
+    value: null,
+    success: null,
+  });
 
   const copyToClipboard: CopyFn = async (text) => {
     if (!navigator?.clipboard) {
       console.warn('Clipboard not supported');
-      setSuccess(false);
+      setState({ value: null, success: false });
       return false;
     }
 
     try {
       await navigator.clipboard.writeText(text);
-      setValue(text);
-      setSuccess(true);
+      setState({ value: text, success: true });
       return true;
     } catch (error) {
       console.warn('Copy failed', error);
-      setValue(null);
-      setSuccess(false);
+      setState({ value: null, success: false });
       return false;
     }
   };
 
-  return [copyToClipboard, { value, success }];
+  return [copyToClipboard, state];
 }
 
 export default useCopyToClipboard;

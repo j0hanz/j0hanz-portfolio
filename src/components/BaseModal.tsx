@@ -20,16 +20,17 @@ function BaseModal({
 }: BaseModalProps): React.JSX.Element {
   const { getTransition } = useAnimationConfig();
 
-  let transition = getTransition('smooth');
+  const transitionPresets: Record<
+    typeof animationPreset,
+    ReturnType<typeof getTransition>
+  > = {
+    modal: getTransition('smooth'),
+    slideDown: getTransition('smooth', { duration: 0.45 }),
+    zoomOut: getTransition('springy', { duration: 0.4 }),
+  };
 
-  if (animationPreset === 'slideDown') {
-    transition = getTransition('smooth', { duration: 0.45 });
-  } else if (animationPreset === 'zoomOut') {
-    transition = getTransition('springy', { duration: 0.4 });
-  }
-
-  const modalVariant =
-    motionVariants.exit[animationPreset] ?? motionVariants.exit.modal;
+  const transition = transitionPresets[animationPreset];
+  const modalVariant = motionVariants.exit[animationPreset];
 
   return (
     <AnimatePresence initial={false} mode="wait">

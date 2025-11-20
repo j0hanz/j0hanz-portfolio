@@ -27,7 +27,7 @@ export function useArray<T>(initialArray: T[] = []): UseArrayReturn<T> {
     let removed: T | undefined;
     setArray((prev) => {
       if (!prev.length) return prev;
-      removed = prev[0];
+      [removed] = prev;
       return prev.slice(1);
     });
     return removed;
