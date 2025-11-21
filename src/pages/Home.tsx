@@ -1,41 +1,31 @@
-import ErrorBoundary from '@/components/ErrorBoundary';
-import Footer from '@/components/Footer';
-import { MotionWrapper } from '@/components/Motions';
-import { SectionConfig } from '@/config/types';
-import AboutMe from '@/features/about/AboutMe';
-import ContactForm from '@/features/contact/ContactForm';
-import Education from '@/features/education/Education';
-import WorkExperience from '@/features/experience/WorkExperience';
-import Hero from '@/features/hero/Hero';
-import Portfolio from '@/features/projects/Portfolio';
-import Skills from '@/features/skills/Skills';
-
-const primarySections: SectionConfig[] = [
-  { id: 'hero', Component: Hero },
-  { id: 'aboutMe', Component: AboutMe },
-  { id: 'education', Component: Education },
-  { id: 'skills', Component: Skills },
-  { id: 'portfolio', Component: Portfolio },
-  { id: 'workExperience', Component: WorkExperience },
-];
-
-const contactSection: SectionConfig = { id: 'contact', Component: ContactForm };
-const ContactSectionComponent = contactSection.Component;
+import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
+import { sections } from '@/config/sections';
+import { useFullPageScroll } from '@/hooks/useFullPageScroll';
+import { useNavigation } from '@/hooks/useNavigation';
 
 function MainContent(): React.JSX.Element {
+  useFullPageScroll();
+  const { activeSectionId, direction } = useNavigation();
+
+  const activeSection = sections.find((s) => s.id === activeSectionId);
+  const Component = activeSection?.Component;
+
   return (
-    <main>
-      {primarySections.map(({ id, Component }) => (
-        <MotionWrapper key={id} sectionId={id}>
-          <Component />
-        </MotionWrapper>
-      ))}
-      <ErrorBoundary>
-        <MotionWrapper sectionId={contactSection.id}>
-          <ContactSectionComponent />
-        </MotionWrapper>
-      </ErrorBoundary>
-      <Footer />
+    <main
+      style={{
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
+      <AnimatePresence initial={false} mode="popLayout" custom={direction}>
+        {Component && (
+          <PageTransitionWrapper key={activeSectionId}>
+            <Component />
+          </PageTransitionWrapper>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

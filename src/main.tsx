@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 
 import App from '@/App';
 import AppThemeProvider from '@/components/AppThemeProvider';
+import { NavigationProvider } from '@/components/NavigationProvider';
 import { initEmailJs } from '@/lib/emailJs';
 
 import '@/styles/toastify.css';
@@ -19,7 +20,9 @@ initEmailJs();
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppThemeProvider>
-      <App />
+      <NavigationProvider>
+        <App />
+      </NavigationProvider>
     </AppThemeProvider>
   </StrictMode>
 );

@@ -3,10 +3,17 @@ import type { MotionProps } from 'motion/react';
 
 import { MotionWrapperProps, SlideFromSideProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
+import { useNavigation } from '@/hooks/useNavigation';
 import { motionVariants } from '@/utils/motionVariants';
 
 // Use a stable fallback variant so missing ids do not break motion rendering.
 const fallbackVariant = motionVariants.fadeUp;
+
+interface MotionVariant {
+  initial?: MotionProps['initial'];
+  animate?: MotionProps['animate'];
+  whileInView?: MotionProps['whileInView'];
+}
 
 // Wrapper component for applying motion animations to sections
 function MotionWrapper({
@@ -25,9 +32,8 @@ function MotionWrapper({
     reducedMotionTarget,
   } = useAnimationConfig();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const variant = (motionVariants.sections[sectionId] ??
-    fallbackVariant) as any;
+    fallbackVariant) as MotionVariant;
 
   const resolvedInitial: MotionProps['initial'] = resolveMotionState(
     prefersReducedMotion,
@@ -109,6 +115,58 @@ function SlideFromSide({
       viewport={viewport}
       style={style}
       {...props}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function PageTransitionWrapper({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}): React.JSX.Element {
+  const { direction } = useNavigation();
+
+  const variants = {
+    enter: (dir: 'up' | 'down' | null) => ({
+      y: dir === 'down' ? '100%' : '-100%',
+      opacity: 0,
+    }),
+    center: {
+      y: 0,
+      opacity: 1,
+    },
+    exit: (dir: 'up' | 'down' | null) => ({
+      y: dir === 'down' ? '-100%' : '100%',
+      opacity: 0,
+    }),
+  };
+
+  return (
+    <motion.div
+      id="active-section-container"
+      className={className}
+      custom={direction}
+      variants={variants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      transition={{
+        y: { type: 'spring', stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 },
+      }}
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+      }}
     >
       {children}
     </motion.div>

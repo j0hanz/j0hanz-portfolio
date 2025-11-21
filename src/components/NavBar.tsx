@@ -31,6 +31,7 @@ import {
   useAnimationConfig,
   useCursorMagnet,
   useEventListener,
+  useNavigation,
   useNavLinkClose,
   useToggle,
 } from '@/hooks';
@@ -129,16 +130,24 @@ export function SocialLinkList({
 }
 
 // Logo in the Offcanvas menu
-function NavLogo(): React.JSX.Element {
+function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
+  const { navigateTo } = useNavigation();
+
   return (
     <Stack
       component="a"
       href="#hero"
+      onClick={(e) => {
+        e.preventDefault();
+        navigateTo('hero');
+        onClose?.();
+      }}
       direction="row"
       alignItems="center"
       sx={{
         height: 50,
         textDecoration: 'none',
+        cursor: 'pointer',
       }}
     >
       <Box
@@ -159,7 +168,9 @@ function NavLogo(): React.JSX.Element {
 }
 
 // Nav links
-function NavLinks(): React.JSX.Element {
+function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
+  const { navigateTo, activeSectionId } = useNavigation();
+
   return (
     <List
       sx={{
@@ -187,55 +198,75 @@ function NavLinks(): React.JSX.Element {
         },
       }}
     >
-      {navLinks.map(({ id, icon: Icon, label }) => (
-        <ListItem key={id} disablePadding sx={{ mb: 1 }}>
-          <ListItemButton
-            component="a"
-            href={`#${id}`}
-            sx={{
-              borderRadius: 2,
-              py: 1.5,
-              px: 2,
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                bgcolor: 'action.hover',
-                '& .MuiListItemIcon-root': {
-                  color: 'primary.main',
-                  transform: 'scale(1.1)',
-                },
-                '& .MuiListItemText-primary': {
-                  color: 'primary.main',
-                },
-              },
-              '&:active': {
-                transform: 'scale(0.98)',
-              },
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 40,
-                color: 'text.secondary',
-                transition: 'all 0.2s ease',
+      {navLinks.map(({ id, icon: Icon, label }) => {
+        const isActive = activeSectionId === id;
+        return (
+          <ListItem key={id} disablePadding sx={{ mb: 1 }}>
+            <ListItemButton
+              component="a"
+              href={`#${id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo(id);
+                onClose?.();
               }}
-            >
-              <Icon fontSize="medium" />
-            </ListItemIcon>
-            <ListItemText
-              primary={label}
-              slotProps={{
-                primary: {
-                  variant: 'body1',
-                  sx: {
-                    letterSpacing: '0.5px',
-                    transition: 'all 0.2s ease',
+              selected={isActive}
+              sx={{
+                borderRadius: 2,
+                py: 1.5,
+                px: 2,
+                transition: 'all 0.2s ease',
+                ...(isActive && {
+                  bgcolor: 'action.selected',
+                  '& .MuiListItemIcon-root': {
+                    color: 'primary.main',
+                    transform: 'scale(1.1)',
+                  },
+                  '& .MuiListItemText-primary': {
+                    color: 'primary.main',
+                    fontWeight: 600,
+                  },
+                }),
+                '&:hover': {
+                  bgcolor: 'action.hover',
+                  '& .MuiListItemIcon-root': {
+                    color: 'primary.main',
+                    transform: 'scale(1.1)',
+                  },
+                  '& .MuiListItemText-primary': {
+                    color: 'primary.main',
                   },
                 },
+                '&:active': {
+                  transform: 'scale(0.98)',
+                },
               }}
-            />
-          </ListItemButton>
-        </ListItem>
-      ))}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                  color: isActive ? 'primary.main' : 'text.secondary',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <Icon fontSize="medium" />
+              </ListItemIcon>
+              <ListItemText
+                primary={label}
+                slotProps={{
+                  primary: {
+                    variant: 'body1',
+                    sx: {
+                      letterSpacing: '0.5px',
+                      transition: 'all 0.2s ease',
+                    },
+                  },
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
     </List>
   );
 }
@@ -310,7 +341,7 @@ function OffcanvasMenu({
           borderColor: 'divider',
         }}
       >
-        <NavLogo />
+        <NavLogo onClose={closeOffcanvas} />
         <IconButton
           onClick={closeOffcanvas}
           color="inherit"
@@ -336,7 +367,7 @@ function OffcanvasMenu({
           flexDirection: 'column',
         }}
       >
-        <NavLinks />
+        <NavLinks onClose={closeOffcanvas} />
       </Box>
 
       <Divider />

@@ -100,6 +100,10 @@ const Footer: FC = () => {
         py: 2,
         pb: { xs: 0.25, sm: 2 },
         color: 'primary.contrastText',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
       }}
     >
       <Container maxWidth={false}>

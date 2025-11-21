@@ -1,35 +1,18 @@
 import { KeyboardArrowUpRounded } from '@mui/icons-material';
-import { Box, Fab, Fade, useScrollTrigger } from '@mui/material';
+import { Box, Fab, Fade } from '@mui/material';
 
-import { ScrollToTopProps } from '@/config/types';
+import { useNavigation } from '@/hooks/useNavigation';
 
-function ScrollToTop(props: ScrollToTopProps): React.JSX.Element {
-  const { window } = props;
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
+function ScrollToTop(): React.JSX.Element {
+  const { activeSectionIndex, setActiveSection } = useNavigation();
+  const show = activeSectionIndex > 0;
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
-    const ownerDoc = (event.target as HTMLDivElement).ownerDocument || document;
-    const anchor = ownerDoc.querySelector('#back-to-top-anchor');
-
-    if (anchor) {
-      anchor.scrollIntoView({
-        block: 'center',
-        behavior: 'smooth',
-      });
-      return;
-    }
-
-    // Fallback: scroll to top of page
-    const scrollTarget = window ? window() : document.documentElement;
-    scrollTarget.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleClick = (): void => {
+    setActiveSection(0);
   };
 
   return (
-    <Fade in={trigger}>
+    <Fade in={show}>
       <Box
         onClick={handleClick}
         role="presentation"
