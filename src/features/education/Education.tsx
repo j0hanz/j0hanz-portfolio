@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import {
   ApartmentTwoTone,
@@ -8,14 +8,7 @@ import {
 } from '@mui/icons-material';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import {
-  type AnimationPlaybackControls,
-  type DOMKeyframesDefinition,
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-} from 'motion/react';
+import { motion, useTransform } from 'motion/react';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -26,12 +19,15 @@ import {
   EducationCardProps,
   EducationItem,
   IconBadgeMetaItem,
+  SequenceAnimator,
 } from '@/config/types';
 import {
   useAnimationConfig,
   useAnimationSequence,
+  useCombinedRefs,
   useEventCallback,
   useMeasure,
+  useScrollAnimation,
   useToggle,
 } from '@/hooks';
 import education from '@/lib/data/education';
@@ -42,7 +38,6 @@ import Credential from './Credential';
 const TIMELINE_MIN_OPACITY = 0.08;
 const TIMELINE_MAX_OPACITY = 0.2;
 const TIMELINE_HEIGHT_DIVISOR = 1600;
-const ANIMATION_TRIGGER_THRESHOLD = 0.2;
 
 // Animation configuration
 const CARD_ANIMATION_CONFIG = {
@@ -159,23 +154,7 @@ function EducationCard({
 }
 
 // Hook for managing combined refs (scope, measure, and section)
-function useCombinedRefs<T extends HTMLElement>() {
-  const sectionRef = useRef<T | null>(null);
-
-  const attachRefs = useEventCallback(
-    (
-      scopeRef: (node: Element | null) => void,
-      measureRef: (node: T | null) => void
-    ) =>
-      (node: T | null) => {
-        sectionRef.current = node;
-        scopeRef(node);
-        measureRef(node);
-      }
-  );
-
-  return { sectionRef, attachRefs };
-}
+// useCombinedRefs is now imported from '@/hooks'
 
 // Calculate timeline opacity based on container height
 function calculateTimelineOpacity(height: number): number {
@@ -188,29 +167,10 @@ function calculateTimelineOpacity(height: number): number {
 
 // Animation sequence orchestrator
 function useEducationAnimations(
-  sectionRef: React.RefObject<HTMLDivElement | null>,
-  prefersReducedMotion: boolean
+  sectionRef: React.RefObject<HTMLDivElement | null>
 ) {
-  const { runSequence } = useAnimationSequence();
-  const hasPlayed = useRef(false);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start 0.85', 'end 0.2'],
-  });
-
   const executeAnimationSequence = useEventCallback(
-    async (
-      animate: (
-        target: string,
-        keyframes: DOMKeyframesDefinition,
-        options?: {
-          duration?: number;
-          delay?: number | ((i: number) => number);
-          ease?: readonly [number, number, number, number];
-        }
-      ) => AnimationPlaybackControls
-    ) => {
+    async (animate: SequenceAnimator) => {
       await animate(
         '[data-edu-card]',
         { opacity: [0, 1], y: [24, 0] },
@@ -240,18 +200,10 @@ function useEducationAnimations(
     }
   );
 
-  useMotionValueEvent(scrollYProgress, 'change', (value) => {
-    if (
-      prefersReducedMotion ||
-      hasPlayed.current ||
-      value <= ANIMATION_TRIGGER_THRESHOLD
-    ) {
-      return;
-    }
-
-    hasPlayed.current = true;
-    runSequence(executeAnimationSequence);
-  });
+  const { scrollYProgress } = useScrollAnimation(
+    sectionRef,
+    executeAnimationSequence
+  );
 
   return {
     timelineScale: useTransform(scrollYProgress, [0, 1], [0.05, 1]),
@@ -268,12 +220,10 @@ function Education(): React.JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
   const { scopeRef } = useAnimationSequence();
   const { ref: measureRef, bounds } = useMeasure<HTMLDivElement>();
-  const { sectionRef, attachRefs } = useCombinedRefs<HTMLDivElement>();
+  const { innerRef: sectionRef, attachRefs } =
+    useCombinedRefs<HTMLDivElement>();
 
-  const { timelineScale } = useEducationAnimations(
-    sectionRef,
-    prefersReducedMotion
-  );
+  const { timelineScale } = useEducationAnimations(sectionRef);
 
   const timelineOpacity = calculateTimelineOpacity(bounds.height);
 

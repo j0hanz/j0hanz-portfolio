@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import {
   ApartmentTwoTone,
@@ -7,17 +7,22 @@ import {
 } from '@mui/icons-material';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { stagger, useMotionValueEvent, useScroll } from 'motion/react';
+import { stagger } from 'motion/react';
 
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
-import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
 import {
-  useAnimationConfig,
+  ExperienceCardProps,
+  IconBadgeMetaItem,
+  SequenceAnimator,
+} from '@/config/types';
+import {
   useAnimationSequence,
+  useCombinedRefs,
   useEventCallback,
+  useScrollAnimation,
 } from '@/hooks';
 import experiences from '@/lib/data/experiences';
 
@@ -90,33 +95,12 @@ function ExperienceCard({
 
 // Rendering work experience section
 function WorkExperience(): React.JSX.Element {
-  const { prefersReducedMotion } = useAnimationConfig();
-  const { scopeRef, runSequence } = useAnimationSequence();
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const hasPlayed = useRef(false);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start 0.9', 'end 0.25'],
-  });
+  const { scopeRef } = useAnimationSequence();
+  const { innerRef: sectionRef, attachRefs } =
+    useCombinedRefs<HTMLDivElement>();
 
-  const attachRefs = useEventCallback((node: HTMLDivElement | null) => {
-    if (!node) {
-      sectionRef.current = null;
-      scopeRef(null);
-      return;
-    }
-
-    sectionRef.current = node;
-    scopeRef(node);
-  });
-
-  useMotionValueEvent(scrollYProgress, 'change', (value) => {
-    if (prefersReducedMotion || hasPlayed.current || value <= 0.15) {
-      return;
-    }
-
-    hasPlayed.current = true;
-    runSequence(async (animate) => {
+  const animateSequence = useEventCallback(
+    async (animate: SequenceAnimator) => {
       await animate(
         '[data-exp-card]',
         { opacity: [0, 1], y: [32, 0] },
@@ -140,7 +124,12 @@ function WorkExperience(): React.JSX.Element {
           duration: 0.4,
         }
       );
-    });
+    }
+  );
+
+  useScrollAnimation(sectionRef, animateSequence, {
+    offset: ['start 0.9', 'end 0.25'],
+    triggerThreshold: 0.15,
   });
 
   return (
@@ -150,7 +139,7 @@ function WorkExperience(): React.JSX.Element {
       icon={WorkOutlineTwoTone}
       sx={sectionSx}
     >
-      <Box ref={attachRefs} sx={wrapperSx}>
+      <Box ref={attachRefs(scopeRef)} sx={wrapperSx}>
         <Grid container spacing={4}>
           {experiences.map((experience) => (
             <ExperienceCard

@@ -63,6 +63,12 @@ export type {
 export { useToggle } from './useToggle';
 export type { UseToggleReturn } from '@/config/types';
 
+/** Combines multiple refs into a single ref callback. */
+export { default as useCombinedRefs } from './useCombinedRefs';
+
+/** Triggers an animation sequence when a section is scrolled into view. */
+export { default as useScrollAnimation } from './useScrollAnimation';
+
 /** Manages contact form state, validation, and submission. */
 export { default as useContactForm } from './useContactForm';
 
