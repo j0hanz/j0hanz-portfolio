@@ -1,6 +1,5 @@
 import {
   MutableRefObject,
-  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -32,6 +31,7 @@ import type {
   TransitionPreset,
   UseMeasureReturn,
 } from '@/config/types';
+import useEventCallback from '@/hooks/useEventCallback';
 import { motionVariants, transitions } from '@/utils/motionVariants';
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
@@ -209,29 +209,28 @@ export function useAnimationSequence(): AnimationSequenceControls {
   const [scope, animate] = useAnimate() as [AnimateScope, SequenceAnimator];
   const controlsRef = useRef<AnimationPlaybackControls[]>([]);
 
-  const stopAndClearControls = useCallback(() => {
-    controlsRef.current.forEach((control) => control.stop());
-    controlsRef.current = [];
+  // ...existing code...
+  useEffect(() => {
+    return () => {
+      controlsRef.current.forEach((control) => control.stop());
+      controlsRef.current = [];
+    };
   }, []);
 
-  useEffect(() => stopAndClearControls, [stopAndClearControls]);
+  const scopeRef = useEventCallback((node: Element | null) => {
+    if (typeof scope === 'function') {
+      scope(node);
+      return;
+    }
 
-  const scopeRef = useCallback(
-    (node: Element | null) => {
-      if (typeof scope === 'function') {
-        scope(node);
-        return;
-      }
+    if (scope && typeof scope === 'object') {
+      // This is the official pattern from motion/react documentation
+      // The scope ref mutation is required by the library's API design
+      (scope as MutableRefObject<Element | null>).current = node;
+    }
+  });
 
-      if (scope && typeof scope === 'object') {
-        // This is the official pattern from motion/react documentation
-        // The scope ref mutation is required by the library's API design
-        (scope as MutableRefObject<Element | null>).current = node;
-      }
-    },
-    [scope]
-  );
-  const runSequence = useCallback(
+  const runSequence = useEventCallback(
     async (builder: (animate: SequenceAnimator) => Promise<void> | void) => {
       const registeringAnimator: SequenceAnimator = (
         target,
@@ -248,8 +247,7 @@ export function useAnimationSequence(): AnimationSequenceControls {
       } finally {
         controlsRef.current = [];
       }
-    },
-    [animate]
+    }
   );
 
   return {
@@ -271,7 +269,7 @@ export function useMeasure<
   const [node, setNode] = useState<T | null>(null);
   const [bounds, setBounds] = useState<MeasureRect>(defaultMeasureRect);
 
-  const measureNode = useCallback((element: T) => {
+  const measureNode = useEventCallback((element: T) => {
     const rect = element.getBoundingClientRect();
     setBounds({
       width: rect.width,
@@ -279,7 +277,7 @@ export function useMeasure<
       top: rect.top + window.scrollY,
       left: rect.left + window.scrollX,
     });
-  }, []);
+  });
 
   const remeasure = () => {
     if (node && typeof window !== 'undefined') {
@@ -322,6 +320,7 @@ export function useMeasure<
     remeasure,
   };
 }
+// ...existing code...
 
 const detectAnimationPriority = (): AnimationPriority => {
   if (typeof navigator === 'undefined') {

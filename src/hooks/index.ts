@@ -15,7 +15,8 @@ export { useCounter } from './useCounter';
 export type { UseCounterReturn } from '@/config/types';
 
 /** Debounces rapidly changing values before propagating them downstream. */
-export { useDebounce } from './useDebounce';
+export * from './useCursorMagnet';
+export * from './useDebounce';
 
 /** Creates stable callback references that always access the latest values. */
 export { default as useEventCallback } from './useEventCallback';

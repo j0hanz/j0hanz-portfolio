@@ -5,15 +5,11 @@ import { toast } from 'react-toastify';
 import { Alert, AlertColor, Box, Collapse } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
+import BackgroundMorph from '@/components/BackgroundMorph';
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
 import Toast from '@/components/Toast';
-import {
-  useAnimationConfig,
-  useAnimationPriority,
-  useOnlineStatus,
-  usePrevious,
-} from '@/hooks';
+import { useAnimationConfig, useOnlineStatus, usePrevious } from '@/hooks';
 import Home from '@/pages/Home';
 
 const NETWORK_STATUS_TOAST_ID = 'network-status-toast';
@@ -35,48 +31,6 @@ const getInitialBanner = (): StatusBanner | null => {
     persistent: true,
   };
 };
-
-function BackgroundMorph(): React.JSX.Element {
-  const priority = useAnimationPriority();
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const shouldAnimate = priority === 'high' && !prefersReducedMotion;
-
-  return (
-    <Box
-      component={motion.div}
-      initial={false}
-      animate={
-        shouldAnimate
-          ? {
-              scale: [1, 1.05, 1],
-              x: ['0%', '3%', '0%'],
-              y: ['0%', '2%', '0%'],
-            }
-          : { scale: 1, x: '0%', y: '0%' }
-      }
-      transition={
-        shouldAnimate
-          ? getTransition('smooth', {
-              duration: 15,
-              repeat: Infinity,
-              repeatType: 'mirror',
-            })
-          : undefined
-      }
-      sx={{
-        position: 'absolute',
-        inset: 0,
-        overflow: 'hidden',
-        zIndex: 0,
-        pointerEvents: 'none',
-        background:
-          'linear-gradient(150deg, rgba(26, 29, 204, 0.35), rgba(87, 89, 214, 0.25))',
-        filter: 'blur(30px)',
-      }}
-      aria-hidden
-    />
-  );
-}
 
 function App(): React.JSX.Element {
   const isOnline = useOnlineStatus();

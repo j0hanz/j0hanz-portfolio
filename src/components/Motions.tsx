@@ -22,6 +22,16 @@ const SECTION_ORDER = [
 ] as const;
 const BATCH_DELAY_INCREMENT = 0.1;
 
+type SectionIdentifier = MotionWrapperProps['sectionId'];
+
+const SECTION_BATCH_DELAYS = SECTION_ORDER.reduce(
+  (accumulator, section, index) => {
+    accumulator[section as SectionIdentifier] = index * BATCH_DELAY_INCREMENT;
+    return accumulator;
+  },
+  {} as Record<SectionIdentifier, number>
+);
+
 // Wrapper component for applying motion animations to sections
 function MotionWrapper({
   children,
@@ -41,13 +51,9 @@ function MotionWrapper({
   const variant = motionVariants.sections[sectionId] ?? fallbackVariant;
 
   // Calculate delay based on section order
-  const sectionIndex = SECTION_ORDER.indexOf(
-    sectionId as (typeof SECTION_ORDER)[number]
-  );
-  const batchDelay =
-    prefersReducedMotion || sectionIndex === -1
-      ? 0
-      : sectionIndex * BATCH_DELAY_INCREMENT;
+  const batchDelay = prefersReducedMotion
+    ? 0
+    : (SECTION_BATCH_DELAYS[sectionId] ?? 0);
 
   const resolvedInitial: MotionProps['initial'] = resolveMotionState(
     prefersReducedMotion,

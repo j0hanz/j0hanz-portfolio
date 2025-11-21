@@ -574,10 +574,16 @@ declare module '@mui/material/styles' {
   interface Palette {
     heroGradient: string;
     neutral: Palette['primary'];
+    backdrop: {
+      glass: string;
+    };
   }
   interface PaletteOptions {
     heroGradient?: string;
     neutral?: PaletteOptions['primary'];
+    backdrop?: {
+      glass?: string;
+    };
   }
 }
 
