@@ -1,6 +1,6 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
-import { sections } from '@/config/sections';
+import { getSectionByHash, sections } from '@/config/sections';
 import { Direction, NavigationContext } from '@/contexts/NavigationContext';
 
 export function NavigationProvider({
@@ -10,11 +10,11 @@ export function NavigationProvider({
 }): React.JSX.Element {
   const [activeSectionIndex, setActiveSectionIndex] = useState(() => {
     if (typeof window !== 'undefined') {
-      const hash = window.location.hash.replace('#', '');
+      const hash = window.location.hash;
       if (hash) {
-        const index = sections.findIndex((s) => s.id === hash);
-        if (index !== -1) {
-          return index;
+        const section = getSectionByHash(hash);
+        if (section) {
+          return sections.indexOf(section);
         }
       }
     }
@@ -22,9 +22,39 @@ export function NavigationProvider({
   });
   const [direction, setDirection] = useState<Direction>(null);
 
-  const activeSectionId = sections[activeSectionIndex].id;
+  const activeSection = sections[activeSectionIndex];
+  const activeSectionId = activeSection.id;
   const isFirst = activeSectionIndex === 0;
   const isLast = activeSectionIndex === sections.length - 1;
+  const isScrollLocked = !activeSection.disableScrollLock;
+
+  // Sync hash with active section
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = activeSection.hash;
+      if (window.location.hash !== hash) {
+        window.history.replaceState(null, '', hash);
+      }
+    }
+  }, [activeSection]);
+
+  // Listen for hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      const section = getSectionByHash(hash);
+      if (section) {
+        const index = sections.indexOf(section);
+        if (index !== -1 && index !== activeSectionIndex) {
+          setDirection(index > activeSectionIndex ? 'down' : 'up');
+          setActiveSectionIndex(index);
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [activeSectionIndex]);
 
   const setActiveSection = (index: number) => {
     if (index === activeSectionIndex) return;
@@ -63,6 +93,7 @@ export function NavigationProvider({
     movePrev,
     isFirst,
     isLast,
+    isScrollLocked,
   };
 
   return (

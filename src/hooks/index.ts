@@ -112,4 +112,5 @@ export {
   useMeasure,
   useAnimationPriority,
   useContentMotion,
+  useSectionSequence,
 } from './useMotions';

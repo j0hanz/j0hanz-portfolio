@@ -1,19 +1,14 @@
-import {
-  EmailRounded,
-  FolderTwoTone,
-  PersonOutlineOutlined,
-  SchoolTwoTone,
-  SettingsTwoTone,
-  WorkOutlineTwoTone,
-} from '@mui/icons-material';
-
+import { sections } from '@/config/sections';
 import { NavLink } from '@/config/types';
 
-export const navLinks: NavLink[] = [
-  { id: 'aboutMe', icon: PersonOutlineOutlined, label: 'About Me' },
-  { id: 'education', icon: SchoolTwoTone, label: 'Education' },
-  { id: 'skills', icon: SettingsTwoTone, label: 'Skills' },
-  { id: 'portfolio', icon: FolderTwoTone, label: 'Projects' },
-  { id: 'workExperience', icon: WorkOutlineTwoTone, label: 'Experience' },
-  { id: 'contact', icon: EmailRounded, label: 'Contact' },
-];
+// Filter out sections that shouldn't appear in the main navigation
+// e.g., Hero (usually handled by logo/top) and Footer
+const EXCLUDED_NAV_IDS = ['hero', 'footer'];
+
+export const navLinks: NavLink[] = sections
+  .filter((section) => !EXCLUDED_NAV_IDS.includes(section.id) && section.icon)
+  .map((section) => ({
+    id: section.id,
+    icon: section.icon!,
+    label: section.title,
+  }));

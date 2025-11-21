@@ -13,6 +13,7 @@ import type {
   MotionProps,
   Transition,
   UseInViewOptions,
+  UseScrollOptions,
 } from 'motion/react';
 
 import {
@@ -396,4 +397,96 @@ export function useContentMotion() {
     exit,
     transition: getTransition('smooth', { duration: 0.55 }),
   } as const;
+}
+
+// ============================================================================
+// SECTION SEQUENCE
+// ============================================================================
+
+/**
+ * Orchestrates section animations based on scroll position
+ */
+export function useSectionSequence(
+  ref: RefObject<HTMLElement | null>,
+  selectors: {
+    cards?: string;
+    description?: string;
+    cta?: string;
+    [key: string]: string | undefined;
+  },
+  options: {
+    offset?: UseScrollOptions['offset'];
+    threshold?: number;
+  } = {}
+) {
+  const { offset = ['start 0.85', 'end 0.2'], threshold = 0.2 } = options;
+  const { prefersReducedMotion, getStagger } = useAnimationConfig();
+  const { runSequence } = useAnimationSequence();
+  const hasPlayed = useRef(false);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset,
+  });
+
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    if (prefersReducedMotion || hasPlayed.current || value <= threshold) {
+      return;
+    }
+
+    hasPlayed.current = true;
+
+    runSequence(async (animate) => {
+      const promises: Promise<void>[] = [];
+
+      // Description animation
+      if (selectors.description) {
+        promises.push(
+          (
+            animate(
+              selectors.description,
+              { opacity: [0, 1], y: [20, 0] },
+              { duration: 0.5, ease: 'easeOut' }
+            ) as unknown as Promise<void>
+          ).then(() => {})
+        );
+      }
+
+      // Cards animation
+      if (selectors.cards) {
+        // Wait a bit for description if it exists
+        const delay = selectors.description ? 0.2 : 0;
+        promises.push(
+          (
+            animate(
+              selectors.cards,
+              { opacity: [0, 1], y: [30, 0] },
+              {
+                delay: getStagger(0.1) + delay,
+                duration: 0.5,
+                ease: 'easeOut',
+              }
+            ) as unknown as Promise<void>
+          ).then(() => {})
+        );
+      }
+
+      // CTA animation
+      if (selectors.cta) {
+        const delay =
+          (selectors.description ? 0.2 : 0) + (selectors.cards ? 0.4 : 0);
+        promises.push(
+          (
+            animate(
+              selectors.cta,
+              { opacity: [0, 1], scale: [0.9, 1] },
+              { delay, duration: 0.4, ease: 'backOut' }
+            ) as unknown as Promise<void>
+          ).then(() => {})
+        );
+      }
+
+      await Promise.all(promises);
+    });
+  });
 }

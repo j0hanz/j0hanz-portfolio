@@ -8,7 +8,7 @@ import {
 } from '@mui/icons-material';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -19,15 +19,13 @@ import {
   EducationCardProps,
   EducationItem,
   IconBadgeMetaItem,
-  SequenceAnimator,
 } from '@/config/types';
 import {
   useAnimationConfig,
   useAnimationSequence,
   useCombinedRefs,
-  useEventCallback,
   useMeasure,
-  useScrollAnimation,
+  useSectionSequence,
   useToggle,
 } from '@/hooks';
 import education from '@/lib/data/education';
@@ -38,23 +36,6 @@ import Credential from './Credential';
 const TIMELINE_MIN_OPACITY = 0.08;
 const TIMELINE_MAX_OPACITY = 0.2;
 const TIMELINE_HEIGHT_DIVISOR = 1600;
-
-// Animation configuration
-const CARD_ANIMATION_CONFIG = {
-  duration: 0.45,
-  baseDelay: 0.05,
-  staggerDelay: 0.12,
-  ease: [0.42, 0, 0.58, 1] as const,
-} as const;
-
-const DESCRIPTION_ANIMATION_CONFIG = {
-  duration: 0.35,
-  staggerDelay: 0.05,
-} as const;
-
-const CTA_ANIMATION_CONFIG = {
-  duration: 0.3,
-} as const;
 
 const gridItemSx: SxProps<Theme> = {
   mb: 4,
@@ -153,63 +134,6 @@ function EducationCard({
   );
 }
 
-// Hook for managing combined refs (scope, measure, and section)
-// useCombinedRefs is now imported from '@/hooks'
-
-// Calculate timeline opacity based on container height
-function calculateTimelineOpacity(height: number): number {
-  if (height === 0) return TIMELINE_MIN_OPACITY;
-  return Math.max(
-    Math.min(height / TIMELINE_HEIGHT_DIVISOR, TIMELINE_MAX_OPACITY),
-    TIMELINE_MIN_OPACITY
-  );
-}
-
-// Animation sequence orchestrator
-function useEducationAnimations(
-  sectionRef: React.RefObject<HTMLDivElement | null>
-) {
-  const executeAnimationSequence = useEventCallback(
-    async (animate: SequenceAnimator) => {
-      await animate(
-        '[data-edu-card]',
-        { opacity: [0, 1], y: [24, 0] },
-        {
-          duration: CARD_ANIMATION_CONFIG.duration,
-          delay: (i: number) =>
-            CARD_ANIMATION_CONFIG.baseDelay +
-            i * CARD_ANIMATION_CONFIG.staggerDelay,
-          ease: CARD_ANIMATION_CONFIG.ease,
-        }
-      );
-      await animate(
-        '[data-edu-description]',
-        { opacity: [0, 1], y: [16, 0] },
-        {
-          duration: DESCRIPTION_ANIMATION_CONFIG.duration,
-          delay: (i: number) => i * DESCRIPTION_ANIMATION_CONFIG.staggerDelay,
-        }
-      );
-      await animate(
-        '[data-edu-cta]',
-        { opacity: [0, 1], scale: [0.95, 1] },
-        {
-          duration: CTA_ANIMATION_CONFIG.duration,
-        }
-      );
-    }
-  );
-
-  const { scrollYProgress } = useScrollAnimation(
-    sectionRef,
-    executeAnimationSequence
-  );
-
-  return {
-    timelineScale: useTransform(scrollYProgress, [0, 1], [0.05, 1]),
-  };
-}
-
 // Rendering education section
 function Education(): React.JSX.Element {
   const {
@@ -223,8 +147,18 @@ function Education(): React.JSX.Element {
   const { innerRef: sectionRef, attachRefs } =
     useCombinedRefs<HTMLDivElement>();
 
-  const { timelineScale } = useEducationAnimations(sectionRef);
+  useSectionSequence(sectionRef, {
+    cards: '[data-edu-card]',
+    description: '[data-edu-description]',
+    cta: '[data-edu-cta]',
+  });
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 0.85', 'end 0.2'],
+  });
+
+  const timelineScale = useTransform(scrollYProgress, [0, 1], [0.05, 1]);
   const timelineOpacity = calculateTimelineOpacity(bounds.height);
 
   return (
@@ -255,6 +189,15 @@ function Education(): React.JSX.Element {
       </Box>
       <Credential show={showModal} handleClose={handleCloseModal} />
     </SectionContainer>
+  );
+}
+
+// Calculate timeline opacity based on container height
+function calculateTimelineOpacity(height: number): number {
+  if (height === 0) return TIMELINE_MIN_OPACITY;
+  return Math.max(
+    Math.min(height / TIMELINE_HEIGHT_DIVISOR, TIMELINE_MAX_OPACITY),
+    TIMELINE_MIN_OPACITY
   );
 }
 

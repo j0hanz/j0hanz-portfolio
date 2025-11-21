@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
 
+import { useMediaQuery, useTheme } from '@mui/material';
+import { useReducedMotion } from 'motion/react';
+
 import { useNavigation } from '@/hooks/useNavigation';
 
 // Constants
@@ -36,64 +39,50 @@ function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
   };
 }
 
-/**
- * Checks if navigation should be allowed based on direction and boundaries
- */
-function shouldAllowNavigation(
-  direction: ScrollDirection,
-  boundaries: ScrollBoundaries
-): boolean {
-  return direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
-}
-
-/**
- * Creates a navigation handler with direction-based logic
- */
-function createNavigationHandler(
-  isScrolling: React.MutableRefObject<boolean>,
-  container: HTMLElement | null,
-  moveNext: () => void,
-  movePrev: () => void
-) {
-  const executeNavigation = (navigate: () => void) => {
-    isScrolling.current = true;
-    navigate();
-    setTimeout(() => {
-      isScrolling.current = false;
-    }, SCROLL_LOCK_DURATION);
-  };
-
-  const handleNavigation = (direction: ScrollDirection) => {
-    if (isScrolling.current) return false;
-
-    const boundaries = getScrollBoundaries(container);
-    if (!shouldAllowNavigation(direction, boundaries)) return false;
-
-    const navigate = direction === 'down' ? moveNext : movePrev;
-    executeNavigation(navigate);
-    return true;
-  };
-
-  return handleNavigation;
-}
-
 export function useFullPageScroll(): void {
-  const { moveNext, movePrev } = useNavigation();
+  const { moveNext, movePrev, isScrollLocked } = useNavigation();
   const isScrolling = useRef(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const prefersReducedMotion = useReducedMotion();
+
+  // Skip if reduced motion, mobile, or scroll not locked (e.g. footer)
+  const shouldDisable = prefersReducedMotion || isMobile || !isScrollLocked;
 
   useEffect(() => {
-    const container = document.getElementById('active-section-container');
-    const handleNavigation = createNavigationHandler(
-      isScrolling,
-      container,
-      moveNext,
-      movePrev
-    );
+    if (shouldDisable) return;
+
+    const executeNavigation = (navigate: () => void) => {
+      isScrolling.current = true;
+      navigate();
+      setTimeout(() => {
+        isScrolling.current = false;
+      }, SCROLL_LOCK_DURATION);
+    };
+
+    const handleNavigation = (direction: ScrollDirection) => {
+      if (isScrolling.current) return false;
+
+      // Re-query container each time
+      const container = document.getElementById('active-section-container');
+      const boundaries = getScrollBoundaries(container);
+
+      // Check if we should allow navigation based on scroll position
+      const shouldNavigate =
+        direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
+      if (!shouldNavigate) return false;
+
+      const navigate = direction === 'down' ? moveNext : movePrev;
+      executeNavigation(navigate);
+      return true;
+    };
 
     /**
      * Handles wheel events for full-page scrolling
      */
     const handleWheel = (e: WheelEvent) => {
+      if (isScrolling.current) return;
+
       if (Math.abs(e.deltaY) <= WHEEL_THRESHOLD) return;
 
       const direction: ScrollDirection = e.deltaY > 0 ? 'down' : 'up';
@@ -104,6 +93,8 @@ export function useFullPageScroll(): void {
      * Handles keyboard events for full-page scrolling
      */
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isScrolling.current) return;
+
       const isDownKey = DOWN_KEYS.includes(e.key as (typeof DOWN_KEYS)[number]);
       const isUpKey = UP_KEYS.includes(e.key as (typeof UP_KEYS)[number]);
 
@@ -126,6 +117,8 @@ export function useFullPageScroll(): void {
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
+      if (isScrolling.current) return;
+
       const touchEndY = e.changedTouches[0].clientY;
       const deltaY = touchStartY - touchEndY;
 
@@ -147,5 +140,5 @@ export function useFullPageScroll(): void {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [moveNext, movePrev]);
+  }, [moveNext, movePrev, shouldDisable]);
 }

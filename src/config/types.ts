@@ -44,13 +44,18 @@ export interface NavigationContextType {
   movePrev: () => void;
   isFirst: boolean;
   isLast: boolean;
+  isScrollLocked: boolean;
 }
 
 // --- Config Section Type ---
 export interface Section {
   id: string;
   Component: ComponentType;
-  label?: string;
+  title: string;
+  hash: string;
+  icon?: IconComponent;
+  label?: string; // Deprecated, use title
+  disableScrollLock?: boolean;
 }
 
 // --- Constants Types ---

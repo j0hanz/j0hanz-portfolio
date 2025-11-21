@@ -7,22 +7,16 @@ import {
 } from '@mui/icons-material';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { stagger } from 'motion/react';
 
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
-import {
-  ExperienceCardProps,
-  IconBadgeMetaItem,
-  SequenceAnimator,
-} from '@/config/types';
+import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
 import {
   useAnimationSequence,
   useCombinedRefs,
-  useEventCallback,
-  useScrollAnimation,
+  useSectionSequence,
 } from '@/hooks';
 import experiences from '@/lib/data/experiences';
 
@@ -99,42 +93,21 @@ function WorkExperience(): React.JSX.Element {
   const { innerRef: sectionRef, attachRefs } =
     useCombinedRefs<HTMLDivElement>();
 
-  const animateSequence = useEventCallback(
-    async (animate: SequenceAnimator) => {
-      await animate(
-        '[data-exp-card]',
-        { opacity: [0, 1], y: [32, 0] },
-        {
-          duration: 0.5,
-          delay: stagger(0.12),
-        }
-      );
-      await animate(
-        '[data-exp-meta]',
-        { opacity: [0, 1], y: [16, 0] },
-        {
-          duration: 0.35,
-          delay: stagger(0.1),
-        }
-      );
-      await animate(
-        '[data-exp-description]',
-        { opacity: [0, 1], x: [-12, 0] },
-        {
-          duration: 0.4,
-        }
-      );
+  useSectionSequence(
+    sectionRef,
+    {
+      cards: '[data-exp-card]',
+      description: '[data-exp-description]',
+    },
+    {
+      offset: ['start 0.9', 'end 0.25'],
+      threshold: 0.15,
     }
   );
 
-  useScrollAnimation(sectionRef, animateSequence, {
-    offset: ['start 0.9', 'end 0.25'],
-    triggerThreshold: 0.15,
-  });
-
   return (
     <SectionContainer
-      id="work-experience"
+      id="workExperience"
       title={<TextReveal text="Experience" as="span" />}
       icon={WorkOutlineTwoTone}
       sx={sectionSx}

@@ -1,190 +1,116 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useActionState,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useReducer } from 'react';
 
 import { SEND_ERROR_MESSAGE } from '@/config/constants';
 import {
   ContactFormErrors,
   ContactFormValues,
   FieldName,
-  SubmissionResult,
 } from '@/config/types';
-import { useDebounce, useSnackbar } from '@/hooks';
-import useEventCallback from '@/hooks/useEventCallback';
+import { useSnackbar } from '@/hooks';
 import { sendEmail } from '@/lib/emailJs';
-import { validateEmail, validateForm, validateUrl } from '@/utils/validation';
+import { validateForm } from '@/utils/validation';
 
-const buildInitialValues = (): ContactFormValues => ({
+const INITIAL_VALUES: ContactFormValues = {
   name: '',
   email: '',
   company: '',
   url: '',
   message: '',
-});
-
-const buildValuesFromFormData = (formData: FormData): ContactFormValues => ({
-  name: (formData.get('name') ?? '') as string,
-  email: (formData.get('email') ?? '') as string,
-  company: (formData.get('company') ?? '') as string,
-  url: (formData.get('url') ?? '') as string,
-  message: (formData.get('message') ?? '') as string,
-});
-
-// Debounce delay constants
-const EMAIL_DEBOUNCE_DELAY = 600;
-const URL_DEBOUNCE_DELAY = 600;
-const SUCCESS_RESET_DELAY = 3200;
-
-/**
- * Updates or clears a field error in state
- */
-const updateError = (
-  setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
-  field: keyof ContactFormErrors,
-  message?: string
-): void => {
-  setErrors((prev) => {
-    // Clear error if no message
-    if (!message) {
-      if (!(field in prev)) return prev;
-      const { [field]: _, ...rest } = prev;
-      return rest;
-    }
-    // Only update if message changed
-    if (prev[field] === message) return prev;
-    return { ...prev, [field]: message };
-  });
 };
 
-/**
- * Hook to manage debounced field validation
- */
-function useFieldValidation(
-  value: string,
-  validator: (val: string) => string | undefined,
-  fieldName: keyof ContactFormErrors,
-  setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
-  delay: number
-) {
-  const debouncedValue = useDebounce(value, delay);
-  const hasValidated = useRef(false);
+type FormState = {
+  values: ContactFormValues;
+  errors: ContactFormErrors;
+  status: 'idle' | 'submitting' | 'success' | 'error';
+};
 
-  useEffect(() => {
-    // Skip initial validation
-    if (!hasValidated.current) {
-      hasValidated.current = true;
-      return;
-    }
-    updateError(setErrors, fieldName, validator(debouncedValue));
-  }, [debouncedValue, validator, fieldName, setErrors]);
-}
+type FormAction =
+  | { type: 'CHANGE'; field: FieldName; value: string }
+  | { type: 'SET_ERRORS'; errors: ContactFormErrors }
+  | { type: 'SUBMIT_START' }
+  | { type: 'SUBMIT_SUCCESS' }
+  | { type: 'SUBMIT_ERROR' }
+  | { type: 'RESET' };
+
+const formReducer = (state: FormState, action: FormAction): FormState => {
+  switch (action.type) {
+    case 'CHANGE':
+      return {
+        ...state,
+        values: { ...state.values, [action.field]: action.value },
+        // Clear error for the field being changed
+        errors: { ...state.errors, [action.field]: undefined },
+      };
+    case 'SET_ERRORS':
+      return { ...state, errors: action.errors };
+    case 'SUBMIT_START':
+      return { ...state, status: 'submitting', errors: {} };
+    case 'SUBMIT_SUCCESS':
+      return { ...state, status: 'success', values: INITIAL_VALUES };
+    case 'SUBMIT_ERROR':
+      return { ...state, status: 'error' };
+    case 'RESET':
+      return { values: INITIAL_VALUES, errors: {}, status: 'idle' };
+    default:
+      return state;
+  }
+};
 
 const useContactForm = () => {
   const { showSnackbar } = useSnackbar();
-  const [formData, setFormData] =
-    useState<ContactFormValues>(buildInitialValues);
-  const [errors, setErrors] = useState<ContactFormErrors>({});
-  const [submissionState, setSubmissionState] = useState<'idle' | 'success'>(
-    'idle'
-  );
+  const [state, dispatch] = useReducer(formReducer, {
+    values: INITIAL_VALUES,
+    errors: {},
+    status: 'idle',
+  });
 
-  // Debounced validation for email and URL
-  useFieldValidation(
-    formData.email,
-    validateEmail,
-    'email',
-    setErrors,
-    EMAIL_DEBOUNCE_DELAY
-  );
-  useFieldValidation(
-    formData.url,
-    validateUrl,
-    'url',
-    setErrors,
-    URL_DEBOUNCE_DELAY
-  );
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    dispatch({ type: 'CHANGE', field: name as FieldName, value });
+  };
 
-  const handleChange = useEventCallback(
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = event.target;
-      setFormData((prev) => ({ ...prev, [name as FieldName]: value }));
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const errors = validateForm(state.values);
+    if (Object.keys(errors).length > 0) {
+      dispatch({ type: 'SET_ERRORS', errors });
+      return;
     }
-  );
 
-  const resetFields = useEventCallback(() => {
-    setFormData(buildInitialValues());
-    setErrors({});
-  });
+    dispatch({ type: 'SUBMIT_START' });
 
-  const resetForm = useEventCallback(() => {
-    resetFields();
-    setSubmissionState('idle');
-  });
-
-  // Auto-reset success state
-  useEffect(() => {
-    if (submissionState !== 'success') return;
-
-    const timeoutId = window.setTimeout(() => {
-      setSubmissionState('idle');
-    }, SUCCESS_RESET_DELAY);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [submissionState]);
-
-  const [actionResult, submitAction, isPending] = useActionState<
-    SubmissionResult,
-    FormData
-  >(
-    async (_previousState, submittedFormData) => {
-      const submittedValues = buildValuesFromFormData(submittedFormData);
-      const newErrors = validateForm(submittedValues);
-      setErrors(newErrors);
-
-      if (Object.keys(newErrors).length > 0) {
-        return { status: 'error' };
-      }
-
-      try {
-        const success = await sendEmail(submittedValues);
-
-        if (!success) {
-          setSubmissionState('idle');
-          showSnackbar(SEND_ERROR_MESSAGE, 'error');
-          return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
-        }
-
-        resetFields();
-        setSubmissionState('success');
+    try {
+      const success = await sendEmail(state.values);
+      if (success) {
+        dispatch({ type: 'SUBMIT_SUCCESS' });
         showSnackbar('Your message was sent successfully!', 'success');
-        return { status: 'success' };
-      } catch {
-        setSubmissionState('idle');
-        showSnackbar(SEND_ERROR_MESSAGE, 'error');
-        return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
-      }
-    },
-    { status: 'idle' }
-  );
 
-  const handleReset = useEventCallback(() => {
-    resetForm();
-  });
+        // Auto-reset after delay
+        setTimeout(() => {
+          dispatch({ type: 'RESET' });
+        }, 3200);
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch {
+      dispatch({ type: 'SUBMIT_ERROR' });
+      showSnackbar(SEND_ERROR_MESSAGE, 'error');
+    }
+  };
+
+  const handleReset = () => {
+    dispatch({ type: 'RESET' });
+  };
 
   return {
-    isSending: isPending,
-    submissionState,
-    formData,
-    errors,
-    actionResult,
+    formData: state.values,
+    errors: state.errors,
+    status: state.status,
     handleChange,
-    submitAction,
+    handleSubmit,
     handleReset,
   };
 };

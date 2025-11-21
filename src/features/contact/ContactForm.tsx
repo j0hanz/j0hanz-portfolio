@@ -1,5 +1,3 @@
-import { useFormStatus } from 'react-dom';
-
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
@@ -120,39 +118,15 @@ function SuccessIndicator({
   );
 }
 
-function ContactSubmitButton(): React.JSX.Element {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      variant="contained"
-      type="submit"
-      loading={pending}
-      disabled={pending}
-      startIcon={<SendRounded sx={iconSx} />}
-      aria-label={pending ? 'Sending message' : 'Send message'}
-      sx={submitButtonSx}
-    >
-      {!pending && 'Send'}
-    </Button>
-  );
-}
-
 function ContactFormContent(): React.JSX.Element {
-  const {
-    isSending,
-    submissionState,
-    formData,
-    errors,
-    handleChange,
-    submitAction,
-    handleReset,
-  } = useContactForm();
-  const showSuccess = submissionState === 'success';
+  const { status, formData, errors, handleChange, handleSubmit, handleReset } =
+    useContactForm();
+  const isSending = status === 'submitting';
+  const showSuccess = status === 'success';
 
   return (
     <Card title="" sx={cardSx}>
-      <Stack component="form" noValidate action={submitAction} spacing={2}>
+      <Stack component="form" noValidate onSubmit={handleSubmit} spacing={2}>
         <ContactFormFields
           formData={formData}
           errors={errors}
@@ -179,7 +153,17 @@ function ContactFormContent(): React.JSX.Element {
               Clear
             </Box>
           </Button>
-          <ContactSubmitButton />
+          <Button
+            variant="contained"
+            type="submit"
+            loading={isSending}
+            disabled={isSending}
+            startIcon={<SendRounded sx={iconSx} />}
+            aria-label={isSending ? 'Sending message' : 'Send message'}
+            sx={submitButtonSx}
+          >
+            {!isSending && 'Send'}
+          </Button>
         </Stack>
       </Stack>
     </Card>
