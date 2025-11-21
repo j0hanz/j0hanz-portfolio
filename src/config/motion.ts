@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 // ANIMATION CONSTANTS
 // ============================================================================
 
-export const BASE_DURATION = 0.5;
+export const BASE_DURATION = 0.7;
 export const BASE_DELAY = 0.08;
 export const BASE_STAGGER = 0.1;
 
@@ -14,50 +14,51 @@ export const REDUCED_MOTION_TARGET = {
   y: 0,
   scale: 1,
   rotate: 0,
+  filter: 'blur(0px)',
 } as const;
 
 // ============================================================================
-// TRANSITION PRESETS - Reusable timing functions
+// TRANSITION PRESETS
 // ============================================================================
 
 export const transitions = {
   spring: {
     type: 'spring' as const,
-    stiffness: 300,
-    damping: 25,
-    mass: 0.8,
+    stiffness: 260,
+    damping: 30,
+    mass: 0.9,
   },
   springBouncy: {
     type: 'spring' as const,
-    stiffness: 450,
-    damping: 12,
-    mass: 0.4,
+    stiffness: 320,
+    damping: 18,
+    bounce: 0.3,
   },
   springSmooth: {
     type: 'spring' as const,
-    stiffness: 120,
-    damping: 18,
-    mass: 0.9,
+    stiffness: 210,
+    damping: 32,
+    mass: 1.05,
   },
   smooth: {
     type: 'tween' as const,
     ease: [0.4, 0, 0.2, 1],
-    duration: 0.35,
+    duration: 0.45,
   },
   easeOut: {
     type: 'tween' as const,
     ease: [0.16, 1, 0.3, 1],
-    duration: 0.45,
+    duration: 0.5,
   },
   easeInOut: {
     type: 'tween' as const,
-    ease: [0.65, 0, 0.35, 1],
-    duration: 0.5,
+    ease: [0.45, 0, 0.1, 1],
+    duration: 0.6,
   },
   slow: {
     type: 'tween' as const,
     ease: [0.25, 0.1, 0.25, 1],
-    duration: 0.7,
+    duration: 0.8,
   },
 } as const;
 
@@ -65,239 +66,197 @@ export const transitions = {
 // CORE ANIMATION VARIANTS
 // ============================================================================
 
-/**
- * Fade variants - Simple opacity animations
- */
 export const fadeVariants = {
   in: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
+    initial: { opacity: 0, y: 8, filter: 'blur(8px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: -8, filter: 'blur(6px)' },
   },
   up: {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 12 },
+    initial: { opacity: 0, y: 32, filter: 'blur(10px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: 16, filter: 'blur(6px)' },
   },
   down: {
-    initial: { opacity: 0, y: -20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -12 },
-  },
-  left: {
-    initial: { opacity: 0, x: -20 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -12 },
-  },
-  right: {
-    initial: { opacity: 0, x: 20 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 12 },
+    initial: { opacity: 0, y: -32, filter: 'blur(10px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: -16, filter: 'blur(6px)' },
   },
 } as const;
 
-/**
- * Scale variants - Zoom/scale animations
- */
 export const scaleVariants = {
   in: {
-    initial: { opacity: 0, scale: 0.95 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.95 },
+    initial: { opacity: 0, scale: 0.94, filter: 'blur(6px)' },
+    animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
+    exit: { opacity: 0, scale: 0.96, filter: 'blur(4px)' },
   },
   pop: {
-    initial: { opacity: 0, scale: 0.8 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.9 },
-  },
-  grow: {
-    initial: { opacity: 0, scale: 0 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0 },
+    initial: { opacity: 0, scale: 0.85, y: 12, filter: 'blur(8px)' },
+    animate: { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, scale: 0.92, y: -8, filter: 'blur(4px)' },
   },
 } as const;
 
-/**
- * Blur variants - Blur + fade animations (use filter for compositor optimization)
- */
-export const blurVariants = {
-  in: {
-    initial: { opacity: 0, filter: 'blur(10px)' },
-    animate: { opacity: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, filter: 'blur(10px)' },
-  },
-  inUp: {
-    initial: { opacity: 0, y: 24, filter: 'blur(10px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: 16, filter: 'blur(10px)' },
-  },
-} as const;
-
-/**
- * Slide variants - Directional slide animations with optimized offsets
- */
 export const slideVariants = {
   fromLeft: {
-    initial: { x: -50, opacity: 0, willChange: 'transform, opacity' },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: -30, opacity: 0 },
+    initial: { x: -48, opacity: 0, filter: 'blur(8px)' },
+    animate: { x: 0, opacity: 1, filter: 'blur(0px)' },
+    exit: { x: -24, opacity: 0, filter: 'blur(6px)' },
   },
   fromRight: {
-    initial: { x: 50, opacity: 0, willChange: 'transform, opacity' },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: 30, opacity: 0 },
-  },
-  fromTop: {
-    initial: { y: -50, opacity: 0, willChange: 'transform, opacity' },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: -30, opacity: 0 },
+    initial: { x: 48, opacity: 0, filter: 'blur(8px)' },
+    animate: { x: 0, opacity: 1, filter: 'blur(0px)' },
+    exit: { x: 24, opacity: 0, filter: 'blur(6px)' },
   },
   fromBottom: {
-    initial: { y: 50, opacity: 0, willChange: 'transform, opacity' },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: 30, opacity: 0 },
+    initial: { y: 56, opacity: 0, filter: 'blur(10px)' },
+    animate: { y: 0, opacity: 1, filter: 'blur(0px)' },
+    exit: { y: 24, opacity: 0, filter: 'blur(6px)' },
+  },
+} as const;
+
+export const blurVariants = {
+  in: {
+    initial: { opacity: 0, filter: 'blur(12px) saturate(0.9)' },
+    animate: { opacity: 1, filter: 'blur(0px) saturate(1)' },
+    exit: { opacity: 0, filter: 'blur(10px) saturate(0.9)' },
+  },
+  inUp: {
+    initial: { opacity: 0, y: 28, filter: 'blur(12px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: 14, filter: 'blur(10px)' },
   },
 } as const;
 
 // ============================================================================
-// GESTURE & INTERACTION VARIANTS
+// GESTURE VARIANTS
 // ============================================================================
 
-/**
- * Hover/tap gesture variants for interactive elements
- */
 export const gestureVariants = {
-  // Simple hover scale
   hoverScale: {
     rest: { scale: 1 },
     hover: { scale: 1.05 },
     tap: { scale: 0.95 },
   },
-  // Card hover with lift effect
   cardHover: {
-    rest: { scale: 1, y: 0 },
-    hover: { scale: 1.02, y: -6 },
-    tap: { scale: 0.98, y: 0 },
+    rest: { scale: 1, y: 0, filter: 'brightness(1)' },
+    hover: { scale: 1.03, y: -6, filter: 'brightness(1.05)' },
+    focus: { scale: 1.02, y: -4, filter: 'brightness(1.03)' },
+    tap: { scale: 0.98 },
   },
-  // Button interaction
   buttonTap: {
     rest: { scale: 1 },
-    hover: { scale: 1.03 },
+    hover: { scale: 1.04, y: -2 },
+    focus: { scale: 1.02, y: -2 },
     tap: { scale: 0.97 },
-  },
-  // Icon bounce
-  iconBounce: {
-    rest: { scale: 1, rotate: 0 },
-    hover: { scale: 1.15, rotate: 5 },
-    tap: { scale: 0.9, rotate: -5 },
   },
 } as const;
 
 // ============================================================================
-// STAGGER ANIMATION HELPERS
+// STAGGER ANIMATIONS
 // ============================================================================
 
-/**
- * Creates stagger container variants with customizable timing
- */
+type StaggerContainerOptions = {
+  exitDirection?: 1 | -1;
+  exitStagger?: number;
+  initialOpacity?: number;
+  animateOpacity?: number;
+};
+
 export function createStaggerContainer(
-  staggerChildren = 0.07,
-  delayChildren = 0
+  staggerChildren = BASE_STAGGER,
+  delayChildren = 0,
+  options: StaggerContainerOptions = {}
 ): Variants {
+  const {
+    exitDirection = -1,
+    exitStagger = BASE_STAGGER / 2,
+    initialOpacity = 0,
+    animateOpacity = 1,
+  } = options;
+
   return {
-    initial: { opacity: 0 },
+    initial: { opacity: initialOpacity },
     animate: {
-      opacity: 1,
-      transition: {
-        staggerChildren,
-        delayChildren,
-      },
+      opacity: animateOpacity,
+      transition: { staggerChildren, delayChildren },
     },
     exit: {
-      opacity: 0,
+      opacity: initialOpacity,
       transition: {
-        staggerChildren: 0.04,
-        staggerDirection: -1,
+        staggerChildren: exitStagger,
+        staggerDirection: exitDirection,
       },
     },
   };
 }
 
-/**
- * Standard stagger item variant
- */
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 8 },
+  initial: { opacity: 0, y: 24, scale: 0.98, filter: 'blur(6px)' },
+  animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+  exit: { opacity: 0, y: -12, scale: 0.96, filter: 'blur(4px)' },
 };
 
 // ============================================================================
 // SCROLL-TRIGGERED VARIANTS
 // ============================================================================
 
-/**
- * Section entrance variants optimized for whileInView
- */
-/**
- * Section variants - Used for main page sections
- */
 export const sectionVariants = {
   default: {
-    initial: { opacity: 0, y: 30, willChange: 'transform, opacity' },
-    whileInView: { opacity: 1, y: 0 },
+    initial: { opacity: 0, y: 48, filter: 'blur(10px)' },
+    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
   },
   fade: {
-    initial: { opacity: 0, willChange: 'opacity' },
-    whileInView: { opacity: 1 },
+    initial: { opacity: 0, filter: 'blur(8px)' },
+    whileInView: { opacity: 1, filter: 'blur(0px)' },
   },
   slideUp: {
-    initial: { opacity: 0, y: 50, willChange: 'transform, opacity' },
-    whileInView: { opacity: 1, y: 0 },
+    initial: { opacity: 0, y: 64, filter: 'blur(10px)' },
+    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
   },
   slideLeft: {
-    initial: { opacity: 0, x: -50, willChange: 'transform, opacity' },
-    whileInView: { opacity: 1, x: 0 },
+    initial: { opacity: 0, x: -60, filter: 'blur(8px)' },
+    whileInView: { opacity: 1, x: 0, filter: 'blur(0px)' },
   },
   slideRight: {
-    initial: { opacity: 0, x: 50, willChange: 'transform, opacity' },
-    whileInView: { opacity: 1, x: 0 },
+    initial: { opacity: 0, x: 60, filter: 'blur(8px)' },
+    whileInView: { opacity: 1, x: 0, filter: 'blur(0px)' },
   },
   scale: {
-    initial: { opacity: 0, scale: 0.92, willChange: 'transform, opacity' },
-    whileInView: { opacity: 1, scale: 1 },
+    initial: { opacity: 0, scale: 0.94, filter: 'blur(8px)' },
+    whileInView: { opacity: 1, scale: 1, filter: 'blur(0px)' },
   },
 } as const;
 
 // ============================================================================
-// MODAL & OVERLAY VARIANTS
+// MODAL VARIANTS
 // ============================================================================
 
 export const modalVariants = {
   backdrop: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
+    initial: { opacity: 0, backdropFilter: 'blur(0px)' },
+    animate: { opacity: 1, backdropFilter: 'blur(6px)' },
+    exit: { opacity: 0, backdropFilter: 'blur(0px)' },
   },
   modal: {
-    initial: { opacity: 0, scale: 0.95, y: 20 },
-    animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.95, y: 20 },
+    initial: { opacity: 0, scale: 0.9, y: 16, filter: 'blur(6px)' },
+    animate: { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, scale: 0.92, y: 16, filter: 'blur(4px)' },
   },
   slideDown: {
-    initial: { opacity: 0, y: -40 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 40 },
+    initial: { opacity: 0, y: -48, scale: 0.98, filter: 'blur(6px)' },
+    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: 32, scale: 0.98, filter: 'blur(4px)' },
   },
   slideUp: {
-    initial: { opacity: 0, y: 40 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 40 },
+    initial: { opacity: 0, y: 48, scale: 0.98, filter: 'blur(6px)' },
+    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: -32, scale: 0.98, filter: 'blur(4px)' },
   },
   zoomOut: {
-    initial: { opacity: 0, scale: 0.9 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.8 },
+    initial: { opacity: 0, scale: 0.85, filter: 'blur(6px)' },
+    animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
+    exit: { opacity: 0, scale: 0.9, filter: 'blur(4px)' },
   },
 } as const;
 
@@ -307,14 +266,14 @@ export const modalVariants = {
 
 export const viewportConfig = {
   once: true,
-  amount: 0.15,
-  margin: '0px 0px -80px 0px',
+  amount: 0.25,
+  margin: '0px 0px -20% 0px',
 } as const;
 
 export const viewportConfigEager = {
   once: true,
-  amount: 0.08,
-  margin: '0px 0px -40px 0px',
+  amount: 0.15,
+  margin: '0px 0px -10% 0px',
 } as const;
 
 // ============================================================================

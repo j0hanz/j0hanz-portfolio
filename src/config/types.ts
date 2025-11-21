@@ -299,8 +299,8 @@ export type TransitionPreset =
   | 'springBouncy'
   | 'springSmooth'
   | 'smooth'
-  | 'easeOut'
   | 'easeInOut'
+  | 'easeOut'
   | 'slow';
 
 export interface AnimationConfig {
@@ -768,14 +768,10 @@ export type StatusBanner = {
   persistent: boolean;
 };
 
-export type FadeVariant = 'in' | 'up' | 'down' | 'left' | 'right';
-export type ScaleVariant = 'in' | 'pop' | 'grow';
-export type SlideVariant = 'fromLeft' | 'fromRight' | 'fromTop' | 'fromBottom';
-export type GestureVariant =
-  | 'hoverScale'
-  | 'cardHover'
-  | 'buttonTap'
-  | 'iconBounce';
+export type FadeVariant = 'in' | 'up' | 'down';
+export type ScaleVariant = 'in' | 'pop';
+export type SlideVariant = 'fromLeft' | 'fromRight' | 'fromBottom';
+export type GestureVariant = 'hoverScale' | 'cardHover' | 'buttonTap';
 export type SectionVariant =
   | 'default'
   | 'fade'

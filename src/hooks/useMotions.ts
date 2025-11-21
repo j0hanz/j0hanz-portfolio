@@ -128,6 +128,7 @@ export function useCardHover(): CardHoverMotion {
     initial: 'rest',
     animate: 'rest',
     whileHover: 'hover',
+    whileFocus: 'focus',
     whileTap: 'tap',
     transition: getTransition('spring'),
   };
@@ -153,6 +154,7 @@ export function useButtonGesture() {
     initial: 'rest',
     animate: 'rest',
     whileHover: 'hover',
+    whileFocus: 'focus',
     whileTap: 'tap',
     transition: getTransition('springSmooth'),
   };
