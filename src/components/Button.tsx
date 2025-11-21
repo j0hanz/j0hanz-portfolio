@@ -18,7 +18,7 @@ const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({
   },
 }));
 
-const MotionButton = motion.create(StyledButton);
+const MotionButton = motion(StyledButton);
 
 // Button component with optional icon and text, supports MUI v7 best practices
 const Button = function Button({

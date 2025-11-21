@@ -8,7 +8,7 @@ import { modalVariants } from '@/config/motion';
 import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 
-const MotionDialogContent = motion.create(DialogContent);
+const MotionDialogContent = motion(DialogContent);
 
 const closeButtonSx: SxProps<Theme> = {
   position: 'absolute',
