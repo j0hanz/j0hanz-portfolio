@@ -79,7 +79,7 @@ export { default as useCopyToClipboard } from './useCopyToClipboard';
 export { default as useHover } from './useHover';
 
 /** Detects if the user is currently online or offline. */
-export { default as useOnlineStatus } from './useOnlineStatus';
+export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
 
 /** Fetches and caches GitHub repository statistics. */
 export { default as useRepoStats } from './useRepoStats';
@@ -105,4 +105,5 @@ export {
   useAnimationSequence,
   useMeasure,
   useAnimationPriority,
+  useContentMotion,
 } from './useMotions';

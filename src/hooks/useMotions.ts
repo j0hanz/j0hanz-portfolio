@@ -371,3 +371,29 @@ export function useAnimationPriority(): AnimationPriority {
 
   return detectAnimationPriority();
 }
+
+// ============================================================================
+// CONTENT MOTION
+// ============================================================================
+
+/**
+ * Returns motion configuration for main content transitions
+ */
+export function useContentMotion() {
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+
+  const initial = prefersReducedMotion
+    ? { opacity: 1, y: 0 }
+    : { opacity: 0, y: 24 };
+  const animate = { opacity: 1, y: 0 };
+  const exit = prefersReducedMotion
+    ? { opacity: 1, y: 0 }
+    : { opacity: 0, y: -24 };
+
+  return {
+    initial,
+    animate,
+    exit,
+    transition: getTransition('smooth', { duration: 0.55 }),
+  } as const;
+}
