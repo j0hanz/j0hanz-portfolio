@@ -74,7 +74,7 @@ const Footer: FC = () => {
           prefersReducedMotion ? { scale: 1.05 } : { scale: 1.2, rotate: 5 }
         }
         whileTap={{ scale: 0.92 }}
-        transition={getTransition('snappy', { delay: staggerDelay })}
+        transition={getTransition('smooth', { delay: staggerDelay })}
       >
         {icon}
       </Box>

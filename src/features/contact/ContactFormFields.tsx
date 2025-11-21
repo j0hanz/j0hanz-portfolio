@@ -120,7 +120,6 @@ function FormField({
       type={isTextarea ? undefined : type}
       multiline={isTextarea}
       rows={isTextarea ? rows : undefined}
-      minRows={isTextarea ? rows : undefined}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
@@ -181,17 +180,20 @@ function ContactFormFields({
 }: FormFieldsProps): React.JSX.Element {
   return (
     <Grid container spacing={1.25}>
-      {contactFieldConfigs.map((config) => (
-        <Grid key={config.key} size={config.gridProps}>
-          <FormField
-            {...config}
-            name={config.key}
-            value={formData[config.key] ?? ''}
-            error={config.errorKey ? errors[config.errorKey] : undefined}
-            onChange={handleChange}
-          />
-        </Grid>
-      ))}
+      {contactFieldConfigs.map((config) => {
+        const { key, ...fieldProps } = config;
+        return (
+          <Grid key={key} size={config.gridProps}>
+            <FormField
+              {...fieldProps}
+              name={key}
+              value={formData[key] ?? ''}
+              error={config.errorKey ? errors[config.errorKey] : undefined}
+              onChange={handleChange}
+            />
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }

@@ -25,7 +25,7 @@ function BaseModal({
   > = {
     modal: getTransition('smooth'),
     slideDown: getTransition('smooth', { duration: 0.45 }),
-    zoomOut: getTransition('springy', { duration: 0.4 }),
+    zoomOut: getTransition('spring', { duration: 0.4 }),
   };
 
   const transition = transitionPresets[animationPreset];

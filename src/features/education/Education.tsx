@@ -20,6 +20,7 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
+import { TextReveal } from '@/components/TextReveal';
 import {
   EducationCardProps,
   EducationItem,
@@ -182,7 +183,11 @@ function Education(): React.JSX.Element {
   });
 
   return (
-    <SectionContainer id="education" title="Education" icon={SchoolTwoTone}>
+    <SectionContainer
+      id="education"
+      title={<TextReveal text="Education" as="span" />}
+      icon={SchoolTwoTone}
+    >
       <Box ref={attachRefs} sx={{ position: 'relative', py: { xs: 1, md: 2 } }}>
         <Box
           component={motion.div}

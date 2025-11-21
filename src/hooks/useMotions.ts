@@ -1,15 +1,9 @@
-import {
-  MutableRefObject,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from 'react';
+import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   useAnimate,
   usePresence as useMotionPresence,
+  useReducedMotion as useMotionReducedMotion,
   useMotionValueEvent,
   useScroll,
 } from 'motion/react';
@@ -34,19 +28,18 @@ import type {
 import useEventCallback from '@/hooks/useEventCallback';
 import { motionVariants, transitions } from '@/utils/motionVariants';
 
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-const BASE_DURATION = 0.65;
-const BASE_DELAY = 0.08;
-const BASE_STAGGER = 0.12;
+const BASE_DURATION = 1.0;
+const BASE_DELAY = 0.12;
+const BASE_STAGGER = 0.18;
 const REDUCED_MOTION_TARGET = { opacity: 1, x: 0, y: 0, scale: 1 } as const;
 const MOTION_VIEWPORT: MotionProps['viewport'] = {
   once: true,
-  amount: 0.15,
-  margin: '0px',
+  amount: 0.2, // Increased for better effect
+  margin: '0px 0px -50px 0px',
 };
 
 const resolveMotionState = <T extends MotionProps['initial']>(
-  prefersReducedMotion: boolean,
+  prefersReducedMotion: boolean | null,
   state?: T,
   fallback: T = REDUCED_MOTION_TARGET as T
 ): T => {
@@ -57,37 +50,9 @@ const resolveMotionState = <T extends MotionProps['initial']>(
   return state ?? fallback;
 };
 
-const subscribeToReducedMotion = (listener: () => void): (() => void) => {
-  if (typeof window === 'undefined') {
-    return () => undefined;
-  }
-
-  const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
-  const handleChange = () => listener();
-
-  if (typeof mediaQuery.addEventListener === 'function') {
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }
-
-  mediaQuery.addListener(handleChange);
-  return () => mediaQuery.removeListener(handleChange);
-};
-
-const getReducedMotionSnapshot = (): boolean => {
-  if (typeof window === 'undefined') {
-    return true;
-  }
-
-  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
-};
-
 export function useReducedMotion(): boolean {
-  return useSyncExternalStore(
-    subscribeToReducedMotion,
-    getReducedMotionSnapshot,
-    () => true
-  );
+  const shouldReduce = useMotionReducedMotion();
+  return shouldReduce ?? false;
 }
 
 export function useAnimationConfig(): AnimationConfig {
@@ -112,7 +77,6 @@ export function useAnimationConfig(): AnimationConfig {
       return {
         ...base,
         duration: 0.01,
-        ease: base.ease,
         ...overrides,
       };
     }
@@ -136,7 +100,7 @@ export function useCardHover(): CardHoverMotion {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
   const variants = motionVariants.gesture.cardHover;
-  const transition = getTransition('springy');
+  const transition = getTransition('spring');
 
   if (prefersReducedMotion) {
     return {
@@ -195,7 +159,7 @@ type SequenceAnimator = (
 
 type AnimateScope =
   | ((node: Element | null) => void)
-  | MutableRefObject<Element | null>
+  | RefObject<Element | null>
   | null;
 
 export interface AnimationSequenceControls {
@@ -226,7 +190,7 @@ export function useAnimationSequence(): AnimationSequenceControls {
     if (scope && typeof scope === 'object') {
       // This is the official pattern from motion/react documentation
       // The scope ref mutation is required by the library's API design
-      (scope as MutableRefObject<Element | null>).current = node;
+      (scope as { current: Element | null }).current = node;
     }
   });
 

@@ -75,7 +75,7 @@ const Button = function Button({
       whileHover={hoverState}
       whileTap={tapState}
       whileFocus={focusState}
-      transition={getTransition('snappy')}
+      transition={getTransition('spring')}
     >
       {text || children}
     </MotionButton>

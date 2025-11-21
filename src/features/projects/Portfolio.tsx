@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import SectionContainer from '@/components/SectionContainer';
+import { TextReveal } from '@/components/TextReveal';
 import { useAnimationConfig } from '@/hooks';
 import projects from '@/lib/data/projects';
 import { motionVariants } from '@/utils/motionVariants';
@@ -14,11 +15,15 @@ function Portfolio(): React.JSX.Element {
   const { prefersReducedMotion, motionViewport } = useAnimationConfig();
 
   return (
-    <SectionContainer id="portfolio" title="Projects" icon={FolderTwoTone}>
+    <SectionContainer
+      id="portfolio"
+      title={<TextReveal text="Projects" as="span" />}
+      icon={FolderTwoTone}
+    >
       <motion.div
         variants={motionVariants.stagger.container}
-        initial={prefersReducedMotion ? 'show' : 'hidden'}
-        whileInView="show"
+        initial={prefersReducedMotion ? 'animate' : 'initial'}
+        whileInView="animate"
         viewport={motionViewport}
         style={{ width: '100%' }}
       >

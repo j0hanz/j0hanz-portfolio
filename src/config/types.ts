@@ -230,7 +230,7 @@ export type MotionVariantId =
   | 'scrollParallax'
   | 'layoutGroup';
 
-export type TransitionPreset = 'springy' | 'smooth' | 'snappy' | 'bounce';
+export type TransitionPreset = 'spring' | 'smooth' | 'slow';
 
 export interface AnimationConfig {
   prefersReducedMotion: boolean;
@@ -310,7 +310,7 @@ export interface SlideFromSideProps extends MotionProps {
 
 export interface SectionContainerProps {
   id: string;
-  title: string;
+  title: ReactNode;
   icon: ElementType;
   children: ReactNode;
   className?: string;

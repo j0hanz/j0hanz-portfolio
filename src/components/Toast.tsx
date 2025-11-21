@@ -44,7 +44,7 @@ const MotionToastTransition = ({
           ? motionVariants.exit.toast.animate
           : motionVariants.exit.toast.exit
       }
-      transition={getTransition('snappy', { duration: 0.32 })}
+      transition={getTransition('spring', { duration: 0.32 })}
       onAnimationComplete={() => {
         if (isIn) {
           playToast();

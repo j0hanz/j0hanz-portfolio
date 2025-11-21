@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
+import { TextReveal } from '@/components/TextReveal';
 import { AboutMeListProps } from '@/config/types';
 import Credential from '@/features/education/Credential';
 import { useToggle } from '@/hooks';
@@ -87,7 +88,11 @@ function AboutMe(): React.JSX.Element {
   } = useToggle(false);
 
   return (
-    <SectionContainer id="about-me" title="About Me" icon={PersonOutlined}>
+    <SectionContainer
+      id="about-me"
+      title={<TextReveal text="About Me" as="span" />}
+      icon={PersonOutlined}
+    >
       <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
         <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
           <AboutMeText />

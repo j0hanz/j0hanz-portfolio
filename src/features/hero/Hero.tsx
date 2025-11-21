@@ -3,18 +3,19 @@ import React, { useRef } from 'react';
 import { DownloadRounded, EmailRounded } from '@mui/icons-material';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
+import { MagneticWrapper } from '@/components/MagneticWrapper';
 import ModalCv from '@/components/ModalCv';
+import { Parallax } from '@/components/Parallax';
+import { TextReveal } from '@/components/TextReveal';
 import {
   useAnimationConfig,
   useAnimationPriority,
-  useEventListener,
   useHover,
-  useScrollProgress,
   useToggle,
 } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
@@ -23,78 +24,6 @@ const buttonBaseStyles = {
   minWidth: 180,
   height: 45,
 } as const;
-
-interface MagneticWrapperProps {
-  disabled: boolean;
-  children: React.ReactNode;
-}
-
-const MagneticWrapper = ({
-  disabled,
-  children,
-}: MagneticWrapperProps): React.JSX.Element => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const boundsRef = useRef<{ centerX: number; centerY: number } | null>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 180, damping: 24, mass: 0.8 });
-  const springY = useSpring(y, { stiffness: 180, damping: 24, mass: 0.8 });
-
-  const measureBounds = () => {
-    if (!containerRef.current) return null;
-    const rect = containerRef.current.getBoundingClientRect();
-    const bounds = {
-      centerX: rect.left + rect.width / 2,
-      centerY: rect.top + rect.height / 2,
-    };
-    boundsRef.current = bounds;
-    return bounds;
-  };
-
-  const reset = () => {
-    x.set(0);
-    y.set(0);
-    boundsRef.current = null;
-  };
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (disabled || !containerRef.current) return;
-
-    const bounds = boundsRef.current ?? measureBounds();
-    if (!bounds) return;
-
-    x.set((event.clientX - bounds.centerX) * 0.08);
-    y.set((event.clientY - bounds.centerY) * 0.08);
-  };
-
-  const handlePointerEnter = () => {
-    if (disabled) return;
-    measureBounds();
-  };
-
-  useEventListener('resize', () => {
-    if (disabled) return;
-    boundsRef.current = null;
-  });
-
-  const motionStyle = disabled
-    ? { display: 'inline-flex' as const }
-    : { display: 'inline-flex' as const, x: springX, y: springY };
-
-  return (
-    <motion.div
-      ref={containerRef}
-      style={motionStyle}
-      onPointerEnter={disabled ? undefined : handlePointerEnter}
-      onPointerMove={disabled ? undefined : handlePointerMove}
-      onPointerLeave={disabled ? undefined : reset}
-      onPointerUp={disabled ? undefined : reset}
-      onBlur={disabled ? undefined : reset}
-    >
-      {children}
-    </motion.div>
-  );
-};
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
@@ -114,11 +43,7 @@ function Hero(): React.JSX.Element {
   const { prefersReducedMotion, getTransition, motionViewport } =
     useAnimationConfig();
   const animationPriority = useAnimationPriority();
-  const { value: scrollYProgress } = useScrollProgress();
-  const parallaxRange = prefersReducedMotion ? 0 : 80;
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, parallaxRange]);
-  const imageReveal = motionVariants.scroll.scrollFadeUp;
-  const textReveal = motionVariants.scroll.scrollFadeUp;
+
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
 
@@ -127,94 +52,85 @@ function Hero(): React.JSX.Element {
       <Container maxWidth="lg" sx={{ textAlign: 'center', px: 0, pb: 5 }}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid size={{ md: 5 }}>
-            <Box
-              component={motion.div}
-              initial={imageReveal.initial}
-              whileInView={imageReveal.whileInView}
-              transition={getTransition('smooth')}
-              viewport={motionViewport}
-              style={{ y: parallaxY }}
-              sx={{ position: 'relative', display: 'inline-flex' }}
-            >
-              <Box
-                component={motion.img}
-                ref={profileImageRef}
-                src={ProfileImage}
-                alt="Linus Johansson"
-                onClick={handleImageModalOpen}
-                animate={{
-                  filter: isProfileHovered
-                    ? 'brightness(0.8)'
-                    : 'brightness(1)',
-                }}
-                transition={getTransition('smooth')}
-                sx={{
-                  width: { xs: 185, md: 245, lg: 280 },
-                  height: { xs: 185, md: 245, lg: 280 },
-                  borderRadius: 2,
-                  objectFit: 'cover',
-                  cursor: 'pointer',
-                  mb: { xs: 3, lg: 0 },
-                }}
-              />
+            <Parallax offset={30}>
               <Box
                 component={motion.div}
-                aria-hidden
-                initial={false}
-                animate={{ opacity: isProfileHovered ? 1 : 0 }}
-                transition={getTransition('snappy')}
-                sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: 2,
-                  bgcolor: 'rgba(0, 0, 0, 0.4)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'common.white',
-                  letterSpacing: 1,
-                  fontSize: '0.9rem',
-                  pointerEvents: 'none',
-                  textTransform: 'uppercase',
-                }}
+                initial={motionVariants.fadeUp.initial}
+                whileInView={motionVariants.fadeUp.animate}
+                transition={getTransition('smooth')}
+                viewport={motionViewport}
+                sx={{ position: 'relative', display: 'inline-flex' }}
               >
-                Click to enlarge
+                <Box
+                  component={motion.img}
+                  ref={profileImageRef}
+                  src={ProfileImage}
+                  alt="Linus Johansson"
+                  onClick={handleImageModalOpen}
+                  animate={{
+                    filter: isProfileHovered
+                      ? 'brightness(0.8)'
+                      : 'brightness(1)',
+                  }}
+                  transition={getTransition('smooth')}
+                  sx={{
+                    width: { xs: 185, md: 245, lg: 280 },
+                    height: { xs: 185, md: 245, lg: 280 },
+                    borderRadius: 2,
+                    objectFit: 'cover',
+                    cursor: 'pointer',
+                    mb: { xs: 3, lg: 0 },
+                  }}
+                />
+                <Box
+                  component={motion.div}
+                  aria-hidden
+                  initial={false}
+                  animate={{ opacity: isProfileHovered ? 1 : 0 }}
+                  transition={getTransition('spring')}
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: 2,
+                    bgcolor: 'rgba(0, 0, 0, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'common.white',
+                    letterSpacing: 1,
+                    fontSize: '0.9rem',
+                    pointerEvents: 'none',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Click to enlarge
+                </Box>
               </Box>
-            </Box>
+            </Parallax>
           </Grid>
           <Grid size="auto" sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
             <Box
               component={motion.div}
-              initial={textReveal.initial}
-              whileInView={textReveal.whileInView}
-              transition={getTransition('smooth')}
+              initial={motionVariants.staggerContainer.initial}
+              whileInView={motionVariants.staggerContainer.animate}
               viewport={motionViewport}
             >
-              <Typography
-                variant="h1"
-                component={motion.h1}
-                initial={
-                  prefersReducedMotion ? undefined : { opacity: 0, y: 24 }
-                }
-                animate={
-                  prefersReducedMotion ? undefined : { opacity: 1, y: 0 }
-                }
-                transition={getTransition('smooth', {
-                  duration: 0.8,
-                  delay: 0.1,
-                })}
-                sx={{
-                  background: (theme) => theme.palette.heroGradient,
+              <TextReveal
+                text={heroName}
+                as="h1"
+                style={{
+                  background:
+                    'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  fontSize: { xs: '2.5rem', sm: '3.2rem' },
-                  letterSpacing: { xs: '2px', sm: '3px' },
+                  fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
+                  letterSpacing: '2px',
                   fontWeight: 500,
                   lineHeight: 1.2,
+                  justifyContent: 'center',
                 }}
-              >
-                {heroName}
-              </Typography>
+              />
+
               <Typography
                 variant="h2"
                 component={motion.h2}

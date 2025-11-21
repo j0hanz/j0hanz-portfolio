@@ -17,18 +17,20 @@ function BackgroundMorph(): React.JSX.Element {
       animate={
         shouldAnimate
           ? {
-              scale: [1, 1.05, 1],
-              x: ['0%', '3%', '0%'],
-              y: ['0%', '2%', '0%'],
+              scale: [1, 1.15, 1],
+              x: ['0%', '8%', '-5%', '0%'],
+              y: ['0%', '5%', '-3%', '0%'],
+              rotate: [0, 2, -1, 0],
             }
-          : { scale: 1, x: '0%', y: '0%' }
+          : { scale: 1, x: '0%', y: '0%', rotate: 0 }
       }
       transition={
         shouldAnimate
           ? getTransition('smooth', {
-              duration: 15,
+              duration: 20,
               repeat: Infinity,
               repeatType: 'mirror',
+              ease: 'easeInOut',
             })
           : undefined
       }

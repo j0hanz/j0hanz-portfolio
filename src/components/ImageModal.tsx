@@ -40,7 +40,7 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
             alt="Linus Johansson"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={getTransition('springy', { duration: 0.6 })}
+            transition={getTransition('spring', { duration: 0.6 })}
             style={{
               width: '100%',
               height: '100%',

@@ -12,6 +12,7 @@ import { stagger, useMotionValueEvent, useScroll } from 'motion/react';
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
+import { TextReveal } from '@/components/TextReveal';
 import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
 import {
   useAnimationConfig,
@@ -134,7 +135,7 @@ function WorkExperience(): React.JSX.Element {
   return (
     <SectionContainer
       id="work-experience"
-      title="Experience"
+      title={<TextReveal text="Experience" as="span" />}
       icon={WorkOutlineTwoTone}
       sx={{
         px: 0,

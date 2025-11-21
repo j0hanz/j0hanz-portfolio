@@ -85,7 +85,7 @@ function AnimatedStat({
         component={motion.span}
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}
-        transition={getTransition('snappy')}
+        transition={getTransition('spring')}
         sx={{ fontWeight: 500, fontSize: '1.05rem', color: 'text.primary' }}
       >
         {displayValue.toLocaleString()}
