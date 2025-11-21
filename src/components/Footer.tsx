@@ -16,12 +16,11 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import { SocialLinkList } from '@/components/NavBar';
+import { CONTACT_EMAIL, EMAIL_TOAST_ID } from '@/config/constants';
 import { SocialLinkRenderProps } from '@/config/types';
 import { useAnimationConfig, useCopyToClipboard, useToggle } from '@/hooks';
 
 import ModalCv from './ModalCv';
-
-const CONTACT_EMAIL = 'l.johansson93@outlook.com';
 
 const wrapFooterSocialLink = (
   id: string,
@@ -31,8 +30,6 @@ const wrapFooterSocialLink = (
     {node}
   </Grid>
 );
-
-const EMAIL_TOAST_ID = 'contact-email-toast';
 
 const Footer: FC = () => {
   const {

@@ -5,19 +5,53 @@ import {
   ElementType,
   ReactElement,
   ReactNode,
+  RefObject,
 } from 'react';
 
 import {
+  AlertColor,
   ButtonProps as MuiButtonProps,
   PaletteMode,
+  PaletteOptions,
   SxProps,
   Theme,
 } from '@mui/material';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
-import type { MotionProps, Transition, Variants } from 'motion/react';
+import type {
+  AnimationOptions,
+  AnimationPlaybackControls,
+  DOMKeyframesDefinition,
+  ElementOrSelector,
+  MotionProps,
+  MotionValue,
+  Transition,
+  Variants,
+} from 'motion/react';
 
 // --- Icon Type ---
 export type IconComponent = ComponentType<SvgIconProps>;
+
+// --- Direction & Navigation Types ---
+export type Direction = 'up' | 'down' | null;
+
+export interface NavigationContextType {
+  activeSectionIndex: number;
+  activeSectionId: string;
+  direction: Direction;
+  setActiveSection: (index: number) => void;
+  navigateTo: (id: string) => void;
+  moveNext: () => void;
+  movePrev: () => void;
+  isFirst: boolean;
+  isLast: boolean;
+}
+
+// --- Config Section Type ---
+export interface Section {
+  id: string;
+  Component: ComponentType;
+  label?: string;
+}
 
 // --- Constants Types ---
 // (None needed for constants themselves, but maybe for their usage)
@@ -50,6 +84,29 @@ export interface Project {
   isNew?: boolean;
   projectBoard?: boolean;
 }
+
+export interface RepoStats {
+  stars: number;
+  forks: number;
+  issues: number;
+}
+
+export interface CachedStats {
+  data: RepoStats;
+  timestamp: number;
+}
+
+export interface AnimatedStatProps {
+  label: string;
+  value: number;
+  prefersReducedMotion: boolean;
+  getTransition: AnimationConfig['getTransition'];
+}
+
+export type ActionButtonProps = Omit<CustomButtonProps, 'startIcon' | 'text'> & {
+  label: string;
+  icon: ReactNode;
+};
 
 export type BadgeFlag =
   | 'isHackathon'
@@ -111,6 +168,10 @@ export interface ProjectMeta {
 // --- Components ---
 export interface AppThemeProviderProps {
   children: ReactNode;
+}
+
+export interface InternalCardProps extends CardProps {
+  motionProps?: MotionProps;
 }
 
 export interface BadgeItemProps {
@@ -257,6 +318,35 @@ export interface AnimationConfig {
   ) => T;
 }
 
+export interface ScrollProgressValue {
+  value: MotionValue<number>;
+  progress: number;
+}
+
+export interface PresenceControls {
+  isPresent: boolean;
+  safeToRemove: (() => void) | null;
+}
+
+export type SequenceAnimator = (
+  target: ElementOrSelector,
+  keyframes: DOMKeyframesDefinition,
+  options?: AnimationOptions
+) => AnimationPlaybackControls;
+
+export type AnimateScope =
+  | ((node: Element | null) => void)
+  | RefObject<Element | null>
+  | null;
+
+export interface AnimationSequenceControls {
+  scopeRef: (node: Element | null) => void;
+  runSequence: (
+    builder: (animate: SequenceAnimator) => Promise<void> | void
+  ) => Promise<void>;
+  isAnimating: boolean;
+}
+
 export type AnimationPriority = 'high' | 'reduced';
 
 export interface MeasureRect {
@@ -308,6 +398,49 @@ export interface LayoutAnimationProps {
 export interface MotionWrapperProps extends MotionProps {
   children: ReactNode;
   sectionId: SectionMotionVariantId;
+}
+
+export interface FadeInViewProps extends Omit<MotionProps, 'initial' | 'animate'> {
+  children: ReactNode;
+  delay?: number;
+  threshold?: number;
+}
+
+export interface StaggerContainerProps {
+  children: ReactNode;
+  stagger?: number;
+  className?: string;
+  style?: CSSProperties;
+}
+
+export interface StaggerItemProps {
+  children: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+}
+
+export interface MagneticWrapperProps {
+  children: ReactNode;
+  strength?: number;
+  disabled?: boolean;
+  className?: string;
+  style?: CSSProperties;
+}
+
+export interface ParallaxProps {
+  children: ReactNode;
+  offset?: number;
+  className?: string;
+  style?: CSSProperties;
+}
+
+export interface TextRevealProps {
+  text: string;
+  className?: string;
+  delay?: number;
+  duration?: number;
+  as?: ElementType;
+  style?: CSSProperties;
 }
 
 export interface SlideFromSideProps extends MotionProps {
@@ -380,6 +513,31 @@ export interface ContactFormValues {
 export type ContactFormErrors = Partial<
   Record<'name' | 'email' | 'url' | 'message', string>
 >;
+
+export type ContactFieldKey = keyof ContactFormValues;
+export type ContactFieldErrorKey = keyof ContactFormErrors;
+
+export interface ContactFieldConfig {
+  key: ContactFieldKey;
+  controlId: string;
+  icon: ElementType;
+  type?: FormFieldProps['type'];
+  label: string;
+  placeholder: string;
+  required?: boolean;
+  rows?: number;
+  errorKey?: ContactFieldErrorKey;
+  gridProps?: { xs?: number; md?: number };
+}
+
+export interface SuccessIndicatorProps {
+  visible: boolean;
+}
+
+export type SubmissionResult = {
+  status: 'idle' | 'success' | 'error';
+  errorMessage?: string;
+};
 
 export interface FormFieldProps {
   controlId: string;
@@ -508,12 +666,31 @@ export interface UseArrayReturn<T> {
   length: number;
 }
 
+export interface UseClickOutsideOptions {
+  enabled?: boolean;
+}
+
 export interface UseCounterReturn {
   count: number;
   increment: () => void;
   decrement: () => void;
   reset: () => void;
   set: (value: number) => void;
+}
+
+export type CopyResult = {
+  value: string | null;
+  success: boolean | null;
+};
+
+export type CopyFn = (text: string) => Promise<boolean>;
+
+export type UseCopyToClipboardReturn = [CopyFn, CopyResult];
+
+export interface MagnetMotionProps {
+  style?: MotionProps['style'];
+  onPointerMove?: React.PointerEventHandler<HTMLDivElement>;
+  onPointerLeave?: React.PointerEventHandler<HTMLDivElement>;
 }
 
 export interface UseFetchOptions<T = unknown> extends RequestInit {
@@ -575,6 +752,23 @@ export type FieldName = keyof ContactFormValues;
 
 // --- Utils ---
 export type ValidationError = string | undefined;
+
+export type PaletteModeKey = 'light' | 'dark';
+
+export type BackgroundOptions = NonNullable<PaletteOptions['background']>;
+export type TextOptions = NonNullable<PaletteOptions['text']>;
+
+export type StatusBanner = {
+  message: string;
+  severity: AlertColor;
+  persistent: boolean;
+};
+
+export type FadeVariant = 'in' | 'up' | 'down' | 'left' | 'right';
+export type ScaleVariant = 'in' | 'pop' | 'grow';
+export type SlideVariant = 'fromLeft' | 'fromRight' | 'fromTop' | 'fromBottom';
+export type GestureVariant = 'hoverScale' | 'cardHover' | 'buttonTap' | 'iconBounce';
+export type SectionVariant = 'default' | 'fade' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale';
 
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {

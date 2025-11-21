@@ -1,13 +1,10 @@
 import { useState } from 'react';
 
-type CopyResult = {
-  value: string | null;
-  success: boolean | null;
-};
-
-type CopyFn = (text: string) => Promise<boolean>;
-
-type UseCopyToClipboardReturn = [CopyFn, CopyResult];
+import type {
+  CopyFn,
+  CopyResult,
+  UseCopyToClipboardReturn,
+} from '@/config/types';
 
 const isClipboardSupported = () =>
   typeof navigator !== 'undefined' && Boolean(navigator.clipboard);

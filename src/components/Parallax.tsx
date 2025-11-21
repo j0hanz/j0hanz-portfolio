@@ -2,14 +2,8 @@ import { useRef } from 'react';
 
 import { motion, useScroll, useTransform } from 'motion/react';
 
+import type { ParallaxProps } from '@/config/types';
 import { useReducedMotion } from '@/hooks';
-
-interface ParallaxProps {
-  children: React.ReactNode;
-  offset?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}
 
 /**
  * Creates a parallax scrolling effect

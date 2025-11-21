@@ -9,13 +9,10 @@ import Badges from '@/components/Badges';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
+import type { SuccessIndicatorProps } from '@/config/types';
 import { useAnimationConfig, useContactForm } from '@/hooks';
 
 import ContactFormFields from './ContactFormFields';
-
-interface SuccessIndicatorProps {
-  visible: boolean;
-}
 
 function SuccessIndicator({
   visible,

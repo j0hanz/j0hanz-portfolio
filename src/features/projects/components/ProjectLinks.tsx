@@ -8,13 +8,8 @@ import { Box, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
-import { CustomButtonProps, ProjectLinksProps } from '@/config/types';
+import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyToClipboard } from '@/hooks';
-
-type ActionButtonProps = Omit<CustomButtonProps, 'startIcon' | 'text'> & {
-  label: string;
-  icon: React.ReactNode;
-};
 
 const iconStyle = {
   fontSize: '0.9rem',

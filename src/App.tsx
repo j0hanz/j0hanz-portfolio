@@ -2,13 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
-import { Alert, AlertColor, Box, Collapse } from '@mui/material';
+import { Alert, Box, Collapse } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
 import BackgroundMorph from '@/components/BackgroundMorph';
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
 import Toast from '@/components/Toast';
+import { NETWORK_STATUS_TOAST_ID } from '@/config/constants';
+import type { StatusBanner } from '@/config/types';
 import {
   useAnimationConfig,
   useEventCallback,
@@ -16,14 +18,6 @@ import {
   usePrevious,
 } from '@/hooks';
 import Home from '@/pages/Home';
-
-const NETWORK_STATUS_TOAST_ID = 'network-status-toast';
-
-type StatusBanner = {
-  message: string;
-  severity: AlertColor;
-  persistent: boolean;
-};
 
 const getInitialBanner = (): StatusBanner | null => {
   if (typeof navigator === 'undefined' || navigator.onLine) {

@@ -9,21 +9,27 @@ import {
   useScroll,
 } from 'motion/react';
 import type {
-  AnimationOptions,
   AnimationPlaybackControls,
-  DOMKeyframesDefinition,
-  ElementOrSelector,
   MotionProps,
-  MotionValue,
   Transition,
   UseInViewOptions,
 } from 'motion/react';
 
+import {
+  BASE_DELAY,
+  BASE_DURATION,
+  BASE_STAGGER,
+  REDUCED_MOTION_TARGET,
+} from '@/config/constants';
 import type {
   AnimationConfig,
   AnimationPriority,
+  AnimationSequenceControls,
   CardHoverMotion,
   MeasureRect,
+  PresenceControls,
+  ScrollProgressValue,
+  SequenceAnimator,
   TransitionPreset,
   UseMeasureReturn,
 } from '@/config/types';
@@ -33,22 +39,6 @@ import {
   transitions,
   viewportConfig,
 } from '@/utils/motionVariants';
-
-// ============================================================================
-// CONSTANTS
-// ============================================================================
-
-const BASE_DURATION = 0.6;
-const BASE_DELAY = 0.1;
-const BASE_STAGGER = 0.12;
-
-const REDUCED_MOTION_TARGET = {
-  opacity: 1,
-  x: 0,
-  y: 0,
-  scale: 1,
-  rotate: 0,
-} as const;
 
 // ============================================================================
 // REDUCED MOTION DETECTION
@@ -174,11 +164,6 @@ export function useButtonGesture() {
 // SCROLL PROGRESS
 // ============================================================================
 
-export interface ScrollProgressValue {
-  value: MotionValue<number>;
-  progress: number;
-}
-
 /**
  * Tracks scroll progress as a 0-1 value
  */
@@ -215,11 +200,6 @@ export function useInView(ref: RefObject<Element>, options?: UseInViewOptions) {
 // PRESENCE DETECTION
 // ============================================================================
 
-export interface PresenceControls {
-  isPresent: boolean;
-  safeToRemove: (() => void) | null;
-}
-
 /**
  * Detects if component is present in AnimatePresence tree
  */
@@ -233,30 +213,11 @@ export function usePresence(): PresenceControls {
 // ANIMATION SEQUENCING
 // ============================================================================
 
-type SequenceAnimator = (
-  target: ElementOrSelector,
-  keyframes: DOMKeyframesDefinition,
-  options?: AnimationOptions
-) => AnimationPlaybackControls;
-
-type AnimateScope =
-  | ((node: Element | null) => void)
-  | RefObject<Element | null>
-  | null;
-
-export interface AnimationSequenceControls {
-  scopeRef: (node: Element | null) => void;
-  runSequence: (
-    builder: (animate: SequenceAnimator) => Promise<void> | void
-  ) => Promise<void>;
-  isAnimating: boolean;
-}
-
 /**
  * Orchestrates complex animation sequences with cleanup
  */
 export function useAnimationSequence(): AnimationSequenceControls {
-  const [scope, animate] = useAnimate() as [AnimateScope, SequenceAnimator];
+  const [scope, animate] = useAnimate();
   const controlsRef = useRef<AnimationPlaybackControls[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -268,12 +229,12 @@ export function useAnimationSequence(): AnimationSequenceControls {
   }, []);
 
   const scopeRef = useEventCallback((node: Element | null) => {
-    if (typeof scope === 'function') {
-      scope(node);
+    if (scope && typeof scope === 'function') {
+      (scope as (node: Element | null) => void)(node);
       return;
     }
 
-    if (scope && typeof scope === 'object') {
+    if (scope && typeof scope === 'object' && 'current' in scope) {
       (scope as { current: Element | null }).current = node;
     }
   });

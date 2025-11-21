@@ -1,13 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 import { useMotionValue, useSpring } from 'motion/react';
-import type { MotionStyle } from 'motion/react';
 
-export interface MagnetMotionProps {
-  style?: MotionStyle;
-  onPointerMove?: React.PointerEventHandler<HTMLDivElement>;
-  onPointerLeave?: React.PointerEventHandler<HTMLDivElement>;
-}
+import type { MagnetMotionProps } from '@/config/types';
 
 export function useCursorMagnet(disabled: boolean): MagnetMotionProps {
   const x = useMotionValue(0);

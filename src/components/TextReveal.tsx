@@ -2,16 +2,8 @@ import { RefObject, useRef } from 'react';
 
 import { motion, Variants } from 'motion/react';
 
+import type { TextRevealProps } from '@/config/types';
 import { useInView, useReducedMotion } from '@/hooks';
-
-interface TextRevealProps {
-  text: string;
-  className?: string;
-  delay?: number;
-  duration?: number;
-  as?: React.ElementType;
-  style?: React.CSSProperties;
-}
 
 /**
  * Reveals text character by character with stagger animation

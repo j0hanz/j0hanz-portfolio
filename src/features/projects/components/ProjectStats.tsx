@@ -10,36 +10,17 @@ import {
   useMotionValueEvent,
 } from 'motion/react';
 
-import type { AnimationConfig, ProjectStatsProps } from '@/config/types';
+import { CACHE_DURATION, EMPTY_STATS } from '@/config/constants';
+import type {
+  AnimatedStatProps,
+  CachedStats,
+  ProjectStatsProps,
+  RepoStats,
+} from '@/config/types';
 import { useAnimationConfig, useEventCallback } from '@/hooks';
-
-interface RepoStats {
-  stars: number;
-  forks: number;
-  issues: number;
-}
-
-interface CachedStats {
-  data: RepoStats;
-  timestamp: number;
-}
 
 // Cache stats for 10 minutes to avoid rate limiting
 const statsCache = new Map<string, CachedStats>();
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
-
-const EMPTY_STATS: RepoStats = {
-  stars: 0,
-  forks: 0,
-  issues: 0,
-};
-
-interface AnimatedStatProps {
-  label: string;
-  value: number;
-  prefersReducedMotion: boolean;
-  getTransition: AnimationConfig['getTransition'];
-}
 
 function AnimatedStat({
   label,

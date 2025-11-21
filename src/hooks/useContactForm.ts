@@ -10,10 +10,12 @@ import {
 
 import { toast } from 'react-toastify';
 
+import { SEND_ERROR_MESSAGE } from '@/config/constants';
 import {
   ContactFormErrors,
   ContactFormValues,
   FieldName,
+  SubmissionResult,
 } from '@/config/types';
 import { useDebounce } from '@/hooks';
 import useEventCallback from '@/hooks/useEventCallback';
@@ -27,8 +29,6 @@ const buildInitialValues = (): ContactFormValues => ({
   url: '',
   message: '',
 });
-
-const SEND_ERROR_MESSAGE = 'Failed to send message! Please try again later.';
 
 const updateError = (
   setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
@@ -44,11 +44,6 @@ const updateError = (
     if (prev[field] === message) return prev;
     return { ...prev, [field]: message };
   });
-};
-
-type SubmissionResult = {
-  status: 'idle' | 'success' | 'error';
-  errorMessage?: string;
 };
 
 const buildValuesFromFormData = (formData: FormData): ContactFormValues => ({

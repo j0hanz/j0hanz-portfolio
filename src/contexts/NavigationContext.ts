@@ -1,18 +1,8 @@
 import { createContext } from 'react';
 
-export type Direction = 'up' | 'down' | null;
+import type { Direction, NavigationContextType } from '@/config/types';
 
-export interface NavigationContextType {
-  activeSectionIndex: number;
-  activeSectionId: string;
-  direction: Direction;
-  setActiveSection: (index: number) => void;
-  navigateTo: (id: string) => void;
-  moveNext: () => void;
-  movePrev: () => void;
-  isFirst: boolean;
-  isLast: boolean;
-}
+export type { Direction, NavigationContextType };
 
 export const NavigationContext = createContext<
   NavigationContextType | undefined

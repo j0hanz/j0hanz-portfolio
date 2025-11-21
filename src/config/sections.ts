@@ -1,6 +1,5 @@
-import { ComponentType } from 'react';
-
 import Footer from '@/components/Footer';
+import type { Section } from '@/config/types';
 import AboutMe from '@/features/about/AboutMe';
 import ContactForm from '@/features/contact/ContactForm';
 import Education from '@/features/education/Education';
@@ -8,12 +7,6 @@ import WorkExperience from '@/features/experience/WorkExperience';
 import Hero from '@/features/hero/Hero';
 import Portfolio from '@/features/projects/Portfolio';
 import Skills from '@/features/skills/Skills';
-
-export interface Section {
-  id: string;
-  Component: ComponentType;
-  label?: string;
-}
 
 export const sections: Section[] = [
   { id: 'hero', Component: Hero, label: 'Home' },

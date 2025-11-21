@@ -1,12 +1,14 @@
 import { forwardRef, useRef } from 'react';
 
 import { AnimatePresence, motion } from 'motion/react';
-import type { MotionProps } from 'motion/react';
 
 import type {
+  FadeInViewProps,
   MotionWrapperProps,
   SectionMotionVariantId,
   SlideFromSideProps,
+  StaggerContainerProps,
+  StaggerItemProps,
 } from '@/config/types';
 import { useAnimationConfig, useInView } from '@/hooks';
 import { useNavigation } from '@/hooks/useNavigation';
@@ -133,12 +135,6 @@ function SlideFromSide({
 // FADE IN VIEW
 // ============================================================================
 
-interface FadeInViewProps extends Omit<MotionProps, 'initial' | 'animate'> {
-  children: React.ReactNode;
-  delay?: number;
-  threshold?: number;
-}
-
 /**
  * Simple fade-in when element enters viewport
  */
@@ -172,13 +168,6 @@ export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
 // ============================================================================
 // STAGGER CONTAINER
 // ============================================================================
-
-interface StaggerContainerProps {
-  children: React.ReactNode;
-  stagger?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}
 
 /**
  * Container that staggers child animations
@@ -225,12 +214,6 @@ export function StaggerContainer({
 // ============================================================================
 // STAGGER ITEM
 // ============================================================================
-
-interface StaggerItemProps {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-}
 
 /**
  * Item to be used inside StaggerContainer

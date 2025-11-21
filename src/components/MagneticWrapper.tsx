@@ -2,15 +2,8 @@ import { useRef } from 'react';
 
 import { motion, useMotionValue, useSpring } from 'motion/react';
 
+import type { MagneticWrapperProps } from '@/config/types';
 import { useReducedMotion } from '@/hooks';
-
-interface MagneticWrapperProps {
-  children: React.ReactNode;
-  strength?: number;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}
 
 /**
  * Creates a magnetic cursor effect on hover

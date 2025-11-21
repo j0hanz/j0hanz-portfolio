@@ -11,8 +11,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-import {
-  ContactFormValues,
+import type {
+  ContactFieldConfig,
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
@@ -26,22 +26,6 @@ const getHelperText = (error?: string): React.ReactNode => {
     </Stack>
   );
 };
-
-type ContactFieldKey = keyof ContactFormValues;
-type ContactFieldErrorKey = keyof FormFieldsProps['errors'];
-
-interface ContactFieldConfig {
-  key: ContactFieldKey;
-  controlId: string;
-  icon: React.ElementType;
-  type?: FormFieldProps['type'];
-  label: string;
-  placeholder: string;
-  required?: boolean;
-  rows?: number;
-  errorKey?: ContactFieldErrorKey;
-  gridProps?: { xs?: number; md?: number };
-}
 
 const contactFieldConfigs: ContactFieldConfig[] = [
   {

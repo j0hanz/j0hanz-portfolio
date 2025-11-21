@@ -322,9 +322,10 @@ export const viewportConfigEager = {
 // TYPE EXPORTS
 // ============================================================================
 
-export type TransitionPreset = keyof typeof transitions;
-export type FadeVariant = keyof typeof fadeVariants;
-export type ScaleVariant = keyof typeof scaleVariants;
-export type SlideVariant = keyof typeof slideVariants;
-export type GestureVariant = keyof typeof gestureVariants;
-export type SectionVariant = keyof typeof sectionVariants;
+export type {
+  FadeVariant,
+  ScaleVariant,
+  SlideVariant,
+  GestureVariant,
+  SectionVariant,
+} from '@/config/types';

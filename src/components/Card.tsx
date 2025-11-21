@@ -1,15 +1,10 @@
 import { Box, Paper as MuiPaper, Typography } from '@mui/material';
 import { motion } from 'motion/react';
-import type { MotionProps } from 'motion/react';
 
-import { CardProps } from '@/config/types';
+import { CardProps, InternalCardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 
 const MotionPaper = motion.create(MuiPaper);
-
-interface InternalCardProps extends CardProps {
-  motionProps?: MotionProps;
-}
 
 const BaseCard = function Card({
   title,
