@@ -2,9 +2,9 @@ import { Close } from '@mui/icons-material';
 import { Dialog, DialogContent, IconButton } from '@mui/material';
 import { motion } from 'motion/react';
 
+import { modalVariants } from '@/config/motion';
 import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { modalVariants } from '@/utils/motionVariants';
 
 const MotionDialogContent = motion.create(DialogContent);
 

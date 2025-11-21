@@ -4,9 +4,9 @@ import { motion } from 'motion/react';
 
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
+import { createStaggerContainer } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
 import projects from '@/lib/data/projects';
-import { createStaggerContainer } from '@/utils/motionVariants';
 
 import ProjectList from './ProjectList';
 

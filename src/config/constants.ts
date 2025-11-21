@@ -1,21 +1,6 @@
 import { PaletteOptions } from '@mui/material/styles';
+
 import type { RepoStats } from './types';
-
-// ============================================================================
-// ANIMATION CONSTANTS
-// ============================================================================
-
-export const BASE_DURATION = 0.6;
-export const BASE_DELAY = 0.1;
-export const BASE_STAGGER = 0.12;
-
-export const REDUCED_MOTION_TARGET = {
-  opacity: 1,
-  x: 0,
-  y: 0,
-  scale: 1,
-  rotate: 0,
-} as const;
 
 // ============================================================================
 // PROJECT STATS CONSTANTS

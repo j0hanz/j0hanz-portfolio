@@ -19,8 +19,11 @@ import {
   BASE_DELAY,
   BASE_DURATION,
   BASE_STAGGER,
+  gestureVariants,
   REDUCED_MOTION_TARGET,
-} from '@/config/constants';
+  transitions,
+  viewportConfig,
+} from '@/config/motion';
 import type {
   AnimationConfig,
   AnimationPriority,
@@ -34,11 +37,6 @@ import type {
   UseMeasureReturn,
 } from '@/config/types';
 import useEventCallback from '@/hooks/useEventCallback';
-import {
-  gestureVariants,
-  transitions,
-  viewportConfig,
-} from '@/utils/motionVariants';
 
 // ============================================================================
 // REDUCED MOTION DETECTION

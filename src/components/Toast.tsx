@@ -5,8 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { motion } from 'motion/react';
 
+import { toastVariants } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
-import { toastVariants } from '@/utils/motionVariants';
 
 const MotionToastTransition = ({
   children,

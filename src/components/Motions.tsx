@@ -2,6 +2,7 @@ import { forwardRef, useRef } from 'react';
 
 import { AnimatePresence, motion } from 'motion/react';
 
+import { sectionVariants, viewportConfig } from '@/config/motion';
 import type {
   FadeInViewProps,
   MotionWrapperProps,
@@ -12,7 +13,6 @@ import type {
 } from '@/config/types';
 import { useAnimationConfig, useInView } from '@/hooks';
 import { useNavigation } from '@/hooks/useNavigation';
-import { sectionVariants, viewportConfig } from '@/utils/motionVariants';
 
 // ============================================================================
 // SECTION MOTION WRAPPER

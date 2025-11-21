@@ -13,13 +13,13 @@ import ModalCv from '@/components/ModalCv';
 import { StaggerContainer } from '@/components/Motions';
 import { Parallax } from '@/components/Parallax';
 import { TextReveal } from '@/components/TextReveal';
+import { fadeVariants } from '@/config/motion';
 import {
   useAnimationConfig,
   useAnimationPriority,
   useHover,
   useToggle,
 } from '@/hooks';
-import { fadeVariants } from '@/utils/motionVariants';
 
 const buttonBaseStyles = {
   minWidth: 180,

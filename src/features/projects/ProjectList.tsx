@@ -3,8 +3,8 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import { AnimatedCard } from '@/components/Card';
+import { staggerItemVariant } from '@/config/motion';
 import { Project, ProjectListProps } from '@/config/types';
-import { staggerItemVariant } from '@/utils/motionVariants';
 import { getProjectMeta } from '@/utils/project';
 
 import ProjectHeader from './components/ProjectHeader';

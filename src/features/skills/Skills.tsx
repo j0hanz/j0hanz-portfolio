@@ -8,12 +8,9 @@ import { motion } from 'motion/react';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
+import { createStaggerContainer, staggerItemVariant } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
-import {
-  createStaggerContainer,
-  staggerItemVariant,
-} from '@/utils/motionVariants';
 
 // Rendering skills section
 function Skills(): React.JSX.Element {

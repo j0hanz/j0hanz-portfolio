@@ -103,7 +103,10 @@ export interface AnimatedStatProps {
   getTransition: AnimationConfig['getTransition'];
 }
 
-export type ActionButtonProps = Omit<CustomButtonProps, 'startIcon' | 'text'> & {
+export type ActionButtonProps = Omit<
+  CustomButtonProps,
+  'startIcon' | 'text'
+> & {
   label: string;
   icon: ReactNode;
 };
@@ -400,7 +403,8 @@ export interface MotionWrapperProps extends MotionProps {
   sectionId: SectionMotionVariantId;
 }
 
-export interface FadeInViewProps extends Omit<MotionProps, 'initial' | 'animate'> {
+export interface FadeInViewProps
+  extends Omit<MotionProps, 'initial' | 'animate'> {
   children: ReactNode;
   delay?: number;
   threshold?: number;
@@ -767,8 +771,18 @@ export type StatusBanner = {
 export type FadeVariant = 'in' | 'up' | 'down' | 'left' | 'right';
 export type ScaleVariant = 'in' | 'pop' | 'grow';
 export type SlideVariant = 'fromLeft' | 'fromRight' | 'fromTop' | 'fromBottom';
-export type GestureVariant = 'hoverScale' | 'cardHover' | 'buttonTap' | 'iconBounce';
-export type SectionVariant = 'default' | 'fade' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scale';
+export type GestureVariant =
+  | 'hoverScale'
+  | 'cardHover'
+  | 'buttonTap'
+  | 'iconBounce';
+export type SectionVariant =
+  | 'default'
+  | 'fade'
+  | 'slideUp'
+  | 'slideLeft'
+  | 'slideRight'
+  | 'scale';
 
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {
