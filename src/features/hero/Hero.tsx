@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { DownloadRounded, EmailRounded } from '@mui/icons-material';
 import { Box, Container, Stack, Typography } from '@mui/material';
@@ -12,6 +12,7 @@ import ModalCv from '@/components/ModalCv';
 import {
   useAnimationConfig,
   useAnimationPriority,
+  useEventListener,
   useHover,
   useScrollProgress,
   useToggle,
@@ -71,18 +72,10 @@ const MagneticWrapper = ({
     measureBounds();
   };
 
-  useEffect(() => {
-    if (disabled || typeof window === 'undefined') return;
-
-    const handleResize = () => {
-      boundsRef.current = null;
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [disabled]);
+  useEventListener('resize', () => {
+    if (disabled) return;
+    boundsRef.current = null;
+  });
 
   const motionStyle = disabled
     ? { display: 'inline-flex' as const }

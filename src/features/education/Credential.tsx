@@ -7,7 +7,7 @@ import ImageCredential from '@/assets/Credential.webp';
 import Image from '@/components/Image';
 import Spinner from '@/components/Spinner';
 import { CredentialProps } from '@/config/types';
-import useLoading from '@/hooks/useLoading';
+import { useLoading } from '@/hooks';
 
 // Component for displaying a credential
 function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {

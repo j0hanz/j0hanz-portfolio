@@ -6,8 +6,7 @@ import { motion } from 'motion/react';
 import ProfileImage from '@/assets/image_me.webp';
 import BaseModal from '@/components/BaseModal';
 import { ImageModalProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
-import useLoading from '@/hooks/useLoading';
+import { useAnimationConfig, useLoading } from '@/hooks';
 
 import Spinner from './Spinner';
 

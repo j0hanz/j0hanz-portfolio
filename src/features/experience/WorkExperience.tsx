@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import {
   ApartmentTwoTone,
@@ -83,23 +83,19 @@ function WorkExperience(): React.JSX.Element {
     offset: ['start 0.9', 'end 0.25'],
   });
 
-  const attachRefs = (node: HTMLDivElement | null) => {
-    if (!node) {
-      sectionRef.current = null;
-      scopeRef(null);
-      return;
-    }
-
-    sectionRef.current = node;
-    scopeRef(node);
-
-    return () => {
-      if (sectionRef.current === node) {
+  const attachRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) {
         sectionRef.current = null;
+        scopeRef(null);
+        return;
       }
-      scopeRef(null);
-    };
-  };
+
+      sectionRef.current = node;
+      scopeRef(node);
+    },
+    [scopeRef]
+  );
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
     if (prefersReducedMotion || hasPlayed.current || value <= 0.15) {

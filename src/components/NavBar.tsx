@@ -31,9 +31,9 @@ import {
   useAnimationConfig,
   useCursorMagnet,
   useEventListener,
+  useNavLinkClose,
   useToggle,
 } from '@/hooks';
-import useNavLinkClose from '@/hooks/useNavLinkClose';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
 

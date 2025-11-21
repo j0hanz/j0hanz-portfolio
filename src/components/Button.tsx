@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { motion } from 'motion/react';
 
 import { CustomButtonProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks/useMotions';
+import { useAnimationConfig } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
 
 const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({

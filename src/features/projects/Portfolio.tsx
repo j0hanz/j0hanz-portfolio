@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import SectionContainer from '@/components/SectionContainer';
-import { useAnimationConfig } from '@/hooks/useMotions';
+import { useAnimationConfig } from '@/hooks';
 import projects from '@/lib/data/projects';
 import { motionVariants } from '@/utils/motionVariants';
 

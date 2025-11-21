@@ -4,7 +4,7 @@ import { DarkMode, LightMode } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks';
 
 function DarkModeToggle(): React.JSX.Element {
   const { mode, toggleMode } = useTheme();

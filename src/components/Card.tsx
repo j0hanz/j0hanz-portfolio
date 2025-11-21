@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import type { MotionProps } from 'motion/react';
 
 import { CardProps } from '@/config/types';
-import { useCardHover } from '@/hooks/useMotions';
+import { useCardHover } from '@/hooks';
 
 const MotionPaper = motion.create(MuiPaper);
 

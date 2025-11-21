@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import type { MotionProps } from 'motion/react';
 
 import { MotionWrapperProps, SlideFromSideProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks/useMotions';
+import { useAnimationConfig } from '@/hooks';
 import { motionVariants } from '@/utils/motionVariants';
 
 // Use a stable fallback variant so missing ids do not break motion rendering.
