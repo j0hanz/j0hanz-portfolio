@@ -22,7 +22,7 @@ const backgroundSx: SxProps<Theme> = {
       transparent 70%
     )`;
   },
-  filter: 'blur(80px)',
+  filter: 'blur(40px)',
   willChange: 'transform, opacity',
 };
 

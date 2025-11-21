@@ -81,19 +81,29 @@ export function useFullPageScroll(): void {
      * Handles wheel events for full-page scrolling
      */
     const handleWheel = (e: WheelEvent) => {
-      if (isScrolling.current) return;
+      if (isScrolling.current) {
+        e.preventDefault();
+        return;
+      }
 
       if (Math.abs(e.deltaY) <= WHEEL_THRESHOLD) return;
 
       const direction: ScrollDirection = e.deltaY > 0 ? 'down' : 'up';
-      handleNavigation(direction);
+      const handled = handleNavigation(direction);
+
+      if (handled) {
+        e.preventDefault();
+      }
     };
 
     /**
      * Handles keyboard events for full-page scrolling
      */
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isScrolling.current) return;
+      if (isScrolling.current) {
+        e.preventDefault();
+        return;
+      }
 
       const isDownKey = DOWN_KEYS.includes(e.key as (typeof DOWN_KEYS)[number]);
       const isUpKey = UP_KEYS.includes(e.key as (typeof UP_KEYS)[number]);
@@ -125,7 +135,11 @@ export function useFullPageScroll(): void {
       if (Math.abs(deltaY) <= TOUCH_THRESHOLD) return;
 
       const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
-      handleNavigation(direction);
+      const handled = handleNavigation(direction);
+
+      if (handled) {
+        e.preventDefault();
+      }
     };
 
     // Register event listeners

@@ -11,11 +11,4 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  resolve: {
-    alias: {
-      '@': '/src',
-      '@components': '/src/components',
-      '@utils': '/src/utils',
-    },
-  },
 });
