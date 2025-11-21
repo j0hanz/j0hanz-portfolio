@@ -9,8 +9,9 @@ import {
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
+  type AnimationPlaybackControls,
+  type DOMKeyframesDefinition,
   motion,
-  stagger,
   useMotionValueEvent,
   useScroll,
   useTransform,
@@ -29,12 +30,36 @@ import {
 import {
   useAnimationConfig,
   useAnimationSequence,
+  useEventCallback,
   useMeasure,
   useToggle,
 } from '@/hooks';
 import education from '@/lib/data/education';
 
 import Credential from './Credential';
+
+// Constants
+const TIMELINE_MIN_OPACITY = 0.08;
+const TIMELINE_MAX_OPACITY = 0.2;
+const TIMELINE_HEIGHT_DIVISOR = 1600;
+const ANIMATION_TRIGGER_THRESHOLD = 0.2;
+
+// Animation configuration
+const CARD_ANIMATION_CONFIG = {
+  duration: 0.45,
+  baseDelay: 0.05,
+  staggerDelay: 0.12,
+  ease: [0.42, 0, 0.58, 1] as const,
+} as const;
+
+const DESCRIPTION_ANIMATION_CONFIG = {
+  duration: 0.35,
+  staggerDelay: 0.05,
+} as const;
+
+const CTA_ANIMATION_CONFIG = {
+  duration: 0.3,
+} as const;
 
 const gridItemSx: SxProps<Theme> = {
   mb: 4,
@@ -133,6 +158,106 @@ function EducationCard({
   );
 }
 
+// Hook for managing combined refs (scope, measure, and section)
+function useCombinedRefs<T extends HTMLElement>() {
+  const sectionRef = useRef<T | null>(null);
+
+  const attachRefs = useEventCallback(
+    (
+      scopeRef: (node: Element | null) => void,
+      measureRef: (node: T | null) => void
+    ) =>
+      (node: T | null) => {
+        sectionRef.current = node;
+        scopeRef(node);
+        measureRef(node);
+      }
+  );
+
+  return { sectionRef, attachRefs };
+}
+
+// Calculate timeline opacity based on container height
+function calculateTimelineOpacity(height: number): number {
+  if (height === 0) return TIMELINE_MIN_OPACITY;
+  return Math.max(
+    Math.min(height / TIMELINE_HEIGHT_DIVISOR, TIMELINE_MAX_OPACITY),
+    TIMELINE_MIN_OPACITY
+  );
+}
+
+// Animation sequence orchestrator
+function useEducationAnimations(
+  sectionRef: React.RefObject<HTMLDivElement | null>,
+  prefersReducedMotion: boolean
+) {
+  const { runSequence } = useAnimationSequence();
+  const hasPlayed = useRef(false);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 0.85', 'end 0.2'],
+  });
+
+  const executeAnimationSequence = useEventCallback(
+    async (
+      animate: (
+        target: string,
+        keyframes: DOMKeyframesDefinition,
+        options?: {
+          duration?: number;
+          delay?: number | ((i: number) => number);
+          ease?: readonly [number, number, number, number];
+        }
+      ) => AnimationPlaybackControls
+    ) => {
+      await animate(
+        '[data-edu-card]',
+        { opacity: [0, 1], y: [24, 0] },
+        {
+          duration: CARD_ANIMATION_CONFIG.duration,
+          delay: (i: number) =>
+            CARD_ANIMATION_CONFIG.baseDelay +
+            i * CARD_ANIMATION_CONFIG.staggerDelay,
+          ease: CARD_ANIMATION_CONFIG.ease,
+        }
+      );
+      await animate(
+        '[data-edu-description]',
+        { opacity: [0, 1], y: [16, 0] },
+        {
+          duration: DESCRIPTION_ANIMATION_CONFIG.duration,
+          delay: (i: number) => i * DESCRIPTION_ANIMATION_CONFIG.staggerDelay,
+        }
+      );
+      await animate(
+        '[data-edu-cta]',
+        { opacity: [0, 1], scale: [0.95, 1] },
+        {
+          duration: CTA_ANIMATION_CONFIG.duration,
+        }
+      );
+    }
+  );
+
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    if (
+      prefersReducedMotion ||
+      hasPlayed.current ||
+      value <= ANIMATION_TRIGGER_THRESHOLD
+    ) {
+      return;
+    }
+
+    hasPlayed.current = true;
+    runSequence(executeAnimationSequence);
+  });
+
+  return {
+    timelineScale: useTransform(scrollYProgress, [0, 1], [0.05, 1]),
+  };
+}
+
 // Rendering education section
 function Education(): React.JSX.Element {
   const {
@@ -141,74 +266,16 @@ function Education(): React.JSX.Element {
     setFalse: handleCloseModal,
   } = useToggle(false);
   const { prefersReducedMotion } = useAnimationConfig();
-  const { scopeRef, runSequence } = useAnimationSequence();
-  const sectionNodeRef = useRef<HTMLDivElement | null>(null);
-  const hasPlayed = useRef(false);
+  const { scopeRef } = useAnimationSequence();
   const { ref: measureRef, bounds } = useMeasure<HTMLDivElement>();
-  const { scrollYProgress } = useScroll({
-    target: sectionNodeRef,
-    offset: ['start 0.85', 'end 0.2'],
-  });
-  const timelineScale = useTransform(scrollYProgress, [0, 1], [0.05, 1]);
-  const timelineOpacity =
-    bounds.height === 0
-      ? 0.12
-      : Math.max(Math.min(bounds.height / 1600, 0.2), 0.08);
+  const { sectionRef, attachRefs } = useCombinedRefs<HTMLDivElement>();
 
-  const attachRefs = (node: HTMLDivElement | null) => {
-    if (!node) {
-      sectionNodeRef.current = null;
-      scopeRef(null);
-      measureRef(null);
-      return;
-    }
+  const { timelineScale } = useEducationAnimations(
+    sectionRef,
+    prefersReducedMotion
+  );
 
-    sectionNodeRef.current = node;
-    scopeRef(node);
-    measureRef(node);
-
-    return () => {
-      if (sectionNodeRef.current === node) {
-        sectionNodeRef.current = null;
-      }
-      scopeRef(null);
-      measureRef(null);
-    };
-  };
-
-  useMotionValueEvent(scrollYProgress, 'change', (value) => {
-    if (prefersReducedMotion || hasPlayed.current || value <= 0.2) {
-      return;
-    }
-
-    hasPlayed.current = true;
-    runSequence(async (animate) => {
-      await animate(
-        '[data-edu-card]',
-        { opacity: [0, 1], y: [24, 0] },
-        {
-          duration: 0.45,
-          delay: (i: number) => 0.05 + i * 0.12,
-          ease: [0.42, 0, 0.58, 1],
-        }
-      );
-      await animate(
-        '[data-edu-description]',
-        { opacity: [0, 1], y: [16, 0] },
-        {
-          duration: 0.35,
-          delay: stagger(0.05),
-        }
-      );
-      await animate(
-        '[data-edu-cta]',
-        { opacity: [0, 1], scale: [0.95, 1] },
-        {
-          duration: 0.3,
-        }
-      );
-    });
-  });
+  const timelineOpacity = calculateTimelineOpacity(bounds.height);
 
   return (
     <SectionContainer
@@ -216,7 +283,7 @@ function Education(): React.JSX.Element {
       title={<TextReveal text="Education" as="span" />}
       icon={SchoolTwoTone}
     >
-      <Box ref={attachRefs} sx={wrapperSx}>
+      <Box ref={attachRefs(scopeRef, measureRef)} sx={wrapperSx}>
         <Box
           component={motion.div}
           aria-hidden

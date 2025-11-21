@@ -81,6 +81,9 @@ export { default as useHover } from './useHover';
 /** Detects if the user is currently online or offline. */
 export { default as useOnlineStatus } from './useOnlineStatus';
 
+/** Fetches and caches GitHub repository statistics. */
+export { default as useRepoStats } from './useRepoStats';
+
 /** Accesses the SnackbarContext. */
 export { default as useSnackbar } from './useSnackbar';
 

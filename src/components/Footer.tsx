@@ -117,35 +117,38 @@ const Footer: FC = () => {
     tooltip,
     icon,
     index,
-  }: SocialLinkRenderProps) => {
+  }: SocialLinkRenderProps): React.JSX.Element => {
     const hasInteraction = Boolean(href || onClick);
     const staggerDelay = prefersReducedMotion ? 0 : index * 0.05;
+    const hoverAnimation = prefersReducedMotion
+      ? { scale: 1.05 }
+      : { scale: 1.2, rotate: 5 };
+
+    const linkAttributes = href
+      ? {
+          target: '_blank' as const,
+          rel: 'noopener noreferrer' as const,
+        }
+      : {};
 
     return (
-      <Box
-        component={motion.a}
+      <motion.a
         href={href}
         onClick={onClick}
-        target={href ? '_blank' : undefined}
-        rel={href ? 'noopener noreferrer' : undefined}
         aria-label={tooltip}
-        sx={{
+        {...linkAttributes}
+        style={{
           cursor: hasInteraction ? 'pointer' : 'default',
           color: 'inherit',
           textDecoration: 'none',
           display: 'inline-flex',
-          '&:hover': {
-            color: 'primary.light',
-          },
         }}
-        whileHover={
-          prefersReducedMotion ? { scale: 1.05 } : { scale: 1.2, rotate: 5 }
-        }
+        whileHover={hoverAnimation}
         whileTap={{ scale: 0.92 }}
         transition={getTransition('smooth', { delay: staggerDelay })}
       >
         {icon}
-      </Box>
+      </motion.a>
     );
   };
 

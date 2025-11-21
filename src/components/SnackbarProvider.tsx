@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import {
   Alert,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 
 import { SnackbarContext, SnackbarOptions } from '@/contexts/SnackbarContext';
+import { useEventCallback } from '@/hooks';
 
 const snackbarSx: SxProps<Theme> = {
   mt: { xs: 8, sm: 9 }, // Offset for navbar
@@ -32,7 +33,7 @@ export function SnackbarProvider({
     duration: 3000,
   });
 
-  const showSnackbar = useCallback(
+  const showSnackbar = useEventCallback(
     (
       message: string,
       severity: AlertColor = 'info',
@@ -40,13 +41,12 @@ export function SnackbarProvider({
     ) => {
       setConfig({ message, severity, duration });
       setOpen(true);
-    },
-    []
+    }
   );
 
-  const closeSnackbar = useCallback(() => {
+  const closeSnackbar = useEventCallback(() => {
     setOpen(false);
-  }, []);
+  });
 
   const handleClose = (
     _event?: React.SyntheticEvent | Event,

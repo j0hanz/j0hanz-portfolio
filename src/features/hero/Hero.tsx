@@ -2,16 +2,7 @@ import React, { useRef } from 'react';
 
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
-import {
-  alpha,
-  Box,
-  Container,
-  Stack,
-  type SxProps,
-  type Theme,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Container, Stack, Typography, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -25,90 +16,29 @@ import { Parallax } from '@/components/Parallax';
 import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
 import {
+  buttonsStackSx,
+  contactButtonSx,
+  containerSx,
+  cursorAnimation,
+  cursorStyle,
+  cursorTransition,
+  downloadButtonSx,
+  heroNameStyles,
+  iconSx,
+  overlaySx,
+  profileImgSx,
+  profileWrapperSx,
+  rightGridSx,
+  sectionSx,
+  subtitleClipPath,
+  subtitleSx,
+} from '@/features/hero/Hero.styles';
+import {
   useAnimationConfig,
   useAnimationPriority,
   useHover,
   useToggle,
 } from '@/hooks';
-
-const buttonBaseStyles = {
-  minWidth: 180,
-  height: 45,
-} as const;
-
-const sectionSx: SxProps<Theme> = {
-  pt: 8,
-};
-
-const containerSx: SxProps<Theme> = {
-  textAlign: 'center',
-  px: 0,
-  pb: 5,
-};
-
-const profileWrapperSx: SxProps<Theme> = {
-  position: 'relative',
-  display: 'inline-flex',
-};
-
-const profileImgSx: SxProps<Theme> = {
-  width: { xs: 185, md: 245, lg: 280 },
-  height: { xs: 185, md: 245, lg: 280 },
-  borderRadius: 2,
-  objectFit: 'cover',
-  cursor: 'pointer',
-  mb: { xs: 3, lg: 0 },
-};
-
-const overlaySx: SxProps<Theme> = {
-  position: 'absolute',
-  inset: 0,
-  borderRadius: 2,
-  bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'common.white',
-  letterSpacing: 1,
-  fontSize: '0.9rem',
-  pointerEvents: 'none',
-  textTransform: 'uppercase',
-};
-
-const rightGridSx: SxProps<Theme> = {
-  textAlign: { xs: 'center', lg: 'left' },
-};
-
-const subtitleSx: SxProps<Theme> = {
-  my: 2,
-  fontSize: { xs: '1.2rem', sm: '1.3rem' },
-  letterSpacing: { xs: '0.5px', sm: '2px' },
-  textTransform: 'uppercase',
-  color: 'text.primary',
-  fontWeight: 500,
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 0.5,
-};
-
-const buttonsStackSx: SxProps<Theme> = {
-  mt: 3,
-};
-
-const downloadButtonSx: SxProps<Theme> = {
-  ...buttonBaseStyles,
-  bgcolor: 'primary.main',
-};
-
-const contactButtonSx: SxProps<Theme> = {
-  ...buttonBaseStyles,
-  bgcolor: 'neutral.main',
-  '&:hover': { bgcolor: 'neutral.dark' },
-};
-
-const iconSx: SxProps<Theme> = {
-  fontSize: '1.05rem',
-};
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
@@ -183,11 +113,7 @@ function Hero(): React.JSX.Element {
                   background: theme.palette.heroGradient,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
-                  letterSpacing: '2px',
-                  fontWeight: 500,
-                  lineHeight: 1.2,
-                  justifyContent: 'center',
+                  ...heroNameStyles,
                 }}
               />
 
@@ -195,14 +121,10 @@ function Hero(): React.JSX.Element {
                 variant="h2"
                 component={motion.h2}
                 initial={
-                  prefersReducedMotion
-                    ? undefined
-                    : { clipPath: 'inset(0 100% 0 0)' }
+                  prefersReducedMotion ? undefined : subtitleClipPath.initial
                 }
                 animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : { clipPath: 'inset(0 0% 0 0)' }
+                  prefersReducedMotion ? undefined : subtitleClipPath.animate
                 }
                 transition={getTransition('easeInOut', {
                   duration: 1.1,
@@ -214,15 +136,9 @@ function Hero(): React.JSX.Element {
                 {!prefersReducedMotion && (
                   <motion.span
                     aria-hidden
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 0.9, repeat: Infinity }}
-                    style={{
-                      display: 'inline-block',
-                      width: 2,
-                      height: '1.3em',
-                      backgroundColor: 'currentColor',
-                      marginLeft: '0.35rem',
-                    }}
+                    animate={cursorAnimation}
+                    transition={cursorTransition}
+                    style={cursorStyle}
                   />
                 )}
               </Typography>

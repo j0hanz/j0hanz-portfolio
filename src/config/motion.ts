@@ -261,6 +261,26 @@ export const modalVariants = {
 } as const;
 
 // ============================================================================
+// SUCCESS INDICATOR VARIANTS
+// ============================================================================
+
+export const successIndicatorVariants = {
+  container: {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 },
+  },
+  checkmarkCircle: {
+    initial: { strokeDasharray: 56.5, strokeDashoffset: 56.5 },
+    animate: { strokeDashoffset: 0 },
+  },
+  checkmarkPath: {
+    initial: { pathLength: 0 },
+    animate: { pathLength: 1 },
+  },
+} as const;
+
+// ============================================================================
 // VIEWPORT CONFIGURATION
 // ============================================================================
 

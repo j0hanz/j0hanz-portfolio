@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Skeleton,
@@ -11,22 +11,16 @@ import Button from '@mui/material/Button';
 import {
   animate,
   motion,
-  useInView,
   useMotionValue,
   useMotionValueEvent,
 } from 'motion/react';
 
-import { CACHE_DURATION, EMPTY_STATS } from '@/config/constants';
 import type {
   AnimatedStatProps,
-  CachedStats,
   ProjectStatsProps,
   RepoStats,
 } from '@/config/types';
-import { useAnimationConfig, useEventCallback } from '@/hooks';
-
-// Cache stats for 10 minutes to avoid rate limiting
-const statsCache = new Map<string, CachedStats>();
+import { useAnimationConfig, useRepoStats } from '@/hooks';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -49,6 +43,34 @@ const buttonSx: SxProps<Theme> = {
   px: 0,
   fontSize: '0.75rem',
 };
+
+type StatKey = keyof RepoStats;
+
+const STAT_LABELS: Record<StatKey, string> = {
+  stars: 'Stars',
+  forks: 'Forks',
+  issues: 'Issues',
+};
+
+const buildStatItems = (stats: RepoStats, includeIssues: boolean) => {
+  const keys: StatKey[] = includeIssues
+    ? ['stars', 'forks', 'issues']
+    : ['stars', 'forks'];
+  return keys.map((key) => ({
+    key,
+    label: STAT_LABELS[key],
+    value: stats[key],
+  }));
+};
+
+function StatsSkeleton() {
+  return (
+    <Stack spacing={0.5} width="100%" aria-hidden>
+      <Skeleton variant="text" width="60%" height={20} />
+      <Skeleton variant="text" width="40%" height={20} />
+    </Stack>
+  );
+}
 
 function AnimatedStat({
   label,
@@ -96,137 +118,6 @@ function AnimatedStat({
   );
 }
 
-const logRateLimitWarning = (response: Response, repoPath: string) => {
-  if (response.status !== 403) return;
-  const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
-  if (rateLimitRemaining === '0') {
-    console.warn(`GitHub API rate limit exceeded for ${repoPath}`);
-  } else {
-    console.warn(`GitHub API 403 (Forbidden) for ${repoPath}`);
-  }
-};
-
-function useRepoStats(repoPath: string) {
-  const [stats, setStats] = useState<RepoStats | null>(null);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
-  const [refreshIndex, setRefreshIndex] = useState(0);
-  const [optimisticStarCount, setOptimisticStarCount] = useState<number | null>(
-    null
-  );
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const timeoutRef = useRef<number | null>(null);
-  const isInView = useInView(containerRef, {
-    once: true,
-    margin: '0px 0px -20% 0px',
-  });
-
-  const clearOptimisticTimeout = () => {
-    if (timeoutRef.current === null) return;
-    window.clearTimeout(timeoutRef.current);
-    timeoutRef.current = null;
-  };
-
-  useEffect(() => () => clearOptimisticTimeout(), []);
-
-  useEffect(() => {
-    if (!repoPath || !isInView) {
-      return () => undefined;
-    }
-
-    let isCancelled = false;
-    const controller = new AbortController();
-    const forceRefresh = refreshIndex > 0;
-
-    const fetchStats = async () => {
-      try {
-        const cached = statsCache.get(repoPath);
-        const now = Date.now();
-
-        if (
-          !forceRefresh &&
-          cached &&
-          now - cached.timestamp < CACHE_DURATION
-        ) {
-          if (!isCancelled) {
-            setStats(cached.data);
-            setStatus('idle');
-          }
-          return;
-        }
-
-        setStatus('loading');
-        const response = await fetch(
-          `https://api.github.com/repos/${repoPath}`,
-          {
-            signal: controller.signal,
-            headers: {
-              Accept: 'application/vnd.github+json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          logRateLimitWarning(response, repoPath);
-          throw new Error(`Failed to fetch repo stats: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (isCancelled) return;
-
-        const newStats: RepoStats = {
-          stars: data.stargazers_count ?? 0,
-          forks: data.forks_count ?? 0,
-          issues: data.open_issues_count ?? 0,
-        };
-
-        statsCache.set(repoPath, { data: newStats, timestamp: now });
-
-        setStats(newStats);
-        setStatus('idle');
-      } catch (error) {
-        if (controller.signal.aborted || isCancelled) return;
-        console.error(`Unable to load GitHub stats for ${repoPath}:`, error);
-        setStatus('error');
-      }
-    };
-
-    fetchStats();
-
-    return () => {
-      isCancelled = true;
-      controller.abort();
-    };
-  }, [repoPath, isInView, refreshIndex]);
-
-  const handleOptimisticStar = useEventCallback(() => {
-    if (!stats) return;
-
-    clearOptimisticTimeout();
-    const newStarCount = stats.stars + 1;
-    setOptimisticStarCount(newStarCount);
-
-    timeoutRef.current = window.setTimeout(() => {
-      setOptimisticStarCount(null);
-      setRefreshIndex((prev) => prev + 1);
-      timeoutRef.current = null;
-    }, 2000);
-  });
-
-  const baseStats = stats ?? EMPTY_STATS;
-  const displayStats: RepoStats = {
-    ...baseStats,
-    stars: optimisticStarCount ?? baseStats.stars,
-  };
-
-  return {
-    containerRef,
-    status,
-    stats: displayStats,
-    hasLoadedStats: Boolean(stats),
-    handleOptimisticStar,
-  };
-}
-
 const ProjectStats = ({
   repoPath,
   hasProjectBoard,
@@ -234,18 +125,10 @@ const ProjectStats = ({
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const { containerRef, status, stats, hasLoadedStats, handleOptimisticStar } =
     useRepoStats(repoPath);
-
-  const statItems = [
-    { key: 'stars', label: 'Stars', value: stats.stars },
-    { key: 'forks', label: 'Forks', value: stats.forks },
-  ];
-
-  if (hasProjectBoard) {
-    statItems.push({ key: 'issues', label: 'Issues', value: stats.issues });
-  }
-
-  const isInitialLoad = status === 'loading' && !hasLoadedStats;
+  const statItems = buildStatItems(stats, hasProjectBoard);
+  const showSkeleton = status === 'loading' && !hasLoadedStats;
   const canOptimisticUpdate = hasLoadedStats && status !== 'loading';
+  const showError = status === 'error';
 
   return (
     <Stack
@@ -263,17 +146,12 @@ const ProjectStats = ({
           getTransition={getTransition}
         />
       ))}
-      {status === 'error' && (
-        <Typography variant="caption" color="error.main">
+      {showError && (
+        <Typography variant="caption" color="error.main" role="status">
           Stats temporarily unavailable (API rate limit).
         </Typography>
       )}
-      {isInitialLoad && (
-        <Stack spacing={0.5} width="100%">
-          <Skeleton variant="text" width="60%" height={20} />
-          <Skeleton variant="text" width="40%" height={20} />
-        </Stack>
-      )}
+      {showSkeleton && <StatsSkeleton />}
       <Button
         variant="text"
         size="small"

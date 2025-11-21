@@ -229,13 +229,15 @@ export function useAnimationSequence(): AnimationSequenceControls {
   }, []);
 
   const scopeRef = useEventCallback((node: Element | null) => {
-    if (scope && typeof scope === 'function') {
+    // Handle function-based scope refs
+    if (typeof scope === 'function') {
       (scope as (node: Element | null) => void)(node);
       return;
     }
 
+    // Handle object-based scope refs
     if (scope && typeof scope === 'object' && 'current' in scope) {
-      (scope as { current: Element | null }).current = node;
+      (scope as React.MutableRefObject<Element | null>).current = node;
     }
   });
 

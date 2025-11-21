@@ -17,6 +17,7 @@ import Badges from '@/components/Badges';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
+import { successIndicatorVariants } from '@/config/motion';
 import type { SuccessIndicatorProps } from '@/config/types';
 import { useAnimationConfig, useContactForm } from '@/hooks';
 
@@ -55,6 +56,15 @@ function SuccessIndicator({
   visible,
 }: SuccessIndicatorProps): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const { container, checkmarkCircle, checkmarkPath } =
+    successIndicatorVariants;
+
+  const circleInitial = prefersReducedMotion
+    ? { strokeDashoffset: 0 }
+    : checkmarkCircle.initial;
+  const pathInitial = prefersReducedMotion
+    ? { pathLength: 1 }
+    : checkmarkPath.initial;
 
   return (
     <AnimatePresence initial={false} mode="wait">
@@ -66,9 +76,9 @@ function SuccessIndicator({
           alignItems="center"
           justifyContent="center"
           spacing={1.5}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
+          initial={container.initial}
+          animate={container.animate}
+          exit={container.exit}
           transition={getTransition('smooth')}
           sx={successStackSx}
         >
@@ -85,19 +95,16 @@ function SuccessIndicator({
               cx="12"
               cy="12"
               r="9"
-              initial={{
-                strokeDasharray: 56.5,
-                strokeDashoffset: prefersReducedMotion ? 0 : 56.5,
-              }}
-              animate={{ strokeDashoffset: 0 }}
+              initial={circleInitial}
+              animate={checkmarkCircle.animate}
               transition={getTransition('smooth', { duration: 0.6 })}
             />
             <motion.path
               d="M7.5 12.5l3 3.2 6-6.7"
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={{ pathLength: prefersReducedMotion ? 1 : 0 }}
-              animate={{ pathLength: 1 }}
+              initial={pathInitial}
+              animate={checkmarkPath.animate}
               transition={getTransition('smooth', {
                 duration: 0.45,
                 delay: 0.15,

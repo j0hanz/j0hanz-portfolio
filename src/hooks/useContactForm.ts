@@ -28,22 +28,6 @@ const buildInitialValues = (): ContactFormValues => ({
   message: '',
 });
 
-const updateError = (
-  setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
-  field: keyof ContactFormErrors,
-  message?: string
-): void => {
-  setErrors((prev) => {
-    if (!message) {
-      if (!(field in prev)) return prev;
-      const { [field]: _, ...rest } = prev;
-      return rest;
-    }
-    if (prev[field] === message) return prev;
-    return { ...prev, [field]: message };
-  });
-};
-
 const buildValuesFromFormData = (formData: FormData): ContactFormValues => ({
   name: (formData.get('name') ?? '') as string,
   email: (formData.get('email') ?? '') as string,
@@ -51,6 +35,55 @@ const buildValuesFromFormData = (formData: FormData): ContactFormValues => ({
   url: (formData.get('url') ?? '') as string,
   message: (formData.get('message') ?? '') as string,
 });
+
+// Debounce delay constants
+const EMAIL_DEBOUNCE_DELAY = 600;
+const URL_DEBOUNCE_DELAY = 600;
+const SUCCESS_RESET_DELAY = 3200;
+
+/**
+ * Updates or clears a field error in state
+ */
+const updateError = (
+  setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
+  field: keyof ContactFormErrors,
+  message?: string
+): void => {
+  setErrors((prev) => {
+    // Clear error if no message
+    if (!message) {
+      if (!(field in prev)) return prev;
+      const { [field]: _, ...rest } = prev;
+      return rest;
+    }
+    // Only update if message changed
+    if (prev[field] === message) return prev;
+    return { ...prev, [field]: message };
+  });
+};
+
+/**
+ * Hook to manage debounced field validation
+ */
+function useFieldValidation(
+  value: string,
+  validator: (val: string) => string | undefined,
+  fieldName: keyof ContactFormErrors,
+  setErrors: Dispatch<SetStateAction<ContactFormErrors>>,
+  delay: number
+) {
+  const debouncedValue = useDebounce(value, delay);
+  const hasValidated = useRef(false);
+
+  useEffect(() => {
+    // Skip initial validation
+    if (!hasValidated.current) {
+      hasValidated.current = true;
+      return;
+    }
+    updateError(setErrors, fieldName, validator(debouncedValue));
+  }, [debouncedValue, validator, fieldName, setErrors]);
+}
 
 const useContactForm = () => {
   const { showSnackbar } = useSnackbar();
@@ -61,26 +94,21 @@ const useContactForm = () => {
     'idle'
   );
 
-  const debouncedEmail = useDebounce(formData.email, 600);
-  const debouncedUrl = useDebounce(formData.url, 600);
-  const hasValidatedEmailRef = useRef(false);
-  const hasValidatedUrlRef = useRef(false);
-
-  useEffect(() => {
-    if (!hasValidatedEmailRef.current) {
-      hasValidatedEmailRef.current = true;
-      return;
-    }
-    updateError(setErrors, 'email', validateEmail(debouncedEmail));
-  }, [debouncedEmail]);
-
-  useEffect(() => {
-    if (!hasValidatedUrlRef.current) {
-      hasValidatedUrlRef.current = true;
-      return;
-    }
-    updateError(setErrors, 'url', validateUrl(debouncedUrl));
-  }, [debouncedUrl]);
+  // Debounced validation for email and URL
+  useFieldValidation(
+    formData.email,
+    validateEmail,
+    'email',
+    setErrors,
+    EMAIL_DEBOUNCE_DELAY
+  );
+  useFieldValidation(
+    formData.url,
+    validateUrl,
+    'url',
+    setErrors,
+    URL_DEBOUNCE_DELAY
+  );
 
   const handleChange = useEventCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -99,12 +127,13 @@ const useContactForm = () => {
     setSubmissionState('idle');
   });
 
+  // Auto-reset success state
   useEffect(() => {
     if (submissionState !== 'success') return;
 
     const timeoutId = window.setTimeout(() => {
       setSubmissionState('idle');
-    }, 3200);
+    }, SUCCESS_RESET_DELAY);
 
     return () => window.clearTimeout(timeoutId);
   }, [submissionState]);
@@ -124,16 +153,17 @@ const useContactForm = () => {
 
       try {
         const success = await sendEmail(submittedValues);
-        if (success) {
-          resetFields();
-          setSubmissionState('success');
-          showSnackbar('Your message was sent successfully!', 'success');
-          return { status: 'success' };
+
+        if (!success) {
+          setSubmissionState('idle');
+          showSnackbar(SEND_ERROR_MESSAGE, 'error');
+          return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
         }
 
-        setSubmissionState('idle');
-        showSnackbar(SEND_ERROR_MESSAGE, 'error');
-        return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
+        resetFields();
+        setSubmissionState('success');
+        showSnackbar('Your message was sent successfully!', 'success');
+        return { status: 'success' };
       } catch {
         setSubmissionState('idle');
         showSnackbar(SEND_ERROR_MESSAGE, 'error');
