@@ -10,7 +10,10 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
-import { motionVariants } from '@/utils/motionVariants';
+import {
+  createStaggerContainer,
+  staggerItemVariant,
+} from '@/utils/motionVariants';
 
 // Rendering skills section
 function Skills(): React.JSX.Element {
@@ -28,7 +31,7 @@ function Skills(): React.JSX.Element {
     >
       <Grid
         component={motion.div}
-        variants={motionVariants.stagger.container}
+        variants={createStaggerContainer(0.08, 0.1)}
         initial="initial"
         whileInView="animate"
         viewport={motionViewport}
@@ -39,7 +42,7 @@ function Skills(): React.JSX.Element {
           <Grid
             key={skill.label}
             component={motion.div}
-            variants={motionVariants.stagger.item}
+            variants={staggerItemVariant}
             size={{ xs: 6, sm: 6, md: 3 }}
             sx={{ textAlign: 'center', mb: 4 }}
           >

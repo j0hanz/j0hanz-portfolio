@@ -3,8 +3,7 @@ import { styled } from '@mui/material/styles';
 import { motion } from 'motion/react';
 
 import { CustomButtonProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
-import { motionVariants } from '@/utils/motionVariants';
+import { useButtonGesture } from '@/hooks';
 
 const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({
   textTransform: 'uppercase',
@@ -51,14 +50,16 @@ const Button = function Button({
     onAnimationIteration: _deprecatedAnimationIteration,
     ...restProps
   } = props;
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const gesture = motionVariants.gesture.buttonTap;
-  const restState = 'rest';
-  const hoverState =
-    motionWhileHover ?? (prefersReducedMotion ? restState : 'hover');
-  const tapState = motionWhileTap ?? (prefersReducedMotion ? restState : 'tap');
-  const focusState =
-    motionWhileFocus ?? (prefersReducedMotion ? restState : 'focus');
+
+  const gestureMotion = useButtonGesture();
+
+  // Allow custom overrides if provided
+  const finalMotionProps = {
+    ...gestureMotion,
+    ...(motionWhileTap && { whileTap: motionWhileTap }),
+    ...(motionWhileHover && { whileHover: motionWhileHover }),
+    ...(motionWhileFocus && { whileFocus: motionWhileFocus }),
+  };
 
   return (
     <MotionButton
@@ -69,13 +70,7 @@ const Button = function Button({
       endIcon={endIcon}
       className={className}
       sx={sx}
-      variants={gesture}
-      initial={restState}
-      animate={restState}
-      whileHover={hoverState}
-      whileTap={tapState}
-      whileFocus={focusState}
-      transition={getTransition('spring')}
+      {...finalMotionProps}
     >
       {text || children}
     </MotionButton>

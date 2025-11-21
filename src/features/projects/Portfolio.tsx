@@ -6,7 +6,7 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { useAnimationConfig } from '@/hooks';
 import projects from '@/lib/data/projects';
-import { motionVariants } from '@/utils/motionVariants';
+import { createStaggerContainer } from '@/utils/motionVariants';
 
 import ProjectList from './ProjectList';
 
@@ -21,7 +21,7 @@ function Portfolio(): React.JSX.Element {
       icon={FolderTwoTone}
     >
       <motion.div
-        variants={motionVariants.stagger.container}
+        variants={createStaggerContainer(0.1, 0.15)}
         initial={prefersReducedMotion ? 'animate' : 'initial'}
         whileInView="animate"
         viewport={motionViewport}

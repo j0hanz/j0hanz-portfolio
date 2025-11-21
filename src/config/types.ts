@@ -230,7 +230,14 @@ export type MotionVariantId =
   | 'scrollParallax'
   | 'layoutGroup';
 
-export type TransitionPreset = 'spring' | 'smooth' | 'slow';
+export type TransitionPreset =
+  | 'spring'
+  | 'springBouncy'
+  | 'springSmooth'
+  | 'smooth'
+  | 'easeOut'
+  | 'easeInOut'
+  | 'slow';
 
 export interface AnimationConfig {
   prefersReducedMotion: boolean;

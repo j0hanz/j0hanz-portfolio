@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'motion/react';
 
 import { useAnimationConfig } from '@/hooks';
-import { motionVariants } from '@/utils/motionVariants';
+import { toastVariants } from '@/utils/motionVariants';
 
 const MotionToastTransition = ({
   children,
@@ -38,13 +38,10 @@ const MotionToastTransition = ({
   return (
     <motion.div
       ref={assignRefs}
-      initial={motionVariants.exit.toast.initial}
-      animate={
-        isIn
-          ? motionVariants.exit.toast.animate
-          : motionVariants.exit.toast.exit
-      }
-      transition={getTransition('spring', { duration: 0.32 })}
+      initial="initial"
+      animate={isIn ? 'animate' : 'exit'}
+      variants={toastVariants}
+      transition={getTransition('springSmooth', { duration: 0.32 })}
       onAnimationComplete={() => {
         if (isIn) {
           playToast();
@@ -60,7 +57,9 @@ const MotionToastTransition = ({
 
 MotionToastTransition.displayName = 'MotionToastTransition';
 
-// Component for displaying toast notifications
+/**
+ * Toast notification container with motion animations
+ */
 function Toast(): React.JSX.Element {
   return (
     <ToastContainer

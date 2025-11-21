@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { RefObject, useRef } from 'react';
 
-import { motion, useInView, Variants } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 
-import { useReducedMotion } from '@/hooks';
+import { useInView, useReducedMotion } from '@/hooks';
 
 interface TextRevealProps {
   text: string;
@@ -13,6 +13,9 @@ interface TextRevealProps {
   style?: React.CSSProperties;
 }
 
+/**
+ * Reveals text character by character with stagger animation
+ */
 export function TextReveal({
   text,
   className,
@@ -21,16 +24,19 @@ export function TextReveal({
   as: Component = 'h2',
   style,
 }: TextRevealProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { amount: 0.5, once: true });
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref as RefObject<Element>, {
+    amount: 0.5,
+    once: true,
+  });
   const prefersReducedMotion = useReducedMotion();
 
   const container: Variants = {
     hidden: { opacity: 0 },
-    visible: (i = 1) => ({
+    visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.03, delayChildren: delay * i },
-    }),
+      transition: { staggerChildren: 0.025, delayChildren: delay },
+    },
   };
 
   const child: Variants = {
@@ -40,17 +46,17 @@ export function TextReveal({
       transition: {
         type: 'spring',
         damping: 12,
-        stiffness: 100,
+        stiffness: 120,
         duration,
       },
     },
     hidden: {
       opacity: 0,
-      y: 20,
+      y: 16,
       transition: {
         type: 'spring',
         damping: 12,
-        stiffness: 100,
+        stiffness: 120,
         duration,
       },
     },

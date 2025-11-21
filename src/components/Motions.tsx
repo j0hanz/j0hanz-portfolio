@@ -1,21 +1,25 @@
+import { forwardRef, useRef } from 'react';
+
 import { AnimatePresence, motion } from 'motion/react';
 import type { MotionProps } from 'motion/react';
 
-import { MotionWrapperProps, SlideFromSideProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
+import type {
+  MotionWrapperProps,
+  SectionMotionVariantId,
+  SlideFromSideProps,
+} from '@/config/types';
+import { useAnimationConfig, useInView } from '@/hooks';
 import { useNavigation } from '@/hooks/useNavigation';
-import { motionVariants } from '@/utils/motionVariants';
+import { sectionVariants, viewportConfig } from '@/utils/motionVariants';
 
-// Use a stable fallback variant so missing ids do not break motion rendering.
-const fallbackVariant = motionVariants.fadeUp;
+// ============================================================================
+// SECTION MOTION WRAPPER
+// ============================================================================
 
-interface MotionVariant {
-  initial?: MotionProps['initial'];
-  animate?: MotionProps['animate'];
-  whileInView?: MotionProps['whileInView'];
-}
-
-// Wrapper component for applying motion animations to sections
+/**
+ * Wraps sections with scroll-triggered animations
+ * Automatically handles reduced motion preferences
+ */
 function MotionWrapper({
   children,
   sectionId,
@@ -24,51 +28,47 @@ function MotionWrapper({
   viewport: viewportOverride,
   ...props
 }: MotionWrapperProps): React.JSX.Element {
-  const {
-    prefersReducedMotion,
-    getTransition,
-    motionViewport,
-    resolveMotionState,
-    reducedMotionTarget,
-  } = useAnimationConfig();
+  const { prefersReducedMotion, getTransition, reducedMotionTarget } =
+    useAnimationConfig();
 
-  const variant = (motionVariants.sections[sectionId] ??
-    fallbackVariant) as MotionVariant;
+  // Map section IDs to variants
+  const variantMap: Record<
+    SectionMotionVariantId,
+    keyof typeof sectionVariants
+  > = {
+    hero: 'default',
+    aboutMe: 'slideUp',
+    education: 'slideUp',
+    skills: 'scale',
+    portfolio: 'slideUp',
+    workExperience: 'slideUp',
+    contact: 'slideUp',
+  };
 
-  const resolvedInitial: MotionProps['initial'] = resolveMotionState(
-    prefersReducedMotion,
-    (variant.initial ??
-      fallbackVariant.initial ??
-      reducedMotionTarget) as MotionProps['initial'],
-    reducedMotionTarget as MotionProps['initial']
-  );
-
-  const resolvedWhileInView: MotionProps['whileInView'] = resolveMotionState(
-    prefersReducedMotion,
-    (variant.whileInView ??
-      variant.animate ??
-      fallbackVariant.animate ??
-      reducedMotionTarget) as MotionProps['whileInView'],
-    reducedMotionTarget as MotionProps['whileInView']
-  );
+  const variantKey = variantMap[sectionId] ?? 'default';
+  const variant = sectionVariants[variantKey];
 
   const viewport =
-    viewportOverride ?? (prefersReducedMotion ? undefined : motionViewport);
-  const transition = transitionOverride ?? getTransition('smooth');
+    viewportOverride ?? (prefersReducedMotion ? undefined : viewportConfig);
+  const transition = transitionOverride ?? getTransition('easeOut');
 
-  const motionStates = prefersReducedMotion
-    ? {
-        initial: reducedMotionTarget,
-        animate: reducedMotionTarget,
-      }
-    : {
-        initial: resolvedInitial,
-        whileInView: resolvedWhileInView,
-      };
+  if (prefersReducedMotion) {
+    return (
+      <motion.div
+        initial={reducedMotionTarget}
+        animate={reducedMotionTarget}
+        style={{ position: 'relative', ...(style ?? {}) }}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
-      {...motionStates}
+      initial={variant.initial}
+      whileInView={variant.whileInView}
       transition={transition}
       viewport={viewport}
       style={{ position: 'relative', ...(style ?? {}) }}
@@ -79,7 +79,13 @@ function MotionWrapper({
   );
 }
 
-// Component for sliding animations from left or right
+// ============================================================================
+// SLIDE FROM SIDE
+// ============================================================================
+
+/**
+ * Animates elements sliding in from left or right
+ */
 function SlideFromSide({
   children,
   from,
@@ -88,29 +94,31 @@ function SlideFromSide({
   viewport: viewportOverride,
   ...props
 }: SlideFromSideProps): React.JSX.Element {
-  const {
-    prefersReducedMotion,
-    getTransition,
-    motionViewport,
-    reducedMotionTarget,
-  } = useAnimationConfig();
-  const initialX = from === 'left' ? -50 : 50;
+  const { prefersReducedMotion, getTransition, reducedMotionTarget } =
+    useAnimationConfig();
+
+  const initialX = from === 'left' ? -60 : 60;
   const viewport =
-    viewportOverride ?? (prefersReducedMotion ? undefined : motionViewport);
-  const transition = transitionOverride ?? getTransition('spring');
-  const motionStates = prefersReducedMotion
-    ? {
-        initial: reducedMotionTarget,
-        animate: reducedMotionTarget,
-      }
-    : {
-        initial: { opacity: 0, x: initialX } as const,
-        whileInView: { opacity: 1, x: 0 } as const,
-      };
+    viewportOverride ?? (prefersReducedMotion ? undefined : viewportConfig);
+  const transition = transitionOverride ?? getTransition('easeOut');
+
+  if (prefersReducedMotion) {
+    return (
+      <motion.div
+        initial={reducedMotionTarget}
+        animate={reducedMotionTarget}
+        style={style}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
-      {...motionStates}
+      initial={{ opacity: 0, x: initialX }}
+      whileInView={{ opacity: 1, x: 0 }}
       transition={transition}
       viewport={viewport}
       style={style}
@@ -120,6 +128,141 @@ function SlideFromSide({
     </motion.div>
   );
 }
+
+// ============================================================================
+// FADE IN VIEW
+// ============================================================================
+
+interface FadeInViewProps extends Omit<MotionProps, 'initial' | 'animate'> {
+  children: React.ReactNode;
+  delay?: number;
+  threshold?: number;
+}
+
+/**
+ * Simple fade-in when element enters viewport
+ */
+export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
+  function FadeInView({ children, delay = 0, threshold = 0.2, ...props }, ref) {
+    const { prefersReducedMotion, getTransition } = useAnimationConfig();
+    const localRef = useRef<HTMLDivElement>(null);
+    const isInView = useInView((ref as React.RefObject<Element>) || localRef, {
+      once: true,
+      amount: threshold,
+    });
+
+    if (prefersReducedMotion) {
+      return <div ref={ref || localRef}>{children}</div>;
+    }
+
+    return (
+      <motion.div
+        ref={ref || localRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={getTransition('easeOut', { delay })}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+);
+
+// ============================================================================
+// STAGGER CONTAINER
+// ============================================================================
+
+interface StaggerContainerProps {
+  children: React.ReactNode;
+  stagger?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Container that staggers child animations
+ */
+export function StaggerContainer({
+  children,
+  stagger = 0.08,
+  className,
+  style,
+}: StaggerContainerProps) {
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  if (prefersReducedMotion) {
+    return (
+      <div className={className} style={style}>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className={className}
+      style={style}
+      initial="initial"
+      whileInView="animate"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={{
+        initial: { opacity: 0 },
+        animate: {
+          opacity: 1,
+          transition: {
+            staggerChildren: stagger,
+            delayChildren: 0.1,
+          },
+        },
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// STAGGER ITEM
+// ============================================================================
+
+interface StaggerItemProps {
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Item to be used inside StaggerContainer
+ */
+export function StaggerItem({ children, className, style }: StaggerItemProps) {
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  if (prefersReducedMotion) {
+    return (
+      <div className={className} style={style}>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className={className}
+      style={style}
+      variants={{
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// PAGE TRANSITION WRAPPER
+// ============================================================================
 
 export function PageTransitionWrapper({
   children,
@@ -172,5 +315,9 @@ export function PageTransitionWrapper({
     </motion.div>
   );
 }
+
+// ============================================================================
+// EXPORTS
+// ============================================================================
 
 export { MotionWrapper, SlideFromSide, AnimatePresence };

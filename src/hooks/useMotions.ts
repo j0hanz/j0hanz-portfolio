@@ -2,6 +2,7 @@ import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   useAnimate,
+  useInView as useMotionInView,
   usePresence as useMotionPresence,
   useReducedMotion as useMotionReducedMotion,
   useMotionValueEvent,
@@ -15,6 +16,7 @@ import type {
   MotionProps,
   MotionValue,
   Transition,
+  UseInViewOptions,
 } from 'motion/react';
 
 import type {
@@ -26,35 +28,49 @@ import type {
   UseMeasureReturn,
 } from '@/config/types';
 import useEventCallback from '@/hooks/useEventCallback';
-import { motionVariants, transitions } from '@/utils/motionVariants';
+import {
+  gestureVariants,
+  transitions,
+  viewportConfig,
+} from '@/utils/motionVariants';
 
-const BASE_DURATION = 1.0;
-const BASE_DELAY = 0.12;
-const BASE_STAGGER = 0.18;
-const REDUCED_MOTION_TARGET = { opacity: 1, x: 0, y: 0, scale: 1 } as const;
-const MOTION_VIEWPORT: MotionProps['viewport'] = {
-  once: true,
-  amount: 0.2, // Increased for better effect
-  margin: '0px 0px -50px 0px',
-};
+// ============================================================================
+// CONSTANTS
+// ============================================================================
 
-const resolveMotionState = <T extends MotionProps['initial']>(
-  prefersReducedMotion: boolean | null,
-  state?: T,
-  fallback: T = REDUCED_MOTION_TARGET as T
-): T => {
-  if (prefersReducedMotion) {
-    return fallback;
-  }
+const BASE_DURATION = 0.6;
+const BASE_DELAY = 0.1;
+const BASE_STAGGER = 0.12;
 
-  return state ?? fallback;
-};
+const REDUCED_MOTION_TARGET = {
+  opacity: 1,
+  x: 0,
+  y: 0,
+  scale: 1,
+  rotate: 0,
+} as const;
 
+// ============================================================================
+// REDUCED MOTION DETECTION
+// ============================================================================
+
+/**
+ * Detects if user prefers reduced motion
+ * @returns boolean indicating reduced motion preference
+ */
 export function useReducedMotion(): boolean {
   const shouldReduce = useMotionReducedMotion();
   return shouldReduce ?? false;
 }
 
+// ============================================================================
+// ANIMATION CONFIGURATION
+// ============================================================================
+
+/**
+ * Centralized animation configuration respecting user preferences
+ * Provides timing helpers and motion-safe defaults
+ */
 export function useAnimationConfig(): AnimationConfig {
   const prefersReducedMotion = useReducedMotion();
 
@@ -90,42 +106,82 @@ export function useAnimationConfig(): AnimationConfig {
     getDelay,
     getStagger,
     getTransition,
-    motionViewport: MOTION_VIEWPORT,
+    motionViewport: viewportConfig,
     reducedMotionTarget: REDUCED_MOTION_TARGET,
-    resolveMotionState,
+    resolveMotionState: <T extends MotionProps['initial']>(
+      prefersReduced: boolean,
+      state?: T,
+      fallback: T = REDUCED_MOTION_TARGET as T
+    ): T => (prefersReduced ? fallback : (state ?? fallback)),
   };
 }
 
+// ============================================================================
+// GESTURE VARIANTS
+// ============================================================================
+
+/**
+ * Returns card hover motion props with gesture variants
+ */
 export function useCardHover(): CardHoverMotion {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
-  const variants = motionVariants.gesture.cardHover;
-  const transition = getTransition('spring');
-
   if (prefersReducedMotion) {
     return {
-      variants,
+      variants: gestureVariants.cardHover,
       initial: 'rest',
       animate: 'rest',
-      transition,
+      transition: getTransition('spring'),
     };
   }
 
   return {
-    variants,
+    variants: gestureVariants.cardHover,
     initial: 'rest',
     animate: 'rest',
     whileHover: 'hover',
     whileTap: 'tap',
-    transition,
+    transition: getTransition('spring'),
   };
 }
+
+/**
+ * Returns button gesture motion props
+ */
+export function useButtonGesture() {
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+
+  if (prefersReducedMotion) {
+    return {
+      variants: gestureVariants.buttonTap,
+      initial: 'rest',
+      animate: 'rest',
+      transition: getTransition('springSmooth'),
+    };
+  }
+
+  return {
+    variants: gestureVariants.buttonTap,
+    initial: 'rest',
+    animate: 'rest',
+    whileHover: 'hover',
+    whileTap: 'tap',
+    transition: getTransition('springSmooth'),
+  };
+}
+
+// ============================================================================
+// SCROLL PROGRESS
+// ============================================================================
 
 export interface ScrollProgressValue {
   value: MotionValue<number>;
   progress: number;
 }
 
+/**
+ * Tracks scroll progress as a 0-1 value
+ */
 export function useScrollProgress(): ScrollProgressValue {
   const { scrollYProgress } = useScroll();
   const [progress, setProgress] = useState(0);
@@ -140,16 +196,42 @@ export function useScrollProgress(): ScrollProgressValue {
   };
 }
 
+// ============================================================================
+// IN VIEW DETECTION
+// ============================================================================
+
+/**
+ * Enhanced useInView with sensible defaults
+ */
+export function useInView(ref: RefObject<Element>, options?: UseInViewOptions) {
+  return useMotionInView(ref, {
+    once: true,
+    amount: 0.2,
+    ...options,
+  });
+}
+
+// ============================================================================
+// PRESENCE DETECTION
+// ============================================================================
+
 export interface PresenceControls {
   isPresent: boolean;
   safeToRemove: (() => void) | null;
 }
 
+/**
+ * Detects if component is present in AnimatePresence tree
+ */
 export function usePresence(): PresenceControls {
   const [isPresent, safeToRemove] = useMotionPresence();
 
   return { isPresent, safeToRemove: safeToRemove ?? null };
 }
+
+// ============================================================================
+// ANIMATION SEQUENCING
+// ============================================================================
 
 type SequenceAnimator = (
   target: ElementOrSelector,
@@ -167,13 +249,17 @@ export interface AnimationSequenceControls {
   runSequence: (
     builder: (animate: SequenceAnimator) => Promise<void> | void
   ) => Promise<void>;
+  isAnimating: boolean;
 }
 
+/**
+ * Orchestrates complex animation sequences with cleanup
+ */
 export function useAnimationSequence(): AnimationSequenceControls {
   const [scope, animate] = useAnimate() as [AnimateScope, SequenceAnimator];
   const controlsRef = useRef<AnimationPlaybackControls[]>([]);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  // ...existing code...
   useEffect(() => {
     return () => {
       controlsRef.current.forEach((control) => control.stop());
@@ -188,14 +274,14 @@ export function useAnimationSequence(): AnimationSequenceControls {
     }
 
     if (scope && typeof scope === 'object') {
-      // This is the official pattern from motion/react documentation
-      // The scope ref mutation is required by the library's API design
       (scope as { current: Element | null }).current = node;
     }
   });
 
   const runSequence = useEventCallback(
     async (builder: (animate: SequenceAnimator) => Promise<void> | void) => {
+      setIsAnimating(true);
+
       const registeringAnimator: SequenceAnimator = (
         target,
         keyframes,
@@ -210,6 +296,7 @@ export function useAnimationSequence(): AnimationSequenceControls {
         await builder(registeringAnimator);
       } finally {
         controlsRef.current = [];
+        setIsAnimating(false);
       }
     }
   );
@@ -217,8 +304,13 @@ export function useAnimationSequence(): AnimationSequenceControls {
   return {
     scopeRef,
     runSequence,
+    isAnimating,
   };
 }
+
+// ============================================================================
+// ELEMENT MEASUREMENT
+// ============================================================================
 
 const defaultMeasureRect: MeasureRect = {
   width: 0,
@@ -227,6 +319,9 @@ const defaultMeasureRect: MeasureRect = {
   left: 0,
 };
 
+/**
+ * Measures element dimensions with ResizeObserver
+ */
 export function useMeasure<
   T extends HTMLElement = HTMLElement,
 >(): UseMeasureReturn<T> {
@@ -255,7 +350,6 @@ export function useMeasure<
     }
 
     const measure = () => measureNode(node);
-
     const frame = window.requestAnimationFrame(measure);
 
     if (typeof ResizeObserver === 'undefined') {
@@ -264,10 +358,7 @@ export function useMeasure<
       };
     }
 
-    const observer = new ResizeObserver(() => {
-      measure();
-    });
-
+    const observer = new ResizeObserver(measure);
     observer.observe(node);
 
     return () => {
@@ -284,7 +375,10 @@ export function useMeasure<
     remeasure,
   };
 }
-// ...existing code...
+
+// ============================================================================
+// ANIMATION PRIORITY DETECTION
+// ============================================================================
 
 const detectAnimationPriority = (): AnimationPriority => {
   if (typeof navigator === 'undefined') {
@@ -295,6 +389,7 @@ const detectAnimationPriority = (): AnimationPriority => {
   const memory =
     (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
 
+  // Low-end devices get reduced animations
   if (cores <= 4 || memory <= 4) {
     return 'reduced';
   }
@@ -302,6 +397,9 @@ const detectAnimationPriority = (): AnimationPriority => {
   return 'high';
 };
 
+/**
+ * Detects device capability for complex animations
+ */
 export function useAnimationPriority(): AnimationPriority {
   const prefersReducedMotion = useReducedMotion();
   if (prefersReducedMotion) {

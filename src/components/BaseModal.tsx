@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 
 import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { motionVariants } from '@/utils/motionVariants';
+import { modalVariants } from '@/utils/motionVariants';
 
 const MotionDialogContent = motion.create(DialogContent);
 
@@ -29,7 +29,7 @@ function BaseModal({
   };
 
   const transition = transitionPresets[animationPreset];
-  const modalVariant = motionVariants.exit[animationPreset];
+  const modalVariant = modalVariants[animationPreset];
 
   return (
     <Dialog

@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 
 import { AnimatedCard } from '@/components/Card';
 import { Project, ProjectListProps } from '@/config/types';
-import { motionVariants } from '@/utils/motionVariants';
+import { staggerItemVariant } from '@/utils/motionVariants';
 import { getProjectMeta } from '@/utils/project';
 
 import ProjectHeader from './components/ProjectHeader';
@@ -67,7 +67,7 @@ function ProjectList({ project }: ProjectListProps): React.JSX.Element {
   return (
     <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={{ display: 'flex' }}>
       <motion.div
-        variants={motionVariants.stagger.item}
+        variants={staggerItemVariant}
         style={{ height: '100%', width: '100%', display: 'flex' }}
       >
         <ProjectCard project={project} />

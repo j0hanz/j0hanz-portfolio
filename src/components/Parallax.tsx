@@ -11,6 +11,10 @@ interface ParallaxProps {
   style?: React.CSSProperties;
 }
 
+/**
+ * Creates a parallax scrolling effect
+ * Uses useTransform for hardware-accelerated performance
+ */
 export function Parallax({
   children,
   offset = 50,
@@ -24,6 +28,7 @@ export function Parallax({
     offset: ['start end', 'end start'],
   });
 
+  // Use useTransform for better performance
   const y = useTransform(scrollYProgress, [0, 1], [-offset, offset]);
 
   if (prefersReducedMotion) {

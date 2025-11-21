@@ -5,6 +5,10 @@ import { motion } from 'motion/react';
 
 import { useAnimationConfig, useAnimationPriority } from '@/hooks';
 
+/**
+ * Animated background morphing effect
+ * Uses transform property for hardware acceleration
+ */
 function BackgroundMorph(): React.JSX.Element {
   const priority = useAnimationPriority();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
@@ -17,12 +21,17 @@ function BackgroundMorph(): React.JSX.Element {
       animate={
         shouldAnimate
           ? {
-              scale: [1, 1.15, 1],
-              x: ['0%', '8%', '-5%', '0%'],
-              y: ['0%', '5%', '-3%', '0%'],
-              rotate: [0, 2, -1, 0],
+              // Use transform for hardware acceleration
+              transform: [
+                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
+                'translate3d(8%, 5%, 0) scale(1.15) rotate(2deg)',
+                'translate3d(-5%, -3%, 0) scale(1.15) rotate(-1deg)',
+                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
+              ],
             }
-          : { scale: 1, x: '0%', y: '0%', rotate: 0 }
+          : {
+              transform: 'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
+            }
       }
       transition={
         shouldAnimate
@@ -43,6 +52,7 @@ function BackgroundMorph(): React.JSX.Element {
         background:
           'linear-gradient(150deg, rgba(26, 29, 204, 0.35), rgba(87, 89, 214, 0.25))',
         filter: 'blur(30px)',
+        willChange: 'transform',
       }}
       aria-hidden
     />

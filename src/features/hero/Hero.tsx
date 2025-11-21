@@ -10,6 +10,7 @@ import Button from '@/components/Button';
 import ImageModal from '@/components/ImageModal';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import ModalCv from '@/components/ModalCv';
+import { StaggerContainer } from '@/components/Motions';
 import { Parallax } from '@/components/Parallax';
 import { TextReveal } from '@/components/TextReveal';
 import {
@@ -18,7 +19,7 @@ import {
   useHover,
   useToggle,
 } from '@/hooks';
-import { motionVariants } from '@/utils/motionVariants';
+import { fadeVariants } from '@/utils/motionVariants';
 
 const buttonBaseStyles = {
   minWidth: 180,
@@ -55,9 +56,9 @@ function Hero(): React.JSX.Element {
             <Parallax offset={30}>
               <Box
                 component={motion.div}
-                initial={motionVariants.fadeUp.initial}
-                whileInView={motionVariants.fadeUp.animate}
-                transition={getTransition('smooth')}
+                initial={fadeVariants.up.initial}
+                whileInView={fadeVariants.up.animate}
+                transition={getTransition('easeOut')}
                 viewport={motionViewport}
                 sx={{ position: 'relative', display: 'inline-flex' }}
               >
@@ -87,7 +88,7 @@ function Hero(): React.JSX.Element {
                   aria-hidden
                   initial={false}
                   animate={{ opacity: isProfileHovered ? 1 : 0 }}
-                  transition={getTransition('spring')}
+                  transition={getTransition('springSmooth')}
                   sx={{
                     position: 'absolute',
                     inset: 0,
@@ -109,12 +110,7 @@ function Hero(): React.JSX.Element {
             </Parallax>
           </Grid>
           <Grid size="auto" sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
-            <Box
-              component={motion.div}
-              initial={motionVariants.staggerContainer.initial}
-              whileInView={motionVariants.staggerContainer.animate}
-              viewport={motionViewport}
-            >
+            <StaggerContainer stagger={0.1}>
               <TextReveal
                 text={heroName}
                 as="h1"
@@ -144,7 +140,7 @@ function Hero(): React.JSX.Element {
                     ? undefined
                     : { clipPath: 'inset(0 0% 0 0)' }
                 }
-                transition={getTransition('smooth', {
+                transition={getTransition('easeInOut', {
                   duration: 1.1,
                   delay: 0.2,
                 })}
@@ -212,7 +208,7 @@ function Hero(): React.JSX.Element {
                   </Button>
                 </MagneticWrapper>
               </Stack>
-            </Box>
+            </StaggerContainer>
           </Grid>
         </Grid>
       </Container>

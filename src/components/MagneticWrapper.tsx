@@ -6,12 +6,16 @@ import { useReducedMotion } from '@/hooks';
 
 interface MagneticWrapperProps {
   children: React.ReactNode;
-  strength?: number; // 0 to 1, default 0.2
+  strength?: number;
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
 
+/**
+ * Creates a magnetic cursor effect on hover
+ * Uses hardware-accelerated transforms for smooth performance
+ */
 export function MagneticWrapper({
   children,
   strength = 0.2,
@@ -25,7 +29,7 @@ export function MagneticWrapper({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
+  const springConfig = { damping: 20, stiffness: 200, mass: 0.5 };
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
@@ -60,7 +64,12 @@ export function MagneticWrapper({
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY, display: 'inline-block', ...style }}
+      style={{
+        x: springX,
+        y: springY,
+        display: 'inline-block',
+        ...style,
+      }}
       className={className}
     >
       {children}
