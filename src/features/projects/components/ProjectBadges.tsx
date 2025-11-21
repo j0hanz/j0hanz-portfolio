@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ProjectBadgesProps } from '@/config/types';
 
 const ProjectBadges = ({ badges }: ProjectBadgesProps): React.JSX.Element => (

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Container, Stack, Typography } from '@mui/material';
 
 import { SectionContainerProps } from '@/config/types';

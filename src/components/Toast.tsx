@@ -58,7 +58,7 @@ const MotionToastTransition = ({
   );
 };
 
-// MotionToastTransition.displayName = 'MotionToastTransition';
+MotionToastTransition.displayName = 'MotionToastTransition';
 
 // Component for displaying toast notifications
 function Toast(): React.JSX.Element {

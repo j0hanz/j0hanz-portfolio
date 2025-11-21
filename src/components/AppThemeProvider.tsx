@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
 
@@ -11,7 +11,9 @@ import {
 import { ThemeMode } from '@/contexts/themeContext';
 import { useStorage } from '@/hooks';
 
-const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
+function AppThemeProvider({
+  children,
+}: AppThemeProviderProps): React.JSX.Element {
   const { value: storedTheme = 'light', set: setStoredTheme } =
     useStorage<PaletteMode>('theme', 'light', {
       serializer: (value) => value,
@@ -47,6 +49,6 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = ({ children }) => {
       </ThemeProvider>
     </ThemeMode>
   );
-};
+}
 
 export default AppThemeProvider;

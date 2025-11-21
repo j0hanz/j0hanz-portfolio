@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { FolderTwoTone } from '@mui/icons-material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';

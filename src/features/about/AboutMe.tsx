@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PersonOutlined, VerifiedTwoTone } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Paper as MuiPaper, Typography } from '@mui/material';
 import { motion } from 'motion/react';
 import type { MotionProps } from 'motion/react';
@@ -59,7 +57,7 @@ const BaseCard = function Card({
   );
 };
 
-// BaseCard.displayName = 'Card'; // Optional
+BaseCard.displayName = 'Card';
 
 function AnimatedCard({
   ref,

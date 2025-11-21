@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Stack, Typography } from '@mui/material';
 
 import { BadgeItemProps } from '@/config/types';

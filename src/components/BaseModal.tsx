@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Close } from '@mui/icons-material';
 import { Dialog, DialogContent, IconButton } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';

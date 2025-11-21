@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { DnsTwoTone, GroupsTwoTone, PersonTwoTone } from '@mui/icons-material';
 import { Box, Chip, Stack, Typography } from '@mui/material';
 import { motion } from 'motion/react';

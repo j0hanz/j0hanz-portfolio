@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useFormStatus } from 'react-dom';
 
 import { DeleteRounded, EmailRounded, SendRounded } from '@mui/icons-material';

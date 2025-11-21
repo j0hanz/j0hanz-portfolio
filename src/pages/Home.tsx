@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Footer from '@/components/Footer';
 import { MotionWrapper } from '@/components/Motions';

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef } from 'react';
 
 import { Box } from '@mui/material';
 import { motion } from 'motion/react';
@@ -13,7 +13,7 @@ import Spinner from './Spinner';
 // Component for displaying an image
 function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
   const loading: boolean = useLoading();
-  const constraintsRef = React.useRef<HTMLDivElement>(null);
+  const constraintsRef = useRef<HTMLDivElement>(null);
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const dragProps = prefersReducedMotion
     ? { drag: false as const }

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Close, OpenInNewRounded } from '@mui/icons-material';
 import { Box, Dialog, DialogContent, IconButton, Stack } from '@mui/material';
 

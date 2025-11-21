@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import {
   ApartmentTwoTone,
@@ -13,7 +13,11 @@ import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
-import { useAnimationConfig, useAnimationSequence } from '@/hooks';
+import {
+  useAnimationConfig,
+  useAnimationSequence,
+  useEventCallback,
+} from '@/hooks';
 import experiences from '@/lib/data/experiences';
 
 const createExperienceMeta = (
@@ -83,19 +87,16 @@ function WorkExperience(): React.JSX.Element {
     offset: ['start 0.9', 'end 0.25'],
   });
 
-  const attachRefs = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (!node) {
-        sectionRef.current = null;
-        scopeRef(null);
-        return;
-      }
+  const attachRefs = useEventCallback((node: HTMLDivElement | null) => {
+    if (!node) {
+      sectionRef.current = null;
+      scopeRef(null);
+      return;
+    }
 
-      sectionRef.current = node;
-      scopeRef(node);
-    },
-    [scopeRef]
-  );
+    sectionRef.current = node;
+    scopeRef(node);
+  });
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
     if (prefersReducedMotion || hasPlayed.current || value <= 0.15) {

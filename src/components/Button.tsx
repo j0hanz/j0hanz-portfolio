@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Button as MuiButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'motion/react';
@@ -84,6 +82,6 @@ const Button = function Button({
   );
 };
 
-// Button.displayName = 'Button';
+Button.displayName = 'Button';
 
 export default Button;

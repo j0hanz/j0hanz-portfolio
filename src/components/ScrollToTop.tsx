@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { KeyboardArrowUpRounded } from '@mui/icons-material';
 import { Box, Fab, Fade, useScrollTrigger } from '@mui/material';
 
