@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { MenuBookTwoTone, SettingsTwoTone } from '@mui/icons-material';
-import { Box, Stack } from '@mui/material';
+import MenuBookTwoTone from '@mui/icons-material/MenuBookTwoTone';
+import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
+import { Box, Stack, type SxProps, type Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -12,6 +13,53 @@ import { createStaggerContainer, staggerItemVariant } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
 
+const sectionSx: SxProps<Theme> = {
+  px: 0,
+  pb: 5,
+};
+
+const gridItemSx: SxProps<Theme> = {
+  textAlign: 'center',
+  mb: 4,
+};
+
+const cardSx: SxProps<Theme> = {
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  mt: 0.5,
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: '4rem',
+  color: 'primary.main',
+  mb: 0.7,
+};
+
+const learningStackSx: SxProps<Theme> = {
+  position: 'absolute',
+  bottom: 0,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  bgcolor: 'neutral.dark',
+  color: 'common.white',
+  width: 1,
+  height: '1.4rem',
+  borderRadius: '0 0 10px 10px',
+  fontSize: '0.8rem',
+};
+
+const learningIconSx: SxProps<Theme> = {
+  mr: 0.35,
+  transform: 'skew(-5deg)',
+};
+
+const learningTextSx: SxProps<Theme> = {
+  transform: 'skew(-5deg)',
+};
+
 // Rendering skills section
 function Skills(): React.JSX.Element {
   const { motionViewport } = useAnimationConfig();
@@ -21,10 +69,7 @@ function Skills(): React.JSX.Element {
       id="skills"
       title={<TextReveal text="Skills" as="span" />}
       icon={SettingsTwoTone}
-      sx={{
-        px: 0,
-        pb: 5,
-      }}
+      sx={sectionSx}
     >
       <Grid
         component={motion.div}
@@ -41,52 +86,19 @@ function Skills(): React.JSX.Element {
             component={motion.div}
             variants={staggerItemVariant}
             size={{ xs: 6, sm: 6, md: 3 }}
-            sx={{ textAlign: 'center', mb: 4 }}
+            sx={gridItemSx}
           >
-            <Card
-              title={skill.label}
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                mt: 0.5,
-              }}
-            >
-              <Box
-                component={skill.icon}
-                sx={{
-                  fontSize: '4rem',
-                  color: 'primary.main',
-                  mb: 0.7,
-                }}
-              />
+            <Card title={skill.label} sx={cardSx}>
+              <Box component={skill.icon} sx={iconSx} />
               {skill.learning && (
                 <Stack
                   direction="row"
                   alignItems="center"
                   justifyContent="center"
-                  sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    bgcolor: 'neutral.dark',
-                    color: 'common.white',
-                    width: 1,
-                    height: '1.4rem',
-                    borderRadius: '0 0 10px 10px',
-                    fontSize: '0.8rem',
-                  }}
+                  sx={learningStackSx}
                 >
-                  <MenuBookTwoTone
-                    sx={{
-                      mr: 0.35,
-                      transform: 'skew(-5deg)',
-                    }}
-                  />
-                  <Box component="span" sx={{ transform: 'skew(-5deg)' }}>
+                  <MenuBookTwoTone sx={learningIconSx} />
+                  <Box component="span" sx={learningTextSx}>
                     Learning
                   </Box>
                 </Stack>

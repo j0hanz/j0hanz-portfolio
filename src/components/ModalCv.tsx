@@ -1,14 +1,21 @@
 import React from 'react';
 
-import { LanguageRounded } from '@mui/icons-material';
-import { Box, Stack, Typography } from '@mui/material';
+import LanguageRounded from '@mui/icons-material/LanguageRounded';
+import {
+  alpha,
+  Box,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
 import { ModalCvProps } from '@/config/types';
 
-const flagIconStyles = {
+const flagIconStyles: SxProps<Theme> = {
   fontSize: '3.5rem',
   cursor: 'pointer',
   opacity: 0.7,
@@ -20,7 +27,35 @@ const flagIconStyles = {
   '&:active': {
     transform: 'scale(0.98)',
   },
-} as const;
+};
+
+const contentSx: SxProps<Theme> = {
+  bgcolor: 'background.paper',
+  borderRadius: '10px',
+  p: 3,
+  color: 'text.primary',
+  boxShadow: (theme) => `0 4px 8px ${alpha(theme.palette.common.black, 0.1)}`,
+};
+
+const headerStackSx: SxProps<Theme> = {
+  mb: 4,
+  fontSize: { xs: '1.2rem', sm: '1.4rem' },
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: '1.2rem',
+  mr: 0.5,
+};
+
+const textSx: SxProps<Theme> = {
+  textAlign: 'center',
+  mb: 2,
+};
+
+const flagsStackSx: SxProps<Theme> = {
+  mt: 4,
+  px: 4,
+};
 
 // Component for selecting and downloading CVs
 function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
@@ -42,38 +77,20 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
     <BaseModal
       show={show}
       handleClose={handleClose}
-      contentSx={{
-        bgcolor: '#181818f5',
-        borderRadius: '10px',
-        p: 3,
-        color: '#f5f4f4',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      }}
+      contentSx={contentSx}
       animationPreset="slideDown"
     >
       <Stack
         direction="row"
         alignItems="center"
         justifyContent="center"
-        sx={{
-          mb: 4,
-          fontSize: { xs: '1.2rem', sm: '1.4rem' },
-        }}
+        sx={headerStackSx}
       >
-        <LanguageRounded sx={{ fontSize: '1.2rem', mr: 0.5 }} />
+        <LanguageRounded sx={iconSx} />
         Choose Language
       </Stack>
-      <Typography sx={{ textAlign: 'center', mb: 2 }}>
-        Select a language to download the CV.
-      </Typography>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        sx={{
-          mt: 4,
-          px: 4,
-        }}
-      >
+      <Typography sx={textSx}>Select a language to download the CV.</Typography>
+      <Stack direction="row" justifyContent="space-between" sx={flagsStackSx}>
         <Box
           component="span"
           className="fi fi-se"

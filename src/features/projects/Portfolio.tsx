@@ -1,4 +1,4 @@
-import { FolderTwoTone } from '@mui/icons-material';
+import FolderTwoTone from '@mui/icons-material/FolderTwoTone';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -9,6 +9,8 @@ import { useAnimationConfig } from '@/hooks';
 import projects from '@/lib/data/projects';
 
 import ProjectList from './ProjectList';
+
+const motionStyle = { width: '100%' };
 
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
@@ -25,7 +27,7 @@ function Portfolio(): React.JSX.Element {
         initial={prefersReducedMotion ? 'animate' : 'initial'}
         whileInView="animate"
         viewport={motionViewport}
-        style={{ width: '100%' }}
+        style={motionStyle}
       >
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {projects.map((project) => (

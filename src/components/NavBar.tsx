@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { CloseRounded, MenuRounded } from '@mui/icons-material';
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import MenuRounded from '@mui/icons-material/MenuRounded';
 import {
   Box,
   Container,
@@ -13,11 +14,12 @@ import {
   ListItemText,
   Stack,
   SwipeableDrawer,
+  Theme,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { motion } from 'motion/react';
-import type { MotionStyle } from 'motion/react';
+import { SxProps, SystemStyleObject } from '@mui/system';
+import { motion, MotionStyle } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -30,13 +32,186 @@ import {
 import {
   useAnimationConfig,
   useCursorMagnet,
-  useEventListener,
   useNavigation,
-  useNavLinkClose,
   useToggle,
 } from '@/hooks';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
+
+const socialLinkButtonSx: SxProps<Theme> = {
+  '&:hover': {
+    color: 'primary.main',
+    bgcolor: 'action.hover',
+  },
+};
+
+const navLogoStackSx: SxProps<Theme> = {
+  height: 50,
+  textDecoration: 'none',
+  cursor: 'pointer',
+};
+
+const navLogoImgSx: SxProps<Theme> = {
+  width: '2.2rem',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    opacity: 0.8,
+    transform: 'scale(1.05)',
+  },
+};
+
+const navLinksListSx: SxProps<Theme> = {
+  flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
+  p: 2,
+  // Replicating .cardBgImage
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    zIndex: 0,
+    backgroundImage: 'var(--card-bg-image-url)',
+    opacity: 0.03,
+    pointerEvents: 'none',
+  },
+  '& > *': {
+    position: 'relative',
+    zIndex: 1,
+  },
+};
+
+const listItemButtonSx: SystemStyleObject<Theme> = {
+  borderRadius: 2,
+  py: 1.5,
+  px: 2,
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    bgcolor: 'action.hover',
+    '& .MuiListItemIcon-root': {
+      color: 'primary.main',
+      transform: 'scale(1.1)',
+    },
+    '& .MuiListItemText-primary': {
+      color: 'primary.main',
+    },
+  },
+  '&:active': {
+    transform: 'scale(0.98)',
+  },
+};
+
+const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
+  bgcolor: 'action.selected',
+  '& .MuiListItemIcon-root': {
+    color: 'primary.main',
+    transform: 'scale(1.1)',
+  },
+  '& .MuiListItemText-primary': {
+    color: 'primary.main',
+    fontWeight: 600,
+  },
+};
+
+const listItemIconSx: SystemStyleObject<Theme> = {
+  minWidth: 40,
+  color: 'text.secondary',
+  transition: 'all 0.2s ease',
+};
+
+const listItemIconSelectedSx: SystemStyleObject<Theme> = {
+  color: 'primary.main',
+};
+
+const listItemTextPrimarySx: SxProps<Theme> = {
+  letterSpacing: '0.5px',
+  transition: 'all 0.2s ease',
+};
+
+const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
+
+const drawerPaperSx: SxProps<Theme> = {
+  width: { xs: '85%', sm: 350 },
+  backgroundColor: 'background.paper',
+  backgroundImage: 'none',
+  height: '100dvh',
+  display: 'flex',
+  flexDirection: 'column',
+  boxShadow: 24,
+};
+
+const drawerHeaderSx: SxProps<Theme> = {
+  p: 2,
+  pt: 3,
+  borderBottom: 1,
+  borderColor: 'divider',
+};
+
+const closeButtonSx: SxProps<Theme> = {
+  '&:hover': {
+    color: 'error.main',
+    bgcolor: 'error.light',
+    opacity: 0.2,
+  },
+};
+
+const drawerContentSx: SxProps<Theme> = {
+  flexGrow: 1,
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const drawerFooterSx: SxProps<Theme> = {
+  p: 3,
+  backgroundColor: 'background.paper',
+};
+
+const connectTextSx: SxProps<Theme> = {
+  mb: 2,
+  fontWeight: 500,
+  letterSpacing: 1.5,
+};
+
+const darkModeToggleBoxSx: SxProps<Theme> = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  bgcolor: 'background.paper',
+  borderRadius: '0 0 16px 0px',
+  zIndex: (theme) => theme.zIndex.appBar,
+  cursor: 'pointer',
+  boxShadow: 3,
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(2px)',
+  },
+};
+
+const menuButtonSx: SxProps<Theme> = {
+  position: 'fixed',
+  bgcolor: 'background.paper',
+  color: 'text.primary',
+  borderRadius: '0 0 0 16px',
+  height: 56,
+  width: 64,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: (theme) => theme.zIndex.appBar,
+  top: 0,
+  right: 0,
+  boxShadow: 3,
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    bgcolor: 'background.default',
+    color: 'primary.main',
+  },
+};
 
 function NavSocialLinkButton({
   href,
@@ -71,12 +246,7 @@ function NavSocialLinkButton({
         size="large"
         color="inherit"
         aria-label={tooltip}
-        sx={{
-          '&:hover': {
-            color: 'primary.main',
-            bgcolor: 'action.hover',
-          },
-        }}
+        sx={socialLinkButtonSx}
       >
         {icon}
       </IconButton>
@@ -107,7 +277,7 @@ export function SocialLinkList({
             tooltip,
             icon: (
               <Icon
-                style={{
+                sx={{
                   fontSize: iconSize,
                   color: color,
                 }}
@@ -144,24 +314,13 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
       }}
       direction="row"
       alignItems="center"
-      sx={{
-        height: 50,
-        textDecoration: 'none',
-        cursor: 'pointer',
-      }}
+      sx={navLogoStackSx}
     >
       <Box
         component="img"
         src={navLogo}
         alt="Linus Johansson"
-        sx={{
-          width: '2.2rem',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            opacity: 0.8,
-            transform: 'scale(1.05)',
-          },
-        }}
+        sx={navLogoImgSx}
       />
     </Stack>
   );
@@ -172,32 +331,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo, activeSectionId } = useNavigation();
 
   return (
-    <List
-      sx={{
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        p: 2,
-        // Replicating .cardBgImage
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          zIndex: 0,
-          backgroundImage: 'var(--card-bg-image-url)',
-          opacity: 0.03,
-          pointerEvents: 'none',
-        },
-        '& > *': {
-          position: 'relative',
-          zIndex: 1,
-        },
-      }}
-    >
+    <List sx={navLinksListSx}>
       {navLinks.map(({ id, icon: Icon, label }) => {
         const isActive = activeSectionId === id;
         return (
@@ -211,43 +345,10 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
                 onClose?.();
               }}
               selected={isActive}
-              sx={{
-                borderRadius: 2,
-                py: 1.5,
-                px: 2,
-                transition: 'all 0.2s ease',
-                ...(isActive && {
-                  bgcolor: 'action.selected',
-                  '& .MuiListItemIcon-root': {
-                    color: 'primary.main',
-                    transform: 'scale(1.1)',
-                  },
-                  '& .MuiListItemText-primary': {
-                    color: 'primary.main',
-                    fontWeight: 600,
-                  },
-                }),
-                '&:hover': {
-                  bgcolor: 'action.hover',
-                  '& .MuiListItemIcon-root': {
-                    color: 'primary.main',
-                    transform: 'scale(1.1)',
-                  },
-                  '& .MuiListItemText-primary': {
-                    color: 'primary.main',
-                  },
-                },
-                '&:active': {
-                  transform: 'scale(0.98)',
-                },
-              }}
+              sx={[listItemButtonSx, isActive && listItemButtonSelectedSx]}
             >
               <ListItemIcon
-                sx={{
-                  minWidth: 40,
-                  color: isActive ? 'primary.main' : 'text.secondary',
-                  transition: 'all 0.2s ease',
-                }}
+                sx={[listItemIconSx, isActive && listItemIconSelectedSx]}
               >
                 <Icon fontSize="medium" />
               </ListItemIcon>
@@ -256,10 +357,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
                 slotProps={{
                   primary: {
                     variant: 'body1',
-                    sx: {
-                      letterSpacing: '0.5px',
-                      transition: 'all 0.2s ease',
-                    },
+                    sx: listItemTextPrimarySx,
                   },
                 }}
               />
@@ -280,7 +378,7 @@ function SocialLinks({
   iconSize?: string | number;
 }): React.JSX.Element {
   return (
-    <Box sx={{ mt: 'auto' }}>
+    <Box sx={socialLinksBoxSx}>
       <Stack direction="row" justifyContent="center" flexWrap="wrap" gap={1.5}>
         <SocialLinkList
           openModal={openModal}
@@ -298,10 +396,8 @@ function OffcanvasMenu({
   closeOffcanvas,
   openOffcanvas,
   openModal,
-  ref,
 }: OffcanvasMenuProps & {
   openOffcanvas: () => void;
-  ref?: React.Ref<HTMLDivElement>;
 }): React.JSX.Element {
   const iOS =
     typeof navigator !== 'undefined' &&
@@ -309,7 +405,6 @@ function OffcanvasMenu({
 
   return (
     <SwipeableDrawer
-      ref={ref}
       anchor="right"
       open={showOffcanvas}
       onClose={closeOffcanvas}
@@ -318,15 +413,7 @@ function OffcanvasMenu({
       disableDiscovery={iOS}
       slotProps={{
         paper: {
-          sx: {
-            width: { xs: '85%', sm: 350 },
-            backgroundColor: 'background.paper',
-            backgroundImage: 'none',
-            height: '100dvh',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: 24,
-          },
+          sx: drawerPaperSx,
         },
       }}
     >
@@ -334,12 +421,7 @@ function OffcanvasMenu({
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{
-          p: 2,
-          pt: 3,
-          borderBottom: 1,
-          borderColor: 'divider',
-        }}
+        sx={drawerHeaderSx}
       >
         <NavLogo onClose={closeOffcanvas} />
         <IconButton
@@ -347,38 +429,25 @@ function OffcanvasMenu({
           color="inherit"
           aria-label="Close menu"
           edge="end"
-          sx={{
-            '&:hover': {
-              color: 'error.main',
-              bgcolor: 'error.light',
-              opacity: 0.2,
-            },
-          }}
+          sx={closeButtonSx}
         >
           <CloseRounded />
         </IconButton>
       </Stack>
 
-      <Box
-        sx={{
-          flexGrow: 1,
-          overflowY: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <Box sx={drawerContentSx}>
         <NavLinks onClose={closeOffcanvas} />
       </Box>
 
       <Divider />
 
-      <Box sx={{ p: 3, backgroundColor: 'background.paper' }}>
+      <Box sx={drawerFooterSx}>
         <Typography
           variant="overline"
           display="block"
           align="center"
           color="text.secondary"
-          sx={{ mb: 2, fontWeight: 500, letterSpacing: 1.5 }}
+          sx={connectTextSx}
         >
           Connect
         </Typography>
@@ -404,66 +473,18 @@ function NavBar(): React.JSX.Element {
     setFalse: closeOffcanvas,
   } = useToggle(false);
 
-  // Close Offcanvas on nav link click or outside click
-  const offcanvasRef = useNavLinkClose(
-    showOffcanvas,
-    'a[href^="#"]',
-    closeOffcanvas
-  );
-
-  useEventListener('keydown', (event) => {
-    const keyboardEvent = event as KeyboardEvent;
-    if (keyboardEvent.key === 'Escape' && showOffcanvas) {
-      closeOffcanvas();
-    }
-  });
-
   return (
     <>
       <Container maxWidth={false}>
         <Box sx={{ position: 'relative' }}>
-          <Box
-            sx={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              bgcolor: 'background.paper',
-              borderRadius: '0 0 16px 0px',
-              zIndex: (theme) => theme.zIndex.appBar,
-              cursor: 'pointer',
-              boxShadow: 3,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(2px)',
-              },
-            }}
-          >
+          <Box sx={darkModeToggleBoxSx}>
             <DarkModeToggle />
           </Box>
           <IconButton
             onClick={openOffcanvas}
             aria-label="Toggle navigation"
             size="large"
-            sx={{
-              position: 'fixed',
-              bgcolor: 'background.paper',
-              color: 'text.primary',
-              borderRadius: '0 0 0 16px',
-              height: 56,
-              width: 64,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: (theme) => theme.zIndex.appBar,
-              top: 0,
-              right: 0,
-              boxShadow: 3,
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                bgcolor: 'background.default',
-                color: 'primary.main',
-              },
-            }}
+            sx={menuButtonSx}
           >
             <MenuRounded
               sx={{
@@ -473,7 +494,6 @@ function NavBar(): React.JSX.Element {
             />
           </IconButton>
           <OffcanvasMenu
-            ref={offcanvasRef}
             showOffcanvas={showOffcanvas}
             closeOffcanvas={closeOffcanvas}
             openOffcanvas={openOffcanvas}

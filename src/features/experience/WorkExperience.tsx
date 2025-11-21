@@ -5,7 +5,7 @@ import {
   CalendarTodayTwoTone,
   WorkOutlineTwoTone,
 } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { stagger, useMotionValueEvent, useScroll } from 'motion/react';
 
@@ -20,6 +20,26 @@ import {
   useEventCallback,
 } from '@/hooks';
 import experiences from '@/lib/data/experiences';
+
+const gridItemSx: SxProps<Theme> = {
+  mb: 4,
+};
+
+const listSx: SxProps<Theme> = {
+  pl: 2.5,
+  m: 0,
+  lineHeight: 1.8,
+  color: 'text.secondary',
+};
+
+const sectionSx: SxProps<Theme> = {
+  px: 0,
+  pb: 5,
+};
+
+const wrapperSx: SxProps<Theme> = {
+  position: 'relative',
+};
 
 const createExperienceMeta = (
   experience: ExperienceCardProps['experience']
@@ -45,7 +65,7 @@ function ExperienceCard({
   const metadata = createExperienceMeta(experience);
 
   return (
-    <Grid size={{ lg: 6 }} sx={{ mb: 4 }} data-exp-card>
+    <Grid size={{ lg: 6 }} sx={gridItemSx} data-exp-card>
       <Card
         title={experience.title}
         subtitle={
@@ -54,16 +74,7 @@ function ExperienceCard({
           </Box>
         }
       >
-        <Box
-          component="ul"
-          data-exp-description
-          sx={{
-            pl: 2.5,
-            m: 0,
-            lineHeight: 1.8,
-            color: 'text.secondary',
-          }}
-        >
+        <Box component="ul" data-exp-description sx={listSx}>
           {experience.description.map((item, index) => (
             <li key={`${experience.title}-${index}`}>
               <Typography variant="body2" component="small">
@@ -137,12 +148,9 @@ function WorkExperience(): React.JSX.Element {
       id="work-experience"
       title={<TextReveal text="Experience" as="span" />}
       icon={WorkOutlineTwoTone}
-      sx={{
-        px: 0,
-        pb: 5,
-      }}
+      sx={sectionSx}
     >
-      <Box ref={attachRefs} sx={{ position: 'relative' }}>
+      <Box ref={attachRefs} sx={wrapperSx}>
         <Grid container spacing={4}>
           {experiences.map((experience) => (
             <ExperienceCard

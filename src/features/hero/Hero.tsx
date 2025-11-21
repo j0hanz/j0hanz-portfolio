@@ -1,7 +1,17 @@
 import React, { useRef } from 'react';
 
-import { DownloadRounded, EmailRounded } from '@mui/icons-material';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import DownloadRounded from '@mui/icons-material/DownloadRounded';
+import EmailRounded from '@mui/icons-material/EmailRounded';
+import {
+  alpha,
+  Box,
+  Container,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -26,8 +36,83 @@ const buttonBaseStyles = {
   height: 45,
 } as const;
 
+const sectionSx: SxProps<Theme> = {
+  pt: 8,
+};
+
+const containerSx: SxProps<Theme> = {
+  textAlign: 'center',
+  px: 0,
+  pb: 5,
+};
+
+const profileWrapperSx: SxProps<Theme> = {
+  position: 'relative',
+  display: 'inline-flex',
+};
+
+const profileImgSx: SxProps<Theme> = {
+  width: { xs: 185, md: 245, lg: 280 },
+  height: { xs: 185, md: 245, lg: 280 },
+  borderRadius: 2,
+  objectFit: 'cover',
+  cursor: 'pointer',
+  mb: { xs: 3, lg: 0 },
+};
+
+const overlaySx: SxProps<Theme> = {
+  position: 'absolute',
+  inset: 0,
+  borderRadius: 2,
+  bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: 'common.white',
+  letterSpacing: 1,
+  fontSize: '0.9rem',
+  pointerEvents: 'none',
+  textTransform: 'uppercase',
+};
+
+const rightGridSx: SxProps<Theme> = {
+  textAlign: { xs: 'center', lg: 'left' },
+};
+
+const subtitleSx: SxProps<Theme> = {
+  my: 2,
+  fontSize: { xs: '1.2rem', sm: '1.3rem' },
+  letterSpacing: { xs: '0.5px', sm: '2px' },
+  textTransform: 'uppercase',
+  color: 'text.primary',
+  fontWeight: 500,
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 0.5,
+};
+
+const buttonsStackSx: SxProps<Theme> = {
+  mt: 3,
+};
+
+const downloadButtonSx: SxProps<Theme> = {
+  ...buttonBaseStyles,
+  bgcolor: 'primary.main',
+};
+
+const contactButtonSx: SxProps<Theme> = {
+  ...buttonBaseStyles,
+  bgcolor: 'neutral.main',
+  '&:hover': { bgcolor: 'neutral.dark' },
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: '1.05rem',
+};
+
 // Rendering hero section
 function Hero(): React.JSX.Element {
+  const theme = useTheme();
   const heroName = 'Linus Johansson';
   const {
     value: showModal,
@@ -49,8 +134,8 @@ function Hero(): React.JSX.Element {
     prefersReducedMotion || animationPriority === 'reduced';
 
   return (
-    <Box component="section" id="hero" sx={{ pt: 8 }}>
-      <Container maxWidth="lg" sx={{ textAlign: 'center', px: 0, pb: 5 }}>
+    <Box component="section" id="hero" sx={sectionSx}>
+      <Container maxWidth="lg" sx={containerSx}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid size={{ md: 5 }}>
             <Parallax offset={30}>
@@ -60,7 +145,7 @@ function Hero(): React.JSX.Element {
                 whileInView={fadeVariants.up.animate}
                 transition={getTransition('easeOut')}
                 viewport={motionViewport}
-                sx={{ position: 'relative', display: 'inline-flex' }}
+                sx={profileWrapperSx}
               >
                 <Box
                   component={motion.img}
@@ -74,14 +159,7 @@ function Hero(): React.JSX.Element {
                       : 'brightness(1)',
                   }}
                   transition={getTransition('smooth')}
-                  sx={{
-                    width: { xs: 185, md: 245, lg: 280 },
-                    height: { xs: 185, md: 245, lg: 280 },
-                    borderRadius: 2,
-                    objectFit: 'cover',
-                    cursor: 'pointer',
-                    mb: { xs: 3, lg: 0 },
-                  }}
+                  sx={profileImgSx}
                 />
                 <Box
                   component={motion.div}
@@ -89,34 +167,20 @@ function Hero(): React.JSX.Element {
                   initial={false}
                   animate={{ opacity: isProfileHovered ? 1 : 0 }}
                   transition={getTransition('springSmooth')}
-                  sx={{
-                    position: 'absolute',
-                    inset: 0,
-                    borderRadius: 2,
-                    bgcolor: 'rgba(0, 0, 0, 0.4)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'common.white',
-                    letterSpacing: 1,
-                    fontSize: '0.9rem',
-                    pointerEvents: 'none',
-                    textTransform: 'uppercase',
-                  }}
+                  sx={overlaySx}
                 >
                   Click to enlarge
                 </Box>
               </Box>
             </Parallax>
           </Grid>
-          <Grid size="auto" sx={{ textAlign: { xs: 'center', lg: 'left' } }}>
+          <Grid size="auto" sx={rightGridSx}>
             <StaggerContainer stagger={0.1}>
               <TextReveal
                 text={heroName}
                 as="h1"
                 style={{
-                  background:
-                    'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                  background: theme.palette.heroGradient,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
@@ -144,17 +208,7 @@ function Hero(): React.JSX.Element {
                   duration: 1.1,
                   delay: 0.2,
                 })}
-                sx={{
-                  my: 2,
-                  fontSize: { xs: '1.2rem', sm: '1.3rem' },
-                  letterSpacing: { xs: '0.5px', sm: '2px' },
-                  textTransform: 'uppercase',
-                  color: 'text.primary',
-                  fontWeight: 500,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                }}
+                sx={subtitleSx}
               >
                 Junior Full-Stack Developer
                 {!prefersReducedMotion && (
@@ -176,17 +230,14 @@ function Hero(): React.JSX.Element {
                 direction="column"
                 spacing={2}
                 alignItems={{ xs: 'center', lg: 'flex-start' }}
-                sx={{ mt: 3 }}
+                sx={buttonsStackSx}
               >
                 <MagneticWrapper disabled={disableMagnetic}>
                   <Button
                     variant="contained"
                     onClick={handleModalOpen}
-                    startIcon={<DownloadRounded sx={{ fontSize: '1.05rem' }} />}
-                    sx={{
-                      ...buttonBaseStyles,
-                      bgcolor: 'primary.main',
-                    }}
+                    startIcon={<DownloadRounded sx={iconSx} />}
+                    sx={downloadButtonSx}
                     motionWhileTap={{ scale: 0.95, rotate: -2 }}
                   >
                     Download CV
@@ -196,12 +247,8 @@ function Hero(): React.JSX.Element {
                   <Button
                     variant="contained"
                     href="#contact"
-                    startIcon={<EmailRounded sx={{ fontSize: '1.05rem' }} />}
-                    sx={{
-                      ...buttonBaseStyles,
-                      bgcolor: 'neutral.main',
-                      '&:hover': { bgcolor: 'neutral.dark' },
-                    }}
+                    startIcon={<EmailRounded sx={iconSx} />}
+                    sx={contactButtonSx}
                     motionWhileTap={{ scale: 0.95, rotate: 2 }}
                   >
                     Get in Touch

@@ -8,8 +8,6 @@ import {
   useState,
 } from 'react';
 
-import { toast } from 'react-toastify';
-
 import { SEND_ERROR_MESSAGE } from '@/config/constants';
 import {
   ContactFormErrors,
@@ -17,7 +15,7 @@ import {
   FieldName,
   SubmissionResult,
 } from '@/config/types';
-import { useDebounce } from '@/hooks';
+import { useDebounce, useSnackbar } from '@/hooks';
 import useEventCallback from '@/hooks/useEventCallback';
 import { sendEmail } from '@/lib/emailJs';
 import { validateEmail, validateForm, validateUrl } from '@/utils/validation';
@@ -55,6 +53,7 @@ const buildValuesFromFormData = (formData: FormData): ContactFormValues => ({
 });
 
 const useContactForm = () => {
+  const { showSnackbar } = useSnackbar();
   const [formData, setFormData] =
     useState<ContactFormValues>(buildInitialValues);
   const [errors, setErrors] = useState<ContactFormErrors>({});
@@ -128,16 +127,16 @@ const useContactForm = () => {
         if (success) {
           resetFields();
           setSubmissionState('success');
-          toast.success('Your message was sent successfully!');
+          showSnackbar('Your message was sent successfully!', 'success');
           return { status: 'success' };
         }
 
         setSubmissionState('idle');
-        toast.error(SEND_ERROR_MESSAGE);
+        showSnackbar(SEND_ERROR_MESSAGE, 'error');
         return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
       } catch {
         setSubmissionState('idle');
-        toast.error(SEND_ERROR_MESSAGE);
+        showSnackbar(SEND_ERROR_MESSAGE, 'error');
         return { status: 'error', errorMessage: SEND_ERROR_MESSAGE };
       }
     },

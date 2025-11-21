@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { Box } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { Box, Skeleton } from '@mui/material';
+import { motion } from 'motion/react';
 
 import { ImageProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
@@ -18,7 +18,7 @@ function Image({
   radius = 'rounded',
 }: ImageProps): React.JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const { getTransition } = useAnimationConfig();
 
   const borderRadius =
     radius === 'circle' ? '50%' : radius === 'flat' ? '0px' : '7.5px';
@@ -42,35 +42,20 @@ function Image({
       component="span"
       sx={{ position: 'relative', display: 'inline-block', lineHeight: 0 }}
     >
-      <AnimatePresence>
-        {!isLoaded && (
-          <Box
-            component={motion.span}
-            key="image-skeleton"
-            aria-hidden
-            initial={{ opacity: 0.25 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 0.45 }
-                : { opacity: 0.6, backgroundPositionX: ['0%', '200%'] }
-            }
-            exit={{ opacity: 0 }}
-            transition={
-              prefersReducedMotion
-                ? getTransition('smooth')
-                : { duration: 1.4, repeat: Infinity, ease: 'linear' }
-            }
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              borderRadius,
-              background:
-                'linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.04) 100%)',
-              backgroundSize: '200% 100%',
-            }}
-          />
-        )}
-      </AnimatePresence>
+      {!isLoaded && (
+        <Skeleton
+          variant={radius === 'circle' ? 'circular' : 'rectangular'}
+          width={width || '100%'}
+          height={height || '100%'}
+          animation="wave"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius,
+            bgcolor: 'rgba(255, 255, 255, 0.1)',
+          }}
+        />
+      )}
       <Box
         component={motion.img}
         src={src}

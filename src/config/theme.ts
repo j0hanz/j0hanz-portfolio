@@ -1,15 +1,20 @@
-import {
-  createTheme,
-  PaletteOptions,
-  responsiveFontSizes,
-  ThemeOptions,
-} from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-import { BASE_PALETTE, MODE_SPECIFIC_OVERRIDES } from './constants';
-import type { PaletteModeKey } from './types';
+import { PALETTES } from './constants';
+import { componentOverrides } from './overrides';
 
-const getBaseTheme = (): ThemeOptions => ({
-  cssVariables: true,
+const theme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-mui-color-scheme',
+  },
+  colorSchemes: {
+    light: {
+      palette: PALETTES.light,
+    },
+    dark: {
+      palette: PALETTES.dark,
+    },
+  },
   typography: {
     fontFamily: 'Roboto, sans-serif',
     h1: {
@@ -29,111 +34,16 @@ const getBaseTheme = (): ThemeOptions => ({
   shape: {
     borderRadius: 8,
   },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: (theme) => `
-        /* Global scrollbar styles */
-        *::-webkit-scrollbar {
-          width: 0.9rem;
-          transition: all 0.3s ease;
-        }
-        *::-webkit-scrollbar-thumb {
-          background: ${theme.palette.primary.main};
-          border-bottom-left-radius: ${theme.shape.borderRadius}px;
-          transition: all 0.3s ease;
-        }
-        *::-webkit-scrollbar-thumb:hover {
-          background: ${theme.palette.primary.dark};
-        }
-        *::-webkit-scrollbar-track {
-          background: transparent;
-        }
-      `,
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          padding: '8px 16px',
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          borderRadius: 12,
-          transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-          },
-        },
-      },
-    },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          '&:hover': {
-            transform: 'none',
-          },
-        },
-      },
-    },
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          '&:hover': {
-            transform: 'none',
-          },
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          fontWeight: 500,
-        },
-      },
-    },
-    MuiTextField: {
-      defaultProps: {
-        variant: 'standard',
-      },
-    },
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          transition: 'transform 0.2s ease',
-          '&:hover': {
-            transform: 'scale(1.1)',
-          },
-        },
-      },
+  mixins: {
+    glass: {
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
     },
   },
+  components: componentOverrides,
 });
 
-const createResponsiveTheme = (mode: PaletteModeKey) => {
-  const baseTheme = getBaseTheme();
-  const modeOverrides = MODE_SPECIFIC_OVERRIDES[mode];
-  const palette: PaletteOptions = {
-    mode,
-    primary: { ...BASE_PALETTE.primary },
-    neutral: { ...BASE_PALETTE.neutral },
-    heroGradient: BASE_PALETTE.heroGradient,
-    background: { ...modeOverrides.background },
-    text: { ...modeOverrides.text },
-    backdrop: { ...modeOverrides.backdrop },
-  };
-  const theme = createTheme({
-    ...baseTheme,
-    palette,
-  });
-
-  return responsiveFontSizes(theme, {
-    breakpoints: ['sm', 'md', 'lg'],
-    factor: 2,
-  });
-};
-
-export const lightTheme = createResponsiveTheme('light');
-export const darkTheme = createResponsiveTheme('dark');
+export const appTheme = responsiveFontSizes(theme, {
+  breakpoints: ['sm', 'md', 'lg'],
+  factor: 2,
+});

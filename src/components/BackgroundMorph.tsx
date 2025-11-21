@@ -1,13 +1,39 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import { alpha, Box, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { useAnimationConfig, useAnimationPriority } from '@/hooks';
 
+const backgroundSx: SxProps<Theme> = {
+  position: 'absolute',
+  inset: 0,
+  overflow: 'hidden',
+  zIndex: 0,
+  pointerEvents: 'none',
+  background: (theme) => {
+    const isDark = theme.palette.mode === 'dark';
+    const opacity = isDark ? 0.4 : 0.3;
+
+    return `radial-gradient(
+      circle at 50% 20%,
+      ${alpha(theme.palette.primary.main, opacity)},
+      ${alpha(theme.palette.primary.light, opacity * 0.5)} 50%,
+      transparent 70%
+    )`;
+  },
+  filter: 'blur(80px)',
+  willChange: 'transform, opacity',
+};
+
 /**
- * Animated background morphing effect
- * Uses transform property for hardware acceleration
+ * Animated background morphing effect with enhanced visual depth
+ * Features:
+ * - Organic floating motion with rotation for natural feel
+ * - Layered gradients for depth perception
+ * - Hardware-accelerated transforms (translate3d, scale, rotate)
+ * - Respects user motion preferences and device capabilities
+ * - Optimized blur radius for performance
  */
 function BackgroundMorph(): React.JSX.Element {
   const priority = useAnimationPriority();
@@ -17,43 +43,35 @@ function BackgroundMorph(): React.JSX.Element {
   return (
     <Box
       component={motion.div}
-      initial={false}
       animate={
         shouldAnimate
           ? {
-              // Use transform for hardware acceleration
-              transform: [
-                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
-                'translate3d(8%, 5%, 0) scale(1.15) rotate(2deg)',
-                'translate3d(-5%, -3%, 0) scale(1.15) rotate(-1deg)',
-                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
-              ],
+              // Organic floating motion with subtle rotation - using separate properties
+              x: ['0%', '8%', '-5%', '-6%', '3%', '0%'],
+              y: ['0%', '5%', '7%', '-3%', '-5%', '0%'],
+              scale: [1, 1.15, 1.08, 1.12, 1.1, 1],
+              rotate: [0, 3, -1.5, 1.5, -3, 0],
+              opacity: [0.85, 0.95, 0.9, 0.95, 0.85, 0.9],
             }
           : {
-              transform: 'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
+              x: '0%',
+              y: '0%',
+              scale: 1,
+              rotate: 0,
+              opacity: 0.9,
             }
       }
       transition={
         shouldAnimate
-          ? getTransition('smooth', {
+          ? getTransition('easeInOut', {
               duration: 20,
               repeat: Infinity,
-              repeatType: 'mirror',
-              ease: 'easeInOut',
+              repeatType: 'loop',
+              ease: [0.45, 0.05, 0.55, 0.95],
             })
           : undefined
       }
-      sx={{
-        position: 'absolute',
-        inset: 0,
-        overflow: 'hidden',
-        zIndex: 0,
-        pointerEvents: 'none',
-        background:
-          'linear-gradient(150deg, rgba(26, 29, 204, 0.35), rgba(87, 89, 214, 0.25))',
-        filter: 'blur(30px)',
-        willChange: 'transform',
-      }}
+      sx={backgroundSx}
       aria-hidden
     />
   );

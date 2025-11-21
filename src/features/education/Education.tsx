@@ -6,7 +6,7 @@ import {
   SchoolTwoTone,
   VerifiedTwoTone,
 } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
   motion,
@@ -36,6 +36,44 @@ import education from '@/lib/data/education';
 
 import Credential from './Credential';
 
+const gridItemSx: SxProps<Theme> = {
+  mb: 4,
+};
+
+const descriptionWrapperSx: SxProps<Theme> = {
+  mb: 2,
+};
+
+const descriptionSx: SxProps<Theme> = {
+  lineHeight: 1.8,
+  color: 'text.secondary',
+};
+
+const buttonSx: SxProps<Theme> = {
+  minWidth: 145,
+  height: 30,
+  bgcolor: 'neutral.main',
+  '&:hover': {
+    bgcolor: 'neutral.dark',
+  },
+};
+
+const wrapperSx: SxProps<Theme> = {
+  position: 'relative',
+  py: { xs: 1, md: 2 },
+};
+
+const timelineBaseSx: SxProps<Theme> = {
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: 'calc(50% - 1px)',
+  width: '2px',
+  bgcolor: 'primary.main',
+  display: { xs: 'none', md: 'block' },
+  transformOrigin: 'top',
+};
+
 const createEducationMeta = (education: EducationItem): IconBadgeMetaItem[] => [
   {
     id: 'school',
@@ -59,7 +97,7 @@ function EducationCard({
   const metadata = createEducationMeta(education);
 
   return (
-    <Grid size={{ lg: 6 }} sx={{ mb: 4 }} data-edu-card>
+    <Grid size={{ lg: 6 }} sx={gridItemSx} data-edu-card>
       <Card
         title={education.title}
         subtitle={
@@ -67,15 +105,12 @@ function EducationCard({
         }
       >
         {education.description && (
-          <Box sx={{ mb: 2 }}>
+          <Box sx={descriptionWrapperSx}>
             {education.description.map((desc, index) => (
               <Typography
                 key={`${education.title}-${index}`}
                 data-edu-description
-                sx={{
-                  lineHeight: 1.8,
-                  color: 'text.secondary',
-                }}
+                sx={descriptionSx}
               >
                 {desc}
               </Typography>
@@ -88,14 +123,7 @@ function EducationCard({
             variant="contained"
             startIcon={<VerifiedTwoTone />}
             data-edu-cta
-            sx={{
-              minWidth: 145,
-              height: 30,
-              bgcolor: 'neutral.main',
-              '&:hover': {
-                bgcolor: 'neutral.dark',
-              },
-            }}
+            sx={buttonSx}
           >
             Credential
           </Button>
@@ -188,20 +216,13 @@ function Education(): React.JSX.Element {
       title={<TextReveal text="Education" as="span" />}
       icon={SchoolTwoTone}
     >
-      <Box ref={attachRefs} sx={{ position: 'relative', py: { xs: 1, md: 2 } }}>
+      <Box ref={attachRefs} sx={wrapperSx}>
         <Box
           component={motion.div}
           aria-hidden
           sx={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 'calc(50% - 1px)',
-            width: '2px',
-            bgcolor: 'primary.main',
+            ...timelineBaseSx,
             opacity: { xs: 0.05, md: timelineOpacity },
-            display: { xs: 'none', md: 'block' },
-            transformOrigin: 'top',
           }}
           style={{ scaleY: prefersReducedMotion ? undefined : timelineScale }}
         />

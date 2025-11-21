@@ -1,5 +1,6 @@
-import { PersonOutlined, VerifiedTwoTone } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import PersonOutlined from '@mui/icons-material/PersonOutlined';
+import VerifiedTwoTone from '@mui/icons-material/VerifiedTwoTone';
+import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
@@ -12,18 +13,46 @@ import { useToggle } from '@/hooks';
 import aboutMeItems from '@/lib/data/aboutMeItems';
 import aboutMeText from '@/lib/data/aboutMeText';
 
+const overviewTextSx: SxProps<Theme> = {
+  lineHeight: 1.8,
+  color: 'text.primary',
+};
+
+const listSx: SxProps<Theme> = {
+  listStyle: 'none',
+  p: 0,
+  m: 0,
+};
+
+const listItemSx: SxProps<Theme> = {
+  color: 'text.primary',
+  mt: 2,
+};
+
+const listTitleSx: SxProps<Theme> = {
+  fontWeight: 500,
+  mr: 1,
+  color: 'text.primary',
+};
+
+const buttonWrapperSx: SxProps<Theme> = {
+  pt: 3,
+};
+
+const buttonSx: SxProps<Theme> = {
+  minWidth: 145,
+  height: 30,
+};
+
+const gridItemSx: SxProps<Theme> = {
+  mb: 4,
+};
+
 // Displaying the overview text
 function AboutMeText(): React.JSX.Element {
   return (
     <Card title="Overview">
-      <Typography
-        sx={{
-          lineHeight: 1.8,
-          color: 'text.primary',
-        }}
-      >
-        {aboutMeText}
-      </Typography>
+      <Typography sx={overviewTextSx}>{aboutMeText}</Typography>
     </Card>
   );
 }
@@ -35,38 +64,21 @@ function AboutMeList({
 }: AboutMeListProps): React.JSX.Element {
   return (
     <Card title="Highlights">
-      <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
+      <Box component="ul" sx={listSx}>
         {items.map((item) => (
-          <Box
-            component="li"
-            key={item.title}
-            sx={{
-              color: 'text.primary',
-              mt: 2,
-            }}
-          >
-            <Typography
-              component="span"
-              sx={{
-                fontWeight: 500,
-                mr: 1,
-                color: 'text.primary',
-              }}
-            >
+          <Box component="li" key={item.title} sx={listItemSx}>
+            <Typography component="span" sx={listTitleSx}>
               {item.title}:
             </Typography>
             {item.description}
             {item.hasCredential && (
-              <Box sx={{ pt: 3 }}>
+              <Box sx={buttonWrapperSx}>
                 <Button
                   onClick={onShowModal}
                   variant="contained"
                   color="neutral"
                   startIcon={<VerifiedTwoTone />}
-                  sx={{
-                    minWidth: 145,
-                    height: 30,
-                  }}
+                  sx={buttonSx}
                 >
                   Credential
                 </Button>
@@ -94,10 +106,10 @@ function AboutMe(): React.JSX.Element {
       icon={PersonOutlined}
     >
       <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={gridItemSx}>
           <AboutMeText />
         </Grid>
-        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={{ mb: 4 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={gridItemSx}>
           <AboutMeList items={aboutMeItems} onShowModal={handleShowModal} />
         </Grid>
       </Grid>

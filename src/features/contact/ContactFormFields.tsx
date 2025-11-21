@@ -1,31 +1,23 @@
-import {
-  ChatBubbleOutline,
-  EmailOutlined,
-  ErrorOutline,
-  LanguageOutlined,
-  PersonOutline,
-  WorkOutline,
-} from '@mui/icons-material';
+import ChatBubbleOutline from '@mui/icons-material/ChatBubbleOutline';
+import EmailOutlined from '@mui/icons-material/EmailOutlined';
+import ErrorOutline from '@mui/icons-material/ErrorOutline';
+import LanguageOutlined from '@mui/icons-material/LanguageOutlined';
+import PersonOutline from '@mui/icons-material/PersonOutline';
+import WorkOutline from '@mui/icons-material/WorkOutline';
+import type { SxProps, Theme } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
+import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 
 import type {
   ContactFieldConfig,
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
-
-const getHelperText = (error?: string): React.ReactNode => {
-  if (!error) return undefined;
-  return (
-    <Stack component="span" direction="row" alignItems="center" gap={0.5}>
-      <ErrorOutline sx={{ fontSize: '1rem' }} />
-      {error}
-    </Stack>
-  );
-};
 
 const contactFieldConfigs: ContactFieldConfig[] = [
   {
@@ -81,6 +73,37 @@ const contactFieldConfigs: ContactFieldConfig[] = [
   },
 ];
 
+const labelSx: SxProps<Theme> = {
+  fontSize: '0.875rem',
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: '1.1rem',
+  color: 'action.active',
+};
+
+const errorIconSx: SxProps<Theme> = {
+  fontSize: '1rem',
+};
+
+const inputSx: SxProps<Theme> = {
+  marginTop: 2, // Add margin top to account for the label
+  '&:before': {
+    borderBottom: '2px solid',
+    borderBottomColor: 'divider',
+  },
+  '&:hover:not(.Mui-disabled, .Mui-error):before': {
+    borderBottom: '2px solid',
+    borderBottomColor: 'divider',
+  },
+  '&.Mui-error:before': {
+    borderBottomColor: 'error.main',
+  },
+  '&:after': {
+    borderBottomColor: 'primary.main',
+  },
+};
+
 function FormField({
   controlId,
   icon: Icon,
@@ -97,62 +120,48 @@ function FormField({
   const isTextarea = type === 'textarea';
 
   return (
-    <TextField
-      id={controlId}
-      name={name}
-      label={label}
-      type={isTextarea ? undefined : type}
-      multiline={isTextarea}
-      rows={isTextarea ? rows : undefined}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
+    <FormControl
+      variant="standard"
+      fullWidth
       required={required}
       error={!!error}
-      fullWidth
-      variant="standard"
-      aria-invalid={!!error}
-      aria-required={required}
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment
-              position="start"
-              sx={{
-                alignSelf: isTextarea ? 'flex-start' : 'center',
-                mt: 0,
-                mr: 1,
-              }}
-            >
-              <Icon sx={{ fontSize: '1.1rem', color: 'action.active' }} />
-            </InputAdornment>
-          ),
-        },
-        inputLabel: {
-          shrink: true,
-          sx: { fontSize: '0.875rem' },
-        },
-      }}
-      sx={{
-        '& .MuiInput-root': {
-          '&:before': {
-            borderBottom: '2px solid',
-            borderBottomColor: 'divider',
-          },
-          '&:hover:not(.Mui-disabled, .Mui-error):before': {
-            borderBottom: '2px solid',
-            borderBottomColor: 'divider',
-          },
-          '&.Mui-error:before': {
-            borderBottomColor: 'error.main',
-          },
-          '&.Mui-focused:after': {
-            borderBottomColor: 'primary.main',
-          },
-        },
-      }}
-      helperText={getHelperText(error)}
-    />
+    >
+      <InputLabel htmlFor={controlId} shrink sx={labelSx}>
+        {label}
+      </InputLabel>
+      <Input
+        id={controlId}
+        name={name}
+        type={isTextarea ? undefined : type}
+        multiline={isTextarea}
+        rows={isTextarea ? rows : undefined}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        startAdornment={
+          <InputAdornment
+            position="start"
+            sx={{
+              alignSelf: isTextarea ? 'flex-start' : 'center',
+              mt: isTextarea ? 1.5 : 0,
+              mr: 1,
+            }}
+          >
+            <Icon sx={iconSx} />
+          </InputAdornment>
+        }
+        aria-describedby={error ? `${controlId}-error` : undefined}
+        sx={inputSx}
+      />
+      {error && (
+        <FormHelperText id={`${controlId}-error`}>
+          <Stack component="span" direction="row" alignItems="center" gap={0.5}>
+            <ErrorOutline sx={errorIconSx} />
+            {error}
+          </Stack>
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 }
 

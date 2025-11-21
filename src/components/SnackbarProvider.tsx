@@ -1,0 +1,82 @@
+import React, { ReactNode, useCallback, useState } from 'react';
+
+import {
+  Alert,
+  AlertColor,
+  Snackbar,
+  SnackbarCloseReason,
+  type SxProps,
+  type Theme,
+} from '@mui/material';
+
+import { SnackbarContext, SnackbarOptions } from '@/contexts/SnackbarContext';
+
+const snackbarSx: SxProps<Theme> = {
+  mt: { xs: 8, sm: 9 }, // Offset for navbar
+};
+
+const alertSx: SxProps<Theme> = {
+  width: '100%',
+  boxShadow: 3,
+};
+
+export function SnackbarProvider({
+  children,
+}: {
+  children: ReactNode;
+}): React.JSX.Element {
+  const [open, setOpen] = useState(false);
+  const [config, setConfig] = useState<SnackbarOptions>({
+    message: '',
+    severity: 'info',
+    duration: 3000,
+  });
+
+  const showSnackbar = useCallback(
+    (
+      message: string,
+      severity: AlertColor = 'info',
+      duration: number | null = 3000
+    ) => {
+      setConfig({ message, severity, duration });
+      setOpen(true);
+    },
+    []
+  );
+
+  const closeSnackbar = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  return (
+    <SnackbarContext.Provider value={{ showSnackbar, closeSnackbar }}>
+      {children}
+      <Snackbar
+        open={open}
+        autoHideDuration={config.duration}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={snackbarSx}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={config.severity}
+          variant="filled"
+          sx={alertSx}
+        >
+          {config.message}
+        </Alert>
+      </Snackbar>
+    </SnackbarContext.Provider>
+  );
+}

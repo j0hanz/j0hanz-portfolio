@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { toast } from 'react-toastify';
-
 import { Alert, Box, Collapse } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
 import BackgroundMorph from '@/components/BackgroundMorph';
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
-import Toast from '@/components/Toast';
-import { NETWORK_STATUS_TOAST_ID } from '@/config/constants';
+import Spinner from '@/components/Spinner';
 import type { StatusBanner } from '@/config/types';
 import {
   useAnimationConfig,
   useEventCallback,
   useOnlineStatus,
   usePrevious,
+  useSnackbar,
 } from '@/hooks';
 import Home from '@/pages/Home';
 
@@ -34,6 +32,8 @@ const getInitialBanner = (): StatusBanner | null => {
 function App(): React.JSX.Element {
   const isOnline = useOnlineStatus();
   const prevOnline = usePrevious(isOnline);
+  const { showSnackbar } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(true);
   const [statusBanner, setStatusBanner] = useState<StatusBanner | null>(
     getInitialBanner
   );
@@ -77,11 +77,11 @@ function App(): React.JSX.Element {
   });
 
   const handleOffline = useEventCallback(() => {
-    toast.warn('You appear to be offline. Some features may not work.', {
-      toastId: NETWORK_STATUS_TOAST_ID,
-      autoClose: false,
-      isLoading: false,
-    });
+    showSnackbar(
+      'You appear to be offline. Some features may not work.',
+      'warning',
+      null
+    );
 
     showBanner({
       message: 'Offline mode: some features may be unavailable.',
@@ -91,19 +91,7 @@ function App(): React.JSX.Element {
   });
 
   const handleOnline = useEventCallback(() => {
-    if (toast.isActive(NETWORK_STATUS_TOAST_ID)) {
-      toast.update(NETWORK_STATUS_TOAST_ID, {
-        render: 'Connection restored',
-        type: 'success',
-        autoClose: 2500,
-        isLoading: false,
-      });
-    } else {
-      toast.success('Connection restored', {
-        toastId: NETWORK_STATUS_TOAST_ID,
-        autoClose: 2500,
-      });
-    }
+    showSnackbar('Connection restored', 'success', 2500);
 
     showBanner({
       message: 'Back online. Changes will sync as soon as possible.',
@@ -111,6 +99,11 @@ function App(): React.JSX.Element {
       persistent: false,
     });
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     document.title = 'Linus Johansson | Portfolio';
@@ -169,21 +162,41 @@ function App(): React.JSX.Element {
           )}
         </Collapse>
       </Box>
-      <NavBar />
-      <Toast />
+      {!isLoading && <NavBar />}
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key="home"
-          initial={contentInitial}
-          animate={contentAnimate}
-          exit={contentExit}
-          transition={contentTransition}
-          style={{ flex: 1, position: 'relative', zIndex: 1 }}
-        >
-          <Home />
-        </motion.div>
+        {isLoading ? (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              zIndex: 1,
+              height: '100vh',
+            }}
+          >
+            <Spinner sx={{ height: '100%' }} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="home"
+            initial={contentInitial}
+            animate={contentAnimate}
+            exit={contentExit}
+            transition={contentTransition}
+            style={{ flex: 1, position: 'relative', zIndex: 1 }}
+          >
+            <Home />
+          </motion.div>
+        )}
       </AnimatePresence>
-      <ScrollToTop />
+      {!isLoading && <ScrollToTop />}
     </Box>
   );
 }

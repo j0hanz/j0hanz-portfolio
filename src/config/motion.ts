@@ -4,9 +4,9 @@ import type { Variants } from 'motion/react';
 // ANIMATION CONSTANTS
 // ============================================================================
 
-export const BASE_DURATION = 0.6;
-export const BASE_DELAY = 0.1;
-export const BASE_STAGGER = 0.12;
+export const BASE_DURATION = 0.5;
+export const BASE_DELAY = 0.08;
+export const BASE_STAGGER = 0.1;
 
 export const REDUCED_MOTION_TARGET = {
   opacity: 1,
@@ -23,41 +23,41 @@ export const REDUCED_MOTION_TARGET = {
 export const transitions = {
   spring: {
     type: 'spring' as const,
-    stiffness: 260,
-    damping: 20,
-    mass: 1,
+    stiffness: 300,
+    damping: 25,
+    mass: 0.8,
   },
   springBouncy: {
     type: 'spring' as const,
-    stiffness: 400,
-    damping: 10,
-    mass: 0.5,
+    stiffness: 450,
+    damping: 12,
+    mass: 0.4,
   },
   springSmooth: {
     type: 'spring' as const,
-    stiffness: 100,
-    damping: 15,
-    mass: 1,
+    stiffness: 120,
+    damping: 18,
+    mass: 0.9,
   },
   smooth: {
     type: 'tween' as const,
-    ease: [0.25, 0.25, 0.25, 0.75],
-    duration: 0.4,
+    ease: [0.4, 0, 0.2, 1],
+    duration: 0.35,
   },
   easeOut: {
     type: 'tween' as const,
-    ease: [0.22, 1, 0.36, 1],
-    duration: 0.5,
+    ease: [0.16, 1, 0.3, 1],
+    duration: 0.45,
   },
   easeInOut: {
     type: 'tween' as const,
     ease: [0.65, 0, 0.35, 1],
-    duration: 0.6,
+    duration: 0.5,
   },
   slow: {
     type: 'tween' as const,
     ease: [0.25, 0.1, 0.25, 1],
-    duration: 0.8,
+    duration: 0.7,
   },
 } as const;
 
@@ -75,24 +75,24 @@ export const fadeVariants = {
     exit: { opacity: 0 },
   },
   up: {
-    initial: { opacity: 0, y: 24 },
+    initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 16 },
+    exit: { opacity: 0, y: 12 },
   },
   down: {
-    initial: { opacity: 0, y: -24 },
+    initial: { opacity: 0, y: -20 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -16 },
+    exit: { opacity: 0, y: -12 },
   },
   left: {
-    initial: { opacity: 0, x: -24 },
+    initial: { opacity: 0, x: -20 },
     animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -16 },
+    exit: { opacity: 0, x: -12 },
   },
   right: {
-    initial: { opacity: 0, x: 24 },
+    initial: { opacity: 0, x: 20 },
     animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 16 },
+    exit: { opacity: 0, x: 12 },
   },
 } as const;
 
@@ -138,24 +138,24 @@ export const blurVariants = {
  */
 export const slideVariants = {
   fromLeft: {
-    initial: { x: -60, opacity: 0 },
+    initial: { x: -50, opacity: 0, willChange: 'transform, opacity' },
     animate: { x: 0, opacity: 1 },
-    exit: { x: -40, opacity: 0 },
+    exit: { x: -30, opacity: 0 },
   },
   fromRight: {
-    initial: { x: 60, opacity: 0 },
+    initial: { x: 50, opacity: 0, willChange: 'transform, opacity' },
     animate: { x: 0, opacity: 1 },
-    exit: { x: 40, opacity: 0 },
+    exit: { x: 30, opacity: 0 },
   },
   fromTop: {
-    initial: { y: -60, opacity: 0 },
+    initial: { y: -50, opacity: 0, willChange: 'transform, opacity' },
     animate: { y: 0, opacity: 1 },
-    exit: { y: -40, opacity: 0 },
+    exit: { y: -30, opacity: 0 },
   },
   fromBottom: {
-    initial: { y: 60, opacity: 0 },
+    initial: { y: 50, opacity: 0, willChange: 'transform, opacity' },
     animate: { y: 0, opacity: 1 },
-    exit: { y: 40, opacity: 0 },
+    exit: { y: 30, opacity: 0 },
   },
 } as const;
 
@@ -201,7 +201,7 @@ export const gestureVariants = {
  * Creates stagger container variants with customizable timing
  */
 export function createStaggerContainer(
-  staggerChildren = 0.08,
+  staggerChildren = 0.07,
   delayChildren = 0
 ): Variants {
   return {
@@ -216,7 +216,7 @@ export function createStaggerContainer(
     exit: {
       opacity: 0,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.04,
         staggerDirection: -1,
       },
     },
@@ -227,9 +227,9 @@ export function createStaggerContainer(
  * Standard stagger item variant
  */
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 16 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: 10 },
+  exit: { opacity: 0, y: 8 },
 };
 
 // ============================================================================
@@ -239,29 +239,32 @@ export const staggerItemVariant: Variants = {
 /**
  * Section entrance variants optimized for whileInView
  */
+/**
+ * Section variants - Used for main page sections
+ */
 export const sectionVariants = {
   default: {
-    initial: { opacity: 0, y: 40 },
+    initial: { opacity: 0, y: 30, willChange: 'transform, opacity' },
     whileInView: { opacity: 1, y: 0 },
   },
   fade: {
-    initial: { opacity: 0 },
+    initial: { opacity: 0, willChange: 'opacity' },
     whileInView: { opacity: 1 },
   },
   slideUp: {
-    initial: { opacity: 0, y: 60 },
+    initial: { opacity: 0, y: 50, willChange: 'transform, opacity' },
     whileInView: { opacity: 1, y: 0 },
   },
   slideLeft: {
-    initial: { opacity: 0, x: -60 },
+    initial: { opacity: 0, x: -50, willChange: 'transform, opacity' },
     whileInView: { opacity: 1, x: 0 },
   },
   slideRight: {
-    initial: { opacity: 0, x: 60 },
+    initial: { opacity: 0, x: 50, willChange: 'transform, opacity' },
     whileInView: { opacity: 1, x: 0 },
   },
   scale: {
-    initial: { opacity: 0, scale: 0.9 },
+    initial: { opacity: 0, scale: 0.92, willChange: 'transform, opacity' },
     whileInView: { opacity: 1, scale: 1 },
   },
 } as const;
@@ -299,39 +302,19 @@ export const modalVariants = {
 } as const;
 
 // ============================================================================
-// TOAST NOTIFICATION VARIANTS
-// ============================================================================
-
-export const toastVariants: Variants = {
-  initial: { opacity: 0, y: -20, scale: 0.95 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: transitions.springSmooth,
-  },
-  exit: {
-    opacity: 0,
-    y: -20,
-    scale: 0.95,
-    transition: transitions.smooth,
-  },
-};
-
-// ============================================================================
 // VIEWPORT CONFIGURATION
 // ============================================================================
 
 export const viewportConfig = {
   once: true,
-  amount: 0.2,
-  margin: '0px 0px -100px 0px',
+  amount: 0.15,
+  margin: '0px 0px -80px 0px',
 } as const;
 
 export const viewportConfigEager = {
   once: true,
-  amount: 0.1,
-  margin: '0px 0px -50px 0px',
+  amount: 0.08,
+  margin: '0px 0px -40px 0px',
 } as const;
 
 // ============================================================================

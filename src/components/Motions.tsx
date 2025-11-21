@@ -99,7 +99,7 @@ function SlideFromSide({
   const { prefersReducedMotion, getTransition, reducedMotionTarget } =
     useAnimationConfig();
 
-  const initialX = from === 'left' ? -60 : 60;
+  const initialX = from === 'left' ? -50 : 50;
   const viewport =
     viewportOverride ?? (prefersReducedMotion ? undefined : viewportConfig);
   const transition = transitionOverride ?? getTransition('easeOut');
@@ -174,7 +174,7 @@ export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
  */
 export function StaggerContainer({
   children,
-  stagger = 0.08,
+  stagger = 0.07,
   className,
   style,
 }: StaggerContainerProps) {
@@ -194,14 +194,14 @@ export function StaggerContainer({
       style={style}
       initial="initial"
       whileInView="animate"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
         initial: { opacity: 0 },
         animate: {
           opacity: 1,
           transition: {
             staggerChildren: stagger,
-            delayChildren: 0.1,
+            delayChildren: 0.08,
           },
         },
       }}
@@ -234,7 +234,7 @@ export function StaggerItem({ children, className, style }: StaggerItemProps) {
       className={className}
       style={style}
       variants={{
-        initial: { opacity: 0, y: 20 },
+        initial: { opacity: 0, y: 16 },
         animate: { opacity: 1, y: 0 },
       }}
     >

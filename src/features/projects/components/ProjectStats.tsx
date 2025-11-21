@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Stack, Typography } from '@mui/material';
+import {
+  Skeleton,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import Button from '@mui/material/Button';
 import {
   animate,
@@ -21,6 +27,28 @@ import { useAnimationConfig, useEventCallback } from '@/hooks';
 
 // Cache stats for 10 minutes to avoid rate limiting
 const statsCache = new Map<string, CachedStats>();
+
+const labelSx: SxProps<Theme> = {
+  textTransform: 'uppercase',
+  letterSpacing: 1,
+  color: 'text.secondary',
+};
+
+const valueSx: SxProps<Theme> = {
+  fontWeight: 500,
+  fontSize: '1.05rem',
+  color: 'text.primary',
+};
+
+const containerSx: SxProps<Theme> = {
+  position: 'relative',
+  flexShrink: 0,
+};
+
+const buttonSx: SxProps<Theme> = {
+  px: 0,
+  fontSize: '0.75rem',
+};
 
 function AnimatedStat({
   label,
@@ -52,14 +80,7 @@ function AnimatedStat({
 
   return (
     <Stack direction="row" alignItems="baseline" spacing={1}>
-      <Typography
-        variant="body2"
-        sx={{
-          textTransform: 'uppercase',
-          letterSpacing: 1,
-          color: 'text.secondary',
-        }}
-      >
+      <Typography variant="body2" sx={labelSx}>
         {label}
       </Typography>
       <Typography
@@ -67,7 +88,7 @@ function AnimatedStat({
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}
         transition={getTransition('spring')}
-        sx={{ fontWeight: 500, fontSize: '1.05rem', color: 'text.primary' }}
+        sx={valueSx}
       >
         {displayValue.toLocaleString()}
       </Typography>
@@ -231,7 +252,7 @@ const ProjectStats = ({
       ref={containerRef}
       spacing={1.5}
       alignItems="flex-start"
-      sx={{ position: 'relative', flexShrink: 0 }}
+      sx={containerSx}
     >
       {statItems.map(({ key, label, value }) => (
         <AnimatedStat
@@ -248,16 +269,17 @@ const ProjectStats = ({
         </Typography>
       )}
       {isInitialLoad && (
-        <Typography variant="caption" color="text.secondary">
-          Fetching GitHub activity…
-        </Typography>
+        <Stack spacing={0.5} width="100%">
+          <Skeleton variant="text" width="60%" height={20} />
+          <Skeleton variant="text" width="40%" height={20} />
+        </Stack>
       )}
       <Button
         variant="text"
         size="small"
         onClick={handleOptimisticStar}
         disabled={!canOptimisticUpdate}
-        sx={{ px: 0, fontSize: '0.75rem' }}
+        sx={buttonSx}
       >
         Already starred it? Reflect it instantly
       </Button>

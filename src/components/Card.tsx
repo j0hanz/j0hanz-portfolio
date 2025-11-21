@@ -1,10 +1,30 @@
-import { Box, Paper as MuiPaper, Typography } from '@mui/material';
+import {
+  Box,
+  Paper as MuiPaper,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import { motion } from 'motion/react';
 
 import { CardProps, InternalCardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 
 const MotionPaper = motion.create(MuiPaper);
+
+const paperBaseSx: SxProps<Theme> = {
+  height: 1,
+  borderRadius: 2,
+  backgroundColor: 'backdrop.glass',
+};
+
+const contentSx: SxProps<Theme> = {
+  p: 2.5,
+};
+
+const subtitleSx: SxProps<Theme> = {
+  mb: 1.5,
+};
 
 const BaseCard = function Card({
   title,
@@ -23,25 +43,22 @@ const BaseCard = function Card({
       ref={ref}
       className={className}
       elevation={0}
-      sx={{
-        height: 1,
-        borderRadius: 2,
-        WebkitBackdropFilter: 'blur(10px)',
-        backdropFilter: 'blur(10px)',
-        backgroundColor: 'backdrop.glass',
-        ...sx,
-      }}
+      sx={[
+        paperBaseSx,
+        (theme) => theme.mixins.glass,
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
       {...(motionProps ?? {})}
     >
       {noContentPadding ? (
         children
       ) : (
-        <Box sx={{ p: 2.5 }}>
+        <Box sx={contentSx}>
           <Typography variant="h5" component="div" gutterBottom>
             {title}
           </Typography>
           {subtitle && (
-            <Typography variant="body1" component="div" sx={{ mb: 1.5 }}>
+            <Typography variant="body1" component="div" sx={subtitleSx}>
               {subtitle}
             </Typography>
           )}

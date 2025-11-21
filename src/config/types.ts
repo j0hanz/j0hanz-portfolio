@@ -786,12 +786,56 @@ export type SectionVariant =
 
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {
+  interface Mixins {
+    /**
+     * Glassmorphism effect mixin.
+     * Includes backdrop-filter and webkit-backdrop-filter.
+     */
+    glass: CSSProperties;
+  }
+  interface MixinsOptions {
+    glass?: CSSProperties;
+  }
+
+  interface Theme {
+    vars: Theme;
+  }
+
   interface Palette {
+    /**
+     * Gradient used for the Hero section background.
+     */
     heroGradient: string;
+    /**
+     * Neutral color palette for secondary UI elements.
+     */
     neutral: Palette['primary'];
+    /**
+     * Backdrop colors, including glass effect base color.
+     */
     backdrop: {
       glass: string;
     };
+    /**
+     * Brand color for Certificate badges/buttons.
+     */
+    certificate: Palette['primary'];
+    /**
+     * Brand color for GitHub badges/buttons.
+     */
+    github: Palette['primary'];
+    /**
+     * Brand color for LinkedIn badges/buttons.
+     */
+    linkedin: Palette['primary'];
+    /**
+     * Brand color for PDF/Resume badges/buttons.
+     */
+    pdf: Palette['primary'];
+    /**
+     * Brand color for Source Code badges/buttons.
+     */
+    sourceCode: Palette['primary'];
   }
   interface PaletteOptions {
     heroGradient?: string;
@@ -799,11 +843,21 @@ declare module '@mui/material/styles' {
     backdrop?: {
       glass?: string;
     };
+    certificate?: PaletteOptions['primary'];
+    github?: PaletteOptions['primary'];
+    linkedin?: PaletteOptions['primary'];
+    pdf?: PaletteOptions['primary'];
+    sourceCode?: PaletteOptions['primary'];
   }
 }
 
 declare module '@mui/material/Button' {
   interface ButtonPropsColorOverrides {
     neutral: true;
+    certificate: true;
+    github: true;
+    linkedin: true;
+    pdf: true;
+    sourceCode: true;
   }
 }

@@ -1,5 +1,7 @@
-import { Close } from '@mui/icons-material';
-import { Dialog, DialogContent, IconButton } from '@mui/material';
+import Close from '@mui/icons-material/Close';
+import { Dialog, DialogContent, IconButton, Theme } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { SxProps } from '@mui/system';
 import { motion } from 'motion/react';
 
 import { modalVariants } from '@/config/motion';
@@ -7,6 +9,31 @@ import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 
 const MotionDialogContent = motion.create(DialogContent);
+
+const closeButtonSx: SxProps<Theme> = {
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
+  borderRadius: '0 10rem 0 50rem',
+  height: 35,
+  width: 35,
+  pl: 1,
+  pb: 1,
+  zIndex: 10,
+  color: 'common.white',
+  opacity: 0.7,
+  '&:hover': {
+    bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
+    opacity: 1,
+  },
+};
+
+const paperProps = {
+  sx: {
+    position: 'relative',
+  },
+};
 
 function BaseModal({
   show,
@@ -38,11 +65,7 @@ function BaseModal({
       className={className}
       maxWidth="md"
       fullWidth
-      PaperProps={{
-        sx: {
-          position: 'relative',
-        },
-      }}
+      PaperProps={paperProps}
     >
       <MotionDialogContent
         {...modalVariant}
@@ -58,24 +81,8 @@ function BaseModal({
       >
         <IconButton
           onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bgcolor: '#00000067',
-            borderRadius: '0 10rem 0 50rem',
-            height: 35,
-            width: 35,
-            pl: 1,
-            pb: 1,
-            zIndex: 10,
-            color: '#f5f4f4',
-            opacity: 0.7,
-            '&:hover': {
-              bgcolor: '#00000067',
-              opacity: 1,
-            },
-          }}
+          aria-label="Close modal"
+          sx={closeButtonSx}
         >
           <Close sx={{ fontSize: '1.2rem' }} />
         </IconButton>

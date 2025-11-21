@@ -1,13 +1,38 @@
-import { Box, Stack } from '@mui/material';
+import { alpha, Box, Stack, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { useAnimationConfig } from '@/hooks';
 
+const stackSx: SxProps<Theme> = {
+  height: '60vh',
+};
+
+const spinnerSx: SxProps<Theme> = {
+  width: 120,
+  height: 120,
+  borderRadius: '50%',
+  borderWidth: 3,
+  borderStyle: 'solid',
+  borderColor: (theme) => alpha(theme.palette.common.white, 0.2),
+  borderTopColor: 'primary.main',
+  position: 'relative',
+  filter: (theme) =>
+    `drop-shadow(0 8px 20px ${alpha(theme.palette.common.black, 0.25)})`,
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    inset: 10,
+    borderRadius: '50%',
+    border: '2px solid',
+    borderColor: (theme) => alpha(theme.palette.common.white, 0.15),
+  },
+};
+
 // Component for displaying a loading spinner
-function Spinner(): React.JSX.Element {
+function Spinner({ sx }: { sx?: SxProps<Theme> }): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const spinnerTransition = getTransition('smooth', {
-    duration: 1.25,
+    duration: 1.15,
     repeat: Infinity,
     ease: 'linear',
   });
@@ -19,9 +44,10 @@ function Spinner(): React.JSX.Element {
       aria-label="Loading content"
       justifyContent="center"
       alignItems="center"
-      sx={{
-        height: '60vh',
-      }}
+      sx={[
+        ...(Array.isArray(stackSx) ? stackSx : [stackSx]),
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <Box
         component={motion.div}
@@ -33,25 +59,7 @@ function Spinner(): React.JSX.Element {
             : { rotate: 360, scale: [1, 1.08, 1] }
         }
         transition={prefersReducedMotion ? undefined : spinnerTransition}
-        sx={{
-          width: 80,
-          height: 80,
-          borderRadius: '50%',
-          borderWidth: 3,
-          borderStyle: 'solid',
-          borderColor: 'rgba(255,255,255,0.2)',
-          borderTopColor: 'primary.main',
-          position: 'relative',
-          filter: 'drop-shadow(0 8px 20px rgba(15, 23, 42, 0.25))',
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            inset: 10,
-            borderRadius: '50%',
-            border: '2px solid',
-            borderColor: 'rgba(255,255,255,0.15)',
-          },
-        }}
+        sx={spinnerSx}
       />
     </Stack>
   );

@@ -1,30 +1,33 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 
 import { IconBadgeListProps, IconBadgeProps } from '@/config/types';
 
+const containerSx: SxProps<Theme> = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  color: 'text.primary',
+  marginRight: '2rem',
+  transform: 'skew(-5deg)',
+  gap: 0.75,
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: 17,
+};
+
+const textSx: SxProps<Theme> = {
+  color: 'text.primary',
+  textTransform: 'uppercase',
+  fontSize: '0.9rem',
+};
+
 function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
   return (
-    <Box
-      sx={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        color: 'text.primary',
-        marginRight: '2rem',
-        transform: 'skew(-5deg)',
-        gap: 0.75,
-      }}
-    >
-      <Icon sx={{ fontSize: 17 }} />
-      <Typography
-        component="span"
-        sx={{
-          color: 'text.primary',
-          textTransform: 'uppercase',
-          fontSize: '0.9rem',
-        }}
-      >
+    <Box sx={containerSx}>
+      <Icon sx={iconSx} />
+      <Typography component="span" sx={textSx}>
         {text}
       </Typography>
     </Box>

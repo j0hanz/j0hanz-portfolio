@@ -1,21 +1,29 @@
 import React from 'react';
 
 import { SiGithub } from 'react-icons/si';
-import { toast } from 'react-toastify';
 
-import { ContentCopyRounded, PlayArrowRounded } from '@mui/icons-material';
-import { Box, Stack, Tooltip } from '@mui/material';
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
+import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
+import { Box, Stack, type SxProps, type Theme, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
-import { useCopyToClipboard } from '@/hooks';
+import { useCopyToClipboard, useSnackbar } from '@/hooks';
 
 const iconStyle = {
   fontSize: '0.9rem',
 } as const;
 
 const actionButtonSx = { minWidth: 104, height: 30 } as const;
+
+const gridSx: SxProps<Theme> = {
+  mt: 2,
+};
+
+const tooltipWrapperSx: SxProps<Theme> = {
+  display: 'inline-block',
+};
 
 const ActionButton = ({
   label,
@@ -33,17 +41,17 @@ const ActionButton = ({
 
 const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
   const [copyToClipboard] = useCopyToClipboard();
-  const repoToastId = `repo-copy-${project.github}`;
+  const { showSnackbar } = useSnackbar();
 
   const handleCopyRepo = async () => {
     const success = await copyToClipboard(project.github);
 
     if (success) {
-      toast.success('Repository URL copied', { toastId: repoToastId });
+      showSnackbar('Repository URL copied', 'success');
       return;
     }
 
-    toast.error('Unable to copy repository URL', { toastId: repoToastId });
+    showSnackbar('Unable to copy repository URL', 'error');
   };
 
   const renderDemoButton = () => {
@@ -61,7 +69,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
 
     return (
       <Tooltip title="Coming soon!" placement="bottom">
-        <Box component="span" sx={{ display: 'inline-block' }}>
+        <Box component="span" sx={tooltipWrapperSx}>
           <ActionButton
             disabled
             icon={<PlayArrowRounded sx={iconStyle} />}
@@ -73,7 +81,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
   };
 
   return (
-    <Grid sx={{ mt: 2 }}>
+    <Grid sx={gridSx}>
       <Stack
         direction="row"
         justifyContent="space-between"

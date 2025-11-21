@@ -66,12 +66,6 @@ export type { UseToggleReturn } from '@/config/types';
 /** Manages contact form state, validation, and submission. */
 export { default as useContactForm } from './useContactForm';
 
-/** Manages global loading state for the application. */
-export { default as useLoading } from './useLoading';
-
-/** Handles closing the navigation menu when clicking outside or on a link. */
-export { default as useNavLinkClose } from './useNavLinkClose';
-
 /** Accesses the NavigationContext. */
 export { useNavigation } from './useNavigation';
 
@@ -86,6 +80,9 @@ export { default as useHover } from './useHover';
 
 /** Detects if the user is currently online or offline. */
 export { default as useOnlineStatus } from './useOnlineStatus';
+
+/** Accesses the SnackbarContext. */
+export { default as useSnackbar } from './useSnackbar';
 
 /** Runs an effect only once on mount (strict mode safe). */
 export { default as useEffectOnce } from './useEffectOnce';

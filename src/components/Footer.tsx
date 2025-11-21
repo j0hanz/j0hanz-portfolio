@@ -1,26 +1,96 @@
 import { FC } from 'react';
 
 import { SiCreativecommons } from 'react-icons/si';
-import { toast } from 'react-toastify';
 
-import { ContentCopyRounded, EmailRounded } from '@mui/icons-material';
+import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
+import EmailRounded from '@mui/icons-material/EmailRounded';
 import {
+  alpha,
   Box,
   Container,
   IconButton,
   Stack,
+  Theme,
   Tooltip,
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { SxProps } from '@mui/system';
 import { motion } from 'motion/react';
 
 import { SocialLinkList } from '@/components/NavBar';
-import { CONTACT_EMAIL, EMAIL_TOAST_ID } from '@/config/constants';
+import { CONTACT_EMAIL } from '@/config/constants';
 import { SocialLinkRenderProps } from '@/config/types';
-import { useAnimationConfig, useCopyToClipboard, useToggle } from '@/hooks';
+import {
+  useAnimationConfig,
+  useCopyToClipboard,
+  useSnackbar,
+  useToggle,
+} from '@/hooks';
 
 import ModalCv from './ModalCv';
+
+const footerSx: SxProps<Theme> = {
+  bgcolor: 'neutral.dark',
+  py: 2,
+  pb: { xs: 0.25, sm: 2 },
+  color: 'primary.contrastText',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+};
+
+const contactLabelSx: SxProps<Theme> = {
+  pb: 3,
+  fontSize: '1.1rem',
+  color: 'inherit',
+  opacity: 0.8,
+};
+
+const emailIconSx: SxProps<Theme> = {
+  color: 'inherit',
+  opacity: 0.8,
+  fontSize: '0.9rem',
+  mr: 1.25,
+  transition: 'all 0.3s ease',
+};
+
+const emailLinkSx: SxProps<Theme> = {
+  textDecoration: 'none',
+  fontSize: '0.9rem',
+  color: 'inherit',
+  transition: 'all 0.3s ease',
+  opacity: 0.8,
+  '&:hover': {
+    color: 'primary.light',
+    opacity: 1,
+  },
+};
+
+const copyButtonSx: SxProps<Theme> = {
+  ml: 1,
+  bgcolor: (theme) => alpha(theme.palette.common.white, 0.08),
+  '&:hover': {
+    bgcolor: (theme) => alpha(theme.palette.common.white, 0.15),
+  },
+};
+
+const copyrightIconStyle = {
+  color: 'inherit',
+  opacity: 0.8,
+  fontSize: '0.9rem',
+  marginRight: '10px',
+  transition: 'all 0.3s ease',
+};
+
+const copyrightTextSx: SxProps<Theme> = {
+  transform: 'skew(-5deg)',
+  textTransform: 'uppercase',
+  fontSize: '0.8rem',
+  color: 'inherit',
+  opacity: 0.8,
+};
 
 const wrapFooterSocialLink = (
   id: string,
@@ -38,6 +108,7 @@ const Footer: FC = () => {
     setFalse: handleModalClose,
   } = useToggle(false);
   const [copyEmail] = useCopyToClipboard();
+  const { showSnackbar } = useSnackbar();
   const { getTransition, prefersReducedMotion } = useAnimationConfig();
 
   const renderFooterSocialLink = ({
@@ -82,64 +153,25 @@ const Footer: FC = () => {
     const copied = await copyEmail(CONTACT_EMAIL);
 
     if (copied) {
-      toast.success('Email copied to clipboard', { toastId: EMAIL_TOAST_ID });
+      showSnackbar('Email copied to clipboard', 'success');
       return;
     }
 
-    toast.error('Unable to copy email', { toastId: EMAIL_TOAST_ID });
+    showSnackbar('Unable to copy email', 'error');
   };
 
   return (
-    <Box
-      component="footer"
-      sx={{
-        bgcolor: 'neutral.dark',
-        py: 2,
-        pb: { xs: 0.25, sm: 2 },
-        color: 'primary.contrastText',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <Box component="footer" sx={footerSx}>
       <Container maxWidth={false}>
         <Grid container sx={{ mx: 'auto' }}>
           <Grid size={{ sm: 6 }}>
-            <Typography
-              sx={{
-                pb: 3,
-                fontSize: '1.1rem',
-                color: 'inherit',
-                opacity: 0.8,
-              }}
-            >
-              Contact Details
-            </Typography>
+            <Typography sx={contactLabelSx}>Contact Details</Typography>
             <Stack direction="row" alignItems="center">
-              <EmailRounded
-                sx={{
-                  color: 'inherit',
-                  opacity: 0.8,
-                  fontSize: '0.9rem',
-                  mr: 1.25,
-                  transition: 'all 0.3s ease',
-                }}
-              />
+              <EmailRounded sx={emailIconSx} />
               <Box
                 component="a"
                 href={`mailto:${CONTACT_EMAIL}`}
-                sx={{
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                  color: 'inherit',
-                  transition: 'all 0.3s ease',
-                  opacity: 0.8,
-                  '&:hover': {
-                    color: 'primary.light',
-                    opacity: 1,
-                  },
-                }}
+                sx={emailLinkSx}
               >
                 {CONTACT_EMAIL}
               </Box>
@@ -149,13 +181,7 @@ const Footer: FC = () => {
                   color="inherit"
                   aria-label="Copy email address"
                   size="small"
-                  sx={{
-                    ml: 1,
-                    bgcolor: 'rgba(255, 255, 255, 0.08)',
-                    '&:hover': {
-                      bgcolor: 'rgba(255, 255, 255, 0.15)',
-                    },
-                  }}
+                  sx={copyButtonSx}
                 >
                   <ContentCopyRounded
                     sx={{ fontSize: '1rem', opacity: 0.85 }}
@@ -171,25 +197,8 @@ const Footer: FC = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
               sx={{ pb: 3 }}
             >
-              <SiCreativecommons
-                style={{
-                  color: 'inherit',
-                  opacity: 0.8,
-                  fontSize: '0.9rem',
-                  marginRight: '10px',
-                  transition: 'all 0.3s ease',
-                }}
-              />
-              <Box
-                component="small"
-                sx={{
-                  transform: 'skew(-5deg)',
-                  textTransform: 'uppercase',
-                  fontSize: '0.8rem',
-                  color: 'inherit',
-                  opacity: 0.8,
-                }}
-              >
+              <SiCreativecommons style={copyrightIconStyle} />
+              <Box component="small" sx={copyrightTextSx}>
                 Copyright 2025
               </Box>
             </Stack>

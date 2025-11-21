@@ -1,7 +1,15 @@
 import { useFormStatus } from 'react-dom';
 
-import { DeleteRounded, EmailRounded, SendRounded } from '@mui/icons-material';
-import { Box, Stack, Typography } from '@mui/material';
+import DeleteRounded from '@mui/icons-material/DeleteRounded';
+import EmailRounded from '@mui/icons-material/EmailRounded';
+import SendRounded from '@mui/icons-material/SendRounded';
+import {
+  Box,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -13,6 +21,35 @@ import type { SuccessIndicatorProps } from '@/config/types';
 import { useAnimationConfig, useContactForm } from '@/hooks';
 
 import ContactFormFields from './ContactFormFields';
+
+const successStackSx: SxProps<Theme> = {
+  mt: 2,
+  px: 2,
+};
+
+const successTextSx: SxProps<Theme> = {
+  fontWeight: 500,
+};
+
+const submitButtonSx: SxProps<Theme> = {
+  minWidth: 120,
+};
+
+const cardSx: SxProps<Theme> = {
+  height: 'auto',
+};
+
+const clearButtonSx: SxProps<Theme> = {
+  minWidth: 120,
+};
+
+const clearTextSx: SxProps<Theme> = {
+  display: { xs: 'none', sm: 'inline' },
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: '1rem',
+};
 
 function SuccessIndicator({
   visible,
@@ -33,7 +70,7 @@ function SuccessIndicator({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={getTransition('smooth')}
-          sx={{ mt: 2, px: 2 }}
+          sx={successStackSx}
         >
           <motion.svg
             width="38"
@@ -67,11 +104,7 @@ function SuccessIndicator({
               })}
             />
           </motion.svg>
-          <Typography
-            variant="body2"
-            color="success.main"
-            sx={{ fontWeight: 500 }}
-          >
+          <Typography variant="body2" color="success.main" sx={successTextSx}>
             Message sent!
           </Typography>
         </Stack>
@@ -89,11 +122,9 @@ function ContactSubmitButton(): React.JSX.Element {
       type="submit"
       loading={pending}
       disabled={pending}
-      startIcon={<SendRounded sx={{ fontSize: '1rem' }} />}
+      startIcon={<SendRounded sx={iconSx} />}
       aria-label={pending ? 'Sending message' : 'Send message'}
-      sx={{
-        minWidth: 120,
-      }}
+      sx={submitButtonSx}
     >
       {!pending && 'Send'}
     </Button>
@@ -113,7 +144,7 @@ function ContactFormContent(): React.JSX.Element {
   const showSuccess = submissionState === 'success';
 
   return (
-    <Card title="" sx={{ height: 'auto' }}>
+    <Card title="" sx={cardSx}>
       <Stack component="form" noValidate action={submitAction} spacing={2}>
         <ContactFormFields
           formData={formData}
@@ -133,22 +164,11 @@ function ContactFormContent(): React.JSX.Element {
             type="button"
             onClick={handleReset}
             disabled={isSending}
-            startIcon={
-              <DeleteRounded
-                sx={{
-                  fontSize: '1rem',
-                }}
-              />
-            }
+            startIcon={<DeleteRounded sx={iconSx} />}
             aria-label="Clear form"
-            sx={{
-              minWidth: 120,
-            }}
+            sx={clearButtonSx}
           >
-            <Box
-              component="span"
-              sx={{ display: { xs: 'none', sm: 'inline' } }}
-            >
+            <Box component="span" sx={clearTextSx}>
               Clear
             </Box>
           </Button>

@@ -1,5 +1,3 @@
-import { PaletteOptions } from '@mui/material/styles';
-
 import type { RepoStats } from './types';
 
 // ============================================================================
@@ -19,15 +17,8 @@ export const EMPTY_STATS: RepoStats = {
 // ============================================================================
 
 export const CONTACT_EMAIL = 'l.johansson93@outlook.com';
-export const EMAIL_TOAST_ID = 'contact-email-toast';
 export const SEND_ERROR_MESSAGE =
   'Failed to send message! Please try again later.';
-
-// ============================================================================
-// NETWORK STATUS CONSTANTS
-// ============================================================================
-
-export const NETWORK_STATUS_TOAST_ID = 'network-status-toast';
 
 // ============================================================================
 // VALIDATION CONSTANTS
@@ -52,7 +43,7 @@ export const ERROR_MESSAGES = {
 // THEME CONSTANTS
 // ============================================================================
 
-export const BASE_PALETTE = {
+const COMMON_PALETTE = {
   primary: {
     main: '#0067dd',
     light: '#3385e3',
@@ -65,38 +56,65 @@ export const BASE_PALETTE = {
     dark: '#242424',
     contrastText: '#f5f4f4',
   },
+  certificate: {
+    main: '#ffc800',
+    contrastText: '#000000',
+  },
+  linkedin: {
+    main: '#0a66c2',
+    contrastText: '#ffffff',
+  },
+  pdf: {
+    main: '#dc1a1a',
+    contrastText: '#ffffff',
+  },
+  sourceCode: {
+    main: '#3fb950',
+    contrastText: '#ffffff',
+  },
   heroGradient:
     'linear-gradient(180deg, #017bb5 25%, #026a99 50%, #3a8cc1 75%)',
-} as const satisfies Pick<
-  PaletteOptions,
-  'primary' | 'neutral' | 'heroGradient'
->;
+} as const;
 
-export const MODE_SPECIFIC_OVERRIDES = {
+export const PALETTES = {
   light: {
+    ...COMMON_PALETTE,
     background: {
-      default: '#cccccc',
-      paper: '#ececec',
+      default: '#f8f9fa',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#0a0a0a',
-      secondary: '#4a4a4a',
+      primary: '#1a1a1a',
+      secondary: '#5a5a5a',
     },
+    divider: '#e0e0e0',
     backdrop: {
-      glass: 'rgba(255, 255, 255, 0.2)',
+      glass: 'rgba(255, 255, 255, 0.75)',
+    },
+    github: {
+      main: '#181717',
+      dark: '#181717',
+      contrastText: '#000000',
     },
   },
   dark: {
+    ...COMMON_PALETTE,
     background: {
-      default: '#242424',
-      paper: '#202020',
+      default: '#050505',
+      paper: '#121212',
     },
     text: {
-      primary: '#ececec',
-      secondary: '#b0b0b0',
+      primary: '#ffffff',
+      secondary: '#a0a0a0',
     },
+    divider: '#333333',
     backdrop: {
-      glass: 'rgba(0, 0, 0, 0.2)',
+      glass: 'rgba(20, 20, 20, 0.6)',
+    },
+    github: {
+      main: '#ffffff',
+      dark: '#181717',
+      contrastText: '#000000',
     },
   },
 } as const;

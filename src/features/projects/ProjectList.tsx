@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -12,6 +12,42 @@ import ProjectLinks from './components/ProjectLinks';
 import ProjectStats from './components/ProjectStats';
 import ProjectTechStack from './components/ProjectTechStack';
 
+const cardSx: SxProps<Theme> = {
+  height: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: 2,
+  WebkitBackdropFilter: 'blur(10px)',
+  backdropFilter: 'blur(10px)',
+  backgroundColor: 'backdrop.glass',
+};
+
+const articleSx: SxProps<Theme> = {
+  height: 1,
+  p: { xs: 1.5, sm: 2, md: 2.5 },
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const contentSx: SxProps<Theme> = {
+  flex: '1 1 auto',
+};
+
+const descriptionSx: SxProps<Theme> = {
+  color: 'text.secondary',
+  flexShrink: 0,
+};
+
+const gridSx: SxProps<Theme> = {
+  display: 'flex',
+};
+
+const motionStyle = {
+  height: '100%',
+  width: '100%',
+  display: 'flex',
+};
+
 function ProjectCard({ project }: { project: Project }): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
 
@@ -19,35 +55,12 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
     <AnimatedCard
       title="" // Title is handled by ProjectHeader
       noContentPadding
-      sx={{
-        height: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        borderRadius: 2,
-        WebkitBackdropFilter: 'blur(10px)',
-        backdropFilter: 'blur(10px)',
-        backgroundColor: 'backdrop.glass',
-      }}
+      sx={cardSx}
     >
-      <Stack
-        component="article"
-        sx={{
-          height: 1,
-          p: { xs: 1.5, sm: 2, md: 2.5 },
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Stack spacing={2} sx={{ flex: '1 1 auto' }}>
+      <Stack component="article" sx={articleSx}>
+        <Stack spacing={2} sx={contentSx}>
           <ProjectHeader project={project} />
-          <Typography
-            sx={{
-              color: 'text.secondary',
-              flexShrink: 0,
-            }}
-          >
-            {project.description}
-          </Typography>
+          <Typography sx={descriptionSx}>{project.description}</Typography>
           <ProjectTechStack technologies={project.technologies} />
           {repoPath && (
             <ProjectStats
@@ -65,11 +78,8 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
 
 function ProjectList({ project }: ProjectListProps): React.JSX.Element {
   return (
-    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={{ display: 'flex' }}>
-      <motion.div
-        variants={staggerItemVariant}
-        style={{ height: '100%', width: '100%', display: 'flex' }}
-      >
+    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={gridSx}>
+      <motion.div variants={staggerItemVariant} style={motionStyle}>
         <ProjectCard project={project} />
       </motion.div>
     </Grid>

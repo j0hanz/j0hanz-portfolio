@@ -1,53 +1,49 @@
-import { useLayoutEffect } from 'react';
+import { ReactNode } from 'react';
 
-import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
-
-import { darkTheme, lightTheme } from '@/config/theme';
 import {
-  AppThemeProviderProps,
-  ThemeModeUpdater,
-  ThemeModeValue,
-} from '@/config/types';
+  CssBaseline,
+  PaletteMode,
+  ThemeProvider,
+  useColorScheme,
+} from '@mui/material';
+
+import { SnackbarProvider } from '@/components/SnackbarProvider';
+import { appTheme } from '@/config/theme';
+import { AppThemeProviderProps, ThemeModeValue } from '@/config/types';
 import { ThemeMode } from '@/contexts/themeContext';
-import { useStorage } from '@/hooks';
+
+function ThemeModeAdapter({ children }: { children: ReactNode }) {
+  const { mode, setMode } = useColorScheme();
+
+  const toggleMode = () => {
+    setMode(mode === 'dark' ? 'light' : 'dark');
+  };
+
+  const contextValue: ThemeModeValue = {
+    mode: (mode as PaletteMode) || 'light',
+    toggleMode,
+    setMode: (nextMode) => {
+      if (typeof nextMode === 'function') {
+        setMode(nextMode(mode as PaletteMode));
+      } else {
+        setMode(nextMode);
+      }
+    },
+  };
+
+  return <ThemeMode value={contextValue}>{children}</ThemeMode>;
+}
 
 function AppThemeProvider({
   children,
 }: AppThemeProviderProps): React.JSX.Element {
-  const { value: storedTheme = 'light', set: setStoredTheme } =
-    useStorage<PaletteMode>('theme', 'light', {
-      serializer: (value) => value,
-      parser: (value) => (value === 'dark' ? 'dark' : 'light'),
-    });
-
-  const mode = storedTheme ?? 'light';
-
-  const theme = mode === 'dark' ? darkTheme : lightTheme;
-
-  const toggleMode = () => {
-    setStoredTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const setMode: ThemeModeUpdater = (nextMode) => {
-    setStoredTheme(nextMode);
-  };
-
-  useLayoutEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-theme', mode);
-      document.documentElement.setAttribute('data-bs-theme', mode);
-    }
-  }, [mode]);
-
-  const contextValue: ThemeModeValue = { mode, toggleMode, setMode };
-
   return (
-    <ThemeMode value={contextValue}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </ThemeMode>
+    <ThemeProvider theme={appTheme} defaultMode="light">
+      <CssBaseline />
+      <ThemeModeAdapter>
+        <SnackbarProvider>{children}</SnackbarProvider>
+      </ThemeModeAdapter>
+    </ThemeProvider>
   );
 }
 
