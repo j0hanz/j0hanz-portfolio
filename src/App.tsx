@@ -1,4 +1,4 @@
-import React, { useEffect, useEffectEvent, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
@@ -9,7 +9,12 @@ import BackgroundMorph from '@/components/BackgroundMorph';
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
 import Toast from '@/components/Toast';
-import { useAnimationConfig, useOnlineStatus, usePrevious } from '@/hooks';
+import {
+  useAnimationConfig,
+  useEventCallback,
+  useOnlineStatus,
+  usePrevious,
+} from '@/hooks';
 import Home from '@/pages/Home';
 
 const NETWORK_STATUS_TOAST_ID = 'network-status-toast';
@@ -59,13 +64,13 @@ function App(): React.JSX.Element {
   );
   const contentTransition = getTransition('smooth', { duration: 0.55 });
 
-  const clearBannerTimeout = useEffectEvent(() => {
+  const clearBannerTimeout = useEventCallback(() => {
     if (bannerTimeoutRef.current === null) return;
     window.clearTimeout(bannerTimeoutRef.current);
     bannerTimeoutRef.current = null;
   });
 
-  const showBanner = useEffectEvent((nextBanner: StatusBanner) => {
+  const showBanner = useEventCallback((nextBanner: StatusBanner) => {
     clearBannerTimeout();
     setStatusBanner(nextBanner);
 
@@ -77,7 +82,7 @@ function App(): React.JSX.Element {
     }, 3500);
   });
 
-  const handleOffline = useEffectEvent(() => {
+  const handleOffline = useEventCallback(() => {
     toast.warn('You appear to be offline. Some features may not work.', {
       toastId: NETWORK_STATUS_TOAST_ID,
       autoClose: false,
@@ -91,7 +96,7 @@ function App(): React.JSX.Element {
     });
   });
 
-  const handleOnline = useEffectEvent(() => {
+  const handleOnline = useEventCallback(() => {
     if (toast.isActive(NETWORK_STATUS_TOAST_ID)) {
       toast.update(NETWORK_STATUS_TOAST_ID, {
         render: 'Connection restored',
@@ -130,7 +135,7 @@ function App(): React.JSX.Element {
     } else if (!isOnline && prevOnline) {
       handleOffline();
     }
-  }, [isOnline, prevOnline]);
+  }, [isOnline, prevOnline, handleOffline, handleOnline]);
 
   return (
     <Box
