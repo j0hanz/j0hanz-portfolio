@@ -437,56 +437,47 @@ export function useSectionSequence(
     hasPlayed.current = true;
 
     runSequence(async (animate) => {
-      const promises: Promise<void>[] = [];
+      const animationPromises: Promise<void>[] = [];
 
       // Description animation
       if (selectors.description) {
-        promises.push(
-          (
-            animate(
-              selectors.description,
-              { opacity: [0, 1], y: [20, 0] },
-              { duration: 0.5, ease: 'easeOut' }
-            ) as unknown as Promise<void>
-          ).then(() => {})
+        const control = animate(
+          selectors.description,
+          { opacity: [0, 1], y: [20, 0] },
+          { duration: 0.5, ease: 'easeOut' }
         );
+        animationPromises.push(control.finished);
       }
 
       // Cards animation
       if (selectors.cards) {
         // Wait a bit for description if it exists
         const delay = selectors.description ? 0.2 : 0;
-        promises.push(
-          (
-            animate(
-              selectors.cards,
-              { opacity: [0, 1], y: [30, 0] },
-              {
-                delay: getStagger(0.1) + delay,
-                duration: 0.5,
-                ease: 'easeOut',
-              }
-            ) as unknown as Promise<void>
-          ).then(() => {})
+        const control = animate(
+          selectors.cards,
+          { opacity: [0, 1], y: [30, 0] },
+          {
+            delay: getStagger(0.1) + delay,
+            duration: 0.5,
+            ease: 'easeOut',
+          }
         );
+        animationPromises.push(control.finished);
       }
 
       // CTA animation
       if (selectors.cta) {
         const delay =
           (selectors.description ? 0.2 : 0) + (selectors.cards ? 0.4 : 0);
-        promises.push(
-          (
-            animate(
-              selectors.cta,
-              { opacity: [0, 1], scale: [0.9, 1] },
-              { delay, duration: 0.4, ease: 'backOut' }
-            ) as unknown as Promise<void>
-          ).then(() => {})
+        const control = animate(
+          selectors.cta,
+          { opacity: [0, 1], scale: [0.9, 1] },
+          { delay, duration: 0.4, ease: 'backOut' }
         );
+        animationPromises.push(control.finished);
       }
 
-      await Promise.all(promises);
+      await Promise.all(animationPromises);
     });
   });
 }
