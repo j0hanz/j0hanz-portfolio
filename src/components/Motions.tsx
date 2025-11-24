@@ -2,7 +2,14 @@ import { forwardRef, useRef } from 'react';
 
 import { AnimatePresence, motion } from 'motion/react';
 
-import { sectionVariants, viewportConfig } from '@/config/motion';
+import {
+  fadeInViewVariants,
+  pageTransitionVariants,
+  sectionVariants,
+  staggerContainerVariants,
+  staggerItemSimpleVariants,
+  viewportConfig,
+} from '@/config/motion';
 import type {
   FadeInViewProps,
   MotionWrapperProps,
@@ -148,12 +155,9 @@ export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
     return (
       <motion.div
         ref={ref || localRef}
-        initial={{ opacity: 0, transform: 'translateY(20px)' }}
-        animate={
-          isInView
-            ? { opacity: 1, transform: 'translateY(0px)' }
-            : { opacity: 0, transform: 'translateY(20px)' }
-        }
+        variants={fadeInViewVariants}
+        initial="initial"
+        animate={isInView ? 'animate' : 'initial'}
         transition={getTransition('easeOut', { delay })}
         {...props}
       >
@@ -191,16 +195,8 @@ export function StaggerContainer({
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, amount: 0.15 }}
-      variants={{
-        initial: { opacity: 0 },
-        animate: {
-          opacity: 1,
-          transition: {
-            staggerChildren: stagger,
-            delayChildren: 0.08,
-          },
-        },
-      }}
+      variants={staggerContainerVariants}
+      custom={stagger}
     >
       {children}
     </motion.div>
@@ -227,10 +223,7 @@ export function StaggerItem({ children, className, style }: StaggerItemProps) {
     <motion.div
       className={className}
       style={style}
-      variants={{
-        initial: { opacity: 0, transform: 'translateY(16px)' },
-        animate: { opacity: 1, transform: 'translateY(0px)' },
-      }}
+      variants={staggerItemSimpleVariants}
     >
       {children}
     </motion.div>
@@ -250,28 +243,12 @@ export function PageTransitionWrapper({
 }): React.JSX.Element {
   const { direction } = useNavigationState();
 
-  const variants = {
-    enter: (dir: 'up' | 'down' | null) => ({
-      // Use transform instead of y for hardware acceleration
-      transform: dir === 'down' ? 'translateY(100%)' : 'translateY(-100%)',
-      opacity: 0,
-    }),
-    center: {
-      transform: 'translateY(0%)',
-      opacity: 1,
-    },
-    exit: (dir: 'up' | 'down' | null) => ({
-      transform: dir === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
-      opacity: 0,
-    }),
-  };
-
   return (
     <motion.div
       id="active-section-container"
       className={className}
       custom={direction}
-      variants={variants}
+      variants={pageTransitionVariants}
       initial="enter"
       animate="center"
       exit="exit"

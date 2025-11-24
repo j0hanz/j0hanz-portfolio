@@ -1,4 +1,10 @@
-import React, { Suspense, useRef, useState } from 'react';
+import React, {
+  startTransition,
+  Suspense,
+  useOptimistic,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   Skeleton,
@@ -8,7 +14,6 @@ import {
   Typography,
 } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useQueryClient } from '@tanstack/react-query';
 import {
   animate,
   motion,
@@ -23,7 +28,7 @@ import type {
   RepoStats,
 } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { githubKeys, useRepoStatsQuery } from '@/utils/query';
+import { useRepoStatsQuery } from '@/utils/query';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -129,40 +134,25 @@ function StatsContent({
   hasProjectBoard: boolean;
 }): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const queryClient = useQueryClient();
   const { data: initialStats } = useRepoStatsQuery(repoPath);
-  const [optimisticStars, setOptimisticStars] = useState<number | null>(null);
+
+  const [optimisticStats, addOptimisticStar] = useOptimistic(
+    initialStats,
+    (state: RepoStats, increment: number) => ({
+      ...state,
+      stars: state.stars + increment,
+    })
+  );
 
   const handleOptimisticStar = () => {
-    // Get current stats from cache
-    const currentStats =
-      queryClient.getQueryData<RepoStats>(githubKeys.repoStats(repoPath)) ??
-      initialStats;
-
-    // Set optimistic star count
-    const newStarCount = currentStats.stars + 1;
-    setOptimisticStars(newStarCount);
-
-    // Update query cache optimistically
-    queryClient.setQueryData<RepoStats>(githubKeys.repoStats(repoPath), {
-      ...currentStats,
-      stars: newStarCount,
+    startTransition(async () => {
+      addOptimisticStar(1);
+      // Simulate network delay for the optimistic state to be visible
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     });
-
-    // Reset optimistic state after 2 seconds
-    setTimeout(() => {
-      setOptimisticStars(null);
-      // Optionally refetch to get actual server state
-      // queryClient.invalidateQueries({ queryKey: githubKeys.repoStats(repoPath) });
-    }, 2000);
   };
 
-  const stats: RepoStats = {
-    ...initialStats,
-    stars: optimisticStars ?? initialStats.stars,
-  };
-
-  const statItems = buildStatItems(stats, hasProjectBoard);
+  const statItems = buildStatItems(optimisticStats, hasProjectBoard);
 
   return (
     <>

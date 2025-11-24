@@ -1,7 +1,8 @@
 import { RefObject, useRef } from 'react';
 
-import { motion, Variants } from 'motion/react';
+import { motion } from 'motion/react';
 
+import { textRevealVariants } from '@/config/motion';
 import type { TextRevealProps } from '@/config/types';
 import { useInView, useReducedMotion } from '@/hooks';
 
@@ -24,35 +25,14 @@ export function TextReveal({
   });
   const prefersReducedMotion = useReducedMotion();
 
-  const container: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.025, delayChildren: delay },
-    },
+  const container = {
+    hidden: textRevealVariants.container.hidden,
+    visible: textRevealVariants.container.visible(delay),
   };
 
-  const child: Variants = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 120,
-        duration,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      y: 16,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 120,
-        duration,
-      },
-    },
+  const child = {
+    visible: textRevealVariants.child.visible(duration),
+    hidden: textRevealVariants.child.hidden(duration),
   };
 
   if (prefersReducedMotion) {

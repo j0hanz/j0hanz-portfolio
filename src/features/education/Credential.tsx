@@ -1,47 +1,11 @@
-import Close from '@mui/icons-material/Close';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
-import {
-  alpha,
-  Box,
-  Dialog,
-  DialogContent,
-  IconButton,
-  Stack,
-  Theme,
-} from '@mui/material';
+import { Box, Stack, Theme } from '@mui/material';
 import { SxProps } from '@mui/system';
 
 import ImageCredential from '@/assets/Credential.webp';
+import BaseModal from '@/components/BaseModal';
 import Image from '@/components/Image';
 import { CredentialProps } from '@/config/types';
-
-const BADGE_SIZE = 40;
-
-const dialogContentSx: SxProps<Theme> = {
-  p: 0,
-  position: 'relative',
-  bgcolor: 'transparent',
-  border: 'none',
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
-
-const closeButtonSx: SxProps<Theme> = {
-  position: 'absolute',
-  top: 0,
-  right: 0,
-  zIndex: 10,
-  bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
-  color: 'common.white',
-  borderRadius: '0 0 0 50%',
-  width: BADGE_SIZE,
-  height: BADGE_SIZE,
-  '&:hover': {
-    bgcolor: (theme) => alpha(theme.palette.common.black, 0.6),
-  },
-};
 
 const linkBoxSx: SxProps<Theme> = {
   display: 'block',
@@ -85,63 +49,60 @@ const hoverTextSx: SxProps<Theme> = {
 // Component for displaying a credential
 function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
   return (
-    <Dialog
-      open={show}
-      onClose={handleClose}
-      maxWidth="md"
-      fullWidth
-      aria-labelledby="credential-dialog-title"
-      aria-describedby="credential-dialog-description"
+    <BaseModal
+      show={show}
+      handleClose={handleClose}
+      animationPreset="modal"
+      contentSx={{
+        p: 0,
+        bgcolor: 'transparent',
+        border: 'none',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      <DialogContent sx={dialogContentSx}>
-        <IconButton
-          onClick={handleClose}
-          aria-label="Close credential dialog"
-          sx={closeButtonSx}
+      <Box sx={{ textAlign: 'center', px: 0, width: '100%' }}>
+        <Box
+          component="a"
+          href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={linkBoxSx}
         >
-          <Close sx={{ fontSize: (theme) => theme.typography.h6.fontSize }} />
-        </IconButton>
-        <Box sx={{ textAlign: 'center', px: 0, width: '100%' }}>
-          <Box
-            component="a"
-            href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={linkBoxSx}
-          >
-            <Box sx={imageWrapperSx}>
-              <Image
-                src={ImageCredential}
-                alt="Credential"
-                className="credential-image"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  transition: 'all 0.3s ease',
+          <Box sx={imageWrapperSx}>
+            <Image
+              src={ImageCredential}
+              alt="Credential"
+              className="credential-image"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'all 0.3s ease',
+              }}
+              radius="rounded"
+            />
+            <Stack
+              className="hover-text"
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+              sx={hoverTextSx}
+            >
+              <OpenInNewRounded
+                sx={{
+                  fontSize: (theme) => theme.typography.h3.fontSize,
+                  mb: 1,
                 }}
-                radius="rounded"
               />
-              <Stack
-                className="hover-text"
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-                sx={hoverTextSx}
-              >
-                <OpenInNewRounded
-                  sx={{
-                    fontSize: (theme) => theme.typography.h3.fontSize,
-                    mb: 1,
-                  }}
-                />
-                View Credential
-              </Stack>
-            </Box>
+              View Credential
+            </Stack>
           </Box>
         </Box>
-      </DialogContent>
-    </Dialog>
+      </Box>
+    </BaseModal>
   );
 }
 

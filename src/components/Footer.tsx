@@ -18,7 +18,7 @@ import Grid from '@mui/material/Grid';
 import { SxProps } from '@mui/system';
 import { motion } from 'motion/react';
 
-import { SocialLinkList } from '@/components/NavBar';
+import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
 import { SocialLinkRenderProps } from '@/config/types';
 import {

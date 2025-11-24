@@ -14,10 +14,8 @@ import {
   ListItemText,
   Stack,
   SwipeableDrawer,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import { motion, MotionStyle } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -39,114 +37,21 @@ import {
   navLinksListSx,
   navLogoImgSx,
   navLogoStackSx,
-  socialLinkButtonSx,
   socialLinksBoxSx,
 } from '@/components/NavBar.styles';
-import {
-  OffcanvasMenuProps,
-  SocialLinkListProps,
-  SocialLinkRenderProps,
-} from '@/config/types';
-import {
-  useAnimationConfig,
-  useCursorMagnet,
-  useModal,
-  useNavigationActions,
-  useNavigationState,
-} from '@/hooks';
+import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
+import { OffcanvasMenuProps, SocialLinkRenderProps } from '@/config/types';
+import { useModal, useNavigationActions, useNavigationState } from '@/hooks';
 import { navLinks } from '@/lib/data/navLinks';
-import { socialLinks } from '@/lib/data/socialLinks';
 
 // Detect iOS for swipeable drawer optimization
 const isIOS =
   typeof navigator !== 'undefined' &&
   /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-function NavSocialLinkButton({
-  href,
-  onClick,
-  tooltip,
-  icon,
-}: SocialLinkRenderProps): React.JSX.Element {
-  const { prefersReducedMotion } = useAnimationConfig();
-  const magnetProps = useCursorMagnet(prefersReducedMotion);
-  const wrapperStyle: MotionStyle = magnetProps.style
-    ? { ...magnetProps.style, display: 'inline-flex' }
-    : { display: 'inline-flex' };
-
-  const linkProps = href
-    ? {
-        component: 'a' as const,
-        href,
-        target: '_blank' as const,
-        rel: 'noopener noreferrer' as const,
-      }
-    : {};
-
-  return (
-    <motion.div
-      style={wrapperStyle}
-      onPointerMove={magnetProps.onPointerMove}
-      onPointerLeave={magnetProps.onPointerLeave}
-    >
-      <IconButton
-        {...linkProps}
-        onClick={onClick}
-        size="large"
-        color="inherit"
-        aria-label={tooltip}
-        sx={socialLinkButtonSx}
-      >
-        {icon}
-      </IconButton>
-    </motion.div>
-  );
-}
-
 const renderNavSocialLink = (
   props: SocialLinkRenderProps
-): React.JSX.Element => <NavSocialLinkButton {...props} />;
-
-export function SocialLinkList({
-  openModal,
-  renderLink,
-  wrapItem,
-  iconSize = '1.5rem',
-}: SocialLinkListProps): React.JSX.Element {
-  return (
-    <>
-      {socialLinks.map(
-        ({ id, icon: Icon, href, onClick, tooltip, color }, index) => {
-          const isDownloadPdf = id === 'download-pdf';
-          const resolvedOnClick = isDownloadPdf ? openModal : onClick;
-
-          const linkElement = renderLink({
-            href,
-            onClick: resolvedOnClick,
-            tooltip,
-            icon: (
-              <Icon
-                sx={{
-                  fontSize: iconSize,
-                  color: color,
-                }}
-              />
-            ),
-            index,
-          });
-
-          const wrappedLink = (
-            <Tooltip key={id} title={tooltip} placement="top">
-              <Box component="span">{linkElement}</Box>
-            </Tooltip>
-          );
-
-          return wrapItem ? wrapItem(id, wrappedLink) : wrappedLink;
-        }
-      )}
-    </>
-  );
-}
+): React.JSX.Element => <SocialLinkButton {...props} />;
 
 // Logo in the Offcanvas menu
 function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {

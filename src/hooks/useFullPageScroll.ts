@@ -1,8 +1,9 @@
-import { useEffect, useEffectEvent, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useReducedMotion } from 'motion/react';
 
+import { useEventCallback } from '@/hooks';
 import {
   useNavigationActions,
   useNavigationState,
@@ -51,7 +52,7 @@ export function useFullPageScroll(): void {
   // Skip if reduced motion, mobile, or scroll not locked (e.g. footer)
   const shouldDisable = prefersReducedMotion || isMobile || !isScrollLocked;
 
-  const onNavigate = useEffectEvent((direction: ScrollDirection) => {
+  const onNavigate = useEventCallback((direction: ScrollDirection) => {
     if (isScrolling.current || isPending) return false;
 
     // Re-query container each time
@@ -148,5 +149,5 @@ export function useFullPageScroll(): void {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [shouldDisable]);
+  }, [shouldDisable, onNavigate]);
 }

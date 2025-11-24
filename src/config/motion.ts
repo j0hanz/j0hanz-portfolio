@@ -281,6 +281,83 @@ export const successIndicatorVariants = {
 } as const;
 
 // ============================================================================
+// TEXT REVEAL VARIANTS
+// ============================================================================
+
+export const textRevealVariants = {
+  container: {
+    hidden: { opacity: 0 },
+    visible: (delay = 0) => ({
+      opacity: 1,
+      transition: { staggerChildren: 0.025, delayChildren: delay },
+    }),
+  },
+  child: {
+    visible: (duration = 0.5) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring' as const,
+        damping: 12,
+        stiffness: 120,
+        duration,
+      },
+    }),
+    hidden: (duration = 0.5) => ({
+      opacity: 0,
+      y: 16,
+      transition: {
+        type: 'spring' as const,
+        damping: 12,
+        stiffness: 120,
+        duration,
+      },
+    }),
+  },
+};
+
+// ============================================================================
+// COMPONENT SPECIFIC VARIANTS
+// ============================================================================
+
+export const staggerContainerVariants = {
+  initial: { opacity: 0 },
+  animate: (stagger = 0.07) => ({
+    opacity: 1,
+    transition: {
+      staggerChildren: stagger,
+      delayChildren: 0.08,
+    },
+  }),
+};
+
+export const staggerItemSimpleVariants = {
+  initial: { opacity: 0, transform: 'translateY(16px)' },
+  animate: { opacity: 1, transform: 'translateY(0px)' },
+};
+
+export const fadeInViewVariants = {
+  initial: { opacity: 0, transform: 'translateY(20px)' },
+  animate: { opacity: 1, transform: 'translateY(0px)' },
+  exit: { opacity: 0, transform: 'translateY(20px)' },
+};
+
+export const pageTransitionVariants = {
+  enter: (direction: 'up' | 'down' | null) => ({
+    transform: direction === 'down' ? 'translateY(100%)' : 'translateY(-100%)',
+    opacity: 0,
+  }),
+  center: {
+    transform: 'translateY(0%)',
+    opacity: 1,
+  },
+  exit: (direction: 'up' | 'down' | null) => ({
+    transform: direction === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
+    opacity: 0,
+  }),
+};
+
+// ============================================================================
 // VIEWPORT CONFIGURATION
 // ============================================================================
 
