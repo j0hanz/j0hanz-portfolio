@@ -146,9 +146,11 @@ export function handleQueryError(error: Error): string {
   return error.message || 'An unexpected error occurred.';
 }
 
-// Builds type-safe query key from parts: buildQueryKey('users', id, filters)
-export function buildQueryKey(...parts: unknown[]): readonly unknown[] {
-  return parts;
+// Builds type-safe query key from parts with generic type preservation
+export function buildQueryKey<
+  T extends readonly (string | number | boolean | object)[],
+>(...parts: T): readonly [...T] {
+  return parts as readonly [...T];
 }
 
 // ============================================================================

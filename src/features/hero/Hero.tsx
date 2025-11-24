@@ -117,7 +117,7 @@ function Hero(): React.JSX.Element {
                 />
                 <Box
                   component={motion.div}
-                  aria-hidden
+                  aria-hidden="true"
                   initial={false}
                   animate={{ opacity: isProfileHovered ? 1 : 0 }}
                   transition={getTransition('springSmooth')}
@@ -159,7 +159,7 @@ function Hero(): React.JSX.Element {
                 Junior Full-Stack Developer
                 {!prefersReducedMotion && (
                   <motion.span
-                    aria-hidden
+                    aria-hidden="true"
                     animate={cursorAnimation}
                     transition={cursorTransition}
                     style={cursorStyle}

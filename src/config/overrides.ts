@@ -23,10 +23,10 @@ export const componentOverrides: Components<Theme> = {
   },
   MuiButton: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         borderRadius: 8,
-        padding: '8px 16px',
-      },
+        padding: theme.spacing(1, 2),
+      }),
     },
   },
   MuiPaper: {

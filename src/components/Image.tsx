@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Box, Skeleton } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { ImageProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
+import { useAnimationConfig, useImageLoading } from '@/hooks';
 
 // Image component
 function Image({
@@ -17,7 +17,7 @@ function Image({
   onClick,
   radius = 'rounded',
 }: ImageProps): React.JSX.Element {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const { isLoaded, handleLoad, handleError } = useImageLoading();
   const { getTransition } = useAnimationConfig();
 
   const borderRadius =
@@ -32,10 +32,6 @@ function Image({
     ...defaultStyle,
     ...style,
     willChange: 'opacity',
-  };
-
-  const handleMediaLoaded = () => {
-    setIsLoaded(true);
   };
 
   return (
@@ -66,8 +62,8 @@ function Image({
         className={className}
         style={combinedStyle}
         onClick={onClick}
-        onLoad={handleMediaLoaded}
-        onError={handleMediaLoaded}
+        onLoad={handleLoad}
+        onError={handleError}
         initial={false}
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={getTransition('smooth')}

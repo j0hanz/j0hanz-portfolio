@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import {
   Box,
@@ -12,7 +12,7 @@ import { motion } from 'motion/react';
 import ProfileImage from '@/assets/image_me.webp';
 import BaseModal from '@/components/BaseModal';
 import { ImageModalProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
+import { useAnimationConfig, useImageLoading } from '@/hooks';
 
 const modalContentSx: SxProps<Theme> = {
   bgcolor: 'transparent',
@@ -45,7 +45,7 @@ const imgStyle = {
 
 // Component for displaying an image
 function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const { isLoaded, handleLoad } = useImageLoading();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const dragProps = prefersReducedMotion
@@ -56,10 +56,6 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
         dragElastic: 0.2,
         whileTap: { scale: 0.98 },
       };
-
-  const handleLoad = () => {
-    setIsLoaded(true);
-  };
 
   return (
     <BaseModal

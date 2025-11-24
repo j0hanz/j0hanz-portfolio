@@ -46,3 +46,29 @@ export const credentialButtonSx: SxProps<Theme> = {
     bgcolor: 'neutral.dark',
   },
 };
+
+// Common description text style used across sections
+export const descriptionTextSx: SxProps<Theme> = {
+  lineHeight: 1.8,
+  color: 'text.secondary',
+};
+
+// Common list container style
+export const listContainerSx: SxProps<Theme> = {
+  pl: 2.5,
+  m: 0,
+  lineHeight: 1.8,
+  color: 'text.secondary',
+};
+
+// Base card styling for consistent appearance
+export const cardBaseSx: SxProps<Theme> = {
+  height: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  borderRadius: (theme) =>
+    typeof theme.shape.borderRadius === 'number'
+      ? theme.shape.borderRadius / 4
+      : 2,
+  backgroundColor: 'backdrop.glass',
+};

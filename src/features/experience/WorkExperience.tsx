@@ -15,19 +15,16 @@ import {
   useSectionSequence,
 } from '@/hooks';
 import experiences from '@/lib/data/experiences';
-import { sectionGridItemSx, sectionSpacingSx } from '@/styles/shared';
+import {
+  listContainerSx,
+  sectionGridItemSx,
+  sectionSpacingSx,
+} from '@/styles/shared';
 import {
   buildItemKey,
   createDurationMeta,
   createWorkplaceMeta,
 } from '@/utils/metadata';
-
-const descriptionListSx: SxProps<Theme> = {
-  pl: 2.5,
-  m: 0,
-  lineHeight: 1.8,
-  color: 'text.secondary',
-};
 
 const wrapperSx: SxProps<Theme> = {
   position: 'relative',
@@ -51,7 +48,7 @@ function ExperienceCard({
           </Box>
         }
       >
-        <Box component="ul" data-exp-description sx={descriptionListSx}>
+        <Box component="ul" data-exp-description sx={listContainerSx}>
           {experience.description.map((item, index) => (
             <li key={`${experience.title}-${index}`}>
               <Typography variant="body2" component="small">

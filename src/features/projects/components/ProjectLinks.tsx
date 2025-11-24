@@ -98,7 +98,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           target="_blank"
           rel="noopener noreferrer"
           color="neutral"
-          icon={<SiGithub style={{ fontSize: 'inherit' }} />}
+          icon={<SiGithub />}
           label="GitHub"
         />
         <ActionButton

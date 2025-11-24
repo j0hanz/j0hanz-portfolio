@@ -67,7 +67,7 @@ const buildStatItems = (stats: RepoStats, includeIssues: boolean) => {
 
 function StatsSkeleton() {
   return (
-    <Stack spacing={0.5} width="100%" aria-hidden>
+    <Stack spacing={0.5} width="100%" aria-hidden="true">
       <Skeleton variant="text" width="60%" height={20} />
       <Skeleton variant="text" width="40%" height={20} />
     </Stack>

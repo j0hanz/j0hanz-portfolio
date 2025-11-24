@@ -36,7 +36,7 @@ const newBadgeSx: SxProps<Theme> = {
   minWidth: BADGE_MIN_WIDTH,
   border: 'none',
   fontSize: (theme) => theme.typography.caption.fontSize,
-  borderRadius: 1,
+  borderRadius: (theme) => theme.spacing(0.5),
   transform: 'skew(-5deg)',
 };
 

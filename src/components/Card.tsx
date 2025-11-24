@@ -14,7 +14,10 @@ const MotionPaper = motion.create(MuiPaper);
 
 const paperBaseSx: SxProps<Theme> = {
   height: 1,
-  borderRadius: 2,
+  borderRadius: (theme) =>
+    typeof theme.shape.borderRadius === 'number'
+      ? theme.shape.borderRadius / 4
+      : 2,
   backgroundColor: 'backdrop.glass',
 };
 

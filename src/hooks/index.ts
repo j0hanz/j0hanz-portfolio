@@ -14,6 +14,9 @@ export * from './useDebounce';
 // Creates stable callback references that always access latest values
 export { default as useEventCallback } from './useEventCallback';
 
+// Tracks image loading state with stable handlers
+export { useImageLoading } from './useImageLoading';
+
 // Lazily computes expensive values and exposes a manual refresh handle
 export { useLazy } from './useLazy';
 export type { UseLazyReturn } from '@/config/types';

@@ -11,21 +11,13 @@ import { motion } from 'motion/react';
 import { AnimatedCard } from '@/components/Card';
 import { staggerItemVariant } from '@/config/motion';
 import { Project, ProjectListProps } from '@/config/types';
+import { cardBaseSx } from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
 import ProjectHeader from './components/ProjectHeader';
 import ProjectLinks from './components/ProjectLinks';
 import ProjectStats from './components/ProjectStats';
 import ProjectTechStack from './components/ProjectTechStack';
-
-const cardSx: SxProps<Theme> = {
-  height: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  borderRadius: 2,
-  backgroundColor: 'backdrop.glass',
-  ...(theme: Theme) => theme.mixins.glass,
-};
 
 const articleSx: SxProps<Theme> = {
   height: 1,
@@ -54,7 +46,7 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
     <AnimatedCard
       title="" // Title is handled by ProjectHeader
       noContentPadding
-      sx={cardSx}
+      sx={[cardBaseSx, (theme) => theme.mixins.glass] as SxProps<Theme>}
     >
       <Stack component="article" sx={articleSx}>
         <Stack spacing={2} sx={contentSx}>

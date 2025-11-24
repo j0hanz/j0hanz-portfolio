@@ -64,7 +64,7 @@ function BackgroundMorph(): React.JSX.Element {
           : undefined
       }
       sx={backgroundSx}
-      aria-hidden
+      aria-hidden="true"
     />
   );
 }

@@ -64,7 +64,7 @@ function MotionWrapper({
       <motion.div
         initial={reducedMotionTarget}
         animate={reducedMotionTarget}
-        style={{ position: 'relative', ...(style ?? {}) }}
+        style={style}
         {...props}
       >
         {children}
@@ -78,11 +78,7 @@ function MotionWrapper({
       whileInView={variant.whileInView}
       transition={transition}
       viewport={viewport}
-      style={{
-        position: 'relative',
-        willChange: 'transform, opacity',
-        ...(style ?? {}),
-      }}
+      style={style}
       {...props}
     >
       {children}
@@ -131,7 +127,7 @@ function SlideFromSide({
       whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
       transition={transition}
       viewport={viewport}
-      style={{ willChange: 'transform, opacity', ...style }}
+      style={style}
       {...props}
     >
       {children}

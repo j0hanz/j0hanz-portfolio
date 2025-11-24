@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import Close from '@mui/icons-material/Close';
 import { Dialog, DialogContent, IconButton, Theme } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -44,6 +46,18 @@ function BaseModal({
   fullWidth = true,
 }: BaseModalProps): React.JSX.Element {
   const { getTransition } = useAnimationConfig();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Auto-focus close button when modal opens to prevent aria-hidden focus warning
+  useEffect(() => {
+    if (show && closeButtonRef.current) {
+      // Small delay to ensure modal is fully rendered
+      const timer = setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [show]);
 
   const transitionPresets: Record<
     typeof animationPreset,
@@ -66,6 +80,8 @@ function BaseModal({
       fullWidth={fullWidth}
       aria-labelledby={ariaLabelledBy}
       aria-describedby={ariaDescribedBy}
+      disableRestoreFocus
+      keepMounted={false}
       slotProps={{
         paper: {
           sx: {
@@ -75,6 +91,12 @@ function BaseModal({
               boxShadow: 'none',
               backgroundImage: 'none',
             }),
+          },
+        },
+        backdrop: {
+          sx: {
+            // Ensure backdrop doesn't interfere with focus management
+            pointerEvents: 'auto',
           },
         },
       }}
@@ -92,6 +114,7 @@ function BaseModal({
         }}
       >
         <IconButton
+          ref={closeButtonRef}
           onClick={handleClose}
           aria-label="Close modal"
           sx={closeButtonSx}

@@ -20,7 +20,11 @@ import {
   useSectionSequence,
 } from '@/hooks';
 import education from '@/lib/data/education';
-import { credentialButtonSx, sectionGridItemSx } from '@/styles/shared';
+import {
+  credentialButtonSx,
+  descriptionTextSx,
+  sectionGridItemSx,
+} from '@/styles/shared';
 import {
   buildItemKey,
   createDurationMeta,
@@ -36,11 +40,6 @@ const TIMELINE_HEIGHT_DIVISOR = 1600;
 
 const descriptionWrapperSx: SxProps<Theme> = {
   mb: 2,
-};
-
-const descriptionSx: SxProps<Theme> = {
-  lineHeight: 1.8,
-  color: 'text.secondary',
 };
 
 const wrapperSx: SxProps<Theme> = {
@@ -82,7 +81,7 @@ function EducationCard({
               <Typography
                 key={`${education.title}-${index}`}
                 data-edu-description
-                sx={descriptionSx}
+                sx={descriptionTextSx}
               >
                 {desc}
               </Typography>
@@ -137,7 +136,7 @@ function Education(): React.JSX.Element {
       <Box ref={combinedRef} sx={wrapperSx}>
         <Box
           component={motion.div}
-          aria-hidden
+          aria-hidden="true"
           sx={{
             ...timelineBaseSx,
             opacity: { xs: 0.05, md: timelineOpacity },

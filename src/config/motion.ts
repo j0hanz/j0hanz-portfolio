@@ -14,7 +14,6 @@ export const REDUCED_MOTION_TARGET = {
   y: 0,
   scale: 1,
   rotate: 0,
-  filter: 'blur(0px)',
 } as const;
 
 // ============================================================================
@@ -68,63 +67,63 @@ export const transitions = {
 
 export const fadeVariants = {
   in: {
-    initial: { opacity: 0, y: 8, filter: 'blur(8px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: -8, filter: 'blur(6px)' },
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 },
   },
   up: {
-    initial: { opacity: 0, y: 32, filter: 'blur(10px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: 16, filter: 'blur(6px)' },
+    initial: { opacity: 0, y: 32 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 16 },
   },
   down: {
-    initial: { opacity: 0, y: -32, filter: 'blur(10px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: -16, filter: 'blur(6px)' },
+    initial: { opacity: 0, y: -32 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -16 },
   },
 } as const;
 
 export const scaleVariants = {
   in: {
-    initial: { opacity: 0, scale: 0.94, filter: 'blur(6px)' },
-    animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, scale: 0.96, filter: 'blur(4px)' },
+    initial: { opacity: 0, scale: 0.94 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.96 },
   },
   pop: {
-    initial: { opacity: 0, scale: 0.85, y: 12, filter: 'blur(8px)' },
-    animate: { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, scale: 0.92, y: -8, filter: 'blur(4px)' },
+    initial: { opacity: 0, scale: 0.85, y: 12 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.92, y: -8 },
   },
 } as const;
 
 export const slideVariants = {
   fromLeft: {
-    initial: { x: -48, opacity: 0, filter: 'blur(8px)' },
-    animate: { x: 0, opacity: 1, filter: 'blur(0px)' },
-    exit: { x: -24, opacity: 0, filter: 'blur(6px)' },
+    initial: { x: -48, opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: -24, opacity: 0 },
   },
   fromRight: {
-    initial: { x: 48, opacity: 0, filter: 'blur(8px)' },
-    animate: { x: 0, opacity: 1, filter: 'blur(0px)' },
-    exit: { x: 24, opacity: 0, filter: 'blur(6px)' },
+    initial: { x: 48, opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: 24, opacity: 0 },
   },
   fromBottom: {
-    initial: { y: 56, opacity: 0, filter: 'blur(10px)' },
-    animate: { y: 0, opacity: 1, filter: 'blur(0px)' },
-    exit: { y: 24, opacity: 0, filter: 'blur(6px)' },
+    initial: { y: 56, opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: 24, opacity: 0 },
   },
 } as const;
 
-export const blurVariants = {
+export const fadeInVariants = {
   in: {
-    initial: { opacity: 0, filter: 'blur(12px) saturate(0.9)' },
-    animate: { opacity: 1, filter: 'blur(0px) saturate(1)' },
-    exit: { opacity: 0, filter: 'blur(10px) saturate(0.9)' },
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
   },
   inUp: {
-    initial: { opacity: 0, y: 28, filter: 'blur(12px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: 14, filter: 'blur(10px)' },
+    initial: { opacity: 0, y: 28 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 14 },
   },
 } as const;
 
@@ -139,9 +138,9 @@ export const gestureVariants = {
     tap: { scale: 0.95 },
   },
   cardHover: {
-    rest: { scale: 1, y: 0, filter: 'brightness(1)' },
-    hover: { scale: 1.03, y: -6, filter: 'brightness(1.05)' },
-    focus: { scale: 1.02, y: -4, filter: 'brightness(1.03)' },
+    rest: { scale: 1, y: 0 },
+    hover: { scale: 1.03, y: -6 },
+    focus: { scale: 1.02, y: -4 },
     tap: { scale: 0.98 },
   },
   buttonTap: {
@@ -192,9 +191,9 @@ export function createStaggerContainer(
 }
 
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, y: 24, scale: 0.98, filter: 'blur(6px)' },
-  animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-  exit: { opacity: 0, y: -12, scale: 0.96, filter: 'blur(4px)' },
+  initial: { opacity: 0, y: 24, scale: 0.98 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -12, scale: 0.96 },
 };
 
 // ============================================================================
@@ -203,28 +202,28 @@ export const staggerItemVariant: Variants = {
 
 export const sectionVariants = {
   default: {
-    initial: { opacity: 0, y: 48, filter: 'blur(10px)' },
-    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    initial: { opacity: 0, y: 48 },
+    whileInView: { opacity: 1, y: 0 },
   },
   fade: {
-    initial: { opacity: 0, filter: 'blur(8px)' },
-    whileInView: { opacity: 1, filter: 'blur(0px)' },
+    initial: { opacity: 0 },
+    whileInView: { opacity: 1 },
   },
   slideUp: {
-    initial: { opacity: 0, y: 64, filter: 'blur(10px)' },
-    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    initial: { opacity: 0, y: 64 },
+    whileInView: { opacity: 1, y: 0 },
   },
   slideLeft: {
-    initial: { opacity: 0, x: -60, filter: 'blur(8px)' },
-    whileInView: { opacity: 1, x: 0, filter: 'blur(0px)' },
+    initial: { opacity: 0, x: -60 },
+    whileInView: { opacity: 1, x: 0 },
   },
   slideRight: {
-    initial: { opacity: 0, x: 60, filter: 'blur(8px)' },
-    whileInView: { opacity: 1, x: 0, filter: 'blur(0px)' },
+    initial: { opacity: 0, x: 60 },
+    whileInView: { opacity: 1, x: 0 },
   },
   scale: {
-    initial: { opacity: 0, scale: 0.94, filter: 'blur(8px)' },
-    whileInView: { opacity: 1, scale: 1, filter: 'blur(0px)' },
+    initial: { opacity: 0, scale: 0.94 },
+    whileInView: { opacity: 1, scale: 1 },
   },
 } as const;
 
@@ -234,29 +233,29 @@ export const sectionVariants = {
 
 export const modalVariants = {
   backdrop: {
-    initial: { opacity: 0, backdropFilter: 'blur(0px)' },
-    animate: { opacity: 1, backdropFilter: 'blur(6px)' },
-    exit: { opacity: 0, backdropFilter: 'blur(0px)' },
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
   },
   modal: {
-    initial: { opacity: 0, scale: 0.9, y: 16, filter: 'blur(6px)' },
-    animate: { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, scale: 0.92, y: 16, filter: 'blur(4px)' },
+    initial: { opacity: 0, scale: 0.9, y: 16 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.92, y: 16 },
   },
   slideDown: {
-    initial: { opacity: 0, y: -48, scale: 0.98, filter: 'blur(6px)' },
-    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: 32, scale: 0.98, filter: 'blur(4px)' },
+    initial: { opacity: 0, y: -48, scale: 0.98 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: 32, scale: 0.98 },
   },
   slideUp: {
-    initial: { opacity: 0, y: 48, scale: 0.98, filter: 'blur(6px)' },
-    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: -32, scale: 0.98, filter: 'blur(4px)' },
+    initial: { opacity: 0, y: 48, scale: 0.98 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -32, scale: 0.98 },
   },
   zoomOut: {
-    initial: { opacity: 0, scale: 0.85, filter: 'blur(6px)' },
-    animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, scale: 0.9, filter: 'blur(4px)' },
+    initial: { opacity: 0, scale: 0.85 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.9 },
   },
 } as const;
 

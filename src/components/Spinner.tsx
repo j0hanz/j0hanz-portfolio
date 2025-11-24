@@ -51,7 +51,7 @@ function Spinner({ sx }: { sx?: SxProps<Theme> }): React.JSX.Element {
     >
       <Box
         component={motion.div}
-        aria-hidden
+        aria-hidden="true"
         initial={false}
         animate={
           prefersReducedMotion

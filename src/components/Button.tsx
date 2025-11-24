@@ -37,20 +37,6 @@ const Button = function Button({
 }: CustomButtonProps & {
   ref?: React.Ref<HTMLButtonElement>;
 }): React.ReactElement {
-  const {
-    onDrag: _deprecatedDrag,
-    onDragStart: _deprecatedDragStart,
-    onDragEnd: _deprecatedDragEnd,
-    onDragOver: _deprecatedDragOver,
-    onDragEnter: _deprecatedDragEnter,
-    onDragLeave: _deprecatedDragLeave,
-    onDrop: _deprecatedDrop,
-    onAnimationStart: _deprecatedAnimationStart,
-    onAnimationEnd: _deprecatedAnimationEnd,
-    onAnimationIteration: _deprecatedAnimationIteration,
-    ...restProps
-  } = props;
-
   const gestureMotion = useButtonGesture();
 
   // Allow custom overrides if provided
@@ -61,10 +47,25 @@ const Button = function Button({
     ...(motionWhileFocus && { whileFocus: motionWhileFocus }),
   };
 
+  // Filter out HTML drag events that conflict with Motion's drag system
+  const {
+    onDrag: _onDrag,
+    onDragStart: _onDragStart,
+    onDragEnd: _onDragEnd,
+    onDragOver: _onDragOver,
+    onDragEnter: _onDragEnter,
+    onDragLeave: _onDragLeave,
+    onDrop: _onDrop,
+    onAnimationStart: _onAnimationStart,
+    onAnimationEnd: _onAnimationEnd,
+    onAnimationIteration: _onAnimationIteration,
+    ...safeProps
+  } = props;
+
   return (
     <MotionButton
       ref={ref}
-      {...(restProps as Record<string, unknown>)}
+      {...safeProps}
       variant={variant}
       startIcon={startIcon}
       endIcon={endIcon}

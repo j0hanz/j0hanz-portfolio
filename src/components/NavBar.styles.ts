@@ -49,7 +49,10 @@ export const navLinksListSx: SxProps<Theme> = {
 };
 
 export const listItemButtonSx: SystemStyleObject<Theme> = {
-  borderRadius: 2,
+  borderRadius: (theme) =>
+    typeof theme.shape.borderRadius === 'number'
+      ? theme.shape.borderRadius / 4
+      : 2,
   py: 1.5,
   px: 2,
   transition: 'all 0.2s ease',

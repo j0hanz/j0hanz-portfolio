@@ -59,6 +59,19 @@ const flagsStackSx: SxProps<Theme> = {
   px: 4,
 };
 
+const flagButtonBaseSx: SxProps<Theme> = {
+  ...flagIconStyles,
+  border: 'none',
+  background: 'transparent',
+  p: 0,
+  '&:focus-visible': {
+    outline: '2px solid',
+    outlineColor: 'primary.main',
+    outlineOffset: 2,
+    borderRadius: (theme) => theme.spacing(0.5),
+  },
+};
+
 // Component for selecting and downloading CVs
 function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
   const handleDownload = (cv: string, fileName: string): void => {
@@ -111,36 +124,14 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
           className="fi fi-se"
           onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
           aria-label="Download Swedish CV"
-          sx={{
-            ...flagIconStyles,
-            border: 'none',
-            background: 'transparent',
-            p: 0,
-            '&:focus-visible': {
-              outline: '2px solid',
-              outlineColor: 'primary.main',
-              outlineOffset: 2,
-              borderRadius: 1,
-            },
-          }}
+          sx={flagButtonBaseSx}
         />
         <Box
           component="button"
           className="fi fi-gb"
           onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
           aria-label="Download English CV"
-          sx={{
-            ...flagIconStyles,
-            border: 'none',
-            background: 'transparent',
-            p: 0,
-            '&:focus-visible': {
-              outline: '2px solid',
-              outlineColor: 'primary.main',
-              outlineOffset: 2,
-              borderRadius: 1,
-            },
-          }}
+          sx={flagButtonBaseSx}
         />
       </Stack>
     </BaseModal>
