@@ -78,7 +78,11 @@ function MotionWrapper({
       whileInView={variant.whileInView}
       transition={transition}
       viewport={viewport}
-      style={{ position: 'relative', ...(style ?? {}) }}
+      style={{
+        position: 'relative',
+        willChange: 'transform, opacity',
+        ...(style ?? {}),
+      }}
       {...props}
     >
       {children}
@@ -127,7 +131,7 @@ function SlideFromSide({
       whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
       transition={transition}
       viewport={viewport}
-      style={style}
+      style={{ willChange: 'transform, opacity', ...style }}
       {...props}
     >
       {children}

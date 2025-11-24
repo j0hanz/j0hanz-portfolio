@@ -1,6 +1,8 @@
 import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
+  animate,
+  stagger,
   useAnimate,
   useInView as useMotionInView,
   usePresence as useMotionPresence,
@@ -412,42 +414,6 @@ export function useSectionSequence(
     offset,
   });
 
-  const animateElements = (
-    scopeElement: HTMLElement,
-    selector: string,
-    delay: number,
-    staggerDelay = 0
-  ) => {
-    const elements = scopeElement.querySelectorAll(selector);
-    const animations: Promise<Animation>[] = [];
-
-    elements.forEach((el, index) => {
-      const htmlEl = el as HTMLElement;
-      htmlEl.style.opacity = '0';
-      htmlEl.style.transform = 'translateY(20px)';
-
-      setTimeout(
-        () => {
-          const animation = htmlEl.animate(
-            [
-              { opacity: '0', transform: 'translateY(20px)' },
-              { opacity: '1', transform: 'translateY(0)' },
-            ],
-            {
-              duration: 500,
-              easing: 'ease-out',
-              fill: 'forwards',
-            }
-          );
-          animations.push(animation.finished);
-        },
-        delay + index * staggerDelay
-      );
-    });
-
-    return animations;
-  };
-
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
     if (
       prefersReducedMotion ||
@@ -460,39 +426,52 @@ export function useSectionSequence(
 
     hasPlayed.current = true;
     const scopeElement = ref.current;
-    const animationPromises: Promise<Animation>[] = [];
 
     // Animate description first
     if (selectors.description) {
-      animationPromises.push(
-        ...animateElements(scopeElement, selectors.description, 0)
-      );
+      const elements = scopeElement.querySelectorAll(selectors.description);
+      if (elements.length > 0) {
+        animate(
+          elements,
+          { opacity: [0, 1], y: [20, 0] },
+          { duration: 0.5, ease: 'easeOut' }
+        );
+      }
     }
 
     // Animate cards with stagger
     if (selectors.cards) {
-      const delay = selectors.description ? 200 : 0;
-      animationPromises.push(
-        ...animateElements(
-          scopeElement,
-          selectors.cards,
-          delay,
-          getStagger(0.1) * 1000
-        )
-      );
+      const delay = selectors.description ? 0.2 : 0;
+      const elements = scopeElement.querySelectorAll(selectors.cards);
+      if (elements.length > 0) {
+        animate(
+          elements,
+          { opacity: [0, 1], y: [20, 0] },
+          {
+            delay: stagger(getStagger(0.1), { startDelay: delay }),
+            duration: 0.5,
+            ease: 'easeOut',
+          }
+        );
+      }
     }
 
     // Animate CTA last
     if (selectors.cta) {
       const delay =
-        (selectors.description ? 200 : 0) + (selectors.cards ? 400 : 0);
-      animationPromises.push(
-        ...animateElements(scopeElement, selectors.cta, delay)
-      );
+        (selectors.description ? 0.2 : 0) + (selectors.cards ? 0.4 : 0);
+      const elements = scopeElement.querySelectorAll(selectors.cta);
+      if (elements.length > 0) {
+        animate(
+          elements,
+          { opacity: [0, 1], y: [20, 0] },
+          {
+            delay: stagger(0.1, { startDelay: delay }),
+            duration: 0.5,
+            ease: 'easeOut',
+          }
+        );
+      }
     }
-
-    Promise.all(animationPromises).catch(() => {
-      // Silently catch animation errors
-    });
   });
 }

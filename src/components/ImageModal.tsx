@@ -1,6 +1,12 @@
 import { useRef, useState } from 'react';
 
-import { Box, Skeleton, type SxProps, type Theme } from '@mui/material';
+import {
+  Box,
+  DialogTitle,
+  Skeleton,
+  type SxProps,
+  type Theme,
+} from '@mui/material';
 import { motion } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
@@ -10,13 +16,13 @@ import { useAnimationConfig } from '@/hooks';
 
 const modalContentSx: SxProps<Theme> = {
   bgcolor: 'transparent',
-  border: 'none',
   p: 0,
+  overflow: 'hidden',
 };
 
 const containerSx: SxProps<Theme> = {
-  p: 0,
-  textAlign: 'center',
+  position: 'relative',
+  display: 'inline-block',
 };
 
 const skeletonSx: SxProps<Theme> = {
@@ -24,15 +30,17 @@ const skeletonSx: SxProps<Theme> = {
   inset: 0,
   borderRadius: '10px',
   bgcolor: 'action.hover',
-  minHeight: 300, // Approximate height
 };
 
 const imgStyle = {
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
+  maxWidth: '90vw',
+  maxHeight: '90vh',
+  width: 'auto',
+  height: 'auto',
+  objectFit: 'contain',
   borderRadius: '10px',
   display: 'block',
+  willChange: 'opacity, transform',
 } as const;
 
 // Component for displaying an image
@@ -59,7 +67,27 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
       handleClose={handleClose}
       contentSx={modalContentSx}
       animationPreset="zoomOut"
+      ariaLabelledBy="image-modal-title"
+      transparentPaper
+      maxWidth={false}
+      fullWidth={false}
     >
+      <DialogTitle
+        id="image-modal-title"
+        sx={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          p: 0,
+          m: -1,
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        Linus Johansson Profile Image
+      </DialogTitle>
       <Box sx={containerSx} ref={constraintsRef}>
         {!isLoaded && (
           <Skeleton

@@ -1,5 +1,5 @@
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
-import { Box, Stack, Theme } from '@mui/material';
+import { Box, DialogTitle, Stack, Theme } from '@mui/material';
 import { SxProps } from '@mui/system';
 
 import ImageCredential from '@/assets/Credential.webp';
@@ -53,22 +53,40 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
       show={show}
       handleClose={handleClose}
       animationPreset="modal"
+      ariaLabelledBy="credential-modal-title"
+      ariaDescribedBy="credential-modal-description"
+      transparentPaper
+      maxWidth={false}
+      fullWidth={false}
       contentSx={{
         p: 0,
         bgcolor: 'transparent',
-        border: 'none',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        overflow: 'hidden',
       }}
     >
-      <Box sx={{ textAlign: 'center', px: 0, width: '100%' }}>
+      <DialogTitle
+        id="credential-modal-title"
+        sx={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          p: 0,
+          m: -1,
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        Educational Credential
+      </DialogTitle>
+      <Box sx={{ position: 'relative', display: 'inline-block' }}>
         <Box
           component="a"
           href="https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle"
           target="_blank"
           rel="noopener noreferrer"
+          aria-describedby="credential-modal-description"
           sx={linkBoxSx}
         >
           <Box sx={imageWrapperSx}>
@@ -77,10 +95,13 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
               alt="Credential"
               className="credential-image"
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                width: 'auto',
+                height: 'auto',
+                objectFit: 'contain',
                 transition: 'all 0.3s ease',
+                display: 'block',
               }}
               radius="rounded"
             />
@@ -90,6 +111,7 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
               alignItems="center"
               justifyContent="center"
               sx={hoverTextSx}
+              id="credential-modal-description"
             >
               <OpenInNewRounded
                 sx={{

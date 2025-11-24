@@ -89,7 +89,10 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
 
-  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleNavLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string
+  ) => {
     e.preventDefault();
     navigateTo(id);
     onClose?.();

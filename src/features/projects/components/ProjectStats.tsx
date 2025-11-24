@@ -1,9 +1,4 @@
-import React, {
-  startTransition,
-  Suspense,
-  useOptimistic,
-  useRef,
-} from 'react';
+import React, { startTransition, Suspense, useOptimistic, useRef } from 'react';
 
 import {
   Skeleton,

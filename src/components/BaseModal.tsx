@@ -29,12 +29,6 @@ const closeButtonSx: SxProps<Theme> = {
   },
 };
 
-const paperProps = {
-  sx: {
-    position: 'relative',
-  },
-};
-
 function BaseModal({
   show,
   handleClose,
@@ -43,6 +37,11 @@ function BaseModal({
   bodyClassName,
   contentSx,
   animationPreset = 'modal',
+  ariaLabelledBy,
+  ariaDescribedBy,
+  transparentPaper = false,
+  maxWidth = 'md',
+  fullWidth = true,
 }: BaseModalProps): React.JSX.Element {
   const { getTransition } = useAnimationConfig();
 
@@ -63,9 +62,22 @@ function BaseModal({
       open={show}
       onClose={handleClose}
       className={className}
-      maxWidth="md"
-      fullWidth
-      PaperProps={paperProps}
+      maxWidth={maxWidth}
+      fullWidth={fullWidth}
+      aria-labelledby={ariaLabelledBy}
+      aria-describedby={ariaDescribedBy}
+      slotProps={{
+        paper: {
+          sx: {
+            position: 'relative',
+            ...(transparentPaper && {
+              bgcolor: 'transparent',
+              boxShadow: 'none',
+              backgroundImage: 'none',
+            }),
+          },
+        },
+      }}
     >
       <MotionDialogContent
         {...modalVariant}

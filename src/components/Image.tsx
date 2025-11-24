@@ -31,6 +31,7 @@ function Image({
   const combinedStyle: React.CSSProperties = {
     ...defaultStyle,
     ...style,
+    willChange: 'opacity',
   };
 
   const handleMediaLoaded = () => {

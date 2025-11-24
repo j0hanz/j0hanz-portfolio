@@ -65,7 +65,7 @@ export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
 export { default as useSnackbar } from './useSnackbar';
 
 // Runs an effect only once on mount (strict mode safe)
-export { default as useEffectOnce } from './useEffectOnce';
+// export { default as useEffectOnce } from './useEffectOnce';
 
 // Attaches an event listener to a DOM element, window, or document
 export { default as useEventListener } from './useEventListener';

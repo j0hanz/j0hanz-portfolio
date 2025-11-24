@@ -202,6 +202,11 @@ export interface BaseModalProps {
   bodyClassName?: string;
   contentSx?: SxProps<Theme>;
   animationPreset?: ModalAnimationPreset;
+  ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
+  transparentPaper?: boolean;
+  maxWidth?: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  fullWidth?: boolean;
 }
 
 export type ModalAnimationPreset = 'modal' | 'slideDown' | 'zoomOut';

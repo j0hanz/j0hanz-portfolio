@@ -81,7 +81,11 @@ function SuccessIndicator({
               cx="12"
               cy="12"
               r="9"
-              initial={prefersReducedMotion ? { strokeDashoffset: 0 } : checkmarkCircle.initial}
+              initial={
+                prefersReducedMotion
+                  ? { strokeDashoffset: 0 }
+                  : checkmarkCircle.initial
+              }
               animate={checkmarkCircle.animate}
               transition={getTransition('smooth', { duration: 0.6 })}
             />
@@ -89,7 +93,9 @@ function SuccessIndicator({
               d="M7.5 12.5l3 3.2 6-6.7"
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={prefersReducedMotion ? { pathLength: 1 } : checkmarkPath.initial}
+              initial={
+                prefersReducedMotion ? { pathLength: 1 } : checkmarkPath.initial
+              }
               animate={checkmarkPath.animate}
               transition={getTransition('smooth', {
                 duration: 0.45,

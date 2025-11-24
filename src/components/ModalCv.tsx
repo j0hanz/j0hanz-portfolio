@@ -4,6 +4,7 @@ import LanguageRounded from '@mui/icons-material/LanguageRounded';
 import {
   alpha,
   Box,
+  DialogTitle,
   Stack,
   type SxProps,
   type Theme,
@@ -35,6 +36,7 @@ const contentSx: SxProps<Theme> = {
   p: 3,
   color: 'text.primary',
   boxShadow: (theme) => `0 4px 8px ${alpha(theme.palette.common.black, 0.1)}`,
+  overflow: 'hidden',
 };
 
 const headerStackSx: SxProps<Theme> = {
@@ -79,31 +81,66 @@ function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
       handleClose={handleClose}
       contentSx={contentSx}
       animationPreset="slideDown"
+      ariaLabelledBy="cv-language-selection-title"
+      ariaDescribedBy="cv-language-selection-description"
     >
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        sx={headerStackSx}
+      <DialogTitle
+        id="cv-language-selection-title"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...headerStackSx,
+        }}
       >
         <LanguageRounded sx={iconSx} />
         Choose Language
-      </Stack>
-      <Typography sx={textSx}>Select a language to download the CV.</Typography>
-      <Stack direction="row" justifyContent="space-between" sx={flagsStackSx}>
+      </DialogTitle>
+      <Typography id="cv-language-selection-description" sx={textSx}>
+        Select a language to download the CV.
+      </Typography>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        sx={flagsStackSx}
+        role="group"
+        aria-label="CV language options"
+      >
         <Box
-          component="span"
+          component="button"
           className="fi fi-se"
           onClick={() => handleDownload(Cv_se, 'Linus_Johansson_CV_sv.pdf')}
-          title="Swedish"
-          sx={flagIconStyles}
+          aria-label="Download Swedish CV"
+          sx={{
+            ...flagIconStyles,
+            border: 'none',
+            background: 'transparent',
+            p: 0,
+            '&:focus-visible': {
+              outline: '2px solid',
+              outlineColor: 'primary.main',
+              outlineOffset: 2,
+              borderRadius: 1,
+            },
+          }}
         />
         <Box
-          component="span"
+          component="button"
           className="fi fi-gb"
           onClick={() => handleDownload(Cv_en, 'Linus_Johansson_CV_en.pdf')}
-          title="English"
-          sx={flagIconStyles}
+          aria-label="Download English CV"
+          sx={{
+            ...flagIconStyles,
+            border: 'none',
+            background: 'transparent',
+            p: 0,
+            '&:focus-visible': {
+              outline: '2px solid',
+              outlineColor: 'primary.main',
+              outlineOffset: 2,
+              borderRadius: 1,
+            },
+          }}
         />
       </Stack>
     </BaseModal>
