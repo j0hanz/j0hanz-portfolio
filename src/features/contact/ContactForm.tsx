@@ -24,6 +24,7 @@ import {
   useContactFormMutation,
   useSnackbar,
 } from '@/hooks';
+import { buttonMinWidthSx, iconSx } from '@/styles/shared';
 
 import ContactFormFields from './ContactFormFields';
 
@@ -36,24 +37,12 @@ const successTextSx: SxProps<Theme> = {
   fontWeight: 500,
 };
 
-const submitButtonSx: SxProps<Theme> = {
-  minWidth: 120,
-};
-
 const cardSx: SxProps<Theme> = {
   height: 'auto',
 };
 
-const clearButtonSx: SxProps<Theme> = {
-  minWidth: 120,
-};
-
 const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
-};
-
-const iconSx: SxProps<Theme> = {
-  fontSize: '1rem',
 };
 
 function SuccessIndicator({
@@ -148,7 +137,7 @@ function FormActions({
         disabled={isPending}
         startIcon={<DeleteRounded sx={iconSx} />}
         aria-label="Clear form"
-        sx={clearButtonSx}
+        sx={buttonMinWidthSx}
       >
         <Box component="span" sx={clearTextSx}>
           Clear
@@ -161,7 +150,7 @@ function FormActions({
         disabled={isPending}
         startIcon={<SendRounded sx={iconSx} />}
         aria-label={isPending ? 'Sending message' : 'Send message'}
-        sx={submitButtonSx}
+        sx={buttonMinWidthSx}
       >
         {!isPending && 'Send'}
       </Button>

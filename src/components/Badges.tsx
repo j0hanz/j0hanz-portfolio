@@ -8,27 +8,7 @@ import {
 } from '@mui/material';
 
 import { BadgeItemProps } from '@/config/types';
-
-const badgeItems: BadgeItemProps[] = [
-  {
-    href: 'https://api.eu.badgr.io/public/assertions/pv52CsVuSI2V_KIyzgiahA',
-    imgSrc:
-      'https://api.eu.badgr.io/public/assertions/pv52CsVuSI2V_KIyzgiahA/image',
-    date: '25 sep. 2024',
-  },
-  {
-    href: 'https://api.eu.badgr.io/public/assertions/pO3q7BfdQFyGCP_gpMZb1A',
-    imgSrc:
-      'https://api.eu.badgr.io/public/assertions/pO3q7BfdQFyGCP_gpMZb1A/image',
-    date: '20 nov. 2024',
-  },
-  {
-    href: 'https://api.eu.badgr.io/public/assertions/7UoBkH6QRSKa8iGISrs9Zg',
-    imgSrc:
-      'https://api.eu.badgr.io/public/assertions/7UoBkH6QRSKa8iGISrs9Zg/image',
-    date: '18 dec. 2024',
-  },
-];
+import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
 
 const wrapperSx: SxProps<Theme> = {
   width: 'auto',
@@ -82,11 +62,15 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
   );
 }
 
+interface BadgesProps {
+  items?: BadgeItemProps[];
+}
+
 // Component for displaying a list of badges
-function Badges(): React.JSX.Element {
+function Badges({ items = defaultBadgeItems }: BadgesProps): React.JSX.Element {
   return (
     <Stack direction="row" justifyContent="space-between" sx={stackSx}>
-      {badgeItems.map((badge) => (
+      {items.map((badge) => (
         <BadgeItem key={badge.href} {...badge} />
       ))}
     </Stack>

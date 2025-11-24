@@ -24,8 +24,8 @@ import { SocialLinkRenderProps } from '@/config/types';
 import {
   useAnimationConfig,
   useCopyToClipboard,
+  useModal,
   useSnackbar,
-  useToggle,
 } from '@/hooks';
 
 import ModalCv from './ModalCv';
@@ -102,11 +102,7 @@ const wrapFooterSocialLink = (
 );
 
 const Footer: FC = () => {
-  const {
-    value: showModal,
-    setTrue: handleModalOpen,
-    setFalse: handleModalClose,
-  } = useToggle(false);
+  const cvModal = useModal(false);
   const [copyEmail] = useCopyToClipboard();
   const { showSnackbar } = useSnackbar();
   const { getTransition, prefersReducedMotion } = useAnimationConfig();
@@ -214,7 +210,7 @@ const Footer: FC = () => {
                 }}
               >
                 <SocialLinkList
-                  openModal={handleModalOpen}
+                  openModal={cvModal.open}
                   renderLink={renderFooterSocialLink}
                   wrapItem={wrapFooterSocialLink}
                 />
@@ -223,7 +219,7 @@ const Footer: FC = () => {
           </Grid>
         </Grid>
       </Container>
-      <ModalCv show={showModal} handleClose={handleModalClose} />
+      <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
     </Box>
   );
 };

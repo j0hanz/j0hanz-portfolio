@@ -1,11 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import {
-  ApartmentTwoTone,
-  CalendarTodayTwoTone,
-  SchoolTwoTone,
-  VerifiedTwoTone,
-} from '@mui/icons-material';
+import { SchoolTwoTone, VerifiedTwoTone } from '@mui/icons-material';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
@@ -15,20 +10,22 @@ import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
-import {
-  EducationCardProps,
-  EducationItem,
-  IconBadgeMetaItem,
-} from '@/config/types';
+import type { EducationCardProps } from '@/config/types';
 import {
   useAnimationConfig,
   useAnimationSequence,
   useCombinedRefs,
   useMeasure,
+  useModal,
   useSectionSequence,
-  useToggle,
 } from '@/hooks';
 import education from '@/lib/data/education';
+import { credentialButtonSx, sectionGridItemSx } from '@/styles/shared';
+import {
+  buildItemKey,
+  createDurationMeta,
+  createSchoolMeta,
+} from '@/utils/metadata';
 
 import Credential from './Credential';
 
@@ -37,10 +34,6 @@ const TIMELINE_MIN_OPACITY = 0.08;
 const TIMELINE_MAX_OPACITY = 0.2;
 const TIMELINE_HEIGHT_DIVISOR = 1600;
 
-const gridItemSx: SxProps<Theme> = {
-  mb: 4,
-};
-
 const descriptionWrapperSx: SxProps<Theme> = {
   mb: 2,
 };
@@ -48,15 +41,6 @@ const descriptionWrapperSx: SxProps<Theme> = {
 const descriptionSx: SxProps<Theme> = {
   lineHeight: 1.8,
   color: 'text.secondary',
-};
-
-const buttonSx: SxProps<Theme> = {
-  minWidth: 145,
-  height: 30,
-  bgcolor: 'neutral.main',
-  '&:hover': {
-    bgcolor: 'neutral.dark',
-  },
 };
 
 const wrapperSx: SxProps<Theme> = {
@@ -75,30 +59,17 @@ const timelineBaseSx: SxProps<Theme> = {
   transformOrigin: 'top',
 };
 
-const createEducationMeta = (education: EducationItem): IconBadgeMetaItem[] => [
-  {
-    id: 'school',
-    icon: ApartmentTwoTone,
-    text: education.school,
-  },
-  {
-    id: 'duration',
-    icon: CalendarTodayTwoTone,
-    text: education.duration,
-  },
-];
-
-const buildEducationKey = (education: EducationItem) =>
-  `${education.title}-${education.duration}`;
-
 function EducationCard({
   education,
   onShowModal,
 }: EducationCardProps): React.JSX.Element {
-  const metadata = createEducationMeta(education);
+  const metadata = [
+    createSchoolMeta(education.school),
+    createDurationMeta(education.duration),
+  ];
 
   return (
-    <Grid size={{ lg: 6 }} sx={gridItemSx} data-edu-card>
+    <Grid size={{ lg: 6 }} sx={sectionGridItemSx} data-edu-card>
       <Card
         title={education.title}
         subtitle={
@@ -124,7 +95,7 @@ function EducationCard({
             variant="contained"
             startIcon={<VerifiedTwoTone />}
             data-edu-cta
-            sx={buttonSx}
+            sx={credentialButtonSx}
           >
             Credential
           </Button>
@@ -136,16 +107,12 @@ function EducationCard({
 
 // Rendering education section
 function Education(): React.JSX.Element {
-  const {
-    value: showModal,
-    setTrue: handleShowModal,
-    setFalse: handleCloseModal,
-  } = useToggle(false);
+  const credentialModal = useModal(false);
   const { prefersReducedMotion } = useAnimationConfig();
   const { scopeRef } = useAnimationSequence();
   const { ref: measureRef, bounds } = useMeasure<HTMLDivElement>();
-  const { innerRef: sectionRef, attachRefs } =
-    useCombinedRefs<HTMLDivElement>();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const combinedRef = useCombinedRefs(sectionRef, scopeRef, measureRef);
 
   useSectionSequence(sectionRef, {
     cards: '[data-edu-card]',
@@ -167,7 +134,7 @@ function Education(): React.JSX.Element {
       title={<TextReveal text="Education" as="span" />}
       icon={SchoolTwoTone}
     >
-      <Box ref={attachRefs(scopeRef, measureRef)} sx={wrapperSx}>
+      <Box ref={combinedRef} sx={wrapperSx}>
         <Box
           component={motion.div}
           aria-hidden
@@ -180,14 +147,17 @@ function Education(): React.JSX.Element {
         <Grid container spacing={4}>
           {education.map((edu) => (
             <EducationCard
-              key={buildEducationKey(edu)}
+              key={buildItemKey(edu.title, edu.duration)}
               education={edu}
-              onShowModal={handleShowModal}
+              onShowModal={credentialModal.open}
             />
           ))}
         </Grid>
       </Box>
-      <Credential show={showModal} handleClose={handleCloseModal} />
+      <Credential
+        show={credentialModal.isOpen}
+        handleClose={credentialModal.close}
+      />
     </SectionContainer>
   );
 }

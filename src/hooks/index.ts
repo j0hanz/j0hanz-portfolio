@@ -1,9 +1,5 @@
 // Centralized exports for all reusable hooks
 
-// Array mutation helpers (push, insert, remove, etc.)
-export { useArray } from './useArray';
-export type { UseArrayReturn } from '@/config/types';
-
 // Detects pointer interactions outside of the provided ref
 export { useClickOutside } from './useClickOutside';
 
@@ -36,6 +32,9 @@ export type {
 // Boolean state helper with ergonomic toggle helpers
 export { useToggle } from './useToggle';
 export type { UseToggleReturn } from '@/config/types';
+
+// Modal state management with semantic naming
+export { default as useModal } from './useModal';
 
 // Combines multiple refs into a single ref callback
 export { default as useCombinedRefs } from './useCombinedRefs';

@@ -12,6 +12,7 @@ import Credential from '@/features/education/Credential';
 import { useToggle } from '@/hooks';
 import aboutMeItems from '@/lib/data/aboutMeItems';
 import aboutMeText from '@/lib/data/aboutMeText';
+import { credentialButtonSx, sectionGridItemSx } from '@/styles/shared';
 
 const overviewTextSx: SxProps<Theme> = {
   lineHeight: 1.8,
@@ -37,15 +38,6 @@ const listTitleSx: SxProps<Theme> = {
 
 const buttonWrapperSx: SxProps<Theme> = {
   pt: 3,
-};
-
-const buttonSx: SxProps<Theme> = {
-  minWidth: 145,
-  height: 30,
-};
-
-const gridItemSx: SxProps<Theme> = {
-  mb: 4,
 };
 
 // Displaying the overview text
@@ -76,9 +68,8 @@ function AboutMeList({
                 <Button
                   onClick={onShowModal}
                   variant="contained"
-                  color="neutral"
                   startIcon={<VerifiedTwoTone />}
-                  sx={buttonSx}
+                  sx={credentialButtonSx}
                 >
                   Credential
                 </Button>
@@ -106,10 +97,10 @@ function AboutMe(): React.JSX.Element {
       icon={PersonOutlined}
     >
       <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={gridItemSx}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
           <AboutMeText />
         </Grid>
-        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={gridItemSx}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
           <AboutMeList items={aboutMeItems} onShowModal={handleShowModal} />
         </Grid>
       </Grid>

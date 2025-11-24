@@ -12,11 +12,7 @@ import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer, staggerItemVariant } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
-
-const sectionSx: SxProps<Theme> = {
-  px: 0,
-  pb: 5,
-};
+import { sectionSpacingSx } from '@/styles/shared';
 
 const gridItemSx: SxProps<Theme> = {
   textAlign: 'center',
@@ -69,7 +65,7 @@ function Skills(): React.JSX.Element {
       id="skills"
       title={<TextReveal text="Skills" as="span" />}
       icon={SettingsTwoTone}
-      sx={sectionSx}
+      sx={sectionSpacingSx}
     >
       <Grid
         component={motion.div}

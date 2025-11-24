@@ -50,9 +50,9 @@ import {
 import {
   useAnimationConfig,
   useCursorMagnet,
+  useModal,
   useNavigationActions,
   useNavigationState,
-  useToggle,
 } from '@/hooks';
 import { navLinks } from '@/lib/data/navLinks';
 import { socialLinks } from '@/lib/data/socialLinks';
@@ -308,8 +308,8 @@ function OffcanvasMenu({
 
 // Main NavBar component
 function NavBar(): React.JSX.Element {
-  const modalControls = useToggle(false);
-  const offcanvasControls = useToggle(false);
+  const cvModal = useModal(false);
+  const offcanvasMenu = useModal(false);
 
   return (
     <>
@@ -319,7 +319,7 @@ function NavBar(): React.JSX.Element {
             <DarkModeToggle />
           </Box>
           <IconButton
-            onClick={offcanvasControls.open}
+            onClick={offcanvasMenu.open}
             aria-label="Toggle navigation"
             size="large"
             sx={menuButtonSx}
@@ -332,16 +332,16 @@ function NavBar(): React.JSX.Element {
             />
           </IconButton>
           <OffcanvasMenu
-            showOffcanvas={offcanvasControls.value}
-            closeOffcanvas={offcanvasControls.close}
-            openOffcanvas={offcanvasControls.open}
-            openModal={modalControls.open}
+            showOffcanvas={offcanvasMenu.isOpen}
+            closeOffcanvas={offcanvasMenu.close}
+            openOffcanvas={offcanvasMenu.open}
+            openModal={cvModal.open}
           />
         </Box>
       </Container>
 
-      {modalControls.value && (
-        <ModalCv show={modalControls.value} handleClose={modalControls.close} />
+      {cvModal.isOpen && (
+        <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
       )}
     </>
   );

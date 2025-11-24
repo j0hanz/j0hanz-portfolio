@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from 'react';
+import React, { ReactNode, useEffect, useState, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
 import type { Direction } from '@/config/types';
@@ -113,31 +107,23 @@ export function NavigationProvider({
     updateSection((currentIndex) => currentIndex - 1);
   });
 
-  const stateValue = useMemo(
-    () => ({
-      activeSectionIndex,
-      activeSectionId,
-      direction,
-      isFirst,
-      isLast,
-      isScrollLocked,
-      isPending,
-    }),
-    [
-      activeSectionId,
-      activeSectionIndex,
-      direction,
-      isFirst,
-      isLast,
-      isScrollLocked,
-      isPending,
-    ]
-  );
+  // React Compiler auto-optimizes these objects - no manual memoization needed
+  const stateValue = {
+    activeSectionIndex,
+    activeSectionId,
+    direction,
+    isFirst,
+    isLast,
+    isScrollLocked,
+    isPending,
+  };
 
-  const actionsValue = useMemo(
-    () => ({ setActiveSection, navigateTo, moveNext, movePrev }),
-    [moveNext, movePrev, navigateTo, setActiveSection]
-  );
+  const actionsValue = {
+    setActiveSection,
+    navigateTo,
+    moveNext,
+    movePrev,
+  };
 
   return (
     <NavigationActionsContext.Provider value={actionsValue}>

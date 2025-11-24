@@ -1,11 +1,6 @@
 import { alpha, SxProps, Theme } from '@mui/material';
 import { MotionStyle } from 'motion/react';
 
-const buttonBaseStyles = {
-  minWidth: 180,
-  height: 45,
-} as const;
-
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
   fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
@@ -97,16 +92,14 @@ export const buttonsStackSx: SxProps<Theme> = {
 };
 
 export const downloadButtonSx: SxProps<Theme> = {
-  ...buttonBaseStyles,
+  minWidth: 180,
+  height: 45,
   bgcolor: 'primary.main',
 };
 
 export const contactButtonSx: SxProps<Theme> = {
-  ...buttonBaseStyles,
+  minWidth: 180,
+  height: 45,
   bgcolor: 'neutral.main',
   '&:hover': { bgcolor: 'neutral.dark' },
-};
-
-export const iconSx: SxProps<Theme> = {
-  fontSize: '1.05rem',
 };

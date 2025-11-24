@@ -1,24 +1,27 @@
-import { useRef } from 'react';
-
-import useEventCallback from './useEventCallback';
+import { useInsertionEffect, useRef } from 'react';
 
 // Combines multiple refs into single ref callback
-export function useCombinedRefs<T extends HTMLElement>() {
-  const innerRef = useRef<T | null>(null);
+// React Compiler auto-stabilizes the returned callback
+export function useCombinedRefs<T>(
+  ...refs: (React.Ref<T> | undefined | null)[]
+) {
+  const refsRef = useRef(refs);
 
-  const attachRefs = useEventCallback(
-    (...refs: ((node: T | null) => void)[]) =>
-      (node: T | null) => {
-        innerRef.current = node;
-        refs.forEach((ref) => {
-          if (typeof ref === 'function') {
-            ref(node);
-          }
-        });
+  useInsertionEffect(() => {
+    refsRef.current = refs;
+  });
+
+  // React Compiler automatically stabilizes this callback
+  return (element: T | null) => {
+    refsRef.current.forEach((ref) => {
+      if (!ref) return;
+      if (typeof ref === 'function') {
+        ref(element);
+      } else {
+        (ref as React.MutableRefObject<T | null>).current = element;
       }
-  );
-
-  return { innerRef, attachRefs };
+    });
+  };
 }
 
 export default useCombinedRefs;

@@ -25,7 +25,6 @@ import {
   cursorTransition,
   downloadButtonSx,
   heroNameStyles,
-  iconSx,
   overlaySx,
   profileImgSx,
   profileWrapperSx,
@@ -38,8 +37,9 @@ import {
   useAnimationConfig,
   useAnimationPriority,
   useHover,
-  useToggle,
+  useModal,
 } from '@/hooks';
+import { iconSx } from '@/styles/shared';
 
 const HERO_NAME = 'Linus Johansson';
 
@@ -52,8 +52,8 @@ interface HeroActionConfig {
 // Rendering hero section
 function Hero(): React.JSX.Element {
   const theme = useTheme();
-  const cvModal = useToggle(false);
-  const imageModal = useToggle(false);
+  const cvModal = useModal(false);
+  const imageModal = useModal(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const isProfileHovered = useHover(profileImageRef);
   const { prefersReducedMotion, getTransition, motionViewport } =
@@ -183,10 +183,10 @@ function Hero(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      {cvModal.value && (
-        <ModalCv show={cvModal.value} handleClose={cvModal.close} />
+      {cvModal.isOpen && (
+        <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
       )}
-      <ImageModal show={imageModal.value} handleClose={imageModal.close} />
+      <ImageModal show={imageModal.isOpen} handleClose={imageModal.close} />
     </Box>
   );
 }

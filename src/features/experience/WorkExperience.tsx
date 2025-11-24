@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import {
-  ApartmentTwoTone,
-  CalendarTodayTwoTone,
-  WorkOutlineTwoTone,
-} from '@mui/icons-material';
+import { WorkOutlineTwoTone } from '@mui/icons-material';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
@@ -12,17 +8,19 @@ import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
-import { ExperienceCardProps, IconBadgeMetaItem } from '@/config/types';
+import type { ExperienceCardProps } from '@/config/types';
 import {
   useAnimationSequence,
   useCombinedRefs,
   useSectionSequence,
 } from '@/hooks';
 import experiences from '@/lib/data/experiences';
-
-const gridItemSx: SxProps<Theme> = {
-  mb: 4,
-};
+import { sectionGridItemSx, sectionSpacingSx } from '@/styles/shared';
+import {
+  buildItemKey,
+  createDurationMeta,
+  createWorkplaceMeta,
+} from '@/utils/metadata';
 
 const listSx: SxProps<Theme> = {
   pl: 2.5,
@@ -31,40 +29,20 @@ const listSx: SxProps<Theme> = {
   color: 'text.secondary',
 };
 
-const sectionSx: SxProps<Theme> = {
-  px: 0,
-  pb: 5,
-};
-
 const wrapperSx: SxProps<Theme> = {
   position: 'relative',
 };
 
-const createExperienceMeta = (
-  experience: ExperienceCardProps['experience']
-): IconBadgeMetaItem[] => [
-  {
-    id: 'workplace',
-    icon: ApartmentTwoTone,
-    text: experience.workplace,
-  },
-  {
-    id: 'duration',
-    icon: CalendarTodayTwoTone,
-    text: experience.duration,
-  },
-];
-
-const buildExperienceKey = (experience: ExperienceCardProps['experience']) =>
-  `${experience.title}-${experience.duration}`;
-
 function ExperienceCard({
   experience,
 }: ExperienceCardProps): React.JSX.Element {
-  const metadata = createExperienceMeta(experience);
+  const metadata = [
+    createWorkplaceMeta(experience.workplace),
+    createDurationMeta(experience.duration),
+  ];
 
   return (
-    <Grid size={{ lg: 6 }} sx={gridItemSx} data-exp-card>
+    <Grid size={{ lg: 6 }} sx={sectionGridItemSx} data-exp-card>
       <Card
         title={experience.title}
         subtitle={
@@ -90,8 +68,8 @@ function ExperienceCard({
 // Rendering work experience section
 function WorkExperience(): React.JSX.Element {
   const { scopeRef } = useAnimationSequence();
-  const { innerRef: sectionRef, attachRefs } =
-    useCombinedRefs<HTMLDivElement>();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const combinedRef = useCombinedRefs(sectionRef, scopeRef);
 
   useSectionSequence(
     sectionRef,
@@ -110,13 +88,13 @@ function WorkExperience(): React.JSX.Element {
       id="workExperience"
       title={<TextReveal text="Experience" as="span" />}
       icon={WorkOutlineTwoTone}
-      sx={sectionSx}
+      sx={sectionSpacingSx}
     >
-      <Box ref={attachRefs(scopeRef)} sx={wrapperSx}>
+      <Box ref={combinedRef} sx={wrapperSx}>
         <Grid container spacing={4}>
           {experiences.map((experience) => (
             <ExperienceCard
-              key={buildExperienceKey(experience)}
+              key={buildItemKey(experience.title, experience.duration)}
               experience={experience}
             />
           ))}
