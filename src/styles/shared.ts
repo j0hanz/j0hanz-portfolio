@@ -14,8 +14,13 @@ export const BUTTON_HEIGHT_LARGE = 45;
 export const BADGE_MIN_WIDTH = 45;
 export const BADGE_HEIGHT = 21;
 
+// Common icon sx patterns
 export const iconSx: SxProps<Theme> = {
   fontSize: ICON_SIZE,
+};
+
+export const iconBody2Sx: SxProps<Theme> = {
+  fontSize: (theme) => theme.typography.body2.fontSize,
 };
 
 export const buttonMinWidthSx: SxProps<Theme> = {
@@ -27,6 +32,13 @@ export const neutralButtonSx: SxProps<Theme> = {
   '&:hover': {
     bgcolor: 'neutral.dark',
   },
+};
+
+// Shared button styles for consistent appearance
+export const contactButtonSx: SxProps<Theme> = {
+  minWidth: BUTTON_MIN_WIDTH_HERO,
+  height: BUTTON_HEIGHT_LARGE,
+  ...neutralButtonSx,
 };
 
 export const sectionGridItemSx: SxProps<Theme> = {
@@ -47,9 +59,15 @@ export const credentialButtonSx: SxProps<Theme> = {
   },
 };
 
+// Shared text constants
+export const TEXT_LINE_HEIGHT = 1.8;
+
+// Common transforms
+export const SKEW_TRANSFORM = 'skew(-5deg)';
+
 // Common description text style used across sections
 export const descriptionTextSx: SxProps<Theme> = {
-  lineHeight: 1.8,
+  lineHeight: TEXT_LINE_HEIGHT,
   color: 'text.secondary',
 };
 

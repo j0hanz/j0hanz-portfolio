@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from 'react';
+import { useRef } from 'react';
 
 import { Box } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
@@ -137,34 +137,39 @@ function SlideFromSide({
 // FADE IN VIEW
 // ============================================================================
 
-// Simple fade-in when element enters viewport
-export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
-  function FadeInView({ children, delay = 0, threshold = 0.2, ...props }, ref) {
-    const { prefersReducedMotion, getTransition } = useAnimationConfig();
-    const localRef = useRef<HTMLDivElement>(null);
-    const isInView = useInView((ref as React.RefObject<Element>) || localRef, {
-      once: true,
-      amount: threshold,
-    });
+// Simple fade-in when element enters viewport (React 19: ref as prop)
+export function FadeInView({
+  children,
+  delay = 0,
+  threshold = 0.2,
+  ref,
+  ...props
+}: FadeInViewProps) {
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const localRef = useRef<HTMLDivElement>(null);
+  const effectiveRef = (ref as React.RefObject<Element>) || localRef;
+  const isInView = useInView(effectiveRef, {
+    once: true,
+    amount: threshold,
+  });
 
-    if (prefersReducedMotion) {
-      return <div ref={ref || localRef}>{children}</div>;
-    }
-
-    return (
-      <motion.div
-        ref={ref || localRef}
-        variants={fadeInViewVariants}
-        initial="initial"
-        animate={isInView ? 'animate' : 'initial'}
-        transition={getTransition('easeOut', { delay })}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
+  if (prefersReducedMotion) {
+    return <div ref={ref || localRef}>{children}</div>;
   }
-);
+
+  return (
+    <motion.div
+      ref={ref || localRef}
+      variants={fadeInViewVariants}
+      initial="initial"
+      animate={isInView ? 'animate' : 'initial'}
+      transition={getTransition('easeOut', { delay })}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 // ============================================================================
 // STAGGER CONTAINER
@@ -233,13 +238,16 @@ export function StaggerItem({ children, className, style }: StaggerItemProps) {
 // PAGE TRANSITION WRAPPER
 // ============================================================================
 
-export const PageTransitionWrapper = forwardRef<
-  HTMLDivElement,
-  {
-    children: React.ReactNode;
-    className?: string;
-  }
->(function PageTransitionWrapper({ children, className }, ref) {
+// Page transition wrapper (React 19: ref as prop)
+export function PageTransitionWrapper({
+  children,
+  className,
+  ref,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  ref?: React.Ref<HTMLDivElement>;
+}) {
   const { direction } = useNavigationState();
   const { prefersReducedMotion } = useAnimationConfig();
 
@@ -271,14 +279,13 @@ export const PageTransitionWrapper = forwardRef<
         left: 0,
         overflowY: 'auto',
         overflowX: 'hidden',
-        // Hardware acceleration: transform and opacity are GPU-accelerated
         willChange: 'transform, opacity',
       }}
     >
       {children}
     </Box>
   );
-});
+}
 
 // ============================================================================
 // EXPORTS

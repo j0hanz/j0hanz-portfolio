@@ -22,13 +22,14 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import TimelineSection from '@/components/TimelineSection';
+import { timelineCardVariants } from '@/config/motion';
 import type { EducationCardProps } from '@/config/types';
 import {
-  useAnimationConfig,
   useAnimationSequence,
   useCombinedRefs,
   useInView,
   useModal,
+  useMotionVariant,
   useSectionSequence,
 } from '@/hooks';
 import education from '@/lib/data/education';
@@ -38,27 +39,17 @@ import {
   createDurationMeta,
   createSchoolMeta,
 } from '@/utils/metadata';
+import {
+  getTimelineContentSx,
+  getTimelineOppositeContentSx,
+  isTimelineItemLeftAligned,
+} from '@/utils/timeline';
 
 import Credential from './Credential';
 
 // Constants
 const descriptionWrapperSx: SxProps<Theme> = {
   mb: 2,
-};
-
-// Card entrance with scale and fade
-const educationCardVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.12,
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  }),
 };
 
 // Button pop-in animation
@@ -86,7 +77,6 @@ function EducationCard({
     once: true,
     amount: 0.3,
   });
-  const { prefersReducedMotion } = useAnimationConfig();
 
   const metadata = [createSchoolMeta(education.school)];
   if (showDuration) {
@@ -106,6 +96,16 @@ function EducationCard({
     }),
   };
 
+  const descriptionMotion = useMotionVariant(descriptionVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+  });
+
+  const buttonMotion = useMotionVariant(buttonVariants, {
+    initial: 'hidden',
+    animate: 'visible',
+  });
+
   return (
     <Box ref={cardRef}>
       <TimelineCard
@@ -120,9 +120,7 @@ function EducationCard({
                 component={motion.p}
                 key={`${education.title}-${index}`}
                 custom={index}
-                initial={prefersReducedMotion ? false : 'hidden'}
-                animate={isInView ? 'visible' : 'hidden'}
-                variants={descriptionVariants}
+                {...descriptionMotion}
                 data-edu-description
                 sx={descriptionTextSx}
               >
@@ -133,12 +131,7 @@ function EducationCard({
         )}
         <AnimatePresence mode="wait">
           {education.hasCredential && isInView && (
-            <motion.div
-              initial={prefersReducedMotion ? false : 'hidden'}
-              animate="visible"
-              exit="hidden"
-              variants={buttonVariants}
-            >
+            <motion.div {...buttonMotion} exit="hidden">
               <Button
                 onClick={onShowModal}
                 variant="contained"
@@ -159,7 +152,6 @@ function EducationCard({
 // Rendering education section
 function Education(): React.JSX.Element {
   const credentialModal = useModal(false);
-  const { prefersReducedMotion } = useAnimationConfig();
   const { scopeRef } = useAnimationSequence();
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -171,6 +163,12 @@ function Education(): React.JSX.Element {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const cardMotion = useMotionVariant(timelineCardVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+    whileHover: { y: -5 },
+  });
 
   useSectionSequence(sectionRef, {
     cards: '[data-edu-card]',
@@ -188,20 +186,14 @@ function Education(): React.JSX.Element {
         <TimelineSection position={isMobile ? 'right' : 'alternate'}>
           {education.map((edu, index) => {
             const isLastItem = index === education.length - 1;
-            const isLeftAligned = !isMobile && index % 2 === 1;
+            const isLeftAligned = isTimelineItemLeftAligned(index, isMobile);
             return (
               <TimelineItem
                 key={buildItemKey(edu.title, edu.duration)}
                 sx={{ minHeight: 'auto' }}
               >
                 <TimelineOppositeContent
-                  sx={{
-                    display: { xs: 'none', md: 'flex' },
-                    py: 0,
-                    px: 2,
-                    textAlign: isLeftAligned ? 'left' : 'right',
-                    justifyContent: isLeftAligned ? 'flex-start' : 'flex-end',
-                  }}
+                  sx={getTimelineOppositeContentSx(isLeftAligned)}
                   color="text.secondary"
                 >
                   <Typography
@@ -218,18 +210,10 @@ function Education(): React.JSX.Element {
                   </TimelineDot>
                   {!isLastItem && <TimelineConnector />}
                 </TimelineSeparator>
-                <TimelineContent
-                  sx={{
-                    display: 'flex',
-                    justifyContent: isLeftAligned ? 'flex-end' : 'flex-start',
-                  }}
-                >
+                <TimelineContent sx={getTimelineContentSx(isLeftAligned)}>
                   <motion.div
                     custom={index}
-                    initial={prefersReducedMotion ? false : 'hidden'}
-                    animate={isInView ? 'visible' : 'hidden'}
-                    whileHover={prefersReducedMotion ? undefined : { y: -5 }}
-                    variants={educationCardVariants}
+                    {...cardMotion}
                     style={{ width: '100%' }}
                   >
                     <EducationCard

@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 
 import Badges from '@/components/Badges';
 import Button from '@/components/Button';
@@ -24,6 +24,7 @@ import {
   useAnimationConfig,
   useContactFormMutation,
   useInView,
+  useMotionVariant,
   useSnackbar,
 } from '@/hooks';
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
@@ -47,33 +48,33 @@ const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
 };
 
-// Form fields stagger entrance
-const fieldVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.08,
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  }),
-};
-
-// Action buttons slide up
-const actionVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.4,
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as const,
+// Animation variants - consolidated
+const contactAnimations = {
+  field: {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.08,
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    }),
+  },
+  action: {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.4,
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
     },
   },
-};
+} satisfies Record<string, Record<string, unknown>>;
 
 // Creates ContactFormValues from FormData
 function extractFormValues(formData: FormData): ContactFormValues {
@@ -93,71 +94,70 @@ function SuccessIndicator({
   const { container, checkmarkCircle, checkmarkPath } =
     successIndicatorVariants;
 
+  if (!visible) return <></>;
+
+  const circleInitial = prefersReducedMotion
+    ? { strokeDashoffset: 0 }
+    : checkmarkCircle.initial;
+  const pathInitial = prefersReducedMotion
+    ? { pathLength: 1 }
+    : checkmarkPath.initial;
+
   return (
-    <AnimatePresence initial={false} mode="wait">
-      {visible && (
-        <Stack
-          component={motion.div}
-          key="contact-success"
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          spacing={1.5}
-          initial={container.initial}
-          animate={container.animate}
-          exit={container.exit}
-          transition={getTransition('smooth')}
-          sx={successStackSx}
-        >
-          <motion.svg
-            width="38"
-            height="38"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            color="success.main"
-          >
-            <motion.circle
-              cx="12"
-              cy="12"
-              r="9"
-              initial={
-                prefersReducedMotion
-                  ? { strokeDashoffset: 0 }
-                  : checkmarkCircle.initial
-              }
-              animate={checkmarkCircle.animate}
-              transition={{
-                type: 'spring',
-                stiffness: 100,
-                damping: 20,
-                duration: 0.6,
-              }}
-            />
-            <motion.path
-              d="M7.5 12.5l3 3.2 6-6.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={
-                prefersReducedMotion ? { pathLength: 1 } : checkmarkPath.initial
-              }
-              animate={checkmarkPath.animate}
-              transition={{
-                type: 'spring',
-                stiffness: 100,
-                damping: 20,
-                delay: 0.15,
-                duration: 0.45,
-              }}
-            />
-          </motion.svg>
-          <Typography variant="body2" color="success.main" sx={successTextSx}>
-            Message sent!
-          </Typography>
-        </Stack>
-      )}
-    </AnimatePresence>
+    <Stack
+      component={motion.div}
+      key="contact-success"
+      direction="row"
+      alignItems="center"
+      justifyContent="center"
+      spacing={1.5}
+      initial={container.initial}
+      animate={container.animate}
+      exit={container.exit}
+      transition={getTransition('smooth')}
+      sx={successStackSx}
+    >
+      <motion.svg
+        width="38"
+        height="38"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        color="success.main"
+      >
+        <motion.circle
+          cx="12"
+          cy="12"
+          r="9"
+          initial={circleInitial}
+          animate={checkmarkCircle.animate}
+          transition={{
+            type: 'spring',
+            stiffness: 100,
+            damping: 20,
+            duration: 0.6,
+          }}
+        />
+        <motion.path
+          d="M7.5 12.5l3 3.2 6-6.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={pathInitial}
+          animate={checkmarkPath.animate}
+          transition={{
+            type: 'spring',
+            stiffness: 100,
+            damping: 20,
+            delay: 0.15,
+            duration: 0.45,
+          }}
+        />
+      </motion.svg>
+      <Typography variant="body2" color="success.main" sx={successTextSx}>
+        Message sent!
+      </Typography>
+    </Stack>
   );
 }
 
@@ -215,13 +215,24 @@ function ContactFormContent(): React.JSX.Element {
     once: true,
     amount: 0.2,
   });
-  const { prefersReducedMotion } = useAnimationConfig();
+
+  const fieldMotion = useMotionVariant(contactAnimations.field, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+  });
+
+  const actionMotion = useMotionVariant(contactAnimations.action, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+  });
 
   const showSuccess = mutation.isSuccess && !mutation.isPending;
+  // Extract stable reference to avoid effect re-subscription
+  const resetMutation = mutation.reset;
 
   const handleReset = () => {
     formRef.current?.reset();
-    mutation.reset();
+    resetMutation();
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -229,12 +240,8 @@ function ContactFormContent(): React.JSX.Element {
     const values = extractFormValues(new FormData(e.currentTarget));
 
     mutation.mutate(values, {
-      onSuccess: () => {
-        showSnackbar('Message sent successfully!', 'success');
-      },
-      onError: (error) => {
-        showSnackbar(error.message, 'error');
-      },
+      onSuccess: () => showSnackbar('Message sent successfully!', 'success'),
+      onError: (error) => showSnackbar(error.message, 'error'),
     });
   };
 
@@ -244,11 +251,11 @@ function ContactFormContent(): React.JSX.Element {
 
     const timer = setTimeout(() => {
       formRef.current?.reset();
-      mutation.reset();
+      resetMutation();
     }, FORM_RESET_DELAY);
 
     return () => clearTimeout(timer);
-  }, [showSuccess, mutation]);
+  }, [showSuccess, resetMutation]);
 
   return (
     <Card title="" sx={formCardSx}>
@@ -260,22 +267,11 @@ function ContactFormContent(): React.JSX.Element {
           noValidate
           spacing={2}
         >
-          <motion.div
-            custom={0}
-            initial={prefersReducedMotion ? false : 'hidden'}
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={fieldVariants}
-            layout
-          >
+          <motion.div custom={0} {...fieldMotion} layout>
             <ContactFormFields defaultValues={undefined} errors={{}} />
           </motion.div>
           <SuccessIndicator visible={showSuccess} />
-          <motion.div
-            initial={prefersReducedMotion ? false : 'hidden'}
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={actionVariants}
-            layout
-          >
+          <motion.div {...actionMotion} layout>
             <FormActions onReset={handleReset} isPending={mutation.isPending} />
           </motion.div>
         </Stack>

@@ -1,9 +1,10 @@
 import { Box, Chip, type SxProps, type Theme } from '@mui/material';
 
 import { ProjectTechStackProps } from '@/config/types';
+import { SKEW_TRANSFORM } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
   flexShrink: 0,
 };
 
@@ -16,7 +17,7 @@ const chipSx: SxProps<Theme> = {
   color: 'text.primary',
   fontSize: (theme) => theme.typography.caption.fontSize,
   opacity: 0.9,
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
   '& .MuiChip-label': {
     color: 'text.primary',
     textTransform: 'uppercase',

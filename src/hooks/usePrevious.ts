@@ -1,19 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
+// Returns the value from the previous render using effect-based tracking
 export function usePrevious<T>(value: T): T | undefined {
-  const [state, setState] = useState({
-    value,
-    prev: undefined as T | undefined,
-  });
+  const [previous, setPrevious] = useState<T | undefined>(undefined);
+  const currentRef = useRef(value);
 
-  if (state.value !== value) {
-    setState({
-      value,
-      prev: state.value,
-    });
-  }
+  useEffect(() => {
+    setPrevious(currentRef.current);
+    currentRef.current = value;
+  }, [value]);
 
-  return state.prev;
+  return previous;
 }
 
 export default usePrevious;

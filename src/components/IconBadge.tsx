@@ -3,13 +3,14 @@ import React from 'react';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 
 import { IconBadgeListProps, IconBadgeProps } from '@/config/types';
+import { SKEW_TRANSFORM } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   display: 'inline-flex',
   alignItems: 'center',
   color: 'text.primary',
   marginRight: '2rem',
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
   gap: 0.75,
 };
 

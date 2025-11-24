@@ -8,21 +8,12 @@ import {
   Typography,
 } from '@mui/material';
 import Button from '@mui/material/Button';
-import {
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-  useMotionValueEvent,
-} from 'motion/react';
+import { motion, useInView } from 'motion/react';
 
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { ANIMATION_DURATION_STATS } from '@/config/constants';
-import type {
-  AnimatedStatProps,
-  ProjectStatsProps,
-  RepoStats,
-} from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
+import type { ProjectStatsProps, RepoStats } from '@/config/types';
+import { useAnimationConfig, useCountUp } from '@/hooks';
 import { useRepoStatsQuery } from '@/utils/query';
 
 const labelSx: SxProps<Theme> = {
@@ -83,35 +74,23 @@ function StatsSkeleton() {
   );
 }
 
+function StatsErrorFallback() {
+  return (
+    <Typography variant="body2" color="text.secondary">
+      Stats unavailable
+    </Typography>
+  );
+}
+
 function AnimatedStat({
   label,
   value,
-  prefersReducedMotion,
-  getTransition,
-}: AnimatedStatProps): React.JSX.Element {
-  const motionValue = useMotionValue(prefersReducedMotion ? value : 0);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  React.useEffect(() => {
-    if (prefersReducedMotion) {
-      if (ref.current) ref.current.textContent = value.toLocaleString();
-      return;
-    }
-
-    const controls = animate(motionValue, value, {
-      ...getTransition('smooth', { duration: 0.7 }),
-    });
-
-    return () => controls.stop();
-  }, [value, prefersReducedMotion, motionValue, getTransition]);
-
-  useMotionValueEvent(motionValue, 'change', (latest) => {
-    if (ref.current) {
-      ref.current.textContent = Math.round(latest).toLocaleString();
-    }
-  });
-
-  const initialDisplay = prefersReducedMotion ? value.toLocaleString() : '0';
+}: {
+  label: string;
+  value: number;
+}): React.JSX.Element {
+  const { ref, value: displayValue } = useCountUp(value);
+  const { getTransition } = useAnimationConfig();
 
   return (
     <Stack direction="row" alignItems="baseline" spacing={1}>
@@ -126,7 +105,7 @@ function AnimatedStat({
         transition={getTransition('spring')}
         sx={valueSx}
       >
-        {initialDisplay}
+        {displayValue}
       </Typography>
     </Stack>
   );
@@ -139,7 +118,6 @@ function StatsContent({
   repoPath: string;
   hasProjectBoard: boolean;
 }): React.JSX.Element {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const { data: initialStats } = useRepoStatsQuery(repoPath);
 
   const [optimisticStats, addOptimisticStar] = useOptimistic(
@@ -165,13 +143,7 @@ function StatsContent({
   return (
     <>
       {statItems.map(({ key, label, value }) => (
-        <AnimatedStat
-          key={key}
-          label={label}
-          value={value}
-          prefersReducedMotion={prefersReducedMotion}
-          getTransition={getTransition}
-        />
+        <AnimatedStat key={key} label={label} value={value} />
       ))}
       <Button
         variant="text"
@@ -203,9 +175,14 @@ const ProjectStats = ({
       sx={containerSx}
     >
       {isInView ? (
-        <Suspense fallback={<StatsSkeleton />}>
-          <StatsContent repoPath={repoPath} hasProjectBoard={hasProjectBoard} />
-        </Suspense>
+        <ErrorBoundary fallback={<StatsErrorFallback />}>
+          <Suspense fallback={<StatsSkeleton />}>
+            <StatsContent
+              repoPath={repoPath}
+              hasProjectBoard={hasProjectBoard}
+            />
+          </Suspense>
+        </ErrorBoundary>
       ) : (
         <StatsSkeleton />
       )}

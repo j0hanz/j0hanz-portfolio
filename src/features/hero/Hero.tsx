@@ -17,8 +17,17 @@ import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
 import type { CustomButtonProps } from '@/config/types';
 import {
+  useAnimationConfig,
+  useAnimationPriority,
+  useHover,
+  useModal,
+  useMotionVariant,
+} from '@/hooks';
+import { contactButtonSx } from '@/styles/shared';
+import { iconSx } from '@/styles/shared';
+
+import {
   buttonsStackSx,
-  contactButtonSx,
   containerSx,
   cursorAnimation,
   cursorStyle,
@@ -32,14 +41,7 @@ import {
   sectionSx,
   subtitleClipPath,
   subtitleSx,
-} from '@/features/hero/Hero.styles';
-import {
-  useAnimationConfig,
-  useAnimationPriority,
-  useHover,
-  useModal,
-} from '@/hooks';
-import { iconSx } from '@/styles/shared';
+} from './Hero.styles';
 
 const HERO_NAME = 'Linus Johansson';
 
@@ -82,14 +84,19 @@ function Hero(): React.JSX.Element {
   const imageModal = useModal(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const isProfileHovered = useHover(profileImageRef);
-  const { prefersReducedMotion, getTransition, motionViewport } =
-    useAnimationConfig();
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const animationPriority = useAnimationPriority();
 
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
 
   const heroActions = createHeroActions(cvModal.open);
+
+  const profileMotion = useMotionVariant(fadeVariants.up);
+  const subtitleMotion = useMotionVariant(subtitleClipPath, {
+    initial: 'initial',
+    animate: 'animate',
+  });
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>
@@ -99,10 +106,8 @@ function Hero(): React.JSX.Element {
             <Parallax offset={30}>
               <Box
                 component={motion.div}
-                initial={fadeVariants.up.initial}
-                whileInView={fadeVariants.up.animate}
+                {...profileMotion}
                 transition={getTransition('easeOut')}
-                viewport={motionViewport}
                 sx={profileWrapperSx}
               >
                 <Box
@@ -110,13 +115,22 @@ function Hero(): React.JSX.Element {
                   ref={profileImageRef}
                   src={ProfileImage}
                   alt="Linus Johansson"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="View enlarged profile photo"
                   onClick={imageModal.open}
+                  onKeyDown={(e: React.KeyboardEvent) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      imageModal.open();
+                    }
+                  }}
                   animate={{
                     opacity: isProfileHovered ? 0.8 : 1,
                     scale: isProfileHovered ? 1.02 : 1,
                   }}
                   transition={getTransition('smooth')}
-                  sx={profileImgSx}
+                  sx={{ ...profileImgSx, cursor: 'pointer' }}
                 />
                 <Box
                   component={motion.div}
@@ -147,12 +161,7 @@ function Hero(): React.JSX.Element {
               <Typography
                 variant="h2"
                 component={motion.h2}
-                initial={
-                  prefersReducedMotion ? undefined : subtitleClipPath.initial
-                }
-                animate={
-                  prefersReducedMotion ? undefined : subtitleClipPath.animate
-                }
+                {...subtitleMotion}
                 transition={getTransition('easeInOut', {
                   duration: 1.1,
                   delay: 0.2,

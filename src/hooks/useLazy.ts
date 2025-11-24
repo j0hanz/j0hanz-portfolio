@@ -1,20 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { UseLazyReturn } from '@/config/types';
 
+import useEventCallback from './useEventCallback';
+
 // Lazily computes expensive value once (with manual refresh option)
 export function useLazy<T>(initializer: () => T): UseLazyReturn<T> {
-  const initializerRef = useRef(initializer);
-
-  useEffect(() => {
-    initializerRef.current = initializer;
-  }, [initializer]);
-
   const [value, setValue] = useState<T>(() => initializer());
 
-  const refresh = () => {
-    setValue(initializerRef.current());
-  };
+  // useEventCallback captures latest initializer without effect synchronization
+  const refresh = useEventCallback(() => {
+    setValue(initializer());
+  });
 
   return { value, refresh };
 }

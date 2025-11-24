@@ -21,12 +21,9 @@ import { motion } from 'motion/react';
 import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
 import { SocialLinkRenderProps } from '@/config/types';
-import {
-  useAnimationConfig,
-  useCopyToClipboard,
-  useModal,
-  useSnackbar,
-} from '@/hooks';
+import { useAnimationConfig, useCopyWithFeedback, useModal } from '@/hooks';
+import { SKEW_TRANSFORM } from '@/styles/shared';
+import { getCopyMessages } from '@/utils/clipboard';
 
 import ModalCv from './ModalCv';
 
@@ -85,7 +82,7 @@ const copyrightIconSx: SxProps<Theme> = {
 };
 
 const copyrightTextSx: SxProps<Theme> = {
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
   textTransform: 'uppercase',
   fontSize: '0.8rem',
   color: 'inherit',
@@ -103,8 +100,7 @@ const wrapFooterSocialLink = (
 
 const Footer: FC = () => {
   const cvModal = useModal(false);
-  const [copyEmail] = useCopyToClipboard();
-  const { showSnackbar } = useSnackbar();
+  const { copyWithFeedback } = useCopyWithFeedback();
   const { getTransition, prefersReducedMotion } = useAnimationConfig();
 
   const renderFooterSocialLink = ({
@@ -150,14 +146,8 @@ const Footer: FC = () => {
   };
 
   const handleCopyEmail = async () => {
-    const copied = await copyEmail(CONTACT_EMAIL);
-
-    if (copied) {
-      showSnackbar('Email copied to clipboard', 'success');
-      return;
-    }
-
-    showSnackbar('Unable to copy email', 'error');
+    const messages = getCopyMessages('email');
+    await copyWithFeedback(CONTACT_EMAIL, messages.success, messages.error);
   };
 
   return (

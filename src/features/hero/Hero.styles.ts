@@ -102,10 +102,3 @@ export const downloadButtonSx: SxProps<Theme> = {
   height: BUTTON_HEIGHT_LARGE,
   bgcolor: 'primary.main',
 };
-
-export const contactButtonSx: SxProps<Theme> = {
-  minWidth: BUTTON_MIN_WIDTH_HERO,
-  height: BUTTON_HEIGHT_LARGE,
-  bgcolor: 'neutral.main',
-  '&:hover': { bgcolor: 'neutral.dark' },
-};

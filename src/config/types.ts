@@ -60,7 +60,6 @@ export interface Section {
   title: string;
   hash: string;
   icon?: IconComponent;
-  label?: string; // Deprecated, use title
   disableScrollLock?: boolean;
 }
 
@@ -427,6 +426,7 @@ export interface FadeInViewProps
   children: ReactNode;
   delay?: number;
   threshold?: number;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 export interface StaggerContainerProps {
@@ -479,6 +479,7 @@ export interface SectionContainerProps {
   children: ReactNode;
   className?: string;
   sx?: SxProps<Theme>;
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4';
 }
 
 export interface SectionWrapperProps {
@@ -488,6 +489,7 @@ export interface SectionWrapperProps {
 
 export interface ErrorBoundaryProps {
   children: ReactNode;
+  fallback?: ReactNode;
 }
 
 export interface ErrorBoundaryState {
@@ -740,6 +742,7 @@ export interface UseStorageOptions<T> {
   serializer?: (value: T) => string;
   parser?: (value: string) => T;
   listen?: boolean;
+  validate?: (data: unknown) => data is T;
 }
 
 export interface UseStorageReturn<T> {

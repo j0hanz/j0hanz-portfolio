@@ -13,7 +13,7 @@ import { motion } from 'motion/react';
 
 import { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { BADGE_HEIGHT, BADGE_MIN_WIDTH } from '@/styles/shared';
+import { BADGE_HEIGHT, BADGE_MIN_WIDTH, SKEW_TRANSFORM } from '@/styles/shared';
 
 const titleSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.h6.fontSize,
@@ -37,7 +37,7 @@ const newBadgeSx: SxProps<Theme> = {
   border: 'none',
   fontSize: (theme) => theme.typography.caption.fontSize,
   borderRadius: (theme) => theme.spacing(0.5),
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
 };
 
 const iconSx: SxProps<Theme> = {

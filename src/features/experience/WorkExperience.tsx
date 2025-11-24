@@ -14,12 +14,16 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import TimelineSection from '@/components/TimelineSection';
+import {
+  timelineCardVariants,
+  timelineDescriptionVariants,
+} from '@/config/motion';
 import type { ExperienceCardProps } from '@/config/types';
 import {
-  useAnimationConfig,
   useAnimationSequence,
   useCombinedRefs,
   useInView,
+  useMotionVariant,
   useSectionSequence,
 } from '@/hooks';
 import experiences from '@/lib/data/experiences';
@@ -29,35 +33,11 @@ import {
   createDurationMeta,
   createWorkplaceMeta,
 } from '@/utils/metadata';
-
-// Progressive reveal animation for cards
-const cardVariants = {
-  hidden: { opacity: 0, y: 60, scale: 0.95 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.15,
-      duration: 0.7,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  }),
-};
-
-// Description list items stagger
-const descriptionVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: 0.3 + i * 0.08,
-      duration: 0.5,
-      ease: [0.4, 0, 0.2, 1] as const,
-    },
-  }),
-};
+import {
+  getTimelineContentSx,
+  getTimelineOppositeContentSx,
+  isTimelineItemLeftAligned,
+} from '@/utils/timeline';
 
 function ExperienceCard({
   experience,
@@ -70,7 +50,11 @@ function ExperienceCard({
     once: true,
     amount: 0.25,
   });
-  const { prefersReducedMotion } = useAnimationConfig();
+
+  const itemMotion = useMotionVariant(timelineDescriptionVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+  });
 
   const metadata = [createWorkplaceMeta(experience.workplace)];
   if (showDuration) {
@@ -90,9 +74,7 @@ function ExperienceCard({
             <motion.li
               key={`${experience.title}-${index}`}
               custom={index}
-              initial={prefersReducedMotion ? false : 'hidden'}
-              animate={isInView ? 'visible' : 'hidden'}
-              variants={descriptionVariants}
+              {...itemMotion}
             >
               <Typography variant="body2" component="small">
                 {item}
@@ -115,10 +97,15 @@ function WorkExperience(): React.JSX.Element {
     once: true,
     amount: 0.1,
   });
-  const { prefersReducedMotion } = useAnimationConfig();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const cardMotion = useMotionVariant(timelineCardVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+    whileHover: { y: -5 },
+  });
 
   useSectionSequence(
     sectionRef,
@@ -143,16 +130,14 @@ function WorkExperience(): React.JSX.Element {
         <TimelineSection position={isMobile ? 'right' : 'alternate'}>
           {experiences.map((experience, index) => {
             const isLastItem = index === experiences.length - 1;
-            const isLeftAligned = !isMobile && index % 2 === 1;
+            const isLeftAligned = isTimelineItemLeftAligned(index, isMobile);
             return (
               <TimelineItem
                 key={buildItemKey(experience.title, experience.duration)}
                 sx={{ minHeight: 'auto' }}
               >
                 <TimelineOppositeContent
-                  sx={{
-                    justifyContent: isLeftAligned ? 'flex-start' : 'flex-end',
-                  }}
+                  sx={getTimelineOppositeContentSx(isLeftAligned)}
                   color="text.secondary"
                 >
                   <Typography
@@ -169,18 +154,10 @@ function WorkExperience(): React.JSX.Element {
                   </TimelineDot>
                   {!isLastItem && <TimelineConnector />}
                 </TimelineSeparator>
-                <TimelineContent
-                  sx={{
-                    display: 'flex',
-                    justifyContent: isLeftAligned ? 'flex-end' : 'flex-start',
-                  }}
-                >
+                <TimelineContent sx={getTimelineContentSx(isLeftAligned)}>
                   <motion.div
                     custom={index}
-                    initial={prefersReducedMotion ? false : 'hidden'}
-                    animate={isInView ? 'visible' : 'hidden'}
-                    whileHover={prefersReducedMotion ? undefined : { y: -5 }}
-                    variants={cardVariants}
+                    {...cardMotion}
                     style={{ width: '100%' }}
                   >
                     <ExperienceCard

@@ -12,7 +12,7 @@ import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer, staggerItemVariant } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
-import { sectionSpacingSx } from '@/styles/shared';
+import { sectionSpacingSx, SKEW_TRANSFORM } from '@/styles/shared';
 
 const gridItemSx: SxProps<Theme> = {
   textAlign: 'center',
@@ -49,11 +49,11 @@ const learningStackSx: SxProps<Theme> = {
 
 const learningIconSx: SxProps<Theme> = {
   mr: 0.35,
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
 };
 
 const learningTextSx: SxProps<Theme> = {
-  transform: 'skew(-5deg)',
+  transform: SKEW_TRANSFORM,
 };
 
 // Rendering skills section

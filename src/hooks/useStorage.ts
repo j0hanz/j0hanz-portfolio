@@ -12,7 +12,10 @@ type DefaultValue<T> = T | (() => T);
 const isBrowser = typeof window !== 'undefined';
 
 const defaultSerializer = <T>(value: T) => JSON.stringify(value);
-const defaultParser = <T>(value: string) => JSON.parse(value) as T;
+
+// Safe parser that returns unknown for validation
+const parseJson = (value: string): unknown => JSON.parse(value);
+
 const evaluateDefaultValue = <T>(value: DefaultValue<T>): T =>
   typeof value === 'function' ? (value as () => T)() : value;
 
@@ -36,8 +39,9 @@ export function useStorage<T>(
   const {
     storage = 'local',
     serializer = defaultSerializer<T>,
-    parser = defaultParser<T>,
+    parser,
     listen = true,
+    validate,
   } = options;
 
   const resolvedStorage = resolveStorage(storage);
@@ -47,12 +51,34 @@ export function useStorage<T>(
 
   const [error, setError] = useState<Error | null>(null);
 
+  // Safe parsing with optional validation
+  const safeParse = (raw: string): T => {
+    // If custom parser provided, use it directly
+    if (parser) {
+      return parser(raw);
+    }
+
+    // Parse to unknown first
+    const parsed = parseJson(raw);
+
+    // Validate if validator provided
+    if (validate) {
+      if (!validate(parsed)) {
+        throw new Error(`Invalid data format for "${key}"`);
+      }
+      return parsed;
+    }
+
+    // Without validation, cast (matches original behavior)
+    return parsed as T;
+  };
+
   const readValueImpl = (): T => {
     if (!resolvedStorage) return getDefaultValue();
 
     try {
       const raw = resolvedStorage.getItem(key);
-      return raw === null ? getDefaultValue() : parser(raw);
+      return raw === null ? getDefaultValue() : safeParse(raw);
     } catch (readError) {
       const normalized = normalizeError(
         readError,

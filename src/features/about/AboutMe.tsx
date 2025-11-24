@@ -4,7 +4,7 @@ import PersonOutlined from '@mui/icons-material/PersonOutlined';
 import VerifiedTwoTone from '@mui/icons-material/VerifiedTwoTone';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, MotionValue, useScroll, useTransform } from 'motion/react';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -12,13 +12,22 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { AboutMeListProps } from '@/config/types';
 import Credential from '@/features/education/Credential';
-import { useAnimationConfig, useInView, useToggle } from '@/hooks';
+import {
+  useAnimationConfig,
+  useInView,
+  useMotionVariant,
+  useToggle,
+} from '@/hooks';
 import aboutMeItems from '@/lib/data/aboutMeItems';
 import aboutMeText from '@/lib/data/aboutMeText';
-import { credentialButtonSx, sectionGridItemSx } from '@/styles/shared';
+import {
+  credentialButtonSx,
+  sectionGridItemSx,
+  TEXT_LINE_HEIGHT,
+} from '@/styles/shared';
 
 const overviewTextSx: SxProps<Theme> = {
-  lineHeight: 1.8,
+  lineHeight: TEXT_LINE_HEIGHT,
   color: 'text.primary',
 };
 
@@ -43,17 +52,33 @@ const buttonWrapperSx: SxProps<Theme> = {
   pt: 3,
 };
 
-// Stagger animation for list items
+// Animation config
+const STAGGER_DELAY = 0.1;
+const CARD_ANIMATION_DELAY_BASE = 0.2;
+const CARD_ANIMATION_DURATION = 0.6;
+const CARD_EASE = [0.16, 1, 0.3, 1] as const;
+
+// Card animation variants
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * CARD_ANIMATION_DELAY_BASE,
+      duration: CARD_ANIMATION_DURATION,
+      ease: CARD_EASE,
+    },
+  }),
+};
+
+// List item stagger variants
 const listItemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
+    transition: { delay: i * STAGGER_DELAY, duration: 0.5, ease: CARD_EASE },
   }),
 };
 
@@ -76,20 +101,19 @@ function AboutMeList({
     once: true,
     amount: 0.2,
   });
-  const { prefersReducedMotion } = useAnimationConfig();
+
+  const listMotion = useMotionVariant(listItemVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+    whileHover: { x: 6 },
+  });
 
   return (
     <Card title="Highlights">
       <Box component="ul" ref={listRef} sx={listSx}>
         {items.map((item, index) => (
           <Box key={item.title} sx={listItemSx}>
-            <motion.div
-              custom={index}
-              initial={prefersReducedMotion ? false : 'hidden'}
-              animate={isInView ? 'visible' : 'hidden'}
-              whileHover={prefersReducedMotion ? undefined : { x: 6 }}
-              variants={listItemVariants}
-            >
+            <motion.div custom={index} {...listMotion}>
               <Typography component="span" sx={listTitleSx}>
                 {item.title}:
               </Typography>
@@ -114,6 +138,38 @@ function AboutMeList({
   );
 }
 
+// Card item wrapper with animation
+interface CardItemProps {
+  index: number;
+  yTransform: MotionValue<number> | number;
+  isInView: boolean;
+  children: React.ReactNode;
+}
+
+function CardItem({
+  index,
+  yTransform,
+  isInView,
+  children,
+}: CardItemProps): React.JSX.Element {
+  const { prefersReducedMotion } = useAnimationConfig();
+  const cardMotion = useMotionVariant(cardVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+    whileHover: { y: -5 },
+  });
+
+  return (
+    <motion.div
+      custom={index}
+      {...cardMotion}
+      style={{ y: prefersReducedMotion ? 0 : yTransform }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 // Main component for the About Me section
 function AboutMe(): React.JSX.Element {
   const {
@@ -126,7 +182,6 @@ function AboutMe(): React.JSX.Element {
     once: true,
     amount: 0.15,
   });
-  const { prefersReducedMotion } = useAnimationConfig();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -135,19 +190,6 @@ function AboutMe(): React.JSX.Element {
 
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -30]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -60]);
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    }),
-  };
 
   return (
     <SectionContainer
@@ -158,28 +200,14 @@ function AboutMe(): React.JSX.Element {
       <Box ref={containerRef}>
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
-            <motion.div
-              custom={0}
-              initial={prefersReducedMotion ? false : 'hidden'}
-              animate={isInView ? 'visible' : 'hidden'}
-              style={{ y: prefersReducedMotion ? 0 : y1 }}
-              whileHover={prefersReducedMotion ? undefined : { y: -5 }}
-              variants={cardVariants}
-            >
+            <CardItem index={0} yTransform={y1} isInView={isInView}>
               <AboutMeText />
-            </motion.div>
+            </CardItem>
           </Grid>
           <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
-            <motion.div
-              custom={1}
-              initial={prefersReducedMotion ? false : 'hidden'}
-              animate={isInView ? 'visible' : 'hidden'}
-              style={{ y: prefersReducedMotion ? 0 : y2 }}
-              whileHover={prefersReducedMotion ? undefined : { y: -5 }}
-              variants={cardVariants}
-            >
+            <CardItem index={1} yTransform={y2} isInView={isInView}>
               <AboutMeList items={aboutMeItems} onShowModal={handleShowModal} />
-            </motion.div>
+            </CardItem>
           </Grid>
         </Grid>
       </Box>

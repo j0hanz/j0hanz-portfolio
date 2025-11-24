@@ -9,14 +9,9 @@ import { motion } from 'motion/react';
 
 import { CardProps, InternalCardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
+import { cardBaseSx } from '@/styles/shared';
 
 const MotionPaper = motion.create(MuiPaper);
-
-const paperBaseSx: SxProps<Theme> = {
-  height: 1,
-  clipPath: 'inset(0 round 8px)',
-  backgroundColor: 'backdrop.glass',
-};
 
 const contentSx: SxProps<Theme> = {
   p: 2.5,
@@ -45,7 +40,7 @@ const BaseCard = function Card({
       className={className}
       elevation={0}
       sx={[
-        paperBaseSx,
+        cardBaseSx,
         (theme) => theme.mixins.glass,
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

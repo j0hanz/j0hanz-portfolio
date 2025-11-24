@@ -11,36 +11,54 @@ import {
   ValidationError,
 } from '@/config/types';
 
-export const validateName = (value: string): ValidationError => {
-  const trimmed = value.trim();
-  if (!trimmed) return ERROR_MESSAGES.NAME_REQUIRED;
-  if (!NAME_PATTERN.test(trimmed)) return ERROR_MESSAGES.NAME_INVALID;
-  return undefined;
-};
+// Generic validator factory to reduce duplication
+function createValidator(config: {
+  required?: string;
+  pattern?: { regex: RegExp; error: string };
+  minLength?: { value: number; error: string };
+  optional?: boolean;
+}) {
+  return (value: string): ValidationError => {
+    const trimmed = value.trim();
 
-export const validateEmail = (value: string): ValidationError => {
-  const trimmed = value.trim();
-  if (!trimmed) return ERROR_MESSAGES.EMAIL_REQUIRED;
-  if (!EMAIL_PATTERN.test(trimmed)) return ERROR_MESSAGES.EMAIL_INVALID;
-  return undefined;
-};
+    if (!trimmed) {
+      return config.optional ? undefined : config.required;
+    }
 
-export const validateUrl = (value: string): ValidationError => {
-  const trimmed = value.trim();
-  if (trimmed && !URL_PATTERN.test(trimmed)) {
-    return ERROR_MESSAGES.URL_INVALID;
-  }
-  return undefined;
-};
+    if (config.pattern && !config.pattern.regex.test(trimmed)) {
+      return config.pattern.error;
+    }
 
-export const validateMessage = (value: string): ValidationError => {
-  const trimmed = value.trim();
-  if (!trimmed) return ERROR_MESSAGES.MESSAGE_REQUIRED;
-  if (trimmed.length < MIN_MESSAGE_LENGTH) {
-    return ERROR_MESSAGES.MESSAGE_TOO_SHORT;
-  }
-  return undefined;
-};
+    if (config.minLength && trimmed.length < config.minLength.value) {
+      return config.minLength.error;
+    }
+
+    return undefined;
+  };
+}
+
+export const validateName = createValidator({
+  required: ERROR_MESSAGES.NAME_REQUIRED,
+  pattern: { regex: NAME_PATTERN, error: ERROR_MESSAGES.NAME_INVALID },
+});
+
+export const validateEmail = createValidator({
+  required: ERROR_MESSAGES.EMAIL_REQUIRED,
+  pattern: { regex: EMAIL_PATTERN, error: ERROR_MESSAGES.EMAIL_INVALID },
+});
+
+export const validateUrl = createValidator({
+  optional: true,
+  pattern: { regex: URL_PATTERN, error: ERROR_MESSAGES.URL_INVALID },
+});
+
+export const validateMessage = createValidator({
+  required: ERROR_MESSAGES.MESSAGE_REQUIRED,
+  minLength: {
+    value: MIN_MESSAGE_LENGTH,
+    error: ERROR_MESSAGES.MESSAGE_TOO_SHORT,
+  },
+});
 
 export const validateForm = (
   formData: ContactFormValues

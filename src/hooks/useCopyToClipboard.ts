@@ -6,6 +6,8 @@ import type {
   UseCopyToClipboardReturn,
 } from '@/config/types';
 
+import { useSnackbar } from './useSnackbar';
+
 const isClipboardSupported = () =>
   typeof navigator !== 'undefined' && Boolean(navigator.clipboard);
 
@@ -35,6 +37,27 @@ export function useCopyToClipboard(): UseCopyToClipboardReturn {
   };
 
   return [copyToClipboard, state];
+}
+
+// Combines copy-to-clipboard with automatic snackbar feedback
+export function useCopyWithFeedback() {
+  const [copyToClipboard] = useCopyToClipboard();
+  const { showSnackbar } = useSnackbar();
+
+  const copyWithFeedback = async (
+    text: string,
+    successMessage = 'Copied to clipboard',
+    errorMessage = 'Unable to copy'
+  ) => {
+    const success = await copyToClipboard(text);
+    showSnackbar(
+      success ? successMessage : errorMessage,
+      success ? 'success' : 'error'
+    );
+    return success;
+  };
+
+  return { copyWithFeedback };
 }
 
 export default useCopyToClipboard;

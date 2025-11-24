@@ -65,53 +65,62 @@ export const transitions = {
 // CORE ANIMATION VARIANTS
 // ============================================================================
 
+// Common animation values
+const FADE_Y_SMALL = 8;
+const FADE_Y_MEDIUM = 32;
+const FADE_Y_EXIT = 16;
+
+// Helper to create fade variants
+function createFadeVariant(yInitial: number, yExit: number) {
+  return {
+    initial: { opacity: 0, y: yInitial },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: yExit },
+  };
+}
+
 export const fadeVariants = {
-  in: {
-    initial: { opacity: 0, y: 8 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -8 },
-  },
-  up: {
-    initial: { opacity: 0, y: 32 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 16 },
-  },
-  down: {
-    initial: { opacity: 0, y: -32 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -16 },
-  },
+  in: createFadeVariant(FADE_Y_SMALL, -FADE_Y_SMALL),
+  up: createFadeVariant(FADE_Y_MEDIUM, FADE_Y_EXIT),
+  down: createFadeVariant(-FADE_Y_MEDIUM, -FADE_Y_EXIT),
 } as const;
+
+// Helper to create scale variants
+function createScaleVariant(
+  scaleInitial: number,
+  yInitial: number,
+  scaleExit: number,
+  yExit: number
+) {
+  return {
+    initial: { opacity: 0, scale: scaleInitial, y: yInitial },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: scaleExit, y: yExit },
+  };
+}
 
 export const scaleVariants = {
-  in: {
-    initial: { opacity: 0, scale: 0.94 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.96 },
-  },
-  pop: {
-    initial: { opacity: 0, scale: 0.85, y: 12 },
-    animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.92, y: -8 },
-  },
+  in: createScaleVariant(0.94, 0, 0.96, 0),
+  pop: createScaleVariant(0.85, 12, 0.92, -8),
 } as const;
 
+// Helper to create slide variants
+function createSlideVariant(
+  axis: 'x' | 'y',
+  valueInitial: number,
+  valueExit: number
+) {
+  return {
+    initial: { [axis]: valueInitial, opacity: 0 },
+    animate: { [axis]: 0, opacity: 1 },
+    exit: { [axis]: valueExit, opacity: 0 },
+  };
+}
+
 export const slideVariants = {
-  fromLeft: {
-    initial: { x: -48, opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: -24, opacity: 0 },
-  },
-  fromRight: {
-    initial: { x: 48, opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: 24, opacity: 0 },
-  },
-  fromBottom: {
-    initial: { y: 56, opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: 24, opacity: 0 },
-  },
+  fromLeft: createSlideVariant('x', -48, -24),
+  fromRight: createSlideVariant('x', 48, 24),
+  fromBottom: createSlideVariant('y', 56, 24),
 } as const;
 
 export const fadeInVariants = {
@@ -131,24 +140,30 @@ export const fadeInVariants = {
 // GESTURE VARIANTS
 // ============================================================================
 
+// Helper to create gesture variants
+function createGestureVariant(
+  hoverScale: number,
+  hoverY: number,
+  tapScale: number
+) {
+  return {
+    rest: { transform: 'scale(1) translateY(0px)' },
+    hover: { transform: `scale(${hoverScale}) translateY(${hoverY}px)` },
+    focus: {
+      transform: `scale(${hoverScale - 0.01}) translateY(${Math.max(hoverY, -2)}px)`,
+    },
+    tap: { transform: `scale(${tapScale}) translateY(0px)` },
+  };
+}
+
 export const gestureVariants = {
   hoverScale: {
     rest: { transform: 'scale(1)' },
     hover: { transform: 'scale(1.05)' },
     tap: { transform: 'scale(0.95)' },
   },
-  cardHover: {
-    rest: { transform: 'scale(1) translateY(0px)' },
-    hover: { transform: 'scale(1.03) translateY(-6px)' },
-    focus: { transform: 'scale(1.02) translateY(-4px)' },
-    tap: { transform: 'scale(0.98) translateY(0px)' },
-  },
-  buttonTap: {
-    rest: { transform: 'scale(1) translateY(0px)' },
-    hover: { transform: 'scale(1.04) translateY(-2px)' },
-    focus: { transform: 'scale(1.02) translateY(-2px)' },
-    tap: { transform: 'scale(0.97) translateY(0px)' },
-  },
+  cardHover: createGestureVariant(1.03, -6, 0.98),
+  buttonTap: createGestureVariant(1.04, -2, 0.97),
 } as const;
 
 // ============================================================================
@@ -231,6 +246,15 @@ export const sectionVariants = {
 // MODAL VARIANTS
 // ============================================================================
 
+// Helper to create modal slide variants
+function createModalSlideVariant(yInitial: number, yExit: number) {
+  return {
+    initial: { opacity: 0, y: yInitial, scale: 0.98 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: yExit, scale: 0.98 },
+  };
+}
+
 export const modalVariants = {
   backdrop: {
     initial: { opacity: 0 },
@@ -242,16 +266,8 @@ export const modalVariants = {
     animate: { opacity: 1, scale: 1, y: 0 },
     exit: { opacity: 0, scale: 0.92, y: 16 },
   },
-  slideDown: {
-    initial: { opacity: 0, y: -48, scale: 0.98 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: 32, scale: 0.98 },
-  },
-  slideUp: {
-    initial: { opacity: 0, y: 48, scale: 0.98 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -32, scale: 0.98 },
-  },
+  slideDown: createModalSlideVariant(-48, 32),
+  slideUp: createModalSlideVariant(48, -32),
   zoomOut: {
     initial: { opacity: 0, scale: 0.85 },
     animate: { opacity: 1, scale: 1 },
@@ -353,6 +369,39 @@ export const pageTransitionVariants = {
   exit: (direction: 'up' | 'down' | null) => ({
     transform: direction === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
     opacity: 0,
+  }),
+};
+
+// ============================================================================
+// TIMELINE VARIANTS (Education & Work Experience)
+// ============================================================================
+
+// Shared card entrance animation for timeline items
+export const timelineCardVariants = {
+  hidden: { opacity: 0, y: 60, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  }),
+};
+
+// Shared description item stagger animation
+export const timelineDescriptionVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: 0.3 + i * 0.08,
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1] as const,
+    },
   }),
 };
 

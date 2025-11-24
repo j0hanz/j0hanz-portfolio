@@ -4,20 +4,24 @@ import type { IconBadgeMetaItem } from '@/config/types';
 
 // Shared metadata creation utilities for consistent badge rendering
 
-export function createWorkplaceMeta(workplace: string): IconBadgeMetaItem {
+// Generic location metadata factory (workplace or school)
+function createLocationMeta(
+  type: 'workplace' | 'school',
+  text: string
+): IconBadgeMetaItem {
   return {
-    id: 'workplace',
+    id: type,
     icon: ApartmentTwoTone,
-    text: workplace,
+    text,
   };
 }
 
+export function createWorkplaceMeta(workplace: string): IconBadgeMetaItem {
+  return createLocationMeta('workplace', workplace);
+}
+
 export function createSchoolMeta(school: string): IconBadgeMetaItem {
-  return {
-    id: 'school',
-    icon: ApartmentTwoTone,
-    text: school,
-  };
+  return createLocationMeta('school', school);
 }
 
 export function createDurationMeta(duration: string): IconBadgeMetaItem {

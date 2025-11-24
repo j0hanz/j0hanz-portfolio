@@ -9,12 +9,9 @@ import Grid from '@mui/material/Grid';
 
 import Button from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
-import { useCopyToClipboard, useSnackbar } from '@/hooks';
-import { BUTTON_HEIGHT_STANDARD } from '@/styles/shared';
-
-const iconSx: SxProps<Theme> = {
-  fontSize: (theme) => theme.typography.body2.fontSize,
-};
+import { useCopyWithFeedback } from '@/hooks';
+import { BUTTON_HEIGHT_STANDARD, iconBody2Sx } from '@/styles/shared';
+import { getCopyMessages } from '@/utils/clipboard';
 
 const ACTION_BUTTON_MIN_WIDTH = 104;
 const actionButtonSx = {
@@ -45,18 +42,11 @@ const ActionButton = ({
 );
 
 const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
-  const [copyToClipboard] = useCopyToClipboard();
-  const { showSnackbar } = useSnackbar();
+  const { copyWithFeedback } = useCopyWithFeedback();
 
   const handleCopyRepo = async () => {
-    const success = await copyToClipboard(project.github);
-
-    if (success) {
-      showSnackbar('Repository URL copied', 'success');
-      return;
-    }
-
-    showSnackbar('Unable to copy repository URL', 'error');
+    const messages = getCopyMessages('repository');
+    await copyWithFeedback(project.github, messages.success, messages.error);
   };
 
   const renderDemoButton = () => {
@@ -66,7 +56,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           href={project.demo}
           target="_blank"
           rel="noopener noreferrer"
-          icon={<PlayArrowRounded sx={iconSx} />}
+          icon={<PlayArrowRounded sx={iconBody2Sx} />}
           label="Demo"
         />
       );
@@ -77,7 +67,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         <Box component="span" sx={tooltipWrapperSx}>
           <ActionButton
             disabled
-            icon={<PlayArrowRounded sx={iconSx} />}
+            icon={<PlayArrowRounded sx={iconBody2Sx} />}
             label="Demo"
           />
         </Box>
@@ -106,7 +96,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           onClick={handleCopyRepo}
           color="inherit"
           variant="text"
-          icon={<ContentCopyRounded sx={iconSx} />}
+          icon={<ContentCopyRounded sx={iconBody2Sx} />}
           label="Copy"
         />
         {renderDemoButton()}

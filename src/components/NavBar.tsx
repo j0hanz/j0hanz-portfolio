@@ -14,7 +14,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
-import { AnimatePresence, motion, Transition, Variants } from 'motion/react';
+import { AnimatePresence, motion, Transition } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -57,87 +57,59 @@ const isIOS =
   typeof navigator !== 'undefined' &&
   /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-// Spring animation configuration
-const springConfig = { stiffness: 1000, velocity: -100 };
-const stiffSpring = { stiffness: 1000 };
-const smoothSpring = { stiffness: 300, damping: 24 };
+// Animation configs
+const SPRING_STIFF = { stiffness: 1000 };
+const SPRING_SMOOTH = { stiffness: 300, damping: 24 };
+const STAGGER_FAST = 0.05;
+const STAGGER_NORMAL = 0.07;
+const STAGGER_SLOW = 0.08;
 
-// Animation Variants - consolidated for better maintainability
-const navContainerVariants: Variants = {
-  open: {
-    transition: {
-      delayChildren: 0.2,
-      staggerChildren: 0.07,
+// Unified variants structure
+const navVariants = {
+  container: {
+    open: {
+      transition: { delayChildren: 0.2, staggerChildren: STAGGER_NORMAL },
+    },
+    closed: {
+      transition: { staggerChildren: STAGGER_FAST, staggerDirection: -1 },
     },
   },
-  closed: {
-    transition: {
-      staggerChildren: 0.05,
-      staggerDirection: -1,
+  item: {
+    open: { y: 0, opacity: 1, transition: { y: SPRING_STIFF } },
+    closed: { y: 50, opacity: 0, transition: { y: SPRING_STIFF } },
+  },
+  social: {
+    container: {
+      open: {
+        transition: { delayChildren: 0.4, staggerChildren: STAGGER_SLOW },
+      },
+      closed: {
+        transition: { staggerChildren: STAGGER_FAST, staggerDirection: -1 },
+      },
+    },
+    item: {
+      open: {
+        scale: 1,
+        y: 0,
+        opacity: 1,
+        transition: { type: 'spring', ...SPRING_SMOOTH },
+      },
+      closed: { scale: 0.8, y: 20, opacity: 0, transition: { duration: 0.2 } },
     },
   },
-};
-
-const navItemVariants: Variants = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: { y: springConfig },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: { y: stiffSpring },
-  },
-};
-
-const socialContainerVariants: Variants = {
-  open: {
-    transition: {
-      delayChildren: 0.4,
-      staggerChildren: 0.08,
+  logo: {
+    open: {
+      x: 0,
+      opacity: 1,
+      transition: { type: 'spring', ...SPRING_SMOOTH },
     },
+    closed: { x: -20, opacity: 0, transition: { duration: 0.2 } },
   },
-  closed: {
-    transition: {
-      staggerChildren: 0.05,
-      staggerDirection: -1,
-    },
+  button: {
+    open: { rotate: 90, scale: 1.1 },
+    closed: { rotate: 0, scale: 1 },
   },
-};
-
-const socialItemVariants: Variants = {
-  open: {
-    scale: 1,
-    y: 0,
-    opacity: 1,
-    transition: { type: 'spring', ...smoothSpring },
-  },
-  closed: {
-    scale: 0.8,
-    y: 20,
-    opacity: 0,
-    transition: { duration: 0.2 },
-  },
-};
-
-const logoVariants: Variants = {
-  open: {
-    x: 0,
-    opacity: 1,
-    transition: { type: 'spring', ...smoothSpring },
-  },
-  closed: {
-    x: -20,
-    opacity: 0,
-    transition: { duration: 0.2 },
-  },
-};
-
-const menuButtonVariants: Variants = {
-  open: { rotate: 90, scale: 1.1 },
-  closed: { rotate: 0, scale: 1 },
-};
+} as const;
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
 
@@ -160,7 +132,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
   return (
     <Stack
       component={motion.a}
-      variants={logoVariants}
+      variants={navVariants.logo}
       href="#hero"
       onClick={handleClick}
       direction="row"
@@ -179,7 +151,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
   );
 }
 
-// Nav link item component
+// Nav link item component - simplified
 interface NavLinkItemProps {
   id: string;
   icon: IconComponent;
@@ -187,25 +159,26 @@ interface NavLinkItemProps {
   isActive: boolean;
   isPending: boolean;
   onClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
-  prefersReducedMotion: boolean;
+  showHighlight: boolean;
   highlightTransition: Transition;
 }
 
-function NavLinkItem({
-  id,
-  icon: Icon,
-  label,
-  isActive,
-  isPending,
-  onClick,
-  prefersReducedMotion,
-  highlightTransition,
-}: NavLinkItemProps): React.JSX.Element {
+function NavLinkItem(props: NavLinkItemProps): React.JSX.Element {
+  const {
+    id,
+    icon: Icon,
+    label,
+    isActive,
+    isPending,
+    onClick,
+    showHighlight,
+    highlightTransition,
+  } = props;
+
   return (
     <Box
       component={motion.li}
-      key={id}
-      variants={navItemVariants}
+      variants={navVariants.item}
       sx={{ mb: 1, display: 'block' }}
     >
       <ListItemButton
@@ -218,7 +191,7 @@ function NavLinkItem({
         selected={isActive}
         sx={[listItemButtonSx, isActive && listItemButtonSelectedSx]}
       >
-        {!prefersReducedMotion && isActive && (
+        {showHighlight && isActive && (
           <Box
             component={motion.span}
             layoutId={NAV_HIGHLIGHT_LAYOUT_ID}
@@ -239,10 +212,7 @@ function NavLinkItem({
         <ListItemText
           primary={label}
           slotProps={{
-            primary: {
-              variant: 'body1',
-              sx: listItemTextPrimarySx,
-            },
+            primary: { variant: 'body1', sx: listItemTextPrimarySx },
           }}
         />
       </ListItemButton>
@@ -269,7 +239,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   return (
     <Box
       component={motion.ul}
-      variants={navContainerVariants}
+      variants={navVariants.container}
       sx={{ ...navLinksListSx, p: 2, m: 0, listStyle: 'none' }}
     >
       {navLinks.map((link) => (
@@ -279,7 +249,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
           isActive={activeSectionId === link.id}
           isPending={isPending}
           onClick={handleNavLinkClick}
-          prefersReducedMotion={prefersReducedMotion}
+          showHighlight={!prefersReducedMotion}
           highlightTransition={highlightTransition}
         />
       ))}
@@ -288,7 +258,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
 }
 
 const wrapSocialItem = (id: string, child: React.ReactNode) => (
-  <motion.div key={id} variants={socialItemVariants}>
+  <motion.div key={id} variants={navVariants.social.item}>
     {child}
   </motion.div>
 );
@@ -305,7 +275,7 @@ function SocialLinks({
     <Box sx={socialLinksBoxSx}>
       <Stack
         component={motion.div}
-        variants={socialContainerVariants}
+        variants={navVariants.social.container}
         direction="row"
         justifyContent="center"
         flexWrap="wrap"
@@ -422,7 +392,7 @@ function NavBar(): React.JSX.Element {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             animate={offcanvasMenu.isOpen ? 'open' : 'closed'}
-            variants={menuButtonVariants}
+            variants={navVariants.button}
             onClick={offcanvasMenu.open}
             aria-label="Toggle navigation"
             size="large"

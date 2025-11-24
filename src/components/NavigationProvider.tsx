@@ -8,23 +8,25 @@ import {
 } from '@/contexts/NavigationContext';
 import { useEventCallback } from '@/hooks';
 
-// Gets initial section index from URL hash
+// Helper to get initial section index from URL hash
 function getInitialSectionIndex(): number {
   if (typeof window === 'undefined') return 0;
-
-  const hash = window.location.hash;
-  if (!hash) return 0;
-
-  const section = getSectionByHash(hash);
+  const section = getSectionByHash(window.location.hash);
   if (!section) return 0;
-
   const index = sections.indexOf(section);
   return index !== -1 ? index : 0;
 }
 
-// Validates and clamps section index to valid range
+// Helper to clamp section index to valid range
 function clampSectionIndex(index: number): number {
   return Math.max(0, Math.min(index, sections.length - 1));
+}
+
+// Helper to sync hash with section
+function syncHashWithSection(section: { hash: string }) {
+  if (typeof window !== 'undefined' && window.location.hash !== section.hash) {
+    window.history.replaceState(null, '', section.hash);
+  }
 }
 
 export function NavigationProvider({
@@ -53,12 +55,13 @@ export function NavigationProvider({
               ? nextIndexOrUpdater(currentIndex)
               : nextIndexOrUpdater;
 
-          // No change needed
-          if (targetIndex === currentIndex) return currentIndex;
-
-          // Validate bounds
-          const clampedIndex = clampSectionIndex(targetIndex);
-          if (clampedIndex !== targetIndex) return currentIndex;
+          // No change or out of bounds
+          if (
+            targetIndex === currentIndex ||
+            clampSectionIndex(targetIndex) !== targetIndex
+          ) {
+            return currentIndex;
+          }
 
           // Update direction for animations
           setDirection(targetIndex > currentIndex ? 'down' : 'up');
@@ -69,28 +72,18 @@ export function NavigationProvider({
   );
 
   const handleHashChange = useEventCallback(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    if (typeof window === 'undefined') return;
 
-    const hash = window.location.hash;
-    const section = getSectionByHash(hash);
+    const section = getSectionByHash(window.location.hash);
     if (section) {
       const index = sections.indexOf(section);
-      if (index !== -1) {
-        updateSection(index);
-      }
+      if (index !== -1) updateSection(index);
     }
   });
 
   // Sync hash with active section
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hash = activeSection.hash;
-      if (window.location.hash !== hash) {
-        window.history.replaceState(null, '', hash);
-      }
-    }
+    syncHashWithSection(activeSection);
   }, [activeSection]);
 
   // Listen for hash changes
@@ -98,24 +91,19 @@ export function NavigationProvider({
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [handleHashChange]);
-  const setActiveSection = useEventCallback((index: number) => {
-    updateSection(index);
-  });
-
+  const setActiveSection = useEventCallback((index: number) =>
+    updateSection(index)
+  );
   const navigateTo = useEventCallback((id: string) => {
     const index = sections.findIndex((s) => s.id === id);
-    if (index !== -1) {
-      updateSection(index);
-    }
+    if (index !== -1) updateSection(index);
   });
-
-  const moveNext = useEventCallback(() => {
-    updateSection((currentIndex) => currentIndex + 1);
-  });
-
-  const movePrev = useEventCallback(() => {
-    updateSection((currentIndex) => currentIndex - 1);
-  });
+  const moveNext = useEventCallback(() =>
+    updateSection((current) => current + 1)
+  );
+  const movePrev = useEventCallback(() =>
+    updateSection((current) => current - 1)
+  );
 
   // React Compiler auto-optimizes these objects - no manual memoization needed
   // These are recreated on every render but React Compiler prevents unnecessary re-renders
@@ -136,11 +124,12 @@ export function NavigationProvider({
     movePrev,
   };
 
+  // React 19: Render context directly without .Provider
   return (
-    <NavigationActionsContext.Provider value={actionsValue}>
-      <NavigationStateContext.Provider value={stateValue}>
+    <NavigationActionsContext value={actionsValue}>
+      <NavigationStateContext value={stateValue}>
         {children}
-      </NavigationStateContext.Provider>
-    </NavigationActionsContext.Provider>
+      </NavigationStateContext>
+    </NavigationActionsContext>
   );
 }

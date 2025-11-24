@@ -34,6 +34,7 @@ function SectionContainer({
   children,
   className = '',
   sx,
+  headingLevel = 'h2',
 }: SectionContainerProps): React.JSX.Element {
   return (
     <Box component="section" id={id} className={className} sx={sx}>
@@ -45,7 +46,7 @@ function SectionContainer({
           sx={stackSx}
         >
           <Box component={Icon} sx={iconSx} />
-          <Typography variant="h3" component="h3" sx={titleSx}>
+          <Typography variant="h3" component={headingLevel} sx={titleSx}>
             {title}
           </Typography>
         </Stack>

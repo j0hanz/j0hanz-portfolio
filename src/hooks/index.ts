@@ -56,7 +56,10 @@ export {
 export { useTheme } from './useTheme';
 
 // Copies text to clipboard and provides success/error feedback
-export { default as useCopyToClipboard } from './useCopyToClipboard';
+export {
+  default as useCopyToClipboard,
+  useCopyWithFeedback,
+} from './useCopyToClipboard';
 
 // Detects if the mouse is hovering over a specific element
 export { default as useHover } from './useHover';
@@ -66,9 +69,6 @@ export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
 
 // Accesses the SnackbarContext
 export { default as useSnackbar } from './useSnackbar';
-
-// Runs an effect only once on mount (strict mode safe)
-// export { default as useEffectOnce } from './useEffectOnce';
 
 // Attaches an event listener to a DOM element, window, or document
 export { default as useEventListener } from './useEventListener';
@@ -91,6 +91,9 @@ export {
   useAnimationPriority,
   useContentMotion,
   useSectionSequence,
+  useMotionVariant,
+  useInViewMotion,
+  useCountUp,
 } from './useMotions';
 
 // ============================================================================
