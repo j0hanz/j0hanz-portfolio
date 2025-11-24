@@ -55,10 +55,7 @@ export const profileWrapperSx: SxProps<Theme> = {
 export const profileImgSx: SxProps<Theme> = {
   width: { xs: 185, md: 245, lg: 280 },
   height: { xs: 185, md: 245, lg: 280 },
-  borderRadius: (theme) =>
-    typeof theme.shape.borderRadius === 'number'
-      ? theme.shape.borderRadius / 4
-      : 2,
+  clipPath: 'inset(0 round 8px)',
   objectFit: 'cover',
   cursor: 'pointer',
   mb: { xs: 3, lg: 0 },
@@ -68,10 +65,7 @@ export const profileImgSx: SxProps<Theme> = {
 export const overlaySx: SxProps<Theme> = {
   position: 'absolute',
   inset: 0,
-  borderRadius: (theme) =>
-    typeof theme.shape.borderRadius === 'number'
-      ? theme.shape.borderRadius / 4
-      : 2,
+  clipPath: 'inset(0 round 8px)',
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
   display: 'flex',
   alignItems: 'center',

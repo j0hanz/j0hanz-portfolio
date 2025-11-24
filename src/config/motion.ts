@@ -133,21 +133,21 @@ export const fadeInVariants = {
 
 export const gestureVariants = {
   hoverScale: {
-    rest: { scale: 1 },
-    hover: { scale: 1.05 },
-    tap: { scale: 0.95 },
+    rest: { transform: 'scale(1)' },
+    hover: { transform: 'scale(1.05)' },
+    tap: { transform: 'scale(0.95)' },
   },
   cardHover: {
-    rest: { scale: 1, y: 0 },
-    hover: { scale: 1.03, y: -6 },
-    focus: { scale: 1.02, y: -4 },
-    tap: { scale: 0.98 },
+    rest: { transform: 'scale(1) translateY(0px)' },
+    hover: { transform: 'scale(1.03) translateY(-6px)' },
+    focus: { transform: 'scale(1.02) translateY(-4px)' },
+    tap: { transform: 'scale(0.98) translateY(0px)' },
   },
   buttonTap: {
-    rest: { scale: 1 },
-    hover: { scale: 1.04, y: -2 },
-    focus: { scale: 1.02, y: -2 },
-    tap: { scale: 0.97 },
+    rest: { transform: 'scale(1) translateY(0px)' },
+    hover: { transform: 'scale(1.04) translateY(-2px)' },
+    focus: { transform: 'scale(1.02) translateY(-2px)' },
+    tap: { transform: 'scale(0.97) translateY(0px)' },
   },
 } as const;
 
@@ -191,9 +191,9 @@ export function createStaggerContainer(
 }
 
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, y: 24, scale: 0.98 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: -12, scale: 0.96 },
+  initial: { opacity: 0, transform: 'translateY(24px) scale(0.98)' },
+  animate: { opacity: 1, transform: 'translateY(0px) scale(1)' },
+  exit: { opacity: 0, transform: 'translateY(-12px) scale(0.96)' },
 };
 
 // ============================================================================

@@ -7,8 +7,11 @@ import {
   useInView as useMotionInView,
   usePresence as useMotionPresence,
   useReducedMotion as useMotionReducedMotion,
+  useMotionValue,
   useMotionValueEvent,
   useScroll,
+  useSpring,
+  useTransform,
 } from 'motion/react';
 import type {
   AnimationPlaybackControls,
@@ -157,7 +160,7 @@ export function useButtonGesture() {
 // SCROLL PROGRESS
 // ============================================================================
 
-// Tracks scroll progress as 0-1 value
+// Tracks scroll progress as 0-1 value with useMotionValue (no re-renders)
 export function useScrollProgress(): ScrollProgressValue {
   const { scrollYProgress } = useScroll();
   const [progress, setProgress] = useState(0);
@@ -170,6 +173,80 @@ export function useScrollProgress(): ScrollProgressValue {
     value: scrollYProgress,
     progress,
   };
+}
+
+// ============================================================================
+// SMOOTH SCROLL PROGRESS (No Re-renders)
+// ============================================================================
+
+// Returns smoothed scroll progress using useSpring (120fps updates, no re-renders)
+export function useSmoothScrollProgress(
+  config = { stiffness: 100, damping: 30, restDelta: 0.001 }
+) {
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, config);
+
+  return {
+    scrollYProgress,
+    smoothProgress,
+  };
+}
+
+// ============================================================================
+// SCROLL DIRECTION
+// ============================================================================
+
+// Detects scroll direction (up/down) using useMotionValueEvent
+export function useScrollDirection() {
+  const { scrollY } = useScroll();
+  const [direction, setDirection] = useState<'up' | 'down' | null>(null);
+
+  useMotionValueEvent(scrollY, 'change', (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    const diff = current - previous;
+
+    if (diff !== 0) {
+      setDirection(diff > 0 ? 'down' : 'up');
+    }
+  });
+
+  return { direction, scrollY };
+}
+
+// ============================================================================
+// CONTINUOUS MOTION VALUE
+// ============================================================================
+
+// Creates a motion value for continuous animations (120fps, no re-renders)
+export function useContinuousMotion<T extends string | number>(
+  initialValue: T
+) {
+  const motionValue = useMotionValue(initialValue);
+
+  return {
+    motionValue,
+    set: (value: T) => motionValue.set(value),
+    get: () => motionValue.get(),
+  };
+}
+
+// ============================================================================
+// PARALLAX TRANSFORM
+// ============================================================================
+
+// Creates parallax effect using useTransform (no re-renders)
+export function useParallaxTransform(
+  ref: RefObject<HTMLElement>,
+  range: [number, number] = [-50, 50]
+) {
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], range);
+
+  return { y, scrollYProgress };
 }
 
 // ============================================================================
@@ -393,7 +470,7 @@ export function useContentMotion() {
 // SECTION SEQUENCE
 // ============================================================================
 
-// Orchestrates section animations based on scroll position
+// Orchestrates section animations based on scroll position with hardware-accelerated transforms
 export function useSectionSequence(
   ref: RefObject<HTMLElement | null>,
   selectors: {
@@ -429,26 +506,32 @@ export function useSectionSequence(
     hasPlayed.current = true;
     const scopeElement = ref.current;
 
-    // Animate description first
+    // Animate description first - use combined transform for hardware acceleration
     if (selectors.description) {
       const elements = scopeElement.querySelectorAll(selectors.description);
       if (elements.length > 0) {
         animate(
           elements,
-          { opacity: [0, 1], y: [20, 0] },
+          {
+            opacity: [0, 1],
+            transform: ['translateY(20px)', 'translateY(0px)'],
+          },
           { duration: 0.5, ease: 'easeOut' }
         );
       }
     }
 
-    // Animate cards with stagger
+    // Animate cards with stagger - use combined transform
     if (selectors.cards) {
       const delay = selectors.description ? 0.2 : 0;
       const elements = scopeElement.querySelectorAll(selectors.cards);
       if (elements.length > 0) {
         animate(
           elements,
-          { opacity: [0, 1], y: [20, 0] },
+          {
+            opacity: [0, 1],
+            transform: ['translateY(20px)', 'translateY(0px)'],
+          },
           {
             delay: stagger(getStagger(0.1), { startDelay: delay }),
             duration: 0.5,
@@ -458,7 +541,7 @@ export function useSectionSequence(
       }
     }
 
-    // Animate CTA last
+    // Animate CTA last - use combined transform
     if (selectors.cta) {
       const delay =
         (selectors.description ? 0.2 : 0) + (selectors.cards ? 0.4 : 0);
@@ -466,7 +549,10 @@ export function useSectionSequence(
       if (elements.length > 0) {
         animate(
           elements,
-          { opacity: [0, 1], y: [20, 0] },
+          {
+            opacity: [0, 1],
+            transform: ['translateY(20px)', 'translateY(0px)'],
+          },
           {
             delay: stagger(0.1, { startDelay: delay }),
             duration: 0.5,

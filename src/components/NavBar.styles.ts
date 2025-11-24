@@ -44,10 +44,7 @@ export const navLinksListSx: SxProps<Theme> = {
 };
 
 export const listItemButtonSx: SystemStyleObject<Theme> = {
-  borderRadius: (theme) =>
-    typeof theme.shape.borderRadius === 'number'
-      ? theme.shape.borderRadius / 4
-      : 2,
+  clipPath: 'inset(0 round 8px)',
   py: 1.5,
   px: 2,
   '&:hover': {
@@ -95,7 +92,7 @@ export const drawerPaperSx: SxProps<Theme> = {
   height: '100dvh',
   display: 'flex',
   flexDirection: 'column',
-  boxShadow: 24,
+  filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))',
   overflowX: 'hidden',
 };
 
@@ -141,7 +138,7 @@ export const darkModeToggleBoxSx: SxProps<Theme> = {
   borderRadius: '0 0 16px 0px',
   zIndex: (theme) => theme.zIndex.appBar,
   cursor: 'pointer',
-  boxShadow: 3,
+  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))',
 };
 
 export const menuButtonSx: SxProps<Theme> = {
@@ -157,7 +154,7 @@ export const menuButtonSx: SxProps<Theme> = {
   zIndex: (theme) => theme.zIndex.appBar,
   top: 0,
   right: 0,
-  boxShadow: 3,
+  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))',
   '&:hover': {
     bgcolor: 'background.default',
     color: 'primary.main',

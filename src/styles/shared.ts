@@ -66,9 +66,6 @@ export const cardBaseSx: SxProps<Theme> = {
   height: 1,
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: (theme) =>
-    typeof theme.shape.borderRadius === 'number'
-      ? theme.shape.borderRadius / 4
-      : 2,
+  clipPath: 'inset(0 round 8px)',
   backgroundColor: 'backdrop.glass',
 };

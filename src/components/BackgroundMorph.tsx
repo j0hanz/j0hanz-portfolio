@@ -37,19 +37,19 @@ function BackgroundMorph(): React.JSX.Element {
       animate={
         shouldAnimate
           ? {
-              // Organic floating motion - combined transform for hardware acceleration
+              // Combined transform for guaranteed hardware acceleration
               transform: [
-                'translateX(0%) translateY(0%) scale(1) rotate(0deg)',
-                'translateX(8%) translateY(5%) scale(1.15) rotate(3deg)',
-                'translateX(-5%) translateY(7%) scale(1.08) rotate(-1.5deg)',
-                'translateX(-6%) translateY(-3%) scale(1.12) rotate(1.5deg)',
-                'translateX(3%) translateY(-5%) scale(1.1) rotate(-3deg)',
-                'translateX(0%) translateY(0%) scale(1) rotate(0deg)',
+                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
+                'translate3d(8%, 5%, 0) scale(1.15) rotate(3deg)',
+                'translate3d(-5%, 7%, 0) scale(1.08) rotate(-1.5deg)',
+                'translate3d(-6%, -3%, 0) scale(1.12) rotate(1.5deg)',
+                'translate3d(3%, -5%, 0) scale(1.1) rotate(-3deg)',
+                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
               ],
               opacity: [0.85, 0.95, 0.9, 0.95, 0.85, 0.9],
             }
           : {
-              transform: 'translateX(0%) translateY(0%) scale(1) rotate(0deg)',
+              transform: 'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
               opacity: 0.9,
             }
       }
