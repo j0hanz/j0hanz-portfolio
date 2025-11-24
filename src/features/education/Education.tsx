@@ -202,28 +202,24 @@ function Education(): React.JSX.Element {
                     textAlign: isLeftAligned ? 'left' : 'right',
                     justifyContent: isLeftAligned ? 'flex-start' : 'flex-end',
                   }}
-                  variant="body2"
                   color="text.secondary"
                 >
                   <Typography
                     variant="subtitle2"
                     component="span"
-                    color="primary"
+                    color="primary.contrastText"
                   >
                     {edu.duration}
                   </Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                  <TimelineDot color="primary" variant="outlined">
+                  <TimelineDot variant="outlined">
                     <SchoolTwoTone fontSize="small" />
                   </TimelineDot>
                   {!isLastItem && <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent
                   sx={{
-                    py: 0,
-                    pb: 4,
-                    px: { xs: 0, md: 3 },
                     display: 'flex',
                     justifyContent: isLeftAligned ? 'flex-end' : 'flex-start',
                   }}
@@ -234,7 +230,7 @@ function Education(): React.JSX.Element {
                     animate={isInView ? 'visible' : 'hidden'}
                     whileHover={prefersReducedMotion ? undefined : { y: -5 }}
                     variants={educationCardVariants}
-                    style={{ width: '100%', maxWidth: 520 }}
+                    style={{ width: '100%' }}
                   >
                     <EducationCard
                       education={edu}
