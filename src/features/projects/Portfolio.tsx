@@ -9,7 +9,7 @@ import { createStaggerContainer } from '@/config/motion';
 import { useAnimationConfig } from '@/hooks';
 import projects from '@/lib/data/projects';
 
-import ProjectList from './ProjectList';
+import ProjectGridItem from './ProjectGridItem';
 
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
@@ -31,7 +31,7 @@ function Portfolio(): React.JSX.Element {
       >
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {projects.map((project) => (
-            <ProjectList key={project.github} project={project} />
+            <ProjectGridItem key={project.github} project={project} />
           ))}
         </Grid>
       </Box>

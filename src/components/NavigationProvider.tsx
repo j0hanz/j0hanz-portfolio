@@ -8,24 +8,34 @@ import {
 } from '@/contexts/NavigationContext';
 import { useEventCallback } from '@/hooks';
 
+// Gets initial section index from URL hash
+function getInitialSectionIndex(): number {
+  if (typeof window === 'undefined') return 0;
+
+  const hash = window.location.hash;
+  if (!hash) return 0;
+
+  const section = getSectionByHash(hash);
+  if (!section) return 0;
+
+  const index = sections.indexOf(section);
+  return index !== -1 ? index : 0;
+}
+
+// Validates and clamps section index to valid range
+function clampSectionIndex(index: number): number {
+  return Math.max(0, Math.min(index, sections.length - 1));
+}
+
 export function NavigationProvider({
   children,
 }: {
   children: ReactNode;
 }): React.JSX.Element {
   const [isPending, startTransition] = useTransition();
-  const [activeSectionIndex, setActiveSectionIndex] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash;
-      if (hash) {
-        const section = getSectionByHash(hash);
-        if (section) {
-          return sections.indexOf(section);
-        }
-      }
-    }
-    return 0;
-  });
+  const [activeSectionIndex, setActiveSectionIndex] = useState(
+    getInitialSectionIndex
+  );
   const [direction, setDirection] = useState<Direction>(null);
 
   const activeSection = sections[activeSectionIndex];
@@ -43,14 +53,14 @@ export function NavigationProvider({
               ? nextIndexOrUpdater(currentIndex)
               : nextIndexOrUpdater;
 
-          if (targetIndex === currentIndex) {
-            return currentIndex;
-          }
+          // No change needed
+          if (targetIndex === currentIndex) return currentIndex;
 
-          if (targetIndex < 0 || targetIndex >= sections.length) {
-            return currentIndex;
-          }
+          // Validate bounds
+          const clampedIndex = clampSectionIndex(targetIndex);
+          if (clampedIndex !== targetIndex) return currentIndex;
 
+          // Update direction for animations
           setDirection(targetIndex > currentIndex ? 'down' : 'up');
           return targetIndex;
         });

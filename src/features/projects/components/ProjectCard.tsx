@@ -1,24 +1,15 @@
-import {
-  Box,
-  Stack,
-  type SxProps,
-  type Theme,
-  Typography,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
 
 import { AnimatedCard } from '@/components/Card';
-import { staggerItemVariant } from '@/config/motion';
-import { Project, ProjectListProps } from '@/config/types';
+import { Project } from '@/config/types';
 import { prefetchRepoStats } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
-import ProjectHeader from './components/ProjectHeader';
-import ProjectLinks from './components/ProjectLinks';
-import ProjectStats from './components/ProjectStats';
-import ProjectTechStack from './components/ProjectTechStack';
+import ProjectHeader from './ProjectHeader';
+import ProjectLinks from './ProjectLinks';
+import ProjectStats from './ProjectStats';
+import ProjectTechStack from './ProjectTechStack';
 
 const articleSx: SxProps<Theme> = {
   height: 1,
@@ -36,11 +27,11 @@ const descriptionSx: SxProps<Theme> = {
   flexShrink: 0,
 };
 
-const gridSx: SxProps<Theme> = {
-  display: 'flex',
-};
-
-function ProjectCard({ project }: { project: Project }): React.JSX.Element {
+export function ProjectCard({
+  project,
+}: {
+  project: Project;
+}): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
 
   const handleMouseEnter = () => {
@@ -67,32 +58,9 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
               hasProjectBoard={hasProjectBoard}
             />
           )}
-          {/*  <ProjectBadges badges={badges} /> */}
         </Stack>
         <ProjectLinks project={project} />
       </Stack>
     </AnimatedCard>
   );
 }
-
-function ProjectList({ project }: ProjectListProps): React.JSX.Element {
-  return (
-    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={gridSx}>
-      <Box
-        component={motion.div}
-        variants={staggerItemVariant}
-        sx={{
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-        }}
-      >
-        <ProjectCard project={project} />
-      </Box>
-    </Grid>
-  );
-}
-
-ProjectList.displayName = 'ProjectList';
-
-export default ProjectList;

@@ -105,3 +105,5 @@ export {
   buildQueryKey,
   prefetchRepoStats,
 } from '@/utils/query';
+
+export * from './useScrollEvents';

@@ -50,28 +50,31 @@ interface HeroActionConfig {
 }
 
 // Hero action button configurations
-const getHeroActions = (cvModalOpen: () => void): HeroActionConfig[] => [
-  {
-    key: 'download-cv',
-    label: 'Download CV',
-    buttonProps: {
-      onClick: cvModalOpen,
-      startIcon: <DownloadRounded sx={iconSx} />,
-      sx: downloadButtonSx,
-      motionWhileTap: { scale: 0.95, rotate: -2 },
+const createHeroActions = (
+  onCvClick: () => void
+): readonly HeroActionConfig[] =>
+  [
+    {
+      key: 'download-cv',
+      label: 'Download CV',
+      buttonProps: {
+        onClick: onCvClick,
+        startIcon: <DownloadRounded sx={iconSx} />,
+        sx: downloadButtonSx,
+        motionWhileTap: { scale: 0.95, rotate: -2 },
+      },
     },
-  },
-  {
-    key: 'contact',
-    label: 'Get in Touch',
-    buttonProps: {
-      href: '#contact',
-      startIcon: <EmailRounded sx={iconSx} />,
-      sx: contactButtonSx,
-      motionWhileTap: { scale: 0.95, rotate: 2 },
+    {
+      key: 'contact',
+      label: 'Get in Touch',
+      buttonProps: {
+        href: '#contact',
+        startIcon: <EmailRounded sx={iconSx} />,
+        sx: contactButtonSx,
+        motionWhileTap: { scale: 0.95, rotate: 2 },
+      },
     },
-  },
-];
+  ] as const;
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
@@ -86,7 +89,7 @@ function Hero(): React.JSX.Element {
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
 
-  const heroActions = getHeroActions(cvModal.open);
+  const heroActions = createHeroActions(cvModal.open);
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>

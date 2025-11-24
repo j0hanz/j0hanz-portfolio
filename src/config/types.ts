@@ -80,6 +80,12 @@ export interface AboutMeListProps {
 }
 
 // --- Feature: Projects ---
+export type HackathonType =
+  | 'december-2024'
+  | 'march-2025'
+  | 'november-2024'
+  | 'september-2024';
+
 export interface Project {
   title: string;
   description: string;
@@ -87,11 +93,9 @@ export interface Project {
   demo: string;
   technologies: string[];
   collaborative: boolean;
-  isHackathon: boolean;
-  isHackathon_2: boolean;
-  isHackathon_3: boolean;
+  hackathonType?: HackathonType;
   api: boolean;
-  gitpod_template?: boolean;
+  isGitpodTemplate?: boolean;
   isNew?: boolean;
   projectBoard?: boolean;
 }
@@ -122,11 +126,7 @@ export type ActionButtonProps = Omit<
   icon: ReactNode;
 };
 
-export type BadgeFlag =
-  | 'isHackathon'
-  | 'isHackathon_2'
-  | 'isHackathon_3'
-  | 'gitpod_template';
+export type BadgeFlag = HackathonType | 'isGitpodTemplate';
 
 export interface BadgeConfig {
   flag: BadgeFlag;

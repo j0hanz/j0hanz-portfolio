@@ -16,6 +16,7 @@ import {
   useMotionValueEvent,
 } from 'motion/react';
 
+import { ANIMATION_DURATION_STATS } from '@/config/constants';
 import type {
   AnimatedStatProps,
   ProjectStatsProps,
@@ -54,16 +55,24 @@ const STAT_LABELS: Record<StatKey, string> = {
   issues: 'Issues',
 } as const;
 
-const buildStatItems = (stats: RepoStats, includeIssues: boolean) => {
-  const keys: StatKey[] = includeIssues
-    ? ['stars', 'forks', 'issues']
-    : ['stars', 'forks'];
+const STAT_KEYS: StatKey[] = ['stars', 'forks', 'issues'];
+const STAT_KEYS_WITHOUT_ISSUES: StatKey[] = ['stars', 'forks'];
+
+interface StatItem {
+  key: StatKey;
+  label: string;
+  value: number;
+}
+
+// Builds stat items array based on configuration
+function buildStatItems(stats: RepoStats, includeIssues: boolean): StatItem[] {
+  const keys = includeIssues ? STAT_KEYS : STAT_KEYS_WITHOUT_ISSUES;
   return keys.map((key) => ({
     key,
     label: STAT_LABELS[key],
     value: stats[key],
   }));
-};
+}
 
 function StatsSkeleton() {
   return (
@@ -102,6 +111,8 @@ function AnimatedStat({
     }
   });
 
+  const initialDisplay = prefersReducedMotion ? value.toLocaleString() : '0';
+
   return (
     <Stack direction="row" alignItems="baseline" spacing={1}>
       <Typography variant="body2" sx={labelSx}>
@@ -115,7 +126,7 @@ function AnimatedStat({
         transition={getTransition('spring')}
         sx={valueSx}
       >
-        {prefersReducedMotion ? value.toLocaleString() : '0'}
+        {initialDisplay}
       </Typography>
     </Stack>
   );
@@ -143,7 +154,9 @@ function StatsContent({
     startTransition(async () => {
       addOptimisticStar(1);
       // Demo: Simulate network delay to demonstrate optimistic UI pattern
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      await new Promise((resolve) =>
+        setTimeout(resolve, ANIMATION_DURATION_STATS)
+      );
     });
   };
 

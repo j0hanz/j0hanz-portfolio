@@ -5,6 +5,16 @@ import type { RepoStats } from './types';
 // ============================================================================
 
 export const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+export const GITHUB_API_BASE_URL = 'https://api.github.com/repos';
+
+export const QUERY_CONFIG = {
+  STALE_TIME_SHORT: 60 * 1000, // 1 minute
+  GC_TIME_SHORT: 5 * 60 * 1000, // 5 minutes
+  STALE_TIME_LONG: 10 * 60 * 1000, // 10 minutes
+  GC_TIME_LONG: 30 * 60 * 1000, // 30 minutes
+} as const;
+
+export const ANIMATION_DURATION_STATS = 800;
 
 export const EMPTY_STATS: RepoStats = {
   stars: 0,
@@ -19,6 +29,7 @@ export const EMPTY_STATS: RepoStats = {
 export const CONTACT_EMAIL = 'l.johansson93@outlook.com';
 export const SEND_ERROR_MESSAGE =
   'Failed to send message! Please try again later.';
+export const FORM_RESET_DELAY = 3000;
 
 // ============================================================================
 // VALIDATION CONSTANTS

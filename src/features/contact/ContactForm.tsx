@@ -17,6 +17,7 @@ import Badges from '@/components/Badges';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
+import { FORM_RESET_DELAY } from '@/config/constants';
 import { successIndicatorVariants } from '@/config/motion';
 import type { ContactFormValues, SuccessIndicatorProps } from '@/config/types';
 import {
@@ -44,6 +45,17 @@ const formCardSx: SxProps<Theme> = {
 const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
 };
+
+// Creates ContactFormValues from FormData
+function extractFormValues(formData: FormData): ContactFormValues {
+  return {
+    name: formData.get('name') as string,
+    email: formData.get('email') as string,
+    company: (formData.get('company') as string) || '',
+    url: (formData.get('url') as string) || '',
+    message: formData.get('message') as string,
+  };
+}
 
 function SuccessIndicator({
   visible,
@@ -166,20 +178,12 @@ function ContactFormContent(): React.JSX.Element {
 
   const handleReset = () => {
     formRef.current?.reset();
-    mutation.reset(); // Reset mutation state
+    mutation.reset();
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-
-    const values: ContactFormValues = {
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      company: (formData.get('company') as string) || '',
-      url: (formData.get('url') as string) || '',
-      message: formData.get('message') as string,
-    };
+    const values = extractFormValues(new FormData(e.currentTarget));
 
     mutation.mutate(values, {
       onSuccess: () => {
@@ -191,14 +195,14 @@ function ContactFormContent(): React.JSX.Element {
     });
   };
 
-  // Auto-reset form 3 seconds after successful submission
+  // Auto-reset form after successful submission
   useEffect(() => {
     if (!showSuccess) return;
 
     const timer = setTimeout(() => {
       formRef.current?.reset();
       mutation.reset();
-    }, 3000);
+    }, FORM_RESET_DELAY);
 
     return () => clearTimeout(timer);
   }, [showSuccess, mutation]);

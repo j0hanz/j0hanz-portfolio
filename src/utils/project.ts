@@ -2,7 +2,7 @@ import gitpodLogo from '@/assets/gitpod.webp';
 import hackathonBadge2 from '@/assets/hackathonBadge2.webp';
 import hackathonBadge from '@/assets/hackathonBadge.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
-import { BadgeConfig, BadgeFlag, Project, ProjectMeta } from '@/config/types';
+import { BadgeConfig, Project, ProjectMeta } from '@/config/types';
 
 const commonBadgeStyle = {
   position: 'absolute',
@@ -21,22 +21,27 @@ const hackathonBadgeBase = {
 
 export const badgeConfig = [
   {
-    flag: 'isHackathon',
+    flag: 'december-2024',
     src: hackathonBadge,
     ...hackathonBadgeBase,
   },
   {
-    flag: 'isHackathon_2',
+    flag: 'september-2024',
+    src: hackathonBadge,
+    ...hackathonBadgeBase,
+  },
+  {
+    flag: 'march-2025',
     src: hackathonBadge2,
     ...hackathonBadgeBase,
   },
   {
-    flag: 'isHackathon_3',
+    flag: 'november-2024',
     src: hackathonBadge3,
     ...hackathonBadgeBase,
   },
   {
-    flag: 'gitpod_template',
+    flag: 'isGitpodTemplate',
     src: gitpodLogo,
     alt: 'Gitpod Template',
     style: {
@@ -83,20 +88,16 @@ export const getProjectMeta = (project: Project): ProjectMeta => {
   const {
     github,
     projectBoard = false,
-    isHackathon = false,
-    isHackathon_2 = false,
-    isHackathon_3 = false,
-    gitpod_template = false,
+    hackathonType,
+    isGitpodTemplate = false,
   } = project;
 
   const repoPath = extractRepoPath(github);
-  const badgeFlags: Record<BadgeFlag, boolean> = {
-    isHackathon,
-    isHackathon_2,
-    isHackathon_3,
-    gitpod_template,
-  };
-  const badges = badgeConfig.filter((config) => badgeFlags[config.flag]);
+
+  const badges = badgeConfig.filter((config) => {
+    if (config.flag === 'isGitpodTemplate') return isGitpodTemplate;
+    return config.flag === hackathonType;
+  });
 
   const meta: ProjectMeta = {
     repoPath,

@@ -5,6 +5,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 
+import { GITHUB_API_BASE_URL, QUERY_CONFIG } from '@/config/constants';
 import type { ContactFormValues, RepoStats } from '@/config/types';
 import { sendEmail } from '@/lib/emailJs';
 import { validateForm } from '@/utils/validation';
@@ -17,8 +18,8 @@ import { validateForm } from '@/utils/validation';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60000, // 1 minute
-      gcTime: 300000, // 5 minutes (formerly cacheTime)
+      staleTime: QUERY_CONFIG.STALE_TIME_SHORT,
+      gcTime: QUERY_CONFIG.GC_TIME_SHORT,
       retry: 1,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
@@ -50,7 +51,7 @@ export async function fetchRepoStats(
   repoPath: string,
   signal?: AbortSignal
 ): Promise<RepoStats> {
-  const response = await fetch(`https://api.github.com/repos/${repoPath}`, {
+  const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`, {
     headers: {
       Accept: 'application/vnd.github+json',
     },
@@ -78,8 +79,8 @@ export function useRepoStatsQuery(repoPath: string) {
   return useSuspenseQuery({
     queryKey: githubKeys.repoStats(repoPath),
     queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
-    staleTime: 600000, // 10 minutes
-    gcTime: 1800000, // 30 minutes
+    staleTime: QUERY_CONFIG.STALE_TIME_LONG,
+    gcTime: QUERY_CONFIG.GC_TIME_LONG,
     retry: 2,
     refetchOnWindowFocus: true,
   });
@@ -90,8 +91,8 @@ export function prefetchRepoStats(repoPath: string): Promise<void> {
   return queryClient.prefetchQuery({
     queryKey: githubKeys.repoStats(repoPath),
     queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
-    staleTime: 600000, // 10 minutes
-    gcTime: 1800000, // 30 minutes
+    staleTime: QUERY_CONFIG.STALE_TIME_LONG,
+    gcTime: QUERY_CONFIG.GC_TIME_LONG,
   });
 }
 

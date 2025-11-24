@@ -19,7 +19,7 @@ import type {
   FormFieldsProps,
 } from '@/config/types';
 
-const contactFieldConfigs: ContactFieldConfig[] = [
+const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
   {
     key: 'name',
     controlId: 'formName',
@@ -178,7 +178,7 @@ function ContactFormFields({
 }: FormFieldsProps): React.JSX.Element {
   return (
     <Grid container spacing={1.25}>
-      {contactFieldConfigs.map((config) => {
+      {CONTACT_FIELD_CONFIGS.map((config) => {
         const { key, ...fieldProps } = config;
         return (
           <Grid key={key} size={config.gridProps}>

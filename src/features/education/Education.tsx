@@ -6,10 +6,9 @@ import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 import Button from '@/components/Button';
-import Card from '@/components/Card';
-import { IconBadgeList } from '@/components/IconBadge';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
+import TimelineCard from '@/components/TimelineCard';
 import type { EducationCardProps } from '@/config/types';
 import {
   useAnimationConfig,
@@ -20,11 +19,7 @@ import {
   useSectionSequence,
 } from '@/hooks';
 import education from '@/lib/data/education';
-import {
-  credentialButtonSx,
-  descriptionTextSx,
-  sectionGridItemSx,
-} from '@/styles/shared';
+import { credentialButtonSx, descriptionTextSx } from '@/styles/shared';
 import {
   buildItemKey,
   createDurationMeta,
@@ -68,39 +63,36 @@ function EducationCard({
   ];
 
   return (
-    <Grid size={{ lg: 6 }} sx={sectionGridItemSx} data-edu-card>
-      <Card
-        title={education.title}
-        subtitle={
-          <IconBadgeList items={metadata} keyPrefix={education.title} />
-        }
-      >
-        {education.description && (
-          <Box sx={descriptionWrapperSx}>
-            {education.description.map((desc, index) => (
-              <Typography
-                key={`${education.title}-${index}`}
-                data-edu-description
-                sx={descriptionTextSx}
-              >
-                {desc}
-              </Typography>
-            ))}
-          </Box>
-        )}
-        {education.hasCredential && (
-          <Button
-            onClick={onShowModal}
-            variant="contained"
-            startIcon={<VerifiedTwoTone />}
-            data-edu-cta
-            sx={credentialButtonSx}
-          >
-            Credential
-          </Button>
-        )}
-      </Card>
-    </Grid>
+    <TimelineCard
+      title={education.title}
+      metadata={metadata}
+      dataAttributes={{ 'data-edu-card': 'true' }}
+    >
+      {education.description && (
+        <Box sx={descriptionWrapperSx}>
+          {education.description.map((desc, index) => (
+            <Typography
+              key={`${education.title}-${index}`}
+              data-edu-description
+              sx={descriptionTextSx}
+            >
+              {desc}
+            </Typography>
+          ))}
+        </Box>
+      )}
+      {education.hasCredential && (
+        <Button
+          onClick={onShowModal}
+          variant="contained"
+          startIcon={<VerifiedTwoTone />}
+          data-edu-cta
+          sx={credentialButtonSx}
+        >
+          Credential
+        </Button>
+      )}
+    </TimelineCard>
   );
 }
 

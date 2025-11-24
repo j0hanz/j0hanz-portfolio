@@ -8,15 +8,11 @@ import {
   useNavigationActions,
   useNavigationState,
 } from '@/hooks/useNavigation';
+import { useScrollEvents } from '@/hooks/useScrollEvents';
 
 // Constants
 const SCROLL_LOCK_DURATION = 1000;
 const SCROLL_TOLERANCE = 2;
-const WHEEL_THRESHOLD = 30;
-const TOUCH_THRESHOLD = 50;
-
-const DOWN_KEYS = ['ArrowDown', 'PageDown', ' '] as const;
-const UP_KEYS = ['ArrowUp', 'PageUp'] as const;
 
 // Scroll direction type
 type ScrollDirection = 'up' | 'down';
@@ -39,6 +35,14 @@ function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
     isAtBottom:
       Math.abs(scrollHeight - clientHeight - scrollTop) < SCROLL_TOLERANCE,
   };
+}
+
+// Checks if navigation should proceed based on scroll position and direction
+function shouldAllowNavigation(
+  boundaries: ScrollBoundaries,
+  direction: ScrollDirection
+): boolean {
+  return direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
 }
 
 export function useFullPageScroll(): void {
@@ -83,14 +87,10 @@ export function useFullPageScroll(): void {
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
     if (isScrolling.current || isPending) return false;
 
-    // Re-query container each time
     const container = resolveContainer();
     const boundaries = getScrollBoundaries(container);
 
-    // Check if we should allow navigation based on scroll position
-    const shouldNavigate =
-      direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
-    if (!shouldNavigate) return false;
+    if (!shouldAllowNavigation(boundaries, direction)) return false;
 
     const navigate = direction === 'down' ? moveNext : movePrev;
 
@@ -103,79 +103,9 @@ export function useFullPageScroll(): void {
     return true;
   });
 
-  useEffect(() => {
-    if (shouldDisable) return;
-
-    // Handles wheel events for full-page scrolling
-    const handleWheel = (e: WheelEvent) => {
-      if (isScrolling.current) {
-        e.preventDefault();
-        return;
-      }
-
-      if (Math.abs(e.deltaY) <= WHEEL_THRESHOLD) return;
-
-      const direction: ScrollDirection = e.deltaY > 0 ? 'down' : 'up';
-      const handled = onNavigate(direction);
-
-      if (handled) {
-        e.preventDefault();
-      }
-    };
-
-    // Handles keyboard events for full-page scrolling
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isScrolling.current) {
-        e.preventDefault();
-        return;
-      }
-
-      const isDownKey = DOWN_KEYS.includes(e.key as (typeof DOWN_KEYS)[number]);
-      const isUpKey = UP_KEYS.includes(e.key as (typeof UP_KEYS)[number]);
-
-      if (!isDownKey && !isUpKey) return;
-
-      const direction: ScrollDirection = isDownKey ? 'down' : 'up';
-      const handled = onNavigate(direction);
-
-      if (handled) {
-        e.preventDefault();
-      }
-    };
-
-    // Handles touch events for full-page scrolling
-    let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (isScrolling.current) return;
-
-      const touchEndY = e.changedTouches[0].clientY;
-      const deltaY = touchStartY - touchEndY;
-
-      if (Math.abs(deltaY) <= TOUCH_THRESHOLD) return;
-
-      const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
-      const handled = onNavigate(direction);
-
-      if (handled) {
-        e.preventDefault();
-      }
-    };
-
-    // Register event listeners
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [shouldDisable, onNavigate]);
+  useScrollEvents({
+    onNavigate,
+    shouldDisable: !!shouldDisable,
+    isScrolling,
+  });
 }

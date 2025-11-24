@@ -95,7 +95,6 @@ export function MagneticWrapper({
         x: springX,
         y: springY,
         display: 'inline-block',
-        ...style,
       }}
       className={className}
     >

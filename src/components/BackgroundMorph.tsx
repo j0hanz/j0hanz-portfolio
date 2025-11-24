@@ -23,7 +23,6 @@ const backgroundSx: SxProps<Theme> = {
     )`;
   },
   filter: 'blur(40px)',
-  // will-change only when animating, set via motion prop
 };
 
 // Animated background with organic floating motion (respects device capability)
@@ -64,11 +63,10 @@ function BackgroundMorph(): React.JSX.Element {
             })
           : undefined
       }
-      style={{
-        // Apply will-change only during animation for better performance
+      sx={{
+        ...backgroundSx,
         willChange: shouldAnimate ? 'transform, opacity' : 'auto',
       }}
-      sx={backgroundSx}
       aria-hidden="true"
     />
   );

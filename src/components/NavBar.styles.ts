@@ -16,11 +16,6 @@ export const navLogoStackSx: SxProps<Theme> = {
 
 export const navLogoImgSx: SxProps<Theme> = {
   width: '2.2rem',
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    opacity: 0.8,
-    transform: 'scale(1.05)',
-  },
 };
 
 export const navLinksListSx: SxProps<Theme> = {
@@ -55,19 +50,14 @@ export const listItemButtonSx: SystemStyleObject<Theme> = {
       : 2,
   py: 1.5,
   px: 2,
-  transition: 'all 0.2s ease',
   '&:hover': {
     bgcolor: 'action.hover',
     '& .MuiListItemIcon-root': {
       color: 'primary.main',
-      transform: 'scale(1.1)',
     },
     '& .MuiListItemText-primary': {
       color: 'primary.main',
     },
-  },
-  '&:active': {
-    transform: 'scale(0.98)',
   },
 };
 
@@ -86,7 +76,6 @@ export const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
 export const listItemIconSx: SystemStyleObject<Theme> = {
   minWidth: 40,
   color: 'text.secondary',
-  transition: 'all 0.2s ease',
 };
 
 export const listItemIconSelectedSx: SystemStyleObject<Theme> = {
@@ -95,7 +84,6 @@ export const listItemIconSelectedSx: SystemStyleObject<Theme> = {
 
 export const listItemTextPrimarySx: SxProps<Theme> = {
   letterSpacing: '0.5px',
-  transition: 'all 0.2s ease',
 };
 
 export const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
@@ -108,6 +96,7 @@ export const drawerPaperSx: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   boxShadow: 24,
+  overflowX: 'hidden',
 };
 
 export const drawerHeaderSx: SxProps<Theme> = {
@@ -118,6 +107,7 @@ export const drawerHeaderSx: SxProps<Theme> = {
 };
 
 export const closeButtonSx: SxProps<Theme> = {
+  overflow: 'hidden',
   '&:hover': {
     color: 'error.main',
     bgcolor: 'error.light',
@@ -152,10 +142,6 @@ export const darkModeToggleBoxSx: SxProps<Theme> = {
   zIndex: (theme) => theme.zIndex.appBar,
   cursor: 'pointer',
   boxShadow: 3,
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    transform: 'translateY(2px)',
-  },
 };
 
 export const menuButtonSx: SxProps<Theme> = {
@@ -172,7 +158,6 @@ export const menuButtonSx: SxProps<Theme> = {
   top: 0,
   right: 0,
   boxShadow: 3,
-  transition: 'all 0.3s ease',
   '&:hover': {
     bgcolor: 'background.default',
     color: 'primary.main',
