@@ -58,16 +58,18 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo } = useNavigationActions();
   const { isPending } = useNavigationState();
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (isPending) return;
+    navigateTo('hero');
+    onClose?.();
+  };
+
   return (
     <Stack
       component="a"
       href="#hero"
-      onClick={(e) => {
-        e.preventDefault();
-        if (isPending) return;
-        navigateTo('hero');
-        onClose?.();
-      }}
+      onClick={handleClick}
       direction="row"
       alignItems="center"
       sx={navLogoStackSx}
@@ -87,6 +89,12 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
 
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    navigateTo(id);
+    onClose?.();
+  };
+
   return (
     <List sx={navLinksListSx}>
       {navLinks.map(({ id, icon: Icon, label }) => {
@@ -97,11 +105,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
               component="a"
               href={`#${id}`}
               disabled={isPending}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo(id);
-                onClose?.();
-              }}
+              onClick={(e) => handleNavLinkClick(e, id)}
               selected={isActive}
               sx={[listItemButtonSx, isActive && listItemButtonSelectedSx]}
             >

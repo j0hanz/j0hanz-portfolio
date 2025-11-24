@@ -76,11 +76,11 @@ const copyButtonSx: SxProps<Theme> = {
   },
 };
 
-const copyrightIconStyle = {
+const copyrightIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
   fontSize: '0.9rem',
-  marginRight: '10px',
+  mr: '10px',
   transition: 'all 0.3s ease',
 };
 
@@ -128,12 +128,13 @@ const Footer: FC = () => {
       : {};
 
     return (
-      <motion.a
+      <Box
+        component={motion.a}
         href={href}
         onClick={onClick}
         aria-label={tooltip}
         {...linkAttributes}
-        style={{
+        sx={{
           cursor: hasInteraction ? 'pointer' : 'default',
           color: 'inherit',
           textDecoration: 'none',
@@ -144,7 +145,7 @@ const Footer: FC = () => {
         transition={getTransition('smooth', { delay: staggerDelay })}
       >
         {icon}
-      </motion.a>
+      </Box>
     );
   };
 
@@ -196,7 +197,7 @@ const Footer: FC = () => {
               justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
               sx={{ pb: 3 }}
             >
-              <SiCreativecommons style={copyrightIconStyle} />
+              <Box component={SiCreativecommons} sx={copyrightIconSx} />
               <Box component="small" sx={copyrightTextSx}>
                 Copyright 2025
               </Box>

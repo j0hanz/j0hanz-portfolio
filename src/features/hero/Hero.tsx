@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
-import { Box, Container, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -49,9 +49,32 @@ interface HeroActionConfig {
   buttonProps: Partial<CustomButtonProps>;
 }
 
+// Hero action button configurations
+const getHeroActions = (cvModalOpen: () => void): HeroActionConfig[] => [
+  {
+    key: 'download-cv',
+    label: 'Download CV',
+    buttonProps: {
+      onClick: cvModalOpen,
+      startIcon: <DownloadRounded sx={iconSx} />,
+      sx: downloadButtonSx,
+      motionWhileTap: { scale: 0.95, rotate: -2 },
+    },
+  },
+  {
+    key: 'contact',
+    label: 'Get in Touch',
+    buttonProps: {
+      href: '#contact',
+      startIcon: <EmailRounded sx={iconSx} />,
+      sx: contactButtonSx,
+      motionWhileTap: { scale: 0.95, rotate: 2 },
+    },
+  },
+];
+
 // Rendering hero section
 function Hero(): React.JSX.Element {
-  const theme = useTheme();
   const cvModal = useModal(false);
   const imageModal = useModal(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
@@ -63,28 +86,7 @@ function Hero(): React.JSX.Element {
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
 
-  const heroActions: HeroActionConfig[] = [
-    {
-      key: 'download-cv',
-      label: 'Download CV',
-      buttonProps: {
-        onClick: cvModal.open,
-        startIcon: <DownloadRounded sx={iconSx} />,
-        sx: downloadButtonSx,
-        motionWhileTap: { scale: 0.95, rotate: -2 },
-      },
-    },
-    {
-      key: 'contact',
-      label: 'Get in Touch',
-      buttonProps: {
-        href: '#contact',
-        startIcon: <EmailRounded sx={iconSx} />,
-        sx: contactButtonSx,
-        motionWhileTap: { scale: 0.95, rotate: 2 },
-      },
-    },
-  ];
+  const heroActions = getHeroActions(cvModal.open);
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>
@@ -131,8 +133,8 @@ function Hero(): React.JSX.Element {
               <TextReveal
                 text={HERO_NAME}
                 as="h1"
-                style={{
-                  background: theme.palette.heroGradient,
+                sx={{
+                  background: (theme) => theme.palette.heroGradient,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   ...heroNameStyles,

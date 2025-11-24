@@ -1,5 +1,6 @@
 import { forwardRef, useRef } from 'react';
 
+import { Box } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
 import {
@@ -244,7 +245,8 @@ export function PageTransitionWrapper({
   const { direction } = useNavigationState();
 
   return (
-    <motion.div
+    <Box
+      component={motion.div}
       id="active-section-container"
       className={className}
       custom={direction}
@@ -256,7 +258,7 @@ export function PageTransitionWrapper({
         transform: { type: 'spring', stiffness: 300, damping: 30 },
         opacity: { duration: 0.2 },
       }}
-      style={{
+      sx={{
         position: 'absolute',
         width: '100%',
         height: '100%',
@@ -267,7 +269,7 @@ export function PageTransitionWrapper({
       }}
     >
       {children}
-    </motion.div>
+    </Box>
   );
 }
 

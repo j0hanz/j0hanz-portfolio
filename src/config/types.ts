@@ -456,6 +456,7 @@ export interface TextRevealProps {
   duration?: number;
   as?: ElementType;
   style?: CSSProperties;
+  sx?: SxProps<Theme>;
 }
 
 export interface SlideFromSideProps extends MotionProps {

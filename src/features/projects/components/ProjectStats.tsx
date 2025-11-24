@@ -3,7 +3,6 @@ import React, {
   Suspense,
   useOptimistic,
   useRef,
-  useState,
 } from 'react';
 
 import {
@@ -87,13 +86,11 @@ function AnimatedStat({
   getTransition,
 }: AnimatedStatProps): React.JSX.Element {
   const motionValue = useMotionValue(prefersReducedMotion ? value : 0);
-  const [displayValue, setDisplayValue] = useState(
-    prefersReducedMotion ? value : 0
-  );
+  const ref = useRef<HTMLSpanElement>(null);
 
   React.useEffect(() => {
     if (prefersReducedMotion) {
-      motionValue.set(value);
+      if (ref.current) ref.current.textContent = value.toLocaleString();
       return;
     }
 
@@ -105,7 +102,9 @@ function AnimatedStat({
   }, [value, prefersReducedMotion, motionValue, getTransition]);
 
   useMotionValueEvent(motionValue, 'change', (latest) => {
-    setDisplayValue(Math.round(latest));
+    if (ref.current) {
+      ref.current.textContent = Math.round(latest).toLocaleString();
+    }
   });
 
   return (
@@ -115,12 +114,13 @@ function AnimatedStat({
       </Typography>
       <Typography
         component={motion.span}
+        ref={ref}
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}
         transition={getTransition('spring')}
         sx={valueSx}
       >
-        {displayValue.toLocaleString()}
+        {prefersReducedMotion ? value.toLocaleString() : '0'}
       </Typography>
     </Stack>
   );

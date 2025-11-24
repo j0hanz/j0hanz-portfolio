@@ -37,7 +37,7 @@ const successTextSx: SxProps<Theme> = {
   fontWeight: 500,
 };
 
-const cardSx: SxProps<Theme> = {
+const formCardSx: SxProps<Theme> = {
   height: 'auto',
 };
 
@@ -51,13 +51,6 @@ function SuccessIndicator({
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const { container, checkmarkCircle, checkmarkPath } =
     successIndicatorVariants;
-
-  const circleInitial = prefersReducedMotion
-    ? { strokeDashoffset: 0 }
-    : checkmarkCircle.initial;
-  const pathInitial = prefersReducedMotion
-    ? { pathLength: 1 }
-    : checkmarkPath.initial;
 
   return (
     <AnimatePresence initial={false} mode="wait">
@@ -88,7 +81,7 @@ function SuccessIndicator({
               cx="12"
               cy="12"
               r="9"
-              initial={circleInitial}
+              initial={prefersReducedMotion ? { strokeDashoffset: 0 } : checkmarkCircle.initial}
               animate={checkmarkCircle.animate}
               transition={getTransition('smooth', { duration: 0.6 })}
             />
@@ -96,7 +89,7 @@ function SuccessIndicator({
               d="M7.5 12.5l3 3.2 6-6.7"
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={pathInitial}
+              initial={prefersReducedMotion ? { pathLength: 1 } : checkmarkPath.initial}
               animate={checkmarkPath.animate}
               transition={getTransition('smooth', {
                 duration: 0.45,
@@ -192,20 +185,20 @@ function ContactFormContent(): React.JSX.Element {
     });
   };
 
-  // Auto-reset form on success so the next interaction starts with a clean slate
+  // Auto-reset form 3 seconds after successful submission
   useEffect(() => {
-    if (!showSuccess) {
-      return;
-    }
+    if (!showSuccess) return;
+
     const timer = setTimeout(() => {
       formRef.current?.reset();
       mutation.reset();
     }, 3000);
+
     return () => clearTimeout(timer);
   }, [showSuccess, mutation]);
 
   return (
-    <Card title="" sx={cardSx}>
+    <Card title="" sx={formCardSx}>
       <Stack
         component="form"
         ref={formRef}

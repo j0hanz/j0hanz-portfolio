@@ -22,7 +22,7 @@ import {
   createWorkplaceMeta,
 } from '@/utils/metadata';
 
-const listSx: SxProps<Theme> = {
+const descriptionListSx: SxProps<Theme> = {
   pl: 2.5,
   m: 0,
   lineHeight: 1.8,
@@ -51,7 +51,7 @@ function ExperienceCard({
           </Box>
         }
       >
-        <Box component="ul" data-exp-description sx={listSx}>
+        <Box component="ul" data-exp-description sx={descriptionListSx}>
           {experience.description.map((item, index) => (
             <li key={`${experience.title}-${index}`}>
               <Typography variant="body2" component="small">

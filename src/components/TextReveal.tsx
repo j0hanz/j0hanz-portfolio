@@ -1,5 +1,6 @@
 import { RefObject, useRef } from 'react';
 
+import { Box } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { textRevealVariants } from '@/config/motion';
@@ -17,6 +18,7 @@ export function TextReveal({
   duration = 0.5,
   as: Component = 'h2',
   style,
+  sx,
 }: TextRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref as RefObject<Element>, {
@@ -37,17 +39,19 @@ export function TextReveal({
 
   if (prefersReducedMotion) {
     return (
-      <Component className={className} style={style}>
+      <Box component={Component} className={className} style={style} sx={sx}>
         {text}
-      </Component>
+      </Box>
     );
   }
 
   return (
-    <Component
+    <Box
+      component={Component}
       ref={ref}
       className={className}
       style={{ ...wrapperStyle, ...style }}
+      sx={sx}
     >
       <motion.span
         style={wrapperStyle}
@@ -61,6 +65,6 @@ export function TextReveal({
           </motion.span>
         ))}
       </motion.span>
-    </Component>
+    </Box>
   );
 }

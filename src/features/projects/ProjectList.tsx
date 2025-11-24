@@ -1,4 +1,10 @@
-import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
+import {
+  Box,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
@@ -41,12 +47,6 @@ const gridSx: SxProps<Theme> = {
   display: 'flex',
 };
 
-const motionStyle = {
-  height: '100%',
-  width: '100%',
-  display: 'flex',
-};
-
 function ProjectCard({ project }: { project: Project }): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
 
@@ -78,9 +78,17 @@ function ProjectCard({ project }: { project: Project }): React.JSX.Element {
 function ProjectList({ project }: ProjectListProps): React.JSX.Element {
   return (
     <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={gridSx}>
-      <motion.div variants={staggerItemVariant} style={motionStyle}>
+      <Box
+        component={motion.div}
+        variants={staggerItemVariant}
+        sx={{
+          height: '100%',
+          width: '100%',
+          display: 'flex',
+        }}
+      >
         <ProjectCard project={project} />
-      </motion.div>
+      </Box>
     </Grid>
   );
 }

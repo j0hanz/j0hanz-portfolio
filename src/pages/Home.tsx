@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { sections } from '@/config/sections';
 import { useFullPageScroll } from '@/hooks/useFullPageScroll';
@@ -11,8 +13,9 @@ function MainContent(): React.JSX.Element {
   const Component = activeSection?.Component;
 
   return (
-    <main
-      style={{
+    <Box
+      component="main"
+      sx={{
         height: '100vh',
         width: '100vw',
         overflow: 'hidden',
@@ -26,7 +29,7 @@ function MainContent(): React.JSX.Element {
           </PageTransitionWrapper>
         )}
       </AnimatePresence>
-    </main>
+    </Box>
   );
 }
 
