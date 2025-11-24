@@ -78,12 +78,16 @@ export function SocialLinkList({
           });
 
           const wrappedLink = (
-            <Tooltip key={id} title={tooltip} placement="top">
+            <Tooltip title={tooltip} placement="top">
               <Box component="span">{linkElement}</Box>
             </Tooltip>
           );
 
-          return wrapItem ? wrapItem(id, wrappedLink) : wrappedLink;
+          return wrapItem ? (
+            wrapItem(id, wrappedLink)
+          ) : (
+            <React.Fragment key={id}>{wrappedLink}</React.Fragment>
+          );
         }
       )}
     </>

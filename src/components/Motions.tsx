@@ -233,18 +233,19 @@ export function StaggerItem({ children, className, style }: StaggerItemProps) {
 // PAGE TRANSITION WRAPPER
 // ============================================================================
 
-export function PageTransitionWrapper({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}): React.JSX.Element {
+export const PageTransitionWrapper = forwardRef<
+  HTMLDivElement,
+  {
+    children: React.ReactNode;
+    className?: string;
+  }
+>(function PageTransitionWrapper({ children, className }, ref) {
   const { direction } = useNavigationState();
   const { prefersReducedMotion } = useAnimationConfig();
 
   return (
     <Box
+      ref={ref}
       component={motion.div}
       id="active-section-container"
       className={className}
@@ -277,7 +278,7 @@ export function PageTransitionWrapper({
       {children}
     </Box>
   );
-}
+});
 
 // ============================================================================
 // EXPORTS

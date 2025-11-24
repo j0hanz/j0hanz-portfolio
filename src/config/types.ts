@@ -511,6 +511,7 @@ export interface EducationItem {
 export interface EducationCardProps {
   education: EducationItem;
   onShowModal: () => void;
+  align?: 'left' | 'right';
 }
 
 // --- Feature: Experience ---
@@ -523,6 +524,7 @@ export interface Experience {
 
 export interface ExperienceCardProps {
   experience: Experience;
+  align?: 'left' | 'right';
 }
 
 // --- Feature: Contact ---

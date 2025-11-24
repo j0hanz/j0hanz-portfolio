@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -23,6 +23,7 @@ import type { ContactFormValues, SuccessIndicatorProps } from '@/config/types';
 import {
   useAnimationConfig,
   useContactFormMutation,
+  useInView,
   useSnackbar,
 } from '@/hooks';
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
@@ -44,6 +45,34 @@ const formCardSx: SxProps<Theme> = {
 
 const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
+};
+
+// Form fields stagger entrance
+const fieldVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.08,
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  }),
+};
+
+// Action buttons slide up
+const actionVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.4,
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
 };
 
 // Creates ContactFormValues from FormData
@@ -99,7 +128,12 @@ function SuccessIndicator({
                   : checkmarkCircle.initial
               }
               animate={checkmarkCircle.animate}
-              transition={getTransition('smooth', { duration: 0.6 })}
+              transition={{
+                type: 'spring',
+                stiffness: 100,
+                damping: 20,
+                duration: 0.6,
+              }}
             />
             <motion.path
               d="M7.5 12.5l3 3.2 6-6.7"
@@ -109,10 +143,13 @@ function SuccessIndicator({
                 prefersReducedMotion ? { pathLength: 1 } : checkmarkPath.initial
               }
               animate={checkmarkPath.animate}
-              transition={getTransition('smooth', {
-                duration: 0.45,
+              transition={{
+                type: 'spring',
+                stiffness: 100,
+                damping: 20,
                 delay: 0.15,
-              })}
+                duration: 0.45,
+              }}
             />
           </motion.svg>
           <Typography variant="body2" color="success.main" sx={successTextSx}>
@@ -171,8 +208,14 @@ function FormActions({
 
 function ContactFormContent(): React.JSX.Element {
   const formRef = useRef<HTMLFormElement>(null);
+  const formContainerRef = useRef<HTMLDivElement>(null);
   const { showSnackbar } = useSnackbar();
   const mutation = useContactFormMutation();
+  const isInView = useInView(formContainerRef as RefObject<Element>, {
+    once: true,
+    amount: 0.2,
+  });
+  const { prefersReducedMotion } = useAnimationConfig();
 
   const showSuccess = mutation.isSuccess && !mutation.isPending;
 
@@ -209,17 +252,34 @@ function ContactFormContent(): React.JSX.Element {
 
   return (
     <Card title="" sx={formCardSx}>
-      <Stack
-        component="form"
-        ref={formRef}
-        onSubmit={handleSubmit}
-        noValidate
-        spacing={2}
-      >
-        <ContactFormFields defaultValues={undefined} errors={{}} />
-        <SuccessIndicator visible={showSuccess} />
-        <FormActions onReset={handleReset} isPending={mutation.isPending} />
-      </Stack>
+      <Box ref={formContainerRef}>
+        <Stack
+          component="form"
+          ref={formRef}
+          onSubmit={handleSubmit}
+          noValidate
+          spacing={2}
+        >
+          <motion.div
+            custom={0}
+            initial={prefersReducedMotion ? false : 'hidden'}
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={fieldVariants}
+            layout
+          >
+            <ContactFormFields defaultValues={undefined} errors={{}} />
+          </motion.div>
+          <SuccessIndicator visible={showSuccess} />
+          <motion.div
+            initial={prefersReducedMotion ? false : 'hidden'}
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={actionVariants}
+            layout
+          >
+            <FormActions onReset={handleReset} isPending={mutation.isPending} />
+          </motion.div>
+        </Stack>
+      </Box>
     </Card>
   );
 }

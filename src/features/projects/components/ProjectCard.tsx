@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 import { AnimatedCard } from '@/components/Card';
 import { Project } from '@/config/types';
-import { prefetchRepoStats } from '@/hooks';
+import { prefetchRepoStats, useAnimationConfig } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
@@ -34,6 +34,8 @@ export function ProjectCard({
   project: Project;
 }): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
+  const { prefersReducedMotion, getTransition, reducedMotionTarget } =
+    useAnimationConfig();
 
   const handleMouseEnter = () => {
     if (repoPath) {
@@ -41,16 +43,20 @@ export function ProjectCard({
     }
   };
 
+  const motionProps = prefersReducedMotion
+    ? {
+        initial: reducedMotionTarget,
+        animate: reducedMotionTarget,
+      }
+    : {
+        initial: { opacity: 0, transform: 'translateY(20px) scale(0.98)' },
+        whileInView: { opacity: 1, transform: 'translateY(0px) scale(1)' },
+        viewport: { once: true, amount: 0.2 },
+        transition: getTransition('easeOut', { duration: 0.5 }),
+      };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, transform: 'translateY(20px) scale(0.98)' }}
-      whileInView={{ opacity: 1, transform: 'translateY(0px) scale(1)' }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.5,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-    >
+    <motion.div {...motionProps}>
       <AnimatedCard
         title="" // Title is handled by ProjectHeader
         noContentPadding

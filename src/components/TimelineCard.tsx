@@ -1,12 +1,10 @@
 import React from 'react';
 
 import { Box, type SxProps, type Theme } from '@mui/material';
-import Grid from '@mui/material/Grid';
 
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import type { IconBadgeMetaItem } from '@/config/types';
-import { sectionGridItemSx } from '@/styles/shared';
 
 interface TimelineCardProps {
   title: string;
@@ -20,7 +18,14 @@ const metaWrapperSx: SxProps<Theme> = {
   mb: 0,
 };
 
+const cardWrapperSx: SxProps<Theme> = {
+  width: '100%',
+  maxWidth: { lg: 520 },
+  textAlign: 'left',
+};
+
 // Reusable timeline card component for Education and Experience sections
+// Works with MUI Timeline components for consistent timeline layouts
 function TimelineCard({
   title,
   metadata,
@@ -29,7 +34,7 @@ function TimelineCard({
   metaDataAttribute,
 }: TimelineCardProps): React.JSX.Element {
   return (
-    <Grid size={{ lg: 6 }} sx={sectionGridItemSx} {...dataAttributes}>
+    <Box sx={cardWrapperSx} {...dataAttributes}>
       <Card
         title={title}
         subtitle={
@@ -43,7 +48,7 @@ function TimelineCard({
       >
         {children}
       </Card>
-    </Grid>
+    </Box>
   );
 }
 

@@ -14,7 +14,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
-import { motion, Variants } from 'motion/react';
+import { AnimatePresence, motion, Transition, Variants } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -44,7 +44,12 @@ import {
   OffcanvasMenuProps,
   SocialLinkRenderProps,
 } from '@/config/types';
-import { useModal, useNavigationActions, useNavigationState } from '@/hooks';
+import {
+  useAnimationConfig,
+  useModal,
+  useNavigationActions,
+  useNavigationState,
+} from '@/hooks';
 import { navLinks } from '@/lib/data/navLinks';
 
 // Detect iOS for swipeable drawer optimization
@@ -134,6 +139,8 @@ const menuButtonVariants: Variants = {
   closed: { rotate: 0, scale: 1 },
 };
 
+const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
+
 const renderNavSocialLink = (
   props: SocialLinkRenderProps
 ): React.JSX.Element => <SocialLinkButton {...props} />;
@@ -180,6 +187,8 @@ interface NavLinkItemProps {
   isActive: boolean;
   isPending: boolean;
   onClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
+  prefersReducedMotion: boolean;
+  highlightTransition: Transition;
 }
 
 function NavLinkItem({
@@ -189,6 +198,8 @@ function NavLinkItem({
   isActive,
   isPending,
   onClick,
+  prefersReducedMotion,
+  highlightTransition,
 }: NavLinkItemProps): React.JSX.Element {
   return (
     <Box
@@ -207,6 +218,21 @@ function NavLinkItem({
         selected={isActive}
         sx={[listItemButtonSx, isActive && listItemButtonSelectedSx]}
       >
+        {!prefersReducedMotion && isActive && (
+          <Box
+            component={motion.span}
+            layoutId={NAV_HIGHLIGHT_LAYOUT_ID}
+            transition={highlightTransition}
+            sx={{
+              position: 'absolute',
+              inset: 4,
+              borderRadius: 2,
+              bgcolor: 'action.selected',
+              opacity: 0.4,
+              zIndex: 0,
+            }}
+          />
+        )}
         <ListItemIcon sx={[listItemIconSx, isActive && listItemIconSelectedSx]}>
           <Icon fontSize="medium" />
         </ListItemIcon>
@@ -228,6 +254,8 @@ function NavLinkItem({
 function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const highlightTransition = getTransition('springSmooth', { duration: 0.35 });
 
   const handleNavLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -251,14 +279,18 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
           isActive={activeSectionId === link.id}
           isPending={isPending}
           onClick={handleNavLinkClick}
+          prefersReducedMotion={prefersReducedMotion}
+          highlightTransition={highlightTransition}
         />
       ))}
     </Box>
   );
 }
 
-const wrapSocialItem = (_id: string, child: React.ReactNode) => (
-  <motion.div variants={socialItemVariants}>{child}</motion.div>
+const wrapSocialItem = (id: string, child: React.ReactNode) => (
+  <motion.div key={id} variants={socialItemVariants}>
+    {child}
+  </motion.div>
 );
 
 // Social links
@@ -420,9 +452,15 @@ function NavBar(): React.JSX.Element {
         </Box>
       </Container>
 
-      {cvModal.isOpen && (
-        <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
-      )}
+      <AnimatePresence initial={false} mode="wait">
+        {cvModal.isOpen && (
+          <ModalCv
+            key="navbar-cv-modal"
+            show={cvModal.isOpen}
+            handleClose={cvModal.close}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

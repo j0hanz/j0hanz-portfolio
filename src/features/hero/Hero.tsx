@@ -4,7 +4,7 @@ import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
@@ -187,12 +187,24 @@ function Hero(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      {cvModal.isOpen && (
-        <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
-      )}
-      {imageModal.isOpen && (
-        <ImageModal show={imageModal.isOpen} handleClose={imageModal.close} />
-      )}
+      <AnimatePresence initial={false} mode="wait">
+        {cvModal.isOpen && (
+          <ModalCv
+            key="hero-cv-modal"
+            show={cvModal.isOpen}
+            handleClose={cvModal.close}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false} mode="wait">
+        {imageModal.isOpen && (
+          <ImageModal
+            key="hero-image-modal"
+            show={imageModal.isOpen}
+            handleClose={imageModal.close}
+          />
+        )}
+      </AnimatePresence>
     </Box>
   );
 }

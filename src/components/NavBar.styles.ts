@@ -44,9 +44,15 @@ export const navLinksListSx: SxProps<Theme> = {
 };
 
 export const listItemButtonSx: SystemStyleObject<Theme> = {
+  position: 'relative',
+  overflow: 'hidden',
   clipPath: 'inset(0 round 8px)',
   py: 1.5,
   px: 2,
+  '& > *': {
+    position: 'relative',
+    zIndex: 1,
+  },
   '&:hover': {
     bgcolor: 'action.hover',
     '& .MuiListItemIcon-root': {

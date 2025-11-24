@@ -183,12 +183,13 @@ export function useScrollProgress(): ScrollProgressValue {
 export function useSmoothScrollProgress(
   config = { stiffness: 100, damping: 30, restDelta: 0.001 }
 ) {
+  const prefersReducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, config);
 
   return {
     scrollYProgress,
-    smoothProgress,
+    smoothProgress: prefersReducedMotion ? scrollYProgress : smoothProgress,
   };
 }
 

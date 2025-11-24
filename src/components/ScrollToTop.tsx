@@ -5,6 +5,7 @@ import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
 import { motion, useSpring } from 'motion/react';
 
 import { sections } from '@/config/sections';
+import { useAnimationConfig } from '@/hooks';
 import {
   useNavigationActions,
   useNavigationState,
@@ -33,6 +34,7 @@ const progressRingSx: SxProps<Theme> = {
 function ScrollToTop(): React.JSX.Element {
   const { activeSectionIndex, isPending } = useNavigationState();
   const { setActiveSection } = useNavigationActions();
+  const { prefersReducedMotion } = useAnimationConfig();
   const show = activeSectionIndex > 0;
 
   // Calculate progress based on section position (0 to 1)
@@ -48,8 +50,11 @@ function ScrollToTop(): React.JSX.Element {
 
   // Update spring value when section changes
   useEffect(() => {
+    if (prefersReducedMotion) return;
     springProgress.set(sectionProgress);
-  }, [sectionProgress, springProgress]);
+  }, [sectionProgress, springProgress, prefersReducedMotion]);
+
+  const pathProgress = prefersReducedMotion ? sectionProgress : springProgress;
 
   const handleClick = (): void => {
     if (isPending) return;
@@ -92,7 +97,7 @@ function ScrollToTop(): React.JSX.Element {
               strokeWidth="2"
               strokeLinecap="round"
               style={{
-                pathLength: springProgress,
+                pathLength: pathProgress,
                 rotate: -90,
                 transformOrigin: '50% 50%',
               }}

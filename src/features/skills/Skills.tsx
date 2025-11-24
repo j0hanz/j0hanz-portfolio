@@ -58,7 +58,18 @@ const learningTextSx: SxProps<Theme> = {
 
 // Rendering skills section
 function Skills(): React.JSX.Element {
-  const { motionViewport } = useAnimationConfig();
+  const { motionViewport, prefersReducedMotion } = useAnimationConfig();
+  const gridMotionProps = prefersReducedMotion
+    ? {}
+    : {
+        variants: createStaggerContainer(0.08, 0.1),
+        initial: 'initial',
+        whileInView: 'animate',
+        viewport: motionViewport,
+      };
+  const gridItemMotionProps = prefersReducedMotion
+    ? {}
+    : { variants: staggerItemVariant };
 
   return (
     <SectionContainer
@@ -68,19 +79,16 @@ function Skills(): React.JSX.Element {
       sx={sectionSpacingSx}
     >
       <Grid
-        component={motion.div}
-        variants={createStaggerContainer(0.08, 0.1)}
-        initial="initial"
-        whileInView="animate"
-        viewport={motionViewport}
+        component={prefersReducedMotion ? 'div' : motion.div}
+        {...gridMotionProps}
         container
         spacing={{ xs: 2, sm: 2, md: 2 }}
       >
         {skills.map((skill) => (
           <Grid
             key={skill.label}
-            component={motion.div}
-            variants={staggerItemVariant}
+            component={prefersReducedMotion ? 'div' : motion.div}
+            {...gridItemMotionProps}
             size={{ xs: 6, sm: 6, md: 3 }}
             sx={gridItemSx}
           >
