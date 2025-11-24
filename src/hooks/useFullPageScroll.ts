@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useReducedMotion } from 'motion/react';
@@ -44,7 +44,7 @@ function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
 
 export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
-  const { isScrollLocked } = useNavigationState();
+  const { isScrollLocked, isPending } = useNavigationState();
   const isScrolling = useRef(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -53,33 +53,31 @@ export function useFullPageScroll(): void {
   // Skip if reduced motion, mobile, or scroll not locked (e.g. footer)
   const shouldDisable = prefersReducedMotion || isMobile || !isScrollLocked;
 
+  const onNavigate = useEffectEvent((direction: ScrollDirection) => {
+    if (isScrolling.current || isPending) return false;
+
+    // Re-query container each time
+    const container = document.getElementById('active-section-container');
+    const boundaries = getScrollBoundaries(container);
+
+    // Check if we should allow navigation based on scroll position
+    const shouldNavigate =
+      direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
+    if (!shouldNavigate) return false;
+
+    const navigate = direction === 'down' ? moveNext : movePrev;
+
+    isScrolling.current = true;
+    navigate();
+    setTimeout(() => {
+      isScrolling.current = false;
+    }, SCROLL_LOCK_DURATION);
+
+    return true;
+  });
+
   useEffect(() => {
     if (shouldDisable) return;
-
-    const executeNavigation = (navigate: () => void) => {
-      isScrolling.current = true;
-      navigate();
-      setTimeout(() => {
-        isScrolling.current = false;
-      }, SCROLL_LOCK_DURATION);
-    };
-
-    const handleNavigation = (direction: ScrollDirection) => {
-      if (isScrolling.current) return false;
-
-      // Re-query container each time
-      const container = document.getElementById('active-section-container');
-      const boundaries = getScrollBoundaries(container);
-
-      // Check if we should allow navigation based on scroll position
-      const shouldNavigate =
-        direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
-      if (!shouldNavigate) return false;
-
-      const navigate = direction === 'down' ? moveNext : movePrev;
-      executeNavigation(navigate);
-      return true;
-    };
 
     /**
      * Handles wheel events for full-page scrolling
@@ -93,7 +91,7 @@ export function useFullPageScroll(): void {
       if (Math.abs(e.deltaY) <= WHEEL_THRESHOLD) return;
 
       const direction: ScrollDirection = e.deltaY > 0 ? 'down' : 'up';
-      const handled = handleNavigation(direction);
+      const handled = onNavigate(direction);
 
       if (handled) {
         e.preventDefault();
@@ -115,7 +113,7 @@ export function useFullPageScroll(): void {
       if (!isDownKey && !isUpKey) return;
 
       const direction: ScrollDirection = isDownKey ? 'down' : 'up';
-      const handled = handleNavigation(direction);
+      const handled = onNavigate(direction);
 
       if (handled) {
         e.preventDefault();
@@ -139,7 +137,7 @@ export function useFullPageScroll(): void {
       if (Math.abs(deltaY) <= TOUCH_THRESHOLD) return;
 
       const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
-      const handled = handleNavigation(direction);
+      const handled = onNavigate(direction);
 
       if (handled) {
         e.preventDefault();
@@ -158,5 +156,5 @@ export function useFullPageScroll(): void {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [moveNext, movePrev, shouldDisable]);
+  }, [shouldDisable]);
 }

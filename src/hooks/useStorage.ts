@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 import {
   StorageSource,
@@ -119,18 +119,22 @@ export function useStorage<T>(
 
   const get = () => readValue();
 
+  const onStorageChange = useEffectEvent((event: StorageEvent) => {
+    if (event.key === key && event.storageArea === resolvedStorage) {
+      setValue(readValue());
+    }
+  });
+
   useEffect(() => {
     if (!listen || !resolvedStorage || !isBrowser) return undefined;
 
     const handleStorage = (event: StorageEvent): void => {
-      if (event.key === key && event.storageArea === resolvedStorage) {
-        setValue(readValue());
-      }
+      onStorageChange(event);
     };
 
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
-  }, [key, listen, resolvedStorage, readValue]);
+  }, [listen, resolvedStorage]);
 
   return {
     value,

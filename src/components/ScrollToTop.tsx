@@ -18,18 +18,24 @@ const iconSx: SxProps<Theme> = {
 };
 
 function ScrollToTop(): React.JSX.Element {
-  const { activeSectionIndex } = useNavigationState();
+  const { activeSectionIndex, isPending } = useNavigationState();
   const { setActiveSection } = useNavigationActions();
   const show = activeSectionIndex > 0;
 
   const handleClick = (): void => {
+    if (isPending) return;
     setActiveSection(0);
   };
 
   return (
     <Fade in={show}>
       <Box onClick={handleClick} role="presentation" sx={containerSx}>
-        <Fab size="small" color="primary" aria-label="scroll back to top">
+        <Fab
+          size="small"
+          color="primary"
+          aria-label="scroll back to top"
+          disabled={isPending}
+        >
           <KeyboardArrowUpRounded sx={iconSx} />
         </Fab>
       </Box>

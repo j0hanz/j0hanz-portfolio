@@ -1,4 +1,6 @@
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useEffectEvent, useRef } from 'react';
+
+import { useFormStatus } from 'react-dom';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -56,6 +58,7 @@ const iconSx: SxProps<Theme> = {
 function SuccessIndicator({
   visible,
 }: SuccessIndicatorProps): React.JSX.Element {
+  const { pending } = useFormStatus();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const { container, checkmarkCircle, checkmarkPath } =
     successIndicatorVariants;
@@ -69,7 +72,7 @@ function SuccessIndicator({
 
   return (
     <AnimatePresence initial={false} mode="wait">
-      {visible && (
+      {visible && !pending && (
         <Stack
           component={motion.div}
           key="contact-success"
@@ -121,29 +124,74 @@ function SuccessIndicator({
   );
 }
 
+interface FormActionsProps {
+  onReset: () => void;
+}
+
+function FormActions({ onReset }: FormActionsProps): React.JSX.Element {
+  const { pending } = useFormStatus();
+
+  return (
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      gap={1}
+    >
+      <Button
+        variant="text"
+        color="inherit"
+        type="button"
+        onClick={onReset}
+        disabled={pending}
+        startIcon={<DeleteRounded sx={iconSx} />}
+        aria-label="Clear form"
+        sx={clearButtonSx}
+      >
+        <Box component="span" sx={clearTextSx}>
+          Clear
+        </Box>
+      </Button>
+      <Button
+        variant="contained"
+        type="submit"
+        loading={pending}
+        disabled={pending}
+        startIcon={<SendRounded sx={iconSx} />}
+        aria-label={pending ? 'Sending message' : 'Send message'}
+        sx={submitButtonSx}
+      >
+        {!pending && 'Send'}
+      </Button>
+    </Stack>
+  );
+}
+
 function ContactFormContent(): React.JSX.Element {
-  const [state, formAction, isPending] = useActionState(sendEmailAction, null);
+  const [state, formAction] = useActionState(sendEmailAction, null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const showSuccess = !!state?.success;
   const errors = state?.errors || {};
 
-  // Auto-reset form on success
-  useEffect(() => {
-    if (state?.success) {
-      const timer = setTimeout(() => {
-        formRef.current?.reset();
-        // We can't easily "reset" the action state to null, but the success indicator will hide if we had a way to clear it.
-        // For now, the success indicator stays until next submission or manual clear.
-        // To hide it, we'd need local state or a wrapper.
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [state?.success, state?.timestamp]);
+  const resetFormInEffect = useEffectEvent(() => {
+    formRef.current?.reset();
+  });
 
   const handleReset = () => {
     formRef.current?.reset();
   };
+
+  // Auto-reset form on success so the next interaction starts with a clean slate
+  useEffect(() => {
+    if (!state?.success) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      resetFormInEffect();
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [state?.success]);
 
   return (
     <Card title="" sx={cardSx}>
@@ -154,44 +202,9 @@ function ContactFormContent(): React.JSX.Element {
         noValidate
         spacing={2}
       >
-        <ContactFormFields
-          defaultValues={state?.values}
-          errors={errors}
-          disabled={isPending}
-        />
+        <ContactFormFields defaultValues={state?.values} errors={errors} />
         <SuccessIndicator visible={showSuccess} />
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          gap={1}
-        >
-          <Button
-            variant="text"
-            color="inherit"
-            type="button"
-            onClick={handleReset}
-            disabled={isPending}
-            startIcon={<DeleteRounded sx={iconSx} />}
-            aria-label="Clear form"
-            sx={clearButtonSx}
-          >
-            <Box component="span" sx={clearTextSx}>
-              Clear
-            </Box>
-          </Button>
-          <Button
-            variant="contained"
-            type="submit"
-            loading={isPending}
-            disabled={isPending}
-            startIcon={<SendRounded sx={iconSx} />}
-            aria-label={isPending ? 'Sending message' : 'Send message'}
-            sx={submitButtonSx}
-          >
-            {!isPending && 'Send'}
-          </Button>
-        </Stack>
+        <FormActions onReset={handleReset} />
       </Stack>
     </Card>
   );

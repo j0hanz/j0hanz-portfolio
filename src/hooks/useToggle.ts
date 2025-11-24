@@ -28,7 +28,10 @@ export function useToggle(
     setValue(false);
   });
 
-  return { value, toggle, setTrue, setFalse };
+  const open = setTrue;
+  const close = setFalse;
+
+  return { value, toggle, setTrue, setFalse, open, close };
 }
 
 export default useToggle;

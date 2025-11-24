@@ -15,6 +15,7 @@ import { StaggerContainer } from '@/components/Motions';
 import { Parallax } from '@/components/Parallax';
 import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
+import type { CustomButtonProps } from '@/config/types';
 import {
   buttonsStackSx,
   contactButtonSx,
@@ -40,20 +41,19 @@ import {
   useToggle,
 } from '@/hooks';
 
+const HERO_NAME = 'Linus Johansson';
+
+interface HeroActionConfig {
+  key: string;
+  label: string;
+  buttonProps: Partial<CustomButtonProps>;
+}
+
 // Rendering hero section
 function Hero(): React.JSX.Element {
   const theme = useTheme();
-  const heroName = 'Linus Johansson';
-  const {
-    value: showModal,
-    setTrue: handleModalOpen,
-    setFalse: handleModalClose,
-  } = useToggle(false);
-  const {
-    value: showImageModal,
-    setTrue: handleImageModalOpen,
-    setFalse: handleImageModalClose,
-  } = useToggle(false);
+  const cvModal = useToggle(false);
+  const imageModal = useToggle(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const isProfileHovered = useHover(profileImageRef);
   const { prefersReducedMotion, getTransition, motionViewport } =
@@ -62,6 +62,29 @@ function Hero(): React.JSX.Element {
 
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
+
+  const heroActions: HeroActionConfig[] = [
+    {
+      key: 'download-cv',
+      label: 'Download CV',
+      buttonProps: {
+        onClick: cvModal.open,
+        startIcon: <DownloadRounded sx={iconSx} />,
+        sx: downloadButtonSx,
+        motionWhileTap: { scale: 0.95, rotate: -2 },
+      },
+    },
+    {
+      key: 'contact',
+      label: 'Get in Touch',
+      buttonProps: {
+        href: '#contact',
+        startIcon: <EmailRounded sx={iconSx} />,
+        sx: contactButtonSx,
+        motionWhileTap: { scale: 0.95, rotate: 2 },
+      },
+    },
+  ];
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>
@@ -82,7 +105,7 @@ function Hero(): React.JSX.Element {
                   ref={profileImageRef}
                   src={ProfileImage}
                   alt="Linus Johansson"
-                  onClick={handleImageModalOpen}
+                  onClick={imageModal.open}
                   animate={{
                     filter: isProfileHovered
                       ? 'brightness(0.8)'
@@ -107,7 +130,7 @@ function Hero(): React.JSX.Element {
           <Grid size="auto" sx={rightGridSx}>
             <StaggerContainer stagger={0.1}>
               <TextReveal
-                text={heroName}
+                text={HERO_NAME}
                 as="h1"
                 style={{
                   background: theme.palette.heroGradient,
@@ -148,35 +171,22 @@ function Hero(): React.JSX.Element {
                 alignItems={{ xs: 'center', lg: 'flex-start' }}
                 sx={buttonsStackSx}
               >
-                <MagneticWrapper disabled={disableMagnetic}>
-                  <Button
-                    variant="contained"
-                    onClick={handleModalOpen}
-                    startIcon={<DownloadRounded sx={iconSx} />}
-                    sx={downloadButtonSx}
-                    motionWhileTap={{ scale: 0.95, rotate: -2 }}
-                  >
-                    Download CV
-                  </Button>
-                </MagneticWrapper>
-                <MagneticWrapper disabled={disableMagnetic}>
-                  <Button
-                    variant="contained"
-                    href="#contact"
-                    startIcon={<EmailRounded sx={iconSx} />}
-                    sx={contactButtonSx}
-                    motionWhileTap={{ scale: 0.95, rotate: 2 }}
-                  >
-                    Get in Touch
-                  </Button>
-                </MagneticWrapper>
+                {heroActions.map(({ key, label, buttonProps }) => (
+                  <MagneticWrapper key={key} disabled={disableMagnetic}>
+                    <Button variant="contained" {...buttonProps}>
+                      {label}
+                    </Button>
+                  </MagneticWrapper>
+                ))}
               </Stack>
             </StaggerContainer>
           </Grid>
         </Grid>
       </Container>
-      {showModal && <ModalCv show={showModal} handleClose={handleModalClose} />}
-      <ImageModal show={showImageModal} handleClose={handleImageModalClose} />
+      {cvModal.value && (
+        <ModalCv show={cvModal.value} handleClose={cvModal.close} />
+      )}
+      <ImageModal show={imageModal.value} handleClose={imageModal.close} />
     </Box>
   );
 }

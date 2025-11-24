@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
-
-import useEventCallback from './useEventCallback';
+import { useEffect, useEffectEvent } from 'react';
 
 /**
  * Custom hook that attaches an event listener to a DOM element, the window, or the document.
@@ -29,7 +27,7 @@ export function useEventListener<
   options?: boolean | AddEventListenerOptions
 ) {
   // Create a stable callback that always has the latest handler
-  const savedHandler = useEventCallback(handler);
+  const onEvent = useEffectEvent(handler);
 
   useEffect(() => {
     // Define the target element
@@ -39,7 +37,7 @@ export function useEventListener<
     if (!targetElement?.addEventListener) return;
 
     // Create event listener that calls handler function stored in ref
-    const eventListener: typeof handler = (event) => savedHandler(event);
+    const eventListener: typeof handler = (event) => onEvent(event);
 
     targetElement.addEventListener(eventName, eventListener, options);
 
@@ -47,7 +45,7 @@ export function useEventListener<
     return () => {
       targetElement.removeEventListener(eventName, eventListener, options);
     };
-  }, [eventName, element, options, savedHandler]);
+  }, [eventName, element, options]);
 }
 
 export default useEventListener;

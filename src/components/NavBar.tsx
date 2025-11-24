@@ -151,6 +151,7 @@ export function SocialLinkList({
 // Logo in the Offcanvas menu
 function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo } = useNavigationActions();
+  const { isPending } = useNavigationState();
 
   return (
     <Stack
@@ -158,6 +159,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
       href="#hero"
       onClick={(e) => {
         e.preventDefault();
+        if (isPending) return;
         navigateTo('hero');
         onClose?.();
       }}
@@ -178,7 +180,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
 // Nav links
 function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   const { navigateTo } = useNavigationActions();
-  const { activeSectionId } = useNavigationState();
+  const { activeSectionId, isPending } = useNavigationState();
 
   return (
     <List sx={navLinksListSx}>
@@ -189,6 +191,7 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
             <ListItemButton
               component="a"
               href={`#${id}`}
+              disabled={isPending}
               onClick={(e) => {
                 e.preventDefault();
                 navigateTo(id);
@@ -305,19 +308,8 @@ function OffcanvasMenu({
 
 // Main NavBar component
 function NavBar(): React.JSX.Element {
-  // Modal state
-  const {
-    value: showModal,
-    setTrue: openModal,
-    setFalse: closeModal,
-  } = useToggle(false);
-
-  // Offcanvas state
-  const {
-    value: showOffcanvas,
-    setTrue: openOffcanvas,
-    setFalse: closeOffcanvas,
-  } = useToggle(false);
+  const modalControls = useToggle(false);
+  const offcanvasControls = useToggle(false);
 
   return (
     <>
@@ -327,7 +319,7 @@ function NavBar(): React.JSX.Element {
             <DarkModeToggle />
           </Box>
           <IconButton
-            onClick={openOffcanvas}
+            onClick={offcanvasControls.open}
             aria-label="Toggle navigation"
             size="large"
             sx={menuButtonSx}
@@ -340,15 +332,17 @@ function NavBar(): React.JSX.Element {
             />
           </IconButton>
           <OffcanvasMenu
-            showOffcanvas={showOffcanvas}
-            closeOffcanvas={closeOffcanvas}
-            openOffcanvas={openOffcanvas}
-            openModal={openModal}
+            showOffcanvas={offcanvasControls.value}
+            closeOffcanvas={offcanvasControls.close}
+            openOffcanvas={offcanvasControls.open}
+            openModal={modalControls.open}
           />
         </Box>
       </Container>
 
-      {showModal && <ModalCv show={showModal} handleClose={closeModal} />}
+      {modalControls.value && (
+        <ModalCv show={modalControls.value} handleClose={modalControls.close} />
+      )}
     </>
   );
 }

@@ -41,6 +41,7 @@ export interface NavigationState {
   isFirst: boolean;
   isLast: boolean;
   isScrollLocked: boolean;
+  isPending: boolean;
 }
 
 export interface NavigationActions {
@@ -593,7 +594,6 @@ export interface FormFieldsProps {
   handleChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  disabled?: boolean;
 }
 
 // --- Feature: Skills ---
@@ -770,6 +770,8 @@ export interface UseToggleReturn {
   toggle: (nextValue?: boolean) => void;
   setTrue: () => void;
   setFalse: () => void;
+  open: () => void;
+  close: () => void;
 }
 
 export type FieldName = keyof ContactFormValues;
