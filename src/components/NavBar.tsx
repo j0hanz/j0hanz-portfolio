@@ -50,7 +50,8 @@ import {
 import {
   useAnimationConfig,
   useCursorMagnet,
-  useNavigation,
+  useNavigationActions,
+  useNavigationState,
   useToggle,
 } from '@/hooks';
 import { navLinks } from '@/lib/data/navLinks';
@@ -149,7 +150,7 @@ export function SocialLinkList({
 
 // Logo in the Offcanvas menu
 function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
-  const { navigateTo } = useNavigation();
+  const { navigateTo } = useNavigationActions();
 
   return (
     <Stack
@@ -176,7 +177,8 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
 
 // Nav links
 function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
-  const { navigateTo, activeSectionId } = useNavigation();
+  const { navigateTo } = useNavigationActions();
+  const { activeSectionId } = useNavigationState();
 
   return (
     <List sx={navLinksListSx}>

@@ -112,10 +112,12 @@ function FormField({
   label,
   placeholder,
   value,
+  defaultValue,
   error,
   required = false,
   rows,
   onChange,
+  disabled,
 }: FormFieldProps): React.JSX.Element {
   const isTextarea = type === 'textarea';
 
@@ -125,6 +127,7 @@ function FormField({
       fullWidth
       required={required}
       error={!!error}
+      disabled={disabled}
     >
       <InputLabel htmlFor={controlId} shrink sx={labelSx}>
         {label}
@@ -137,6 +140,7 @@ function FormField({
         rows={isTextarea ? rows : undefined}
         placeholder={placeholder}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
         startAdornment={
           <InputAdornment
@@ -168,8 +172,10 @@ function FormField({
 // Rendering contact form fields
 function ContactFormFields({
   formData,
+  defaultValues,
   errors,
   handleChange,
+  disabled,
 }: FormFieldsProps): React.JSX.Element {
   return (
     <Grid container spacing={1.25}>
@@ -180,9 +186,11 @@ function ContactFormFields({
             <FormField
               {...fieldProps}
               name={key}
-              value={formData[key] ?? ''}
+              value={formData ? formData[key] : undefined}
+              defaultValue={defaultValues ? defaultValues[key] : undefined}
               error={config.errorKey ? errors[config.errorKey] : undefined}
               onChange={handleChange}
+              disabled={disabled}
             />
           </Grid>
         );

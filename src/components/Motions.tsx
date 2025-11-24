@@ -12,7 +12,7 @@ import type {
   StaggerItemProps,
 } from '@/config/types';
 import { useAnimationConfig, useInView } from '@/hooks';
-import { useNavigation } from '@/hooks/useNavigation';
+import { useNavigationState } from '@/hooks/useNavigation';
 
 // ============================================================================
 // SECTION MOTION WRAPPER
@@ -254,7 +254,7 @@ export function PageTransitionWrapper({
   children: React.ReactNode;
   className?: string;
 }): React.JSX.Element {
-  const { direction } = useNavigation();
+  const { direction } = useNavigationState();
 
   const variants = {
     enter: (dir: 'up' | 'down' | null) => ({

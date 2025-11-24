@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import BackgroundMorph from '@/components/BackgroundMorph';
 import NavBar from '@/components/NavBar';
+import { NavigationProvider } from '@/components/NavigationProvider';
 import ScrollToTop from '@/components/ScrollToTop';
 import Spinner from '@/components/Spinner';
 import { useConnectivity, useContentMotion } from '@/hooks';
@@ -62,38 +63,40 @@ function App(): React.JSX.Element {
           )}
         </Collapse>
       </Box>
-      {!isLoading && <NavBar />}
-      <AnimatePresence mode="wait" initial={false}>
-        {isLoading ? (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              zIndex: 1,
-              height: '100vh',
-            }}
-          >
-            <Spinner sx={{ height: '100%' }} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="home"
-            {...contentMotion}
-            style={{ flex: 1, position: 'relative', zIndex: 1 }}
-          >
-            <Home />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      {!isLoading && <ScrollToTop />}
+      <NavigationProvider>
+        {!isLoading && <NavBar />}
+        <AnimatePresence mode="wait" initial={false}>
+          {isLoading ? (
+            <motion.div
+              key="loader"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                zIndex: 1,
+                height: '100vh',
+              }}
+            >
+              <Spinner sx={{ height: '100%' }} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="home"
+              {...contentMotion}
+              style={{ flex: 1, position: 'relative', zIndex: 1 }}
+            >
+              <Home />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {!isLoading && <ScrollToTop />}
+      </NavigationProvider>
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, use, useEffect, useRef, useState } from 'react';
 
 import {
   Skeleton,
@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import {
   animate,
   motion,
+  useInView,
   useMotionValue,
   useMotionValueEvent,
 } from 'motion/react';
@@ -20,7 +21,8 @@ import type {
   ProjectStatsProps,
   RepoStats,
 } from '@/config/types';
-import { useAnimationConfig, useRepoStats } from '@/hooks';
+import { useAnimationConfig } from '@/hooks';
+import { getRepoStats } from '@/lib/github';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -118,25 +120,31 @@ function AnimatedStat({
   );
 }
 
-const ProjectStats = ({
+function StatsContent({
   repoPath,
   hasProjectBoard,
-}: ProjectStatsProps): React.JSX.Element => {
+}: {
+  repoPath: string;
+  hasProjectBoard: boolean;
+}): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const { containerRef, status, stats, hasLoadedStats, handleOptimisticStar } =
-    useRepoStats(repoPath);
+  const initialStats = use(getRepoStats(repoPath));
+  const [optimisticStars, setOptimisticStars] = useState<number | null>(null);
+
+  const handleOptimisticStar = () => {
+    setOptimisticStars((initialStats.stars || 0) + 1);
+    setTimeout(() => setOptimisticStars(null), 2000);
+  };
+
+  const stats: RepoStats = {
+    ...initialStats,
+    stars: optimisticStars ?? initialStats.stars,
+  };
+
   const statItems = buildStatItems(stats, hasProjectBoard);
-  const showSkeleton = status === 'loading' && !hasLoadedStats;
-  const canOptimisticUpdate = hasLoadedStats && status !== 'loading';
-  const showError = status === 'error';
 
   return (
-    <Stack
-      ref={containerRef}
-      spacing={1.5}
-      alignItems="flex-start"
-      sx={containerSx}
-    >
+    <>
       {statItems.map(({ key, label, value }) => (
         <AnimatedStat
           key={key}
@@ -146,21 +154,42 @@ const ProjectStats = ({
           getTransition={getTransition}
         />
       ))}
-      {showError && (
-        <Typography variant="caption" color="error.main" role="status">
-          Stats temporarily unavailable (API rate limit).
-        </Typography>
-      )}
-      {showSkeleton && <StatsSkeleton />}
       <Button
         variant="text"
         size="small"
         onClick={handleOptimisticStar}
-        disabled={!canOptimisticUpdate}
         sx={buttonSx}
       >
         Already starred it? Reflect it instantly
       </Button>
+    </>
+  );
+}
+
+const ProjectStats = ({
+  repoPath,
+  hasProjectBoard,
+}: ProjectStatsProps): React.JSX.Element => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, {
+    once: true,
+    margin: '0px 0px -20% 0px',
+  });
+
+  return (
+    <Stack
+      ref={containerRef}
+      spacing={1.5}
+      alignItems="flex-start"
+      sx={containerSx}
+    >
+      {isInView ? (
+        <Suspense fallback={<StatsSkeleton />}>
+          <StatsContent repoPath={repoPath} hasProjectBoard={hasProjectBoard} />
+        </Suspense>
+      ) : (
+        <StatsSkeleton />
+      )}
     </Stack>
   );
 };

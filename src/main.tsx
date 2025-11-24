@@ -6,7 +6,6 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 
 import App from '@/App';
 import AppThemeProvider from '@/components/AppThemeProvider';
-import { NavigationProvider } from '@/components/NavigationProvider';
 import { initEmailJs } from '@/lib/emailJs';
 
 import '@fontsource/roboto/300.css';
@@ -21,9 +20,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <InitColorSchemeScript />
     <AppThemeProvider>
-      <NavigationProvider>
-        <App />
-      </NavigationProvider>
+      <App />
     </AppThemeProvider>
   </StrictMode>
 );

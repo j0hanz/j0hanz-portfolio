@@ -34,18 +34,23 @@ export type IconComponent = ComponentType<SvgIconProps>;
 // --- Direction & Navigation Types ---
 export type Direction = 'up' | 'down' | null;
 
-export interface NavigationContextType {
+export interface NavigationState {
   activeSectionIndex: number;
   activeSectionId: string;
   direction: Direction;
-  setActiveSection: (index: number) => void;
-  navigateTo: (id: string) => void;
-  moveNext: () => void;
-  movePrev: () => void;
   isFirst: boolean;
   isLast: boolean;
   isScrollLocked: boolean;
 }
+
+export interface NavigationActions {
+  setActiveSection: (index: number) => void;
+  navigateTo: (id: string) => void;
+  moveNext: () => void;
+  movePrev: () => void;
+}
+
+export type NavigationContextType = NavigationState & NavigationActions;
 
 // --- Config Section Type ---
 export interface Section {
@@ -555,20 +560,29 @@ export interface FormFieldProps {
   name: string;
   label?: string;
   placeholder: string;
-  value: string;
+  value?: string;
+  defaultValue?: string;
   error?: string;
   required?: boolean;
   rows?: number;
-  onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  disabled?: boolean;
 }
 
 export interface FormFieldsProps {
-  formData: {
-    name: string;
-    email: string;
+  formData?: {
+    name?: string;
+    email?: string;
     company?: string;
     url?: string;
-    message: string;
+    message?: string;
+  };
+  defaultValues?: {
+    name?: string;
+    email?: string;
+    company?: string;
+    url?: string;
+    message?: string;
   };
   errors: {
     name?: string;
@@ -576,9 +590,10 @@ export interface FormFieldsProps {
     url?: string;
     message?: string;
   };
-  handleChange: (
+  handleChange?: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  disabled?: boolean;
 }
 
 // --- Feature: Skills ---

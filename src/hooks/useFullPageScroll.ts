@@ -3,7 +3,10 @@ import { useEffect, useRef } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useReducedMotion } from 'motion/react';
 
-import { useNavigation } from '@/hooks/useNavigation';
+import {
+  useNavigationActions,
+  useNavigationState,
+} from '@/hooks/useNavigation';
 
 // Constants
 const SCROLL_LOCK_DURATION = 1000;
@@ -40,7 +43,8 @@ function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
 }
 
 export function useFullPageScroll(): void {
-  const { moveNext, movePrev, isScrollLocked } = useNavigation();
+  const { moveNext, movePrev } = useNavigationActions();
+  const { isScrollLocked } = useNavigationState();
   const isScrolling = useRef(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));

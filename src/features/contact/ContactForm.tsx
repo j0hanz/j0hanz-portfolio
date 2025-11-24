@@ -1,3 +1,5 @@
+import { useActionState, useEffect, useRef } from 'react';
+
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
@@ -17,7 +19,8 @@ import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { successIndicatorVariants } from '@/config/motion';
 import type { SuccessIndicatorProps } from '@/config/types';
-import { useAnimationConfig, useContactForm } from '@/hooks';
+import { useAnimationConfig } from '@/hooks';
+import { sendEmailAction } from '@/lib/actions';
 
 import ContactFormFields from './ContactFormFields';
 
@@ -119,18 +122,42 @@ function SuccessIndicator({
 }
 
 function ContactFormContent(): React.JSX.Element {
-  const { status, formData, errors, handleChange, handleSubmit, handleReset } =
-    useContactForm();
-  const isSending = status === 'submitting';
-  const showSuccess = status === 'success';
+  const [state, formAction, isPending] = useActionState(sendEmailAction, null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const showSuccess = !!state?.success;
+  const errors = state?.errors || {};
+
+  // Auto-reset form on success
+  useEffect(() => {
+    if (state?.success) {
+      const timer = setTimeout(() => {
+        formRef.current?.reset();
+        // We can't easily "reset" the action state to null, but the success indicator will hide if we had a way to clear it.
+        // For now, the success indicator stays until next submission or manual clear.
+        // To hide it, we'd need local state or a wrapper.
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [state?.success, state?.timestamp]);
+
+  const handleReset = () => {
+    formRef.current?.reset();
+  };
 
   return (
     <Card title="" sx={cardSx}>
-      <Stack component="form" noValidate onSubmit={handleSubmit} spacing={2}>
+      <Stack
+        component="form"
+        ref={formRef}
+        action={formAction}
+        noValidate
+        spacing={2}
+      >
         <ContactFormFields
-          formData={formData}
+          defaultValues={state?.values}
           errors={errors}
-          handleChange={handleChange}
+          disabled={isPending}
         />
         <SuccessIndicator visible={showSuccess} />
         <Stack
@@ -144,7 +171,7 @@ function ContactFormContent(): React.JSX.Element {
             color="inherit"
             type="button"
             onClick={handleReset}
-            disabled={isSending}
+            disabled={isPending}
             startIcon={<DeleteRounded sx={iconSx} />}
             aria-label="Clear form"
             sx={clearButtonSx}
@@ -156,13 +183,13 @@ function ContactFormContent(): React.JSX.Element {
           <Button
             variant="contained"
             type="submit"
-            loading={isSending}
-            disabled={isSending}
+            loading={isPending}
+            disabled={isPending}
             startIcon={<SendRounded sx={iconSx} />}
-            aria-label={isSending ? 'Sending message' : 'Send message'}
+            aria-label={isPending ? 'Sending message' : 'Send message'}
             sx={submitButtonSx}
           >
-            {!isSending && 'Send'}
+            {!isPending && 'Send'}
           </Button>
         </Stack>
       </Stack>

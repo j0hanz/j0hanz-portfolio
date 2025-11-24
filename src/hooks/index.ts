@@ -69,11 +69,12 @@ export { default as useCombinedRefs } from './useCombinedRefs';
 /** Triggers an animation sequence when a section is scrolled into view. */
 export { default as useScrollAnimation } from './useScrollAnimation';
 
-/** Manages contact form state, validation, and submission. */
-export { default as useContactForm } from './useContactForm';
-
 /** Accesses the NavigationContext. */
-export { useNavigation } from './useNavigation';
+export {
+  useNavigation,
+  useNavigationActions,
+  useNavigationState,
+} from './useNavigation';
 
 /** Accesses the ThemeMode context with helpful error messaging. */
 export { useTheme } from './useTheme';
@@ -86,9 +87,6 @@ export { default as useHover } from './useHover';
 
 /** Detects if the user is currently online or offline. */
 export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
-
-/** Fetches and caches GitHub repository statistics. */
-export { default as useRepoStats } from './useRepoStats';
 
 /** Accesses the SnackbarContext. */
 export { default as useSnackbar } from './useSnackbar';

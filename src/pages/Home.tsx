@@ -1,11 +1,11 @@
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { sections } from '@/config/sections';
 import { useFullPageScroll } from '@/hooks/useFullPageScroll';
-import { useNavigation } from '@/hooks/useNavigation';
+import { useNavigationState } from '@/hooks/useNavigation';
 
 function MainContent(): React.JSX.Element {
   useFullPageScroll();
-  const { activeSectionId, direction } = useNavigation();
+  const { activeSectionId, direction } = useNavigationState();
 
   const activeSection = sections.find((s) => s.id === activeSectionId);
   const Component = activeSection?.Component;

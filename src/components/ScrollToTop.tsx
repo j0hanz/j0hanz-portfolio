@@ -1,7 +1,10 @@
 import KeyboardArrowUpRounded from '@mui/icons-material/KeyboardArrowUpRounded';
 import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
 
-import { useNavigation } from '@/hooks/useNavigation';
+import {
+  useNavigationActions,
+  useNavigationState,
+} from '@/hooks/useNavigation';
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',
@@ -15,7 +18,8 @@ const iconSx: SxProps<Theme> = {
 };
 
 function ScrollToTop(): React.JSX.Element {
-  const { activeSectionIndex, setActiveSection } = useNavigation();
+  const { activeSectionIndex } = useNavigationState();
+  const { setActiveSection } = useNavigationActions();
   const show = activeSectionIndex > 0;
 
   const handleClick = (): void => {

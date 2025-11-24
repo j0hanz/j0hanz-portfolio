@@ -1,7 +1,17 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
-import { Direction, NavigationContext } from '@/contexts/NavigationContext';
+import type { Direction } from '@/config/types';
+import {
+  NavigationActionsContext,
+  NavigationStateContext,
+} from '@/contexts/NavigationContext';
 
 export function NavigationProvider({
   children,
@@ -56,49 +66,83 @@ export function NavigationProvider({
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [activeSectionIndex]);
 
-  const setActiveSection = (index: number) => {
-    if (index === activeSectionIndex) return;
-    if (index < 0 || index >= sections.length) return;
+  const updateSection = useCallback(
+    (nextIndexOrUpdater: number | ((current: number) => number)) => {
+      setActiveSectionIndex((currentIndex) => {
+        const targetIndex =
+          typeof nextIndexOrUpdater === 'function'
+            ? nextIndexOrUpdater(currentIndex)
+            : nextIndexOrUpdater;
 
-    setDirection(index > activeSectionIndex ? 'down' : 'up');
-    setActiveSectionIndex(index);
-  };
+        if (targetIndex === currentIndex) {
+          return currentIndex;
+        }
 
-  const navigateTo = (id: string) => {
-    const index = sections.findIndex((s) => s.id === id);
-    if (index !== -1) {
-      setActiveSection(index);
-    }
-  };
+        if (targetIndex < 0 || targetIndex >= sections.length) {
+          return currentIndex;
+        }
 
-  const moveNext = () => {
-    if (!isLast) {
-      setActiveSection(activeSectionIndex + 1);
-    }
-  };
+        setDirection(targetIndex > currentIndex ? 'down' : 'up');
+        return targetIndex;
+      });
+    },
+    []
+  );
 
-  const movePrev = () => {
-    if (!isFirst) {
-      setActiveSection(activeSectionIndex - 1);
-    }
-  };
+  const setActiveSection = useCallback(
+    (index: number) => {
+      updateSection(index);
+    },
+    [updateSection]
+  );
 
-  const value = {
-    activeSectionIndex,
-    activeSectionId,
-    direction,
-    setActiveSection,
-    navigateTo,
-    moveNext,
-    movePrev,
-    isFirst,
-    isLast,
-    isScrollLocked,
-  };
+  const navigateTo = useCallback(
+    (id: string) => {
+      const index = sections.findIndex((s) => s.id === id);
+      if (index !== -1) {
+        setActiveSection(index);
+      }
+    },
+    [setActiveSection]
+  );
+
+  const moveNext = useCallback(() => {
+    updateSection((currentIndex) => currentIndex + 1);
+  }, [updateSection]);
+
+  const movePrev = useCallback(() => {
+    updateSection((currentIndex) => currentIndex - 1);
+  }, [updateSection]);
+
+  const stateValue = useMemo(
+    () => ({
+      activeSectionIndex,
+      activeSectionId,
+      direction,
+      isFirst,
+      isLast,
+      isScrollLocked,
+    }),
+    [
+      activeSectionId,
+      activeSectionIndex,
+      direction,
+      isFirst,
+      isLast,
+      isScrollLocked,
+    ]
+  );
+
+  const actionsValue = useMemo(
+    () => ({ setActiveSection, navigateTo, moveNext, movePrev }),
+    [moveNext, movePrev, navigateTo, setActiveSection]
+  );
 
   return (
-    <NavigationContext.Provider value={value}>
-      {children}
-    </NavigationContext.Provider>
+    <NavigationActionsContext.Provider value={actionsValue}>
+      <NavigationStateContext.Provider value={stateValue}>
+        {children}
+      </NavigationStateContext.Provider>
+    </NavigationActionsContext.Provider>
   );
 }

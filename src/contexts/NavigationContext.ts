@@ -1,9 +1,17 @@
 import { createContext } from 'react';
 
-import type { Direction, NavigationContextType } from '@/config/types';
+import type {
+  NavigationActions,
+  NavigationContextType,
+  NavigationState,
+} from '@/config/types';
 
-export type { Direction, NavigationContextType };
+export type { NavigationContextType };
 
-export const NavigationContext = createContext<
-  NavigationContextType | undefined
+export const NavigationStateContext = createContext<
+  NavigationState | undefined
+>(undefined);
+
+export const NavigationActionsContext = createContext<
+  NavigationActions | undefined
 >(undefined);
