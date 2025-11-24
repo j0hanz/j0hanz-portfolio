@@ -270,6 +270,8 @@ export function useAnimationSequence(): AnimationSequenceControls {
 // ELEMENT MEASUREMENT
 // ============================================================================
 
+// Note: width/height/top/left are measurement values, not animation properties
+// They're used for layout calculations, not animated directly
 const defaultMeasureRect: MeasureRect = {
   width: 0,
   height: 0,

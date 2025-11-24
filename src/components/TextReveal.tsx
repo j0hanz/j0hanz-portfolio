@@ -7,8 +7,8 @@ import { textRevealVariants } from '@/config/motion';
 import type { TextRevealProps } from '@/config/types';
 import { useInView, useReducedMotion } from '@/hooks';
 
-const wrapperStyle = { display: 'flex', flexWrap: 'wrap' } as const;
-const wordStyle = { marginRight: '0.25em', display: 'inline-block' } as const;
+const wrapperSx = { display: 'flex', flexWrap: 'wrap' } as const;
+const wordSx = { marginRight: '0.25em', display: 'inline-block' } as const;
 
 // Reveals text character by character with stagger animation
 export function TextReveal({
@@ -50,19 +50,19 @@ export function TextReveal({
       component={Component}
       ref={ref}
       className={className}
-      style={{ ...wrapperStyle, ...style }}
-      sx={sx}
+      style={style}
+      sx={{ ...wrapperSx, ...sx }}
     >
       <motion.span
-        style={wrapperStyle}
         variants={container}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
+        style={{ display: 'flex', flexWrap: 'wrap' }}
       >
         {text.split(' ').map((word, index) => (
-          <motion.span key={index} style={wordStyle} variants={child}>
+          <Box component={motion.span} key={index} sx={wordSx} variants={child}>
             {word}
-          </motion.span>
+          </Box>
         ))}
       </motion.span>
     </Box>

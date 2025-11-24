@@ -19,7 +19,7 @@ const hackathonBadgeBase = {
   height: 112,
 } as const;
 
-export const badgeConfig: BadgeConfig[] = [
+export const badgeConfig = [
   {
     flag: 'isHackathon',
     src: hackathonBadge,
@@ -49,14 +49,15 @@ export const badgeConfig: BadgeConfig[] = [
     width: 56,
     height: 56,
   },
-];
+] satisfies BadgeConfig[];
 
 const repoPathCache = new Map<string, string | null>();
 const projectMetaCache = new WeakMap<Project, ProjectMeta>();
 
 export const extractRepoPath = (githubUrl: string): string | null => {
-  if (repoPathCache.has(githubUrl)) {
-    return repoPathCache.get(githubUrl) ?? null;
+  const cached = repoPathCache.get(githubUrl);
+  if (cached !== undefined) {
+    return cached;
   }
 
   try {

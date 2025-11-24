@@ -52,7 +52,7 @@ const STAT_LABELS: Record<StatKey, string> = {
   stars: 'Stars',
   forks: 'Forks',
   issues: 'Issues',
-};
+} as const;
 
 const buildStatItems = (stats: RepoStats, includeIssues: boolean) => {
   const keys: StatKey[] = includeIssues
@@ -142,8 +142,8 @@ function StatsContent({
   const handleOptimisticStar = () => {
     startTransition(async () => {
       addOptimisticStar(1);
-      // Simulate network delay for the optimistic state to be visible
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Demo: Simulate network delay to demonstrate optimistic UI pattern
+      await new Promise((resolve) => setTimeout(resolve, 800));
     });
   };
 

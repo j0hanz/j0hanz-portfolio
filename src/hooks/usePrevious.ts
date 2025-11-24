@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 export function usePrevious<T>(value: T): T | undefined {
-  const [state, setState] = useState<{ value: T; prev: T | undefined }>({
+  const [state, setState] = useState({
     value,
-    prev: undefined,
+    prev: undefined as T | undefined,
   });
 
   if (state.value !== value) {

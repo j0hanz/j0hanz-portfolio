@@ -12,13 +12,14 @@ export const heroNameStyles: React.CSSProperties = {
   justifyContent: 'center',
 } as const;
 
-// Cursor dimensions are intentional for typing effect visual
+// Cursor for typing effect - uses transform for hardware acceleration
 export const cursorStyle: MotionStyle = {
   display: 'inline-block',
-  width: 2,
+  width: '2px',
   height: '1.3em',
   backgroundColor: 'currentColor',
   marginLeft: '0.35rem',
+  willChange: 'opacity',
 } as const;
 
 export const cursorAnimation = {
@@ -28,7 +29,8 @@ export const cursorAnimation = {
 export const cursorTransition = {
   duration: 0.9,
   repeat: Infinity,
-};
+  ease: 'easeInOut',
+} as const;
 
 export const subtitleClipPath = {
   initial: { clipPath: 'inset(0 100% 0 0)' },
@@ -60,6 +62,7 @@ export const profileImgSx: SxProps<Theme> = {
   objectFit: 'cover',
   cursor: 'pointer',
   mb: { xs: 3, lg: 0 },
+  willChange: 'opacity, transform',
 };
 
 export const overlaySx: SxProps<Theme> = {

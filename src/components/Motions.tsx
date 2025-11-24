@@ -26,6 +26,18 @@ import { useNavigationState } from '@/hooks/useNavigation';
 // SECTION MOTION WRAPPER
 // ============================================================================
 
+// Map section IDs to variants
+const variantMap: Record<SectionMotionVariantId, keyof typeof sectionVariants> =
+  {
+    hero: 'default',
+    aboutMe: 'slideUp',
+    education: 'slideUp',
+    skills: 'scale',
+    portfolio: 'slideUp',
+    workExperience: 'slideUp',
+    contact: 'slideUp',
+  };
+
 // Wraps sections with scroll-triggered animations (auto handles reduced motion)
 function MotionWrapper({
   children,
@@ -37,20 +49,6 @@ function MotionWrapper({
 }: MotionWrapperProps): React.JSX.Element {
   const { prefersReducedMotion, getTransition, reducedMotionTarget } =
     useAnimationConfig();
-
-  // Map section IDs to variants
-  const variantMap: Record<
-    SectionMotionVariantId,
-    keyof typeof sectionVariants
-  > = {
-    hero: 'default',
-    aboutMe: 'slideUp',
-    education: 'slideUp',
-    skills: 'scale',
-    portfolio: 'slideUp',
-    workExperience: 'slideUp',
-    contact: 'slideUp',
-  };
 
   const variantKey = variantMap[sectionId] ?? 'default';
   const variant = sectionVariants[variantKey];
@@ -266,6 +264,8 @@ export function PageTransitionWrapper({
         left: 0,
         overflowY: 'auto',
         overflowX: 'hidden',
+        // Hardware acceleration: transform and opacity are GPU-accelerated
+        willChange: 'transform, opacity',
       }}
     >
       {children}

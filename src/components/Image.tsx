@@ -14,6 +14,7 @@ function Image({
   height,
   className,
   style,
+  sx,
   onClick,
   radius = 'rounded',
 }: ImageProps): React.JSX.Element {
@@ -37,7 +38,12 @@ function Image({
   return (
     <Box
       component="span"
-      sx={{ position: 'relative', display: 'inline-block', lineHeight: 0 }}
+      sx={{
+        position: 'relative',
+        display: 'inline-block',
+        lineHeight: 0,
+        ...sx,
+      }}
     >
       {!isLoaded && (
         <Skeleton
@@ -67,6 +73,7 @@ function Image({
         initial={false}
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={getTransition('smooth')}
+        loading="lazy"
       />
     </Box>
   );

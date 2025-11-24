@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { motion, useMotionValue, useSpring } from 'motion/react';
 
@@ -15,6 +15,10 @@ export function MagneticWrapper({
 }: MagneticWrapperProps) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const frameRef = useRef<number | null>(null);
+  const pendingPoint = useRef<{ clientX: number; clientY: number } | null>(
+    null
+  );
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -23,23 +27,56 @@ export function MagneticWrapper({
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
+  const scheduleUpdate = () => {
+    if (frameRef.current !== null) return;
+
+    frameRef.current = window.requestAnimationFrame(() => {
+      frameRef.current = null;
+      const point = pendingPoint.current;
+      pendingPoint.current = null;
+
+      const target = ref.current;
+      if (!point || !target) {
+        return;
+      }
+
+      const { clientX, clientY } = point;
+      const { height, width, left, top } = target.getBoundingClientRect();
+      const middleX = clientX - (left + width / 2);
+      const middleY = clientY - (top + height / 2);
+
+      x.set(middleX * strength);
+      y.set(middleY * strength);
+    });
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled || prefersReducedMotion || !ref.current) return;
 
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current.getBoundingClientRect();
-
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-
-    x.set(middleX * strength);
-    y.set(middleY * strength);
+    pendingPoint.current = {
+      clientX: e.clientX,
+      clientY: e.clientY,
+    };
+    scheduleUpdate();
   };
 
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+    pendingPoint.current = null;
+    if (frameRef.current !== null) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
 
   if (disabled || prefersReducedMotion) {
     return (

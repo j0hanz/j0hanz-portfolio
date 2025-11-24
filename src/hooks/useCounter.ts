@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { UseCounterReturn } from '@/config/types';
 
-export function useCounter(initialValue = 0): UseCounterReturn {
+export function useCounter(initialValue = 0) {
   const [count, setCount] = useState(initialValue);
 
   const increment = () => setCount((prev) => prev + 1);
@@ -16,7 +16,7 @@ export function useCounter(initialValue = 0): UseCounterReturn {
     decrement,
     reset,
     set,
-  };
+  } satisfies UseCounterReturn;
 }
 
 export default useCounter;

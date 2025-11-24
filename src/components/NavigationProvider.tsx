@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState, useTransition } from 'react';
+import { ReactNode, useEffect, useState, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
 import type { Direction } from '@/config/types';
@@ -108,6 +108,7 @@ export function NavigationProvider({
   });
 
   // React Compiler auto-optimizes these objects - no manual memoization needed
+  // These are recreated on every render but React Compiler prevents unnecessary re-renders
   const stateValue = {
     activeSectionIndex,
     activeSectionId,

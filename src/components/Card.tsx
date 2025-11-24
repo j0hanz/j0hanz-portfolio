@@ -38,6 +38,7 @@ const BaseCard = function Card({
   noContentPadding = false,
   motionProps,
   ref,
+  ...rest
 }: InternalCardProps & {
   ref?: React.Ref<HTMLDivElement>;
 }): React.ReactElement {
@@ -52,6 +53,7 @@ const BaseCard = function Card({
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...(motionProps ?? {})}
+      {...rest}
     >
       {noContentPadding ? (
         children

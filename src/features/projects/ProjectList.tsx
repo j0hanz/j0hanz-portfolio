@@ -11,6 +11,7 @@ import { motion } from 'motion/react';
 import { AnimatedCard } from '@/components/Card';
 import { staggerItemVariant } from '@/config/motion';
 import { Project, ProjectListProps } from '@/config/types';
+import { prefetchRepoStats } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
@@ -42,11 +43,18 @@ const gridSx: SxProps<Theme> = {
 function ProjectCard({ project }: { project: Project }): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
 
+  const handleMouseEnter = () => {
+    if (repoPath) {
+      prefetchRepoStats(repoPath);
+    }
+  };
+
   return (
     <AnimatedCard
       title="" // Title is handled by ProjectHeader
       noContentPadding
       sx={[cardBaseSx, (theme) => theme.mixins.glass] as SxProps<Theme>}
+      onMouseEnter={handleMouseEnter}
     >
       <Stack component="article" sx={articleSx}>
         <Stack spacing={2} sx={contentSx}>

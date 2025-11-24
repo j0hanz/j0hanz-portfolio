@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -187,7 +187,9 @@ function Hero(): React.JSX.Element {
       {cvModal.isOpen && (
         <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
       )}
-      <ImageModal show={imageModal.isOpen} handleClose={imageModal.close} />
+      {imageModal.isOpen && (
+        <ImageModal show={imageModal.isOpen} handleClose={imageModal.close} />
+      )}
     </Box>
   );
 }

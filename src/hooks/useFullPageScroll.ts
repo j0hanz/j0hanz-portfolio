@@ -45,6 +45,7 @@ export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
   const { isScrollLocked, isPending } = useNavigationState();
   const isScrolling = useRef(false);
+  const containerRef = useRef<HTMLElement | null>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const prefersReducedMotion = useReducedMotion();
@@ -52,11 +53,38 @@ export function useFullPageScroll(): void {
   // Skip if reduced motion, mobile, or scroll not locked (e.g. footer)
   const shouldDisable = prefersReducedMotion || isMobile || !isScrollLocked;
 
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    containerRef.current = document.getElementById('active-section-container');
+
+    return () => {
+      containerRef.current = null;
+    };
+  }, []);
+
+  const resolveContainer = useEventCallback(() => {
+    if (typeof document === 'undefined') {
+      return null;
+    }
+
+    const cached = containerRef.current;
+    if (cached && cached.isConnected) {
+      return cached;
+    }
+
+    const node = document.getElementById('active-section-container');
+    containerRef.current = node;
+    return node;
+  });
+
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
     if (isScrolling.current || isPending) return false;
 
     // Re-query container each time
-    const container = document.getElementById('active-section-container');
+    const container = resolveContainer();
     const boundaries = getScrollBoundaries(container);
 
     // Check if we should allow navigation based on scroll position

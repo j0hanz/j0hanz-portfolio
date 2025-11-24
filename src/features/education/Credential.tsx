@@ -46,6 +46,16 @@ const hoverTextSx: SxProps<Theme> = {
   pointerEvents: 'none',
 };
 
+const imageSx: SxProps<Theme> = {
+  maxWidth: '90vw',
+  maxHeight: '90vh',
+  width: 'auto',
+  height: 'auto',
+  objectFit: 'contain',
+  transition: 'all 0.3s ease',
+  display: 'block',
+};
+
 // Component for displaying a credential
 function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
   return (
@@ -94,15 +104,7 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
               src={ImageCredential}
               alt="Credential"
               className="credential-image"
-              style={{
-                maxWidth: '90vw',
-                maxHeight: '90vh',
-                width: 'auto',
-                height: 'auto',
-                objectFit: 'contain',
-                transition: 'all 0.3s ease',
-                display: 'block',
-              }}
+              sx={imageSx}
               radius="rounded"
             />
             <Stack

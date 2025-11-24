@@ -219,6 +219,8 @@ export interface CardProps {
   bodyClassName?: string;
   sx?: SxProps<Theme>;
   noContentPadding?: boolean;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export interface CustomButtonProps extends MuiButtonProps {
@@ -261,6 +263,7 @@ export interface ImageProps {
   height?: string | number;
   className?: string;
   style?: CSSProperties;
+  sx?: SxProps<Theme>;
   onClick?: () => void;
   radius?: 'rounded' | 'circle' | 'flat';
 }
