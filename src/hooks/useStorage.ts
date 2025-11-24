@@ -27,11 +27,7 @@ const resolveStorage = (source?: StorageSource): Storage | null => {
   return source === 'session' ? window.sessionStorage : source;
 };
 
-/**
- * Local/session storage helper that keeps React state in sync with the Web Storage API.
- * Provides defensive parsing/serialization and gracefully handles environments where
- * storage is not available (SSR, private mode, etc.).
- */
+// Syncs React state with Web Storage API (local/session) with defensive parsing
 export function useStorage<T>(
   key: string,
   defaultValue: DefaultValue<T>,

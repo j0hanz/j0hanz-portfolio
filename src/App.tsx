@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { Alert, Box, Collapse } from '@mui/material';
+import { Alert, Box, Collapse, LinearProgress } from '@mui/material';
+import { useIsFetching } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
 
 import BackgroundMorph from '@/components/BackgroundMorph';
@@ -15,6 +16,7 @@ function App(): React.JSX.Element {
   const { isOnline, statusBanner } = useConnectivity();
   const [isLoading, setIsLoading] = useState(true);
   const contentMotion = useContentMotion();
+  const isFetching = useIsFetching(); // Global loading indicator for background queries
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
@@ -61,6 +63,29 @@ function App(): React.JSX.Element {
               {statusBanner.message}
             </Alert>
           )}
+        </Collapse>
+      </Box>
+      {/* Global loading indicator for background queries */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: (theme) => theme.zIndex.appBar + 2,
+          height: 3,
+        }}
+      >
+        <Collapse in={isFetching > 0 && !isLoading} timeout={200}>
+          <LinearProgress
+            color="primary"
+            sx={{
+              height: 3,
+              '& .MuiLinearProgress-bar': {
+                transition: 'transform 0.2s linear',
+              },
+            }}
+          />
         </Collapse>
       </Box>
       <NavigationProvider>

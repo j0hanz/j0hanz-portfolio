@@ -9,11 +9,7 @@ import type {
 const isClipboardSupported = () =>
   typeof navigator !== 'undefined' && Boolean(navigator.clipboard);
 
-/**
- * Hook for copying text to the clipboard with success/error state tracking.
- *
- * @returns Tuple of [copyFn, { value, success }]
- */
+// Copies text to clipboard with success/error state tracking
 export function useCopyToClipboard(): UseCopyToClipboardReturn {
   const [state, setState] = useState<CopyResult>({
     value: null,

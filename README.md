@@ -32,13 +32,16 @@ To view the project showcase, navigate to the "Projects" section. Each project c
 
 ## 🛠️ Technologies Used
 
-- **[React](https://reactjs.org/)**: A JavaScript library for building user interfaces.
-- **[Bootstrap](https://getbootstrap.com/)**: A CSS framework for developing responsive and mobile-first websites.
-- **[FontAwesome](https://fontawesome.com/)**: A toolkit for icons and social logos.
-- **[Heroku](https://www.heroku.com/)**: A cloud platform for deploying and managing applications.
-- **[EmailJS](https://www.emailjs.com/)**: A service to send emails directly from JavaScript.
-- **[React Toastify](https://fkhadra.github.io/react-toastify/)**: A library for toast notifications in React.
-- **[Framer Motion](https://www.framer.com/motion/)**: A library for animations in React.
+- **[React 19.2](https://reactjs.org/)**: Latest React with Suspense, concurrent features, and React Compiler optimization.
+- **[TypeScript 5](https://www.typescriptlang.org/)**: Type-safe JavaScript with strict mode enabled.
+- **[Vite 7](https://vite.dev/)**: Next-generation frontend build tool with lightning-fast HMR.
+- **[TanStack Query v5](https://tanstack.com/query/latest)**: Powerful server state management with React 19 Suspense integration, declarative caching, and automatic background refetching.
+- **[MUI 7.3](https://mui.com/)**: Material Design component library (Material UI) with Emotion styling.
+- **[Framer Motion 12](https://www.framer.com/motion/)**: Production-ready animation library for React.
+- **[EmailJS](https://www.emailjs.com/)**: Client-side email service for contact form submissions.
+- **[Heroku](https://www.heroku.com/)**: Cloud platform for deploying and hosting the application.
+- **[Flag Icons](https://github.com/lipis/flag-icons)**: SVG country flag icon library.
+- **[React Icons](https://react-icons.github.io/react-icons/)**: Popular icon library with Font Awesome, Material Design, and more.
 
 ---
 
@@ -85,10 +88,10 @@ The **Contact** section includes a form that allows visitors to get in touch wit
 
 Acknowledgments for the tools and resources used in building my portfolio:
 
-- **[React Toastify](https://fkhadra.github.io/react-toastify/)**: For toast notifications.
+- **[TanStack Query](https://tanstack.com/query/latest)**: For powerful server state management and caching.
 - **[EmailJS](https://www.emailjs.com/)**: For handling email submissions.
-- **[FontAwesome](https://fontawesome.com/)**: Powered by FontAwesome for icons.
-- **[GitHub API](https://docs.github.com/en/rest)**: Used for displaying project data.
-- **[React Bootstrap](https://react-bootstrap.netlify.app/)**: Ensures responsive design.
-- **[Flag-icons](https://github.com/lipis/flag-icons)**: Provides interactive flags.
-- **[Framer Motion](https://www.framer.com/motion/)**: For smooth scroll animations.
+- **[MUI (Material UI)](https://mui.com/)**: For beautiful and accessible React components.
+- **[Framer Motion](https://www.framer.com/motion/)**: For smooth animations and transitions.
+- **[GitHub API](https://docs.github.com/en/rest)**: Used for displaying project statistics.
+- **[Flag-icons](https://github.com/lipis/flag-icons)**: Provides interactive country flags.
+- **[React Icons](https://react-icons.github.io/react-icons/)**: For comprehensive icon library.

@@ -26,15 +26,7 @@ const backgroundSx: SxProps<Theme> = {
   willChange: 'transform, opacity',
 };
 
-/**
- * Animated background morphing effect with enhanced visual depth
- * Features:
- * - Organic floating motion with rotation for natural feel
- * - Layered gradients for depth perception
- * - Hardware-accelerated transforms (translate3d, scale, rotate)
- * - Respects user motion preferences and device capabilities
- * - Optimized blur radius for performance
- */
+// Animated background with organic floating motion (respects device capability)
 function BackgroundMorph(): React.JSX.Element {
   const priority = useAnimationPriority();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();

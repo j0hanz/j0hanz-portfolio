@@ -717,28 +717,6 @@ export interface MagnetMotionProps {
   onPointerLeave?: React.PointerEventHandler<HTMLDivElement>;
 }
 
-export interface UseFetchOptions<T = unknown> extends RequestInit {
-  immediate?: boolean;
-  onSuccess?: (data: T) => void;
-  onError?: (error: Error) => void;
-  validator?: (data: unknown) => data is T;
-}
-
-export interface UseFetchState<T> {
-  data: T | null;
-  loading: boolean;
-  error: Error | null;
-}
-
-export interface UseFetchReturn<T> extends UseFetchState<T> {
-  execute: (
-    overrideUrl?: string,
-    overrideOptions?: RequestInit
-  ) => Promise<T | null>;
-  abort: () => void;
-  reset: () => void;
-}
-
 export interface UseLazyReturn<T> {
   value: T;
   refresh: () => void;
@@ -805,10 +783,7 @@ export type SectionVariant =
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {
   interface Mixins {
-    /**
-     * Glassmorphism effect mixin.
-     * Includes backdrop-filter and webkit-backdrop-filter.
-     */
+    // Glassmorphism effect mixin (backdrop-filter + webkit-backdrop-filter)
     glass: CSSProperties;
   }
   interface MixinsOptions {
@@ -820,39 +795,23 @@ declare module '@mui/material/styles' {
   }
 
   interface Palette {
-    /**
-     * Gradient used for the Hero section background.
-     */
+    // Gradient used for Hero section background
     heroGradient: string;
-    /**
-     * Neutral color palette for secondary UI elements.
-     */
+    // Neutral color palette for secondary UI elements
     neutral: Palette['primary'];
-    /**
-     * Backdrop colors, including glass effect base color.
-     */
+    // Backdrop colors, including glass effect base color
     backdrop: {
       glass: string;
     };
-    /**
-     * Brand color for Certificate badges/buttons.
-     */
+    // Brand color for Certificate badges/buttons
     certificate: Palette['primary'];
-    /**
-     * Brand color for GitHub badges/buttons.
-     */
+    // Brand color for GitHub badges/buttons
     github: Palette['primary'];
-    /**
-     * Brand color for LinkedIn badges/buttons.
-     */
+    // Brand color for LinkedIn badges/buttons
     linkedin: Palette['primary'];
-    /**
-     * Brand color for PDF/Resume badges/buttons.
-     */
+    // Brand color for PDF/Resume badges/buttons
     pdf: Palette['primary'];
-    /**
-     * Brand color for Source Code badges/buttons.
-     */
+    // Brand color for Source Code badges/buttons
     sourceCode: Palette['primary'];
   }
   interface PaletteOptions {

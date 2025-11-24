@@ -26,9 +26,7 @@ interface ScrollBoundaries {
   isAtBottom: boolean;
 }
 
-/**
- * Gets scroll boundary state for a container
- */
+// Gets scroll boundary state (isAtTop, isAtBottom) for a container
 function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
   if (!container) {
     return { isAtTop: true, isAtBottom: true };
@@ -79,9 +77,7 @@ export function useFullPageScroll(): void {
   useEffect(() => {
     if (shouldDisable) return;
 
-    /**
-     * Handles wheel events for full-page scrolling
-     */
+    // Handles wheel events for full-page scrolling
     const handleWheel = (e: WheelEvent) => {
       if (isScrolling.current) {
         e.preventDefault();
@@ -98,9 +94,7 @@ export function useFullPageScroll(): void {
       }
     };
 
-    /**
-     * Handles keyboard events for full-page scrolling
-     */
+    // Handles keyboard events for full-page scrolling
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isScrolling.current) {
         e.preventDefault();
@@ -120,9 +114,7 @@ export function useFullPageScroll(): void {
       }
     };
 
-    /**
-     * Handles touch events for full-page scrolling
-     */
+    // Handles touch events for full-page scrolling
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;

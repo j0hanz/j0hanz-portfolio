@@ -3,10 +3,14 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import App from '@/App';
 import AppThemeProvider from '@/components/AppThemeProvider';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { initEmailJs } from '@/lib/emailJs';
+import { queryClient } from '@/utils/query';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -19,8 +23,14 @@ initEmailJs();
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <InitColorSchemeScript />
-    <AppThemeProvider>
-      <App />
-    </AppThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <AppThemeProvider>
+          <App />
+        </AppThemeProvider>
+      </ErrorBoundary>
+      {/* React Query Devtools - automatically tree-shaken in production */}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </StrictMode>
 );

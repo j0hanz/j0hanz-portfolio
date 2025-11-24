@@ -18,10 +18,7 @@ import { useNavigationState } from '@/hooks/useNavigation';
 // SECTION MOTION WRAPPER
 // ============================================================================
 
-/**
- * Wraps sections with scroll-triggered animations
- * Automatically handles reduced motion preferences
- */
+// Wraps sections with scroll-triggered animations (auto handles reduced motion)
 function MotionWrapper({
   children,
   sectionId,
@@ -85,9 +82,7 @@ function MotionWrapper({
 // SLIDE FROM SIDE
 // ============================================================================
 
-/**
- * Animates elements sliding in from left or right
- */
+// Animates elements sliding in from left or right
 function SlideFromSide({
   children,
   from,
@@ -135,9 +130,7 @@ function SlideFromSide({
 // FADE IN VIEW
 // ============================================================================
 
-/**
- * Simple fade-in when element enters viewport
- */
+// Simple fade-in when element enters viewport
 export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
   function FadeInView({ children, delay = 0, threshold = 0.2, ...props }, ref) {
     const { prefersReducedMotion, getTransition } = useAnimationConfig();
@@ -169,9 +162,7 @@ export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
 // STAGGER CONTAINER
 // ============================================================================
 
-/**
- * Container that staggers child animations
- */
+// Container that staggers child animations
 export function StaggerContainer({
   children,
   stagger = 0.07,
@@ -215,9 +206,7 @@ export function StaggerContainer({
 // STAGGER ITEM
 // ============================================================================
 
-/**
- * Item to be used inside StaggerContainer
- */
+// Item to be used inside StaggerContainer
 export function StaggerItem({ children, className, style }: StaggerItemProps) {
   const { prefersReducedMotion } = useAnimationConfig();
 

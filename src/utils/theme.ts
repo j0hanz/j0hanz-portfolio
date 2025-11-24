@@ -1,12 +1,7 @@
 import { alpha, Theme } from '@mui/material/styles';
 import { SxProps } from '@mui/system';
 
-/**
- * Returns a glassmorphism style object using the theme's glass mixin and backdrop color.
- * @param theme - The MUI theme
- * @param opacity - Optional opacity override for the background color (default: theme value)
- * @returns SxProps object
- */
+// Returns glassmorphism style with optional opacity override
 export const getGlassStyle = (
   theme: Theme,
   opacity?: number
@@ -17,11 +12,7 @@ export const getGlassStyle = (
     : 'backdrop.glass',
 });
 
-/**
- * Returns a gradient style object.
- * @param gradient - The gradient string (e.g., from theme.palette.heroGradient)
- * @returns SxProps object
- */
+// Returns gradient style from gradient string (e.g., theme.palette.heroGradient)
 export const getGradientStyle = (gradient: string): SxProps<Theme> => ({
   background: gradient,
 });

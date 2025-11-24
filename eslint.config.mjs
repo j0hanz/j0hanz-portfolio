@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import tanstackQuery from '@tanstack/eslint-plugin-query';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import react from 'eslint-plugin-react';
 import reactCompiler from 'eslint-plugin-react-compiler';
@@ -18,6 +19,7 @@ export default defineConfig(
   { ignores: ['dist'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  ...tanstackQuery.configs['flat/recommended'],
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {

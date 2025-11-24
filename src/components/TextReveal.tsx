@@ -8,9 +8,7 @@ import { useInView, useReducedMotion } from '@/hooks';
 const wrapperStyle = { display: 'flex', flexWrap: 'wrap' } as const;
 const wordStyle = { marginRight: '0.25em', display: 'inline-block' } as const;
 
-/**
- * Reveals text character by character with stagger animation
- */
+// Reveals text character by character with stagger animation
 export function TextReveal({
   text,
   className,

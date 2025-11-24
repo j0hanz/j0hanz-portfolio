@@ -1,6 +1,4 @@
-import { useActionState, useEffect, useEffectEvent, useRef } from 'react';
-
-import { useFormStatus } from 'react-dom';
+import { useEffect, useRef } from 'react';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -20,9 +18,12 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { successIndicatorVariants } from '@/config/motion';
-import type { SuccessIndicatorProps } from '@/config/types';
-import { useAnimationConfig } from '@/hooks';
-import { sendEmailAction } from '@/lib/actions';
+import type { ContactFormValues, SuccessIndicatorProps } from '@/config/types';
+import {
+  useAnimationConfig,
+  useContactFormMutation,
+  useSnackbar,
+} from '@/hooks';
 
 import ContactFormFields from './ContactFormFields';
 
@@ -58,7 +59,6 @@ const iconSx: SxProps<Theme> = {
 function SuccessIndicator({
   visible,
 }: SuccessIndicatorProps): React.JSX.Element {
-  const { pending } = useFormStatus();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const { container, checkmarkCircle, checkmarkPath } =
     successIndicatorVariants;
@@ -72,7 +72,7 @@ function SuccessIndicator({
 
   return (
     <AnimatePresence initial={false} mode="wait">
-      {visible && !pending && (
+      {visible && (
         <Stack
           component={motion.div}
           key="contact-success"
@@ -126,11 +126,13 @@ function SuccessIndicator({
 
 interface FormActionsProps {
   onReset: () => void;
+  isPending: boolean;
 }
 
-function FormActions({ onReset }: FormActionsProps): React.JSX.Element {
-  const { pending } = useFormStatus();
-
+function FormActions({
+  onReset,
+  isPending,
+}: FormActionsProps): React.JSX.Element {
   return (
     <Stack
       direction="row"
@@ -143,7 +145,7 @@ function FormActions({ onReset }: FormActionsProps): React.JSX.Element {
         color="inherit"
         type="button"
         onClick={onReset}
-        disabled={pending}
+        disabled={isPending}
         startIcon={<DeleteRounded sx={iconSx} />}
         aria-label="Clear form"
         sx={clearButtonSx}
@@ -155,56 +157,76 @@ function FormActions({ onReset }: FormActionsProps): React.JSX.Element {
       <Button
         variant="contained"
         type="submit"
-        loading={pending}
-        disabled={pending}
+        loading={isPending}
+        disabled={isPending}
         startIcon={<SendRounded sx={iconSx} />}
-        aria-label={pending ? 'Sending message' : 'Send message'}
+        aria-label={isPending ? 'Sending message' : 'Send message'}
         sx={submitButtonSx}
       >
-        {!pending && 'Send'}
+        {!isPending && 'Send'}
       </Button>
     </Stack>
   );
 }
 
 function ContactFormContent(): React.JSX.Element {
-  const [state, formAction] = useActionState(sendEmailAction, null);
   const formRef = useRef<HTMLFormElement>(null);
+  const { showSnackbar } = useSnackbar();
+  const mutation = useContactFormMutation();
 
-  const showSuccess = !!state?.success;
-  const errors = state?.errors || {};
-
-  const resetFormInEffect = useEffectEvent(() => {
-    formRef.current?.reset();
-  });
+  const showSuccess = mutation.isSuccess && !mutation.isPending;
 
   const handleReset = () => {
     formRef.current?.reset();
+    mutation.reset(); // Reset mutation state
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const values: ContactFormValues = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      company: (formData.get('company') as string) || '',
+      url: (formData.get('url') as string) || '',
+      message: formData.get('message') as string,
+    };
+
+    mutation.mutate(values, {
+      onSuccess: () => {
+        showSnackbar('Message sent successfully!', 'success');
+      },
+      onError: (error) => {
+        showSnackbar(error.message, 'error');
+      },
+    });
   };
 
   // Auto-reset form on success so the next interaction starts with a clean slate
   useEffect(() => {
-    if (!state?.success) {
+    if (!showSuccess) {
       return;
     }
     const timer = setTimeout(() => {
-      resetFormInEffect();
+      formRef.current?.reset();
+      mutation.reset();
     }, 3000);
     return () => clearTimeout(timer);
-  }, [state?.success]);
+  }, [showSuccess, mutation]);
 
   return (
     <Card title="" sx={cardSx}>
       <Stack
         component="form"
         ref={formRef}
-        action={formAction}
+        onSubmit={handleSubmit}
         noValidate
         spacing={2}
       >
-        <ContactFormFields defaultValues={state?.values} errors={errors} />
+        <ContactFormFields defaultValues={undefined} errors={{}} />
         <SuccessIndicator visible={showSuccess} />
-        <FormActions onReset={handleReset} />
+        <FormActions onReset={handleReset} isPending={mutation.isPending} />
       </Stack>
     </Card>
   );

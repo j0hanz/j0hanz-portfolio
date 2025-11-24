@@ -2,12 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { UseLazyReturn } from '@/config/types';
 
-/**
- * Lazily evaluates an expensive computation only once until a manual refresh is requested.
- *
- * @param initializer - Function that produces the memoized value
- * @returns Latest cached value plus a refresh function to recompute on demand
- */
+// Lazily computes expensive value once (with manual refresh option)
 export function useLazy<T>(initializer: () => T): UseLazyReturn<T> {
   const initializerRef = useRef(initializer);
 

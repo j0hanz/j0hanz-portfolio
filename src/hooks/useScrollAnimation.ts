@@ -8,26 +8,13 @@ import useEventCallback from './useEventCallback';
 import { useAnimationConfig, useAnimationSequence } from './useMotions';
 
 interface UseScrollAnimationOptions {
-  /**
-   * Offset for the scroll intersection.
-   * @default ['start 0.85', 'end 0.2']
-   */
+  // Offset for scroll intersection (default: ['start 0.85', 'end 0.2'])
   offset?: UseScrollOptions['offset'];
-  /**
-   * Threshold value of scroll progress to trigger the animation.
-   * @default 0.2
-   */
+  // Threshold to trigger animation (default: 0.2)
   triggerThreshold?: number;
 }
 
-/**
- * Triggers an animation sequence when a section is scrolled into view.
- *
- * @param sectionRef - Ref to the section element to track.
- * @param animationCallback - Callback function containing the animation sequence.
- * @param options - Configuration options.
- * @returns The scroll progress motion value.
- */
+// Triggers animation sequence when section scrolls into view
 export function useScrollAnimation(
   sectionRef: React.RefObject<HTMLElement | null>,
   animationCallback: (animate: SequenceAnimator) => Promise<void>,

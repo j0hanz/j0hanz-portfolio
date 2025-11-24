@@ -43,10 +43,7 @@ import useEventCallback from '@/hooks/useEventCallback';
 // REDUCED MOTION DETECTION
 // ============================================================================
 
-/**
- * Detects if user prefers reduced motion
- * @returns boolean indicating reduced motion preference
- */
+// Detects if user prefers reduced motion
 export function useReducedMotion(): boolean {
   const shouldReduce = useMotionReducedMotion();
   return shouldReduce ?? false;
@@ -56,10 +53,7 @@ export function useReducedMotion(): boolean {
 // ANIMATION CONFIGURATION
 // ============================================================================
 
-/**
- * Centralized animation configuration respecting user preferences
- * Provides timing helpers and motion-safe defaults
- */
+// Animation configuration respecting user motion preferences with timing helpers
 export function useAnimationConfig(): AnimationConfig {
   const prefersReducedMotion = useReducedMotion();
 
@@ -109,9 +103,7 @@ export function useAnimationConfig(): AnimationConfig {
 // GESTURE VARIANTS
 // ============================================================================
 
-/**
- * Returns card hover motion props with gesture variants
- */
+// Returns card hover motion props with gesture variants
 export function useCardHover(): CardHoverMotion {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
@@ -135,9 +127,7 @@ export function useCardHover(): CardHoverMotion {
   };
 }
 
-/**
- * Returns button gesture motion props
- */
+// Returns button gesture motion props (tap, hover, focus)
 export function useButtonGesture() {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
@@ -165,9 +155,7 @@ export function useButtonGesture() {
 // SCROLL PROGRESS
 // ============================================================================
 
-/**
- * Tracks scroll progress as a 0-1 value
- */
+// Tracks scroll progress as 0-1 value
 export function useScrollProgress(): ScrollProgressValue {
   const { scrollYProgress } = useScroll();
   const [progress, setProgress] = useState(0);
@@ -186,9 +174,7 @@ export function useScrollProgress(): ScrollProgressValue {
 // IN VIEW DETECTION
 // ============================================================================
 
-/**
- * Enhanced useInView with sensible defaults
- */
+// Enhanced useInView with defaults (once=true, amount=0.2)
 export function useInView(ref: RefObject<Element>, options?: UseInViewOptions) {
   return useMotionInView(ref, {
     once: true,
@@ -201,9 +187,7 @@ export function useInView(ref: RefObject<Element>, options?: UseInViewOptions) {
 // PRESENCE DETECTION
 // ============================================================================
 
-/**
- * Detects if component is present in AnimatePresence tree
- */
+// Detects if component is present in AnimatePresence tree
 export function usePresence(): PresenceControls {
   const [isPresent, safeToRemove] = useMotionPresence();
 
@@ -214,9 +198,7 @@ export function usePresence(): PresenceControls {
 // ANIMATION SEQUENCING
 // ============================================================================
 
-/**
- * Orchestrates complex animation sequences with cleanup
- */
+// Orchestrates complex animation sequences with cleanup
 export function useAnimationSequence(): AnimationSequenceControls {
   const [scope, animate] = useAnimate();
   const controlsRef = useRef<AnimationPlaybackControls[]>([]);
@@ -244,6 +226,16 @@ export function useAnimationSequence(): AnimationSequenceControls {
 
   const runSequence = useEventCallback(
     async (builder: (animate: SequenceAnimator) => Promise<void> | void) => {
+      // Safety check: ensure scope element exists before running animations
+      const scopeElement =
+        typeof scope === 'object' && scope && 'current' in scope
+          ? scope.current
+          : null;
+
+      if (!scopeElement) {
+        return;
+      }
+
       setIsAnimating(true);
 
       const registeringAnimator: SequenceAnimator = (
@@ -283,9 +275,7 @@ const defaultMeasureRect: MeasureRect = {
   left: 0,
 };
 
-/**
- * Measures element dimensions with ResizeObserver
- */
+// Measures element dimensions with ResizeObserver
 export function useMeasure<
   T extends HTMLElement = HTMLElement,
 >(): UseMeasureReturn<T> {
@@ -361,9 +351,7 @@ const detectAnimationPriority = (): AnimationPriority => {
   return 'high';
 };
 
-/**
- * Detects device capability for complex animations
- */
+// Detects device capability for complex animations (high/reduced)
 export function useAnimationPriority(): AnimationPriority {
   const prefersReducedMotion = useReducedMotion();
   if (prefersReducedMotion) {
@@ -377,9 +365,7 @@ export function useAnimationPriority(): AnimationPriority {
 // CONTENT MOTION
 // ============================================================================
 
-/**
- * Returns motion configuration for main content transitions
- */
+// Returns motion config for main content transitions
 export function useContentMotion() {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
@@ -403,9 +389,7 @@ export function useContentMotion() {
 // SECTION SEQUENCE
 // ============================================================================
 
-/**
- * Orchestrates section animations based on scroll position
- */
+// Orchestrates section animations based on scroll position
 export function useSectionSequence(
   ref: RefObject<HTMLElement | null>,
   selectors: {
@@ -421,7 +405,6 @@ export function useSectionSequence(
 ) {
   const { offset = ['start 0.85', 'end 0.2'], threshold = 0.2 } = options;
   const { prefersReducedMotion, getStagger } = useAnimationConfig();
-  const { runSequence } = useAnimationSequence();
   const hasPlayed = useRef(false);
 
   const { scrollYProgress } = useScroll({
@@ -430,54 +413,108 @@ export function useSectionSequence(
   });
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
-    if (prefersReducedMotion || hasPlayed.current || value <= threshold) {
+    if (
+      prefersReducedMotion ||
+      hasPlayed.current ||
+      value <= threshold ||
+      !ref.current
+    ) {
       return;
     }
 
     hasPlayed.current = true;
 
-    runSequence(async (animate) => {
-      const animationPromises: Promise<void>[] = [];
+    // Run animations directly on the ref element
+    const runAnimations = async () => {
+      const scopeElement = ref.current;
+      if (!scopeElement) return;
+
+      const animationPromises: Promise<Animation>[] = [];
 
       // Description animation
       if (selectors.description) {
-        const control = animate(
-          selectors.description,
-          { opacity: [0, 1], y: [20, 0] },
-          { duration: 0.5, ease: 'easeOut' }
-        );
-        animationPromises.push(control.finished);
+        const elements = scopeElement.querySelectorAll(selectors.description);
+        elements.forEach((el) => {
+          const htmlEl = el as HTMLElement;
+          htmlEl.style.opacity = '0';
+          htmlEl.style.transform = 'translateY(20px)';
+
+          const animation = htmlEl.animate(
+            [
+              { opacity: '0', transform: 'translateY(20px)' },
+              { opacity: '1', transform: 'translateY(0)' },
+            ],
+            {
+              duration: 500,
+              easing: 'ease-out',
+              fill: 'forwards',
+            }
+          );
+          animationPromises.push(animation.finished);
+        });
       }
 
       // Cards animation
       if (selectors.cards) {
-        // Wait a bit for description if it exists
-        const delay = selectors.description ? 0.2 : 0;
-        const control = animate(
-          selectors.cards,
-          { opacity: [0, 1], y: [30, 0] },
-          {
-            delay: getStagger(0.1) + delay,
-            duration: 0.5,
-            ease: 'easeOut',
-          }
-        );
-        animationPromises.push(control.finished);
+        const delay = selectors.description ? 200 : 0;
+        const elements = scopeElement.querySelectorAll(selectors.cards);
+        elements.forEach((el, index) => {
+          const htmlEl = el as HTMLElement;
+          htmlEl.style.opacity = '0';
+          htmlEl.style.transform = 'translateY(30px)';
+
+          setTimeout(
+            () => {
+              const animation = htmlEl.animate(
+                [
+                  { opacity: '0', transform: 'translateY(30px)' },
+                  { opacity: '1', transform: 'translateY(0)' },
+                ],
+                {
+                  duration: 500,
+                  easing: 'ease-out',
+                  fill: 'forwards',
+                }
+              );
+              animationPromises.push(animation.finished);
+            },
+            delay + index * (getStagger(0.1) * 1000)
+          );
+        });
       }
 
       // CTA animation
       if (selectors.cta) {
         const delay =
-          (selectors.description ? 0.2 : 0) + (selectors.cards ? 0.4 : 0);
-        const control = animate(
-          selectors.cta,
-          { opacity: [0, 1], scale: [0.9, 1] },
-          { delay, duration: 0.4, ease: 'backOut' }
-        );
-        animationPromises.push(control.finished);
+          (selectors.description ? 200 : 0) + (selectors.cards ? 400 : 0);
+        const elements = scopeElement.querySelectorAll(selectors.cta);
+        elements.forEach((el) => {
+          const htmlEl = el as HTMLElement;
+          htmlEl.style.opacity = '0';
+          htmlEl.style.transform = 'scale(0.9)';
+
+          setTimeout(() => {
+            const animation = htmlEl.animate(
+              [
+                { opacity: '0', transform: 'scale(0.9)' },
+                { opacity: '1', transform: 'scale(1)' },
+              ],
+              {
+                duration: 400,
+                easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                fill: 'forwards',
+              }
+            );
+            animationPromises.push(animation.finished);
+          }, delay);
+        });
       }
 
-      await Promise.all(animationPromises);
-    });
+      await Promise.all(animationPromises).catch(() => {
+        // Silently catch animation errors
+      });
+    };
+
+    runAnimations();
   });
 }

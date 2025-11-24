@@ -5,10 +5,7 @@ import { motion, useMotionValue, useSpring } from 'motion/react';
 import type { MagneticWrapperProps } from '@/config/types';
 import { useReducedMotion } from '@/hooks';
 
-/**
- * Creates a magnetic cursor effect on hover
- * Uses hardware-accelerated transforms for smooth performance
- */
+// Creates magnetic cursor effect on hover (hardware-accelerated)
 export function MagneticWrapper({
   children,
   strength = 0.2,

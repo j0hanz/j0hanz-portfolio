@@ -10,7 +10,7 @@ import { motion } from 'motion/react';
 import { CardProps, InternalCardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 
-const MotionPaper = motion(MuiPaper);
+const MotionPaper = motion.create(MuiPaper);
 
 const paperBaseSx: SxProps<Theme> = {
   height: 1,

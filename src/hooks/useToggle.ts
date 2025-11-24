@@ -3,12 +3,7 @@ import { useState } from 'react';
 import { InitialToggleState, UseToggleReturn } from '@/config/types';
 import useEventCallback from '@/hooks/useEventCallback';
 
-/**
- * Boolean state helper that provides ergonomic helpers for toggling UI flags.
- *
- * @param initialState - Optional initial value or initializer function (defaults to `false`)
- * @returns Current boolean value alongside toggle/setters
- */
+// Boolean state with toggle/setTrue/setFalse/open/close helpers (defaults to false)
 export function useToggle(
   initialState: InitialToggleState = false
 ): UseToggleReturn {

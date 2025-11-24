@@ -5,14 +5,7 @@ import type { UseClickOutsideOptions } from '@/config/types';
 
 import useEventCallback from './useEventCallback';
 
-/**
- * Custom hook to handle clicks outside of a referenced element.
- * Useful for closing modals, dropdowns, and other dismissible UI elements.
- *
- * @param handler - Callback to execute when clicking outside
- * @param options - Configuration options
- * @returns Ref to attach to the element
- */
+// Handles clicks outside a ref (for modals, dropdowns, etc.)
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
   handler: () => void,
   options?: UseClickOutsideOptions

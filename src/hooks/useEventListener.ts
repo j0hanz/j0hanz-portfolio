@@ -1,14 +1,6 @@
 import { useEffect, useEffectEvent } from 'react';
 
-/**
- * Custom hook that attaches an event listener to a DOM element, the window, or the document.
- * It handles cleanup automatically when the component unmounts.
- *
- * @param eventName - The name of the event to listen for (e.g., 'click', 'keydown').
- * @param handler - The callback function to execute when the event is triggered.
- * @param element - The target element to attach the listener to (defaults to window).
- * @param options - Optional event listener options (e.g., capture, passive).
- */
+// Attaches event listener to element/window/document with auto cleanup
 export function useEventListener<
   KW extends keyof WindowEventMap,
   KH extends keyof HTMLElementEventMap,

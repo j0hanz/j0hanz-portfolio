@@ -1,5 +1,3 @@
-import { useFormStatus } from 'react-dom';
-
 import ChatBubbleOutline from '@mui/icons-material/ChatBubbleOutline';
 import EmailOutlined from '@mui/icons-material/EmailOutlined';
 import ErrorOutline from '@mui/icons-material/ErrorOutline';
@@ -178,8 +176,6 @@ function ContactFormFields({
   errors,
   handleChange,
 }: FormFieldsProps): React.JSX.Element {
-  const { pending } = useFormStatus();
-
   return (
     <Grid container spacing={1.25}>
       {contactFieldConfigs.map((config) => {
@@ -193,7 +189,7 @@ function ContactFormFields({
               defaultValue={defaultValues ? defaultValues[key] : undefined}
               error={config.errorKey ? errors[config.errorKey] : undefined}
               onChange={handleChange}
-              disabled={pending}
+              disabled={false}
             />
           </Grid>
         );

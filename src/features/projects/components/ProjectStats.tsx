@@ -1,4 +1,4 @@
-import React, { Suspense, use, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 
 import {
   Skeleton,
@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import Button from '@mui/material/Button';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   animate,
   motion,
@@ -22,7 +23,7 @@ import type {
   RepoStats,
 } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { getRepoStats } from '@/lib/github';
+import { githubKeys, useRepoStatsQuery } from '@/utils/query';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -85,7 +86,7 @@ function AnimatedStat({
     prefersReducedMotion ? value : 0
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (prefersReducedMotion) {
       motionValue.set(value);
       return;
@@ -128,12 +129,32 @@ function StatsContent({
   hasProjectBoard: boolean;
 }): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const initialStats = use(getRepoStats(repoPath));
+  const queryClient = useQueryClient();
+  const { data: initialStats } = useRepoStatsQuery(repoPath);
   const [optimisticStars, setOptimisticStars] = useState<number | null>(null);
 
   const handleOptimisticStar = () => {
-    setOptimisticStars((initialStats.stars || 0) + 1);
-    setTimeout(() => setOptimisticStars(null), 2000);
+    // Get current stats from cache
+    const currentStats =
+      queryClient.getQueryData<RepoStats>(githubKeys.repoStats(repoPath)) ??
+      initialStats;
+
+    // Set optimistic star count
+    const newStarCount = currentStats.stars + 1;
+    setOptimisticStars(newStarCount);
+
+    // Update query cache optimistically
+    queryClient.setQueryData<RepoStats>(githubKeys.repoStats(repoPath), {
+      ...currentStats,
+      stars: newStarCount,
+    });
+
+    // Reset optimistic state after 2 seconds
+    setTimeout(() => {
+      setOptimisticStars(null);
+      // Optionally refetch to get actual server state
+      // queryClient.invalidateQueries({ queryKey: githubKeys.repoStats(repoPath) });
+    }, 2000);
   };
 
   const stats: RepoStats = {

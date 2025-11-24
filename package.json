@@ -12,7 +12,8 @@
     "type-check": "tsc -b",
     "type-check:watch": "tsc -b --watch",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "query:devtools": "echo 'React Query Devtools: Open http://localhost:5173 in development mode. Devtools are automatically available and tree-shaken in production builds.'"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -21,6 +22,9 @@
     "@fontsource/roboto": "^5.2.8",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
+    "@tanstack/eslint-plugin-query": "^5.91.2",
+    "@tanstack/react-query": "^5.90.10",
+    "@tanstack/react-query-devtools": "^5.91.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "flag-icons": "^7.3.2",
