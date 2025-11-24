@@ -94,7 +94,8 @@ function SlideFromSide({
   const { prefersReducedMotion, getTransition, reducedMotionTarget } =
     useAnimationConfig();
 
-  const initialX = from === 'left' ? -50 : 50;
+  const initialTransform =
+    from === 'left' ? 'translateX(-50px)' : 'translateX(50px)';
   const viewport =
     viewportOverride ?? (prefersReducedMotion ? undefined : viewportConfig);
   const transition = transitionOverride ?? getTransition('easeOut');
@@ -114,8 +115,8 @@ function SlideFromSide({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: initialX }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, transform: initialTransform }}
+      whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
       transition={transition}
       viewport={viewport}
       style={style}
@@ -147,8 +148,12 @@ export const FadeInView = forwardRef<HTMLDivElement, FadeInViewProps>(
     return (
       <motion.div
         ref={ref || localRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        initial={{ opacity: 0, transform: 'translateY(20px)' }}
+        animate={
+          isInView
+            ? { opacity: 1, transform: 'translateY(0px)' }
+            : { opacity: 0, transform: 'translateY(20px)' }
+        }
         transition={getTransition('easeOut', { delay })}
         {...props}
       >
@@ -223,8 +228,8 @@ export function StaggerItem({ children, className, style }: StaggerItemProps) {
       className={className}
       style={style}
       variants={{
-        initial: { opacity: 0, y: 16 },
-        animate: { opacity: 1, y: 0 },
+        initial: { opacity: 0, transform: 'translateY(16px)' },
+        animate: { opacity: 1, transform: 'translateY(0px)' },
       }}
     >
       {children}
@@ -247,15 +252,16 @@ export function PageTransitionWrapper({
 
   const variants = {
     enter: (dir: 'up' | 'down' | null) => ({
-      y: dir === 'down' ? '100%' : '-100%',
+      // Use transform instead of y for hardware acceleration
+      transform: dir === 'down' ? 'translateY(100%)' : 'translateY(-100%)',
       opacity: 0,
     }),
     center: {
-      y: 0,
+      transform: 'translateY(0%)',
       opacity: 1,
     },
     exit: (dir: 'up' | 'down' | null) => ({
-      y: dir === 'down' ? '-100%' : '100%',
+      transform: dir === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
       opacity: 0,
     }),
   };
@@ -270,7 +276,7 @@ export function PageTransitionWrapper({
       animate="center"
       exit="exit"
       transition={{
-        y: { type: 'spring', stiffness: 300, damping: 30 },
+        transform: { type: 'spring', stiffness: 300, damping: 30 },
         opacity: { duration: 0.2 },
       }}
       style={{

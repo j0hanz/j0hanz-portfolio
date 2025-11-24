@@ -2,12 +2,24 @@ import type { SxProps, Theme } from '@mui/material';
 
 // Shared style constants to eliminate duplication across components
 
+// Standard dimensions
+export const ICON_SIZE = '1rem';
+export const BUTTON_MIN_WIDTH = 120;
+export const BUTTON_MIN_WIDTH_WIDE = 140;
+export const BUTTON_MIN_WIDTH_HERO = 180;
+export const BUTTON_HEIGHT_STANDARD = 30;
+export const BUTTON_HEIGHT_LARGE = 45;
+
+// Common badge dimensions
+export const BADGE_MIN_WIDTH = 45;
+export const BADGE_HEIGHT = 21;
+
 export const iconSx: SxProps<Theme> = {
-  fontSize: '1rem',
+  fontSize: ICON_SIZE,
 };
 
 export const buttonMinWidthSx: SxProps<Theme> = {
-  minWidth: 120,
+  minWidth: BUTTON_MIN_WIDTH,
 };
 
 export const neutralButtonSx: SxProps<Theme> = {
@@ -27,8 +39,8 @@ export const sectionSpacingSx: SxProps<Theme> = {
 };
 
 export const credentialButtonSx: SxProps<Theme> = {
-  minWidth: 140,
-  height: 30,
+  minWidth: BUTTON_MIN_WIDTH_WIDE,
+  height: BUTTON_HEIGHT_STANDARD,
   bgcolor: 'neutral.main',
   '&:hover': {
     bgcolor: 'neutral.dark',

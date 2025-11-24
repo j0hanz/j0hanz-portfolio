@@ -13,9 +13,10 @@ import { motion } from 'motion/react';
 
 import { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
+import { BADGE_HEIGHT, BADGE_MIN_WIDTH } from '@/styles/shared';
 
 const titleSx: SxProps<Theme> = {
-  fontSize: '1.25rem',
+  fontSize: (theme) => theme.typography.h6.fontSize,
   color: 'text.primary',
 };
 
@@ -31,16 +32,16 @@ const newBadgeWrapperSx: SxProps<Theme> = {
 const newBadgeSx: SxProps<Theme> = {
   bgcolor: 'primary.main',
   color: 'primary.contrastText',
-  height: 21,
-  minWidth: 45,
+  height: BADGE_HEIGHT,
+  minWidth: BADGE_MIN_WIDTH,
   border: 'none',
-  fontSize: '0.8rem',
+  fontSize: (theme) => theme.typography.caption.fontSize,
   borderRadius: 1,
   transform: 'skew(-5deg)',
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: '1.3rem',
+  fontSize: (theme) => theme.typography.h6.fontSize,
   color: 'inherit',
 };
 

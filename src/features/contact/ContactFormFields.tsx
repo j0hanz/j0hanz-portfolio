@@ -74,11 +74,11 @@ const contactFieldConfigs: ContactFieldConfig[] = [
 ];
 
 const labelSx: SxProps<Theme> = {
-  fontSize: '0.875rem',
+  fontSize: (theme) => theme.typography.body2.fontSize,
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: '1.1rem',
+  fontSize: (theme) => theme.typography.h6.fontSize,
   color: 'action.active',
 };
 

@@ -17,9 +17,8 @@ const cardSx: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 2,
-  WebkitBackdropFilter: 'blur(10px)',
-  backdropFilter: 'blur(10px)',
   backgroundColor: 'backdrop.glass',
+  ...(theme: Theme) => theme.mixins.glass,
 };
 
 const articleSx: SxProps<Theme> = {

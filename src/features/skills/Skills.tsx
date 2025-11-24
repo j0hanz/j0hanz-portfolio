@@ -29,7 +29,7 @@ const cardSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: '4rem',
+  fontSize: (theme) => theme.typography.h2.fontSize,
   color: 'primary.main',
   mb: 0.7,
 };
@@ -42,9 +42,9 @@ const learningStackSx: SxProps<Theme> = {
   bgcolor: 'neutral.dark',
   color: 'common.white',
   width: 1,
-  height: '1.4rem',
+  height: (theme) => theme.spacing(1.75),
   borderRadius: '0 0 10px 10px',
-  fontSize: '0.8rem',
+  fontSize: (theme) => theme.typography.caption.fontSize,
 };
 
 const learningIconSx: SxProps<Theme> = {

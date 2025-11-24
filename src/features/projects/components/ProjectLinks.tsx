@@ -10,12 +10,17 @@ import Grid from '@mui/material/Grid';
 import Button from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyToClipboard, useSnackbar } from '@/hooks';
+import { BUTTON_HEIGHT_STANDARD } from '@/styles/shared';
 
-const iconStyle = {
-  fontSize: '0.9rem',
+const iconSx: SxProps<Theme> = {
+  fontSize: (theme) => theme.typography.body2.fontSize,
+};
+
+const ACTION_BUTTON_MIN_WIDTH = 104;
+const actionButtonSx = {
+  minWidth: ACTION_BUTTON_MIN_WIDTH,
+  height: BUTTON_HEIGHT_STANDARD,
 } as const;
-
-const actionButtonSx = { minWidth: 104, height: 30 } as const;
 
 const gridSx: SxProps<Theme> = {
   mt: 2,
@@ -61,7 +66,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           href={project.demo}
           target="_blank"
           rel="noopener noreferrer"
-          icon={<PlayArrowRounded sx={iconStyle} />}
+          icon={<PlayArrowRounded sx={iconSx} />}
           label="Demo"
         />
       );
@@ -72,7 +77,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         <Box component="span" sx={tooltipWrapperSx}>
           <ActionButton
             disabled
-            icon={<PlayArrowRounded sx={iconStyle} />}
+            icon={<PlayArrowRounded sx={iconSx} />}
             label="Demo"
           />
         </Box>
@@ -93,7 +98,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           target="_blank"
           rel="noopener noreferrer"
           color="neutral"
-          icon={<SiGithub style={iconStyle} />}
+          icon={<SiGithub style={{ fontSize: 'inherit' }} />}
           label="GitHub"
         />
         <ActionButton
@@ -101,7 +106,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
           onClick={handleCopyRepo}
           color="inherit"
           variant="text"
-          icon={<ContentCopyRounded sx={iconStyle} />}
+          icon={<ContentCopyRounded sx={iconSx} />}
           label="Copy"
         />
         {renderDemoButton()}

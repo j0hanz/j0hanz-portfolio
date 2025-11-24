@@ -14,13 +14,13 @@ const chipSx: SxProps<Theme> = {
   display: 'inline-flex',
   alignItems: 'center',
   color: 'text.primary',
-  fontSize: '0.8rem',
+  fontSize: (theme) => theme.typography.caption.fontSize,
   opacity: 0.9,
   transform: 'skew(-5deg)',
   '& .MuiChip-label': {
     color: 'text.primary',
     textTransform: 'uppercase',
-    fontSize: '0.7rem',
+    fontSize: (theme) => theme.typography.caption.fontSize,
   },
 };
 

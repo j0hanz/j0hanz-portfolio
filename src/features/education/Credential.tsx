@@ -8,13 +8,14 @@ import {
   IconButton,
   Stack,
   Theme,
-  useTheme,
 } from '@mui/material';
 import { SxProps } from '@mui/system';
 
 import ImageCredential from '@/assets/Credential.webp';
 import Image from '@/components/Image';
 import { CredentialProps } from '@/config/types';
+
+const BADGE_SIZE = 40;
 
 const dialogContentSx: SxProps<Theme> = {
   p: 0,
@@ -35,8 +36,8 @@ const closeButtonSx: SxProps<Theme> = {
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
   color: 'common.white',
   borderRadius: '0 0 0 50%',
-  width: 40,
-  height: 40,
+  width: BADGE_SIZE,
+  height: BADGE_SIZE,
   '&:hover': {
     bgcolor: (theme) => alpha(theme.palette.common.black, 0.6),
   },
@@ -49,7 +50,8 @@ const linkBoxSx: SxProps<Theme> = {
   position: 'relative',
   overflow: 'hidden',
   '&:hover .credential-image': {
-    filter: 'brightness(0.6)',
+    opacity: 0.6,
+    transform: 'scale(1.02)',
   },
   '&:hover .hover-text': {
     opacity: 1,
@@ -76,14 +78,12 @@ const hoverTextSx: SxProps<Theme> = {
   textAlign: 'center',
   opacity: 0,
   transition: 'all 0.3s ease',
-  textShadow: (theme) => `0 2px 4px ${alpha(theme.palette.common.black, 0.5)}`,
+  textShadow: (theme) => theme.shadows[4],
   pointerEvents: 'none',
 };
 
 // Component for displaying a credential
 function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
-  const theme = useTheme();
-
   return (
     <Dialog
       open={show}
@@ -99,7 +99,7 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
           aria-label="Close credential dialog"
           sx={closeButtonSx}
         >
-          <Close sx={{ fontSize: '1.2rem' }} />
+          <Close sx={{ fontSize: (theme) => theme.typography.h6.fontSize }} />
         </IconButton>
         <Box sx={{ textAlign: 'center', px: 0, width: '100%' }}>
           <Box
@@ -119,9 +119,8 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
                   height: '100%',
                   objectFit: 'cover',
                   transition: 'all 0.3s ease',
-                  borderRadius: '10px',
-                  boxShadow: `0 4px 8px ${alpha(theme.palette.common.black, 0.1)}`,
                 }}
+                radius="rounded"
               />
               <Stack
                 className="hover-text"
@@ -132,7 +131,7 @@ function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
               >
                 <OpenInNewRounded
                   sx={{
-                    fontSize: '2.8rem',
+                    fontSize: (theme) => theme.typography.h3.fontSize,
                     mb: 1,
                   }}
                 />

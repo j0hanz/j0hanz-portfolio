@@ -1,6 +1,8 @@
 import { alpha, SxProps, Theme } from '@mui/material';
 import { MotionStyle } from 'motion/react';
 
+import { BUTTON_HEIGHT_LARGE, BUTTON_MIN_WIDTH_HERO } from '@/styles/shared';
+
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
   fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
@@ -10,6 +12,7 @@ export const heroNameStyles: React.CSSProperties = {
   justifyContent: 'center',
 } as const;
 
+// Cursor dimensions are intentional for typing effect visual
 export const cursorStyle: MotionStyle = {
   display: 'inline-block',
   width: 2,
@@ -92,14 +95,14 @@ export const buttonsStackSx: SxProps<Theme> = {
 };
 
 export const downloadButtonSx: SxProps<Theme> = {
-  minWidth: 180,
-  height: 45,
+  minWidth: BUTTON_MIN_WIDTH_HERO,
+  height: BUTTON_HEIGHT_LARGE,
   bgcolor: 'primary.main',
 };
 
 export const contactButtonSx: SxProps<Theme> = {
-  minWidth: 180,
-  height: 45,
+  minWidth: BUTTON_MIN_WIDTH_HERO,
+  height: BUTTON_HEIGHT_LARGE,
   bgcolor: 'neutral.main',
   '&:hover': { bgcolor: 'neutral.dark' },
 };

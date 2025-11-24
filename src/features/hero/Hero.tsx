@@ -107,9 +107,8 @@ function Hero(): React.JSX.Element {
                   alt="Linus Johansson"
                   onClick={imageModal.open}
                   animate={{
-                    filter: isProfileHovered
-                      ? 'brightness(0.8)'
-                      : 'brightness(1)',
+                    opacity: isProfileHovered ? 0.8 : 1,
+                    scale: isProfileHovered ? 1.02 : 1,
                   }}
                   transition={getTransition('smooth')}
                   sx={profileImgSx}

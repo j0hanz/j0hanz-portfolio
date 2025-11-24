@@ -412,33 +412,22 @@ export function useSectionSequence(
     offset,
   });
 
-  useMotionValueEvent(scrollYProgress, 'change', (value) => {
-    if (
-      prefersReducedMotion ||
-      hasPlayed.current ||
-      value <= threshold ||
-      !ref.current
-    ) {
-      return;
-    }
+  const animateElements = (
+    scopeElement: HTMLElement,
+    selector: string,
+    delay: number,
+    staggerDelay = 0
+  ) => {
+    const elements = scopeElement.querySelectorAll(selector);
+    const animations: Promise<Animation>[] = [];
 
-    hasPlayed.current = true;
+    elements.forEach((el, index) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.opacity = '0';
+      htmlEl.style.transform = 'translateY(20px)';
 
-    // Run animations directly on the ref element
-    const runAnimations = async () => {
-      const scopeElement = ref.current;
-      if (!scopeElement) return;
-
-      const animationPromises: Promise<Animation>[] = [];
-
-      // Description animation
-      if (selectors.description) {
-        const elements = scopeElement.querySelectorAll(selectors.description);
-        elements.forEach((el) => {
-          const htmlEl = el as HTMLElement;
-          htmlEl.style.opacity = '0';
-          htmlEl.style.transform = 'translateY(20px)';
-
+      setTimeout(
+        () => {
           const animation = htmlEl.animate(
             [
               { opacity: '0', transform: 'translateY(20px)' },
@@ -450,71 +439,60 @@ export function useSectionSequence(
               fill: 'forwards',
             }
           );
-          animationPromises.push(animation.finished);
-        });
-      }
+          animations.push(animation.finished);
+        },
+        delay + index * staggerDelay
+      );
+    });
 
-      // Cards animation
-      if (selectors.cards) {
-        const delay = selectors.description ? 200 : 0;
-        const elements = scopeElement.querySelectorAll(selectors.cards);
-        elements.forEach((el, index) => {
-          const htmlEl = el as HTMLElement;
-          htmlEl.style.opacity = '0';
-          htmlEl.style.transform = 'translateY(30px)';
+    return animations;
+  };
 
-          setTimeout(
-            () => {
-              const animation = htmlEl.animate(
-                [
-                  { opacity: '0', transform: 'translateY(30px)' },
-                  { opacity: '1', transform: 'translateY(0)' },
-                ],
-                {
-                  duration: 500,
-                  easing: 'ease-out',
-                  fill: 'forwards',
-                }
-              );
-              animationPromises.push(animation.finished);
-            },
-            delay + index * (getStagger(0.1) * 1000)
-          );
-        });
-      }
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    if (
+      prefersReducedMotion ||
+      hasPlayed.current ||
+      value <= threshold ||
+      !ref.current
+    ) {
+      return;
+    }
 
-      // CTA animation
-      if (selectors.cta) {
-        const delay =
-          (selectors.description ? 200 : 0) + (selectors.cards ? 400 : 0);
-        const elements = scopeElement.querySelectorAll(selectors.cta);
-        elements.forEach((el) => {
-          const htmlEl = el as HTMLElement;
-          htmlEl.style.opacity = '0';
-          htmlEl.style.transform = 'scale(0.9)';
+    hasPlayed.current = true;
+    const scopeElement = ref.current;
+    const animationPromises: Promise<Animation>[] = [];
 
-          setTimeout(() => {
-            const animation = htmlEl.animate(
-              [
-                { opacity: '0', transform: 'scale(0.9)' },
-                { opacity: '1', transform: 'scale(1)' },
-              ],
-              {
-                duration: 400,
-                easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-                fill: 'forwards',
-              }
-            );
-            animationPromises.push(animation.finished);
-          }, delay);
-        });
-      }
+    // Animate description first
+    if (selectors.description) {
+      animationPromises.push(
+        ...animateElements(scopeElement, selectors.description, 0)
+      );
+    }
 
-      await Promise.all(animationPromises).catch(() => {
-        // Silently catch animation errors
-      });
-    };
+    // Animate cards with stagger
+    if (selectors.cards) {
+      const delay = selectors.description ? 200 : 0;
+      animationPromises.push(
+        ...animateElements(
+          scopeElement,
+          selectors.cards,
+          delay,
+          getStagger(0.1) * 1000
+        )
+      );
+    }
 
-    runAnimations();
+    // Animate CTA last
+    if (selectors.cta) {
+      const delay =
+        (selectors.description ? 200 : 0) + (selectors.cards ? 400 : 0);
+      animationPromises.push(
+        ...animateElements(scopeElement, selectors.cta, delay)
+      );
+    }
+
+    Promise.all(animationPromises).catch(() => {
+      // Silently catch animation errors
+    });
   });
 }

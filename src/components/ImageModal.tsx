@@ -23,7 +23,7 @@ const skeletonSx: SxProps<Theme> = {
   position: 'absolute',
   inset: 0,
   borderRadius: '10px',
-  bgcolor: 'rgba(255, 255, 255, 0.1)',
+  bgcolor: 'action.hover',
   minHeight: 300, // Approximate height
 };
 

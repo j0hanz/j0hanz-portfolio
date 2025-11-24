@@ -52,7 +52,7 @@ function Image({
             position: 'absolute',
             inset: 0,
             borderRadius,
-            bgcolor: 'rgba(255, 255, 255, 0.1)',
+            bgcolor: 'action.hover',
           }}
         />
       )}

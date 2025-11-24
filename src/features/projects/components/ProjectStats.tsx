@@ -33,7 +33,7 @@ const labelSx: SxProps<Theme> = {
 
 const valueSx: SxProps<Theme> = {
   fontWeight: 500,
-  fontSize: '1.05rem',
+  fontSize: (theme) => theme.typography.body1.fontSize,
   color: 'text.primary',
 };
 
@@ -44,7 +44,7 @@ const containerSx: SxProps<Theme> = {
 
 const buttonSx: SxProps<Theme> = {
   px: 0,
-  fontSize: '0.75rem',
+  fontSize: (theme) => theme.typography.caption.fontSize,
 };
 
 type StatKey = keyof RepoStats;
