@@ -3,13 +3,17 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import { QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClientProvider,
+  QueryErrorResetBoundary,
+} from '@tanstack/react-query';
 
 import App from '@/App';
 import AppThemeProvider from '@/components/AppThemeProvider';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { SnackbarProvider } from '@/components/SnackbarProvider';
 import { initEmailJs } from '@/lib/emailJs';
-import { queryClient } from '@/utils/query';
+import { queryClient } from '@/utils/query/index';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -30,11 +34,17 @@ createRoot(rootElement).render(
   <StrictMode>
     <InitColorSchemeScript />
     <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <AppThemeProvider>
-          <App />
-        </AppThemeProvider>
-      </ErrorBoundary>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary onReset={reset}>
+            <AppThemeProvider>
+              <SnackbarProvider>
+                <App />
+              </SnackbarProvider>
+            </AppThemeProvider>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </QueryClientProvider>
   </StrictMode>
 );

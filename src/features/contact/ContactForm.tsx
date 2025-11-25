@@ -18,7 +18,12 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { FORM_RESET_DELAY } from '@/config/constants';
-import type { ContactFormValues, SuccessIndicatorProps } from '@/config/types';
+import { formFieldVariants } from '@/config/motion';
+import type {
+  ContactFormValues,
+  FormActionsProps,
+  SuccessIndicatorProps,
+} from '@/config/types';
 import {
   useAnimationConfig,
   useContactFormMutation,
@@ -47,34 +52,6 @@ const formCardSx: SxProps<Theme> = {
 const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
 };
-
-// Animation variants - consolidated
-const contactAnimations = {
-  field: {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.08,
-        duration: 0.5,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    }),
-  },
-  action: {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.4,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    },
-  },
-} satisfies Record<string, Record<string, unknown>>;
 
 // Creates ContactFormValues from FormData
 function extractFormValues(formData: FormData): ContactFormValues {
@@ -167,11 +144,6 @@ function SuccessIndicator({
   );
 }
 
-interface FormActionsProps {
-  onReset: () => void;
-  isPending: boolean;
-}
-
 function FormActions({
   onReset,
   isPending,
@@ -223,12 +195,12 @@ function ContactFormContent(): React.JSX.Element {
     amount: 0.2,
   });
 
-  const fieldMotion = useMotionVariant(contactAnimations.field, {
+  const fieldMotion = useMotionVariant(formFieldVariants.field, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
   });
 
-  const actionMotion = useMotionVariant(contactAnimations.action, {
+  const actionMotion = useMotionVariant(formFieldVariants.action, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
   });

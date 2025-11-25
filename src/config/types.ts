@@ -25,6 +25,7 @@ import type {
   MotionProps,
   MotionValue,
   Transition,
+  UseScrollOptions,
   Variants,
 } from 'motion/react';
 
@@ -76,6 +77,13 @@ export interface AboutMeItem {
 export interface AboutMeListProps {
   items: AboutMeItem[];
   onShowModal: () => void;
+}
+
+export interface CardItemProps {
+  index: number;
+  yTransform: MotionValue<number> | number;
+  isInView: boolean;
+  children: ReactNode;
 }
 
 // --- Feature: Projects ---
@@ -164,6 +172,14 @@ export interface ProjectStatsProps {
   hasProjectBoard: boolean;
 }
 
+export type StatKey = keyof RepoStats;
+
+export interface StatItem {
+  key: StatKey;
+  label: string;
+  value: number;
+}
+
 export interface ProjectBadgesProps {
   badges: BadgeConfig[];
 }
@@ -191,6 +207,18 @@ export interface BadgeItemProps {
   href: string;
   imgSrc: string;
   date: string;
+}
+
+export interface BadgesProps {
+  items?: BadgeItemProps[];
+}
+
+export interface BadgeImageProps {
+  src: string;
+  alt: string;
+  style?: CSSProperties;
+  width?: number;
+  height?: number;
 }
 
 export interface BaseModalProps {
@@ -232,6 +260,13 @@ export interface CustomButtonProps extends MuiButtonProps {
   motionWhileTap?: MotionProps['whileTap'];
   motionWhileHover?: MotionProps['whileHover'];
   motionWhileFocus?: MotionProps['whileFocus'];
+}
+
+// --- Feature: Hero ---
+export interface HeroActionConfig {
+  key: string;
+  label: string;
+  buttonProps: Partial<CustomButtonProps>;
 }
 
 export interface IconBadgeProps {
@@ -276,6 +311,35 @@ export interface ScrollToTopProps {
   window?: () => Window;
 }
 
+// --- Skeleton Components ---
+export interface ImageSkeletonProps {
+  aspectRatio?: number;
+  width?: string | number;
+}
+
+// --- Global UI Components ---
+export interface GlobalLoaderProps {
+  isLoading: boolean;
+}
+
+export interface StatusBannerProps {
+  statusBanner: StatusBanner | null;
+}
+
+// --- Timeline Components ---
+export interface TimelineCardProps {
+  title: string;
+  metadata: IconBadgeMetaItem[];
+  children?: ReactNode;
+  dataAttributes?: Record<string, string>;
+  metaDataAttribute?: string;
+}
+
+export interface TimelineSectionProps {
+  children: ReactNode;
+  position?: 'left' | 'right' | 'alternate' | 'alternate-reverse';
+}
+
 // --- Theme ---
 export type ThemeModeUpdater = (
   value: PaletteMode | ((previous: PaletteMode) => PaletteMode)
@@ -317,10 +381,14 @@ export type TransitionPreset =
   | 'springBouncy'
   | 'springSmooth'
   | 'springVisual'
+  | 'springSnappy'
+  | 'springGentle'
   | 'smooth'
   | 'easeInOut'
   | 'easeOut'
-  | 'slow';
+  | 'slow'
+  | 'dramatic'
+  | 'anticipate';
 
 export interface AnimationConfig {
   prefersReducedMotion: boolean;
@@ -405,6 +473,17 @@ export interface TimelineSegment {
 }
 
 export type TimelineSequence = (TimelineSegment | string)[];
+
+export type SequenceItem =
+  | [ElementOrSelector, DOMKeyframesDefinition]
+  | [ElementOrSelector, DOMKeyframesDefinition, AnimationOptions];
+
+export type StaggerContainerOptions = {
+  exitDirection?: 1 | -1;
+  exitStagger?: number;
+  initialOpacity?: number;
+  animateOpacity?: number;
+};
 
 export interface TimelineControls {
   play: () => void;
@@ -537,6 +616,10 @@ export interface ErrorBoundaryProps {
   fallback?: ReactNode;
 }
 
+export interface ExtendedErrorBoundaryProps extends ErrorBoundaryProps {
+  onReset?: () => void;
+}
+
 export interface ErrorBoundaryState {
   hasError: boolean;
 }
@@ -605,6 +688,11 @@ export interface ContactFieldConfig {
 
 export interface SuccessIndicatorProps {
   visible: boolean;
+}
+
+export interface FormActionsProps {
+  onReset: () => void;
+  isPending: boolean;
 }
 
 export type SubmissionResult = {
@@ -687,6 +775,17 @@ export interface NavLink {
   label: string;
 }
 
+export interface NavLinkItemProps {
+  id: string;
+  icon: IconComponent;
+  label: string;
+  isActive: boolean;
+  isPending: boolean;
+  onClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
+  showHighlight: boolean;
+  highlightTransition: Transition;
+}
+
 export interface SocialLink {
   id: string;
   icon: IconComponent;
@@ -723,6 +822,22 @@ export interface OffcanvasMenuProps {
   closeOffcanvas: () => void;
   openOffcanvas: () => void;
   openModal: () => void;
+}
+
+// --- Snackbar Context ---
+export interface SnackbarOptions {
+  message: string;
+  severity?: AlertColor;
+  duration?: number | null;
+}
+
+export interface SnackbarContextType {
+  showSnackbar: (
+    message: string,
+    severity?: AlertColor,
+    duration?: number | null
+  ) => void;
+  closeSnackbar: () => void;
 }
 
 // --- Hooks ---
@@ -812,6 +927,31 @@ export interface UseToggleReturn {
 }
 
 export type FieldName = keyof ContactFormValues;
+
+// --- Scroll & Navigation Hooks ---
+export type ScrollDirection = 'up' | 'down';
+
+export interface ScrollBoundaries {
+  isAtTop: boolean;
+  isAtBottom: boolean;
+}
+
+export interface UseScrollEventsProps {
+  onNavigate: (direction: ScrollDirection) => boolean;
+  shouldDisable: boolean;
+  isScrolling: React.MutableRefObject<boolean>;
+}
+
+export interface UseScrollAnimationOptions {
+  offset?: UseScrollOptions['offset'];
+  triggerThreshold?: number;
+}
+
+export interface UseImageLoadingReturn {
+  isLoaded: boolean;
+  handleLoad: () => void;
+  handleError: () => void;
+}
 
 // --- Utils ---
 export type ValidationError = string | undefined;

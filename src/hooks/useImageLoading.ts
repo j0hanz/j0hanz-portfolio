@@ -1,12 +1,8 @@
 import { useState } from 'react';
 
-import { useEventCallback } from '@/hooks';
+import type { UseImageLoadingReturn } from '@/config/types';
 
-interface UseImageLoadingReturn {
-  isLoaded: boolean;
-  handleLoad: () => void;
-  handleError: () => void;
-}
+import useEventCallback from './useEventCallback';
 
 // Tracks image loading state with stable event handlers
 export function useImageLoading(): UseImageLoadingReturn {

@@ -2,9 +2,15 @@ import { Component, ErrorInfo, ReactNode } from 'react';
 
 import { Alert, Box, Button, Stack, Typography } from '@mui/material';
 
-import { ErrorBoundaryProps, ErrorBoundaryState } from '@/config/types';
+import type {
+  ErrorBoundaryState,
+  ExtendedErrorBoundaryProps,
+} from '@/config/types';
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends Component<
+  ExtendedErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   state: ErrorBoundaryState = {
     hasError: false,
   };
@@ -18,6 +24,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   private handleReset = (): void => {
+    // Reset TanStack Query errors if onReset provided
+    this.props.onReset?.();
     this.setState({ hasError: false });
   };
 

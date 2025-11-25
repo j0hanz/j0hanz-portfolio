@@ -3,10 +3,7 @@ import React from 'react';
 import Timeline from '@mui/lab/Timeline';
 import { Box } from '@mui/material';
 
-interface TimelineSectionProps {
-  children: React.ReactNode;
-  position?: 'left' | 'right' | 'alternate' | 'alternate-reverse';
-}
+import type { TimelineSectionProps } from '@/config/types';
 
 function TimelineSection({
   children,

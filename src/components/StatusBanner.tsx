@@ -2,11 +2,7 @@ import React from 'react';
 
 import { Alert, Box, Collapse } from '@mui/material';
 
-import type { StatusBanner } from '@/config/types';
-
-interface StatusBannerProps {
-  statusBanner: StatusBanner | null;
-}
+import type { StatusBannerProps } from '@/config/types';
 
 export default function StatusBanner({
   statusBanner,

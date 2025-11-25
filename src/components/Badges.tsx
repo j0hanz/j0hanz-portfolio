@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { BadgeItemProps } from '@/config/types';
+import type { BadgeItemProps, BadgesProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
 
@@ -90,10 +90,6 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
       </Typography>
     </Box>
   );
-}
-
-interface BadgesProps {
-  items?: BadgeItemProps[];
 }
 
 // Component for displaying a list of badges

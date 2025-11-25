@@ -5,7 +5,8 @@ import {
   UseStorageOptions,
   UseStorageReturn,
 } from '@/config/types';
-import { useEventCallback } from '@/hooks';
+
+import useEventCallback from './useEventCallback';
 
 type DefaultValue<T> = T | (() => T);
 

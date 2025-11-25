@@ -1,16 +1,8 @@
 import { Box, Skeleton } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { ProjectBadgesProps } from '@/config/types';
+import type { BadgeImageProps, ProjectBadgesProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
-
-interface BadgeImageProps {
-  src: string;
-  alt: string;
-  style?: React.CSSProperties;
-  width?: number;
-  height?: number;
-}
 
 function BadgeImage({
   src,

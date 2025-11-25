@@ -260,11 +260,9 @@ export function PageTransitionWrapper({
       component={motion.div}
       id="active-section-container"
       className={className}
-      layout
-      layoutDependency={direction}
       custom={direction}
       variants={pageTransitionVariants}
-      initial="enter"
+      initial={false}
       animate="center"
       exit="exit"
       transition={{
@@ -272,7 +270,6 @@ export function PageTransitionWrapper({
           ? { duration: 0 }
           : { type: 'spring', visualDuration: 0.4, bounce: 0.15 },
         opacity: { duration: prefersReducedMotion ? 0 : 0.2 },
-        layout: { duration: prefersReducedMotion ? 0 : 0.3 },
       }}
       sx={{
         position: 'absolute',

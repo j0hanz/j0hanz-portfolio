@@ -1,12 +1,32 @@
 import { Suspense } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { SectionSkeleton } from '@/components/Skeletons';
 import { sections } from '@/config/sections';
 import { useFullPageScroll } from '@/hooks/useFullPageScroll';
 import { useNavigationState } from '@/hooks/useNavigation';
+
+// Fallback for section-level errors (prevents entire app from breaking)
+function SectionErrorFallback(): React.JSX.Element {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        p: 3,
+      }}
+    >
+      <Typography variant="body1" color="text.secondary">
+        This section failed to load. Please try refreshing the page.
+      </Typography>
+    </Box>
+  );
+}
 
 function MainContent(): React.JSX.Element {
   useFullPageScroll();
@@ -28,9 +48,11 @@ function MainContent(): React.JSX.Element {
       <AnimatePresence initial={false} mode="popLayout" custom={direction}>
         {Component && (
           <PageTransitionWrapper key={activeSectionId}>
-            <Suspense fallback={<SectionSkeleton />}>
-              <Component />
-            </Suspense>
+            <ErrorBoundary fallback={<SectionErrorFallback />}>
+              <Suspense fallback={<SectionSkeleton />}>
+                <Component />
+              </Suspense>
+            </ErrorBoundary>
           </PageTransitionWrapper>
         )}
       </AnimatePresence>

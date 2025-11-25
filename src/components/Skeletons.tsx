@@ -1,5 +1,7 @@
 import { Box, Skeleton, Stack, type SxProps, type Theme } from '@mui/material';
 
+import type { ImageSkeletonProps } from '@/config/types';
+
 // Card skeleton for project cards
 const cardSkeletonSx: SxProps<Theme> = {
   borderRadius: 2,
@@ -53,20 +55,20 @@ export function CardSkeleton(): React.JSX.Element {
   );
 }
 
-// Section skeleton for loading entire sections
+// Section skeleton for loading entire sections - minimal to prevent flash
 export function SectionSkeleton(): React.JSX.Element {
   return (
-    <Box sx={{ width: '100%', py: 4 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-        <Skeleton variant="circular" width={32} height={32} />
-        <Skeleton variant="text" width={200} height={40} />
-      </Box>
-      <Stack spacing={3}>
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} variant="rounded" height={120} />
-        ))}
-      </Stack>
-    </Box>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      role="status"
+      aria-label="Loading content"
+    />
   );
 }
 
@@ -188,11 +190,6 @@ export function AvatarSkeleton({
 }
 
 // Image skeleton with aspect ratio
-interface ImageSkeletonProps {
-  aspectRatio?: number;
-  width?: string | number;
-}
-
 export function ImageSkeleton({
   aspectRatio = 16 / 9,
   width = '100%',

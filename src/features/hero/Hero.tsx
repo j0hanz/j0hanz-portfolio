@@ -15,7 +15,7 @@ import { StaggerContainer } from '@/components/Motions';
 import { Parallax } from '@/components/Parallax';
 import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
-import type { CustomButtonProps } from '@/config/types';
+import type { HeroActionConfig } from '@/config/types';
 import {
   useAnimationConfig,
   useAnimationPriority,
@@ -44,12 +44,6 @@ import {
 } from './Hero.styles';
 
 const HERO_NAME = 'Linus Johansson';
-
-interface HeroActionConfig {
-  key: string;
-  label: string;
-  buttonProps: Partial<CustomButtonProps>;
-}
 
 // Hero action button configurations
 const createHeroActions = (

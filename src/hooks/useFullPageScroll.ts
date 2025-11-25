@@ -3,25 +3,18 @@ import { useEffect, useRef } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useReducedMotion } from 'motion/react';
 
-import { useEventCallback } from '@/hooks';
+import type { ScrollBoundaries, ScrollDirection } from '@/config/types';
 import {
   useNavigationActions,
   useNavigationState,
 } from '@/hooks/useNavigation';
 import { useScrollEvents } from '@/hooks/useScrollEvents';
 
+import useEventCallback from './useEventCallback';
+
 // Constants
 const SCROLL_LOCK_DURATION = 1000;
 const SCROLL_TOLERANCE = 2;
-
-// Scroll direction type
-type ScrollDirection = 'up' | 'down';
-
-// Scroll boundary state
-interface ScrollBoundaries {
-  isAtTop: boolean;
-  isAtBottom: boolean;
-}
 
 // Gets scroll boundary state (isAtTop, isAtBottom) for a container
 function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {

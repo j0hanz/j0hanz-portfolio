@@ -14,7 +14,7 @@ import {
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
-import { AnimatePresence, motion, Transition } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import DarkModeToggle from '@/components/DarkModeToggle';
@@ -39,8 +39,9 @@ import {
   socialLinksBoxSx,
 } from '@/components/NavBar.styles';
 import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
-import {
-  type IconComponent,
+import { navVariants } from '@/config/motion';
+import type {
+  NavLinkItemProps,
   OffcanvasMenuProps,
   SocialLinkRenderProps,
 } from '@/config/types';
@@ -56,60 +57,6 @@ import { navLinks } from '@/lib/data/navLinks';
 const isIOS =
   typeof navigator !== 'undefined' &&
   /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-// Animation configs
-const SPRING_STIFF = { stiffness: 1000 };
-const SPRING_SMOOTH = { stiffness: 300, damping: 24 };
-const STAGGER_FAST = 0.05;
-const STAGGER_NORMAL = 0.07;
-const STAGGER_SLOW = 0.08;
-
-// Unified variants structure
-const navVariants = {
-  container: {
-    open: {
-      transition: { delayChildren: 0.2, staggerChildren: STAGGER_NORMAL },
-    },
-    closed: {
-      transition: { staggerChildren: STAGGER_FAST, staggerDirection: -1 },
-    },
-  },
-  item: {
-    open: { y: 0, opacity: 1, transition: { y: SPRING_STIFF } },
-    closed: { y: 50, opacity: 0, transition: { y: SPRING_STIFF } },
-  },
-  social: {
-    container: {
-      open: {
-        transition: { delayChildren: 0.4, staggerChildren: STAGGER_SLOW },
-      },
-      closed: {
-        transition: { staggerChildren: STAGGER_FAST, staggerDirection: -1 },
-      },
-    },
-    item: {
-      open: {
-        scale: 1,
-        y: 0,
-        opacity: 1,
-        transition: { type: 'spring', ...SPRING_SMOOTH },
-      },
-      closed: { scale: 0.8, y: 20, opacity: 0, transition: { duration: 0.2 } },
-    },
-  },
-  logo: {
-    open: {
-      x: 0,
-      opacity: 1,
-      transition: { type: 'spring', ...SPRING_SMOOTH },
-    },
-    closed: { x: -20, opacity: 0, transition: { duration: 0.2 } },
-  },
-  button: {
-    open: { rotate: 90, scale: 1.1 },
-    closed: { rotate: 0, scale: 1 },
-  },
-} as const;
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
 
@@ -152,17 +99,6 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
 }
 
 // Nav link item component - simplified
-interface NavLinkItemProps {
-  id: string;
-  icon: IconComponent;
-  label: string;
-  isActive: boolean;
-  isPending: boolean;
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>, id: string) => void;
-  showHighlight: boolean;
-  highlightTransition: Transition;
-}
-
 function NavLinkItem(props: NavLinkItemProps): React.JSX.Element {
   const {
     id,

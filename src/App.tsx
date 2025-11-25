@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 
 import BackgroundMorph from '@/components/BackgroundMorph';
 import GlobalLoader from '@/components/GlobalLoader';
@@ -56,45 +56,47 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <Box
-      sx={mainContainerSx}
-      data-network-status={isOnline ? 'online' : 'offline'}
-    >
-      <BackgroundMorph />
-      <div id="back-to-top-anchor" />
+    <MotionConfig reducedMotion="user">
+      <Box
+        sx={mainContainerSx}
+        data-network-status={isOnline ? 'online' : 'offline'}
+      >
+        <BackgroundMorph />
+        <div id="back-to-top-anchor" />
 
-      <StatusBanner statusBanner={statusBanner} />
-      <GlobalLoader isLoading={isLoading} />
+        <StatusBanner statusBanner={statusBanner} />
+        <GlobalLoader isLoading={isLoading} />
 
-      <NavigationProvider>
-        {!isLoading && <NavBar />}
-        <AnimatePresence mode="wait" initial={false}>
-          {isLoading ? (
-            <Box
-              component={motion.div}
-              key="loader"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              sx={loaderContainerSx}
-            >
-              <Spinner sx={{ height: '100%' }} />
-            </Box>
-          ) : (
-            <Box
-              component={motion.div}
-              key="home"
-              {...contentMotion}
-              sx={contentContainerSx}
-            >
-              <Home />
-            </Box>
-          )}
-        </AnimatePresence>
-        {!isLoading && <ScrollToTop />}
-      </NavigationProvider>
-    </Box>
+        <NavigationProvider>
+          {!isLoading && <NavBar />}
+          <AnimatePresence mode="wait" initial={false}>
+            {isLoading ? (
+              <Box
+                component={motion.div}
+                key="loader"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                sx={loaderContainerSx}
+              >
+                <Spinner sx={{ height: '100%' }} />
+              </Box>
+            ) : (
+              <Box
+                component={motion.div}
+                key="home"
+                {...contentMotion}
+                sx={contentContainerSx}
+              >
+                <Home />
+              </Box>
+            )}
+          </AnimatePresence>
+          {!isLoading && <ScrollToTop />}
+        </NavigationProvider>
+      </Box>
+    </MotionConfig>
   );
 }
 

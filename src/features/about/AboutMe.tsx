@@ -4,13 +4,14 @@ import PersonOutlined from '@mui/icons-material/PersonOutlined';
 import VerifiedTwoTone from '@mui/icons-material/VerifiedTwoTone';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, MotionValue, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
-import { AboutMeListProps } from '@/config/types';
+import { cardEntranceVariants, listItemStaggerVariants } from '@/config/motion';
+import type { AboutMeListProps, CardItemProps } from '@/config/types';
 import Credential from '@/features/education/Credential';
 import {
   useAnimationConfig,
@@ -52,36 +53,6 @@ const buttonWrapperSx: SxProps<Theme> = {
   pt: 3,
 };
 
-// Animation config
-const STAGGER_DELAY = 0.1;
-const CARD_ANIMATION_DELAY_BASE = 0.2;
-const CARD_ANIMATION_DURATION = 0.6;
-const CARD_EASE = [0.16, 1, 0.3, 1] as const;
-
-// Card animation variants
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * CARD_ANIMATION_DELAY_BASE,
-      duration: CARD_ANIMATION_DURATION,
-      ease: CARD_EASE,
-    },
-  }),
-};
-
-// List item stagger variants
-const listItemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * STAGGER_DELAY, duration: 0.5, ease: CARD_EASE },
-  }),
-};
-
 // Displaying the overview text
 function AboutMeText(): React.JSX.Element {
   return (
@@ -102,7 +73,7 @@ function AboutMeList({
     amount: 0.2,
   });
 
-  const listMotion = useMotionVariant(listItemVariants, {
+  const listMotion = useMotionVariant(listItemStaggerVariants, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
     whileHover: { x: 6 },
@@ -139,13 +110,6 @@ function AboutMeList({
 }
 
 // Card item wrapper with animation
-interface CardItemProps {
-  index: number;
-  yTransform: MotionValue<number> | number;
-  isInView: boolean;
-  children: React.ReactNode;
-}
-
 function CardItem({
   index,
   yTransform,
@@ -153,7 +117,7 @@ function CardItem({
   children,
 }: CardItemProps): React.JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
-  const cardMotion = useMotionVariant(cardVariants, {
+  const cardMotion = useMotionVariant(cardEntranceVariants, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
     whileHover: { y: -5 },

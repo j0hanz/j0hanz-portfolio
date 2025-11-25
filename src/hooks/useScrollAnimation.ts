@@ -1,18 +1,14 @@
 import { useRef } from 'react';
 
-import { useMotionValueEvent, useScroll, UseScrollOptions } from 'motion/react';
+import { useMotionValueEvent, useScroll } from 'motion/react';
 
-import { SequenceAnimator } from '@/config/types';
+import type {
+  SequenceAnimator,
+  UseScrollAnimationOptions,
+} from '@/config/types';
 
 import useEventCallback from './useEventCallback';
 import { useAnimationConfig, useAnimationSequence } from './useMotions';
-
-interface UseScrollAnimationOptions {
-  // Offset for scroll intersection (default: ['start 0.85', 'end 0.2'])
-  offset?: UseScrollOptions['offset'];
-  // Threshold to trigger animation (default: 0.2)
-  triggerThreshold?: number;
-}
 
 // Triggers animation sequence when section scrolls into view
 export function useScrollAnimation(

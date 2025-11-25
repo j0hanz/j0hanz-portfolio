@@ -4,15 +4,7 @@ import { Box, type SxProps, type Theme } from '@mui/material';
 
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
-import type { IconBadgeMetaItem } from '@/config/types';
-
-interface TimelineCardProps {
-  title: string;
-  metadata: IconBadgeMetaItem[];
-  children?: React.ReactNode;
-  dataAttributes?: Record<string, string>;
-  metaDataAttribute?: string;
-}
+import type { TimelineCardProps } from '@/config/types';
 
 const metaWrapperSx: SxProps<Theme> = {
   mb: 0,

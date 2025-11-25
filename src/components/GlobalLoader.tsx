@@ -3,9 +3,7 @@ import React from 'react';
 import { Box, Collapse, LinearProgress } from '@mui/material';
 import { useIsFetching } from '@tanstack/react-query';
 
-interface GlobalLoaderProps {
-  isLoading: boolean;
-}
+import type { GlobalLoaderProps } from '@/config/types';
 
 export default function GlobalLoader({
   isLoading,

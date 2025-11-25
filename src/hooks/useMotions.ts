@@ -50,6 +50,7 @@ import type {
   PresenceControls,
   ScrollProgressValue,
   SequenceAnimator,
+  SequenceItem,
   TimelineControls,
   TimelineSegment,
   TransitionPreset,
@@ -765,9 +766,6 @@ export function useTimelineSequence() {
     if (prefersReducedMotion) return null;
 
     // Build sequence array in Motion's expected format
-    type SequenceItem =
-      | [ElementOrSelector, DOMKeyframesDefinition]
-      | [ElementOrSelector, DOMKeyframesDefinition, AnimationOptions];
     const sequence: SequenceItem[] = segments.map((seg) => {
       if (seg.options) {
         return [seg.target, seg.keyframes, seg.options] as [

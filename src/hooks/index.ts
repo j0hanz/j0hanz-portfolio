@@ -122,6 +122,7 @@ export {
   handleQueryError,
   buildQueryKey,
   prefetchRepoStats,
-} from '@/utils/query';
+  invalidateRepoStats,
+} from '@/utils/query/index';
 
 export * from './useScrollEvents';

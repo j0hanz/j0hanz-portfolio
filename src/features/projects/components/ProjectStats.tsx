@@ -7,9 +7,14 @@ import { motion, useInView } from 'motion/react';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { StatsSkeleton } from '@/components/Skeletons';
 import { ANIMATION_DURATION_STATS } from '@/config/constants';
-import type { ProjectStatsProps, RepoStats } from '@/config/types';
+import type {
+  ProjectStatsProps,
+  RepoStats,
+  StatItem,
+  StatKey,
+} from '@/config/types';
 import { useAnimationConfig, useCountUp } from '@/hooks';
-import { useRepoStatsQuery } from '@/utils/query';
+import { useRepoStatsQuery } from '@/utils/query/index';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -33,8 +38,6 @@ const buttonSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.caption.fontSize,
 };
 
-type StatKey = keyof RepoStats;
-
 const STAT_LABELS: Record<StatKey, string> = {
   stars: 'Stars',
   forks: 'Forks',
@@ -43,12 +46,6 @@ const STAT_LABELS: Record<StatKey, string> = {
 
 const STAT_KEYS: StatKey[] = ['stars', 'forks', 'issues'];
 const STAT_KEYS_WITHOUT_ISSUES: StatKey[] = ['stars', 'forks'];
-
-interface StatItem {
-  key: StatKey;
-  label: string;
-  value: number;
-}
 
 // Builds stat items array based on configuration
 function buildStatItems(stats: RepoStats, includeIssues: boolean): StatItem[] {

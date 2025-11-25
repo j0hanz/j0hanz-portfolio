@@ -7,7 +7,6 @@ import {
   useColorScheme,
 } from '@mui/material';
 
-import { SnackbarProvider } from '@/components/SnackbarProvider';
 import { appTheme } from '@/config/theme';
 import { AppThemeProviderProps, ThemeModeValue } from '@/config/types';
 import { ThemeMode } from '@/contexts/themeContext';
@@ -40,9 +39,7 @@ function AppThemeProvider({
   return (
     <ThemeProvider theme={appTheme} defaultMode="light">
       <CssBaseline />
-      <ThemeModeAdapter>
-        <SnackbarProvider>{children}</SnackbarProvider>
-      </ThemeModeAdapter>
+      <ThemeModeAdapter>{children}</ThemeModeAdapter>
     </ThemeProvider>
   );
 }

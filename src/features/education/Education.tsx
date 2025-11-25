@@ -22,7 +22,7 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import TimelineSection from '@/components/TimelineSection';
-import { timelineCardVariants } from '@/config/motion';
+import { buttonPopVariants, timelineCardVariants } from '@/config/motion';
 import type { EducationCardProps } from '@/config/types';
 import {
   useAnimationSequence,
@@ -50,21 +50,6 @@ import Credential from './Credential';
 // Constants
 const descriptionWrapperSx: SxProps<Theme> = {
   mb: 2,
-};
-
-// Button pop-in animation
-const buttonVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: 0.4,
-      type: 'spring' as const,
-      stiffness: 320,
-      damping: 18,
-    },
-  },
 };
 
 function EducationCard({
@@ -101,7 +86,7 @@ function EducationCard({
     animate: isInView ? 'visible' : 'hidden',
   });
 
-  const buttonMotion = useMotionVariant(buttonVariants, {
+  const buttonMotion = useMotionVariant(buttonPopVariants, {
     initial: 'hidden',
     animate: 'visible',
   });

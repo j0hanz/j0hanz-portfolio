@@ -1,6 +1,7 @@
 import { alpha, SxProps, Theme } from '@mui/material';
 import { MotionStyle } from 'motion/react';
 
+import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
 import { BUTTON_HEIGHT_LARGE, BUTTON_MIN_WIDTH_HERO } from '@/styles/shared';
 
 // Animation configs
@@ -22,15 +23,9 @@ export const cursorStyle: MotionStyle = {
   willChange: 'opacity',
 } as const;
 
-export const cursorAnimation = {
-  opacity: [0, 1, 0],
-};
-
-export const cursorTransition = {
-  duration: 0.9,
-  repeat: Infinity,
-  ease: 'easeInOut',
-} as const;
+// Re-export from centralized motion config
+export const cursorAnimation = cursorBlinkAnimation;
+export const cursorTransition = cursorBlinkTransition;
 
 export const subtitleClipPath = {
   initial: { clipPath: 'inset(0 100% 0 0)' },

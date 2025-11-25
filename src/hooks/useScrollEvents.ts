@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-import { useEventCallback } from '@/hooks';
+import type { ScrollDirection, UseScrollEventsProps } from '@/config/types';
+
+import useEventCallback from './useEventCallback';
 
 // Constants
 const WHEEL_THRESHOLD = 30;
@@ -9,19 +11,11 @@ const TOUCH_THRESHOLD = 50;
 const DOWN_KEYS = ['ArrowDown', 'PageDown', ' '] as const;
 const UP_KEYS = ['ArrowUp', 'PageUp'] as const;
 
-type ScrollDirection = 'up' | 'down';
-
 // Determines scroll direction from keyboard event
 function getKeyboardDirection(key: string): ScrollDirection | null {
   if (DOWN_KEYS.includes(key as (typeof DOWN_KEYS)[number])) return 'down';
   if (UP_KEYS.includes(key as (typeof UP_KEYS)[number])) return 'up';
   return null;
-}
-
-interface UseScrollEventsProps {
-  onNavigate: (direction: ScrollDirection) => boolean;
-  shouldDisable: boolean;
-  isScrolling: React.MutableRefObject<boolean>;
 }
 
 export function useScrollEvents({
