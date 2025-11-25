@@ -21,7 +21,7 @@ import type {
   CardItemProps,
   ElementRef,
 } from '@/config/types';
-import Credential from '@/features/education/Credential';
+import Credential from '@/features/experience/Credential';
 import {
   useAnimationConfig,
   useInView,

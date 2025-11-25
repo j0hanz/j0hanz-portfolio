@@ -39,7 +39,6 @@ const variantMap: Record<SectionMotionVariantId, keyof typeof sectionVariants> =
   {
     hero: 'default',
     aboutMe: 'slideUp',
-    education: 'slideUp',
     skills: 'scale',
     portfolio: 'slideUp',
     workExperience: 'slideUp',

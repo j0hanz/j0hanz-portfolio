@@ -28,6 +28,7 @@ interface TimelineListProps<T extends TimelineItemData> {
   renderItem: (item: T, index: number, isMobile: boolean) => React.ReactNode;
   Icon: React.ElementType<SvgIconProps>;
   cardMotion: MotionProps;
+  getItemIcon?: (item: T) => React.ElementType<SvgIconProps>;
 }
 
 export function TimelineList<T extends TimelineItemData>({
@@ -35,6 +36,7 @@ export function TimelineList<T extends TimelineItemData>({
   renderItem,
   Icon,
   cardMotion,
+  getItemIcon,
 }: TimelineListProps<T>): React.JSX.Element {
   const isMobile = useMobileBreakpoint('md');
 
@@ -43,6 +45,7 @@ export function TimelineList<T extends TimelineItemData>({
       {items.map((item, index) => {
         const isLastItem = index === items.length - 1;
         const isLeftAligned = isTimelineItemLeftAligned(index, isMobile);
+        const ItemIcon = getItemIcon ? getItemIcon(item) : Icon;
 
         return (
           <TimelineItem
@@ -63,7 +66,7 @@ export function TimelineList<T extends TimelineItemData>({
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineDot variant="outlined">
-                <Icon fontSize="small" />
+                <ItemIcon fontSize="small" />
               </TimelineDot>
               {!isLastItem && <TimelineConnector />}
             </TimelineSeparator>

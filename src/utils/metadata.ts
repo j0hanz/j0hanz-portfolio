@@ -1,4 +1,8 @@
-import { ApartmentTwoTone, CalendarTodayTwoTone } from '@mui/icons-material';
+import {
+  ApartmentTwoTone,
+  CalendarTodayTwoTone,
+  SchoolTwoTone,
+} from '@mui/icons-material';
 
 import type { IconBadgeMetaItem, IconComponent } from '@/config/types';
 
@@ -8,7 +12,7 @@ type MetaType = 'workplace' | 'school' | 'duration';
 
 const META_ICONS: Record<MetaType, IconComponent> = {
   workplace: ApartmentTwoTone,
-  school: ApartmentTwoTone,
+  school: SchoolTwoTone,
   duration: CalendarTodayTwoTone,
 };
 

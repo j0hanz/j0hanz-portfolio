@@ -1,10 +1,16 @@
-const experiences: Array<{
-  title: string;
-  workplace: string;
-  duration: string;
-  description: string[];
-}> = [
+import { Experience } from '@/config/types';
+
+const experiences: Experience[] = [
   {
+    type: 'education',
+    title: 'Diploma in Full Stack Software Development',
+    school: 'Code Institute',
+    duration: 'Feb 2024 - Jul 2024',
+    description: ['Credit-rated by the University of the West of Scotland.'],
+    hasCredential: true,
+  },
+  {
+    type: 'work',
     title: 'Assistant Store Manager',
     workplace: 'Webhallen',
     duration: 'Sep 2020 - Feb 2024',
@@ -16,6 +22,7 @@ const experiences: Array<{
     ],
   },
   {
+    type: 'work',
     title: 'Store Manager',
     workplace: 'Webhallen',
     duration: 'Sep 2019 - April 2020',
@@ -26,6 +33,16 @@ const experiences: Array<{
     ],
   },
   {
+    type: 'education',
+    title: 'Leadership Training',
+    school: 'Webhallen',
+    duration: '2019',
+    description: [
+      'Building winning teams through norms, values, and coaching leadership.',
+    ],
+  },
+  {
+    type: 'work',
     title: 'Salesperson',
     workplace: 'Webhallen',
     duration: 'Jan 2016 - Sep 2019',
@@ -35,6 +52,7 @@ const experiences: Array<{
     ],
   },
   {
+    type: 'work',
     title: 'Warehouse Worker',
     workplace: 'House of Saki',
     duration: '2014 - 2016',

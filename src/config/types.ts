@@ -359,7 +359,6 @@ export interface ThemeModeValue extends ThemeModeState, ThemeModeActions {}
 export type SectionMotionVariantId =
   | 'hero'
   | 'aboutMe'
-  | 'education'
   | 'skills'
   | 'portfolio'
   | 'workExperience'
@@ -633,37 +632,28 @@ export interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-// --- Feature: Education ---
-export interface CredentialProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-export interface EducationItem {
-  title: string;
-  school: string;
-  duration: string;
-  description?: string[];
-  hasCredential: boolean;
-}
-
-export interface EducationCardProps {
-  education: EducationItem;
-  onShowModal: () => void;
-  align?: 'left' | 'right';
-}
-
 // --- Feature: Experience ---
+export type ExperienceCategory = 'work' | 'education';
+
 export interface Experience {
+  type: ExperienceCategory;
   title: string;
-  workplace: string;
+  workplace?: string;
+  school?: string;
   duration: string;
   description: string[];
+  hasCredential?: boolean;
 }
 
 export interface ExperienceCardProps {
   experience: Experience;
   align?: 'left' | 'right';
+}
+
+// --- Feature: Education ---
+export interface CredentialProps {
+  open: boolean;
+  onClose: () => void;
 }
 
 // --- Feature: Contact ---
@@ -766,7 +756,6 @@ export interface SkillCardProps {
 export type SectionId =
   | 'hero'
   | 'aboutMe'
-  | 'education'
   | 'skills'
   | 'portfolio'
   | 'workExperience'
