@@ -192,7 +192,6 @@ const projects: Project[] = [
     technologies: [
       'HTML5',
       'CSS3',
-      'Python',
       'JavaScript',
       'Bootstrap',
       'Python',
