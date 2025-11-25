@@ -125,6 +125,7 @@ export {
 
 export {
   githubKeys,
+  contactKeys,
   queryClient,
   useRepoStatsQuery,
   useContactFormMutation,

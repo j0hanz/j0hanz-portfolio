@@ -11,7 +11,7 @@
 // Global Loading: useIsFetching() shows count of active queries for global spinner
 
 export { queryClient } from './client';
-export { buildQueryKey, githubKeys } from './keys';
+export { buildQueryKey, contactKeys, githubKeys } from './keys';
 export {
   fetchRepoStats,
   invalidateRepoStats,

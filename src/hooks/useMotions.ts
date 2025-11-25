@@ -281,11 +281,12 @@ export function useButtonGesture() {
 // Tracks scroll progress as motion value (no re-renders)
 export function useScrollProgress(): ScrollProgressValue {
   const { scrollYProgress } = useScroll();
+  const progress = scrollYProgress.get();
 
   return {
     value: scrollYProgress,
-    // progress property kept for backwards compatibility - consumers should use value directly
-    progress: 0,
+    // progress property kept for backwards compatibility - snapshot of current value
+    progress,
   };
 }
 
@@ -573,12 +574,23 @@ export function useContentMotion() {
 // ============================================================================
 
 // Helper to animate elements with hardware-accelerated transforms
+type SectionSequenceStep = {
+  selector: string;
+  delay: number;
+  useStagger: boolean;
+  staggerValue?: number;
+};
+
+const DESCRIPTION_TO_CARD_DELAY = 0.2;
+const CTA_AFTER_CARD_DELAY = 0.4;
+const CTA_STAGGER = 0.1;
+
 function animateElements(
   scopeElement: HTMLElement,
   selector: string,
   delay: number,
   useStagger: boolean,
-  staggerValue: number
+  staggerValue = BASE_STAGGER
 ) {
   const elements = scopeElement.querySelectorAll(selector);
   if (elements.length === 0) return;
@@ -599,6 +611,58 @@ function animateElements(
   animate(elements, keyframes, options);
 }
 
+function buildSectionSequencePlan(
+  selectors: {
+    cards?: string;
+    description?: string;
+    cta?: string;
+    [key: string]: string | undefined;
+  },
+  getStagger: AnimationConfig['getStagger']
+): SectionSequenceStep[] {
+  const steps: SectionSequenceStep[] = [];
+
+  if (selectors.description) {
+    steps.push({
+      selector: selectors.description,
+      delay: 0,
+      useStagger: false,
+    });
+  }
+
+  if (selectors.cards) {
+    steps.push({
+      selector: selectors.cards,
+      delay: selectors.description ? DESCRIPTION_TO_CARD_DELAY : 0,
+      useStagger: true,
+      staggerValue: getStagger(0.1),
+    });
+  }
+
+  if (selectors.cta) {
+    const baseDelay = selectors.description ? DESCRIPTION_TO_CARD_DELAY : 0;
+    const cardDelay = selectors.cards ? CTA_AFTER_CARD_DELAY : 0;
+
+    steps.push({
+      selector: selectors.cta,
+      delay: baseDelay + cardDelay,
+      useStagger: true,
+      staggerValue: CTA_STAGGER,
+    });
+  }
+
+  return steps;
+}
+
+function runSectionSequence(
+  scopeElement: HTMLElement,
+  steps: SectionSequenceStep[]
+) {
+  steps.forEach(({ selector, delay, useStagger, staggerValue }) =>
+    animateElements(scopeElement, selector, delay, useStagger, staggerValue)
+  );
+}
+
 // Orchestrates section animations based on scroll position with hardware-accelerated transforms
 export function useSectionSequence(
   ref: RefObject<HTMLElement | null>,
@@ -613,6 +677,7 @@ export function useSectionSequence(
   const { offset = ['start 0.85', 'end 0.2'], threshold = 0.2 } = options;
   const { prefersReducedMotion, getStagger } = useAnimationConfig();
   const hasPlayed = useRef(false);
+  const sequencePlan = buildSectionSequencePlan(selectors, getStagger);
 
   const { scrollYProgress } = useScroll({ target: ref, offset });
 
@@ -621,36 +686,15 @@ export function useSectionSequence(
       prefersReducedMotion ||
       hasPlayed.current ||
       value <= threshold ||
-      !ref.current
+      !ref.current ||
+      sequencePlan.length === 0
     )
       return;
 
     hasPlayed.current = true;
     const scopeElement = ref.current;
 
-    // Animate description first
-    if (selectors.description) {
-      animateElements(scopeElement, selectors.description, 0, false, 0);
-    }
-
-    // Animate cards with stagger
-    if (selectors.cards) {
-      const delay = selectors.description ? 0.2 : 0;
-      animateElements(
-        scopeElement,
-        selectors.cards,
-        delay,
-        true,
-        getStagger(0.1)
-      );
-    }
-
-    // Animate CTA last
-    if (selectors.cta) {
-      const delay =
-        (selectors.description ? 0.2 : 0) + (selectors.cards ? 0.4 : 0);
-      animateElements(scopeElement, selectors.cta, delay, true, 0.1);
-    }
+    runSectionSequence(scopeElement, sequencePlan);
   });
 }
 
@@ -863,7 +907,9 @@ export function useTimelineSequence() {
   const { prefersReducedMotion } = useAnimationConfig();
 
   const runTimeline = useEventCallback((segments: TimelineSegment[]) => {
-    if (prefersReducedMotion) return null;
+    if (prefersReducedMotion || segments.length === 0) return null;
+
+    controlsRef.current?.stop();
 
     // Build sequence array in Motion's expected format
     const sequence: SequenceItem[] = segments.map((seg) => {
@@ -911,6 +957,12 @@ export function useTimelineSequence() {
       controlsRef.current?.stop();
     };
   }, []);
+
+  useEffect(() => {
+    if (!prefersReducedMotion) return;
+    controlsRef.current?.stop();
+    controlsRef.current = null;
+  }, [prefersReducedMotion]);
 
   return { runTimeline, controls: controlsRef.current };
 }

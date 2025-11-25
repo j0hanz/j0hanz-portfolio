@@ -5,7 +5,6 @@ import { Box, Typography } from '@mui/material';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { SectionSkeleton } from '@/components/Skeletons';
-import { sections } from '@/config/sections';
 import { useFullPageScroll, useNavigationState } from '@/hooks';
 
 // Fallback for section-level errors (prevents entire app from breaking)
@@ -29,10 +28,8 @@ function SectionErrorFallback(): React.JSX.Element {
 
 function MainContent(): React.JSX.Element {
   useFullPageScroll();
-  const { activeSectionId, direction } = useNavigationState();
-
-  const activeSection = sections.find((s) => s.id === activeSectionId);
-  const Component = activeSection?.Component;
+  const { activeSection, activeSectionId, direction } = useNavigationState();
+  const Component = activeSection.Component;
 
   return (
     <Box

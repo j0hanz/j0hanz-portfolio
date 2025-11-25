@@ -193,11 +193,12 @@ export const componentOverrides: Components<Theme> = {
   },
   MuiBackdrop: {
     styleOverrides: {
-      root: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      root: ({ theme }) => ({
+        // Uses alpha channel for backdrop (common.black for theme consistency)
+        backgroundColor: `color-mix(in srgb, ${(theme.vars || theme).palette.common.black} 50%, transparent)`,
         backdropFilter: 'blur(4px)',
         WebkitBackdropFilter: 'blur(4px)',
-      },
+      }),
       invisible: {
         backgroundColor: 'transparent',
         backdropFilter: 'none',

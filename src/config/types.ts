@@ -41,6 +41,9 @@ export type Direction = 'up' | 'down' | null;
 export interface NavigationState {
   activeSectionIndex: number;
   activeSectionId: string;
+  activeSectionHash: string;
+  activeSection: Section;
+  totalSections: number;
   direction: Direction;
   isFirst: boolean;
   isLast: boolean;
@@ -49,7 +52,7 @@ export interface NavigationState {
 }
 
 export interface NavigationActions {
-  setActiveSection: (index: number) => void;
+  setActiveSection: (indexOrId: number | string) => void;
   navigateTo: (id: string) => void;
   moveNext: () => void;
   movePrev: () => void;

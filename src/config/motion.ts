@@ -288,6 +288,14 @@ function createGestureVariant(
   };
 }
 
+// Shadow presets for lift gestures (use CSS variables for theme integration)
+export const SHADOW_LIFT_REST =
+  '0 4px 12px var(--shadow-color, rgba(0,0,0,0.08))';
+export const SHADOW_LIFT_HOVER =
+  '0 20px 40px var(--shadow-color, rgba(0,0,0,0.15))';
+export const SHADOW_LIFT_TAP =
+  '0 8px 20px var(--shadow-color, rgba(0,0,0,0.12))';
+
 export const gestureVariants = {
   hoverScale: {
     rest: { scale: 1 },
@@ -302,9 +310,9 @@ export const gestureVariants = {
     tap: { scale: 0.9, rotate: -5 },
   },
   lift: {
-    rest: { y: 0, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' },
-    hover: { y: -10, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' },
-    tap: { y: -4, boxShadow: '0 8px 20px rgba(0,0,0,0.12)' },
+    rest: { y: 0, boxShadow: SHADOW_LIFT_REST },
+    hover: { y: -10, boxShadow: SHADOW_LIFT_HOVER },
+    tap: { y: -4, boxShadow: SHADOW_LIFT_TAP },
   },
   tilt: {
     rest: { rotateX: 0, rotateY: 0, scale: 1 },
@@ -1154,11 +1162,17 @@ export type {
 // HOVER EFFECT PRESETS
 // ============================================================================
 
+// Hover shadow constants
+export const SHADOW_HOVER_LIFT =
+  '0 16px 40px var(--shadow-color, rgba(0,0,0,0.12))';
+export const SHADOW_HOVER_GLOW =
+  '0 0 20px var(--glow-color, rgba(255,255,255,0.2))';
+
 export const hoverEffects = {
   lift: {
     y: -6,
     scale: 1.02,
-    boxShadow: '0 16px 40px rgba(0,0,0,0.12)',
+    boxShadow: SHADOW_HOVER_LIFT,
   },
   grow: {
     scale: 1.05,
@@ -1168,7 +1182,7 @@ export const hoverEffects = {
   },
   glow: {
     filter: 'brightness(1.1)',
-    boxShadow: '0 0 20px rgba(255,255,255,0.2)',
+    boxShadow: SHADOW_HOVER_GLOW,
   },
   tilt: {
     rotateY: 5,
@@ -1207,14 +1221,20 @@ export const tapEffects = {
 // FOCUS EFFECT PRESETS
 // ============================================================================
 
+// Focus shadow constants using CSS variables for theme integration
+export const SHADOW_FOCUS_RING =
+  '0 0 0 3px var(--focus-ring-color, rgba(66, 153, 225, 0.5))';
+export const SHADOW_FOCUS_GLOW =
+  '0 0 12px var(--focus-glow-color, rgba(66, 153, 225, 0.4))';
+
 export const focusEffects = {
   ring: {
-    boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.5)',
+    boxShadow: SHADOW_FOCUS_RING,
     scale: 1.01,
   },
   glow: {
     filter: 'brightness(1.05)',
-    boxShadow: '0 0 12px rgba(66, 153, 225, 0.4)',
+    boxShadow: SHADOW_FOCUS_GLOW,
   },
   outline: {
     outline: '2px solid currentColor',

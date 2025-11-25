@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useReducer } from 'react';
 
 import {
   Alert,
@@ -9,7 +9,7 @@ import {
   type Theme,
 } from '@mui/material';
 
-import { SnackbarContext, SnackbarOptions } from '@/contexts/SnackbarContext';
+import { SnackbarContext } from '@/contexts/SnackbarContext';
 import { useEventCallback } from '@/hooks';
 
 const snackbarSx: SxProps<Theme> = {
@@ -21,17 +21,47 @@ const alertSx: SxProps<Theme> = {
   boxShadow: 3,
 };
 
+type SnackbarState = {
+  open: boolean;
+  message: string;
+  severity: AlertColor;
+  duration: number | null;
+};
+
+type SnackbarAction =
+  | { type: 'SHOW'; payload: Omit<SnackbarState, 'open'> }
+  | { type: 'CLOSE' };
+
+const INITIAL_SNACKBAR_STATE: SnackbarState = {
+  open: false,
+  message: '',
+  severity: 'info',
+  duration: 3000,
+};
+
+function snackbarReducer(
+  state: SnackbarState,
+  action: SnackbarAction
+): SnackbarState {
+  switch (action.type) {
+    case 'SHOW':
+      return { open: true, ...action.payload };
+    case 'CLOSE':
+      return { ...state, open: false };
+    default:
+      return state;
+  }
+}
+
 export function SnackbarProvider({
   children,
 }: {
   children: ReactNode;
 }): React.JSX.Element {
-  const [open, setOpen] = useState(false);
-  const [config, setConfig] = useState<SnackbarOptions>({
-    message: '',
-    severity: 'info',
-    duration: 3000,
-  });
+  const [snackbarState, dispatch] = useReducer(
+    snackbarReducer,
+    INITIAL_SNACKBAR_STATE
+  );
 
   const showSnackbar = useEventCallback(
     (
@@ -39,20 +69,22 @@ export function SnackbarProvider({
       severity: AlertColor = 'info',
       duration: number | null = 3000
     ) => {
-      setConfig({ message, severity, duration });
-      setOpen(true);
+      dispatch({
+        type: 'SHOW',
+        payload: { message, severity, duration },
+      });
     }
   );
 
   const closeSnackbar = useEventCallback(() => {
-    setOpen(false);
+    dispatch({ type: 'CLOSE' });
   });
 
   // Wrap with useEventCallback for stable reference in Snackbar onClose
   const handleClose = useEventCallback(
     (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
       if (reason === 'clickaway') return;
-      setOpen(false);
+      dispatch({ type: 'CLOSE' });
     }
   );
 
@@ -61,19 +93,19 @@ export function SnackbarProvider({
     <SnackbarContext value={{ showSnackbar, closeSnackbar }}>
       {children}
       <Snackbar
-        open={open}
-        autoHideDuration={config.duration}
+        open={snackbarState.open}
+        autoHideDuration={snackbarState.duration}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={snackbarSx}
       >
         <Alert
           onClose={handleClose}
-          severity={config.severity}
+          severity={snackbarState.severity}
           variant="filled"
           sx={alertSx}
         >
-          {config.message}
+          {snackbarState.message}
         </Alert>
       </Snackbar>
     </SnackbarContext>

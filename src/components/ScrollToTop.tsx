@@ -4,7 +4,6 @@ import KeyboardArrowUpRounded from '@mui/icons-material/KeyboardArrowUpRounded';
 import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
 import { motion, useSpring } from 'motion/react';
 
-import { sections } from '@/config/sections';
 import {
   useAnimationConfig,
   useNavigationActions,
@@ -32,14 +31,15 @@ const progressRingSx: SxProps<Theme> = {
 };
 
 function ScrollToTop(): React.JSX.Element {
-  const { activeSectionIndex, isPending } = useNavigationState();
-  const { setActiveSection } = useNavigationActions();
+  const { activeSectionIndex, isPending, totalSections } = useNavigationState();
+  const { navigateTo } = useNavigationActions();
   const { prefersReducedMotion } = useAnimationConfig();
   const show = activeSectionIndex > 0;
 
   // Calculate progress based on section position (0 to 1)
-  const totalSections = sections.length;
-  const sectionProgress = activeSectionIndex / (totalSections - 1);
+  const clampedTotal = totalSections > 0 ? totalSections : 1;
+  const sectionProgress =
+    clampedTotal > 1 ? activeSectionIndex / (clampedTotal - 1) : 0;
 
   // Use spring for smooth progress animation
   const springProgress = useSpring(sectionProgress, {
@@ -58,7 +58,7 @@ function ScrollToTop(): React.JSX.Element {
 
   const handleClick = (): void => {
     if (isPending) return;
-    setActiveSection(0);
+    navigateTo('hero');
   };
 
   return (

@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState, useTransition } from 'react';
+import { ReactNode, useEffect, useReducer, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
-import type { Direction } from '@/config/types';
+import type { Direction, NavigationState } from '@/config/types';
 import {
   NavigationActionsContext,
   NavigationStateContext,
@@ -11,20 +11,113 @@ import { useEventCallback } from '@/hooks';
 const SECTION_COUNT = sections.length;
 const LAST_INDEX = SECTION_COUNT - 1;
 
+type NavigationSnapshot = Omit<NavigationState, 'isPending'>;
+
+type NavigationAction =
+  | { type: 'SET_INDEX'; payload: number }
+  | { type: 'SET_ID'; payload: string }
+  | { type: 'STEP'; payload: 1 | -1 }
+  | { type: 'SYNC_HASH'; payload: string };
+
 // Get initial section index from URL hash on mount
 function getInitialSectionIndex(): number {
   if (typeof window === 'undefined') return 0;
 
   const section = getSectionByHash(window.location.hash);
-  if (!section) return 0;
-
-  const index = sections.indexOf(section);
+  const index = section ? sections.indexOf(section) : -1;
   return index >= 0 ? index : 0;
 }
 
-// Check if index is within valid bounds
-function isValidIndex(index: number): boolean {
-  return index >= 0 && index <= LAST_INDEX;
+function clampIndex(index: number): number {
+  if (Number.isNaN(index)) return 0;
+  if (index < 0) return 0;
+  if (index > LAST_INDEX) return LAST_INDEX;
+  return index;
+}
+
+function resolveIndexById(id: string): number | null {
+  const matchIndex = sections.findIndex((section) => section.id === id);
+  return matchIndex >= 0 ? matchIndex : null;
+}
+
+function resolveIndexByHash(hash: string): number | null {
+  const section = getSectionByHash(hash);
+  if (!section) return null;
+
+  const matchIndex = sections.indexOf(section);
+  return matchIndex >= 0 ? matchIndex : null;
+}
+
+function buildSnapshot(
+  targetIndex: number,
+  previousIndex: number
+): NavigationSnapshot {
+  const index = clampIndex(targetIndex);
+  const activeSection = sections[index];
+  if (!activeSection) {
+    if (import.meta.env.DEV) {
+      throw new Error(
+        `NavigationProvider: sections[${index}] is undefined. This should never happen.`
+      );
+    }
+  }
+  const direction: Direction =
+    index === previousIndex ? null : index > previousIndex ? 'down' : 'up';
+
+  return {
+    activeSectionIndex: index,
+    activeSectionId: activeSection.id,
+    activeSectionHash: activeSection.hash,
+    activeSection,
+    totalSections: SECTION_COUNT,
+    direction,
+    isFirst: index === 0,
+    isLast: index === LAST_INDEX,
+    isScrollLocked: !activeSection.disableScrollLock,
+  };
+}
+
+function navigationReducer(
+  state: NavigationSnapshot,
+  action: NavigationAction
+): NavigationSnapshot {
+  switch (action.type) {
+    case 'SET_INDEX': {
+      const next = buildSnapshot(action.payload, state.activeSectionIndex);
+      return next.activeSectionIndex === state.activeSectionIndex
+        ? state
+        : next;
+    }
+    case 'SET_ID': {
+      const targetIndex = resolveIndexById(action.payload);
+      if (targetIndex === null) return state;
+
+      const next = buildSnapshot(targetIndex, state.activeSectionIndex);
+      return next.activeSectionIndex === state.activeSectionIndex
+        ? state
+        : next;
+    }
+    case 'STEP': {
+      const next = buildSnapshot(
+        state.activeSectionIndex + action.payload,
+        state.activeSectionIndex
+      );
+      return next.activeSectionIndex === state.activeSectionIndex
+        ? state
+        : next;
+    }
+    case 'SYNC_HASH': {
+      const targetIndex = resolveIndexByHash(action.payload);
+      if (targetIndex === null) return state;
+
+      const next = buildSnapshot(targetIndex, state.activeSectionIndex);
+      return next.activeSectionIndex === state.activeSectionIndex
+        ? state
+        : next;
+    }
+    default:
+      return state;
+  }
 }
 
 // Sync browser hash with active section
@@ -40,50 +133,34 @@ export function NavigationProvider({
   children: ReactNode;
 }): React.JSX.Element {
   const [isPending, startTransition] = useTransition();
-  const [activeSectionIndex, setActiveSectionIndex] = useState(
-    getInitialSectionIndex
+  const [navigationState, dispatch] = useReducer(
+    navigationReducer,
+    getInitialSectionIndex(),
+    (initialIndex) => buildSnapshot(initialIndex, initialIndex)
   );
-  const [direction, setDirection] = useState<Direction>(null);
 
-  const activeSection = sections[activeSectionIndex];
-  const isFirst = activeSectionIndex === 0;
-  const isLast = activeSectionIndex === LAST_INDEX;
-  const isScrollLocked = !activeSection.disableScrollLock;
-
-  const updateSection = useEventCallback(
-    (nextIndexOrUpdater: number | ((current: number) => number)) => {
-      startTransition(() => {
-        setActiveSectionIndex((currentIndex) => {
-          const targetIndex =
-            typeof nextIndexOrUpdater === 'function'
-              ? nextIndexOrUpdater(currentIndex)
-              : nextIndexOrUpdater;
-
-          // Skip if unchanged or out of bounds
-          if (targetIndex === currentIndex || !isValidIndex(targetIndex)) {
-            return currentIndex;
-          }
-
-          // Update direction for page transition animations
-          setDirection(targetIndex > currentIndex ? 'down' : 'up');
-          return targetIndex;
-        });
-      });
-    }
-  );
+  const setActiveSection = useEventCallback((indexOrId: number | string) => {
+    startTransition(() => {
+      if (typeof indexOrId === 'string') {
+        dispatch({ type: 'SET_ID', payload: indexOrId });
+        return;
+      }
+      dispatch({ type: 'SET_INDEX', payload: indexOrId });
+    });
+  });
 
   const handleHashChange = useEventCallback(() => {
-    const section = getSectionByHash(window.location.hash);
-    if (!section) return;
+    if (typeof window === 'undefined') return;
 
-    const index = sections.indexOf(section);
-    if (index >= 0) updateSection(index);
+    startTransition(() => {
+      dispatch({ type: 'SYNC_HASH', payload: window.location.hash });
+    });
   });
 
   // Sync browser hash when section changes
   useEffect(() => {
-    syncHashWithSection(activeSection.hash);
-  }, [activeSection.hash]);
+    syncHashWithSection(navigationState.activeSectionHash);
+  }, [navigationState.activeSectionHash]);
 
   // Listen for browser back/forward navigation
   useEffect(() => {
@@ -92,30 +169,24 @@ export function NavigationProvider({
   }, [handleHashChange]);
 
   const navigateTo = useEventCallback((id: string) => {
-    const index = sections.findIndex((s) => s.id === id);
-    if (index >= 0) updateSection(index);
+    startTransition(() => dispatch({ type: 'SET_ID', payload: id }));
   });
 
-  const moveNext = useEventCallback(() =>
-    updateSection((current) => current + 1)
-  );
+  const moveNext = useEventCallback(() => {
+    startTransition(() => dispatch({ type: 'STEP', payload: 1 }));
+  });
 
-  const movePrev = useEventCallback(() =>
-    updateSection((current) => current - 1)
-  );
+  const movePrev = useEventCallback(() => {
+    startTransition(() => dispatch({ type: 'STEP', payload: -1 }));
+  });
 
-  const stateValue = {
-    activeSectionIndex,
-    activeSectionId: activeSection.id,
-    direction,
-    isFirst,
-    isLast,
-    isScrollLocked,
+  const stateValue: NavigationState = {
+    ...navigationState,
     isPending,
   };
 
   const actionsValue = {
-    setActiveSection: updateSection,
+    setActiveSection,
     navigateTo,
     moveNext,
     movePrev,

@@ -6,6 +6,12 @@ export const githubKeys = {
   repoStats: (repoPath: string) => ['github', 'repo-stats', repoPath] as const,
 };
 
+// Query key factory for contact form mutations
+export const contactKeys = {
+  all: ['contact'] as const,
+  submission: () => [...contactKeys.all, 'submission'] as const,
+};
+
 // Builds type-safe query key from parts with generic type preservation
 export function buildQueryKey<
   T extends readonly (string | number | boolean | object)[],
