@@ -173,24 +173,26 @@ function FormField({
 // Rendering contact form fields
 function ContactFormFields({
   formData,
-  defaultValues,
   errors,
   handleChange,
+  disabled = false,
 }: FormFieldsProps): React.JSX.Element {
   return (
     <Grid container spacing={1.25}>
       {CONTACT_FIELD_CONFIGS.map((config) => {
         const { key, ...fieldProps } = config;
+        const value = formData[key] ?? '';
+        const error = config.errorKey ? errors[config.errorKey] : undefined;
+
         return (
           <Grid key={key} size={config.gridProps}>
             <FormField
               {...fieldProps}
               name={key}
-              value={formData ? formData[key] : undefined}
-              defaultValue={defaultValues ? defaultValues[key] : undefined}
-              error={config.errorKey ? errors[config.errorKey] : undefined}
+              value={value}
+              error={error}
               onChange={handleChange}
-              disabled={false}
+              disabled={disabled}
             />
           </Grid>
         );

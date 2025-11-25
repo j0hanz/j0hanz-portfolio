@@ -45,13 +45,11 @@ export function TimelineList<T extends TimelineItemData>({
       {items.map((item, index) => {
         const isLastItem = index === items.length - 1;
         const isLeftAligned = isTimelineItemLeftAligned(index, isMobile);
-        const ItemIcon = getItemIcon ? getItemIcon(item) : Icon;
+        const ItemIcon = getItemIcon?.(item) ?? Icon;
+        const itemKey = buildItemKey(item.title, item.duration, index);
 
         return (
-          <TimelineItem
-            key={buildItemKey(item.title, item.duration)}
-            sx={{ minHeight: 'auto' }}
-          >
+          <TimelineItem key={itemKey} sx={{ minHeight: 'auto' }}>
             <TimelineOppositeContent
               sx={getTimelineOppositeContentSx(isLeftAligned)}
               color="text.secondary"

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -18,9 +18,12 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
-import { FORM_RESET_DELAY } from '@/config/constants';
+import { CONTACT_COPY, FORM_RESET_DELAY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import type {
+  ContactFieldErrorKey,
+  ContactFieldKey,
+  ContactFormErrors,
   ContactFormValues,
   ElementRef,
   FormActionsProps,
@@ -29,11 +32,13 @@ import type {
 import {
   useAnimationConfig,
   useContactFormMutation,
+  useEventCallback,
   useInView,
   useMotionVariant,
   useSnackbar,
 } from '@/hooks';
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
+import { validateForm } from '@/utils/validation';
 
 import ContactFormFields from './ContactFormFields';
 
@@ -54,30 +59,27 @@ const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
 };
 
-// Creates ContactFormValues from FormData with null safety
-function extractFormValues(formData: FormData): ContactFormValues {
-  const getString = (key: string): string => {
-    const value = formData.get(key);
-    return typeof value === 'string' ? value : '';
-  };
+const createEmptyFormValues = (): ContactFormValues => ({
+  name: '',
+  email: '',
+  company: '',
+  url: '',
+  message: '',
+});
 
-  const name = getString('name');
-  const email = getString('email');
-  const message = getString('message');
+const normalizeFormValues = (values: ContactFormValues): ContactFormValues => ({
+  name: values.name.trim(),
+  email: values.email.trim(),
+  company: values.company.trim(),
+  url: values.url.trim(),
+  message: values.message.trim(),
+});
 
-  // Validate required fields are present
-  if (!name || !email || !message) {
-    throw new Error('Required form fields are missing or invalid');
-  }
+const getFirstErrorMessage = (errors: ContactFormErrors): string | undefined =>
+  Object.values(errors).find(Boolean);
 
-  return {
-    name,
-    email,
-    company: getString('company'),
-    url: getString('url'),
-    message,
-  };
-}
+const isErrorField = (key: ContactFieldKey): key is ContactFieldErrorKey =>
+  key === 'name' || key === 'email' || key === 'url' || key === 'message';
 
 function SuccessIndicator({
   visible,
@@ -104,7 +106,7 @@ function SuccessIndicator({
         <AnimatedCheckmark />
       </Box>
       <Typography variant="body2" color="success.main" sx={successTextSx}>
-        Message sent!
+        {CONTACT_COPY.successInline}
       </Typography>
     </Stack>
   );
@@ -128,11 +130,11 @@ function FormActions({
         onClick={onReset}
         disabled={isPending}
         startIcon={<DeleteRounded sx={iconSx} />}
-        aria-label="Clear form"
+        aria-label={CONTACT_COPY.clearAriaLabel}
         sx={buttonMinWidthSx}
       >
         <Box component="span" sx={clearTextSx}>
-          Clear
+          {CONTACT_COPY.clearLabel}
         </Box>
       </Button>
       <Button
@@ -141,18 +143,23 @@ function FormActions({
         loading={isPending}
         disabled={isPending}
         startIcon={<SendRounded sx={iconSx} />}
-        aria-label={isPending ? 'Sending message' : 'Send message'}
+        aria-label={
+          isPending ? CONTACT_COPY.sendingAriaLabel : CONTACT_COPY.sendAriaLabel
+        }
         sx={buttonMinWidthSx}
       >
-        {!isPending && 'Send'}
+        {!isPending && CONTACT_COPY.sendLabel}
       </Button>
     </Stack>
   );
 }
 
 function ContactFormContent(): React.JSX.Element {
-  const formRef = useRef<HTMLFormElement>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
+  const [formData, setFormData] = useState<ContactFormValues>(
+    createEmptyFormValues
+  );
+  const [errors, setErrors] = useState<ContactFormErrors>({});
   const { showSnackbar } = useSnackbar();
   // Destructure stable functions from mutation to avoid dependency issues
   const { mutate, reset, isSuccess, isPending } = useContactFormMutation();
@@ -173,49 +180,76 @@ function ContactFormContent(): React.JSX.Element {
 
   const showSuccess = isSuccess && !isPending;
 
-  const handleReset = () => {
-    formRef.current?.reset();
+  const handleChange = useEventCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.currentTarget;
+      const fieldName = name as ContactFieldKey;
+
+      setFormData((prev) => ({ ...prev, [fieldName]: value }));
+      setErrors((prev) => {
+        if (!isErrorField(fieldName) || !prev[fieldName]) return prev;
+        const nextErrors = { ...prev };
+        delete nextErrors[fieldName];
+        return nextErrors;
+      });
+    }
+  );
+
+  const handleReset = useEventCallback(() => {
+    setFormData(createEmptyFormValues());
+    setErrors({});
     reset();
-  };
+  });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = useEventCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    // Clear any pending auto-reset on new submission
-    reset();
+      // Clear any pending auto-reset on new submission
+      reset();
 
-    const values = extractFormValues(new FormData(e.currentTarget));
+      const normalizedValues = normalizeFormValues(formData);
+      const validationErrors = validateForm(normalizedValues);
 
-    mutate(values, {
-      onSuccess: () => showSnackbar('Message sent successfully!', 'success'),
-      onError: (error) => showSnackbar(error.message, 'error'),
-    });
-  };
+      setErrors(validationErrors);
+
+      if (Object.keys(validationErrors).length > 0) {
+        const firstError = getFirstErrorMessage(validationErrors);
+        if (firstError) {
+          showSnackbar(firstError, 'error');
+        }
+        return;
+      }
+
+      mutate(normalizedValues, {
+        onSuccess: () => showSnackbar(CONTACT_COPY.successToast, 'success'),
+        onError: (error) => showSnackbar(error.message, 'error'),
+      });
+    }
+  );
 
   // Auto-reset form after successful submission
   useEffect(() => {
     if (!showSuccess) return;
 
     const timer = setTimeout(() => {
-      formRef.current?.reset();
-      reset();
+      handleReset();
     }, FORM_RESET_DELAY);
 
     return () => clearTimeout(timer);
-  }, [showSuccess, reset]);
+  }, [showSuccess, handleReset]);
 
   return (
     <Card title="" sx={formCardSx}>
       <Box ref={formContainerRef}>
-        <Stack
-          component="form"
-          ref={formRef}
-          onSubmit={handleSubmit}
-          noValidate
-          spacing={2}
-        >
+        <Stack component="form" onSubmit={handleSubmit} noValidate spacing={2}>
           <motion.div custom={0} {...fieldMotion} layout>
-            <ContactFormFields defaultValues={undefined} errors={{}} />
+            <ContactFormFields
+              formData={formData}
+              errors={errors}
+              handleChange={handleChange}
+              disabled={isPending}
+            />
           </motion.div>
           <SuccessIndicator visible={showSuccess} />
           <motion.div {...actionMotion} layout>
@@ -230,7 +264,11 @@ function ContactFormContent(): React.JSX.Element {
 // Rendering contact form section
 function ContactForm(): React.JSX.Element {
   return (
-    <SectionContainer id="contact" title="Contact" icon={EmailRounded}>
+    <SectionContainer
+      id="contact"
+      title={CONTACT_COPY.sectionTitle}
+      icon={EmailRounded}
+    >
       <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
         <Grid size={12}>
           <ContactFormContent />

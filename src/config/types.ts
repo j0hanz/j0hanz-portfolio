@@ -716,29 +716,12 @@ export interface FormFieldProps {
 }
 
 export interface FormFieldsProps {
-  formData?: {
-    name?: string;
-    email?: string;
-    company?: string;
-    url?: string;
-    message?: string;
-  };
-  defaultValues?: {
-    name?: string;
-    email?: string;
-    company?: string;
-    url?: string;
-    message?: string;
-  };
-  errors: {
-    name?: string;
-    email?: string;
-    url?: string;
-    message?: string;
-  };
-  handleChange?: (
+  formData: ContactFormValues;
+  errors: ContactFormErrors;
+  handleChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  disabled?: boolean;
 }
 
 // --- Feature: Skills ---

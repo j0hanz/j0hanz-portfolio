@@ -1,6 +1,14 @@
 import type { RepoStats } from './types';
 
 // ============================================================================
+// APP COPY
+// ============================================================================
+
+export const APP_COPY = {
+  title: 'Linus Johansson | Portfolio',
+} as const;
+
+// ============================================================================
 // PROJECT STATS CONSTANTS
 // ============================================================================
 
@@ -30,6 +38,30 @@ export const CONTACT_EMAIL = 'l.johansson93@outlook.com';
 export const SEND_ERROR_MESSAGE =
   'Failed to send message! Please try again later.';
 export const FORM_RESET_DELAY = 3000;
+
+export const CONTACT_COPY = {
+  sectionTitle: 'Contact',
+  successInline: 'Message sent!',
+  successToast: 'Message sent successfully!',
+  clearLabel: 'Clear',
+  clearAriaLabel: 'Clear form',
+  sendLabel: 'Send',
+  sendingAriaLabel: 'Sending message',
+  sendAriaLabel: 'Send message',
+} as const;
+
+// ============================================================================
+// CONNECTIVITY CONSTANTS
+// ============================================================================
+
+export const CONNECTIVITY_COPY = {
+  offlineBanner: 'Offline mode: some features may be unavailable.',
+  onlineBanner: 'Back online. Changes will sync as soon as possible.',
+  offlineSnackbar: 'You appear to be offline. Some features may not work.',
+  onlineSnackbar: 'Connection restored',
+} as const;
+
+export const CONNECTIVITY_BANNER_AUTO_DISMISS = 3500;
 
 // ============================================================================
 // VALIDATION CONSTANTS

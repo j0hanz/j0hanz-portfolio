@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
+import {
+  CONNECTIVITY_BANNER_AUTO_DISMISS,
+  CONNECTIVITY_COPY,
+} from '@/config/constants';
 import type { StatusBanner } from '@/config/types';
 
 import useEventCallback from './useEventCallback';
@@ -14,30 +18,26 @@ const resolveInitialStatus = (): boolean => {
   return navigator.onLine;
 };
 
-const getInitialBanner = (): StatusBanner | null => {
-  const isOnline = resolveInitialStatus();
-  if (isOnline) return null;
-
-  return {
-    message: 'Offline mode: some features may be unavailable.',
-    severity: 'warning',
-    persistent: true,
-  };
-};
-
 const OFFLINE_BANNER: StatusBanner = {
-  message: 'Offline mode: some features may be unavailable.',
+  message: CONNECTIVITY_COPY.offlineBanner,
   severity: 'warning',
   persistent: true,
 };
 
 const ONLINE_BANNER: StatusBanner = {
-  message: 'Back online. Changes will sync as soon as possible.',
+  message: CONNECTIVITY_COPY.onlineBanner,
   severity: 'success',
   persistent: false,
 };
 
-const AUTO_DISMISS_DURATION = 3500;
+const getInitialBanner = (): StatusBanner | null => {
+  const isOnline = resolveInitialStatus();
+  if (isOnline) return null;
+
+  return OFFLINE_BANNER;
+};
+
+const AUTO_DISMISS_DURATION = CONNECTIVITY_BANNER_AUTO_DISMISS;
 
 function useBannerTimeout() {
   const timeoutRef = useRef<number | null>(null);
@@ -88,32 +88,27 @@ export function useConnectivity() {
   });
 
   const handleOffline = useEventCallback(() => {
-    showSnackbar(
-      'You appear to be offline. Some features may not work.',
-      'warning',
-      null
-    );
+    showSnackbar(CONNECTIVITY_COPY.offlineSnackbar, 'warning', null);
     showBanner(OFFLINE_BANNER);
   });
 
   const handleOnline = useEventCallback(() => {
-    showSnackbar('Connection restored', 'success', 2500);
+    showSnackbar(CONNECTIVITY_COPY.onlineSnackbar, 'success', 2500);
     showBanner(ONLINE_BANNER);
   });
 
   useEffect(() => {
     // Handle initial offline state on mount
     if (prevOnline === undefined) {
-      if (!isOnline) handleOffline();
+      if (!isOnline) {
+        handleOffline();
+      }
       return;
     }
 
-    // Handle status changes
-    if (isOnline && !prevOnline) {
-      handleOnline();
-    } else if (!isOnline && prevOnline) {
-      handleOffline();
-    }
+    if (isOnline === prevOnline) return;
+    if (isOnline) handleOnline();
+    else handleOffline();
   }, [isOnline, prevOnline, handleOnline, handleOffline]);
 
   return { isOnline, statusBanner };

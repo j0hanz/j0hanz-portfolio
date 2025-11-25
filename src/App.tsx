@@ -10,11 +10,13 @@ import { NavigationProvider } from '@/components/NavigationProvider';
 import ScrollToTop from '@/components/ScrollToTop';
 import Spinner from '@/components/Spinner';
 import StatusBanner from '@/components/StatusBanner';
+import { APP_COPY } from '@/config/constants';
 import { useConnectivity, useContentMotion } from '@/hooks';
 import Home from '@/pages/Home';
 
 // Initial loading delay to prevent jarring flash (2 seconds)
 const INITIAL_LOADING_DELAY = 2000;
+const APP_TITLE = APP_COPY.title;
 
 // Main container styles
 const mainContainerSx = {
@@ -42,18 +44,22 @@ const contentContainerSx = {
   zIndex: 1,
 } as const;
 
-function App(): React.JSX.Element {
-  const { isOnline, statusBanner } = useConnectivity();
-  // Initial loading state - optimized with 2s timeout to prevent flash
+function useInitialLoading(delay: number): boolean {
   const [isLoading, setIsLoading] = useState(true);
-  const contentMotion = useContentMotion();
 
   useEffect(() => {
-    // Set document title and schedule initial loading completion
-    document.title = 'Linus Johansson | Portfolio';
-    const timer = setTimeout(() => setIsLoading(false), INITIAL_LOADING_DELAY);
-    return () => clearTimeout(timer);
-  }, []);
+    document.title = APP_TITLE;
+    const timer = window.setTimeout(() => setIsLoading(false), delay);
+    return () => window.clearTimeout(timer);
+  }, [delay]);
+
+  return isLoading;
+}
+
+function App(): React.JSX.Element {
+  const { isOnline, statusBanner } = useConnectivity();
+  const isLoading = useInitialLoading(INITIAL_LOADING_DELAY);
+  const contentMotion = useContentMotion();
 
   return (
     <MotionConfig reducedMotion="user">

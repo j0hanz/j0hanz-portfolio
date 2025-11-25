@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { SchoolTwoTone, VerifiedTwoTone, WorkOutlineTwoTone } from '@mui/icons-material';
+import {
+  SchoolTwoTone,
+  VerifiedTwoTone,
+  WorkOutlineTwoTone,
+} from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -10,7 +14,11 @@ import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';
-import type { Experience, ExperienceCardProps } from '@/config/types';
+import type {
+  Experience,
+  ExperienceCardProps,
+  IconBadgeMetaItem,
+} from '@/config/types';
 import {
   useModal,
   useMotionVariant,
@@ -27,6 +35,8 @@ import {
   timelineDescriptionWrapperSx,
 } from '@/styles/shared';
 import {
+  buildItemKey,
+  compactMetadata,
   createDurationMeta,
   createSchoolMeta,
   createWorkplaceMeta,
@@ -34,29 +44,53 @@ import {
 
 import Credential from './Credential';
 
+const EXPERIENCE_CARD_ATTRIBUTES = { 'data-exp-card': 'true' } as const;
+const DESCRIPTION_DATA_ATTRIBUTE = { 'data-exp-description': 'true' } as const;
+const CTA_DATA_ATTRIBUTE = { 'data-exp-cta': 'true' } as const;
+
+const buildExperienceMetadata = (
+  experience: Experience,
+  includeDuration: boolean
+): IconBadgeMetaItem[] => {
+  const baseMeta =
+    experience.type === 'education'
+      ? createSchoolMeta(experience.school)
+      : createWorkplaceMeta(experience.workplace);
+
+  const durationMeta = includeDuration
+    ? createDurationMeta(experience.duration)
+    : null;
+
+  return compactMetadata([baseMeta, durationMeta]);
+};
+
 function WorkCard({
   experience,
   showDuration = true,
-}: { experience: Experience; showDuration?: boolean }) {
+}: {
+  experience: Experience;
+  showDuration?: boolean;
+}) {
   const { cardRef, itemMotion } = useTimelineCardMotion(viewportPresets.card);
 
-  const metadata = [createWorkplaceMeta(experience.workplace ?? '')];
-  if (showDuration) {
-    metadata.push(createDurationMeta(experience.duration));
-  }
+  const metadata = buildExperienceMetadata(experience, showDuration);
 
   return (
     <Box ref={cardRef} sx={timelineCardWrapperSx}>
       <TimelineCard
         title={experience.title}
         metadata={metadata}
-        dataAttributes={{ 'data-exp-card': 'true' }}
+        dataAttributes={EXPERIENCE_CARD_ATTRIBUTES}
         metaDataAttribute="data-exp-meta"
       >
-        <Box component="ul" data-exp-description sx={listContainerSx}>
+        <Box
+          component="ul"
+          {...DESCRIPTION_DATA_ATTRIBUTE}
+          sx={listContainerSx}
+        >
           {experience.description.map((item, index) => (
             <motion.li
-              key={`${experience.title}-${index}`}
+              key={buildItemKey(experience.title, item, index)}
               custom={index}
               {...itemMotion}
             >
@@ -86,10 +120,7 @@ function EducationCard({
     itemMotion: descriptionMotion,
   } = useTimelineCardMotion(viewportPresets.cardLarge);
 
-  const metadata = [createSchoolMeta(experience.school ?? '')];
-  if (showDuration) {
-    metadata.push(createDurationMeta(experience.duration));
-  }
+  const metadata = buildExperienceMetadata(experience, showDuration);
 
   const buttonMotion = useMotionVariant(buttonPopVariants, {
     initial: 'hidden',
@@ -101,17 +132,17 @@ function EducationCard({
       <TimelineCard
         title={experience.title}
         metadata={metadata}
-        dataAttributes={{ 'data-exp-card': 'true' }}
+        dataAttributes={EXPERIENCE_CARD_ATTRIBUTES}
       >
         {experience.description.length > 0 && (
           <Box sx={timelineDescriptionWrapperSx}>
             {experience.description.map((desc, index) => (
               <Box
                 component={motion.p}
-                key={`${experience.title}-${index}`}
+                key={buildItemKey(experience.title, desc, index)}
                 custom={index}
                 {...descriptionMotion}
-                data-exp-description
+                {...DESCRIPTION_DATA_ATTRIBUTE}
                 sx={descriptionTextSx}
               >
                 {desc}
@@ -126,7 +157,7 @@ function EducationCard({
                 onClick={onShowModal}
                 variant="contained"
                 startIcon={<VerifiedTwoTone />}
-                data-exp-cta
+                {...CTA_DATA_ATTRIBUTE}
                 sx={credentialButtonSx}
               >
                 Credential
