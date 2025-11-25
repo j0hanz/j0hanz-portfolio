@@ -98,7 +98,8 @@ export const drawerPaperSx: SxProps<Theme> = {
   height: '100dvh',
   display: 'flex',
   flexDirection: 'column',
-  filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))',
+  filter: (theme) =>
+    `drop-shadow(0 8px 16px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.15)'})`,
   overflowX: 'hidden',
 };
 
@@ -144,7 +145,8 @@ export const darkModeToggleBoxSx: SxProps<Theme> = {
   borderRadius: '0 0 16px 0px',
   zIndex: (theme) => theme.zIndex.appBar,
   cursor: 'pointer',
-  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))',
+  filter: (theme) =>
+    `drop-shadow(0 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'})`,
 };
 
 export const menuButtonSx: SxProps<Theme> = {
@@ -160,7 +162,8 @@ export const menuButtonSx: SxProps<Theme> = {
   zIndex: (theme) => theme.zIndex.appBar,
   top: 0,
   right: 0,
-  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))',
+  filter: (theme) =>
+    `drop-shadow(0 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'})`,
   '&:hover': {
     bgcolor: 'background.default',
     color: 'primary.main',

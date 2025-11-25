@@ -60,7 +60,9 @@ export async function fetchRepoStats(
 
   if (!response.ok) {
     // Log warning for rate limits or not found, but don't throw
-    console.warn(`Failed to fetch stats for ${repoPath}: ${response.status}`);
+    if (import.meta.env.DEV) {
+      console.warn(`Failed to fetch stats for ${repoPath}: ${response.status}`);
+    }
     // Return empty stats instead of throwing to prevent Error Boundary
     return { stars: 0, forks: 0, issues: 0 };
   }

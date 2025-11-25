@@ -89,12 +89,12 @@ function extractFormValues(formData: FormData): ContactFormValues {
 
 function SuccessIndicator({
   visible,
-}: SuccessIndicatorProps): React.JSX.Element {
+}: SuccessIndicatorProps): React.JSX.Element | null {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const { container, checkmarkCircle, checkmarkPath } =
     successIndicatorVariants;
 
-  if (!visible) return <></>;
+  if (!visible) return null;
 
   const circleInitial = prefersReducedMotion
     ? { strokeDashoffset: 0 }

@@ -379,6 +379,7 @@ function OffcanvasMenu({
 function NavBar(): React.JSX.Element {
   const cvModal = useModal(false);
   const offcanvasMenu = useModal(false);
+  const { prefersReducedMotion } = useAnimationConfig();
 
   return (
     <>
@@ -400,11 +401,13 @@ function NavBar(): React.JSX.Element {
           >
             <motion.div
               animate={
-                offcanvasMenu.isOpen
-                  ? { opacity: 0, rotate: 180 }
-                  : { opacity: 1, rotate: 0 }
+                prefersReducedMotion
+                  ? undefined
+                  : offcanvasMenu.isOpen
+                    ? { opacity: 0, rotate: 180 }
+                    : { opacity: 1, rotate: 0 }
               }
-              transition={{ duration: 0.2 }}
+              transition={prefersReducedMotion ? undefined : { duration: 0.2 }}
             >
               <MenuRounded
                 sx={{

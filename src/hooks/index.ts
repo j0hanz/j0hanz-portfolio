@@ -100,7 +100,6 @@ export {
 // TanStack Query Hooks and Utilities
 // ============================================================================
 
-// TanStack Query hooks for data fetching with Suspense (prefer over deprecated useFetch)
 export {
   githubKeys,
   queryClient,

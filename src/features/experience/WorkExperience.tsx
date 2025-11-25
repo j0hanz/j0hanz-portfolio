@@ -155,11 +155,7 @@ function WorkExperience(): React.JSX.Element {
                   {!isLastItem && <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent sx={getTimelineContentSx(isLeftAligned)}>
-                  <motion.div
-                    custom={index}
-                    {...cardMotion}
-                    style={{ width: '100%' }}
-                  >
+                  <motion.div custom={index} {...cardMotion}>
                     <ExperienceCard
                       experience={experience}
                       showDuration={isMobile}
