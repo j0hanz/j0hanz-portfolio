@@ -106,5 +106,4 @@ export const buttonsStackSx: SxProps<Theme> = {
 export const downloadButtonSx: SxProps<Theme> = {
   minWidth: BUTTON_MIN_WIDTH_HERO,
   height: BUTTON_HEIGHT_LARGE,
-  bgcolor: 'primary.main',
 };

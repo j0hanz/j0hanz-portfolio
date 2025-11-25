@@ -16,9 +16,9 @@ export const ICON_SIZE_SMALL = '0.9rem';
 // Button dimensions
 export const BUTTON_MIN_WIDTH = 120;
 export const BUTTON_MIN_WIDTH_WIDE = 140;
-export const BUTTON_MIN_WIDTH_HERO = 180;
+export const BUTTON_MIN_WIDTH_HERO = 140;
 export const BUTTON_HEIGHT_STANDARD = 30;
-export const BUTTON_HEIGHT_LARGE = 40;
+export const BUTTON_HEIGHT_LARGE = 35;
 
 // Badge dimensions
 export const BADGE_MIN_WIDTH = 45;
@@ -29,7 +29,7 @@ export const BADGE_HEIGHT = 21;
 // ============================================================================
 
 // Text line height
-export const TEXT_LINE_HEIGHT = 1.8;
+export const TEXT_LINE_HEIGHT = 2;
 
 // Letter spacing presets
 export const LETTER_SPACING_TIGHT = 0.5;
@@ -72,23 +72,14 @@ export const buttonMinWidthSx: SxProps<Theme> = {
   minWidth: BUTTON_MIN_WIDTH,
 };
 
-export const neutralButtonSx: SxProps<Theme> = {
-  bgcolor: 'neutral.main',
-  '&:hover': {
-    bgcolor: 'neutral.dark',
-  },
-};
-
 export const contactButtonSx: SxProps<Theme> = {
   minWidth: BUTTON_MIN_WIDTH_HERO,
   height: BUTTON_HEIGHT_LARGE,
-  ...neutralButtonSx,
 };
 
 export const credentialButtonSx: SxProps<Theme> = {
   minWidth: BUTTON_MIN_WIDTH_WIDE,
   height: BUTTON_HEIGHT_STANDARD,
-  ...neutralButtonSx,
 };
 
 // Section layout styles

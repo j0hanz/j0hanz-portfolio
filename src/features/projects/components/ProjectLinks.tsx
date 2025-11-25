@@ -95,7 +95,8 @@ function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              color="neutral"
+              variant="text"
+              color="inherit"
               icon={<SiGithub />}
               label="GitHub"
             />

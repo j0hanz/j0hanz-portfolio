@@ -139,6 +139,7 @@ function FormActions({
       </Button>
       <Button
         variant="contained"
+        color="primary"
         type="submit"
         loading={isPending}
         disabled={isPending}

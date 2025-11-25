@@ -29,7 +29,7 @@ const theme = createTheme({
     },
     button: {
       textTransform: 'none',
-      fontWeight: 300,
+      fontWeight: 400,
     },
   },
   shape: {
@@ -56,7 +56,7 @@ const theme = createTheme({
     glass: {
       backdropFilter: 'blur(6px)',
       WebkitBackdropFilter: 'blur(6px)',
-      border: '1px solid rgba(255, 255, 255, 0.3)',
+      border: '1px solid rgba(196, 193, 193, 0.18)',
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
     },
   },

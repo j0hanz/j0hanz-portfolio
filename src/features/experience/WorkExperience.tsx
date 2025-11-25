@@ -155,7 +155,8 @@ function EducationCard({
             <motion.div {...buttonMotion} exit="hidden">
               <Button
                 onClick={onShowModal}
-                variant="contained"
+                variant="text"
+                color="inherit"
                 startIcon={<VerifiedTwoTone />}
                 {...CTA_DATA_ATTRIBUTE}
                 sx={credentialButtonSx}
