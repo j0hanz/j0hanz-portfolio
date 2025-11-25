@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 
@@ -9,7 +9,7 @@ const containerSx: SxProps<Theme> = {
   display: 'inline-flex',
   alignItems: 'center',
   color: 'text.primary',
-  marginRight: '2rem',
+  mr: '2rem',
   transform: SKEW_TRANSFORM,
   gap: 0.75,
 };
@@ -24,7 +24,7 @@ const textSx: SxProps<Theme> = {
   fontSize: '0.9rem',
 };
 
-function IconBadge({ icon: Icon, text }: IconBadgeProps): React.JSX.Element {
+function IconBadge({ icon: Icon, text }: IconBadgeProps): JSX.Element {
   return (
     <Box sx={containerSx}>
       <Icon sx={iconSx} />
@@ -40,7 +40,7 @@ export default IconBadge;
 export function IconBadgeList({
   items,
   keyPrefix,
-}: IconBadgeListProps): React.JSX.Element | null {
+}: IconBadgeListProps): JSX.Element | null {
   if (!items.length) {
     return null;
   }

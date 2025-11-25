@@ -1,13 +1,13 @@
 import FolderTwoTone from '@mui/icons-material/FolderTwoTone';
 import Masonry from '@mui/lab/Masonry';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer } from '@/config/motion';
-import { useMotionVariant } from '@/hooks';
+import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
 import projects from '@/lib/data/projects';
 
 import ProjectGridItem from './ProjectGridItem';
@@ -15,8 +15,7 @@ import ProjectMasonryItem from './ProjectMasonryItem';
 
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMobileBreakpoint('sm');
   const motionProps = useMotionVariant(createStaggerContainer(0.1, 0.15), {
     initial: 'initial',
     whileInView: 'animate',

@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import { SiGithub } from 'react-icons/si';
 
@@ -10,7 +10,11 @@ import Grid from '@mui/material/Grid';
 import Button from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyWithFeedback } from '@/hooks';
-import { BUTTON_HEIGHT_STANDARD, iconBody2Sx } from '@/styles/shared';
+import {
+  BUTTON_HEIGHT_STANDARD,
+  iconBody2Sx,
+  tooltipWrapperSx,
+} from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
 const ACTION_BUTTON_MIN_WIDTH = 104;
@@ -23,25 +27,23 @@ const gridSx: SxProps<Theme> = {
   mt: 2,
 };
 
-const tooltipWrapperSx: SxProps<Theme> = {
-  display: 'inline-block',
-};
-
-const ActionButton = ({
+function ActionButton({
   label,
   icon,
   sx,
   ...props
-}: ActionButtonProps): React.JSX.Element => (
-  <Button
-    {...props}
-    text={label}
-    startIcon={icon}
-    sx={{ ...actionButtonSx, ...sx }}
-  />
-);
+}: ActionButtonProps): JSX.Element {
+  return (
+    <Button
+      {...props}
+      text={label}
+      startIcon={icon}
+      sx={{ ...actionButtonSx, ...sx }}
+    />
+  );
+}
 
-const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
+function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
   const { copyWithFeedback } = useCopyWithFeedback();
 
   const handleCopyRepo = async () => {
@@ -115,7 +117,7 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
       </Stack>
     </Grid>
   );
-};
+}
 
 ProjectLinks.displayName = 'ProjectLinks';
 

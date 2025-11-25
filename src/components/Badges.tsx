@@ -12,6 +12,7 @@ import { motion } from 'motion/react';
 import type { BadgeItemProps, BadgesProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
+import { TRANSITION_STANDARD } from '@/styles/shared';
 
 const wrapperSx: SxProps<Theme> = {
   width: 'auto',
@@ -22,7 +23,7 @@ const imgSx: SxProps<Theme> = {
   objectFit: 'cover',
   boxShadow: (theme) =>
     `0 4px 12px ${alpha(theme.palette.common.black, 0.3)}, 0 6px 24px ${alpha(theme.palette.common.black, 0.3)}`,
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
   cursor: 'pointer',
   filter: 'contrast(0.9) brightness(0.9)',
 };

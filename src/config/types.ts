@@ -29,6 +29,9 @@ import type {
   Variants,
 } from 'motion/react';
 
+// Type alias for cleaner RefObject<Element> casting
+export type ElementRef = RefObject<Element>;
+
 // --- Icon Type ---
 export type IconComponent = ComponentType<SvgIconProps>;
 

@@ -1,4 +1,4 @@
-import { type RefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -18,9 +18,10 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { FORM_RESET_DELAY } from '@/config/constants';
-import { formFieldVariants } from '@/config/motion';
+import { formFieldVariants, viewportPresets } from '@/config/motion';
 import type {
   ContactFormValues,
+  ElementRef,
   FormActionsProps,
   SuccessIndicatorProps,
 } from '@/config/types';
@@ -190,10 +191,10 @@ function ContactFormContent(): React.JSX.Element {
   const { showSnackbar } = useSnackbar();
   // Destructure stable functions from mutation to avoid dependency issues
   const { mutate, reset, isSuccess, isPending } = useContactFormMutation();
-  const isInView = useInView(formContainerRef as RefObject<Element>, {
-    once: true,
-    amount: 0.2,
-  });
+  const isInView = useInView(
+    formContainerRef as ElementRef,
+    viewportPresets.list
+  );
 
   const fieldMotion = useMotionVariant(formFieldVariants.field, {
     initial: 'hidden',

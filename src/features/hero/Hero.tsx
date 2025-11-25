@@ -25,8 +25,7 @@ import {
   useMotionVariant,
   useTimeBasedAnimation,
 } from '@/hooks';
-import { contactButtonSx } from '@/styles/shared';
-import { iconSx } from '@/styles/shared';
+import { contactButtonSx, iconSx } from '@/styles/shared';
 
 import {
   buttonsStackSx,
@@ -219,8 +218,6 @@ function Hero(): React.JSX.Element {
             handleClose={cvModal.close}
           />
         )}
-      </AnimatePresence>
-      <AnimatePresence initial={false} mode="wait">
         {imageModal.isOpen && (
           <ImageModal
             key="hero-image-modal"

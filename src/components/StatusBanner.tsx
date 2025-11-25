@@ -1,12 +1,13 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Alert, Box, Collapse } from '@mui/material';
 
 import type { StatusBannerProps } from '@/config/types';
+import { LETTER_SPACING_TIGHT } from '@/styles/shared';
 
 export default function StatusBanner({
   statusBanner,
-}: StatusBannerProps): React.JSX.Element {
+}: StatusBannerProps): JSX.Element {
   return (
     <Box
       sx={{
@@ -23,7 +24,7 @@ export default function StatusBanner({
               borderRadius: 0,
               textAlign: 'center',
               fontSize: '0.85rem',
-              letterSpacing: 0.5,
+              letterSpacing: LETTER_SPACING_TIGHT,
               py: 1,
             }}
           >

@@ -35,6 +35,18 @@ export const STAGGER_NORMAL = 0.07;
 export const STAGGER_SLOW = 0.08;
 export const STAGGER_DRAMATIC = 0.12;
 
+// Shared hover transform for cards
+export const CARD_HOVER_LIFT = { y: -5 } as const;
+
+// Viewport preset configurations for useInView
+export const viewportPresets = {
+  section: { once: true, amount: 0.1 },
+  card: { once: true, amount: 0.25 },
+  cardLarge: { once: true, amount: 0.3 },
+  list: { once: true, amount: 0.2 },
+  listCompact: { once: true, amount: 0.15 },
+} as const;
+
 // Common easing curves
 export const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 export const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;

@@ -6,6 +6,7 @@ import ImageCredential from '@/assets/Credential.webp';
 import BaseModal from '@/components/BaseModal';
 import Image from '@/components/Image';
 import { CredentialProps } from '@/config/types';
+import { TRANSITION_STANDARD } from '@/styles/shared';
 
 const linkBoxSx: SxProps<Theme> = {
   display: 'block',
@@ -28,7 +29,7 @@ const imageWrapperSx: SxProps<Theme> = {
   display: 'inline-block',
   width: '100%',
   height: '100%',
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
 };
 
 const hoverTextSx: SxProps<Theme> = {
@@ -41,7 +42,7 @@ const hoverTextSx: SxProps<Theme> = {
   fontSize: { xs: '1.7rem', sm: '2.5rem' },
   textAlign: 'center',
   opacity: 0,
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
   textShadow: (theme) => theme.shadows[4],
   pointerEvents: 'none',
 };
@@ -52,7 +53,7 @@ const imageSx: SxProps<Theme> = {
   width: 'auto',
   height: 'auto',
   objectFit: 'contain',
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
   display: 'block',
 };
 

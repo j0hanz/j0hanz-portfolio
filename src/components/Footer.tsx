@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import { SiCreativecommons } from 'react-icons/si';
 
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
@@ -22,7 +20,12 @@ import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
 import { SocialLinkRenderProps } from '@/config/types';
 import { useAnimationConfig, useCopyWithFeedback, useModal } from '@/hooks';
-import { SKEW_TRANSFORM } from '@/styles/shared';
+import {
+  ICON_SIZE,
+  ICON_SIZE_SMALL,
+  SKEW_TRANSFORM,
+  TRANSITION_STANDARD,
+} from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
 import ModalCv from './ModalCv';
@@ -48,16 +51,16 @@ const contactLabelSx: SxProps<Theme> = {
 const emailIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
-  fontSize: '0.9rem',
+  fontSize: ICON_SIZE_SMALL,
   mr: 1.25,
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
 };
 
 const emailLinkSx: SxProps<Theme> = {
   textDecoration: 'none',
-  fontSize: '0.9rem',
+  fontSize: ICON_SIZE_SMALL,
   color: 'inherit',
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
   opacity: 0.8,
   '&:hover': {
     color: 'primary.light',
@@ -76,9 +79,9 @@ const copyButtonSx: SxProps<Theme> = {
 const copyrightIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
-  fontSize: '0.9rem',
+  fontSize: ICON_SIZE_SMALL,
   mr: '10px',
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
 };
 
 const copyrightTextSx: SxProps<Theme> = {
@@ -98,7 +101,7 @@ const wrapFooterSocialLink = (
   </Grid>
 );
 
-const Footer: FC = () => {
+function Footer(): React.JSX.Element {
   const cvModal = useModal(false);
   const { copyWithFeedback } = useCopyWithFeedback();
   const { getTransition, prefersReducedMotion } = useAnimationConfig();
@@ -174,7 +177,7 @@ const Footer: FC = () => {
                   sx={copyButtonSx}
                 >
                   <ContentCopyRounded
-                    sx={{ fontSize: '1rem', opacity: 0.85 }}
+                    sx={{ fontSize: ICON_SIZE, opacity: 0.85 }}
                   />
                 </IconButton>
               </Tooltip>
@@ -213,6 +216,6 @@ const Footer: FC = () => {
       <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
     </Box>
   );
-};
+}
 
 export default Footer;

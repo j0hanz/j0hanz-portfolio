@@ -1,4 +1,4 @@
-import React from 'react';
+import type { CSSProperties, JSX } from 'react';
 
 import { Box, Skeleton } from '@mui/material';
 import { motion } from 'motion/react';
@@ -6,7 +6,6 @@ import { motion } from 'motion/react';
 import { ImageProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 
-// Image component
 function Image({
   src,
   alt,
@@ -17,19 +16,19 @@ function Image({
   sx,
   onClick,
   radius = 'rounded',
-}: ImageProps): React.JSX.Element {
+}: ImageProps): JSX.Element {
   const { isLoaded, handleLoad, handleError } = useImageLoading();
   const { getTransition } = useAnimationConfig();
 
   const borderRadius =
     radius === 'circle' ? '50%' : radius === 'flat' ? '0px' : '7.5px';
-  const defaultStyle: React.CSSProperties = {
+  const defaultStyle: CSSProperties = {
     maxWidth: '100%',
     objectFit: 'cover',
     borderRadius,
     display: 'block',
   };
-  const combinedStyle: React.CSSProperties = {
+  const combinedStyle: CSSProperties = {
     ...defaultStyle,
     ...style,
     willChange: 'opacity',

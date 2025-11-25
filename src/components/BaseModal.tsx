@@ -59,16 +59,12 @@ function BaseModal({
     }
   }, [show]);
 
-  const transitionPresets: Record<
-    typeof animationPreset,
-    ReturnType<typeof getTransition>
-  > = {
-    modal: getTransition('smooth'),
-    slideDown: getTransition('smooth', { duration: 0.45 }),
-    zoomOut: getTransition('spring', { duration: 0.4 }),
-  };
-
-  const transition = transitionPresets[animationPreset];
+  const transition =
+    animationPreset === 'slideDown'
+      ? getTransition('smooth', { duration: 0.45 })
+      : animationPreset === 'zoomOut'
+        ? getTransition('spring', { duration: 0.4 })
+        : getTransition('smooth');
   const modalVariant = modalVariants[animationPreset];
 
   return (

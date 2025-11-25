@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX, MouseEvent, ReactNode } from 'react';
 
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import MenuRounded from '@mui/icons-material/MenuRounded';
@@ -60,16 +60,15 @@ const isIOS =
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
 
-const renderNavSocialLink = (
-  props: SocialLinkRenderProps
-): React.JSX.Element => <SocialLinkButton {...props} />;
+const renderNavSocialLink = (props: SocialLinkRenderProps): JSX.Element => (
+  <SocialLinkButton {...props} />
+);
 
-// Logo in the Offcanvas menu
-function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
+function NavLogo({ onClose }: { onClose?: () => void }): JSX.Element {
   const { navigateTo } = useNavigationActions();
   const { isPending } = useNavigationState();
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (isPending) return;
     navigateTo('hero');
@@ -98,8 +97,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): React.JSX.Element {
   );
 }
 
-// Nav link item component - simplified
-function NavLinkItem(props: NavLinkItemProps): React.JSX.Element {
+function NavLinkItem(props: NavLinkItemProps): JSX.Element {
   const {
     id,
     icon: Icon,
@@ -156,17 +154,13 @@ function NavLinkItem(props: NavLinkItemProps): React.JSX.Element {
   );
 }
 
-// Nav links
-function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
+function NavLinks({ onClose }: { onClose?: () => void }): JSX.Element {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const highlightTransition = getTransition('springSmooth', { duration: 0.35 });
 
-  const handleNavLinkClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    id: string
-  ) => {
+  const handleNavLinkClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     navigateTo(id);
     onClose?.();
@@ -193,20 +187,19 @@ function NavLinks({ onClose }: { onClose?: () => void }): React.JSX.Element {
   );
 }
 
-const wrapSocialItem = (id: string, child: React.ReactNode) => (
+const wrapSocialItem = (id: string, child: ReactNode) => (
   <motion.div key={id} variants={navVariants.social.item}>
     {child}
   </motion.div>
 );
 
-// Social links
 function SocialLinks({
   openModal,
   iconSize,
 }: {
   openModal: () => void;
   iconSize?: string | number;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <Box sx={socialLinksBoxSx}>
       <Stack
@@ -228,7 +221,6 @@ function SocialLinks({
   );
 }
 
-// Offcanvas menu
 function OffcanvasMenu({
   showOffcanvas,
   closeOffcanvas,
@@ -236,7 +228,7 @@ function OffcanvasMenu({
   openModal,
 }: OffcanvasMenuProps & {
   openOffcanvas: () => void;
-}): React.JSX.Element {
+}): JSX.Element {
   return (
     <SwipeableDrawer
       anchor="right"
@@ -311,8 +303,7 @@ function OffcanvasMenu({
   );
 }
 
-// Main NavBar component
-function NavBar(): React.JSX.Element {
+function NavBar(): JSX.Element {
   const cvModal = useModal(false);
   const offcanvasMenu = useModal(false);
   const { prefersReducedMotion } = useAnimationConfig();

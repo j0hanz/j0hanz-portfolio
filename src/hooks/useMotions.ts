@@ -1,4 +1,11 @@
-import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 import {
   animate,
@@ -35,10 +42,13 @@ import {
   BASE_DELAY,
   BASE_DURATION,
   BASE_STAGGER,
+  CARD_HOVER_LIFT,
   gestureVariants,
   REDUCED_MOTION_TARGET,
+  timelineCardVariants,
   transitions,
   viewportConfig,
+  viewportPresets,
 } from '@/config/motion';
 import type {
   AnimationConfig,
@@ -642,6 +652,79 @@ export function useSectionSequence(
   });
 }
 
+// Consolidates timeline section ref setup (Education/WorkExperience pattern)
+export function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
+  const { scopeRef } = useAnimationSequence();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const isInView = useMotionInView(containerRef, viewportPreset);
+
+  // Combine refs into single callback ref
+  const combinedRef = useEventCallback((node: HTMLDivElement | null) => {
+    sectionRef.current = node;
+    containerRef.current = node;
+    scopeRef(node);
+  });
+
+  return {
+    sectionRef,
+    containerRef,
+    combinedRef,
+    isInView,
+    scopeRef,
+  };
+}
+
+type TimelineSequenceSelectors = Parameters<typeof useSectionSequence>[1];
+type TimelineSequenceOptions = Parameters<typeof useSectionSequence>[2];
+
+interface TimelineSectionControllerOptions {
+  viewportPreset?: UseInViewOptions;
+  selectors: TimelineSequenceSelectors;
+  sequenceOptions?: TimelineSequenceOptions;
+  variants?: Variants;
+  hoverEffect?: Target | string;
+  initialState?: string;
+  visibleState?: string;
+  hiddenState?: string;
+}
+
+// Bundles timeline section refs, card motion, and scroll sequence wiring
+export function useTimelineSectionController({
+  viewportPreset = viewportPresets.section,
+  selectors,
+  sequenceOptions,
+  variants = timelineCardVariants,
+  hoverEffect = CARD_HOVER_LIFT,
+  initialState = 'hidden',
+  visibleState = 'visible',
+  hiddenState = 'hidden',
+}: TimelineSectionControllerOptions) {
+  const timelineRefs = useTimelineSectionRefs(viewportPreset);
+  const animateState = timelineRefs.isInView ? visibleState : hiddenState;
+
+  useSectionSequence(timelineRefs.sectionRef, selectors, sequenceOptions);
+
+  const cardMotion = useMotionVariant(variants, {
+    initial: initialState,
+    animate: animateState,
+    whileHover: hoverEffect,
+  });
+
+  return {
+    ...timelineRefs,
+    cardMotion,
+  };
+}
+
+// Simplified card inView hook for timeline cards
+export function useCardInView(viewportPreset: UseInViewOptions) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useMotionInView(cardRef, viewportPreset);
+  return { cardRef, isInView };
+}
+
 // ============================================================================
 // MOTION V12 ENHANCED HOOKS
 // ============================================================================
@@ -906,4 +989,61 @@ export function useSvgPathDraw(
   ]);
 
   return { pathLength, isInView };
+}
+
+// ============================================================================
+// MOBILE BREAKPOINT DETECTION
+// ============================================================================
+
+// MUI breakpoint values (matches MUI's default theme)
+const BREAKPOINT_VALUES = {
+  xs: 600,
+  sm: 900,
+  md: 1200,
+  lg: 1536,
+  xl: Infinity,
+} as const;
+
+type BreakpointKey = keyof typeof BREAKPOINT_VALUES;
+
+// Creates a media query store for useSyncExternalStore
+function createMediaQueryStore(breakpoint: BreakpointKey) {
+  const threshold = BREAKPOINT_VALUES[breakpoint];
+  const query = `(max-width: ${threshold - 0.05}px)`;
+
+  return {
+    subscribe: (callback: () => void) => {
+      const mediaQuery = window.matchMedia(query);
+      mediaQuery.addEventListener('change', callback);
+      return () => mediaQuery.removeEventListener('change', callback);
+    },
+    getSnapshot: () => window.matchMedia(query).matches,
+    getServerSnapshot: () => false,
+  };
+}
+
+// Cache stores to prevent recreation on each render
+const mediaQueryStores = new Map<
+  BreakpointKey,
+  ReturnType<typeof createMediaQueryStore>
+>();
+
+function getMediaQueryStore(breakpoint: BreakpointKey) {
+  if (!mediaQueryStores.has(breakpoint)) {
+    mediaQueryStores.set(breakpoint, createMediaQueryStore(breakpoint));
+  }
+  return mediaQueryStores.get(breakpoint)!;
+}
+
+// Consolidates useTheme + useMediaQuery for mobile detection
+// Uses useSyncExternalStore for React-compliant subscription pattern
+export function useMobileBreakpoint(
+  breakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md'
+): boolean {
+  const store = getMediaQueryStore(breakpoint);
+  return useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getServerSnapshot
+  );
 }

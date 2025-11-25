@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-import { useMediaQuery, useTheme } from '@mui/material';
 import { useReducedMotion } from 'motion/react';
 
 import type { ScrollBoundaries, ScrollDirection } from '@/config/types';
@@ -11,6 +10,7 @@ import {
 import { useScrollEvents } from '@/hooks/useScrollEvents';
 
 import useEventCallback from './useEventCallback';
+import { useMobileBreakpoint } from './useMotions';
 
 // Constants
 const SCROLL_LOCK_DURATION = 1000;
@@ -40,8 +40,7 @@ export function useFullPageScroll(): void {
   const { isScrollLocked, isPending } = useNavigationState();
   const isScrolling = useRef(false);
   const containerRef = useRef<HTMLElement | null>(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMobileBreakpoint('md');
   const prefersReducedMotion = useReducedMotion();
 
   // Skip if reduced motion, mobile, or scroll not locked (e.g. footer)

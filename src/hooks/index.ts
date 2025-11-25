@@ -106,6 +106,13 @@ export {
   useBatchedDomUpdate,
   usePulse,
   useSvgPathDraw,
+  // Responsive breakpoint hook
+  useMobileBreakpoint,
+  // Timeline section setup hook
+  useTimelineSectionRefs,
+  useTimelineSectionController,
+  // Card inView hook
+  useCardInView,
 } from './useMotions';
 
 // ============================================================================

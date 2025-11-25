@@ -11,29 +11,26 @@ const containerSx: SxProps<Theme> = {
 const chipSx: SxProps<Theme> = {
   mr: 1,
   mb: 1,
-  pt: 0.1,
-  display: 'inline-flex',
-  alignItems: 'center',
   color: 'text.primary',
   fontSize: (theme) => theme.typography.caption.fontSize,
-  opacity: 0.9,
+  opacity: 0.85,
   transform: SKEW_TRANSFORM,
   '& .MuiChip-label': {
-    color: 'text.primary',
     textTransform: 'uppercase',
-    fontSize: (theme) => theme.typography.caption.fontSize,
   },
 };
 
-const ProjectTechStack = ({
+function ProjectTechStack({
   technologies,
-}: ProjectTechStackProps): React.JSX.Element => (
-  <Box sx={containerSx}>
-    {technologies.map((tech, index) => (
-      <Chip key={`${tech}-${index}`} label={tech} size="small" sx={chipSx} />
-    ))}
-  </Box>
-);
+}: ProjectTechStackProps): React.JSX.Element {
+  return (
+    <Box sx={containerSx}>
+      {technologies.map((tech) => (
+        <Chip key={tech} label={tech} size="small" sx={chipSx} />
+      ))}
+    </Box>
+  );
+}
 
 ProjectTechStack.displayName = 'ProjectTechStack';
 

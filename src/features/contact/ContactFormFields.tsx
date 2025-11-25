@@ -18,6 +18,7 @@ import type {
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
+import { ICON_SIZE } from '@/styles/shared';
 
 const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
   {
@@ -83,7 +84,7 @@ const iconSx: SxProps<Theme> = {
 };
 
 const errorIconSx: SxProps<Theme> = {
-  fontSize: '1rem',
+  fontSize: ICON_SIZE,
 };
 
 const inputSx: SxProps<Theme> = {

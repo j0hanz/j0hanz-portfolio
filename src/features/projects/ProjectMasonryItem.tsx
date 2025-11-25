@@ -1,23 +1,13 @@
-import { Box } from '@mui/material';
-import { motion } from 'motion/react';
-
-import { staggerItemVariant } from '@/config/motion';
 import { ProjectListProps } from '@/config/types';
 
 import { ProjectCard } from './components/ProjectCard';
+import { ProjectCardMotionWrapper } from './ProjectGridItem';
 
 function ProjectMasonryItem({ project }: ProjectListProps): React.JSX.Element {
   return (
-    <Box
-      component={motion.div}
-      variants={staggerItemVariant}
-      sx={{
-        width: '100%',
-        display: 'flex',
-      }}
-    >
+    <ProjectCardMotionWrapper fullHeight={false}>
       <ProjectCard project={project} />
-    </Box>
+    </ProjectCardMotionWrapper>
   );
 }
 

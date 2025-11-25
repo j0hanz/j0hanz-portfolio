@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import LanguageRounded from '@mui/icons-material/LanguageRounded';
 import {
@@ -15,12 +15,13 @@ import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
 import { ModalCvProps } from '@/config/types';
+import { TRANSITION_STANDARD } from '@/styles/shared';
 
 const flagIconStyles: SxProps<Theme> = {
   fontSize: '3.5rem',
   cursor: 'pointer',
   opacity: 0.7,
-  transition: 'all 0.3s ease',
+  transition: TRANSITION_STANDARD,
   '&:hover': {
     opacity: 1,
     transform: 'scale(1.15)',
@@ -72,8 +73,7 @@ const flagButtonBaseSx: SxProps<Theme> = {
   },
 };
 
-// Component for selecting and downloading CVs
-function ModalCv({ show, handleClose }: ModalCvProps): React.JSX.Element {
+function ModalCv({ show, handleClose }: ModalCvProps): JSX.Element {
   const handleDownload = (cv: string, fileName: string): void => {
     try {
       const link = document.createElement('a');

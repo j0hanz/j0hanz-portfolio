@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { Box, type SxProps, type Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
@@ -7,24 +9,35 @@ import { ProjectListProps } from '@/config/types';
 
 import { ProjectCard } from './components/ProjectCard';
 
-const gridSx: SxProps<Theme> = {
+const wrapperSx: SxProps<Theme> = {
+  width: 1,
   display: 'flex',
 };
 
+export function ProjectCardMotionWrapper({
+  children,
+  fullHeight = true,
+}: {
+  children: ReactNode;
+  fullHeight?: boolean;
+}): React.JSX.Element {
+  return (
+    <Box
+      component={motion.div}
+      variants={staggerItemVariant}
+      sx={{ ...wrapperSx, ...(fullHeight ? { height: 1 } : {}) }}
+    >
+      {children}
+    </Box>
+  );
+}
+
 function ProjectGridItem({ project }: ProjectListProps): React.JSX.Element {
   return (
-    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={gridSx}>
-      <Box
-        component={motion.div}
-        variants={staggerItemVariant}
-        sx={{
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-        }}
-      >
+    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} sx={{ display: 'flex' }}>
+      <ProjectCardMotionWrapper>
         <ProjectCard project={project} />
-      </Box>
+      </ProjectCardMotionWrapper>
     </Grid>
   );
 }

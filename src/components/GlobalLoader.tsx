@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Box, Collapse, LinearProgress } from '@mui/material';
 import { useIsFetching } from '@tanstack/react-query';
@@ -7,7 +7,7 @@ import type { GlobalLoaderProps } from '@/config/types';
 
 export default function GlobalLoader({
   isLoading,
-}: GlobalLoaderProps): React.JSX.Element {
+}: GlobalLoaderProps): JSX.Element {
   const isFetching = useIsFetching();
 
   return (

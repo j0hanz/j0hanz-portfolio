@@ -1,6 +1,12 @@
 import { SxProps, Theme } from '@mui/material';
 import { SystemStyleObject } from '@mui/system';
 
+import {
+  CLIP_ROUNDED,
+  LETTER_SPACING_TIGHT,
+  LETTER_SPACING_WIDE,
+} from '@/styles/shared';
+
 export const socialLinkButtonSx: SxProps<Theme> = {
   '&:hover': {
     color: 'primary.main',
@@ -46,7 +52,7 @@ export const navLinksListSx: SxProps<Theme> = {
 export const listItemButtonSx: SystemStyleObject<Theme> = {
   position: 'relative',
   overflow: 'hidden',
-  clipPath: 'inset(0 round 8px)',
+  clipPath: CLIP_ROUNDED,
   py: 1.5,
   px: 2,
   '& > *': {
@@ -86,7 +92,7 @@ export const listItemIconSelectedSx: SystemStyleObject<Theme> = {
 };
 
 export const listItemTextPrimarySx: SxProps<Theme> = {
-  letterSpacing: '0.5px',
+  letterSpacing: `${LETTER_SPACING_TIGHT}px`,
 };
 
 export const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
@@ -134,7 +140,7 @@ export const drawerFooterSx: SxProps<Theme> = {
 export const connectTextSx: SxProps<Theme> = {
   mb: 2,
   fontWeight: 500,
-  letterSpacing: 1.5,
+  letterSpacing: LETTER_SPACING_WIDE,
 };
 
 export const darkModeToggleBoxSx: SxProps<Theme> = {

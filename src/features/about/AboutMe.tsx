@@ -1,4 +1,4 @@
-import { type RefObject, useRef } from 'react';
+import { useRef } from 'react';
 
 import PersonOutlined from '@mui/icons-material/PersonOutlined';
 import VerifiedTwoTone from '@mui/icons-material/VerifiedTwoTone';
@@ -10,8 +10,17 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
-import { cardEntranceVariants, listItemStaggerVariants } from '@/config/motion';
-import type { AboutMeListProps, CardItemProps } from '@/config/types';
+import {
+  CARD_HOVER_LIFT,
+  cardEntranceVariants,
+  listItemStaggerVariants,
+  viewportPresets,
+} from '@/config/motion';
+import type {
+  AboutMeListProps,
+  CardItemProps,
+  ElementRef,
+} from '@/config/types';
 import Credential from '@/features/education/Credential';
 import {
   useAnimationConfig,
@@ -68,10 +77,7 @@ function AboutMeList({
   onShowModal,
 }: AboutMeListProps): React.JSX.Element {
   const listRef = useRef<HTMLUListElement>(null);
-  const isInView = useInView(listRef as RefObject<Element>, {
-    once: true,
-    amount: 0.2,
-  });
+  const isInView = useInView(listRef as ElementRef, viewportPresets.list);
 
   const listMotion = useMotionVariant(listItemStaggerVariants, {
     initial: 'hidden',
@@ -120,7 +126,7 @@ function CardItem({
   const cardMotion = useMotionVariant(cardEntranceVariants, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
-    whileHover: { y: -5 },
+    whileHover: CARD_HOVER_LIFT,
   });
 
   return (
@@ -142,10 +148,10 @@ function AboutMe(): React.JSX.Element {
     setFalse: handleCloseModal,
   } = useToggle(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef as RefObject<Element>, {
-    once: true,
-    amount: 0.15,
-  });
+  const isInView = useInView(
+    containerRef as ElementRef,
+    viewportPresets.listCompact
+  );
 
   const { scrollYProgress } = useScroll({
     target: containerRef,

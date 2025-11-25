@@ -1,10 +1,10 @@
-import { RefObject, useRef } from 'react';
+import { useRef } from 'react';
 
 import { Box } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { textRevealVariants } from '@/config/motion';
-import type { TextRevealProps } from '@/config/types';
+import type { ElementRef, TextRevealProps } from '@/config/types';
 import { useInView, useReducedMotion } from '@/hooks';
 
 const wrapperSx = { display: 'flex', flexWrap: 'wrap' } as const;
@@ -21,7 +21,7 @@ export function TextReveal({
   sx,
 }: TextRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref as RefObject<Element>, {
+  const isInView = useInView(ref as ElementRef, {
     amount: 0.5,
     once: true,
   });
@@ -59,8 +59,13 @@ export function TextReveal({
         animate={isInView ? 'visible' : 'hidden'}
         style={{ display: 'flex', flexWrap: 'wrap' }}
       >
-        {text.split(' ').map((word, index) => (
-          <Box component={motion.span} key={index} sx={wordSx} variants={child}>
+        {text.split(' ').map((word, wordIndex) => (
+          <Box
+            component={motion.span}
+            key={`${word}-${wordIndex}`}
+            sx={wordSx}
+            variants={child}
+          >
             {word}
           </Box>
         ))}

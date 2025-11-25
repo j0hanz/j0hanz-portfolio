@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import MenuBookTwoTone from '@mui/icons-material/MenuBookTwoTone';
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
@@ -28,7 +28,7 @@ const cardSx: SxProps<Theme> = {
   mt: 0.5,
 };
 
-const iconSx: SxProps<Theme> = {
+const skillIconSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.h2.fontSize,
   color: 'primary.main',
   mb: 0.7,
@@ -56,8 +56,7 @@ const learningTextSx: SxProps<Theme> = {
   transform: SKEW_TRANSFORM,
 };
 
-// Learning badge with pulsing animation
-function LearningBadge(): React.JSX.Element {
+function LearningBadge(): JSX.Element {
   const pulseScale = usePulse(1, 1.05, 2500);
 
   return (
@@ -77,8 +76,7 @@ function LearningBadge(): React.JSX.Element {
   );
 }
 
-// Rendering skills section
-function Skills(): React.JSX.Element {
+function Skills(): JSX.Element {
   const { motionViewport, prefersReducedMotion } = useAnimationConfig();
   const gridMotionProps = prefersReducedMotion
     ? {}
@@ -114,7 +112,7 @@ function Skills(): React.JSX.Element {
             sx={gridItemSx}
           >
             <Card title={skill.label} sx={cardSx}>
-              <Box component={skill.icon} sx={iconSx} />
+              <Box component={skill.icon} sx={skillIconSx} />
               {skill.learning && <LearningBadge />}
             </Card>
           </Grid>

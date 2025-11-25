@@ -45,7 +45,7 @@ const iconSx: SxProps<Theme> = {
   color: 'inherit',
 };
 
-const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
+function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
   return (
@@ -91,7 +91,7 @@ const ProjectHeader = ({ project }: ProjectHeaderProps): React.JSX.Element => {
       </Box>
     </Stack>
   );
-};
+}
 
 ProjectHeader.displayName = 'ProjectHeader';
 

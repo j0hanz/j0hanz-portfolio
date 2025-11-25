@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import { Box, type SxProps, type Theme } from '@mui/material';
 
@@ -11,20 +11,18 @@ const metaWrapperSx: SxProps<Theme> = {
 };
 
 const cardWrapperSx: SxProps<Theme> = {
-  width: '100%',
+  width: 1,
   maxWidth: { lg: 520 },
   textAlign: 'left',
 };
 
-// Reusable timeline card component for Education and Experience sections
-// Works with MUI Timeline components for consistent timeline layouts
 function TimelineCard({
   title,
   metadata,
   children,
   dataAttributes,
   metaDataAttribute,
-}: TimelineCardProps): React.JSX.Element {
+}: TimelineCardProps): JSX.Element {
   return (
     <Box sx={cardWrapperSx} {...dataAttributes}>
       <Card

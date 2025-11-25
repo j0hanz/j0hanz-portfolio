@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, type JSX } from 'react';
 
 import { Box, IconButton, Tooltip } from '@mui/material';
 import { motion, MotionStyle } from 'motion/react';
@@ -13,7 +13,7 @@ export function SocialLinkButton({
   onClick,
   tooltip,
   icon,
-}: SocialLinkRenderProps): React.JSX.Element {
+}: SocialLinkRenderProps): JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
   const magnetProps = useCursorMagnet(prefersReducedMotion);
   const wrapperStyle: MotionStyle = magnetProps.style
@@ -54,7 +54,7 @@ export function SocialLinkList({
   renderLink,
   wrapItem,
   iconSize = '1.5rem',
-}: SocialLinkListProps): React.JSX.Element {
+}: SocialLinkListProps): JSX.Element {
   return (
     <>
       {socialLinks.map(
@@ -86,7 +86,7 @@ export function SocialLinkList({
           return wrapItem ? (
             wrapItem(id, wrappedLink)
           ) : (
-            <React.Fragment key={id}>{wrappedLink}</React.Fragment>
+            <Fragment key={id}>{wrappedLink}</Fragment>
           );
         }
       )}

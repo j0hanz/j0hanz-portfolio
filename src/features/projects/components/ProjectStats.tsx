@@ -14,11 +14,12 @@ import type {
   StatKey,
 } from '@/config/types';
 import { useAnimationConfig, useCountUp } from '@/hooks';
+import { LETTER_SPACING_NORMAL } from '@/styles/shared';
 import { useRepoStatsQuery } from '@/utils/query/index';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
-  letterSpacing: 1,
+  letterSpacing: LETTER_SPACING_NORMAL,
   color: 'text.secondary',
 };
 

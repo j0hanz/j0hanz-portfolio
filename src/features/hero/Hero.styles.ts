@@ -2,7 +2,12 @@ import { alpha, SxProps, Theme } from '@mui/material';
 import { MotionStyle } from 'motion/react';
 
 import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
-import { BUTTON_HEIGHT_LARGE, BUTTON_MIN_WIDTH_HERO } from '@/styles/shared';
+import {
+  BUTTON_HEIGHT_LARGE,
+  BUTTON_MIN_WIDTH_HERO,
+  CLIP_ROUNDED,
+  LETTER_SPACING_NORMAL,
+} from '@/styles/shared';
 
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
@@ -50,7 +55,7 @@ export const profileWrapperSx: SxProps<Theme> = {
 export const profileImgSx: SxProps<Theme> = {
   width: { xs: 185, md: 245, lg: 280 },
   height: { xs: 185, md: 245, lg: 280 },
-  clipPath: 'inset(0 round 8px)',
+  clipPath: CLIP_ROUNDED,
   objectFit: 'cover',
   cursor: 'pointer',
   mb: { xs: 3, lg: 0 },
@@ -60,13 +65,13 @@ export const profileImgSx: SxProps<Theme> = {
 export const overlaySx: SxProps<Theme> = {
   position: 'absolute',
   inset: 0,
-  clipPath: 'inset(0 round 8px)',
+  clipPath: CLIP_ROUNDED,
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: 'common.white',
-  letterSpacing: 1,
+  letterSpacing: LETTER_SPACING_NORMAL,
   fontSize: '0.9rem',
   pointerEvents: 'none',
   textTransform: 'uppercase',
