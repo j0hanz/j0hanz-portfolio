@@ -313,16 +313,18 @@ function NavBar(): JSX.Element {
         component="nav"
         direction="row"
         spacing={2}
-        sx={{
-          position: 'fixed',
-          top: 8,
-          right: 8,
-          zIndex: (theme) => theme.zIndex.appBar,
-          bgcolor: 'background.paper',
-          borderRadius: 2,
-          p: 0.5,
-          boxShadow: 2,
-        }}
+        sx={[
+          {
+            position: 'fixed',
+            top: 8,
+            right: 8,
+            zIndex: (theme) => theme.zIndex.appBar,
+            bgcolor: 'backdrop.glass',
+            borderRadius: 2,
+            p: 0.5,
+          },
+          (theme) => theme.mixins.glass,
+        ]}
       >
         <DarkModeToggle />
         <Tooltip

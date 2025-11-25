@@ -54,16 +54,22 @@ const theme = createTheme({
   },
   mixins: {
     glass: {
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
+      backdropFilter: 'blur(16px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+      border: '1px solid rgba(255, 255, 255, 0.125)',
+      boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
     },
     glassHeavy: {
-      backdropFilter: 'blur(20px)',
-      WebkitBackdropFilter: 'blur(20px)',
+      backdropFilter: 'blur(25px) saturate(200%)',
+      WebkitBackdropFilter: 'blur(25px) saturate(200%)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.5)',
     },
     glassLight: {
-      backdropFilter: 'blur(5px)',
-      WebkitBackdropFilter: 'blur(5px)',
+      backdropFilter: 'blur(8px) saturate(150%)',
+      WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      boxShadow: '0 4px 16px 0 rgba(31, 38, 135, 0.2)',
     },
   },
   components: componentOverrides,

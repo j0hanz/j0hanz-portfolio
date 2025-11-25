@@ -13,15 +13,15 @@ export const heroNameStyles: React.CSSProperties = {
   fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
   letterSpacing: '2px',
   fontWeight: 500,
-  lineHeight: 1.2,
-  justifyContent: 'center',
+  lineHeight: 1,
+  justifyContent: 'flex-start',
 } as const;
 
 // Cursor for typing effect - uses transform for hardware acceleration
 export const cursorStyle: React.CSSProperties = {
   display: 'inline-block',
   width: '2px',
-  height: '1.3em',
+  height: '1.1em',
   backgroundColor: 'currentColor',
   marginLeft: '0.35rem',
   willChange: 'opacity',
@@ -37,13 +37,20 @@ export const subtitleClipPath = {
 } as const;
 
 export const sectionSx: SxProps<Theme> = {
-  pt: 8,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  pt: 0,
+};
+
+export const heroCardSx: SxProps<Theme> = {
+  p: { xs: 2, sm: 3, md: 3 },
 };
 
 export const containerSx: SxProps<Theme> = {
   textAlign: 'center',
   px: 0,
-  pb: 5,
 };
 
 export const profileWrapperSx: SxProps<Theme> = {
@@ -52,13 +59,17 @@ export const profileWrapperSx: SxProps<Theme> = {
 };
 
 export const profileImgSx: SxProps<Theme> = {
-  width: { xs: 185, md: 245, lg: 280 },
-  height: { xs: 185, md: 245, lg: 280 },
+  width: { xs: 225, md: 300, lg: 400 },
+  height: { xs: 225, md: 300, lg: 400 },
   clipPath: CLIP_ROUNDED,
   objectFit: 'cover',
   cursor: 'pointer',
-  mb: { xs: 3, lg: 0 },
+  mb: { xs: 3, md: 0 },
   willChange: 'opacity, transform',
+};
+
+export const heroContentSx: SxProps<Theme> = {
+  textAlign: 'left',
 };
 
 export const overlaySx: SxProps<Theme> = {
@@ -76,12 +87,7 @@ export const overlaySx: SxProps<Theme> = {
   textTransform: 'uppercase',
 };
 
-export const rightGridSx: SxProps<Theme> = {
-  textAlign: { xs: 'center', lg: 'left' },
-};
-
 export const subtitleSx: SxProps<Theme> = {
-  my: 2,
   fontSize: { xs: '1.2rem', sm: '1.3rem' },
   letterSpacing: { xs: '0.5px', sm: '2px' },
   textTransform: 'uppercase',
@@ -90,10 +96,11 @@ export const subtitleSx: SxProps<Theme> = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: 0.5,
+  justifyContent: 'flex-start',
 };
 
 export const buttonsStackSx: SxProps<Theme> = {
-  mt: 3,
+  mt: 2,
 };
 
 export const downloadButtonSx: SxProps<Theme> = {

@@ -2,7 +2,6 @@ import type { JSX } from 'react';
 
 import LanguageRounded from '@mui/icons-material/LanguageRounded';
 import {
-  alpha,
   Box,
   DialogTitle,
   Stack,
@@ -32,11 +31,10 @@ const flagIconStyles: SxProps<Theme> = {
 };
 
 const contentSx: SxProps<Theme> = {
-  bgcolor: 'background.paper',
+  bgcolor: 'backdrop.glass',
   borderRadius: '10px',
   p: 3,
   color: 'text.primary',
-  boxShadow: (theme) => `0 4px 8px ${alpha(theme.palette.common.black, 0.1)}`,
   overflow: 'hidden',
 };
 

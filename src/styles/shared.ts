@@ -18,7 +18,7 @@ export const BUTTON_MIN_WIDTH = 120;
 export const BUTTON_MIN_WIDTH_WIDE = 140;
 export const BUTTON_MIN_WIDTH_HERO = 180;
 export const BUTTON_HEIGHT_STANDARD = 30;
-export const BUTTON_HEIGHT_LARGE = 45;
+export const BUTTON_HEIGHT_LARGE = 40;
 
 // Badge dimensions
 export const BADGE_MIN_WIDTH = 45;
@@ -130,6 +130,6 @@ export const cardBaseSx: SxProps<Theme> = {
   height: 1,
   display: 'flex',
   flexDirection: 'column',
-  clipPath: CLIP_ROUNDED,
+  borderRadius: 2,
   backgroundColor: 'backdrop.glass',
 };

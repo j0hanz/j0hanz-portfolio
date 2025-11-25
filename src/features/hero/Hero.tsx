@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
+import Card from '@/components/Card';
 import CvModalPortal from '@/components/CvModalPortal';
 import ImageModal from '@/components/ImageModal';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
@@ -17,6 +18,7 @@ import { ProfileSkeleton } from '@/components/Skeletons';
 import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
 import type { HeroActionConfig } from '@/config/types';
+import SkillBadgeRow from '@/features/hero/SkillBadgeRow';
 import {
   useAnimationConfig,
   useAnimationPriority,
@@ -32,11 +34,12 @@ import {
   containerSx,
   cursorStyle,
   downloadButtonSx,
+  heroCardSx,
+  heroContentSx,
   heroNameStyles,
   overlaySx,
   profileImgSx,
   profileWrapperSx,
-  rightGridSx,
   sectionSx,
   subtitleClipPath,
   subtitleSx,
@@ -96,8 +99,8 @@ function Hero(): React.JSX.Element {
   return (
     <Box component="section" id="hero" sx={sectionSx}>
       <Container maxWidth="lg" sx={containerSx}>
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid size={{ md: 5 }}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} alignItems="center">
+          <Grid size={{ xs: 12, md: 'auto' }}>
             <Parallax offset={30}>
               <Box
                 component={motion.div}
@@ -142,49 +145,56 @@ function Hero(): React.JSX.Element {
               </Box>
             </Parallax>
           </Grid>
-          <Grid size="auto" sx={rightGridSx}>
-            <StaggerContainer stagger={0.1}>
-              <TextReveal
-                text={HERO_NAME}
-                as="h1"
-                sx={{
-                  background: (theme) => theme.palette.heroGradient,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  ...heroNameStyles,
-                }}
-              />
+          <Grid size={{ xs: 12, md: 'grow' }}>
+            <Card noContentPadding sx={heroCardSx}>
+              <Box sx={heroContentSx}>
+                <StaggerContainer stagger={0.1}>
+                  <TextReveal
+                    text={HERO_NAME}
+                    as="h1"
+                    sx={{
+                      '& span': {
+                        background: (theme) => theme.palette.heroGradient,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                      },
+                      ...heroNameStyles,
+                    }}
+                  />
 
-              <Typography
-                variant="h2"
-                component={motion.h2}
-                {...subtitleMotion}
-                transition={getTransition('easeInOut', {
-                  duration: 1.1,
-                  delay: 0.2,
-                })}
-                sx={subtitleSx}
-              >
-                Junior Full-Stack Developer
-                {!prefersReducedMotion && (
-                  <BlinkingCursor style={cursorStyle} />
-                )}
-              </Typography>
-              <Stack
-                direction="column"
-                spacing={2}
-                alignItems={{ xs: 'center', lg: 'flex-start' }}
-                sx={buttonsStackSx}
-              >
-                {heroActions.map(({ key, label, buttonProps }) => (
-                  <MagneticWrapper key={key} disabled={disableMagnetic}>
-                    <Button variant="contained" {...buttonProps}>
-                      {label}
-                    </Button>
-                  </MagneticWrapper>
-                ))}
-              </Stack>
-            </StaggerContainer>
+                  <Typography
+                    variant="h2"
+                    component={motion.h2}
+                    {...subtitleMotion}
+                    transition={getTransition('easeInOut', {
+                      duration: 1.1,
+                      delay: 0.2,
+                    })}
+                    sx={subtitleSx}
+                  >
+                    Junior Full-Stack Developer
+                    {!prefersReducedMotion && (
+                      <BlinkingCursor style={cursorStyle} />
+                    )}
+                  </Typography>
+                  <Stack
+                    direction="column"
+                    spacing={2}
+                    alignItems="flex-start"
+                    sx={buttonsStackSx}
+                  >
+                    {heroActions.map(({ key, label, buttonProps }) => (
+                      <MagneticWrapper key={key} disabled={disableMagnetic}>
+                        <Button variant="contained" {...buttonProps}>
+                          {label}
+                        </Button>
+                      </MagneticWrapper>
+                    ))}
+                  </Stack>
+                  <SkillBadgeRow />
+                </StaggerContainer>
+              </Box>
+            </Card>
           </Grid>
         </Grid>
       </Container>

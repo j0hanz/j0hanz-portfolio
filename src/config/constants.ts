@@ -156,7 +156,7 @@ export const PALETTES = {
     },
     divider: '#e0e0e0',
     backdrop: {
-      glass: 'rgba(255, 255, 255, 0.75)',
+      glass: 'rgba(255, 255, 255, 0.25)',
     },
     github: {
       main: '#181717',
@@ -176,7 +176,7 @@ export const PALETTES = {
     },
     divider: '#333333',
     backdrop: {
-      glass: 'rgba(20, 20, 20, 0.6)',
+      glass: 'rgba(17, 25, 40, 0.75)',
     },
     github: {
       main: '#ffffff',

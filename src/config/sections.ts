@@ -5,7 +5,6 @@ import {
   FolderTwoTone,
   HomeTwoTone,
   PersonOutlineOutlined,
-  SettingsTwoTone,
   WorkOutlineTwoTone,
 } from '@mui/icons-material';
 
@@ -14,7 +13,6 @@ import type { Section } from '@/config/types';
 // Lazy load section components for code splitting
 const Hero = lazy(() => import('@/features/hero/Hero'));
 const AboutMe = lazy(() => import('@/features/about/AboutMe'));
-const Skills = lazy(() => import('@/features/skills/Skills'));
 const Portfolio = lazy(() => import('@/features/projects/Portfolio'));
 const WorkExperience = lazy(
   () => import('@/features/experience/WorkExperience')
@@ -36,13 +34,6 @@ export const sections: Section[] = [
     title: 'About Me',
     hash: '#about',
     icon: PersonOutlineOutlined,
-  },
-  {
-    id: 'skills',
-    Component: Skills,
-    title: 'Skills',
-    hash: '#skills',
-    icon: SettingsTwoTone,
   },
   {
     id: 'portfolio',

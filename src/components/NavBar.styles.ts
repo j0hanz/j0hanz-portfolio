@@ -99,14 +99,16 @@ export const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
 
 export const drawerPaperSx: SxProps<Theme> = {
   width: { xs: '85%', sm: 350 },
-  backgroundColor: 'background.paper',
+  backgroundColor: 'backdrop.glass',
   backgroundImage: 'none',
   height: '100dvh',
   display: 'flex',
   flexDirection: 'column',
-  filter: (theme) =>
-    `drop-shadow(0 8px 16px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.15)'})`,
   overflowX: 'hidden',
+  backdropFilter: 'blur(16px) saturate(180%)',
+  WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+  border: '1px solid rgba(255, 255, 255, 0.125)',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
 };
 
 export const drawerHeaderSx: SxProps<Theme> = {
@@ -134,7 +136,7 @@ export const drawerContentSx: SxProps<Theme> = {
 
 export const drawerFooterSx: SxProps<Theme> = {
   p: 3,
-  backgroundColor: 'background.paper',
+  backgroundColor: 'transparent',
 };
 
 export const connectTextSx: SxProps<Theme> = {

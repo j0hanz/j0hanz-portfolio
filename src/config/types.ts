@@ -245,7 +245,7 @@ export interface BaseModalProps {
 export type ModalAnimationPreset = 'modal' | 'slideDown' | 'zoomOut';
 
 export interface CardProps {
-  title: string;
+  title?: string;
   subtitle?: ReactNode;
   children: ReactNode;
   className?: string;
@@ -362,7 +362,6 @@ export interface ThemeModeValue extends ThemeModeState, ThemeModeActions {}
 export type SectionMotionVariantId =
   | 'hero'
   | 'aboutMe'
-  | 'skills'
   | 'portfolio'
   | 'workExperience'
   | 'contact';
