@@ -6,8 +6,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { SectionSkeleton } from '@/components/Skeletons';
 import { sections } from '@/config/sections';
-import { useFullPageScroll } from '@/hooks/useFullPageScroll';
-import { useNavigationState } from '@/hooks/useNavigation';
+import { useFullPageScroll, useNavigationState } from '@/hooks';
 
 // Fallback for section-level errors (prevents entire app from breaking)
 function SectionErrorFallback(): React.JSX.Element {

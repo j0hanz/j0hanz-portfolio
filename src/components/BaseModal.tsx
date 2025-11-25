@@ -32,8 +32,8 @@ const closeButtonSx: SxProps<Theme> = {
 };
 
 function BaseModal({
-  show,
-  handleClose,
+  open,
+  onClose,
   children,
   className,
   bodyClassName,
@@ -50,14 +50,14 @@ function BaseModal({
 
   // Auto-focus close button when modal opens to prevent aria-hidden focus warning
   useEffect(() => {
-    if (show && closeButtonRef.current) {
+    if (open && closeButtonRef.current) {
       // Small delay to ensure modal is fully rendered
       const timer = setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [show]);
+  }, [open]);
 
   const transition =
     animationPreset === 'slideDown'
@@ -69,8 +69,8 @@ function BaseModal({
 
   return (
     <Dialog
-      open={show}
-      onClose={handleClose}
+      open={open}
+      onClose={onClose}
       className={className}
       maxWidth={maxWidth}
       fullWidth={fullWidth}
@@ -111,7 +111,7 @@ function BaseModal({
       >
         <IconButton
           ref={closeButtonRef}
-          onClick={handleClose}
+          onClick={onClose}
           aria-label="Close modal"
           sx={closeButtonSx}
         >

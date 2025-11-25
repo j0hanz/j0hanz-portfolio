@@ -28,8 +28,7 @@ import type {
   StaggerContainerProps,
   StaggerItemProps,
 } from '@/config/types';
-import { useAnimationConfig, useInView } from '@/hooks';
-import { useNavigationState } from '@/hooks/useNavigation';
+import { useAnimationConfig, useInView, useNavigationState } from '@/hooks';
 
 // ============================================================================
 // SECTION MOTION WRAPPER

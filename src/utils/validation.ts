@@ -5,19 +5,21 @@ import {
   NAME_PATTERN,
   URL_PATTERN,
 } from '@/config/constants';
-import {
+import type {
   ContactFormErrors,
   ContactFormValues,
   ValidationError,
 } from '@/config/types';
 
-// Generic validator factory to reduce duplication
-function createValidator(config: {
+interface ValidatorConfig {
   required?: string;
   pattern?: { regex: RegExp; error: string };
   minLength?: { value: number; error: string };
   optional?: boolean;
-}) {
+}
+
+// Generic validator factory to reduce duplication
+function createValidator(config: ValidatorConfig) {
   return (value: string): ValidationError => {
     const trimmed = value.trim();
 
@@ -60,20 +62,27 @@ export const validateMessage = createValidator({
   },
 });
 
-export const validateForm = (
-  formData: ContactFormValues
-): ContactFormErrors => {
-  const errors: ContactFormErrors = {};
-
-  const nameError = validateName(formData.name);
-  const emailError = validateEmail(formData.email);
-  const urlError = validateUrl(formData.url);
-  const messageError = validateMessage(formData.message);
-
-  if (nameError) errors.name = nameError;
-  if (emailError) errors.email = emailError;
-  if (urlError) errors.url = urlError;
-  if (messageError) errors.message = messageError;
-
-  return errors;
+// Validator map for cleaner form validation
+const validators: Record<
+  keyof ContactFormErrors,
+  (v: string) => ValidationError
+> = {
+  name: validateName,
+  email: validateEmail,
+  url: validateUrl,
+  message: validateMessage,
 };
+
+export function validateForm(formData: ContactFormValues): ContactFormErrors {
+  const entries = Object.entries(validators)
+    .map(([key, validate]) => {
+      const fieldKey = key as keyof ContactFormErrors;
+      const error = validate(formData[fieldKey] ?? '');
+      return error ? [fieldKey, error] : null;
+    })
+    .filter(
+      (entry): entry is [keyof ContactFormErrors, string] => entry !== null
+    );
+
+  return Object.fromEntries(entries);
+}

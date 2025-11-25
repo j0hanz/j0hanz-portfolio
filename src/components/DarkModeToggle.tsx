@@ -6,10 +6,11 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 
-import { useTheme } from '@/hooks';
+import { useThemeModeActions, useThemeModeState } from '@/hooks';
 
 function DarkModeToggle(): JSX.Element {
-  const { mode, toggleMode } = useTheme();
+  const { mode } = useThemeModeState();
+  const { toggleMode } = useThemeModeActions();
 
   const isDark = mode === 'dark';
 

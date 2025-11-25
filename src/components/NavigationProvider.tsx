@@ -8,24 +8,29 @@ import {
 } from '@/contexts/NavigationContext';
 import { useEventCallback } from '@/hooks';
 
-// Helper to get initial section index from URL hash
+const SECTION_COUNT = sections.length;
+const LAST_INDEX = SECTION_COUNT - 1;
+
+// Get initial section index from URL hash on mount
 function getInitialSectionIndex(): number {
   if (typeof window === 'undefined') return 0;
+
   const section = getSectionByHash(window.location.hash);
   if (!section) return 0;
+
   const index = sections.indexOf(section);
-  return index !== -1 ? index : 0;
+  return index >= 0 ? index : 0;
 }
 
-// Helper to clamp section index to valid range
-function clampSectionIndex(index: number): number {
-  return Math.max(0, Math.min(index, sections.length - 1));
+// Check if index is within valid bounds
+function isValidIndex(index: number): boolean {
+  return index >= 0 && index <= LAST_INDEX;
 }
 
-// Helper to sync hash with section
-function syncHashWithSection(section: { hash: string }) {
-  if (typeof window !== 'undefined' && window.location.hash !== section.hash) {
-    window.history.replaceState(null, '', section.hash);
+// Sync browser hash with active section
+function syncHashWithSection(hash: string): void {
+  if (typeof window !== 'undefined' && window.location.hash !== hash) {
+    window.history.replaceState(null, '', hash);
   }
 }
 
@@ -41,9 +46,8 @@ export function NavigationProvider({
   const [direction, setDirection] = useState<Direction>(null);
 
   const activeSection = sections[activeSectionIndex];
-  const activeSectionId = activeSection.id;
   const isFirst = activeSectionIndex === 0;
-  const isLast = activeSectionIndex === sections.length - 1;
+  const isLast = activeSectionIndex === LAST_INDEX;
   const isScrollLocked = !activeSection.disableScrollLock;
 
   const updateSection = useEventCallback(
@@ -55,15 +59,12 @@ export function NavigationProvider({
               ? nextIndexOrUpdater(currentIndex)
               : nextIndexOrUpdater;
 
-          // No change or out of bounds
-          if (
-            targetIndex === currentIndex ||
-            clampSectionIndex(targetIndex) !== targetIndex
-          ) {
+          // Skip if unchanged or out of bounds
+          if (targetIndex === currentIndex || !isValidIndex(targetIndex)) {
             return currentIndex;
           }
 
-          // Update direction for animations
+          // Update direction for page transition animations
           setDirection(targetIndex > currentIndex ? 'down' : 'up');
           return targetIndex;
         });
@@ -72,21 +73,19 @@ export function NavigationProvider({
   );
 
   const handleHashChange = useEventCallback(() => {
-    if (typeof window === 'undefined') return;
-
     const section = getSectionByHash(window.location.hash);
-    if (section) {
-      const index = sections.indexOf(section);
-      if (index !== -1) updateSection(index);
-    }
+    if (!section) return;
+
+    const index = sections.indexOf(section);
+    if (index >= 0) updateSection(index);
   });
 
-  // Sync hash with active section
+  // Sync browser hash when section changes
   useEffect(() => {
-    syncHashWithSection(activeSection);
-  }, [activeSection]);
+    syncHashWithSection(activeSection.hash);
+  }, [activeSection.hash]);
 
-  // Listen for hash changes
+  // Listen for browser back/forward navigation
   useEffect(() => {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
@@ -94,20 +93,20 @@ export function NavigationProvider({
 
   const navigateTo = useEventCallback((id: string) => {
     const index = sections.findIndex((s) => s.id === id);
-    if (index !== -1) updateSection(index);
+    if (index >= 0) updateSection(index);
   });
+
   const moveNext = useEventCallback(() =>
     updateSection((current) => current + 1)
   );
+
   const movePrev = useEventCallback(() =>
     updateSection((current) => current - 1)
   );
 
-  // React Compiler auto-optimizes these objects - no manual memoization needed
-  // These are recreated on every render but React Compiler prevents unnecessary re-renders
   const stateValue = {
     activeSectionIndex,
-    activeSectionId,
+    activeSectionId: activeSection.id,
     direction,
     isFirst,
     isLast,
@@ -122,7 +121,6 @@ export function NavigationProvider({
     movePrev,
   };
 
-  // React 19: Render context directly without .Provider
   return (
     <NavigationActionsContext value={actionsValue}>
       <NavigationStateContext value={stateValue}>

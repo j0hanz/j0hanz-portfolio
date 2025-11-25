@@ -193,8 +193,8 @@ function Hero(): React.JSX.Element {
         {imageModal.isOpen && (
           <ImageModal
             key="hero-image-modal"
-            show={imageModal.isOpen}
-            handleClose={imageModal.close}
+            open={imageModal.isOpen}
+            onClose={imageModal.close}
           />
         )}
       </AnimatePresence>

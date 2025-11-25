@@ -5,11 +5,11 @@ import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
 import { motion, useSpring } from 'motion/react';
 
 import { sections } from '@/config/sections';
-import { useAnimationConfig } from '@/hooks';
 import {
+  useAnimationConfig,
   useNavigationActions,
   useNavigationState,
-} from '@/hooks/useNavigation';
+} from '@/hooks';
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',

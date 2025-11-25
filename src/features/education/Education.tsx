@@ -127,8 +127,8 @@ function Education(): React.JSX.Element {
       </Box>
 
       <Credential
-        show={credentialModal.isOpen}
-        handleClose={credentialModal.close}
+        open={credentialModal.isOpen}
+        onClose={credentialModal.close}
       />
     </SectionContainer>
   );

@@ -73,7 +73,7 @@ const flagButtonBaseSx: SxProps<Theme> = {
   },
 };
 
-function ModalCv({ show, handleClose }: ModalCvProps): JSX.Element {
+function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
   const handleDownload = (cv: string, fileName: string): void => {
     try {
       const link = document.createElement('a');
@@ -82,7 +82,7 @@ function ModalCv({ show, handleClose }: ModalCvProps): JSX.Element {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      handleClose();
+      onClose();
     } catch (error) {
       console.error('Download failed:', error);
     }
@@ -90,8 +90,8 @@ function ModalCv({ show, handleClose }: ModalCvProps): JSX.Element {
 
   return (
     <BaseModal
-      show={show}
-      handleClose={handleClose}
+      open={open}
+      onClose={onClose}
       contentSx={contentSx}
       animationPreset="slideDown"
       ariaLabelledBy="cv-language-selection-title"

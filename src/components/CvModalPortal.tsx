@@ -15,7 +15,7 @@ function CvModalPortal({
 }: CvModalPortalProps): React.JSX.Element {
   return (
     <AnimatePresence initial={false} mode="wait">
-      {isOpen && <ModalCv show={isOpen} handleClose={onClose} />}
+      {isOpen && <ModalCv open={isOpen} onClose={onClose} />}
     </AnimatePresence>
   );
 }

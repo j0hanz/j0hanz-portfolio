@@ -144,8 +144,8 @@ function CardItem({
 function AboutMe(): React.JSX.Element {
   const {
     value: showModal,
-    setTrue: handleShowModal,
-    setFalse: handleCloseModal,
+    setTrue: openModal,
+    setFalse: closeModal,
   } = useToggle(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(
@@ -176,12 +176,12 @@ function AboutMe(): React.JSX.Element {
           </Grid>
           <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
             <CardItem index={1} yTransform={y2} isInView={isInView}>
-              <AboutMeList items={aboutMeItems} onShowModal={handleShowModal} />
+              <AboutMeList items={aboutMeItems} onShowModal={openModal} />
             </CardItem>
           </Grid>
         </Grid>
       </Box>
-      <Credential show={showModal} handleClose={handleCloseModal} />
+      <Credential open={showModal} onClose={closeModal} />
     </SectionContainer>
   );
 }

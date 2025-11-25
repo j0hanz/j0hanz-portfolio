@@ -13,6 +13,3 @@ export const ThemeModeStateContext = createContext<ThemeModeState | null>(null);
 export const ThemeModeActionsContext = createContext<ThemeModeActions | null>(
   null
 );
-
-// Legacy single context export for backwards compatibility during migration
-export const ThemeMode = ThemeModeStateContext;

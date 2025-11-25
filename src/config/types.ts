@@ -225,8 +225,8 @@ export interface BadgeImageProps {
 }
 
 export interface BaseModalProps {
-  show: boolean;
-  handleClose: () => void;
+  open: boolean;
+  onClose: () => void;
   children: ReactNode;
   className?: string;
   bodyClassName?: string;
@@ -289,8 +289,8 @@ export interface IconBadgeListProps {
 }
 
 export interface ImageModalProps {
-  show: boolean;
-  handleClose: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 export interface ImageProps {
@@ -306,8 +306,8 @@ export interface ImageProps {
 }
 
 export interface ModalCvProps {
-  show: boolean;
-  handleClose: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 export interface ScrollToTopProps {
@@ -635,8 +635,8 @@ export interface ErrorBoundaryState {
 
 // --- Feature: Education ---
 export interface CredentialProps {
-  show: boolean;
-  handleClose: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 export interface EducationItem {
@@ -916,15 +916,11 @@ export interface UseStorageReturn<T> {
   error: Error | null;
 }
 
-export type InitialToggleState = boolean | (() => boolean);
-
 export interface UseToggleReturn {
   value: boolean;
   toggle: (nextValue?: boolean) => void;
   setTrue: () => void;
   setFalse: () => void;
-  open: () => void;
-  close: () => void;
 }
 
 export type FieldName = keyof ContactFormValues;
@@ -946,12 +942,6 @@ export interface UseScrollEventsProps {
 export interface UseScrollAnimationOptions {
   offset?: UseScrollOptions['offset'];
   triggerThreshold?: number;
-}
-
-export interface UseImageLoadingReturn {
-  isLoaded: boolean;
-  handleLoad: () => void;
-  handleError: () => void;
 }
 
 // --- Utils ---

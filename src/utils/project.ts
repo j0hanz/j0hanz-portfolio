@@ -4,17 +4,15 @@ import hackathonBadge from '@/assets/hackathonBadge.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
 import { BadgeConfig, Project, ProjectMeta } from '@/config/types';
 
-const commonBadgeStyle = {
-  position: 'absolute',
-  bottom: '3rem',
-  right: '0.5rem',
-  width: '7rem',
-  filter: 'contrast(0.9)',
-} as const;
-
 const hackathonBadgeBase = {
   alt: 'Hackathon Badge',
-  style: commonBadgeStyle,
+  style: {
+    position: 'absolute',
+    bottom: '3rem',
+    right: '0.5rem',
+    width: '7rem',
+    filter: 'contrast(0.9)',
+  },
   width: 112,
   height: 112,
 } as const;

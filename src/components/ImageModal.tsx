@@ -44,7 +44,7 @@ const imgStyle = {
 } as const;
 
 // Component for displaying an image
-function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
+function ImageModal({ open, onClose }: ImageModalProps): React.JSX.Element {
   const { isLoaded, handleLoad } = useImageLoading();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
@@ -65,8 +65,8 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
 
   return (
     <BaseModal
-      show={show}
-      handleClose={handleClose}
+      open={open}
+      onClose={onClose}
       contentSx={modalContentSx}
       animationPreset="zoomOut"
       ariaLabelledBy="image-modal-title"

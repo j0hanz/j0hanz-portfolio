@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 import type { StatusBanner } from '@/config/types';
-import useEventCallback from '@/hooks/useEventCallback';
-import useEventListener from '@/hooks/useEventListener';
-import usePrevious from '@/hooks/usePrevious';
-import useSnackbar from '@/hooks/useSnackbar';
+
+import useEventCallback from './useEventCallback';
+import useEventListener from './useEventListener';
+import usePrevious from './usePrevious';
+import { useSnackbar } from './useSnackbar';
 
 const resolveInitialStatus = (): boolean => {
   if (typeof navigator === 'undefined') {

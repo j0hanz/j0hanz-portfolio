@@ -67,7 +67,8 @@ import type {
   TransitionPreset,
   UseMeasureReturn,
 } from '@/config/types';
-import useEventCallback from '@/hooks/useEventCallback';
+
+import useEventCallback from './useEventCallback';
 
 // ============================================================================
 // REDUCED MOTION DETECTION

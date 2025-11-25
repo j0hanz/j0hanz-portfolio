@@ -12,6 +12,7 @@ export { default as useEventCallback } from './useEventCallback';
 
 // Tracks image loading state with stable handlers
 export { useImageLoading } from './useImageLoading';
+export type { UseImageLoadingReturn } from './useImageLoading';
 
 // Lazily computes expensive values and exposes a manual refresh handle
 export { useLazy } from './useLazy';
@@ -34,12 +35,16 @@ export type { UseToggleReturn } from '@/config/types';
 
 // Modal state management with semantic naming
 export { default as useModal } from './useModal';
+export type { UseModalReturn } from './useModal';
 
 // Combines multiple refs into a single ref callback
 export { default as useCombinedRefs } from './useCombinedRefs';
 
 // Triggers an animation sequence when a section is scrolled into view
 export { default as useScrollAnimation } from './useScrollAnimation';
+
+// Full-page scroll navigation
+export { useFullPageScroll } from './useFullPageScroll';
 
 // Accesses the NavigationContext
 export {

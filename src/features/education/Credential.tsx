@@ -58,11 +58,11 @@ const imageSx: SxProps<Theme> = {
 };
 
 // Component for displaying a credential
-function Credential({ show, handleClose }: CredentialProps): React.JSX.Element {
+function Credential({ open, onClose }: CredentialProps): React.JSX.Element {
   return (
     <BaseModal
-      show={show}
-      handleClose={handleClose}
+      open={open}
+      onClose={onClose}
       animationPreset="modal"
       ariaLabelledBy="credential-modal-title"
       ariaDescribedBy="credential-modal-description"
