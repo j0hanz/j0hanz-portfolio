@@ -49,14 +49,10 @@ function App(): React.JSX.Element {
   const contentMotion = useContentMotion();
 
   useEffect(() => {
-    // Minimum loading time to prevent jarring flash
+    // Set document title and schedule initial loading completion
+    document.title = 'Linus Johansson | Portfolio';
     const timer = setTimeout(() => setIsLoading(false), INITIAL_LOADING_DELAY);
     return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    // Set document title once on mount
-    document.title = 'Linus Johansson | Portfolio';
   }, []);
 
   return (

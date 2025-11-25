@@ -19,7 +19,14 @@ import 'flag-icons/css/flag-icons.min.css';
 // Initialize EmailJS
 initEmailJs();
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error(
+    'Root element not found. Ensure index.html has an element with id="root".'
+  );
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <InitColorSchemeScript />
     <QueryClientProvider client={queryClient}>

@@ -91,9 +91,7 @@ export function NavigationProvider({
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [handleHashChange]);
-  const setActiveSection = useEventCallback((index: number) =>
-    updateSection(index)
-  );
+
   const navigateTo = useEventCallback((id: string) => {
     const index = sections.findIndex((s) => s.id === id);
     if (index !== -1) updateSection(index);
@@ -118,7 +116,7 @@ export function NavigationProvider({
   };
 
   const actionsValue = {
-    setActiveSection,
+    setActiveSection: updateSection,
     navigateTo,
     moveNext,
     movePrev,

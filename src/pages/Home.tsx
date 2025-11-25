@@ -1,6 +1,9 @@
+import { Suspense } from 'react';
+
 import { Box } from '@mui/material';
 
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
+import { SectionSkeleton } from '@/components/Skeletons';
 import { sections } from '@/config/sections';
 import { useFullPageScroll } from '@/hooks/useFullPageScroll';
 import { useNavigationState } from '@/hooks/useNavigation';
@@ -25,7 +28,9 @@ function MainContent(): React.JSX.Element {
       <AnimatePresence initial={false} mode="popLayout" custom={direction}>
         {Component && (
           <PageTransitionWrapper key={activeSectionId}>
-            <Component />
+            <Suspense fallback={<SectionSkeleton />}>
+              <Component />
+            </Suspense>
           </PageTransitionWrapper>
         )}
       </AnimatePresence>

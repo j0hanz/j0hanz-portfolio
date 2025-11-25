@@ -58,8 +58,9 @@ export function SnackbarProvider({
     setOpen(false);
   };
 
+  // React 19: Render context directly without .Provider
   return (
-    <SnackbarContext.Provider value={{ showSnackbar, closeSnackbar }}>
+    <SnackbarContext value={{ showSnackbar, closeSnackbar }}>
       {children}
       <Snackbar
         open={open}
@@ -77,6 +78,6 @@ export function SnackbarProvider({
           {config.message}
         </Alert>
       </Snackbar>
-    </SnackbarContext.Provider>
+    </SnackbarContext>
   );
 }

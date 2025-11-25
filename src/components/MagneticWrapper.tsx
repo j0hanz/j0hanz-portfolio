@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { motion, useMotionValue, useSpring } from 'motion/react';
 
@@ -72,12 +72,6 @@ export function MagneticWrapper({
     pendingPoint.current = null;
     isScheduled.current = false;
   };
-
-  useEffect(() => {
-    return () => {
-      isScheduled.current = false;
-    };
-  }, []);
 
   if (disabled || prefersReducedMotion) {
     return (

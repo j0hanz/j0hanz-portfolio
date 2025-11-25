@@ -25,16 +25,13 @@ interface ScrollBoundaries {
 
 // Gets scroll boundary state (isAtTop, isAtBottom) for a container
 function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
-  if (!container) {
-    return { isAtTop: true, isAtBottom: true };
-  }
+  if (!container) return { isAtTop: true, isAtBottom: true };
 
   const { scrollTop, scrollHeight, clientHeight } = container;
-  return {
-    isAtTop: scrollTop <= 0,
-    isAtBottom:
-      Math.abs(scrollHeight - clientHeight - scrollTop) < SCROLL_TOLERANCE,
-  };
+  const isAtTop = scrollTop <= 0;
+  const isAtBottom =
+    Math.abs(scrollHeight - clientHeight - scrollTop) < SCROLL_TOLERANCE;
+  return { isAtTop, isAtBottom };
 }
 
 // Checks if navigation should proceed based on scroll position and direction
@@ -58,26 +55,15 @@ export function useFullPageScroll(): void {
   const shouldDisable = prefersReducedMotion || isMobile || !isScrollLocked;
 
   useEffect(() => {
-    if (typeof document === 'undefined') {
-      return;
-    }
-
     containerRef.current = document.getElementById('active-section-container');
-
     return () => {
       containerRef.current = null;
     };
   }, []);
 
   const resolveContainer = useEventCallback(() => {
-    if (typeof document === 'undefined') {
-      return null;
-    }
-
     const cached = containerRef.current;
-    if (cached && cached.isConnected) {
-      return cached;
-    }
+    if (cached?.isConnected) return cached;
 
     const node = document.getElementById('active-section-container');
     containerRef.current = node;

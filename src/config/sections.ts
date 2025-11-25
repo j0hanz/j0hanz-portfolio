@@ -1,3 +1,5 @@
+import { lazy } from 'react';
+
 import {
   EmailRounded,
   FolderTwoTone,
@@ -8,15 +10,19 @@ import {
   WorkOutlineTwoTone,
 } from '@mui/icons-material';
 
-import Footer from '@/components/Footer';
 import type { Section } from '@/config/types';
-import AboutMe from '@/features/about/AboutMe';
-import ContactForm from '@/features/contact/ContactForm';
-import Education from '@/features/education/Education';
-import WorkExperience from '@/features/experience/WorkExperience';
-import Hero from '@/features/hero/Hero';
-import Portfolio from '@/features/projects/Portfolio';
-import Skills from '@/features/skills/Skills';
+
+// Lazy load section components for code splitting
+const Hero = lazy(() => import('@/features/hero/Hero'));
+const AboutMe = lazy(() => import('@/features/about/AboutMe'));
+const Education = lazy(() => import('@/features/education/Education'));
+const Skills = lazy(() => import('@/features/skills/Skills'));
+const Portfolio = lazy(() => import('@/features/projects/Portfolio'));
+const WorkExperience = lazy(
+  () => import('@/features/experience/WorkExperience')
+);
+const ContactForm = lazy(() => import('@/features/contact/ContactForm'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 export const sections: Section[] = [
   {

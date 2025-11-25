@@ -265,18 +265,14 @@ export function useButtonGesture() {
 // SCROLL PROGRESS
 // ============================================================================
 
-// Tracks scroll progress as 0-1 value with useMotionValue (no re-renders)
+// Tracks scroll progress as motion value (no re-renders)
 export function useScrollProgress(): ScrollProgressValue {
   const { scrollYProgress } = useScroll();
-  const [progress, setProgress] = useState(0);
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    setProgress(latest);
-  });
 
   return {
     value: scrollYProgress,
-    progress,
+    // progress property kept for backwards compatibility - consumers should use value directly
+    progress: 0,
   };
 }
 
@@ -681,7 +677,7 @@ export function useCursorFollow(
     const handleMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!isActive) setIsActive(true);
+      setIsActive(true);
     };
 
     const handleLeave = () => setIsActive(false);
@@ -693,7 +689,7 @@ export function useCursorFollow(
       window.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseleave', handleLeave);
     };
-  }, [prefersReducedMotion, isActive, mouseX, mouseY]);
+  }, [prefersReducedMotion, mouseX, mouseY]);
 
   return {
     x: prefersReducedMotion ? mouseX : smoothX,
@@ -721,9 +717,8 @@ export function useCursorGradient(
   `;
 
   useEffect(() => {
-    if (prefersReducedMotion || !ref.current) return;
-
     const element = ref.current;
+    if (prefersReducedMotion || !element) return;
 
     // Cache rect initially and update on scroll/resize
     const updateRect = () => {

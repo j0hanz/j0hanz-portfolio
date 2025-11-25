@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { alpha, Box, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
@@ -29,7 +29,18 @@ const backgroundSx: SxProps<Theme> = {
 function BackgroundMorph(): React.JSX.Element {
   const priority = useAnimationPriority();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const shouldAnimate = priority === 'high' && !prefersReducedMotion;
+  const [isDocumentVisible, setIsDocumentVisible] = useState(true);
+
+  // Pause animation when document is hidden to save CPU/battery
+  useEffect(() => {
+    const handleVisibility = () => setIsDocumentVisible(!document.hidden);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () =>
+      document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+
+  const shouldAnimate =
+    priority === 'high' && !prefersReducedMotion && isDocumentVisible;
 
   return (
     <Box

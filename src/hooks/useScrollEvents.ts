@@ -88,7 +88,7 @@ export function useScrollEvents({
   useEffect(() => {
     if (shouldDisable) return;
 
-    // Register event listeners
+    // Register event listeners - useEventCallback ensures stable references
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('touchstart', handleTouchStart, { passive: false });

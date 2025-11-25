@@ -216,7 +216,8 @@ function ContactFormContent(): React.JSX.Element {
   const formRef = useRef<HTMLFormElement>(null);
   const formContainerRef = useRef<HTMLDivElement>(null);
   const { showSnackbar } = useSnackbar();
-  const mutation = useContactFormMutation();
+  // Destructure stable functions from mutation to avoid dependency issues
+  const { mutate, reset, isSuccess, isPending } = useContactFormMutation();
   const isInView = useInView(formContainerRef as RefObject<Element>, {
     once: true,
     amount: 0.2,
@@ -232,20 +233,18 @@ function ContactFormContent(): React.JSX.Element {
     animate: isInView ? 'visible' : 'hidden',
   });
 
-  const showSuccess = mutation.isSuccess && !mutation.isPending;
-  // Extract stable reference to avoid effect re-subscription
-  const resetMutation = mutation.reset;
+  const showSuccess = isSuccess && !isPending;
 
   const handleReset = () => {
     formRef.current?.reset();
-    resetMutation();
+    reset();
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const values = extractFormValues(new FormData(e.currentTarget));
 
-    mutation.mutate(values, {
+    mutate(values, {
       onSuccess: () => showSnackbar('Message sent successfully!', 'success'),
       onError: (error) => showSnackbar(error.message, 'error'),
     });
@@ -257,11 +256,11 @@ function ContactFormContent(): React.JSX.Element {
 
     const timer = setTimeout(() => {
       formRef.current?.reset();
-      resetMutation();
+      reset();
     }, FORM_RESET_DELAY);
 
     return () => clearTimeout(timer);
-  }, [showSuccess, resetMutation]);
+  }, [showSuccess, reset]);
 
   return (
     <Card title="" sx={formCardSx}>
@@ -278,7 +277,7 @@ function ContactFormContent(): React.JSX.Element {
           </motion.div>
           <SuccessIndicator visible={showSuccess} />
           <motion.div {...actionMotion} layout>
-            <FormActions onReset={handleReset} isPending={mutation.isPending} />
+            <FormActions onReset={handleReset} isPending={isPending} />
           </motion.div>
         </Stack>
       </Box>

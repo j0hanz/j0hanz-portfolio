@@ -148,7 +148,7 @@ export function useStorage<T>(
   });
 
   useEffect(() => {
-    if (!listen || !resolvedStorage || !isBrowser) return undefined;
+    if (!listen || !resolvedStorage) return undefined;
 
     const handleStorage = (event: StorageEvent): void => {
       onStorageChange(event);

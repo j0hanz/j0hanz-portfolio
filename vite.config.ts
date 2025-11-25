@@ -11,4 +11,18 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  build: {
+    target: 'esnext',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          motion: ['motion'],
+          mui: ['@mui/material'],
+          'mui-icons': ['@mui/icons-material'],
+          query: ['@tanstack/react-query'],
+        },
+      },
+    },
+  },
 });
