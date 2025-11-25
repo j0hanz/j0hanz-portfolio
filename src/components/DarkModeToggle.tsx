@@ -3,27 +3,10 @@ import type { JSX } from 'react';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
 import IconButton from '@mui/material/IconButton';
-import { Theme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
-import { SxProps } from '@mui/system';
+import Zoom from '@mui/material/Zoom';
 
 import { useTheme } from '@/hooks';
-import { TRANSITION_STANDARD } from '@/styles/shared';
-
-const TOGGLE_ICON_SIZE = 24;
-
-const toggleButtonSx: SxProps<Theme> = {
-  color: 'primary.main',
-  transition: TRANSITION_STANDARD,
-  '&:hover': {
-    backgroundColor: 'action.hover',
-    transform: 'rotate(180deg)',
-  },
-};
-
-const iconSx: SxProps<Theme> = {
-  fontSize: TOGGLE_ICON_SIZE,
-};
 
 function DarkModeToggle(): JSX.Element {
   const { mode, toggleMode } = useTheme();
@@ -32,16 +15,24 @@ function DarkModeToggle(): JSX.Element {
 
   return (
     <Tooltip
-      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDark ? 'Light mode' : 'Dark mode'}
+      placement="bottom"
+      enterDelay={300}
       arrow
+      slots={{ transition: Zoom }}
     >
       <IconButton
         onClick={toggleMode}
-        aria-label="Toggle dark mode"
+        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         aria-pressed={isDark}
-        sx={toggleButtonSx}
+        size="small"
+        sx={{
+          '&:hover': { bgcolor: 'transparent' },
+          '& svg': { transition: 'transform 0.2s, color 0.2s' },
+          '&:hover svg': { transform: 'scale(1.15)', color: 'primary.main' },
+        }}
       >
-        {isDark ? <LightMode sx={iconSx} /> : <DarkMode sx={iconSx} />}
+        {isDark ? <LightMode /> : <DarkMode />}
       </IconButton>
     </Tooltip>
   );

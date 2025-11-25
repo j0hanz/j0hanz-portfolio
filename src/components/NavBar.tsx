@@ -4,7 +4,6 @@ import CloseRounded from '@mui/icons-material/CloseRounded';
 import MenuRounded from '@mui/icons-material/MenuRounded';
 import {
   Box,
-  Container,
   Divider,
   IconButton,
   ListItemButton,
@@ -12,7 +11,9 @@ import {
   ListItemText,
   Stack,
   SwipeableDrawer,
+  Tooltip,
   Typography,
+  Zoom,
 } from '@mui/material';
 import { motion } from 'motion/react';
 
@@ -22,7 +23,6 @@ import DarkModeToggle from '@/components/DarkModeToggle';
 import {
   closeButtonSx,
   connectTextSx,
-  darkModeToggleBoxSx,
   drawerContentSx,
   drawerFooterSx,
   drawerHeaderSx,
@@ -32,7 +32,6 @@ import {
   listItemIconSelectedSx,
   listItemIconSx,
   listItemTextPrimarySx,
-  menuButtonSx,
   navLinksListSx,
   navLogoImgSx,
   navLogoStackSx,
@@ -310,11 +309,29 @@ function NavBar(): JSX.Element {
 
   return (
     <>
-      <Container maxWidth={false}>
-        <Box sx={{ position: 'relative' }}>
-          <Box sx={darkModeToggleBoxSx}>
-            <DarkModeToggle />
-          </Box>
+      <Stack
+        component="nav"
+        direction="row"
+        spacing={2}
+        sx={{
+          position: 'fixed',
+          top: 8,
+          right: 8,
+          zIndex: (theme) => theme.zIndex.appBar,
+          bgcolor: 'background.paper',
+          borderRadius: 2,
+          p: 0.5,
+          boxShadow: 2,
+        }}
+      >
+        <DarkModeToggle />
+        <Tooltip
+          title="Menu"
+          placement="bottom"
+          enterDelay={300}
+          arrow
+          slots={{ transition: Zoom }}
+        >
           <IconButton
             component={motion.button}
             whileHover={{ scale: 1.05 }}
@@ -322,9 +339,19 @@ function NavBar(): JSX.Element {
             animate={offcanvasMenu.isOpen ? 'open' : 'closed'}
             variants={navVariants.button}
             onClick={offcanvasMenu.open}
-            aria-label="Toggle navigation"
-            size="large"
-            sx={menuButtonSx}
+            aria-label="Open navigation menu"
+            aria-expanded={offcanvasMenu.isOpen}
+            aria-haspopup="menu"
+            size="small"
+            edge="end"
+            sx={{
+              '&:hover': { bgcolor: 'transparent' },
+              '& svg': { transition: 'transform 0.2s, color 0.2s' },
+              '&:hover svg': {
+                transform: 'scale(1.15)',
+                color: 'primary.main',
+              },
+            }}
           >
             <motion.div
               animate={
@@ -336,21 +363,17 @@ function NavBar(): JSX.Element {
               }
               transition={prefersReducedMotion ? undefined : { duration: 0.2 }}
             >
-              <MenuRounded
-                sx={{
-                  fontSize: '2.2rem',
-                }}
-              />
+              <MenuRounded />
             </motion.div>
           </IconButton>
-          <OffcanvasMenu
-            showOffcanvas={offcanvasMenu.isOpen}
-            closeOffcanvas={offcanvasMenu.close}
-            openOffcanvas={offcanvasMenu.open}
-            openModal={cvModal.open}
-          />
-        </Box>
-      </Container>
+        </Tooltip>
+      </Stack>
+      <OffcanvasMenu
+        showOffcanvas={offcanvasMenu.isOpen}
+        closeOffcanvas={offcanvasMenu.close}
+        openOffcanvas={offcanvasMenu.open}
+        openModal={cvModal.open}
+      />
 
       <CvModalPortal isOpen={cvModal.isOpen} onClose={cvModal.close} />
     </>

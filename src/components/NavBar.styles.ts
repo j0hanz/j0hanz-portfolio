@@ -142,36 +142,3 @@ export const connectTextSx: SxProps<Theme> = {
   fontWeight: 500,
   letterSpacing: LETTER_SPACING_WIDE,
 };
-
-export const darkModeToggleBoxSx: SxProps<Theme> = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  bgcolor: 'background.paper',
-  borderRadius: '0 0 16px 0px',
-  zIndex: (theme) => theme.zIndex.appBar,
-  cursor: 'pointer',
-  filter: (theme) =>
-    `drop-shadow(0 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'})`,
-};
-
-export const menuButtonSx: SxProps<Theme> = {
-  position: 'fixed',
-  bgcolor: 'background.paper',
-  color: 'text.primary',
-  borderRadius: '0 0 0 16px',
-  height: 56,
-  width: 64,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: (theme) => theme.zIndex.appBar,
-  top: 0,
-  right: 0,
-  filter: (theme) =>
-    `drop-shadow(0 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'})`,
-  '&:hover': {
-    bgcolor: 'background.default',
-    color: 'primary.main',
-  },
-};
