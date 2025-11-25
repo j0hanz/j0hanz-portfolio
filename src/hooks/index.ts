@@ -3,10 +3,6 @@
 // Detects pointer interactions outside of the provided ref
 export { useClickOutside } from './useClickOutside';
 
-// Simple numeric state machine with increment/decrement helpers
-export { useCounter } from './useCounter';
-export type { UseCounterReturn } from '@/config/types';
-
 // Debounces rapidly changing values before propagating downstream
 export * from './useCursorMagnet';
 export * from './useDebounce';
@@ -53,7 +49,8 @@ export {
 } from './useNavigation';
 
 // Accesses the ThemeMode context with helpful error messaging
-export { useTheme } from './useTheme';
+// Split hooks for render optimization: useThemeModeState (read-only), useThemeModeActions (actions)
+export { useTheme, useThemeModeActions, useThemeModeState } from './useTheme';
 
 // Copies text to clipboard and provides success/error feedback
 export {
@@ -113,6 +110,8 @@ export {
   useTimelineSectionController,
   // Card inView hook
   useCardInView,
+  // Timeline card motion hook (shared for Education/WorkExperience)
+  useTimelineCardMotion,
 } from './useMotions';
 
 // ============================================================================

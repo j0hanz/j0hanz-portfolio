@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { StatusBanner } from '@/config/types';
 import useEventCallback from '@/hooks/useEventCallback';
@@ -77,7 +77,7 @@ export function useConnectivity() {
   );
   const { schedule, clear } = useBannerTimeout();
 
-  const showBanner = useEffectEvent((nextBanner: StatusBanner) => {
+  const showBanner = useEventCallback((nextBanner: StatusBanner) => {
     clear();
     setStatusBanner(nextBanner);
 
@@ -86,7 +86,7 @@ export function useConnectivity() {
     }
   });
 
-  const handleOffline = useEffectEvent(() => {
+  const handleOffline = useEventCallback(() => {
     showSnackbar(
       'You appear to be offline. Some features may not work.',
       'warning',
@@ -95,7 +95,7 @@ export function useConnectivity() {
     showBanner(OFFLINE_BANNER);
   });
 
-  const handleOnline = useEffectEvent(() => {
+  const handleOnline = useEventCallback(() => {
     showSnackbar('Connection restored', 'success', 2500);
     showBanner(ONLINE_BANNER);
   });
@@ -113,7 +113,7 @@ export function useConnectivity() {
     } else if (!isOnline && prevOnline) {
       handleOffline();
     }
-  }, [isOnline, prevOnline]);
+  }, [isOnline, prevOnline, handleOnline, handleOffline]);
 
   return { isOnline, statusBanner };
 }

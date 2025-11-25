@@ -1,12 +1,10 @@
-import React, { startTransition, Suspense, useOptimistic, useRef } from 'react';
+import { Suspense, useRef } from 'react';
 
 import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
 import { motion, useInView } from 'motion/react';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { StatsSkeleton } from '@/components/Skeletons';
-import { ANIMATION_DURATION_STATS } from '@/config/constants';
 import type {
   ProjectStatsProps,
   RepoStats,
@@ -32,11 +30,6 @@ const valueSx: SxProps<Theme> = {
 const containerSx: SxProps<Theme> = {
   position: 'relative',
   flexShrink: 0,
-};
-
-const buttonSx: SxProps<Theme> = {
-  px: 0,
-  fontSize: (theme) => theme.typography.caption.fontSize,
 };
 
 const STAT_LABELS: Record<StatKey, string> = {
@@ -102,41 +95,14 @@ function StatsContent({
   repoPath: string;
   hasProjectBoard: boolean;
 }): React.JSX.Element {
-  const { data: initialStats } = useRepoStatsQuery(repoPath);
-
-  const [optimisticStats, addOptimisticStar] = useOptimistic(
-    initialStats,
-    (state: RepoStats, increment: number) => ({
-      ...state,
-      stars: state.stars + increment,
-    })
-  );
-
-  const handleOptimisticStar = () => {
-    startTransition(async () => {
-      addOptimisticStar(1);
-      // Demo: Simulate network delay to demonstrate optimistic UI pattern
-      await new Promise((resolve) =>
-        setTimeout(resolve, ANIMATION_DURATION_STATS)
-      );
-    });
-  };
-
-  const statItems = buildStatItems(optimisticStats, hasProjectBoard);
+  const { data: stats } = useRepoStatsQuery(repoPath);
+  const statItems = buildStatItems(stats, hasProjectBoard);
 
   return (
     <>
       {statItems.map(({ key, label, value }) => (
         <AnimatedStat key={key} label={label} value={value} />
       ))}
-      <Button
-        variant="text"
-        size="small"
-        onClick={handleOptimisticStar}
-        sx={buttonSx}
-      >
-        Already starred it? Reflect it instantly
-      </Button>
     </>
   );
 }

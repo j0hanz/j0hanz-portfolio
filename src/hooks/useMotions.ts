@@ -46,6 +46,7 @@ import {
   gestureVariants,
   REDUCED_MOTION_TARGET,
   timelineCardVariants,
+  timelineDescriptionVariants,
   transitions,
   viewportConfig,
   viewportPresets,
@@ -723,6 +724,21 @@ export function useCardInView(viewportPreset: UseInViewOptions) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useMotionInView(cardRef, viewportPreset);
   return { cardRef, isInView };
+}
+
+// Shared hook for timeline card motion with description animations
+export function useTimelineCardMotion(
+  viewportPreset: UseInViewOptions,
+  variants: Variants = timelineDescriptionVariants
+) {
+  const { cardRef, isInView } = useCardInView(viewportPreset);
+
+  const itemMotion = useMotionVariant(variants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+  });
+
+  return { cardRef, isInView, itemMotion };
 }
 
 // ============================================================================

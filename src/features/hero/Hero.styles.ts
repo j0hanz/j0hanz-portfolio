@@ -1,5 +1,4 @@
 import { alpha, SxProps, Theme } from '@mui/material';
-import { MotionStyle } from 'motion/react';
 
 import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
 import {
@@ -19,7 +18,7 @@ export const heroNameStyles: React.CSSProperties = {
 } as const;
 
 // Cursor for typing effect - uses transform for hardware acceleration
-export const cursorStyle: MotionStyle = {
+export const cursorStyle: React.CSSProperties = {
   display: 'inline-block',
   width: '2px',
   height: '1.3em',

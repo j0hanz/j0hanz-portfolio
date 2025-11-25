@@ -14,11 +14,11 @@ import {
   SwipeableDrawer,
   Typography,
 } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
+import CvModalPortal from '@/components/CvModalPortal';
 import DarkModeToggle from '@/components/DarkModeToggle';
-import ModalCv from '@/components/ModalCv';
 import {
   closeButtonSx,
   connectTextSx,
@@ -352,15 +352,7 @@ function NavBar(): JSX.Element {
         </Box>
       </Container>
 
-      <AnimatePresence initial={false} mode="wait">
-        {cvModal.isOpen && (
-          <ModalCv
-            key="navbar-cv-modal"
-            show={cvModal.isOpen}
-            handleClose={cvModal.close}
-          />
-        )}
-      </AnimatePresence>
+      <CvModalPortal isOpen={cvModal.isOpen} onClose={cvModal.close} />
     </>
   );
 }

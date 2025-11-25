@@ -1,4 +1,6 @@
-import { useEffect, useEffectEvent } from 'react';
+import { useEffect } from 'react';
+
+import useEventCallback from './useEventCallback';
 
 // Attaches event listener to element/window/document with auto cleanup
 export function useEventListener<
@@ -19,7 +21,7 @@ export function useEventListener<
   options?: boolean | AddEventListenerOptions
 ) {
   // Create a stable callback that always has the latest handler
-  const onEvent = useEffectEvent(handler);
+  const onEvent = useEventCallback(handler);
 
   useEffect(() => {
     // Define the target element
@@ -37,7 +39,7 @@ export function useEventListener<
     return () => {
       targetElement.removeEventListener(eventName, eventListener, options);
     };
-  }, [eventName, element, options]);
+  }, [eventName, element, options, onEvent]);
 }
 
 export default useEventListener;

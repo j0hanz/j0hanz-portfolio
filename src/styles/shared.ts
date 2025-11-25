@@ -114,6 +114,17 @@ export const listContainerSx: SxProps<Theme> = {
   color: 'text.secondary',
 };
 
+// Timeline card wrapper styles
+export const timelineCardWrapperSx: SxProps<Theme> = {
+  position: 'relative',
+  zIndex: 1,
+};
+
+// Description wrapper for timeline items
+export const timelineDescriptionWrapperSx: SxProps<Theme> = {
+  mb: 2,
+};
+
 // Card base styling
 export const cardBaseSx: SxProps<Theme> = {
   height: 1,

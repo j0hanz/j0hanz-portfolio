@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SchoolTwoTone, VerifiedTwoTone } from '@mui/icons-material';
-import { Box, type SxProps, type Theme } from '@mui/material';
+import { Box } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
 import Button from '@/components/Button';
@@ -9,45 +9,41 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
-import {
-  buttonPopVariants,
-  timelineDescriptionVariants,
-  viewportPresets,
-} from '@/config/motion';
+import { buttonPopVariants, viewportPresets } from '@/config/motion';
 import type { EducationCardProps } from '@/config/types';
 import {
-  useCardInView,
   useModal,
   useMotionVariant,
+  useTimelineCardMotion,
   useTimelineSectionController,
 } from '@/hooks';
 import education from '@/lib/data/education';
-import { credentialButtonSx, descriptionTextSx } from '@/styles/shared';
+import {
+  credentialButtonSx,
+  descriptionTextSx,
+  timelineDescriptionWrapperSx,
+} from '@/styles/shared';
 import { createDurationMeta, createSchoolMeta } from '@/utils/metadata';
 
 import Credential from './Credential';
 
-// Constants
-const descriptionWrapperSx: SxProps<Theme> = {
-  mb: 2,
-};
+// Constants moved to shared styles
 
 function EducationCard({
   education,
   onShowModal,
   showDuration = true,
 }: EducationCardProps & { showDuration?: boolean }): React.JSX.Element {
-  const { cardRef, isInView } = useCardInView(viewportPresets.cardLarge);
+  const {
+    cardRef,
+    isInView,
+    itemMotion: descriptionMotion,
+  } = useTimelineCardMotion(viewportPresets.cardLarge);
 
   const metadata = [createSchoolMeta(education.school)];
   if (showDuration) {
     metadata.push(createDurationMeta(education.duration));
   }
-
-  const descriptionMotion = useMotionVariant(timelineDescriptionVariants, {
-    initial: 'hidden',
-    animate: isInView ? 'visible' : 'hidden',
-  });
 
   const buttonMotion = useMotionVariant(buttonPopVariants, {
     initial: 'hidden',
@@ -62,7 +58,7 @@ function EducationCard({
         dataAttributes={{ 'data-edu-card': 'true' }}
       >
         {education.description && (
-          <Box sx={descriptionWrapperSx}>
+          <Box sx={timelineDescriptionWrapperSx}>
             {education.description.map((desc, index) => (
               <Box
                 component={motion.p}

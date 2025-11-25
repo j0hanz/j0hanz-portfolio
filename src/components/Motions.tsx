@@ -1,7 +1,13 @@
 import { useRef } from 'react';
 
 import { Box } from '@mui/material';
-import { AnimatePresence, motion, usePresenceData } from 'motion/react';
+import {
+  AnimatePresence,
+  motion,
+  usePresenceData,
+  useTime,
+  useTransform,
+} from 'motion/react';
 
 import {
   fadeInViewVariants,
@@ -387,6 +393,99 @@ export function AnimatedSvgPath({
           : getTransition('easeInOut', { duration })
       }
     />
+  );
+}
+
+// ============================================================================
+// BLINKING CURSOR
+// ============================================================================
+
+// Blinking cursor for text input effects using time-based animation
+export function BlinkingCursor({
+  style,
+  blinkDuration = 900,
+}: {
+  style?: React.CSSProperties;
+  blinkDuration?: number;
+}): React.JSX.Element | null {
+  const { prefersReducedMotion } = useAnimationConfig();
+  const time = useTime();
+
+  // Smooth sine-wave opacity: 0 → 1 → 0 over the cycle
+  const opacity = useTransform(time, (t) => {
+    const normalized = (t / blinkDuration) % 1;
+    return Math.sin(normalized * Math.PI);
+  });
+
+  if (prefersReducedMotion) return null;
+
+  return <motion.span aria-hidden="true" style={{ ...style, opacity }} />;
+}
+
+// ============================================================================
+// ANIMATED CHECKMARK
+// ============================================================================
+
+// Animated checkmark with circle and path draw effect
+export function AnimatedCheckmark({
+  size = 38,
+  strokeWidth = 2,
+}: {
+  size?: number;
+  strokeWidth?: number;
+}): React.JSX.Element {
+  const pathRef = useRef<SVGPathElement>(null);
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  // Circle circumference for stroke-dasharray
+  const circleCircumference = 2 * Math.PI * 9; // r=9
+
+  return (
+    <motion.svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+    >
+      <motion.circle
+        cx="12"
+        cy="12"
+        r="9"
+        initial={{
+          strokeDasharray: circleCircumference,
+          strokeDashoffset: prefersReducedMotion ? 0 : circleCircumference,
+        }}
+        animate={{ strokeDashoffset: 0 }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 20,
+          duration: 0.6,
+        }}
+      />
+      <motion.path
+        ref={pathRef}
+        d="M7.5 12.5l3 3.2 6-6.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{
+          pathLength: prefersReducedMotion ? 1 : 0,
+        }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 20,
+          delay: 0.2,
+          duration: 0.6,
+        }}
+      />
+    </motion.svg>
   );
 }
 

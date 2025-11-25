@@ -27,6 +27,18 @@ const titleSx: SxProps<Theme> = {
   fontWeight: 400,
 };
 
+const subtitleSx: SxProps<Theme> = {
+  color: 'text.secondary',
+  mt: 1,
+  textAlign: 'center',
+};
+
+const headerActionsSx: SxProps<Theme> = {
+  mt: 2,
+  display: 'flex',
+  justifyContent: 'center',
+};
+
 function SectionContainer({
   id,
   title,
@@ -35,6 +47,8 @@ function SectionContainer({
   className = '',
   sx,
   headingLevel = 'h2',
+  subtitle,
+  headerActions,
 }: SectionContainerProps): React.JSX.Element {
   return (
     <Box component="section" id={id} className={className} sx={sx}>
@@ -50,6 +64,12 @@ function SectionContainer({
             {title}
           </Typography>
         </Stack>
+        {subtitle && (
+          <Typography variant="body1" sx={subtitleSx}>
+            {subtitle}
+          </Typography>
+        )}
+        {headerActions && <Box sx={headerActionsSx}>{headerActions}</Box>}
         {children}
       </Container>
     </Box>

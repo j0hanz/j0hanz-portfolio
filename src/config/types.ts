@@ -314,12 +314,6 @@ export interface ScrollToTopProps {
   window?: () => Window;
 }
 
-// --- Skeleton Components ---
-export interface ImageSkeletonProps {
-  aspectRatio?: number;
-  width?: string | number;
-}
-
 // --- Global UI Components ---
 export interface GlobalLoaderProps {
   isLoading: boolean;
@@ -348,11 +342,19 @@ export type ThemeModeUpdater = (
   value: PaletteMode | ((previous: PaletteMode) => PaletteMode)
 ) => void;
 
-export interface ThemeModeValue {
+// Split state for render optimization - read-only state
+export interface ThemeModeState {
   mode: PaletteMode;
+}
+
+// Split actions for render optimization - action dispatchers
+export interface ThemeModeActions {
   toggleMode: () => void;
   setMode: ThemeModeUpdater;
 }
+
+// Combined type for backwards compatibility
+export interface ThemeModeValue extends ThemeModeState, ThemeModeActions {}
 
 export type SectionMotionVariantId =
   | 'hero'
@@ -607,6 +609,10 @@ export interface SectionContainerProps {
   className?: string;
   sx?: SxProps<Theme>;
   headingLevel?: 'h1' | 'h2' | 'h3' | 'h4';
+  /** Optional subtitle below the main title */
+  subtitle?: ReactNode;
+  /** Optional actions/buttons displayed in the header */
+  headerActions?: ReactNode;
 }
 
 export interface SectionWrapperProps {
@@ -868,14 +874,6 @@ export interface UseArrayReturn<T> {
 
 export interface UseClickOutsideOptions {
   enabled?: boolean;
-}
-
-export interface UseCounterReturn {
-  count: number;
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-  set: (value: number) => void;
 }
 
 export type CopyResult = {

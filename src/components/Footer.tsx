@@ -28,7 +28,7 @@ import {
 } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
-import ModalCv from './ModalCv';
+import CvModalPortal from './CvModalPortal';
 
 const footerSx: SxProps<Theme> = {
   bgcolor: 'neutral.dark',
@@ -213,7 +213,7 @@ function Footer(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      <ModalCv show={cvModal.isOpen} handleClose={cvModal.close} />
+      <CvModalPortal isOpen={cvModal.isOpen} onClose={cvModal.close} />
     </Box>
   );
 }

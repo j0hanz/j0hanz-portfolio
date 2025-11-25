@@ -16,6 +16,7 @@ import { motion } from 'motion/react';
 import Badges from '@/components/Badges';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
+import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
 import { FORM_RESET_DELAY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
@@ -31,7 +32,6 @@ import {
   useInView,
   useMotionVariant,
   useSnackbar,
-  useSvgPathDraw,
 } from '@/hooks';
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
 
@@ -54,64 +54,29 @@ const clearTextSx: SxProps<Theme> = {
   display: { xs: 'none', sm: 'inline' },
 };
 
-// Creates ContactFormValues from FormData
+// Creates ContactFormValues from FormData with null safety
 function extractFormValues(formData: FormData): ContactFormValues {
-  return {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    company: (formData.get('company') as string) || '',
-    url: (formData.get('url') as string) || '',
-    message: formData.get('message') as string,
+  const getString = (key: string): string => {
+    const value = formData.get(key);
+    return typeof value === 'string' ? value : '';
   };
-}
 
-// Animated checkmark path component using useSvgPathDraw
-function AnimatedCheckmark(): React.JSX.Element {
-  const pathRef = useRef<SVGPathElement>(null);
-  const { pathLength } = useSvgPathDraw(pathRef, {
-    duration: 0.6,
-    delay: 0.2,
-    once: false,
-  });
-  const { prefersReducedMotion } = useAnimationConfig();
+  const name = getString('name');
+  const email = getString('email');
+  const message = getString('message');
 
-  return (
-    <motion.svg
-      width="38"
-      height="38"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-    >
-      <motion.circle
-        cx="12"
-        cy="12"
-        r="9"
-        initial={{
-          strokeDasharray: 56.5,
-          strokeDashoffset: prefersReducedMotion ? 0 : 56.5,
-        }}
-        animate={{ strokeDashoffset: 0 }}
-        transition={{
-          type: 'spring',
-          stiffness: 100,
-          damping: 20,
-          duration: 0.6,
-        }}
-      />
-      <motion.path
-        ref={pathRef}
-        d="M7.5 12.5l3 3.2 6-6.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        style={{ pathLength }}
-      />
-    </motion.svg>
-  );
+  // Validate required fields are present
+  if (!name || !email || !message) {
+    throw new Error('Required form fields are missing or invalid');
+  }
+
+  return {
+    name,
+    email,
+    company: getString('company'),
+    url: getString('url'),
+    message,
+  };
 }
 
 function SuccessIndicator({
@@ -215,6 +180,10 @@ function ContactFormContent(): React.JSX.Element {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Clear any pending auto-reset on new submission
+    reset();
+
     const values = extractFormValues(new FormData(e.currentTarget));
 
     mutate(values, {

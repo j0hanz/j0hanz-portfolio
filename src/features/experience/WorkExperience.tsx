@@ -8,15 +8,15 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
-import { timelineDescriptionVariants, viewportPresets } from '@/config/motion';
+import { viewportPresets } from '@/config/motion';
 import type { ExperienceCardProps } from '@/config/types';
-import {
-  useCardInView,
-  useMotionVariant,
-  useTimelineSectionController,
-} from '@/hooks';
+import { useTimelineCardMotion, useTimelineSectionController } from '@/hooks';
 import experiences from '@/lib/data/experiences';
-import { listContainerSx, sectionSpacingSx } from '@/styles/shared';
+import {
+  listContainerSx,
+  sectionSpacingSx,
+  timelineCardWrapperSx,
+} from '@/styles/shared';
 import { createDurationMeta, createWorkplaceMeta } from '@/utils/metadata';
 
 function ExperienceCard({
@@ -25,12 +25,7 @@ function ExperienceCard({
 }: Omit<ExperienceCardProps, 'align'> & {
   showDuration?: boolean;
 }): React.JSX.Element {
-  const { cardRef, isInView } = useCardInView(viewportPresets.card);
-
-  const itemMotion = useMotionVariant(timelineDescriptionVariants, {
-    initial: 'hidden',
-    animate: isInView ? 'visible' : 'hidden',
-  });
+  const { cardRef, itemMotion } = useTimelineCardMotion(viewportPresets.card);
 
   const metadata = [createWorkplaceMeta(experience.workplace)];
   if (showDuration) {
@@ -38,7 +33,7 @@ function ExperienceCard({
   }
 
   return (
-    <Box ref={cardRef} sx={{ position: 'relative', zIndex: 1 }}>
+    <Box ref={cardRef} sx={timelineCardWrapperSx}>
       <TimelineCard
         title={experience.title}
         metadata={metadata}

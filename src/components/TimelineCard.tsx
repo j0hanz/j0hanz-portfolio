@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 import { Box, type SxProps, type Theme } from '@mui/material';
 
@@ -16,7 +16,29 @@ const cardWrapperSx: SxProps<Theme> = {
   textAlign: 'left',
 };
 
-function TimelineCard({
+const contentWrapperSx: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 2,
+};
+
+// Content slot for timeline card body
+function Content({ children }: { children: ReactNode }): JSX.Element {
+  return <Box sx={contentWrapperSx}>{children}</Box>;
+}
+
+// Actions slot for timeline card footer (buttons, links)
+function Actions({
+  children,
+  sx,
+}: {
+  children: ReactNode;
+  sx?: SxProps<Theme>;
+}): JSX.Element {
+  return <Box sx={sx}>{children}</Box>;
+}
+
+function TimelineCardRoot({
   title,
   metadata,
   children,
@@ -41,5 +63,11 @@ function TimelineCard({
     </Box>
   );
 }
+
+// Compound component pattern with attached sub-components
+const TimelineCard = Object.assign(TimelineCardRoot, {
+  Content,
+  Actions,
+});
 
 export default TimelineCard;

@@ -48,15 +48,13 @@ export function SnackbarProvider({
     setOpen(false);
   });
 
-  const handleClose = (
-    _event?: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason
-  ) => {
-    if (reason === 'clickaway') {
-      return;
+  // Wrap with useEventCallback for stable reference in Snackbar onClose
+  const handleClose = useEventCallback(
+    (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+      if (reason === 'clickaway') return;
+      setOpen(false);
     }
-    setOpen(false);
-  };
+  );
 
   // React 19: Render context directly without .Provider
   return (

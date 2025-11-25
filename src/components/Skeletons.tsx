@@ -1,59 +1,4 @@
-import { Box, Skeleton, Stack, type SxProps, type Theme } from '@mui/material';
-
-import type { ImageSkeletonProps } from '@/config/types';
-
-// Card skeleton for project cards
-const cardSkeletonSx: SxProps<Theme> = {
-  borderRadius: 2,
-  height: '100%',
-  minHeight: 280,
-};
-
-const headerSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 1,
-  mb: 2,
-};
-
-const chipContainerSx: SxProps<Theme> = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: 0.5,
-  mb: 2,
-};
-
-const actionsSx: SxProps<Theme> = {
-  display: 'flex',
-  gap: 1,
-  mt: 'auto',
-};
-
-export function CardSkeleton(): React.JSX.Element {
-  return (
-    <Box sx={cardSkeletonSx}>
-      <Box sx={headerSx}>
-        <Skeleton variant="circular" width={40} height={40} />
-        <Box sx={{ flex: 1 }}>
-          <Skeleton variant="text" width="60%" height={28} />
-          <Skeleton variant="text" width="40%" height={20} />
-        </Box>
-      </Box>
-      <Skeleton variant="text" width="100%" />
-      <Skeleton variant="text" width="90%" />
-      <Skeleton variant="text" width="75%" sx={{ mb: 2 }} />
-      <Box sx={chipContainerSx}>
-        {[1, 2, 3, 4].map((i) => (
-          <Skeleton key={i} variant="rounded" width={60} height={24} />
-        ))}
-      </Box>
-      <Box sx={actionsSx}>
-        <Skeleton variant="rounded" width={80} height={36} />
-        <Skeleton variant="rounded" width={80} height={36} />
-      </Box>
-    </Box>
-  );
-}
+import { Box, Skeleton, type SxProps, type Theme } from '@mui/material';
 
 // Section skeleton for loading entire sections - minimal to prevent flash
 export function SectionSkeleton(): React.JSX.Element {
@@ -72,87 +17,6 @@ export function SectionSkeleton(): React.JSX.Element {
   );
 }
 
-// Timeline skeleton for education/experience sections
-export function TimelineSkeleton(): React.JSX.Element {
-  return (
-    <Box sx={{ width: '100%' }}>
-      {[1, 2, 3].map((i) => (
-        <Box key={i} sx={{ display: 'flex', gap: 2, mb: 3 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Skeleton variant="circular" width={40} height={40} />
-            <Skeleton
-              variant="rectangular"
-              width={2}
-              height={80}
-              sx={{ my: 1 }}
-            />
-          </Box>
-          <Box sx={{ flex: 1 }}>
-            <Skeleton variant="text" width="50%" height={28} />
-            <Skeleton variant="text" width="30%" height={20} sx={{ mb: 1 }} />
-            <Skeleton variant="text" width="100%" />
-            <Skeleton variant="text" width="90%" />
-          </Box>
-        </Box>
-      ))}
-    </Box>
-  );
-}
-
-// Grid skeleton for skills section
-export function SkillsGridSkeleton(): React.JSX.Element {
-  return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-        gap: 2,
-      }}
-    >
-      {Array.from({ length: 12 }).map((_, i) => (
-        <Box key={i} sx={{ textAlign: 'center' }}>
-          <Skeleton
-            variant="rounded"
-            width={80}
-            height={80}
-            sx={{ mx: 'auto', mb: 1 }}
-          />
-          <Skeleton variant="text" width={60} sx={{ mx: 'auto' }} />
-        </Box>
-      ))}
-    </Box>
-  );
-}
-
-// Form skeleton for contact form
-export function FormSkeleton(): React.JSX.Element {
-  return (
-    <Stack spacing={3}>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Box sx={{ flex: 1 }}>
-          <Skeleton variant="text" width={60} height={20} sx={{ mb: 0.5 }} />
-          <Skeleton variant="rounded" height={48} />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <Skeleton variant="text" width={60} height={20} sx={{ mb: 0.5 }} />
-          <Skeleton variant="rounded" height={48} />
-        </Box>
-      </Box>
-      <Box>
-        <Skeleton variant="text" width={80} height={20} sx={{ mb: 0.5 }} />
-        <Skeleton variant="rounded" height={120} />
-      </Box>
-      <Skeleton variant="rounded" width={120} height={42} />
-    </Stack>
-  );
-}
-
 // Stats skeleton for project stats
 export function StatsSkeleton(): React.JSX.Element {
   return (
@@ -167,41 +31,50 @@ export function StatsSkeleton(): React.JSX.Element {
   );
 }
 
-// Avatar skeleton for profile sections
-export function AvatarSkeleton({
-  size = 120,
-}: {
-  size?: number;
-}): React.JSX.Element {
+// Profile image skeleton for Hero section
+const profileSkeletonSx: SxProps<Theme> = {
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+};
+
+export function ProfileSkeleton(): React.JSX.Element {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 2,
-      }}
-    >
-      <Skeleton variant="circular" width={size} height={size} />
-      <Skeleton variant="text" width={size * 1.2} height={32} />
-      <Skeleton variant="text" width={size * 0.8} height={20} />
-    </Box>
+    <Skeleton variant="circular" animation="wave" sx={profileSkeletonSx} />
   );
 }
 
-// Image skeleton with aspect ratio
-export function ImageSkeleton({
-  aspectRatio = 16 / 9,
-  width = '100%',
-}: ImageSkeletonProps): React.JSX.Element {
+// Card skeleton for generic card loading states
+const cardSkeletonSx: SxProps<Theme> = {
+  borderRadius: 2,
+};
+
+export function CardSkeleton({
+  height = 200,
+}: {
+  height?: number | string;
+}): React.JSX.Element {
   return (
     <Skeleton
       variant="rounded"
-      width={width}
-      sx={{
-        aspectRatio,
-        height: 'auto',
-      }}
+      animation="wave"
+      height={height}
+      sx={cardSkeletonSx}
     />
+  );
+}
+
+// Timeline card skeleton for education/experience sections
+export function TimelineCardSkeleton(): React.JSX.Element {
+  return (
+    <Box sx={{ width: '100%', maxWidth: 520 }}>
+      <Skeleton
+        variant="rounded"
+        animation="wave"
+        height={180}
+        sx={cardSkeletonSx}
+      />
+    </Box>
   );
 }

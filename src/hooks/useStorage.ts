@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   StorageSource,
@@ -142,7 +142,7 @@ export function useStorage<T>(
 
   const get = () => readValue();
 
-  const onStorageChange = useEffectEvent((event: StorageEvent) => {
+  const onStorageChange = useEventCallback((event: StorageEvent) => {
     if (event.key === key && event.storageArea === resolvedStorage) {
       setValue(readValue());
     }
@@ -157,7 +157,7 @@ export function useStorage<T>(
 
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
-  }, [listen, resolvedStorage]);
+  }, [listen, resolvedStorage, onStorageChange]);
 
   return {
     value,

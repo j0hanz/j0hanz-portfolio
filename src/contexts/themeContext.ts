@@ -1,7 +1,18 @@
 import { createContext } from 'react';
 
-import { ThemeModeValue } from '@/config/types';
+import type { ThemeModeActions, ThemeModeState } from '@/config/types';
 
-export type { ThemeModeUpdater, ThemeModeValue } from '@/config/types';
+export type {
+  ThemeModeActions,
+  ThemeModeState,
+  ThemeModeUpdater,
+} from '@/config/types';
 
-export const ThemeMode = createContext<ThemeModeValue | null>(null);
+// Split context for render optimization - components that only read mode won't re-render on action changes
+export const ThemeModeStateContext = createContext<ThemeModeState | null>(null);
+export const ThemeModeActionsContext = createContext<ThemeModeActions | null>(
+  null
+);
+
+// Legacy single context export for backwards compatibility during migration
+export const ThemeMode = ThemeModeStateContext;
