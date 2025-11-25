@@ -52,13 +52,17 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
   const renderDemoButton = () => {
     if (project.demo) {
       return (
-        <ActionButton
-          href={project.demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          icon={<PlayArrowRounded sx={iconBody2Sx} />}
-          label="Demo"
-        />
+        <Tooltip title="View live demo" placement="bottom">
+          <Box component="span" sx={tooltipWrapperSx}>
+            <ActionButton
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              icon={<PlayArrowRounded sx={iconBody2Sx} />}
+              label="Demo"
+            />
+          </Box>
+        </Tooltip>
       );
     }
 
@@ -83,22 +87,30 @@ const ProjectLinks = ({ project }: ProjectLinksProps): React.JSX.Element => {
         flexWrap="wrap"
         gap={1}
       >
-        <ActionButton
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          color="neutral"
-          icon={<SiGithub />}
-          label="GitHub"
-        />
-        <ActionButton
-          type="button"
-          onClick={handleCopyRepo}
-          color="inherit"
-          variant="text"
-          icon={<ContentCopyRounded sx={iconBody2Sx} />}
-          label="Copy"
-        />
+        <Tooltip title="View source code" placement="bottom">
+          <Box component="span" sx={tooltipWrapperSx}>
+            <ActionButton
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              color="neutral"
+              icon={<SiGithub />}
+              label="GitHub"
+            />
+          </Box>
+        </Tooltip>
+        <Tooltip title="Copy repository URL" placement="bottom">
+          <Box component="span" sx={tooltipWrapperSx}>
+            <ActionButton
+              type="button"
+              onClick={handleCopyRepo}
+              color="inherit"
+              variant="text"
+              icon={<ContentCopyRounded sx={iconBody2Sx} />}
+              label="Copy"
+            />
+          </Box>
+        </Tooltip>
         {renderDemoButton()}
       </Stack>
     </Grid>

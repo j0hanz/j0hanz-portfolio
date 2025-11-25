@@ -61,6 +61,30 @@ const COMMON_PALETTE = {
     dark: '#004797',
     contrastText: '#f5f4f4',
   },
+  secondary: {
+    main: '#6c757d',
+    light: '#868e96',
+    dark: '#495057',
+    contrastText: '#ffffff',
+  },
+  success: {
+    main: '#28a745',
+    light: '#48c664',
+    dark: '#1e7e34',
+    contrastText: '#ffffff',
+  },
+  warning: {
+    main: '#ffc107',
+    light: '#ffcd39',
+    dark: '#d39e00',
+    contrastText: '#000000',
+  },
+  info: {
+    main: '#17a2b8',
+    light: '#3fc3d9',
+    dark: '#117a8b',
+    contrastText: '#ffffff',
+  },
   neutral: {
     main: '#313131',
     light: '#4a4a4a',

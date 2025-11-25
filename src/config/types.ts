@@ -844,9 +844,15 @@ declare module '@mui/material/styles' {
   interface Mixins {
     // Glassmorphism effect mixin (backdrop-filter + webkit-backdrop-filter)
     glass: CSSProperties;
+    // Heavy glassmorphism effect (stronger blur)
+    glassHeavy: CSSProperties;
+    // Light glassmorphism effect (subtle blur)
+    glassLight: CSSProperties;
   }
   interface MixinsOptions {
     glass?: CSSProperties;
+    glassHeavy?: CSSProperties;
+    glassLight?: CSSProperties;
   }
 
   interface Theme {
@@ -895,5 +901,12 @@ declare module '@mui/material/Button' {
     linkedin: true;
     pdf: true;
     sourceCode: true;
+  }
+}
+
+declare module '@mui/material/Chip' {
+  interface ChipPropsVariantOverrides {
+    soft: true;
+    gradient: true;
   }
 }

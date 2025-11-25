@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import { Box, Container, Skeleton, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { AnimatePresence, motion, useTransform } from 'motion/react';
 
@@ -20,6 +20,7 @@ import {
   useAnimationConfig,
   useAnimationPriority,
   useHover,
+  useImageLoading,
   useModal,
   useMotionVariant,
   useTimeBasedAnimation,
@@ -98,6 +99,8 @@ function Hero(): React.JSX.Element {
   const isProfileHovered = useHover(profileImageRef);
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const animationPriority = useAnimationPriority();
+  const { isLoaded: isProfileLoaded, handleLoad: handleProfileLoad } =
+    useImageLoading();
 
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
@@ -122,6 +125,18 @@ function Hero(): React.JSX.Element {
                 transition={getTransition('easeOut')}
                 sx={profileWrapperSx}
               >
+                {!isProfileLoaded && (
+                  <Skeleton
+                    variant="circular"
+                    animation="wave"
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                )}
                 <Box
                   component={motion.img}
                   ref={profileImageRef}
@@ -137,8 +152,9 @@ function Hero(): React.JSX.Element {
                       imageModal.open();
                     }
                   }}
+                  onLoad={handleProfileLoad}
                   animate={{
-                    opacity: isProfileHovered ? 0.8 : 1,
+                    opacity: isProfileLoaded ? (isProfileHovered ? 0.8 : 1) : 0,
                     scale: isProfileHovered ? 1.02 : 1,
                   }}
                   transition={getTransition('smooth')}

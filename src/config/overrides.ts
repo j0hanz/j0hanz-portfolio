@@ -69,18 +69,24 @@ export const componentOverrides: Components<Theme> = {
       root: ({ theme }) => ({
         borderRadius: 8,
         padding: theme.spacing(1, 2),
+        transition: theme.transitions.create(
+          ['background-color', 'box-shadow', 'border-color', 'transform'],
+          { duration: theme.transitions.duration.short }
+        ),
       }),
     },
   },
   MuiPaper: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         borderRadius: 12,
-        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+        transition: theme.transitions.create(['transform', 'box-shadow'], {
+          duration: theme.transitions.duration.standard,
+        }),
         '&:hover': {
           transform: 'translateY(-4px)',
         },
-      },
+      }),
     },
   },
   MuiDialog: {
@@ -103,10 +109,34 @@ export const componentOverrides: Components<Theme> = {
   },
   MuiChip: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         fontWeight: 500,
-      },
+        transition: theme.transitions.create(
+          ['background-color', 'box-shadow', 'transform'],
+          { duration: theme.transitions.duration.shorter }
+        ),
+      }),
     },
+    variants: [
+      {
+        props: { variant: 'soft' },
+        style: ({ theme }) => ({
+          backgroundColor: `color-mix(in srgb, ${(theme.vars || theme).palette.primary.main} 12%, transparent)`,
+          color: (theme.vars || theme).palette.primary.main,
+          '&:hover': {
+            backgroundColor: `color-mix(in srgb, ${(theme.vars || theme).palette.primary.main} 20%, transparent)`,
+          },
+        }),
+      },
+      {
+        props: { variant: 'gradient' },
+        style: ({ theme }) => ({
+          background: `linear-gradient(135deg, ${(theme.vars || theme).palette.primary.main} 0%, ${(theme.vars || theme).palette.primary.dark} 100%)`,
+          color: (theme.vars || theme).palette.primary.contrastText,
+          border: 'none',
+        }),
+      },
+    ],
   },
   MuiTextField: {
     defaultProps: {
@@ -115,12 +145,101 @@ export const componentOverrides: Components<Theme> = {
   },
   MuiIconButton: {
     styleOverrides: {
-      root: {
-        transition: 'transform 0.2s ease',
+      root: ({ theme }) => ({
+        transition: theme.transitions.create(
+          ['transform', 'background-color'],
+          {
+            duration: theme.transitions.duration.shorter,
+          }
+        ),
         '&:hover': {
           transform: 'scale(1.1)',
         },
+      }),
+    },
+  },
+  MuiTooltip: {
+    defaultProps: {
+      arrow: true,
+      enterDelay: 300,
+      leaveDelay: 100,
+    },
+    styleOverrides: {
+      tooltip: ({ theme }) => ({
+        backgroundColor: (theme.vars || theme).palette.grey[800],
+        fontSize: theme.typography.pxToRem(12),
+        padding: theme.spacing(0.75, 1.5),
+        borderRadius: theme.shape.borderRadius,
+        boxShadow: theme.shadows[4],
+      }),
+      arrow: ({ theme }) => ({
+        color: (theme.vars || theme).palette.grey[800],
+      }),
+    },
+  },
+  MuiSkeleton: {
+    defaultProps: {
+      animation: 'wave',
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        backgroundColor: `color-mix(in srgb, ${(theme.vars || theme).palette.text.primary} 11%, transparent)`,
+        borderRadius: theme.shape.borderRadius,
+      }),
+      rounded: ({ theme }) => ({
+        borderRadius: Number(theme.shape.borderRadius) * 1.5,
+      }),
+    },
+  },
+  MuiBackdrop: {
+    styleOverrides: {
+      root: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)',
       },
+      invisible: {
+        backgroundColor: 'transparent',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+      },
+    },
+  },
+  MuiSpeedDial: {
+    styleOverrides: {
+      fab: ({ theme }) => ({
+        boxShadow: theme.shadows[6],
+        transition: theme.transitions.create(['transform', 'box-shadow'], {
+          duration: theme.transitions.duration.short,
+        }),
+        '&:hover': {
+          boxShadow: theme.shadows[10],
+        },
+      }),
+    },
+  },
+  MuiSpeedDialAction: {
+    styleOverrides: {
+      fab: ({ theme }) => ({
+        boxShadow: theme.shadows[3],
+        transition: theme.transitions.create(['transform', 'box-shadow'], {
+          duration: theme.transitions.duration.shorter,
+        }),
+        '&:hover': {
+          boxShadow: theme.shadows[6],
+          transform: 'scale(1.1)',
+        },
+      }),
+    },
+  },
+  MuiFab: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        transition: theme.transitions.create(
+          ['background-color', 'box-shadow', 'transform'],
+          { duration: theme.transitions.duration.short }
+        ),
+      }),
     },
   },
   MuiTimeline: {

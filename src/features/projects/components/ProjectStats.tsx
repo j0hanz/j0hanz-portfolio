@@ -1,16 +1,11 @@
 import React, { startTransition, Suspense, useOptimistic, useRef } from 'react';
 
-import {
-  Skeleton,
-  Stack,
-  type SxProps,
-  type Theme,
-  Typography,
-} from '@mui/material';
+import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { motion, useInView } from 'motion/react';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { StatsSkeleton } from '@/components/Skeletons';
 import { ANIMATION_DURATION_STATS } from '@/config/constants';
 import type { ProjectStatsProps, RepoStats } from '@/config/types';
 import { useAnimationConfig, useCountUp } from '@/hooks';
@@ -63,15 +58,6 @@ function buildStatItems(stats: RepoStats, includeIssues: boolean): StatItem[] {
     label: STAT_LABELS[key],
     value: stats[key],
   }));
-}
-
-function StatsSkeleton() {
-  return (
-    <Stack spacing={0.5} width="100%" aria-hidden="true">
-      <Skeleton variant="text" width="60%" height={20} />
-      <Skeleton variant="text" width="40%" height={20} />
-    </Stack>
-  );
 }
 
 function StatsErrorFallback() {

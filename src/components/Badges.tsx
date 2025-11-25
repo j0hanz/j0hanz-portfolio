@@ -1,13 +1,16 @@
 import {
   alpha,
   Box,
+  Skeleton,
   Stack,
   type SxProps,
   type Theme,
   Typography,
 } from '@mui/material';
+import { motion } from 'motion/react';
 
 import { BadgeItemProps } from '@/config/types';
+import { useAnimationConfig, useImageLoading } from '@/hooks';
 import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
 
 const wrapperSx: SxProps<Theme> = {
@@ -40,19 +43,46 @@ const stackSx: SxProps<Theme> = {
 
 // Component for individual badge items
 function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
+  const { isLoaded, handleLoad } = useImageLoading();
+  const { getTransition } = useAnimationConfig();
+
   return (
     <Box sx={wrapperSx}>
       <a href={href} target="_blank" rel="noopener noreferrer">
         <Box
-          component="img"
-          src={imgSrc}
-          alt="badge"
-          loading="lazy"
-          decoding="async"
-          width={140}
-          height={140}
-          sx={imgSx}
-        />
+          sx={{
+            position: 'relative',
+            width: { xs: 85, sm: 105, md: 115, lg: 140 },
+            height: { xs: 85, sm: 105, md: 115, lg: 140 },
+          }}
+        >
+          {!isLoaded && (
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          )}
+          <Box
+            component={motion.img}
+            src={imgSrc}
+            alt="badge"
+            loading="lazy"
+            decoding="async"
+            width={140}
+            height={140}
+            onLoad={handleLoad}
+            initial={false}
+            animate={{ opacity: isLoaded ? 1 : 0 }}
+            transition={getTransition('smooth')}
+            sx={imgSx}
+          />
+        </Box>
       </a>
       <Typography component="div" sx={textSx}>
         <div>Awarded:</div>
