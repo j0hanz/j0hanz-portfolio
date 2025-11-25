@@ -18,7 +18,6 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { FORM_RESET_DELAY } from '@/config/constants';
-import { successIndicatorVariants } from '@/config/motion';
 import type { ContactFormValues, SuccessIndicatorProps } from '@/config/types';
 import {
   useAnimationConfig,
@@ -26,6 +25,7 @@ import {
   useInView,
   useMotionVariant,
   useSnackbar,
+  useSvgPathDraw,
 } from '@/hooks';
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
 
@@ -87,21 +87,61 @@ function extractFormValues(formData: FormData): ContactFormValues {
   };
 }
 
+// Animated checkmark path component using useSvgPathDraw
+function AnimatedCheckmark(): React.JSX.Element {
+  const pathRef = useRef<SVGPathElement>(null);
+  const { pathLength } = useSvgPathDraw(pathRef, {
+    duration: 0.6,
+    delay: 0.2,
+    once: false,
+  });
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  return (
+    <motion.svg
+      width="38"
+      height="38"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+    >
+      <motion.circle
+        cx="12"
+        cy="12"
+        r="9"
+        initial={{
+          strokeDasharray: 56.5,
+          strokeDashoffset: prefersReducedMotion ? 0 : 56.5,
+        }}
+        animate={{ strokeDashoffset: 0 }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 20,
+          duration: 0.6,
+        }}
+      />
+      <motion.path
+        ref={pathRef}
+        d="M7.5 12.5l3 3.2 6-6.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ pathLength }}
+      />
+    </motion.svg>
+  );
+}
+
 function SuccessIndicator({
   visible,
 }: SuccessIndicatorProps): React.JSX.Element | null {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const { container, checkmarkCircle, checkmarkPath } =
-    successIndicatorVariants;
+  const { getTransition } = useAnimationConfig();
 
   if (!visible) return null;
-
-  const circleInitial = prefersReducedMotion
-    ? { strokeDashoffset: 0 }
-    : checkmarkCircle.initial;
-  const pathInitial = prefersReducedMotion
-    ? { pathLength: 1 }
-    : checkmarkPath.initial;
 
   return (
     <Stack
@@ -111,49 +151,15 @@ function SuccessIndicator({
       alignItems="center"
       justifyContent="center"
       spacing={1.5}
-      initial={container.initial}
-      animate={container.animate}
-      exit={container.exit}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
       transition={getTransition('smooth')}
       sx={successStackSx}
     >
-      <motion.svg
-        width="38"
-        height="38"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        color="success.main"
-      >
-        <motion.circle
-          cx="12"
-          cy="12"
-          r="9"
-          initial={circleInitial}
-          animate={checkmarkCircle.animate}
-          transition={{
-            type: 'spring',
-            stiffness: 100,
-            damping: 20,
-            duration: 0.6,
-          }}
-        />
-        <motion.path
-          d="M7.5 12.5l3 3.2 6-6.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={pathInitial}
-          animate={checkmarkPath.animate}
-          transition={{
-            type: 'spring',
-            stiffness: 100,
-            damping: 20,
-            delay: 0.15,
-            duration: 0.45,
-          }}
-        />
-      </motion.svg>
+      <Box sx={{ color: 'success.main' }}>
+        <AnimatedCheckmark />
+      </Box>
       <Typography variant="body2" color="success.main" sx={successTextSx}>
         Message sent!
       </Typography>

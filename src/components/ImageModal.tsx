@@ -7,12 +7,12 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { motion } from 'motion/react';
+import { motion, useMotionValue } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import BaseModal from '@/components/BaseModal';
 import { ImageModalProps } from '@/config/types';
-import { useAnimationConfig, useImageLoading } from '@/hooks';
+import { useAnimationConfig, useImageLoading, useVelocityTilt } from '@/hooks';
 
 const modalContentSx: SxProps<Theme> = {
   bgcolor: 'transparent',
@@ -48,13 +48,19 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
   const { isLoaded, handleLoad } = useImageLoading();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
+
+  // Track drag position for velocity-based tilt
+  const dragX = useMotionValue(0);
+  const tiltAngle = useVelocityTilt(dragX, 12);
+
   const dragProps = prefersReducedMotion
-    ? { drag: false as const }
+    ? { drag: false as const, style: imgStyle }
     : {
         drag: true as const,
         dragConstraints: constraintsRef,
         dragElastic: 0.2,
         whileTap: { scale: 0.98 },
+        style: { ...imgStyle, x: dragX, rotateY: tiltAngle },
       };
 
   return (
@@ -101,7 +107,6 @@ function ImageModal({ show, handleClose }: ImageModalProps): React.JSX.Element {
           animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.96 }}
           transition={getTransition('spring', { duration: 0.6 })}
           onLoad={handleLoad}
-          style={imgStyle}
           {...dragProps}
         />
       </Box>

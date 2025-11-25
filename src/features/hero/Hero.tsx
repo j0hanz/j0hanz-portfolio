@@ -4,7 +4,7 @@ import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useTransform } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
@@ -22,6 +22,7 @@ import {
   useHover,
   useModal,
   useMotionVariant,
+  useTimeBasedAnimation,
 } from '@/hooks';
 import { contactButtonSx } from '@/styles/shared';
 import { iconSx } from '@/styles/shared';
@@ -29,9 +30,7 @@ import { iconSx } from '@/styles/shared';
 import {
   buttonsStackSx,
   containerSx,
-  cursorAnimation,
   cursorStyle,
-  cursorTransition,
   downloadButtonSx,
   heroNameStyles,
   overlaySx,
@@ -77,6 +76,19 @@ const createHeroActions = (
       },
     },
   ] as const;
+
+// Blinking cursor using time-based animation
+function BlinkingCursor(): React.JSX.Element {
+  // 900ms blink cycle using useTimeBasedAnimation
+  const blinkProgress = useTimeBasedAnimation(900, false);
+  // Create smooth sine-wave opacity: 0 → 1 → 0 over the cycle
+  const opacity = useTransform(blinkProgress, (p) => {
+    const normalized = p % 1;
+    return Math.sin(normalized * Math.PI);
+  });
+
+  return <motion.span aria-hidden="true" style={{ ...cursorStyle, opacity }} />;
+}
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
@@ -169,14 +181,7 @@ function Hero(): React.JSX.Element {
                 sx={subtitleSx}
               >
                 Junior Full-Stack Developer
-                {!prefersReducedMotion && (
-                  <motion.span
-                    aria-hidden="true"
-                    animate={cursorAnimation}
-                    transition={cursorTransition}
-                    style={cursorStyle}
-                  />
-                )}
+                {!prefersReducedMotion && <BlinkingCursor />}
               </Typography>
               <Stack
                 direction="column"

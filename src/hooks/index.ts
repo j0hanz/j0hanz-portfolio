@@ -94,6 +94,18 @@ export {
   useMotionVariant,
   useInViewMotion,
   useCountUp,
+  // Motion v12 enhanced hooks
+  useMotionVelocity,
+  useTimeBasedAnimation,
+  useCursorFollow,
+  useCursorGradient,
+  useVelocityTilt,
+  useTimelineSequence,
+  useEnhancedScrollProgress,
+  useContinuousFrame,
+  useBatchedDomUpdate,
+  usePulse,
+  useSvgPathDraw,
 } from './useMotions';
 
 // ============================================================================

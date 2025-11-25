@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { useSmoothScrollProgress } from '@/hooks';
+import { useEnhancedScrollProgress } from '@/hooks';
 
-// Smooth scroll progress bar using useSpring for 120fps updates without re-renders
+// Smooth scroll progress bar using useSpring with velocity tracking
 export function ScrollProgressBar() {
-  const { smoothProgress } = useSmoothScrollProgress();
+  const { smoothProgress } = useEnhancedScrollProgress();
 
   return (
     <Box

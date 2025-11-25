@@ -1,17 +1,20 @@
 import { useRef } from 'react';
 
 import { Box } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, usePresenceData } from 'motion/react';
 
 import {
   fadeInViewVariants,
   pageTransitionVariants,
+  presenceAwareVariants,
   sectionVariants,
   staggerContainerVariants,
   staggerItemSimpleVariants,
+  svgPathVariants,
   viewportConfig,
 } from '@/config/motion';
 import type {
+  AnimateActivityProps,
   FadeInViewProps,
   MotionWrapperProps,
   SectionMotionVariantId,
@@ -267,7 +270,7 @@ export function PageTransitionWrapper({
       transition={{
         transform: prefersReducedMotion
           ? { duration: 0 }
-          : { type: 'spring', stiffness: 300, damping: 30 },
+          : { type: 'spring', visualDuration: 0.4, bounce: 0.15 },
         opacity: { duration: prefersReducedMotion ? 0 : 0.2 },
         layout: { duration: prefersReducedMotion ? 0 : 0.3 },
       }}
@@ -284,6 +287,109 @@ export function PageTransitionWrapper({
     >
       {children}
     </Box>
+  );
+}
+
+// ============================================================================
+// ANIMATE ACTIVITY WRAPPER
+// ============================================================================
+
+// AnimateActivity-style wrapper for tab/section visibility transitions
+export function AnimateActivityWrapper({
+  children,
+  mode,
+  layoutMode = 'sync',
+  onExitComplete,
+}: AnimateActivityProps) {
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  if (prefersReducedMotion) {
+    return mode === 'visible' ? <>{children}</> : null;
+  }
+
+  return (
+    <AnimatePresence
+      mode={layoutMode === 'pop' ? 'popLayout' : 'sync'}
+      onExitComplete={onExitComplete}
+    >
+      {mode === 'visible' && children}
+    </AnimatePresence>
+  );
+}
+
+// ============================================================================
+// PRESENCE-AWARE WRAPPER
+// ============================================================================
+
+// Wrapper that uses direction data from parent AnimatePresence
+export function PresenceAwareWrapper({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const direction = usePresenceData() as 'up' | 'down' | null;
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      className={className}
+      custom={direction}
+      variants={presenceAwareVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      transition={getTransition('springVisual')}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// SVG PATH ANIMATION
+// ============================================================================
+
+// Animated SVG path with draw effect
+export function AnimatedSvgPath({
+  d,
+  className,
+  stroke = 'currentColor',
+  strokeWidth = 2,
+  fill = 'transparent',
+  duration = 1.5,
+}: {
+  d: string;
+  className?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  fill?: string;
+  duration?: number;
+}) {
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+
+  return (
+    <motion.path
+      d={d}
+      className={className}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      fill={fill}
+      variants={svgPathVariants.draw}
+      initial="initial"
+      whileInView="animate"
+      viewport={{ once: true, amount: 0.5 }}
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : getTransition('easeInOut', { duration })
+      }
+    />
   );
 }
 

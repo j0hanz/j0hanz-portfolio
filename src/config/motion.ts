@@ -39,6 +39,11 @@ export const transitions = {
     damping: 32,
     mass: 1.05,
   },
+  springVisual: {
+    type: 'spring' as const,
+    visualDuration: 0.4,
+    bounce: 0.15,
+  },
   smooth: {
     type: 'tween' as const,
     ease: [0.4, 0, 0.2, 1],
@@ -147,20 +152,18 @@ function createGestureVariant(
   tapScale: number
 ) {
   return {
-    rest: { transform: 'scale(1) translateY(0px)' },
-    hover: { transform: `scale(${hoverScale}) translateY(${hoverY}px)` },
-    focus: {
-      transform: `scale(${hoverScale - 0.01}) translateY(${Math.max(hoverY, -2)}px)`,
-    },
-    tap: { transform: `scale(${tapScale}) translateY(0px)` },
+    rest: { scale: 1, y: 0 },
+    hover: { scale: hoverScale, y: hoverY },
+    focus: { scale: hoverScale - 0.01, y: Math.max(hoverY, -2) },
+    tap: { scale: tapScale, y: 0 },
   };
 }
 
 export const gestureVariants = {
   hoverScale: {
-    rest: { transform: 'scale(1)' },
-    hover: { transform: 'scale(1.05)' },
-    tap: { transform: 'scale(0.95)' },
+    rest: { scale: 1 },
+    hover: { scale: 1.05 },
+    tap: { scale: 0.95 },
   },
   cardHover: createGestureVariant(1.03, -6, 0.98),
   buttonTap: createGestureVariant(1.04, -2, 0.97),
@@ -206,9 +209,9 @@ export function createStaggerContainer(
 }
 
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, transform: 'translateY(24px) scale(0.98)' },
-  animate: { opacity: 1, transform: 'translateY(0px) scale(1)' },
-  exit: { opacity: 0, transform: 'translateY(-12px) scale(0.96)' },
+  initial: { opacity: 0, y: 24, scale: 0.98 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -12, scale: 0.96 },
 };
 
 // ============================================================================
@@ -347,14 +350,14 @@ export const staggerContainerVariants = {
 };
 
 export const staggerItemSimpleVariants = {
-  initial: { opacity: 0, transform: 'translateY(16px)' },
-  animate: { opacity: 1, transform: 'translateY(0px)' },
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
 };
 
 export const fadeInViewVariants = {
-  initial: { opacity: 0, transform: 'translateY(20px)' },
-  animate: { opacity: 1, transform: 'translateY(0px)' },
-  exit: { opacity: 0, transform: 'translateY(20px)' },
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 },
 };
 
 export const pageTransitionVariants = {
@@ -369,6 +372,25 @@ export const pageTransitionVariants = {
   exit: (direction: 'up' | 'down' | null) => ({
     transform: direction === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
     opacity: 0,
+  }),
+};
+
+// Direction-aware variants using usePresenceData
+export const presenceAwareVariants = {
+  enter: (direction: 'up' | 'down' | null) => ({
+    y: direction === 'down' ? 50 : -50,
+    opacity: 0,
+    scale: 0.98,
+  }),
+  center: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: 'up' | 'down' | null) => ({
+    y: direction === 'down' ? -50 : 50,
+    opacity: 0,
+    scale: 0.98,
   }),
 };
 
@@ -419,6 +441,45 @@ export const viewportConfigEager = {
   once: true,
   amount: 0.15,
   margin: '0px 0px -10% 0px',
+} as const;
+
+// ============================================================================
+// SVG PATH ANIMATION VARIANTS
+// ============================================================================
+
+export const svgPathVariants = {
+  draw: {
+    initial: { pathLength: 0, opacity: 0 },
+    animate: { pathLength: 1, opacity: 1 },
+    exit: { pathLength: 0, opacity: 0 },
+  },
+  drawReverse: {
+    initial: { pathLength: 1, opacity: 1 },
+    animate: { pathLength: 0, opacity: 0 },
+  },
+  strokeDash: {
+    initial: { strokeDashoffset: 100 },
+    animate: { strokeDashoffset: 0 },
+  },
+} as const;
+
+// ============================================================================
+// SCROLL-LINKED ANIMATION PRESETS
+// ============================================================================
+
+export const scrollLinkedPresets = {
+  parallax: (range: [number, number] = [-50, 50]) => ({
+    inputRange: [0, 1],
+    outputRange: range,
+  }),
+  fadeOnScroll: {
+    inputRange: [0, 0.3, 0.7, 1],
+    outputRange: [0, 1, 1, 0],
+  },
+  scaleOnScroll: {
+    inputRange: [0, 0.5, 1],
+    outputRange: [0.8, 1, 0.8],
+  },
 } as const;
 
 // ============================================================================

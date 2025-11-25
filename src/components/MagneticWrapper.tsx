@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 
 import type { MagneticWrapperProps } from '@/config/types';
-import { useReducedMotion } from '@/hooks';
+import { useBatchedDomUpdate, useReducedMotion } from '@/hooks';
 
 // Creates magnetic cursor effect on hover (hardware-accelerated)
 export function MagneticWrapper({
@@ -15,10 +15,11 @@ export function MagneticWrapper({
 }: MagneticWrapperProps) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  const frameRef = useRef<number | null>(null);
   const pendingPoint = useRef<{ clientX: number; clientY: number } | null>(
     null
   );
+  const isScheduled = useRef(false);
+  const { scheduleRead, scheduleRender } = useBatchedDomUpdate();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -28,15 +29,15 @@ export function MagneticWrapper({
   const springY = useSpring(y, springConfig);
 
   const scheduleUpdate = () => {
-    if (frameRef.current !== null) return;
+    if (isScheduled.current) return;
+    isScheduled.current = true;
 
-    frameRef.current = window.requestAnimationFrame(() => {
-      frameRef.current = null;
+    // Use Motion's frame utility for optimal batching
+    scheduleRead(() => {
       const point = pendingPoint.current;
-      pendingPoint.current = null;
-
       const target = ref.current;
       if (!point || !target) {
+        isScheduled.current = false;
         return;
       }
 
@@ -45,8 +46,13 @@ export function MagneticWrapper({
       const middleX = clientX - (left + width / 2);
       const middleY = clientY - (top + height / 2);
 
-      x.set(middleX * strength);
-      y.set(middleY * strength);
+      // Schedule motion value updates in render phase
+      scheduleRender(() => {
+        x.set(middleX * strength);
+        y.set(middleY * strength);
+        pendingPoint.current = null;
+        isScheduled.current = false;
+      });
     });
   };
 
@@ -64,17 +70,12 @@ export function MagneticWrapper({
     x.set(0);
     y.set(0);
     pendingPoint.current = null;
-    if (frameRef.current !== null) {
-      cancelAnimationFrame(frameRef.current);
-      frameRef.current = null;
-    }
+    isScheduled.current = false;
   };
 
   useEffect(() => {
     return () => {
-      if (frameRef.current !== null) {
-        cancelAnimationFrame(frameRef.current);
-      }
+      isScheduled.current = false;
     };
   }, []);
 

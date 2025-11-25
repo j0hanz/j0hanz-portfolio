@@ -2,19 +2,27 @@ import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   animate,
+  frame,
   stagger,
   useAnimate,
+  useAnimationFrame,
   useInView as useMotionInView,
   usePresence as useMotionPresence,
   useReducedMotion as useMotionReducedMotion,
+  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useScroll,
   useSpring,
+  useTime,
   useTransform,
+  useVelocity,
 } from 'motion/react';
 import type {
+  AnimationOptions,
   AnimationPlaybackControls,
+  DOMKeyframesDefinition,
+  ElementOrSelector,
   MotionProps,
   Target,
   Transition,
@@ -37,10 +45,13 @@ import type {
   AnimationPriority,
   AnimationSequenceControls,
   CardHoverMotion,
+  CursorFollowResult,
   MeasureRect,
   PresenceControls,
   ScrollProgressValue,
   SequenceAnimator,
+  TimelineControls,
+  TimelineSegment,
   TransitionPreset,
   UseMeasureReturn,
 } from '@/config/types';
@@ -170,8 +181,8 @@ export function useInViewMotion(
     };
   }
 
-  const defaultHidden = { opacity: 0, transform: 'translateY(20px)' };
-  const defaultVisible = { opacity: 1, transform: 'translateY(0px)' };
+  const defaultHidden = { opacity: 0, y: 20 };
+  const defaultVisible = { opacity: 1, y: 0 };
 
   return {
     initial: variants?.hidden ?? defaultHidden,
@@ -565,7 +576,7 @@ function animateElements(
 
   const keyframes = {
     opacity: [0, 1],
-    transform: ['translateY(20px)', 'translateY(0px)'],
+    y: [20, 0],
   };
 
   const options = useStagger
@@ -632,4 +643,274 @@ export function useSectionSequence(
       animateElements(scopeElement, selectors.cta, delay, true, 0.1);
     }
   });
+}
+
+// ============================================================================
+// MOTION V12 ENHANCED HOOKS
+// ============================================================================
+
+// Tracks velocity of a motion value for physics-based effects
+export function useMotionVelocity(
+  motionValue: ReturnType<typeof useMotionValue<number>>
+) {
+  return useVelocity(motionValue);
+}
+
+// Creates time-based animations (perpetual, no re-renders)
+export function useTimeBasedAnimation(duration: number, clamp = false) {
+  const time = useTime();
+
+  return useTransform(time, [0, duration], [0, 1], { clamp });
+}
+
+// Cursor-following motion values with spring physics
+export function useCursorFollow(
+  stiffness = 150,
+  damping = 20
+): CursorFollowResult {
+  const prefersReducedMotion = useReducedMotion();
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothX = useSpring(mouseX, { stiffness, damping });
+  const smoothY = useSpring(mouseY, { stiffness, damping });
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const handleMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      if (!isActive) setIsActive(true);
+    };
+
+    const handleLeave = () => setIsActive(false);
+
+    window.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseleave', handleLeave);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseleave', handleLeave);
+    };
+  }, [prefersReducedMotion, isActive, mouseX, mouseY]);
+
+  return {
+    x: prefersReducedMotion ? mouseX : smoothX,
+    y: prefersReducedMotion ? mouseY : smoothY,
+    isActive,
+  };
+}
+
+// Dynamic gradient that follows cursor position with cached rect for performance
+export function useCursorGradient(
+  ref: RefObject<HTMLElement | null>,
+  gradientSize = 50
+) {
+  const prefersReducedMotion = useReducedMotion();
+  const x = useMotionValue(50);
+  const y = useMotionValue(50);
+  const rectRef = useRef<DOMRect | null>(null);
+
+  const background = useMotionTemplate`
+    radial-gradient(
+      circle at ${x}% ${y}%,
+      rgba(255,255,255,0.15),
+      transparent ${gradientSize}%
+    )
+  `;
+
+  useEffect(() => {
+    if (prefersReducedMotion || !ref.current) return;
+
+    const element = ref.current;
+
+    // Cache rect initially and update on scroll/resize
+    const updateRect = () => {
+      rectRef.current = element.getBoundingClientRect();
+    };
+    updateRect();
+
+    const handleMove = (e: MouseEvent) => {
+      const rect = rectRef.current;
+      if (!rect) return;
+      x.set(((e.clientX - rect.left) / rect.width) * 100);
+      y.set(((e.clientY - rect.top) / rect.height) * 100);
+    };
+
+    element.addEventListener('mousemove', handleMove);
+    window.addEventListener('resize', updateRect);
+    window.addEventListener('scroll', updateRect, { passive: true });
+
+    return () => {
+      element.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('resize', updateRect);
+      window.removeEventListener('scroll', updateRect);
+    };
+  }, [prefersReducedMotion, ref, x, y]);
+
+  return { background, x, y };
+}
+
+// Velocity-based tilt effect for draggable elements
+export function useVelocityTilt(
+  motionValueX: ReturnType<typeof useMotionValue<number>>,
+  maxTilt = 15
+) {
+  const xVelocity = useVelocity(motionValueX);
+  return useTransform(xVelocity, [-1000, 0, 1000], [-maxTilt, 0, maxTilt]);
+}
+
+// Timeline sequencing for complex animation orchestration
+export function useTimelineSequence() {
+  const controlsRef = useRef<TimelineControls | null>(null);
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  const runTimeline = useEventCallback((segments: TimelineSegment[]) => {
+    if (prefersReducedMotion) return null;
+
+    // Build sequence array in Motion's expected format
+    type SequenceItem =
+      | [ElementOrSelector, DOMKeyframesDefinition]
+      | [ElementOrSelector, DOMKeyframesDefinition, AnimationOptions];
+    const sequence: SequenceItem[] = segments.map((seg) => {
+      if (seg.options) {
+        return [seg.target, seg.keyframes, seg.options] as [
+          ElementOrSelector,
+          DOMKeyframesDefinition,
+          AnimationOptions,
+        ];
+      }
+      return [seg.target, seg.keyframes] as [
+        ElementOrSelector,
+        DOMKeyframesDefinition,
+      ];
+    });
+
+    const controls = animate(sequence);
+
+    controlsRef.current = {
+      play: () => controls.play?.(),
+      pause: () => controls.pause?.(),
+      stop: () => controls.stop(),
+      get time() {
+        return controls.time;
+      },
+      set time(t: number) {
+        controls.time = t;
+      },
+      get duration() {
+        return controls.duration;
+      },
+      get speed() {
+        return controls.speed;
+      },
+      set speed(s: number) {
+        controls.speed = s;
+      },
+    };
+
+    return controlsRef.current;
+  });
+
+  useEffect(() => {
+    return () => {
+      controlsRef.current?.stop();
+    };
+  }, []);
+
+  return { runTimeline, controls: controlsRef.current };
+}
+
+// Smooth scroll progress with velocity tracking
+export function useEnhancedScrollProgress(
+  config = {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+    mass: 0.5,
+  }
+) {
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress, scrollY } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, config);
+  const velocity = useVelocity(smoothProgress);
+  const zeroVelocity = useMotionValue(0);
+
+  return {
+    scrollYProgress,
+    scrollY,
+    smoothProgress: prefersReducedMotion ? scrollYProgress : smoothProgress,
+    velocity: prefersReducedMotion ? zeroVelocity : velocity,
+  };
+}
+
+// Continuous animation frame for custom render loops
+export function useContinuousFrame(
+  callback: (time: number, delta: number) => void,
+  enabled = true
+) {
+  const prefersReducedMotion = useReducedMotion();
+
+  useAnimationFrame((time, delta) => {
+    if (!enabled || prefersReducedMotion) return;
+    callback(time, delta);
+  });
+}
+
+// Batched DOM operations using Motion's frame utility
+export function useBatchedDomUpdate() {
+  const scheduleRead = useEventCallback((callback: () => void) => {
+    frame.read(callback);
+  });
+
+  const scheduleRender = useEventCallback((callback: () => void) => {
+    frame.render(callback);
+  });
+
+  return { scheduleRead, scheduleRender };
+}
+
+// Pulsing animation using useTime
+export function usePulse(minScale = 1, maxScale = 1.1, duration = 2000) {
+  const prefersReducedMotion = useReducedMotion();
+  const time = useTime();
+
+  const scale = useTransform(time, (t) => {
+    if (prefersReducedMotion) return 1;
+    const progress = (Math.sin((t / duration) * Math.PI * 2) + 1) / 2;
+    return minScale + progress * (maxScale - minScale);
+  });
+
+  return scale;
+}
+
+// SVG path draw animation hook
+export function useSvgPathDraw(
+  ref: RefObject<SVGPathElement | null>,
+  options: { duration?: number; delay?: number; once?: boolean } = {}
+) {
+  const { duration = 1.5, delay = 0, once = true } = options;
+  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const isInView = useMotionInView(ref, { once, amount: 0.5 });
+  const pathLength = useMotionValue(prefersReducedMotion ? 1 : 0);
+
+  useEffect(() => {
+    if (!isInView || prefersReducedMotion) return;
+
+    const controls = animate(pathLength, 1, {
+      ...getTransition('easeOut', { duration, delay }),
+    });
+
+    return () => controls.stop();
+  }, [
+    isInView,
+    prefersReducedMotion,
+    pathLength,
+    getTransition,
+    duration,
+    delay,
+  ]);
+
+  return { pathLength, isInView };
 }

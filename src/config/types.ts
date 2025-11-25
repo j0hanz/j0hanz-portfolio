@@ -316,6 +316,7 @@ export type TransitionPreset =
   | 'spring'
   | 'springBouncy'
   | 'springSmooth'
+  | 'springVisual'
   | 'smooth'
   | 'easeInOut'
   | 'easeOut'
@@ -369,6 +370,50 @@ export interface AnimationSequenceControls {
 }
 
 export type AnimationPriority = 'high' | 'reduced';
+
+// Motion v12 Enhanced Types
+export interface VelocityConfig {
+  velocityFactor?: number;
+  clamp?: boolean;
+}
+
+export interface CursorFollowResult {
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+  isActive: boolean;
+}
+
+export interface TimeBasedAnimationConfig {
+  duration: number;
+  clamp?: boolean;
+}
+
+export type AnimateActivityMode = 'visible' | 'hidden';
+export type LayoutMode = 'sync' | 'pop';
+
+export interface AnimateActivityProps {
+  children: ReactNode;
+  mode: AnimateActivityMode;
+  layoutMode?: LayoutMode;
+  onExitComplete?: () => void;
+}
+
+export interface TimelineSegment {
+  target: ElementOrSelector;
+  keyframes: DOMKeyframesDefinition;
+  options?: AnimationOptions & { at?: number | string };
+}
+
+export type TimelineSequence = (TimelineSegment | string)[];
+
+export interface TimelineControls {
+  play: () => void;
+  pause: () => void;
+  stop: () => void;
+  time: number;
+  duration: number;
+  speed: number;
+}
 
 export interface MeasureRect {
   width: number;

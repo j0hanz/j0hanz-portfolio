@@ -10,7 +10,7 @@ import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer, staggerItemVariant } from '@/config/motion';
-import { useAnimationConfig } from '@/hooks';
+import { useAnimationConfig, usePulse } from '@/hooks';
 import skills from '@/lib/data/skills';
 import { sectionSpacingSx, SKEW_TRANSFORM } from '@/styles/shared';
 
@@ -56,6 +56,27 @@ const learningTextSx: SxProps<Theme> = {
   transform: SKEW_TRANSFORM,
 };
 
+// Learning badge with pulsing animation
+function LearningBadge(): React.JSX.Element {
+  const pulseScale = usePulse(1, 1.05, 2500);
+
+  return (
+    <motion.div style={{ scale: pulseScale }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        sx={learningStackSx}
+      >
+        <MenuBookTwoTone sx={learningIconSx} />
+        <Box component="span" sx={learningTextSx}>
+          Learning
+        </Box>
+      </Stack>
+    </motion.div>
+  );
+}
+
 // Rendering skills section
 function Skills(): React.JSX.Element {
   const { motionViewport, prefersReducedMotion } = useAnimationConfig();
@@ -94,19 +115,7 @@ function Skills(): React.JSX.Element {
           >
             <Card title={skill.label} sx={cardSx}>
               <Box component={skill.icon} sx={iconSx} />
-              {skill.learning && (
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  sx={learningStackSx}
-                >
-                  <MenuBookTwoTone sx={learningIconSx} />
-                  <Box component="span" sx={learningTextSx}>
-                    Learning
-                  </Box>
-                </Stack>
-              )}
+              {skill.learning && <LearningBadge />}
             </Card>
           </Grid>
         ))}

@@ -14,11 +14,11 @@ import { cardBaseSx } from '@/styles/shared';
 const MotionPaper = motion.create(MuiPaper);
 
 const contentSx: SxProps<Theme> = {
-  p: 2.5,
+  p: 2,
 };
 
 const subtitleSx: SxProps<Theme> = {
-  mb: 1.5,
+  mb: 1,
 };
 
 const BaseCard = function Card({
