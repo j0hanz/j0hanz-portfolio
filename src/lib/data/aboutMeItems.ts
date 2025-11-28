@@ -5,7 +5,7 @@ const aboutMeItems: Array<{
 }> = [
   {
     title: 'Tech Enthusiast',
-    description: 'Passionate about exploring new technologies.',
+    description: 'Passionate about technology.',
     hasCredential: false,
   },
   {
@@ -14,9 +14,19 @@ const aboutMeItems: Array<{
     hasCredential: false,
   },
   {
-    title: 'Full Stack Developer',
+    title: 'Frontend Developer',
     description: 'Completed Full Stack course.',
     hasCredential: true,
+  },
+  {
+    title: 'Team Player',
+    description: 'Values collaboration and teamwork.',
+    hasCredential: false,
+  },
+  {
+    title: 'Problem Solver',
+    description: 'Loves tackling complex problems.',
+    hasCredential: false,
   },
 ];
 

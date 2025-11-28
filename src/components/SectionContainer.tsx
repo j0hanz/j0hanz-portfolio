@@ -9,22 +9,32 @@ import {
 
 import { SectionContainerProps } from '@/config/types';
 
-const containerSx: SxProps<Theme> = {
-  pb: 5,
+// Centers content vertically in viewport
+const sectionCenteredSx: SxProps<Theme> = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  py: { xs: 4, md: 0 },
 };
 
-const stackSx: SxProps<Theme> = {
-  mb: 2.5,
-  pt: 16,
+const containerSx: SxProps<Theme> = {
+  px: { xs: 2, sm: 3 },
+};
+
+const headerStackSx: SxProps<Theme> = {
+  mb: { xs: 3, md: 4 },
 };
 
 const iconSx: SxProps<Theme> = {
-  mr: 2,
-  fontSize: '2.5rem',
+  mr: 1.5,
+  fontSize: { xs: '2rem', md: '2.5rem' },
+  color: 'primary.main',
 };
 
 const titleSx: SxProps<Theme> = {
   fontWeight: 400,
+  fontSize: { xs: '1.75rem', md: '2.125rem' },
 };
 
 const subtitleSx: SxProps<Theme> = {
@@ -51,13 +61,18 @@ function SectionContainer({
   headerActions,
 }: SectionContainerProps): React.JSX.Element {
   return (
-    <Box component="section" id={id} className={className} sx={sx}>
-      <Container disableGutters maxWidth="lg" sx={containerSx}>
+    <Box
+      component="section"
+      id={id}
+      className={className}
+      sx={[sectionCenteredSx, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
+    >
+      <Container maxWidth="lg" sx={containerSx}>
         <Stack
           direction="row"
           justifyContent="center"
           alignItems="center"
-          sx={stackSx}
+          sx={headerStackSx}
         >
           <Box component={Icon} sx={iconSx} />
           <Typography variant="h3" component={headingLevel} sx={titleSx}>

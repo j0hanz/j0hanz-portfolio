@@ -551,8 +551,10 @@ export interface MotionWrapperProps extends MotionProps {
   sectionId: SectionMotionVariantId;
 }
 
-export interface FadeInViewProps
-  extends Omit<MotionProps, 'initial' | 'animate'> {
+export interface FadeInViewProps extends Omit<
+  MotionProps,
+  'initial' | 'animate'
+> {
   children: ReactNode;
   delay?: number;
   threshold?: number;

@@ -2,7 +2,16 @@ import { useRef } from 'react';
 
 import PersonOutlined from '@mui/icons-material/PersonOutlined';
 import VerifiedTwoTone from '@mui/icons-material/VerifiedTwoTone';
-import { Box, type SxProps, type Theme, Typography } from '@mui/material';
+import {
+  Box,
+  type SxProps,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
 
@@ -30,39 +39,46 @@ import {
 } from '@/hooks';
 import aboutMeItems from '@/lib/data/aboutMeItems';
 import aboutMeText from '@/lib/data/aboutMeText';
-import {
-  credentialButtonSx,
-  sectionGridItemSx,
-  TEXT_LINE_HEIGHT,
-} from '@/styles/shared';
+import { credentialButtonSx, TEXT_LINE_HEIGHT } from '@/styles/shared';
 
+// Card content styles
 const overviewTextSx: SxProps<Theme> = {
   lineHeight: TEXT_LINE_HEIGHT,
   color: 'text.primary',
+  fontSize: { xs: '0.95rem', md: '1rem' },
 };
 
-const listSx: SxProps<Theme> = {
-  listStyle: 'none',
-  p: 0,
-  m: 0,
+// Table styles
+const tableSx: SxProps<Theme> = {
+  '& .MuiTableCell-root': {
+    borderBottom: 1,
+    borderColor: 'divider',
+    px: 0,
+    py: 1.5,
+  },
+  '& .MuiTableRow-root:last-child .MuiTableCell-root': {
+    borderBottom: 0,
+  },
 };
 
-const listItemSx: SxProps<Theme> = {
-  color: 'text.primary',
-  mt: 2,
+const titleCellSx: SxProps<Theme> = {
+  fontWeight: 600,
+  color: 'primary.main',
+  whiteSpace: 'nowrap',
+  pr: 2,
+  width: 'auto',
 };
 
-const listTitleSx: SxProps<Theme> = {
-  fontWeight: 500,
-  mr: 1,
-  color: 'text.primary',
+const descCellSx: SxProps<Theme> = {
+  color: 'text.secondary',
 };
 
-const buttonWrapperSx: SxProps<Theme> = {
-  pt: 3,
+// Grid item styles for equal height cards
+const gridItemSx: SxProps<Theme> = {
+  display: 'flex',
 };
 
-// Displaying the overview text
+// Overview card with description
 function AboutMeText(): React.JSX.Element {
   return (
     <Card title="Overview">
@@ -71,15 +87,15 @@ function AboutMeText(): React.JSX.Element {
   );
 }
 
-// Displaying a list of highlights
+// Highlights table with credential button
 function AboutMeList({
   items,
   onShowModal,
 }: AboutMeListProps): React.JSX.Element {
-  const listRef = useRef<HTMLUListElement>(null);
-  const isInView = useInView(listRef as ElementRef, viewportPresets.list);
+  const tableRef = useRef<HTMLTableElement>(null);
+  const isInView = useInView(tableRef as ElementRef, viewportPresets.list);
 
-  const listMotion = useMotionVariant(listItemStaggerVariants, {
+  const rowMotion = useMotionVariant(listItemStaggerVariants, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
     whileHover: { x: 6 },
@@ -87,36 +103,41 @@ function AboutMeList({
 
   return (
     <Card title="Highlights">
-      <Box component="ul" ref={listRef} sx={listSx}>
-        {items.map((item, index) => (
-          <Box key={item.title} sx={listItemSx}>
-            <motion.div custom={index} {...listMotion}>
-              <Typography component="span" sx={listTitleSx}>
-                {item.title}:
-              </Typography>
-              {item.description}
-              {item.hasCredential && (
-                <Box sx={buttonWrapperSx}>
-                  <Button
-                    onClick={onShowModal}
-                    variant="text"
-                    color="inherit"
-                    startIcon={<VerifiedTwoTone />}
-                    sx={credentialButtonSx}
-                  >
-                    Credential
-                  </Button>
-                </Box>
-              )}
-            </motion.div>
-          </Box>
-        ))}
-      </Box>
+      <Table ref={tableRef} size="small" sx={tableSx} aria-label="highlights">
+        <TableBody>
+          {items.map((item, index) => (
+            <TableRow
+              key={item.title}
+              component={motion.tr}
+              custom={index}
+              {...rowMotion}
+            >
+              <TableCell component="th" scope="row" sx={titleCellSx}>
+                {item.title}
+              </TableCell>
+              <TableCell sx={descCellSx}>{item.description}</TableCell>
+            </TableRow>
+          ))}
+          <TableRow component={motion.tr} custom={items.length} {...rowMotion}>
+            <TableCell colSpan={2} sx={{ pt: 2 }}>
+              <Button
+                onClick={onShowModal}
+                variant="text"
+                color="inherit"
+                startIcon={<VerifiedTwoTone />}
+                sx={credentialButtonSx}
+              >
+                Credential
+              </Button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </Card>
   );
 }
 
-// Card item wrapper with animation
+// Card wrapper with parallax and entrance animation
 function CardItem({
   index,
   yTransform,
@@ -131,17 +152,22 @@ function CardItem({
   });
 
   return (
-    <motion.div
+    <Box
+      component={motion.div}
       custom={index}
       {...cardMotion}
-      style={{ y: prefersReducedMotion ? 0 : yTransform }}
+      style={{
+        y: prefersReducedMotion ? 0 : yTransform,
+        height: '100%',
+        width: '100%',
+      }}
     >
       {children}
-    </motion.div>
+    </Box>
   );
 }
 
-// Main component for the About Me section
+// Main About Me section
 function AboutMe(): React.JSX.Element {
   const {
     value: showModal,
@@ -168,14 +194,15 @@ function AboutMe(): React.JSX.Element {
       title={<TextReveal text="About Me" as="span" />}
       icon={PersonOutlined}
     >
+      {/* Cards Grid */}
       <Box ref={containerRef}>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-          <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} alignItems="stretch">
+          <Grid size={{ xs: 12, md: 6 }} sx={gridItemSx}>
             <CardItem index={0} yTransform={y1} isInView={isInView}>
               <AboutMeText />
             </CardItem>
           </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }} sx={sectionGridItemSx}>
+          <Grid size={{ xs: 12, md: 6 }} sx={gridItemSx}>
             <CardItem index={1} yTransform={y2} isInView={isInView}>
               <AboutMeList items={aboutMeItems} onShowModal={openModal} />
             </CardItem>
