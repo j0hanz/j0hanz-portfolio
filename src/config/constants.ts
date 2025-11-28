@@ -185,3 +185,30 @@ export const PALETTES = {
     },
   },
 } as const;
+
+export const SECTION_THEME_COLORS = {
+  hero: {
+    light: '#60a5fa', // Soft sky blue
+    dark: '#031d64ff', // Deep vibrant blue
+  },
+  aboutMe: {
+    light: '#67e8f9', // Light cyan
+    dark: '#024b5eff', // Teal
+  },
+  portfolio: {
+    light: '#86efac', // Soft mint green
+    dark: '#015520ff', // Vibrant emerald
+  },
+  workExperience: {
+    light: '#c4b5fd', // Soft lavender
+    dark: '#24025fff', // Deep purple
+  },
+  contact: {
+    light: '#fda4af', // Soft rose
+    dark: '#640318ff', // Deep rose
+  },
+  footer: {
+    light: '#94a3b8', // Slate
+    dark: '#002558ff', // Deep slate
+  },
+} as const;

@@ -1,37 +1,59 @@
 import React, { useEffect, useState } from 'react';
 
-import { alpha, Box, type SxProps, type Theme } from '@mui/material';
-import { motion } from 'motion/react';
+import { alpha, Box, useTheme } from '@mui/material';
+import { AnimatePresence, motion } from 'motion/react';
 
-import { useAnimationConfig, useAnimationPriority } from '@/hooks';
+import { SECTION_THEME_COLORS } from '@/config/constants';
+import {
+  useAnimationConfig,
+  useAnimationPriority,
+  useNavigationState,
+  useThemeModeState,
+} from '@/hooks';
 
-const backgroundSx: SxProps<Theme> = {
-  position: 'absolute',
-  inset: 0,
-  overflow: 'hidden',
-  zIndex: 0,
-  pointerEvents: 'none',
-  background: (theme) => {
-    const isDark = theme.palette.mode === 'dark';
-    const opacity = isDark ? 0.4 : 0.3;
-
-    return `radial-gradient(
-      circle at 50% 20%,
-      ${alpha(theme.palette.primary.main, opacity)},
-      ${alpha(theme.palette.primary.light, opacity * 0.5)} 50%,
-      transparent 70%
-    )`;
+// Animation timing constants for consistent feel
+const ANIMATION_CONFIG = {
+  // Primary blob - slow, organic movement
+  primary: {
+    duration: 24,
+    delayOffset: 0,
   },
-  filter: 'blur(40px)',
-};
+  // Secondary blob - slightly faster, creates depth
+  secondary: {
+    duration: 20,
+    delayOffset: 4,
+  },
+  // Tertiary blob - fastest, adds visual interest
+  tertiary: {
+    duration: 16,
+    delayOffset: 8,
+  },
+  // Color transition timing
+  colorTransition: {
+    duration: 0.4,
+    ease: [0.4, 0, 0.2, 1] as const,
+  },
+} as const;
 
-// Animated background with organic floating motion (respects device capability)
+// Gradient opacity values for light/dark modes
+const GRADIENT_OPACITY = {
+  light: { primary: 0.28, secondary: 0.18, tertiary: 0.12 },
+  dark: { primary: 0.45, secondary: 0.28, tertiary: 0.2 },
+} as const;
+
+// Animated background with organic floating motion and section-based colors
 function BackgroundMorph(): React.JSX.Element {
+  const theme = useTheme();
+  const { mode } = useThemeModeState();
   const priority = useAnimationPriority();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const { activeSectionId } = useNavigationState();
   const [isDocumentVisible, setIsDocumentVisible] = useState(true);
 
-  // Pause animation when document is hidden to save CPU/battery
+  const isDark = mode === 'dark';
+  const opacitySet = isDark ? GRADIENT_OPACITY.dark : GRADIENT_OPACITY.light;
+
+  // Pause animation when document is hidden
   useEffect(() => {
     const handleVisibility = () => setIsDocumentVisible(!document.hidden);
     document.addEventListener('visibilitychange', handleVisibility);
@@ -42,44 +64,205 @@ function BackgroundMorph(): React.JSX.Element {
   const shouldAnimate =
     priority === 'high' && !prefersReducedMotion && isDocumentVisible;
 
+  // Determine current section color
+  const sectionId = activeSectionId || 'hero';
+  const sectionColors =
+    SECTION_THEME_COLORS[sectionId as keyof typeof SECTION_THEME_COLORS] ||
+    SECTION_THEME_COLORS.hero;
+  const activeColor = isDark ? sectionColors.dark : sectionColors.light;
+
+  // Primary blob gradient - section color, top-center positioned
+  const primaryGradient = `radial-gradient(
+    ellipse 75% 50% at 50% 25%,
+    ${alpha(activeColor, opacitySet.primary)},
+    ${alpha(activeColor, opacitySet.primary * 0.4)} 50%,
+    transparent 100%
+  )`;
+
+  // Secondary blob gradient - theme accent, bottom-right
+  const secondaryGradient = `radial-gradient(
+    ellipse 100% 25% at 100% 50%,
+    ${alpha(theme.palette.primary.main, opacitySet.secondary)},
+    ${alpha(theme.palette.primary.main, opacitySet.secondary * 0.35)} 10%,
+    transparent 100%
+  )`;
+
+  // Tertiary blob gradient - complementary, adds depth
+  const tertiaryGradient = `radial-gradient(
+    ellipse 25% 50% at 25% 75%,
+    ${alpha(activeColor, opacitySet.tertiary)},
+    ${alpha(activeColor, opacitySet.tertiary * 0.3)} 10%,
+    transparent 100%
+  )`;
+
+  // Key for AnimatePresence to trigger fade transition on color change
+  const colorKey = `${activeSectionId}-${isDark ? 'dark' : 'light'}`;
+
+  // Smooth easing for organic motion
+  const organicEase = [0.37, 0, 0.63, 1] as const;
+
   return (
     <Box
-      component={motion.div}
-      animate={
-        shouldAnimate
-          ? {
-              // Combined transform for guaranteed hardware acceleration
-              transform: [
-                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
-                'translate3d(8%, 5%, 0) scale(1.15) rotate(3deg)',
-                'translate3d(-5%, 7%, 0) scale(1.08) rotate(-1.5deg)',
-                'translate3d(-6%, -3%, 0) scale(1.12) rotate(1.5deg)',
-                'translate3d(3%, -5%, 0) scale(1.1) rotate(-3deg)',
-                'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
-              ],
-              opacity: [0.85, 0.95, 0.9, 0.95, 0.85, 0.9],
-            }
-          : {
-              transform: 'translate3d(0%, 0%, 0) scale(1) rotate(0deg)',
-              opacity: 0.9,
-            }
-      }
-      transition={
-        shouldAnimate
-          ? getTransition('easeInOut', {
-              duration: 20,
-              repeat: Infinity,
-              repeatType: 'loop',
-              ease: [0.45, 0.05, 0.55, 0.95],
-            })
-          : undefined
-      }
       sx={{
-        ...backgroundSx,
-        willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+        position: 'fixed',
+        inset: 0,
+        overflow: 'hidden',
+        zIndex: 0,
+        pointerEvents: 'none',
       }}
       aria-hidden="true"
-    />
+    >
+      <AnimatePresence mode="wait">
+        {/* Primary Morphing Blob - section color, organic floating */}
+        <Box
+          component={motion.div}
+          key={colorKey}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            x: shouldAnimate ? ['0%', '3%', '-2%', '1%', '0%'] : '0%',
+            y: shouldAnimate ? ['0%', '2%', '4%', '1%', '0%'] : '0%',
+            rotate: shouldAnimate ? [0, 1.5, -1, 0.5, 0] : 0,
+          }}
+          exit={{ opacity: 0, scale: 1.2 }}
+          transition={{
+            opacity: ANIMATION_CONFIG.colorTransition,
+            scale: ANIMATION_CONFIG.colorTransition,
+            x: shouldAnimate
+              ? getTransition('easeInOut', {
+                  duration: ANIMATION_CONFIG.primary.duration,
+                  repeat: Infinity,
+                  repeatType: 'mirror',
+                  ease: organicEase,
+                })
+              : undefined,
+            y: shouldAnimate
+              ? getTransition('easeInOut', {
+                  duration: ANIMATION_CONFIG.primary.duration * 1.1,
+                  repeat: Infinity,
+                  repeatType: 'mirror',
+                  ease: organicEase,
+                })
+              : undefined,
+            rotate: shouldAnimate
+              ? getTransition('easeInOut', {
+                  duration: ANIMATION_CONFIG.primary.duration * 0.9,
+                  repeat: Infinity,
+                  repeatType: 'mirror',
+                  ease: organicEase,
+                })
+              : undefined,
+          }}
+          style={{ background: primaryGradient }}
+          sx={{
+            position: 'absolute',
+            inset: '-40%',
+            width: '180%',
+            height: '180%',
+            willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+          }}
+        />
+      </AnimatePresence>
+
+      {/* Secondary Ambient Blob - theme accent, slower movement */}
+      <Box
+        component={motion.div}
+        animate={{
+          x: shouldAnimate ? ['0%', '-4%', '2%', '-1%', '0%'] : '0%',
+          y: shouldAnimate ? ['0%', '-3%', '-1%', '2%', '0%'] : '0%',
+          scale: shouldAnimate ? [1, 1.08, 1.02, 1.06, 1] : 1,
+        }}
+        transition={{
+          x: shouldAnimate
+            ? getTransition('easeInOut', {
+                duration: ANIMATION_CONFIG.secondary.duration,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                delay: ANIMATION_CONFIG.secondary.delayOffset,
+                ease: organicEase,
+              })
+            : undefined,
+          y: shouldAnimate
+            ? getTransition('easeInOut', {
+                duration: ANIMATION_CONFIG.secondary.duration * 1.15,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                delay: ANIMATION_CONFIG.secondary.delayOffset,
+                ease: organicEase,
+              })
+            : undefined,
+          scale: shouldAnimate
+            ? getTransition('easeInOut', {
+                duration: ANIMATION_CONFIG.secondary.duration * 0.85,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                delay: ANIMATION_CONFIG.secondary.delayOffset,
+                ease: organicEase,
+              })
+            : undefined,
+        }}
+        style={{ background: secondaryGradient }}
+        sx={{
+          position: 'absolute',
+          inset: '-35%',
+          width: '170%',
+          height: '170%',
+          filter: 'blur(70px)',
+          opacity: 0.8,
+          willChange: shouldAnimate ? 'transform' : 'auto',
+        }}
+      />
+
+      {/* Tertiary Depth Blob - subtle, adds layered depth */}
+      <Box
+        component={motion.div}
+        animate={{
+          x: shouldAnimate ? ['0%', '2%', '-3%', '1%', '0%'] : '0%',
+          y: shouldAnimate ? ['0%', '3%', '-2%', '1%', '0%'] : '0%',
+          scale: shouldAnimate ? [1, 0.96, 1.04, 0.98, 1] : 1,
+        }}
+        transition={{
+          x: shouldAnimate
+            ? getTransition('easeInOut', {
+                duration: ANIMATION_CONFIG.tertiary.duration,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                delay: ANIMATION_CONFIG.tertiary.delayOffset,
+                ease: organicEase,
+              })
+            : undefined,
+          y: shouldAnimate
+            ? getTransition('easeInOut', {
+                duration: ANIMATION_CONFIG.tertiary.duration * 1.2,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                delay: ANIMATION_CONFIG.tertiary.delayOffset,
+                ease: organicEase,
+              })
+            : undefined,
+          scale: shouldAnimate
+            ? getTransition('easeInOut', {
+                duration: ANIMATION_CONFIG.tertiary.duration * 0.9,
+                repeat: Infinity,
+                repeatType: 'mirror',
+                delay: ANIMATION_CONFIG.tertiary.delayOffset,
+                ease: organicEase,
+              })
+            : undefined,
+        }}
+        style={{ background: tertiaryGradient }}
+        sx={{
+          position: 'absolute',
+          inset: '-30%',
+          width: '160%',
+          height: '160%',
+          filter: 'blur(90px)',
+          opacity: 0.6,
+          willChange: shouldAnimate ? 'transform' : 'auto',
+        }}
+      />
+    </Box>
   );
 }
 

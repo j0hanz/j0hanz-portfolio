@@ -66,12 +66,12 @@ function App(): React.JSX.Element {
         sx={mainContainerSx}
         data-network-status={isOnline ? 'online' : 'offline'}
       >
-        <BackgroundMorph />
-        <div id="back-to-top-anchor" />
-
         <StatusBanner statusBanner={statusBanner} />
 
         <NavigationProvider>
+          <BackgroundMorph />
+          <div id="back-to-top-anchor" />
+
           {!isLoading && <NavBar />}
           <AnimatePresence mode="wait" initial={false}>
             {isLoading ? (
