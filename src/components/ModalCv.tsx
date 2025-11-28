@@ -14,6 +14,7 @@ import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
 import { ModalCvProps } from '@/config/types';
+import { useSnackbar } from '@/hooks';
 import { TRANSITION_STANDARD } from '@/styles/shared';
 
 const flagIconStyles: SxProps<Theme> = {
@@ -72,6 +73,8 @@ const flagButtonBaseSx: SxProps<Theme> = {
 };
 
 function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
+  const { showSnackbar } = useSnackbar();
+
   const handleDownload = (cv: string, fileName: string): void => {
     try {
       const link = document.createElement('a');
@@ -82,7 +85,8 @@ function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
       document.body.removeChild(link);
       onClose();
     } catch (error) {
-      console.error('Download failed:', error);
+      showSnackbar('Failed to download CV. Please try again.', 'error');
+      if (import.meta.env.DEV) console.error('Download failed:', error);
     }
   };
 

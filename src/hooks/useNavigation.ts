@@ -10,6 +10,7 @@ import {
   NavigationStateContext,
 } from '@/contexts/NavigationContext';
 
+// Full state hook - subscribes to all navigation state changes
 export function useNavigationState(): NavigationState {
   const context = useContext(NavigationStateContext);
   if (context === undefined) {
@@ -20,6 +21,7 @@ export function useNavigationState(): NavigationState {
   return context;
 }
 
+// Actions-only hook - never causes re-renders on state changes
 export function useNavigationActions(): NavigationActions {
   const context = useContext(NavigationActionsContext);
   if (context === undefined) {
@@ -30,6 +32,7 @@ export function useNavigationActions(): NavigationActions {
   return context;
 }
 
+// Combined hook for backwards compatibility
 export function useNavigation(): NavigationContextType {
   const state = useNavigationState();
   const actions = useNavigationActions();

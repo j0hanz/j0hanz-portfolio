@@ -1,14 +1,11 @@
 // GitHub API queries with TanStack Query
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { GITHUB_API_BASE_URL, QUERY_CONFIG } from '@/config/constants';
+import { EMPTY_STATS, GITHUB_API_BASE_URL } from '@/config/constants';
 import type { RepoStats } from '@/config/types';
 
-import { queryClient } from './client';
+import { LONG_CACHE_OPTIONS, queryClient } from './client';
 import { githubKeys } from './keys';
-
-// Empty stats fallback for error cases
-const EMPTY_STATS: RepoStats = { stars: 0, forks: 0, issues: 0 };
 
 // Fetches GitHub repo stats (stars, forks, issues) from 'owner/repo' path
 export async function fetchRepoStats(
@@ -33,7 +30,7 @@ export async function fetchRepoStats(
 
   try {
     // Add artificial delay to make skeleton loading visible
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Don't remove!
 
     const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`, {
       headers,
@@ -106,19 +103,18 @@ export async function fetchRepoStats(
   }
 }
 
-// Suspense hook for GitHub stats (10min staleTime, 30min gcTime) - wrap in <Suspense>
+// Suspense hook for GitHub stats with long cache (10min stale, 30min gc)
 export function useRepoStatsQuery(repoPath: string) {
   return useSuspenseQuery({
     queryKey: githubKeys.repoStats(repoPath),
     queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
-    staleTime: QUERY_CONFIG.STALE_TIME_LONG,
-    gcTime: QUERY_CONFIG.GC_TIME_LONG,
+    ...LONG_CACHE_OPTIONS,
     retry: 2,
     refetchOnWindowFocus: true,
   });
 }
 
-// Prefetches GitHub stats (useful for hover/navigation to reduce loading time)
+// Prefetches GitHub stats on hover/navigation to reduce perceived loading
 export function prefetchRepoStats(repoPath: string): Promise<void> {
   if (!repoPath) {
     if (import.meta.env.DEV) {
@@ -131,8 +127,7 @@ export function prefetchRepoStats(repoPath: string): Promise<void> {
     .prefetchQuery({
       queryKey: githubKeys.repoStats(repoPath),
       queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
-      staleTime: QUERY_CONFIG.STALE_TIME_LONG,
-      gcTime: QUERY_CONFIG.GC_TIME_LONG,
+      ...LONG_CACHE_OPTIONS,
     })
     .catch((error) => {
       if (import.meta.env.DEV) {

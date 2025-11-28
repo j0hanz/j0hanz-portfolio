@@ -75,7 +75,7 @@ export const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
     transform: 'scale(1.1)',
   },
   '& .MuiListItemText-primary': {
-    fontWeight: 600,
+    fontWeight: 500,
   },
 };
 
@@ -95,15 +95,15 @@ export const listItemTextPrimarySx: SxProps<Theme> = {
 export const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
 
 export const drawerPaperSx: SxProps<Theme> = {
-  width: { xs: '85%', sm: 350 },
+  width: { xs: '100%', sm: 350 },
   backgroundColor: 'backdrop.glass',
   backgroundImage: 'none',
   height: '100dvh',
   display: 'flex',
   flexDirection: 'column',
   overflowX: 'hidden',
-  backdropFilter: 'blur(16px) saturate(180%)',
-  WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+  backdropFilter: 'blur(10px) saturate(180%)',
+  WebkitBackdropFilter: 'blur(10px) saturate(180%)',
   border: '1px solid rgba(255, 255, 255, 0.125)',
   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
 };

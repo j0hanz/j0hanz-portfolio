@@ -158,6 +158,8 @@ function CardItem({
       {...cardMotion}
       style={{
         y: prefersReducedMotion ? 0 : yTransform,
+      }}
+      sx={{
         height: '100%',
         width: '100%',
       }}

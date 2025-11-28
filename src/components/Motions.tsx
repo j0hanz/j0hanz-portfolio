@@ -187,21 +187,24 @@ export function StaggerContainer({
   stagger = 0.07,
   className,
   style,
+  sx,
 }: StaggerContainerProps) {
   const { prefersReducedMotion } = useAnimationConfig();
 
   if (prefersReducedMotion) {
     return (
-      <div className={className} style={style}>
+      <Box className={className} style={style} sx={sx}>
         {children}
-      </div>
+      </Box>
     );
   }
 
   return (
-    <motion.div
+    <Box
+      component={motion.div}
       className={className}
       style={style}
+      sx={sx}
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, amount: 0.15 }}
@@ -209,7 +212,7 @@ export function StaggerContainer({
       custom={stagger}
     >
       {children}
-    </motion.div>
+    </Box>
   );
 }
 
@@ -218,25 +221,32 @@ export function StaggerContainer({
 // ============================================================================
 
 // Item to be used inside StaggerContainer
-export function StaggerItem({ children, className, style }: StaggerItemProps) {
+export function StaggerItem({
+  children,
+  className,
+  style,
+  sx,
+}: StaggerItemProps) {
   const { prefersReducedMotion } = useAnimationConfig();
 
   if (prefersReducedMotion) {
     return (
-      <div className={className} style={style}>
+      <Box className={className} style={style} sx={sx}>
         {children}
-      </div>
+      </Box>
     );
   }
 
   return (
-    <motion.div
+    <Box
+      component={motion.div}
       className={className}
       style={style}
+      sx={sx}
       variants={staggerItemSimpleVariants}
     >
       {children}
-    </motion.div>
+    </Box>
   );
 }
 
@@ -431,7 +441,6 @@ export function AnimatedCheckmark({
   size?: number;
   strokeWidth?: number;
 }): React.JSX.Element {
-  const pathRef = useRef<SVGPathElement>(null);
   const { prefersReducedMotion } = useAnimationConfig();
 
   // Circle circumference for stroke-dasharray
@@ -466,7 +475,6 @@ export function AnimatedCheckmark({
         }}
       />
       <motion.path
-        ref={pathRef}
         d="M7.5 12.5l3 3.2 6-6.7"
         strokeLinecap="round"
         strokeLinejoin="round"

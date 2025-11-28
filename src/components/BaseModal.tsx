@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 import Close from '@mui/icons-material/Close';
 import { Dialog, DialogContent, IconButton, Theme } from '@mui/material';
@@ -48,14 +48,11 @@ function BaseModal({
   const { getTransition } = useAnimationConfig();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Auto-focus close button when modal opens to prevent aria-hidden focus warning
-  useEffect(() => {
-    if (open && closeButtonRef.current) {
-      // Small delay to ensure modal is fully rendered
-      const timer = setTimeout(() => {
-        closeButtonRef.current?.focus();
-      }, 50);
-      return () => clearTimeout(timer);
+  // Auto-focus close button synchronously when modal opens
+  // useLayoutEffect ensures focus happens before browser paint
+  useLayoutEffect(() => {
+    if (open) {
+      closeButtonRef.current?.focus();
     }
   }, [open]);
 

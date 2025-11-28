@@ -47,6 +47,7 @@ export { default as useScrollAnimation } from './useScrollAnimation';
 export { useFullPageScroll } from './useFullPageScroll';
 
 // Accesses the NavigationContext
+// Split hooks: useNavigationState (full state), useNavigationActions (actions only)
 export {
   useNavigation,
   useNavigationActions,
@@ -135,6 +136,7 @@ export {
   buildQueryKey,
   prefetchRepoStats,
   invalidateRepoStats,
+  LONG_CACHE_OPTIONS,
 } from '@/utils/query/index';
 
 export * from './useScrollEvents';

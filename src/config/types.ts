@@ -567,12 +567,14 @@ export interface StaggerContainerProps {
   stagger?: number;
   className?: string;
   style?: CSSProperties;
+  sx?: SxProps<Theme>;
 }
 
 export interface StaggerItemProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
+  sx?: SxProps<Theme>;
 }
 
 export interface MagneticWrapperProps {
