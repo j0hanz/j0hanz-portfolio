@@ -9,13 +9,13 @@ import {
 
 import { SectionContainerProps } from '@/config/types';
 
-// Centers content vertically in viewport
+// Centers content vertically in viewport with consistent spacing
 const sectionCenteredSx: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   minHeight: '100vh',
-  py: { xs: 4, md: 0 },
+  py: { xs: 4, md: 10 },
 };
 
 const containerSx: SxProps<Theme> = {

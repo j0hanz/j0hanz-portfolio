@@ -45,22 +45,15 @@ declare module '@mui/material/styles' {
 
 export const componentOverrides: Components<Theme> = {
   MuiCssBaseline: {
-    styleOverrides: (theme) => `
-      /* Global scrollbar styles */
+    styleOverrides: () => `
+      /* Invisible scrollbar - maintains scroll functionality */
       *::-webkit-scrollbar {
-        width: 0.9rem;
-        transition: all 0.3s ease;
+        width: 0;
+        height: 0;
       }
-      *::-webkit-scrollbar-thumb {
-        background: ${(theme.vars || theme).palette.primary.main};
-        border-bottom-left-radius: ${theme.shape.borderRadius}px;
-        transition: all 0.3s ease;
-      }
-      *::-webkit-scrollbar-thumb:hover {
-        background: ${(theme.vars || theme).palette.primary.dark};
-      }
-      *::-webkit-scrollbar-track {
-        background: transparent;
+      * {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
     `,
   },

@@ -12,13 +12,19 @@ import {
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',
-  bottom: 16,
-  right: 16,
+  bottom: 15,
+  right: 20,
   zIndex: 100,
 };
 
+const fabSx: SxProps<Theme> = {
+  backgroundColor: 'backdrop.glass',
+  backdropFilter: 'blur(12px)',
+  WebkitBackdropFilter: 'blur(12px)',
+};
+
 const iconSx: SxProps<Theme> = {
-  fontSize: 20,
+  fontSize: 24,
 };
 
 const progressRingSx: SxProps<Theme> = {
@@ -69,7 +75,7 @@ function ScrollToTop(): React.JSX.Element {
           color="primary"
           aria-label="scroll back to top"
           disabled={isPending}
-          sx={{ position: 'relative' }}
+          sx={fabSx}
         >
           <KeyboardArrowUpRounded sx={iconSx} />
           {/* Circular progress indicator */}
