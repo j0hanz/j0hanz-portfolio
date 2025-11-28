@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import KeyboardArrowUpRounded from '@mui/icons-material/KeyboardArrowUpRounded';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
 import { motion, useSpring } from 'motion/react';
 
@@ -12,8 +12,8 @@ import {
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',
-  bottom: 15,
-  right: 20,
+  bottom: 20,
+  right: 8,
   zIndex: 100,
 };
 
@@ -24,7 +24,7 @@ const fabSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: 24,
+  fontSize: 28,
 };
 
 const progressRingSx: SxProps<Theme> = {
@@ -34,6 +34,7 @@ const progressRingSx: SxProps<Theme> = {
   width: 48,
   height: 48,
   pointerEvents: 'none',
+  color: 'primary.main',
 };
 
 function ScrollToTop(): React.JSX.Element {
@@ -77,7 +78,7 @@ function ScrollToTop(): React.JSX.Element {
           disabled={isPending}
           sx={fabSx}
         >
-          <KeyboardArrowUpRounded sx={iconSx} />
+          <ExpandLessIcon sx={iconSx} />
           {/* Circular progress indicator */}
           <Box
             component="svg"
@@ -91,7 +92,7 @@ function ScrollToTop(): React.JSX.Element {
               r="20"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="4"
               opacity="0.2"
             />
             <motion.circle
@@ -100,7 +101,7 @@ function ScrollToTop(): React.JSX.Element {
               r="20"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="4"
               strokeLinecap="round"
               style={{
                 pathLength: pathProgress,

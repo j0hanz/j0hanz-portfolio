@@ -21,6 +21,7 @@ const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({
 const MotionButton = motion.create(StyledButton);
 
 // Button component with optional icon and text, supports MUI v7 best practices
+// React 19: ref is a native prop, no need for forwardRef
 const Button = function Button({
   text = '',
   className = '',
@@ -34,9 +35,7 @@ const Button = function Button({
   motionWhileFocus,
   ref,
   ...props
-}: CustomButtonProps & {
-  ref?: React.Ref<HTMLButtonElement>;
-}): React.ReactElement {
+}: CustomButtonProps): React.ReactElement {
   const gestureMotion = useButtonGesture();
 
   // Allow custom overrides if provided

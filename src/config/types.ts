@@ -260,6 +260,7 @@ export interface CustomButtonProps extends MuiButtonProps {
   text?: string;
   className?: string;
   target?: string;
+  ref?: React.Ref<HTMLButtonElement>; // React 19: ref as native prop
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   variant?: 'text' | 'contained' | 'outlined';

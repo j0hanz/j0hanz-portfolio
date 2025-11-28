@@ -13,12 +13,13 @@ export default defineConfig({
   ],
   build: {
     target: 'esnext',
+    sourcemap: true,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           motion: ['motion'],
-          mui: ['@mui/material'],
+          mui: ['@mui/material', '@mui/system'],
           'mui-icons': ['@mui/icons-material'],
           query: ['@tanstack/react-query'],
         },
