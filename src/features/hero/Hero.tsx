@@ -156,6 +156,7 @@ function Hero(): React.JSX.Element {
                   <TextReveal
                     text={HERO_NAME}
                     as="h1"
+                    splitBy="char"
                     sx={{
                       '& span': {
                         background: (theme) => theme.palette.heroGradient,

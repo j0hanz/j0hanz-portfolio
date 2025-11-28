@@ -1,5 +1,9 @@
 import { useRef } from 'react';
 
+// ============================================================================
+// MOTION COMPONENTS
+// ============================================================================
+
 import { Box } from '@mui/material';
 import {
   AnimatePresence,

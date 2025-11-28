@@ -1,11 +1,11 @@
-import {
-  RefObject,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
+import { useTheme } from '@mui/material/styles';
+// ============================================================================
+// MOBILE BREAKPOINT DETECTION
+// ============================================================================
+
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   animate,
   frame,
@@ -1058,13 +1058,6 @@ export function useSvgPathDraw(
 
   return { pathLength, isInView };
 }
-
-// ============================================================================
-// MOBILE BREAKPOINT DETECTION
-// ============================================================================
-
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 
 type BreakpointKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 

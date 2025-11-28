@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
-import { motion } from 'motion/react';
+import { LayoutGroup, motion } from 'motion/react';
 
 import { AnimatedCard } from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -67,15 +67,20 @@ export function ProjectCard({
 
   const motionProps = useInViewMotion(CARD_MOTION_VARIANTS);
 
+  // Generate unique layoutId from project github URL
+  const layoutId = `project-card-${project.github.replace(/[^a-zA-Z0-9]/g, '-')}`;
+
   return (
-    <motion.div {...motionProps}>
-      <AnimatedCard title="" noContentPadding onMouseEnter={handleMouseEnter}>
-        <ErrorBoundary fallback={<ProjectCardSkeleton />}>
-          <Suspense fallback={<ProjectCardSkeleton />}>
-            <CardContent project={project} />
-          </Suspense>
-        </ErrorBoundary>
-      </AnimatedCard>
-    </motion.div>
+    <LayoutGroup id={layoutId}>
+      <motion.div {...motionProps} layoutId={`${layoutId}-container`}>
+        <AnimatedCard title="" noContentPadding onMouseEnter={handleMouseEnter}>
+          <ErrorBoundary fallback={<ProjectCardSkeleton />}>
+            <Suspense fallback={<ProjectCardSkeleton />}>
+              <CardContent project={project} />
+            </Suspense>
+          </ErrorBoundary>
+        </AnimatedCard>
+      </motion.div>
+    </LayoutGroup>
   );
 }
