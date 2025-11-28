@@ -7,13 +7,6 @@ import {
   LETTER_SPACING_WIDE,
 } from '@/styles/shared';
 
-export const socialLinkButtonSx: SxProps<Theme> = {
-  '&:hover': {
-    color: 'primary.main',
-    bgcolor: 'action.hover',
-  },
-};
-
 export const navLogoStackSx: SxProps<Theme> = {
   height: 50,
   textDecoration: 'none',

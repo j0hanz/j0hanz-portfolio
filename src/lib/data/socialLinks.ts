@@ -14,7 +14,7 @@ export const socialLinks: SocialLink[] = [
     icon: LinkedIn,
     href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
     tooltip: 'LinkedIn Profile',
-    color: 'linkedin.main',
+    color: 'primary.dark',
   },
   {
     id: 'github',
@@ -28,20 +28,21 @@ export const socialLinks: SocialLink[] = [
     icon: PictureAsPdfRounded,
     onClick: () => {},
     tooltip: 'Download CV',
-    color: 'pdf.main',
+    color: 'error.dark',
   },
   {
     id: 'certificate',
     icon: EmojiEventsTwoTone,
     href: 'https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle',
     tooltip: 'Certificate',
-    color: 'certificate.main',
+    color: 'warning.dark',
+    iconColor: 'common.black',
   },
   {
     id: 'source-code',
     icon: CodeRounded,
     href: 'https://github.com/j0hanz/j0hanz-portfolio',
     tooltip: 'Source Code',
-    color: 'sourceCode.main',
+    color: 'success.dark',
   },
 ];

@@ -781,6 +781,7 @@ export interface SocialLink {
   onClick?: () => void;
   tooltip: string;
   color?: string;
+  iconColor?: string;
 }
 
 export interface SocialLinkRenderProps {
@@ -788,6 +789,8 @@ export interface SocialLinkRenderProps {
   onClick?: () => void;
   tooltip: string;
   icon: ReactNode;
+  bgColor?: string;
+  iconColor?: string;
   index: number;
 }
 

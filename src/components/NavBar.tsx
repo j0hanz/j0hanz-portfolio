@@ -206,7 +206,7 @@ function SocialLinks({
         direction="row"
         justifyContent="center"
         flexWrap="wrap"
-        gap={1.5}
+        gap={2}
       >
         <SocialLinkList
           openModal={openModal}

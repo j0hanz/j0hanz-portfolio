@@ -1,21 +1,31 @@
 import { Fragment, type JSX } from 'react';
 
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { useTheme } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 import { motion, MotionStyle } from 'motion/react';
 
-import { socialLinkButtonSx } from '@/components/NavBar.styles';
 import { SocialLinkListProps, SocialLinkRenderProps } from '@/config/types';
 import { useAnimationConfig, useCursorMagnet } from '@/hooks';
 import { socialLinks } from '@/lib/data/socialLinks';
+
+// Avatar dimensions
+const AVATAR_SIZE = 38;
+const ICON_SIZE_DEFAULT = '1.25rem';
 
 export function SocialLinkButton({
   href,
   onClick,
   tooltip,
   icon,
+  bgColor,
+  iconColor,
 }: SocialLinkRenderProps): JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
   const magnetProps = useCursorMagnet(prefersReducedMotion);
+  const theme = useTheme();
+
   const wrapperStyle: MotionStyle = magnetProps.style
     ? { ...magnetProps.style, display: 'inline-flex' }
     : { display: 'inline-flex' };
@@ -29,22 +39,40 @@ export function SocialLinkButton({
       }
     : {};
 
+  // Resolve theme color path to actual color value
+  const resolveColor = (colorPath?: string): string => {
+    if (!colorPath) return theme.palette.primary.main;
+    const [palette, shade] = colorPath.split('.') as [string, string];
+    const paletteObj = theme.palette as unknown as Record<
+      string,
+      Record<string, string>
+    >;
+    return paletteObj[palette]?.[shade] ?? theme.palette.primary.main;
+  };
+
+  const bgColorValue = resolveColor(bgColor);
+  const iconColorValue = iconColor ? resolveColor(iconColor) : undefined;
+
   return (
     <motion.div
       style={wrapperStyle}
       onPointerMove={magnetProps.onPointerMove}
       onPointerLeave={magnetProps.onPointerLeave}
     >
-      <IconButton
+      <Avatar
         {...linkProps}
         onClick={onClick}
-        size="large"
-        color="inherit"
         aria-label={tooltip}
-        sx={socialLinkButtonSx}
+        sx={{
+          width: AVATAR_SIZE,
+          height: AVATAR_SIZE,
+          bgcolor: bgColorValue,
+          color: iconColorValue ?? 'common.white',
+          cursor: 'pointer',
+        }}
       >
         {icon}
-      </IconButton>
+      </Avatar>
     </motion.div>
   );
 }
@@ -53,12 +81,15 @@ export function SocialLinkList({
   openModal,
   renderLink,
   wrapItem,
-  iconSize = '1.5rem',
+  iconSize = ICON_SIZE_DEFAULT,
 }: SocialLinkListProps): JSX.Element {
   return (
     <>
       {socialLinks.map(
-        ({ id, icon: Icon, href, onClick, tooltip, color }, index) => {
+        (
+          { id, icon: Icon, href, onClick, tooltip, color, iconColor },
+          index
+        ) => {
           const isDownloadPdf = id === 'download-pdf';
           const resolvedOnClick = isDownloadPdf ? openModal : onClick;
 
@@ -66,19 +97,14 @@ export function SocialLinkList({
             href,
             onClick: resolvedOnClick,
             tooltip,
-            icon: (
-              <Icon
-                sx={{
-                  fontSize: iconSize,
-                  color: color,
-                }}
-              />
-            ),
+            icon: <Icon sx={{ fontSize: iconSize }} />,
+            bgColor: color,
+            iconColor,
             index,
           });
 
           const wrappedLink = (
-            <Tooltip title={tooltip} placement="top">
+            <Tooltip title={tooltip} placement="top" arrow>
               <Box component="span">{linkElement}</Box>
             </Tooltip>
           );

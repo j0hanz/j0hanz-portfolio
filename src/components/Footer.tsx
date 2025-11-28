@@ -14,12 +14,11 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { SxProps } from '@mui/system';
-import { motion } from 'motion/react';
 
-import { SocialLinkList } from '@/components/SocialLinks';
+import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
 import { SocialLinkRenderProps } from '@/config/types';
-import { useAnimationConfig, useCopyWithFeedback, useModal } from '@/hooks';
+import { useCopyWithFeedback, useModal } from '@/hooks';
 import {
   ICON_SIZE,
   ICON_SIZE_SMALL,
@@ -104,49 +103,10 @@ const wrapFooterSocialLink = (
 function Footer(): React.JSX.Element {
   const cvModal = useModal(false);
   const { copyWithFeedback } = useCopyWithFeedback();
-  const { getTransition, prefersReducedMotion } = useAnimationConfig();
 
-  const renderFooterSocialLink = ({
-    href,
-    onClick,
-    tooltip,
-    icon,
-    index,
-  }: SocialLinkRenderProps): React.JSX.Element => {
-    const hasInteraction = Boolean(href || onClick);
-    const staggerDelay = prefersReducedMotion ? 0 : index * 0.05;
-    const hoverAnimation = prefersReducedMotion
-      ? { scale: 1.05 }
-      : { scale: 1.2, rotate: 5 };
-
-    const linkAttributes = href
-      ? {
-          target: '_blank' as const,
-          rel: 'noopener noreferrer' as const,
-        }
-      : {};
-
-    return (
-      <Box
-        component={motion.a}
-        href={href}
-        onClick={onClick}
-        aria-label={tooltip}
-        {...linkAttributes}
-        sx={{
-          cursor: hasInteraction ? 'pointer' : 'default',
-          color: 'inherit',
-          textDecoration: 'none',
-          display: 'inline-flex',
-        }}
-        whileHover={hoverAnimation}
-        whileTap={{ scale: 0.92 }}
-        transition={getTransition('smooth', { delay: staggerDelay })}
-      >
-        {icon}
-      </Box>
-    );
-  };
+  const renderFooterSocialLink = (
+    props: SocialLinkRenderProps
+  ): React.JSX.Element => <SocialLinkButton {...props} />;
 
   const handleCopyEmail = async () => {
     const messages = getCopyMessages('email');
