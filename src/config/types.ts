@@ -319,10 +319,6 @@ export interface ScrollToTopProps {
 }
 
 // --- Global UI Components ---
-export interface GlobalLoaderProps {
-  isLoading: boolean;
-}
-
 export interface StatusBannerProps {
   statusBanner: StatusBanner | null;
 }

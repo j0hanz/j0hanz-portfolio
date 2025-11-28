@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 
 import BackgroundMorph from '@/components/BackgroundMorph';
-import GlobalLoader from '@/components/GlobalLoader';
 import NavBar from '@/components/NavBar';
 import { NavigationProvider } from '@/components/NavigationProvider';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -71,7 +70,6 @@ function App(): React.JSX.Element {
         <div id="back-to-top-anchor" />
 
         <StatusBanner statusBanner={statusBanner} />
-        <GlobalLoader isLoading={isLoading} />
 
         <NavigationProvider>
           {!isLoading && <NavBar />}
