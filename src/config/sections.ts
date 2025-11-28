@@ -10,10 +10,12 @@ import {
 
 import type { Section } from '@/config/types';
 
+// Eager import for Portfolio to prevent cascading Suspense
+import Portfolio from '@/features/projects/Portfolio';
+
 // Lazy load section components for code splitting
 const Hero = lazy(() => import('@/features/hero/Hero'));
 const AboutMe = lazy(() => import('@/features/about/AboutMe'));
-const Portfolio = lazy(() => import('@/features/projects/Portfolio'));
 const WorkExperience = lazy(
   () => import('@/features/experience/WorkExperience')
 );

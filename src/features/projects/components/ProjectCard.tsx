@@ -1,7 +1,11 @@
+import { Suspense } from 'react';
+
 import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { AnimatedCard } from '@/components/Card';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { Project } from '@/config/types';
 import { prefetchRepoStats, useInViewMotion } from '@/hooks';
 import { getProjectMeta } from '@/utils/project';
@@ -27,15 +31,38 @@ const descriptionSx: SxProps<Theme> = {
   flexShrink: 0,
 };
 
+// Card content that triggers Suspense when stats are loading
+function CardContent({ project }: { project: Project }): React.JSX.Element {
+  const { repoPath, hasProjectBoard } = getProjectMeta(project);
+
+  return (
+    <Stack component="article" sx={articleSx}>
+      <Stack spacing={2} sx={contentSx}>
+        <ProjectHeader project={project} />
+        <Typography sx={descriptionSx}>{project.description}</Typography>
+        <ProjectTechStack technologies={project.technologies} />
+        {repoPath && (
+          <ProjectStats
+            repoPath={repoPath}
+            hasProjectBoard={hasProjectBoard}
+          />
+        )}
+      </Stack>
+      <ProjectLinks project={project} />
+    </Stack>
+  );
+}
+
 export function ProjectCard({
   project,
 }: {
   project: Project;
 }): React.JSX.Element {
-  const { repoPath, hasProjectBoard } = getProjectMeta(project);
+  const { repoPath } = getProjectMeta(project);
 
   const handleMouseEnter = () => {
-    if (repoPath) {
+    // Only prefetch if we have a valid repo path
+    if (repoPath && repoPath.length > 0) {
       prefetchRepoStats(repoPath);
     }
   };
@@ -48,24 +75,15 @@ export function ProjectCard({
   return (
     <motion.div {...motionProps}>
       <AnimatedCard
-        title="" // Title is handled by ProjectHeader
+        title=""
         noContentPadding
         onMouseEnter={handleMouseEnter}
       >
-        <Stack component="article" sx={articleSx}>
-          <Stack spacing={2} sx={contentSx}>
-            <ProjectHeader project={project} />
-            <Typography sx={descriptionSx}>{project.description}</Typography>
-            <ProjectTechStack technologies={project.technologies} />
-            {repoPath && (
-              <ProjectStats
-                repoPath={repoPath}
-                hasProjectBoard={hasProjectBoard}
-              />
-            )}
-          </Stack>
-          <ProjectLinks project={project} />
-        </Stack>
+        <ErrorBoundary fallback={<ProjectCardSkeleton />}>
+          <Suspense fallback={<ProjectCardSkeleton />}>
+            <CardContent project={project} />
+          </Suspense>
+        </ErrorBoundary>
       </AnimatedCard>
     </motion.div>
   );
