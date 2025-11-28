@@ -508,6 +508,12 @@ export const cardPerspectiveVariants = {
   }),
 };
 
+// Generic card motion for project cards (used with useInViewMotion)
+export const CARD_MOTION_VARIANTS = {
+  hidden: { opacity: 0, transform: 'translateY(20px) scale(0.98)' },
+  visible: { opacity: 1, transform: 'translateY(0px) scale(1)' },
+} as const;
+
 // Generic list item stagger animation
 export const listItemStaggerVariants = {
   hidden: { opacity: 0, y: 22, x: -8 },

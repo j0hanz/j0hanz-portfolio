@@ -48,7 +48,11 @@ export function ProjectCardSkeleton(): React.JSX.Element {
     >
       <Stack spacing={2} sx={{ flex: '1 1 auto' }}>
         {/* Header: Title and icon */}
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Skeleton variant="text" width="70%" height={32} />
           <Skeleton variant="circular" width={24} height={24} />
         </Stack>
@@ -86,10 +90,30 @@ export function ProjectCardSkeleton(): React.JSX.Element {
       </Stack>
 
       {/* Action buttons */}
-      <Stack direction="row" justifyContent="space-between" spacing={1} sx={{ mt: 2 }}>
-        <Skeleton variant="rounded" width={104} height={36} sx={{ borderRadius: 1 }} />
-        <Skeleton variant="rounded" width={104} height={36} sx={{ borderRadius: 1 }} />
-        <Skeleton variant="rounded" width={104} height={36} sx={{ borderRadius: 1 }} />
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        spacing={1}
+        sx={{ mt: 2 }}
+      >
+        <Skeleton
+          variant="rounded"
+          width={104}
+          height={36}
+          sx={{ borderRadius: 1 }}
+        />
+        <Skeleton
+          variant="rounded"
+          width={104}
+          height={36}
+          sx={{ borderRadius: 1 }}
+        />
+        <Skeleton
+          variant="rounded"
+          width={104}
+          height={36}
+          sx={{ borderRadius: 1 }}
+        />
       </Stack>
     </Box>
   );

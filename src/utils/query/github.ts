@@ -7,6 +7,9 @@ import type { RepoStats } from '@/config/types';
 import { queryClient } from './client';
 import { githubKeys } from './keys';
 
+// Empty stats fallback for error cases
+const EMPTY_STATS: RepoStats = { stars: 0, forks: 0, issues: 0 };
+
 // Fetches GitHub repo stats (stars, forks, issues) from 'owner/repo' path
 export async function fetchRepoStats(
   repoPath: string,
@@ -29,9 +32,9 @@ export async function fetchRepoStats(
   }
 
   try {
-    // Artificial 1s delay to demonstrate skeleton loading (REMOVE AFTER VERIFICATION)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+    // Add artificial delay to make skeleton loading visible
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`, {
       headers,
       signal,
@@ -55,7 +58,7 @@ export async function fetchRepoStats(
       if (cached) return cached;
 
       // Return empty stats as fallback
-      return { stars: 0, forks: 0, issues: 0 };
+      return EMPTY_STATS;
     }
 
     // Handle not found
@@ -63,7 +66,7 @@ export async function fetchRepoStats(
       if (import.meta.env.DEV) {
         console.warn(`Repository not found: ${repoPath}`);
       }
-      return { stars: 0, forks: 0, issues: 0 };
+      return EMPTY_STATS;
     }
 
     // Handle other errors
@@ -95,7 +98,7 @@ export async function fetchRepoStats(
       const cached = queryClient.getQueryData<RepoStats>(
         githubKeys.repoStats(repoPath)
       );
-      return cached ?? { stars: 0, forks: 0, issues: 0 };
+      return cached ?? EMPTY_STATS;
     }
 
     // Re-throw other errors

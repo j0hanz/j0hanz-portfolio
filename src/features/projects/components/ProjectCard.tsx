@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { AnimatedCard } from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
+import { CARD_MOTION_VARIANTS } from '@/config/motion';
 import { Project } from '@/config/types';
 import { prefetchRepoStats, useInViewMotion } from '@/hooks';
 import { getProjectMeta } from '@/utils/project';
@@ -42,10 +43,7 @@ function CardContent({ project }: { project: Project }): React.JSX.Element {
         <Typography sx={descriptionSx}>{project.description}</Typography>
         <ProjectTechStack technologies={project.technologies} />
         {repoPath && (
-          <ProjectStats
-            repoPath={repoPath}
-            hasProjectBoard={hasProjectBoard}
-          />
+          <ProjectStats repoPath={repoPath} hasProjectBoard={hasProjectBoard} />
         )}
       </Stack>
       <ProjectLinks project={project} />
@@ -67,18 +65,11 @@ export function ProjectCard({
     }
   };
 
-  const motionProps = useInViewMotion({
-    hidden: { opacity: 0, transform: 'translateY(20px) scale(0.98)' },
-    visible: { opacity: 1, transform: 'translateY(0px) scale(1)' },
-  });
+  const motionProps = useInViewMotion(CARD_MOTION_VARIANTS);
 
   return (
     <motion.div {...motionProps}>
-      <AnimatedCard
-        title=""
-        noContentPadding
-        onMouseEnter={handleMouseEnter}
-      >
+      <AnimatedCard title="" noContentPadding onMouseEnter={handleMouseEnter}>
         <ErrorBoundary fallback={<ProjectCardSkeleton />}>
           <Suspense fallback={<ProjectCardSkeleton />}>
             <CardContent project={project} />

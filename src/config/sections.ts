@@ -9,7 +9,6 @@ import {
 } from '@mui/icons-material';
 
 import type { Section } from '@/config/types';
-
 // Eager import for Portfolio to prevent cascading Suspense
 import Portfolio from '@/features/projects/Portfolio';
 
