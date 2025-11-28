@@ -68,7 +68,8 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     label: 'Message',
     placeholder: 'enter your message...',
     required: true,
-    rows: 4,
+    minRows: 3,
+    maxRows: 8,
     errorKey: 'message',
     gridProps: { xs: 12 },
   },
@@ -116,7 +117,8 @@ function FormField({
   defaultValue,
   error,
   required = false,
-  rows,
+  minRows,
+  maxRows,
   onChange,
   disabled,
 }: FormFieldProps): React.JSX.Element {
@@ -138,7 +140,8 @@ function FormField({
         name={name}
         type={isTextarea ? undefined : type}
         multiline={isTextarea}
-        rows={isTextarea ? rows : undefined}
+        minRows={isTextarea ? (minRows ?? 3) : undefined}
+        maxRows={isTextarea ? (maxRows ?? 8) : undefined}
         placeholder={placeholder}
         value={value}
         defaultValue={defaultValue}

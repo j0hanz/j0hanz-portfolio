@@ -687,7 +687,8 @@ export interface ContactFieldConfig {
   label: string;
   placeholder: string;
   required?: boolean;
-  rows?: number;
+  minRows?: number;
+  maxRows?: number;
   errorKey?: ContactFieldErrorKey;
   gridProps?: { xs?: number; md?: number };
 }
@@ -717,7 +718,8 @@ export interface FormFieldProps {
   defaultValue?: string;
   error?: string;
   required?: boolean;
-  rows?: number;
+  minRows?: number;
+  maxRows?: number;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   disabled?: boolean;
 }

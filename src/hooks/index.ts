@@ -1,6 +1,7 @@
 // Centralized exports for all reusable hooks
 
 // Detects pointer interactions outside of the provided ref
+// Note: For most cases, prefer MUI's ClickAwayListener component instead
 export { useClickOutside } from './useClickOutside';
 
 // Debounces rapidly changing values before propagating downstream

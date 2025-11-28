@@ -4,7 +4,6 @@ import {
   useLayoutEffect,
   useRef,
   useState,
-  useSyncExternalStore,
 } from 'react';
 
 import {
@@ -1064,55 +1063,16 @@ export function useSvgPathDraw(
 // MOBILE BREAKPOINT DETECTION
 // ============================================================================
 
-// MUI breakpoint values (matches MUI's default theme)
-const BREAKPOINT_VALUES = {
-  xs: 600,
-  sm: 900,
-  md: 1200,
-  lg: 1536,
-  xl: Infinity,
-} as const;
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
-type BreakpointKey = keyof typeof BREAKPOINT_VALUES;
+type BreakpointKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-// Creates a media query store for useSyncExternalStore
-function createMediaQueryStore(breakpoint: BreakpointKey) {
-  const threshold = BREAKPOINT_VALUES[breakpoint];
-  const query = `(max-width: ${threshold - 0.05}px)`;
-
-  return {
-    subscribe: (callback: () => void) => {
-      const mediaQuery = window.matchMedia(query);
-      mediaQuery.addEventListener('change', callback);
-      return () => mediaQuery.removeEventListener('change', callback);
-    },
-    getSnapshot: () => window.matchMedia(query).matches,
-    getServerSnapshot: () => false,
-  };
-}
-
-// Cache stores to prevent recreation on each render
-const mediaQueryStores = new Map<
-  BreakpointKey,
-  ReturnType<typeof createMediaQueryStore>
->();
-
-function getMediaQueryStore(breakpoint: BreakpointKey) {
-  if (!mediaQueryStores.has(breakpoint)) {
-    mediaQueryStores.set(breakpoint, createMediaQueryStore(breakpoint));
-  }
-  return mediaQueryStores.get(breakpoint)!;
-}
-
-// Consolidates useTheme + useMediaQuery for mobile detection
-// Uses useSyncExternalStore for React-compliant subscription pattern
-export function useMobileBreakpoint(
-  breakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md'
-): boolean {
-  const store = getMediaQueryStore(breakpoint);
-  return useSyncExternalStore(
-    store.subscribe,
-    store.getSnapshot,
-    store.getServerSnapshot
-  );
+// Uses MUI's useMediaQuery with theme breakpoints for SSR support
+// Returns true when viewport is below the specified breakpoint
+export function useMobileBreakpoint(breakpoint: BreakpointKey = 'md'): boolean {
+  const theme = useTheme();
+  return useMediaQuery(theme.breakpoints.down(breakpoint), {
+    noSsr: true, // Client-only rendering for performance
+  });
 }

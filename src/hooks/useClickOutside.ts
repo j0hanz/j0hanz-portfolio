@@ -6,6 +6,9 @@ import type { UseClickOutsideOptions } from '@/config/types';
 import useEventCallback from './useEventCallback';
 
 // Handles clicks outside a ref (for modals, dropdowns, etc.)
+// Note: For most cases, prefer MUI's ClickAwayListener component:
+// import ClickAwayListener from '@mui/material/ClickAwayListener';
+// <ClickAwayListener onClickAway={handleClose}>{children}</ClickAwayListener>
 export function useClickOutside<T extends HTMLElement = HTMLElement>(
   handler: () => void,
   options?: UseClickOutsideOptions
@@ -15,9 +18,7 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>(
   const { enabled = true } = options ?? {};
 
   useEffect(() => {
-    if (!enabled) {
-      return undefined;
-    }
+    if (!enabled) return;
 
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (
@@ -29,11 +30,9 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>(
       }
     };
 
-    // Bind events
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('touchstart', handleClickOutside);
 
-    // Cleanup
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
