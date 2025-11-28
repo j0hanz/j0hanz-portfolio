@@ -15,30 +15,30 @@ import {
 const ANIMATION_CONFIG = {
   // Primary blob - slow, organic movement
   primary: {
-    duration: 26,
+    duration: 28,
     delayOffset: 0,
   },
   // Secondary blob - slightly faster, creates depth
   secondary: {
-    duration: 20,
-    delayOffset: 4,
+    duration: 22,
+    delayOffset: 3,
   },
   // Tertiary blob - fastest, adds visual interest
   tertiary: {
-    duration: 16,
-    delayOffset: 8,
+    duration: 18,
+    delayOffset: 6,
   },
   // Color transition timing
   colorTransition: {
-    duration: 0.35,
-    ease: [0.2, 0, 0.1, 1] as const,
+    duration: 0.4,
+    ease: [0.16, 0, 0.1, 1] as const,
   },
 } as const;
 
 // Gradient opacity values for light/dark modes
 const GRADIENT_OPACITY = {
-  light: { primary: 0.26, secondary: 0.16, tertiary: 0.1 },
-  dark: { primary: 0.42, secondary: 0.26, tertiary: 0.18 },
+  light: { primary: 0.24, secondary: 0.14, tertiary: 0.09 },
+  dark: { primary: 0.38, secondary: 0.24, tertiary: 0.16 },
 } as const;
 
 // Animated background with organic floating motion and section-based colors
@@ -73,28 +73,28 @@ function BackgroundMorph(): React.JSX.Element {
 
   // Primary blob gradient - section color, top-center positioned
   const primaryGradient = `radial-gradient(
-    ellipse 78% 55% at 52% 30%,
+    ellipse 82% 58% at 50% 28%,
     ${alpha(activeColor, opacitySet.primary)},
-    ${alpha(activeColor, opacitySet.primary * 0.6)} 28%,
-    ${alpha(activeColor, opacitySet.primary * 0.32)} 60%,
+    ${alpha(activeColor, opacitySet.primary * 0.55)} 30%,
+    ${alpha(activeColor, opacitySet.primary * 0.28)} 58%,
     transparent 100%
   )`;
 
   // Secondary blob gradient - theme accent, bottom-right
   const secondaryGradient = `radial-gradient(
-    ellipse 110% 32% at 90% 55%,
+    ellipse 105% 35% at 88% 52%,
     ${alpha(theme.palette.primary.main, opacitySet.secondary)},
-    ${alpha(theme.palette.primary.main, opacitySet.secondary * 0.55)} 18%,
-    ${alpha(theme.palette.primary.main, opacitySet.secondary * 0.28)} 45%,
+    ${alpha(theme.palette.primary.main, opacitySet.secondary * 0.5)} 22%,
+    ${alpha(theme.palette.primary.main, opacitySet.secondary * 0.24)} 48%,
     transparent 100%
   )`;
 
   // Tertiary blob gradient - complementary, adds depth
   const tertiaryGradient = `radial-gradient(
-    ellipse 32% 60% at 18% 78%,
+    ellipse 35% 58% at 15% 75%,
     ${alpha(activeColor, opacitySet.tertiary)},
-    ${alpha(activeColor, opacitySet.tertiary * 0.45)} 20%,
-    ${alpha(activeColor, opacitySet.tertiary * 0.22)} 55%,
+    ${alpha(activeColor, opacitySet.tertiary * 0.42)} 24%,
+    ${alpha(activeColor, opacitySet.tertiary * 0.18)} 52%,
     transparent 100%
   )`;
 
@@ -102,7 +102,7 @@ function BackgroundMorph(): React.JSX.Element {
   const colorKey = `${activeSectionId}-${isDark ? 'dark' : 'light'}`;
 
   // Smooth easing for organic motion
-  const organicEase = [0.33, 0, 0.67, 1] as const;
+  const organicEase = [0.37, 0, 0.63, 1] as const;
 
   return (
     <Box
@@ -120,15 +120,15 @@ function BackgroundMorph(): React.JSX.Element {
         <Box
           component={motion.div}
           key={colorKey}
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.85 }}
           animate={{
             opacity: 1,
             scale: 1,
-            x: shouldAnimate ? ['0%', '2.8%', '-1.6%', '1.2%', '0%'] : '0%',
-            y: shouldAnimate ? ['0%', '2.4%', '3.4%', '1.2%', '0%'] : '0%',
-            rotate: shouldAnimate ? [0, 1.5, -1, 0.5, 0] : 0,
+            x: shouldAnimate ? ['0%', '2.4%', '-1.8%', '1%', '0%'] : '0%',
+            y: shouldAnimate ? ['0%', '2.2%', '3%', '1.4%', '0%'] : '0%',
+            rotate: shouldAnimate ? [0, 1.2, -0.8, 0.4, 0] : 0,
           }}
-          exit={{ opacity: 0, scale: 1.2 }}
+          exit={{ opacity: 0, scale: 1.15 }}
           transition={{
             opacity: ANIMATION_CONFIG.colorTransition,
             scale: ANIMATION_CONFIG.colorTransition,
@@ -142,7 +142,7 @@ function BackgroundMorph(): React.JSX.Element {
               : undefined,
             y: shouldAnimate
               ? getTransition('easeInOut', {
-                  duration: ANIMATION_CONFIG.primary.duration * 1.05,
+                  duration: ANIMATION_CONFIG.primary.duration * 1.08,
                   repeat: Infinity,
                   repeatType: 'mirror',
                   ease: organicEase,
@@ -150,7 +150,7 @@ function BackgroundMorph(): React.JSX.Element {
               : undefined,
             rotate: shouldAnimate
               ? getTransition('easeInOut', {
-                  duration: ANIMATION_CONFIG.primary.duration * 0.9,
+                  duration: ANIMATION_CONFIG.primary.duration * 0.92,
                   repeat: Infinity,
                   repeatType: 'mirror',
                   ease: organicEase,
@@ -160,9 +160,9 @@ function BackgroundMorph(): React.JSX.Element {
           style={{ background: primaryGradient }}
           sx={{
             position: 'absolute',
-            inset: '-36%',
-            width: '175%',
-            height: '175%',
+            inset: '-38%',
+            width: '178%',
+            height: '178%',
             willChange: shouldAnimate ? 'transform, opacity' : 'auto',
           }}
         />
@@ -172,9 +172,9 @@ function BackgroundMorph(): React.JSX.Element {
       <Box
         component={motion.div}
         animate={{
-          x: shouldAnimate ? ['0%', '-3.4%', '1.4%', '-0.8%', '0%'] : '0%',
-          y: shouldAnimate ? ['0%', '-2.6%', '-0.4%', '1.8%', '0%'] : '0%',
-          scale: shouldAnimate ? [1, 1.08, 1.02, 1.06, 1] : 1,
+          x: shouldAnimate ? ['0%', '-3%', '1.6%', '-0.6%', '0%'] : '0%',
+          y: shouldAnimate ? ['0%', '-2.2%', '-0.6%', '1.6%', '0%'] : '0%',
+          scale: shouldAnimate ? [1, 1.06, 1.02, 1.04, 1] : 1,
         }}
         transition={{
           x: shouldAnimate
@@ -188,7 +188,7 @@ function BackgroundMorph(): React.JSX.Element {
             : undefined,
           y: shouldAnimate
             ? getTransition('easeInOut', {
-                duration: ANIMATION_CONFIG.secondary.duration * 1.1,
+                duration: ANIMATION_CONFIG.secondary.duration * 1.12,
                 repeat: Infinity,
                 repeatType: 'mirror',
                 delay: ANIMATION_CONFIG.secondary.delayOffset,
@@ -197,7 +197,7 @@ function BackgroundMorph(): React.JSX.Element {
             : undefined,
           scale: shouldAnimate
             ? getTransition('easeInOut', {
-                duration: ANIMATION_CONFIG.secondary.duration * 0.8,
+                duration: ANIMATION_CONFIG.secondary.duration * 0.85,
                 repeat: Infinity,
                 repeatType: 'mirror',
                 delay: ANIMATION_CONFIG.secondary.delayOffset,
@@ -208,11 +208,11 @@ function BackgroundMorph(): React.JSX.Element {
         style={{ background: secondaryGradient }}
         sx={{
           position: 'absolute',
-          inset: '-32%',
-          width: '160%',
-          height: '160%',
-          filter: 'blur(80px)',
-          opacity: 0.75,
+          inset: '-34%',
+          width: '165%',
+          height: '165%',
+          filter: 'blur(90px)',
+          opacity: 0.72,
           mixBlendMode: 'screen',
           willChange: shouldAnimate ? 'transform, filter' : 'auto',
         }}
@@ -222,9 +222,9 @@ function BackgroundMorph(): React.JSX.Element {
       <Box
         component={motion.div}
         animate={{
-          x: shouldAnimate ? ['0%', '1.4%', '-2.4%', '0.8%', '0%'] : '0%',
-          y: shouldAnimate ? ['0%', '2.6%', '-1.6%', '1%', '0%'] : '0%',
-          scale: shouldAnimate ? [1, 0.96, 1.04, 0.98, 1] : 1,
+          x: shouldAnimate ? ['0%', '1.6%', '-2%', '0.6%', '0%'] : '0%',
+          y: shouldAnimate ? ['0%', '2.2%', '-1.4%', '0.8%', '0%'] : '0%',
+          scale: shouldAnimate ? [1, 0.97, 1.03, 0.99, 1] : 1,
         }}
         transition={{
           x: shouldAnimate
@@ -238,7 +238,7 @@ function BackgroundMorph(): React.JSX.Element {
             : undefined,
           y: shouldAnimate
             ? getTransition('easeInOut', {
-                duration: ANIMATION_CONFIG.tertiary.duration * 1.1,
+                duration: ANIMATION_CONFIG.tertiary.duration * 1.15,
                 repeat: Infinity,
                 repeatType: 'mirror',
                 delay: ANIMATION_CONFIG.tertiary.delayOffset,
@@ -247,7 +247,7 @@ function BackgroundMorph(): React.JSX.Element {
             : undefined,
           scale: shouldAnimate
             ? getTransition('easeInOut', {
-                duration: ANIMATION_CONFIG.tertiary.duration * 0.9,
+                duration: ANIMATION_CONFIG.tertiary.duration * 0.88,
                 repeat: Infinity,
                 repeatType: 'mirror',
                 delay: ANIMATION_CONFIG.tertiary.delayOffset,
@@ -258,11 +258,11 @@ function BackgroundMorph(): React.JSX.Element {
         style={{ background: tertiaryGradient }}
         sx={{
           position: 'absolute',
-          inset: '-24%',
-          width: '150%',
-          height: '150%',
-          filter: 'blur(110px)',
-          opacity: 0.55,
+          inset: '-26%',
+          width: '152%',
+          height: '152%',
+          filter: 'blur(120px)',
+          opacity: 0.52,
           mixBlendMode: 'screen',
           willChange: shouldAnimate ? 'transform, filter' : 'auto',
         }}
