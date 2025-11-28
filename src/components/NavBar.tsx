@@ -131,11 +131,10 @@ function NavLinkItem(props: NavLinkItemProps): JSX.Element {
             transition={highlightTransition}
             sx={{
               position: 'absolute',
-              inset: 4,
+              inset: 0,
               borderRadius: 2,
-              bgcolor: 'action.selected',
-              opacity: 0.4,
               zIndex: 0,
+              bgColor: 'action.selected',
             }}
           />
         )}

@@ -71,13 +71,10 @@ export const listItemButtonSx: SystemStyleObject<Theme> = {
 };
 
 export const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
-  bgcolor: 'action.selected',
   '& .MuiListItemIcon-root': {
-    color: 'primary.main',
     transform: 'scale(1.1)',
   },
   '& .MuiListItemText-primary': {
-    color: 'primary.main',
     fontWeight: 600,
   },
 };
@@ -108,7 +105,7 @@ export const drawerPaperSx: SxProps<Theme> = {
   backdropFilter: 'blur(16px) saturate(180%)',
   WebkitBackdropFilter: 'blur(16px) saturate(180%)',
   border: '1px solid rgba(255, 255, 255, 0.125)',
-  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
 };
 
 export const drawerHeaderSx: SxProps<Theme> = {
