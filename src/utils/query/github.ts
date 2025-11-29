@@ -29,40 +29,26 @@ export async function fetchRepoStats(
   }
 
   try {
-    // Add artificial delay to make skeleton loading visible
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Don't remove!
+    // Add artificial delay in development to make skeleton loading visible
+    if (import.meta.env.DEV) {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
 
     const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`, {
       headers,
       signal,
     });
 
-    // Handle rate limiting
+    // Handle rate limiting - return cached data or empty stats
     if (response.status === 403 || response.status === 429) {
-      const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
-      const rateLimitReset = response.headers.get('x-ratelimit-reset');
-
-      if (import.meta.env.DEV) {
-        console.warn(
-          `GitHub rate limited for ${repoPath}. Remaining: ${rateLimitRemaining}, Reset: ${rateLimitReset ? new Date(Number(rateLimitReset) * 1000).toLocaleTimeString() : 'unknown'}`
-        );
-      }
-
-      // Return cached data if available
       const cached = queryClient.getQueryData<RepoStats>(
         githubKeys.repoStats(repoPath)
       );
-      if (cached) return cached;
-
-      // Return empty stats as fallback
-      return EMPTY_STATS;
+      return cached ?? EMPTY_STATS;
     }
 
-    // Handle not found
+    // Handle not found - return empty stats
     if (response.status === 404) {
-      if (import.meta.env.DEV) {
-        console.warn(`Repository not found: ${repoPath}`);
-      }
       return EMPTY_STATS;
     }
 
@@ -86,12 +72,8 @@ export async function fetchRepoStats(
       issues: data.open_issues_count ?? 0,
     };
   } catch (error) {
-    // Handle network errors
+    // Handle network errors - return cached data or empty stats
     if (error instanceof TypeError && error.message === 'Failed to fetch') {
-      if (import.meta.env.DEV) {
-        console.error('Network error fetching GitHub stats:', error);
-      }
-      // Return cached data or empty stats
       const cached = queryClient.getQueryData<RepoStats>(
         githubKeys.repoStats(repoPath)
       );
@@ -116,12 +98,7 @@ export function useRepoStatsQuery(repoPath: string) {
 
 // Prefetches GitHub stats on hover/navigation to reduce perceived loading
 export function prefetchRepoStats(repoPath: string): Promise<void> {
-  if (!repoPath) {
-    if (import.meta.env.DEV) {
-      console.warn('Cannot prefetch: empty repository path');
-    }
-    return Promise.resolve();
-  }
+  if (!repoPath) return Promise.resolve();
 
   return queryClient
     .prefetchQuery({
@@ -129,11 +106,8 @@ export function prefetchRepoStats(repoPath: string): Promise<void> {
       queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
       ...LONG_CACHE_OPTIONS,
     })
-    .catch((error) => {
-      if (import.meta.env.DEV) {
-        console.error(`Failed to prefetch stats for ${repoPath}:`, error);
-      }
-      // Silently fail - prefetch is optional
+    .catch(() => {
+      // Silently fail - prefetch is optional enhancement
     });
 }
 

@@ -9,12 +9,10 @@ import { NavigationProvider } from '@/components/NavigationProvider';
 import ScrollToTop from '@/components/ScrollToTop';
 import Spinner from '@/components/Spinner';
 import StatusBanner from '@/components/StatusBanner';
-import { APP_COPY } from '@/config/constants';
+import { APP_COPY, INITIAL_LOADING_DELAY_MS } from '@/config/constants';
 import { useConnectivity, useContentMotion } from '@/hooks';
 import Home from '@/pages/Home';
 
-// Initial loading delay to prevent jarring flash (2 seconds)
-const INITIAL_LOADING_DELAY = 2000;
 const APP_TITLE = APP_COPY.title;
 
 // Main container styles
@@ -57,7 +55,7 @@ function useInitialLoading(delay: number): boolean {
 
 function App(): React.JSX.Element {
   const { isOnline, statusBanner } = useConnectivity();
-  const isLoading = useInitialLoading(INITIAL_LOADING_DELAY);
+  const isLoading = useInitialLoading(INITIAL_LOADING_DELAY_MS);
   const contentMotion = useContentMotion();
 
   return (

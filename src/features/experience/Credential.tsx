@@ -7,7 +7,11 @@ import BaseModal from '@/components/BaseModal';
 import Image from '@/components/Image';
 import { RESPONSIVE_SIZE } from '@/config/responsive';
 import { CredentialProps } from '@/config/types';
-import { TRANSITION_STANDARD } from '@/styles/shared';
+import {
+  TRANSITION_STANDARD,
+  transparentModalContentSx,
+  visuallyHiddenSx,
+} from '@/styles/shared';
 
 const linkBoxSx: SxProps<Theme> = {
   display: 'block',
@@ -70,26 +74,9 @@ function Credential({ open, onClose }: CredentialProps): React.JSX.Element {
       transparentPaper
       maxWidth={false}
       fullWidth={false}
-      contentSx={{
-        p: 0,
-        bgcolor: 'transparent',
-        overflow: 'hidden',
-      }}
+      contentSx={transparentModalContentSx}
     >
-      <DialogTitle
-        id="credential-modal-title"
-        sx={{
-          position: 'absolute',
-          width: 1,
-          height: 1,
-          p: 0,
-          m: -1,
-          overflow: 'hidden',
-          clip: 'rect(0, 0, 0, 0)',
-          whiteSpace: 'nowrap',
-          border: 0,
-        }}
-      >
+      <DialogTitle id="credential-modal-title" sx={visuallyHiddenSx}>
         Educational Credential
       </DialogTitle>
       <Box sx={{ position: 'relative', display: 'inline-block' }}>

@@ -56,8 +56,20 @@ const theme = createTheme({
     glass: {
       backdropFilter: 'blur(6px)',
       WebkitBackdropFilter: 'blur(6px)',
-      border: '1px solid rgba(196, 193, 193, 0.18)',
+      border: '1px solid var(--portfolio-palette-divider)',
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+    },
+    glassHeavy: {
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      border: '1px solid var(--portfolio-palette-divider)',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+    },
+    glassLight: {
+      backdropFilter: 'blur(3px)',
+      WebkitBackdropFilter: 'blur(3px)',
+      border: '1px solid var(--portfolio-palette-divider)',
+      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)',
     },
   },
   components: componentOverrides,

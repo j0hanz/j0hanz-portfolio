@@ -4,8 +4,8 @@ import { useReducedMotion } from 'motion/react';
 
 import type { ScrollBoundaries, ScrollDirection } from '@/config/types';
 
+import { useMobileBreakpoint } from './useBreakpoints';
 import useEventCallback from './useEventCallback';
-import { useMobileBreakpoint } from './useMotions';
 import { useNavigationActions, useNavigationState } from './useNavigation';
 import { useScrollEvents } from './useScrollEvents';
 

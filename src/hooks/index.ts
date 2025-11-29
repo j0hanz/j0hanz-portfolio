@@ -110,11 +110,6 @@ export {
   useBatchedDomUpdate,
   usePulse,
   useSvgPathDraw,
-  // Responsive breakpoint hooks
-  useMobileBreakpoint,
-  useCurrentBreakpoint,
-  useBreakpointBetween,
-  useResponsiveValue,
   // Timeline section setup hook
   useTimelineSectionRefs,
   useTimelineSectionController,
@@ -123,6 +118,31 @@ export {
   // Timeline card motion hook (shared for Education/WorkExperience)
   useTimelineCardMotion,
 } from './useMotions';
+
+// ============================================================================
+// Responsive Breakpoint Hooks (consolidated)
+// ============================================================================
+
+export {
+  // Core breakpoint detection hooks
+  useMobileBreakpoint,
+  useDesktopBreakpoint,
+  useBreakpointBetween,
+  useBreakpointOnly,
+  useCurrentBreakpoint,
+  useCurrentBreakpointSync,
+  useResponsiveValue,
+  // Viewport and device detection
+  useViewportDimensions,
+  useIsTouchDevice,
+  usePrefersReducedMotion,
+  usePrefersDarkMode,
+  useHasHoverCapability,
+  // Breakpoint comparison utilities
+  getBreakpointIndex,
+  isBreakpointSmaller,
+  isBreakpointLargerOrEqual,
+} from './useBreakpoints';
 
 // ============================================================================
 // Responsive Constants (re-exported from config for convenience)
@@ -152,8 +172,13 @@ export {
   fullWidthSx,
   createResponsiveMarginBottom,
   createDisplayToggle,
+  createResponsiveDisplay,
+  createVisibleBetween,
   resolveResponsiveValue,
+  createResponsiveBreakpoint,
+  isResponsiveValue,
   BREAKPOINT_KEYS,
+  BREAKPOINT_VALUES,
 } from '@/config/responsive';
 
 export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';

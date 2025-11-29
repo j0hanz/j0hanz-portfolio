@@ -128,6 +128,8 @@ function NavLinkItem(props: NavLinkItemProps): JSX.Element {
           <Box
             component={motion.span}
             layoutId={NAV_HIGHLIGHT_LAYOUT_ID}
+            layout
+            layoutDependency={isActive}
             transition={highlightTransition}
             sx={{
               position: 'absolute',

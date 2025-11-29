@@ -55,10 +55,14 @@ function Spinner({ sx }: { sx?: SxProps<Theme> }): React.JSX.Element {
         initial={false}
         animate={
           prefersReducedMotion
-            ? { opacity: 0.7 }
+            ? { opacity: [0.6, 0.9, 0.6] }
             : { rotate: 360, scale: [1, 1.08, 1] }
         }
-        transition={prefersReducedMotion ? undefined : spinnerTransition}
+        transition={
+          prefersReducedMotion
+            ? { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+            : spinnerTransition
+        }
         sx={spinnerSx}
       />
     </Stack>

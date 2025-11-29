@@ -13,12 +13,7 @@ import ProfileImage from '@/assets/image_me.webp';
 import BaseModal from '@/components/BaseModal';
 import { ImageModalProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading, useVelocityTilt } from '@/hooks';
-
-const modalContentSx: SxProps<Theme> = {
-  bgcolor: 'transparent',
-  p: 0,
-  overflow: 'hidden',
-};
+import { transparentModalContentSx, visuallyHiddenSx } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   position: 'relative',
@@ -40,7 +35,6 @@ const imgStyle = {
   objectFit: 'contain',
   borderRadius: '10px',
   display: 'block',
-  willChange: 'opacity, transform',
 } as const;
 
 // Component for displaying an image
@@ -53,41 +47,34 @@ function ImageModal({ open, onClose }: ImageModalProps): React.JSX.Element {
   const dragX = useMotionValue(0);
   const tiltAngle = useVelocityTilt(dragX, 12);
 
+  // Conditional willChange for performance - only hint when animating
+  const baseImgStyle = {
+    ...imgStyle,
+    willChange: prefersReducedMotion ? 'auto' : 'opacity, transform',
+  } as const;
+
   const dragProps = prefersReducedMotion
-    ? { drag: false as const, style: imgStyle }
+    ? { drag: false as const, style: baseImgStyle }
     : {
         drag: true as const,
         dragConstraints: constraintsRef,
         dragElastic: 0.2,
         whileTap: { scale: 0.98 },
-        style: { ...imgStyle, x: dragX, rotateY: tiltAngle },
+        style: { ...baseImgStyle, x: dragX, rotateY: tiltAngle },
       };
 
   return (
     <BaseModal
       open={open}
       onClose={onClose}
-      contentSx={modalContentSx}
+      contentSx={transparentModalContentSx}
       animationPreset="zoomOut"
       ariaLabelledBy="image-modal-title"
       transparentPaper
       maxWidth={false}
       fullWidth={false}
     >
-      <DialogTitle
-        id="image-modal-title"
-        sx={{
-          position: 'absolute',
-          width: 1,
-          height: 1,
-          p: 0,
-          m: -1,
-          overflow: 'hidden',
-          clip: 'rect(0, 0, 0, 0)',
-          whiteSpace: 'nowrap',
-          border: 0,
-        }}
-      >
+      <DialogTitle id="image-modal-title" sx={visuallyHiddenSx}>
         Linus Johansson Profile Image
       </DialogTitle>
       <Box sx={containerSx} ref={constraintsRef}>

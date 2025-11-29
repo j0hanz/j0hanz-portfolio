@@ -288,7 +288,16 @@ function createGestureVariant(
   };
 }
 
-// Shadow presets for lift gestures (use CSS variables for theme integration)
+// Filter presets for lift gestures - use drop-shadow for compositor acceleration
+// Per Motion docs: filter drop-shadow is hardware-accelerated vs boxShadow paint operations
+export const FILTER_LIFT_REST =
+  'drop-shadow(0 4px 12px var(--shadow-color, rgba(0,0,0,0.08)))';
+export const FILTER_LIFT_HOVER =
+  'drop-shadow(0 20px 40px var(--shadow-color, rgba(0,0,0,0.15)))';
+export const FILTER_LIFT_TAP =
+  'drop-shadow(0 8px 20px var(--shadow-color, rgba(0,0,0,0.12)))';
+
+// Legacy boxShadow presets (kept for static styles, not animations)
 export const SHADOW_LIFT_REST =
   '0 4px 12px var(--shadow-color, rgba(0,0,0,0.08))';
 export const SHADOW_LIFT_HOVER =
@@ -310,9 +319,9 @@ export const gestureVariants = {
     tap: { scale: 0.9, rotate: -5 },
   },
   lift: {
-    rest: { y: 0, boxShadow: SHADOW_LIFT_REST },
-    hover: { y: -10, boxShadow: SHADOW_LIFT_HOVER },
-    tap: { y: -4, boxShadow: SHADOW_LIFT_TAP },
+    rest: { y: 0, filter: FILTER_LIFT_REST },
+    hover: { y: -10, filter: FILTER_LIFT_HOVER },
+    tap: { y: -4, filter: FILTER_LIFT_TAP },
   },
   tilt: {
     rest: { rotateX: 0, rotateY: 0, scale: 1 },

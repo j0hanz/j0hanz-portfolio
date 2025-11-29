@@ -14,7 +14,7 @@ export function Parallax({
   style,
 }: ParallaxProps) {
   const ref = useRef(null);
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
@@ -35,7 +35,11 @@ export function Parallax({
     <motion.div
       ref={ref}
       className={className}
-      style={{ y, ...style, willChange: 'transform' }}
+      style={{
+        y,
+        ...style,
+        willChange: prefersReducedMotion ? 'auto' : 'transform',
+      }}
     >
       {children}
     </motion.div>

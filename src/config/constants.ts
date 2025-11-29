@@ -8,6 +8,12 @@ export const APP_COPY = {
   title: 'Linus Johansson | Portfolio',
 } as const;
 
+/**
+ * Initial loading splash duration in milliseconds.
+ * Set to 2s to ensure smooth animation transition and prevent layout flash.
+ */
+export const INITIAL_LOADING_DELAY_MS = 2000;
+
 // ============================================================================
 // PROJECT STATS CONSTANTS
 // ============================================================================

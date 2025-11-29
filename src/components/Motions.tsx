@@ -428,7 +428,9 @@ export function BlinkingCursor({
     return Math.sin(normalized * Math.PI);
   });
 
-  if (prefersReducedMotion) return null;
+  if (prefersReducedMotion) {
+    return <span aria-hidden="true" style={{ ...style, opacity: 1 }} />;
+  }
 
   return <motion.span aria-hidden="true" style={{ ...style, opacity }} />;
 }

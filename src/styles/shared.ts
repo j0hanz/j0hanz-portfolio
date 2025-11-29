@@ -124,3 +124,23 @@ export const cardBaseSx: SxProps<Theme> = {
   borderRadius: 2,
   backgroundColor: 'backdrop.glass',
 };
+
+// Visually hidden content for screen readers (WCAG compliant)
+export const visuallyHiddenSx: SxProps<Theme> = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  p: 0,
+  m: -1,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+};
+
+// Transparent modal content styling
+export const transparentModalContentSx: SxProps<Theme> = {
+  p: 0,
+  bgcolor: 'transparent',
+  overflow: 'hidden',
+};

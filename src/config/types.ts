@@ -12,7 +12,6 @@ import {
   AlertColor,
   ButtonProps as MuiButtonProps,
   PaletteMode,
-  PaletteOptions,
   SxProps,
   Theme,
 } from '@mui/material';
@@ -832,28 +831,6 @@ export interface SnackbarContextType {
 }
 
 // --- Hooks ---
-export interface UseArrayReturn<T> {
-  array: T[];
-  set: (nextArray: T[]) => void;
-  push: (...items: T[]) => void;
-  pop: () => T | undefined;
-  shift: () => T | undefined;
-  unshift: (...items: T[]) => void;
-  insert: (index: number, ...items: T[]) => void;
-  remove: (index: number) => void;
-  removeById: (id: unknown, key?: keyof T) => void;
-  update: (index: number, item: T) => void;
-  updateById: (id: unknown, item: Partial<T>, key?: keyof T) => void;
-  clear: () => void;
-  filter: (predicate: (item: T, index: number) => boolean) => void;
-  sort: (compareFn?: (a: T, b: T) => number) => void;
-  reverse: () => void;
-  replace: (target: T, replacement: T) => void;
-  toggle: (item: T) => void;
-  isEmpty: boolean;
-  length: number;
-}
-
 export interface UseClickOutsideOptions {
   enabled?: boolean;
 }
@@ -905,8 +882,6 @@ export interface UseToggleReturn {
   setFalse: () => void;
 }
 
-export type FieldName = keyof ContactFormValues;
-
 // --- Scroll & Navigation Hooks ---
 export type ScrollDirection = 'up' | 'down';
 
@@ -930,9 +905,6 @@ export interface UseScrollAnimationOptions {
 export type ValidationError = string | undefined;
 
 export type PaletteModeKey = 'light' | 'dark';
-
-export type BackgroundOptions = NonNullable<PaletteOptions['background']>;
-export type TextOptions = NonNullable<PaletteOptions['text']>;
 
 export type StatusBanner = {
   message: string;

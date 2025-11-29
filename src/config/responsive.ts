@@ -29,14 +29,41 @@ export const BREAKPOINT_KEYS: readonly BreakpointKey[] = [
   'xl',
 ] as const;
 
+// Breakpoint pixel values for reference
+export const BREAKPOINT_VALUES = {
+  xs: 0,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
+} as const satisfies Record<BreakpointKey, number>;
+
 type DisplayValue = CSSProperties['display'];
 
-// Resolves a responsive value using the current breakpoint with safe fallbacks
+// ============================================================================
+// RESPONSIVE VALUE UTILITIES
+// ============================================================================
+
+/**
+ * Resolves a responsive value using the current breakpoint with safe fallbacks.
+ * Follows MUI's mobile-first approach: if no exact match, falls back to smaller breakpoints first.
+ *
+ * @param value - Either a scalar value or a responsive object with breakpoint keys
+ * @param breakpoint - The current breakpoint to resolve for
+ * @param fallback - Optional fallback value if no match found
+ * @returns The resolved value for the current breakpoint
+ *
+ * @example
+ * resolveResponsiveValue({ xs: 1, md: 2 }, 'lg') // Returns 2 (falls back to md)
+ * resolveResponsiveValue({ md: 3 }, 'sm')        // Returns 3 (falls up to md)
+ * resolveResponsiveValue(5, 'md')                // Returns 5 (scalar passthrough)
+ */
 export function resolveResponsiveValue<T>(
   value: ResponsiveValue<T> | T,
   breakpoint: BreakpointKey,
   fallback?: T
 ): T {
+  // Handle scalar values and null/undefined
   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
     return (value ?? fallback) as T;
   }
@@ -44,7 +71,7 @@ export function resolveResponsiveValue<T>(
   const map = value as ResponsiveValue<T>;
   const currentIndex = BREAKPOINT_KEYS.indexOf(breakpoint);
 
-  // Prefer exact or smaller breakpoint match first
+  // Mobile-first: prefer exact or smaller breakpoint match first
   for (let i = currentIndex; i >= 0; i -= 1) {
     const candidate = map[BREAKPOINT_KEYS[i]];
     if (candidate !== undefined) return candidate;
@@ -56,6 +83,7 @@ export function resolveResponsiveValue<T>(
     if (candidate !== undefined) return candidate;
   }
 
+  // Last resort: return any defined value or fallback
   const firstDefined = BREAKPOINT_KEYS.map((key) => map[key]).find(
     (item) => item !== undefined
   );
@@ -64,7 +92,55 @@ export function resolveResponsiveValue<T>(
   return fallback as T;
 }
 
-// Utility to build display toggles for common visibility helpers
+/**
+ * Creates a responsive value object with common mobile/desktop pattern.
+ * Shorthand for the frequent pattern of having different mobile vs desktop values.
+ *
+ * @param mobile - Value for xs (and sm if not overridden)
+ * @param desktop - Value for md and above
+ * @returns A responsive value object
+ *
+ * @example
+ * createResponsiveBreakpoint(1, 2) // { xs: 1, md: 2 }
+ */
+export function createResponsiveBreakpoint<T>(
+  mobile: T,
+  desktop: T
+): ResponsiveValue<T> {
+  return { xs: mobile, md: desktop };
+}
+
+/**
+ * Checks if a value is a responsive value object.
+ */
+export function isResponsiveValue<T>(
+  value: unknown
+): value is ResponsiveValue<T> {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    return false;
+  }
+  const keys = Object.keys(value);
+  return keys.some((key) => BREAKPOINT_KEYS.includes(key as BreakpointKey));
+}
+
+// ============================================================================
+// DISPLAY TOGGLE UTILITIES
+// ============================================================================
+
+/**
+ * Creates display toggle sx props for showing/hiding elements at breakpoints.
+ * Mobile-first: sets xs value, then overrides at the specified breakpoint.
+ *
+ * @param options - Configuration for mobile/desktop display values
+ * @returns SxProps for display toggling
+ *
+ * @example
+ * // Hide on mobile, show as block on sm+
+ * createDisplayToggle({ mobile: 'none', desktop: 'block' })
+ *
+ * // Show on mobile, hide on md+
+ * createDisplayToggle({ mobile: 'block', desktop: 'none', breakpoint: 'md' })
+ */
 export function createDisplayToggle({
   mobile = 'none',
   desktop = 'block',
@@ -78,6 +154,48 @@ export function createDisplayToggle({
     display: {
       xs: mobile,
       [breakpoint]: desktop,
+    },
+  };
+}
+
+/**
+ * Creates responsive display value for all breakpoints.
+ * More flexible than createDisplayToggle for complex visibility patterns.
+ *
+ * @param values - Display values for each breakpoint
+ * @returns SxProps for display
+ *
+ * @example
+ * createResponsiveDisplay({ xs: 'none', sm: 'flex', lg: 'grid' })
+ */
+export function createResponsiveDisplay(
+  values: ResponsiveValue<DisplayValue>
+): SxProps<Theme> {
+  return { display: values };
+}
+
+/**
+ * Creates visibility pattern that shows only on specific breakpoint range.
+ *
+ * @param from - Start breakpoint (inclusive)
+ * @param to - End breakpoint (exclusive) - element hidden at this breakpoint and above
+ * @param displayType - Display type when visible (default: 'block')
+ * @returns SxProps for conditional visibility
+ *
+ * @example
+ * // Only visible between sm and md (600px - 899px)
+ * createVisibleBetween('sm', 'md')
+ */
+export function createVisibleBetween(
+  from: BreakpointKey,
+  to: BreakpointKey,
+  displayType: DisplayValue = 'block'
+): SxProps<Theme> {
+  return {
+    display: {
+      xs: 'none',
+      [from]: displayType,
+      [to]: 'none',
     },
   };
 }

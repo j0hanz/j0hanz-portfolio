@@ -73,7 +73,11 @@ export function ProjectCard({
 
   return (
     <LayoutGroup id={layoutId}>
-      <motion.div {...motionProps} layoutId={`${layoutId}-container`}>
+      <motion.div
+        {...motionProps}
+        layoutId={`${layoutId}-container`}
+        layoutDependency={project.github}
+      >
         <AnimatedCard title="" noContentPadding onMouseEnter={handleMouseEnter}>
           <ErrorBoundary fallback={<ProjectCardSkeleton />}>
             <Suspense fallback={<ProjectCardSkeleton />}>

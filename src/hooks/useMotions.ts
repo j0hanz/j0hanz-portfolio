@@ -1,7 +1,5 @@
 import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   animate,
   frame,
@@ -46,8 +44,6 @@ import {
   viewportConfig,
   viewportPresets,
 } from '@/config/motion';
-import { resolveResponsiveValue } from '@/config/responsive';
-import type { BreakpointKey, ResponsiveValue } from '@/config/responsive';
 import type {
   AnimationConfig,
   AnimationPriority,
@@ -1057,77 +1053,5 @@ export function useSvgPathDraw(
   return { pathLength, isInView };
 }
 
-// ============================================================================
-// RESPONSIVE BREAKPOINT HOOKS
-// ============================================================================
-
-/**
- * Detects if viewport is below the specified breakpoint.
- * Uses MUI's useMediaQuery with theme breakpoints for SSR support.
- *
- * @example
- * const isMobile = useMobileBreakpoint('md');      // < 900px
- * const isTablet = useMobileBreakpoint('lg');      // < 1200px
- * const isSmallScreen = useMobileBreakpoint('sm'); // < 600px
- */
-export function useMobileBreakpoint(breakpoint: BreakpointKey = 'md'): boolean {
-  const theme = useTheme();
-  return useMediaQuery(theme.breakpoints.down(breakpoint), {
-    noSsr: true,
-  });
-}
-
-/**
- * Returns the current breakpoint name.
- * Useful for conditional rendering based on exact breakpoint.
- *
- * @example
- * const breakpoint = useCurrentBreakpoint();
- * if (breakpoint === 'xs') { ... }
- */
-export function useCurrentBreakpoint(): BreakpointKey {
-  const theme = useTheme();
-
-  // Call hooks unconditionally at the top level for each breakpoint
-  const isXl = useMediaQuery(theme.breakpoints.up('xl'), { noSsr: true });
-  const isLg = useMediaQuery(theme.breakpoints.up('lg'), { noSsr: true });
-  const isMd = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true });
-  const isSm = useMediaQuery(theme.breakpoints.up('sm'), { noSsr: true });
-
-  // Determine current breakpoint based on which media queries match
-  if (isXl) return 'xl';
-  if (isLg) return 'lg';
-  if (isMd) return 'md';
-  if (isSm) return 'sm';
-  return 'xs';
-}
-
-/**
- * Checks if viewport matches a specific breakpoint range.
- *
- * @example
- * const isTabletOnly = useBreakpointBetween('sm', 'md'); // 600px - 899px
- */
-export function useBreakpointBetween(
-  start: BreakpointKey,
-  end: BreakpointKey
-): boolean {
-  const theme = useTheme();
-  return useMediaQuery(theme.breakpoints.between(start, end), {
-    noSsr: true,
-  });
-}
-
-/**
- * Returns the responsive value mapped to the current breakpoint with fallback handling.
- *
- * @example
- * const layout = useResponsiveValue({ xs: 'stack', md: 'grid' }, 'grid');
- */
-export function useResponsiveValue<T>(
-  value: ResponsiveValue<T> | T,
-  fallback?: T
-): T {
-  const breakpoint = useCurrentBreakpoint();
-  return resolveResponsiveValue(value, breakpoint, fallback);
-}
+// Note: Responsive breakpoint hooks (useMobileBreakpoint, useCurrentBreakpoint, etc.)
+// have been moved to useBreakpoints.ts for better organization

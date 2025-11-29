@@ -261,7 +261,7 @@ export const componentOverrides: Components<Theme> = {
   MuiTimelineConnector: {
     styleOverrides: {
       root: ({ theme }) => ({
-        backgroundColor: theme.palette.divider,
+        backgroundColor: (theme.vars || theme).palette.divider,
         width: 1,
         transition: 'background-color 0.3s ease',
       }),

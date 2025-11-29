@@ -32,7 +32,7 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <InitColorSchemeScript />
+    <InitColorSchemeScript attribute="data-mui-color-scheme" />
     <QueryClientProvider client={queryClient}>
       <QueryErrorResetBoundary>
         {({ reset }) => (

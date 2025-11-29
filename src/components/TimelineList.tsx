@@ -1,12 +1,13 @@
 import React from 'react';
 
+import type { SvgIconComponent } from '@mui/icons-material';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { type SvgIconProps, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { motion, type MotionProps } from 'motion/react';
 
 import TimelineSection from '@/components/TimelineSection';
@@ -26,9 +27,9 @@ export interface TimelineItemData {
 interface TimelineListProps<T extends TimelineItemData> {
   items: T[];
   renderItem: (item: T, index: number, isMobile: boolean) => React.ReactNode;
-  Icon: React.ElementType<SvgIconProps>;
+  Icon: SvgIconComponent;
   cardMotion: MotionProps;
-  getItemIcon?: (item: T) => React.ElementType<SvgIconProps>;
+  getItemIcon?: (item: T) => SvgIconComponent;
 }
 
 export function TimelineList<T extends TimelineItemData>({
