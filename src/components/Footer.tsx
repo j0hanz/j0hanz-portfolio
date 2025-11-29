@@ -25,7 +25,7 @@ import {
   textAlignResponsiveSx,
 } from '@/config/responsive';
 import { SocialLinkRenderProps } from '@/config/types';
-import { useCopyWithFeedback, useModal } from '@/hooks';
+import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
 import {
   ICON_SIZE,
   ICON_SIZE_SMALL,
@@ -33,8 +33,6 @@ import {
   TRANSITION_STANDARD,
 } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
-
-import CvModalPortal from './CvModalPortal';
 
 const footerSx: SxProps<Theme> = {
   bgcolor: 'neutral.dark',
@@ -108,7 +106,7 @@ const wrapFooterSocialLink = (
 );
 
 function Footer(): React.JSX.Element {
-  const cvModal = useModal(false);
+  const { openCvModal } = useCvModalActions();
   const { copyWithFeedback } = useCopyWithFeedback();
 
   const renderFooterSocialLink = (
@@ -173,7 +171,7 @@ function Footer(): React.JSX.Element {
                 }}
               >
                 <SocialLinkList
-                  openModal={cvModal.open}
+                  openModal={openCvModal}
                   renderLink={renderFooterSocialLink}
                   wrapItem={wrapFooterSocialLink}
                 />
@@ -182,7 +180,6 @@ function Footer(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      <CvModalPortal isOpen={cvModal.isOpen} onClose={cvModal.close} />
     </Box>
   );
 }

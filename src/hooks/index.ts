@@ -74,6 +74,10 @@ export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
 // Accesses the SnackbarContext
 export { default as useSnackbar } from './useSnackbar';
 
+// Accesses the CvModalContext
+// Split hooks for render optimization: useCvModalState (read-only), useCvModalActions (actions)
+export { useCvModalActions, useCvModalState } from './useCvModal';
+
 // Attaches an event listener to a DOM element, window, or document
 export { default as useEventListener } from './useEventListener';
 

@@ -203,10 +203,11 @@ export function useInViewMotion(
 // COUNT UP ANIMATION
 // ============================================================================
 
-// Animates a number from 0 to value
+// Animates a number from 0 to value using motion value for no-re-render animation
+// Returns ref for span element and string representation of value
 export function useCountUp(value: number, duration = 0.7) {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const motionValue = useMotionValue(prefersReducedMotion ? value : 0);
+  const motionValue = useMotionValue(0);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -228,7 +229,10 @@ export function useCountUp(value: number, duration = 0.7) {
     }
   });
 
-  return { ref, value: prefersReducedMotion ? value.toLocaleString() : '0' };
+  return {
+    ref,
+    value: prefersReducedMotion ? value.toLocaleString() : '0',
+  };
 }
 
 // ============================================================================
@@ -574,9 +578,20 @@ type SectionSequenceStep = {
   staggerValue?: number;
 };
 
-const DESCRIPTION_TO_CARD_DELAY = 0.2;
-const CTA_AFTER_CARD_DELAY = 0.4;
-const CTA_STAGGER = 0.1;
+// Configuration-driven sequence building reduces cyclomatic complexity
+// and makes it easier to add or modify animation sequences
+const SEQUENCE_STEP_CONFIG = {
+  description: { baseDelay: 0, useStagger: false },
+  cards: { baseDelay: 0.2, useStagger: true, defaultStagger: 0.1 },
+  cta: { baseDelay: 0.4, useStagger: true, defaultStagger: 0.1 },
+} as const;
+
+type SequenceStepKey = keyof typeof SEQUENCE_STEP_CONFIG;
+const SEQUENCE_ORDER: readonly SequenceStepKey[] = [
+  'description',
+  'cards',
+  'cta',
+];
 
 function animateElements(
   scopeElement: HTMLElement,
@@ -604,47 +619,36 @@ function animateElements(
   animate(elements, keyframes, options);
 }
 
+/**
+ * Builds animation sequence plan from selector configuration.
+ * Uses configuration-driven approach to reduce complexity and improve maintainability.
+ * Sequences animations: description → cards → CTA with proper timing delays.
+ */
 function buildSectionSequencePlan(
-  selectors: {
-    cards?: string;
-    description?: string;
-    cta?: string;
-    [key: string]: string | undefined;
-  },
+  selectors: Record<string, string | undefined>,
   getStagger: AnimationConfig['getStagger']
 ): SectionSequenceStep[] {
-  const steps: SectionSequenceStep[] = [];
+  let cumulativeDelay = 0;
 
-  if (selectors.description) {
-    steps.push({
-      selector: selectors.description,
-      delay: 0,
-      useStagger: false,
-    });
-  }
+  return SEQUENCE_ORDER.filter(
+    (key): key is SequenceStepKey =>
+      Boolean(selectors[key]) && (selectors[key]?.trim().length ?? 0) > 0
+  ).map((key) => {
+    const config = SEQUENCE_STEP_CONFIG[key];
+    const selector = selectors[key]!;
 
-  if (selectors.cards) {
-    steps.push({
-      selector: selectors.cards,
-      delay: selectors.description ? DESCRIPTION_TO_CARD_DELAY : 0,
-      useStagger: true,
-      staggerValue: getStagger(0.1),
-    });
-  }
+    const step: SectionSequenceStep = {
+      selector,
+      delay: cumulativeDelay,
+      useStagger: config.useStagger,
+      staggerValue: config.useStagger
+        ? getStagger(config.defaultStagger)
+        : undefined,
+    };
 
-  if (selectors.cta) {
-    const baseDelay = selectors.description ? DESCRIPTION_TO_CARD_DELAY : 0;
-    const cardDelay = selectors.cards ? CTA_AFTER_CARD_DELAY : 0;
-
-    steps.push({
-      selector: selectors.cta,
-      delay: baseDelay + cardDelay,
-      useStagger: true,
-      staggerValue: CTA_STAGGER,
-    });
-  }
-
-  return steps;
+    cumulativeDelay += config.baseDelay;
+    return step;
+  });
 }
 
 function runSectionSequence(

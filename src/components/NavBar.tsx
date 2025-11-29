@@ -18,7 +18,6 @@ import {
 import { motion } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
-import CvModalPortal from '@/components/CvModalPortal';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import {
   closeButtonSx,
@@ -46,6 +45,7 @@ import type {
 } from '@/config/types';
 import {
   useAnimationConfig,
+  useCvModalActions,
   useModal,
   useNavigationActions,
   useNavigationState,
@@ -304,7 +304,7 @@ function OffcanvasMenu({
 }
 
 function NavBar(): JSX.Element {
-  const cvModal = useModal(false);
+  const { openCvModal } = useCvModalActions();
   const offcanvasMenu = useModal(false);
   const { prefersReducedMotion } = useAnimationConfig();
 
@@ -375,10 +375,8 @@ function NavBar(): JSX.Element {
         showOffcanvas={offcanvasMenu.isOpen}
         closeOffcanvas={offcanvasMenu.close}
         openOffcanvas={offcanvasMenu.open}
-        openModal={cvModal.open}
+        openModal={openCvModal}
       />
-
-      <CvModalPortal isOpen={cvModal.isOpen} onClose={cvModal.close} />
     </>
   );
 }

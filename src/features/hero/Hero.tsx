@@ -9,7 +9,6 @@ import { AnimatePresence, motion } from 'motion/react';
 import ProfileImage from '@/assets/image_me.webp';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
-import CvModalPortal from '@/components/CvModalPortal';
 import ImageModal from '@/components/ImageModal';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
@@ -23,6 +22,7 @@ import SkillBadgeRow from '@/features/hero/SkillBadgeRow';
 import {
   useAnimationConfig,
   useAnimationPriority,
+  useCvModalActions,
   useHover,
   useImageLoading,
   useModal,
@@ -81,7 +81,7 @@ const createHeroActions = (
 
 // Rendering hero section
 function Hero(): React.JSX.Element {
-  const cvModal = useModal(false);
+  const { openCvModal } = useCvModalActions();
   const imageModal = useModal(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const isProfileHovered = useHover(profileImageRef);
@@ -93,7 +93,7 @@ function Hero(): React.JSX.Element {
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
 
-  const heroActions = createHeroActions(cvModal.open);
+  const heroActions = createHeroActions(openCvModal);
 
   const profileMotion = useMotionVariant(fadeVariants.up);
   const subtitleMotion = useMotionVariant(subtitleClipPath, {
@@ -204,7 +204,6 @@ function Hero(): React.JSX.Element {
           </Grid>
         </Grid>
       </Container>
-      <CvModalPortal isOpen={cvModal.isOpen} onClose={cvModal.close} />
       <AnimatePresence initial={false} mode="wait">
         {imageModal.isOpen && (
           <ImageModal

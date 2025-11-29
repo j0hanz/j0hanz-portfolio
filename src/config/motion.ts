@@ -147,6 +147,8 @@ const FADE_Y_LARGE = 48;
 const FADE_Y_EXIT = 18;
 
 // Helper to create fade variants
+// Uses hardware-accelerated properties: opacity, y (transform), scale
+// Supports initial scale and exit scale for more sophisticated animations
 function createFadeVariant(
   yInitial: number,
   yExit: number,
@@ -178,6 +180,8 @@ export const fadeVariants = {
 } as const;
 
 // Helper to create scale variants
+// Combines scale, opacity, y offset, and optional rotation for complex entrance animations
+// All properties are hardware-accelerated (transform + opacity)
 function createScaleVariant(
   scaleInitial: number,
   yInitial: number,
@@ -216,6 +220,8 @@ export const scaleVariants = {
 } as const;
 
 // Helper to create slide variants
+// Supports both x and y axis translation with scale and opacity for slide-in/out effects
+// Hardware-accelerated via transform (x/y) and opacity properties
 function createSlideVariant(
   axis: 'x' | 'y',
   valueInitial: number,
@@ -710,6 +716,8 @@ export const sectionVariants = {
 // ============================================================================
 
 // Helper to create modal slide variants
+// Specialized slide variant for modals with blur filter for layered effect
+// Combines y translation, scale, opacity, and blur for smooth modal appearance
 function createModalSlideVariant(
   yInitial: number,
   yExit: number,

@@ -8,10 +8,11 @@ import type {
 
 export type { NavigationContextType };
 
-export const NavigationStateContext = createContext<
-  NavigationState | undefined
->(undefined);
+// Standardized to null for consistency with other contexts
+export const NavigationStateContext = createContext<NavigationState | null>(
+  null
+);
 
-export const NavigationActionsContext = createContext<
-  NavigationActions | undefined
->(undefined);
+export const NavigationActionsContext = createContext<NavigationActions | null>(
+  null
+);

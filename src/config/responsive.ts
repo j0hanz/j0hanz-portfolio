@@ -44,20 +44,7 @@ type DisplayValue = CSSProperties['display'];
 // RESPONSIVE VALUE UTILITIES
 // ============================================================================
 
-/**
- * Resolves a responsive value using the current breakpoint with safe fallbacks.
- * Follows MUI's mobile-first approach: if no exact match, falls back to smaller breakpoints first.
- *
- * @param value - Either a scalar value or a responsive object with breakpoint keys
- * @param breakpoint - The current breakpoint to resolve for
- * @param fallback - Optional fallback value if no match found
- * @returns The resolved value for the current breakpoint
- *
- * @example
- * resolveResponsiveValue({ xs: 1, md: 2 }, 'lg') // Returns 2 (falls back to md)
- * resolveResponsiveValue({ md: 3 }, 'sm')        // Returns 3 (falls up to md)
- * resolveResponsiveValue(5, 'md')                // Returns 5 (scalar passthrough)
- */
+// Resolves responsive value using mobile-first fallback (exact match, then smaller, then larger)
 export function resolveResponsiveValue<T>(
   value: ResponsiveValue<T> | T,
   breakpoint: BreakpointKey,
@@ -92,17 +79,7 @@ export function resolveResponsiveValue<T>(
   return fallback as T;
 }
 
-/**
- * Creates a responsive value object with common mobile/desktop pattern.
- * Shorthand for the frequent pattern of having different mobile vs desktop values.
- *
- * @param mobile - Value for xs (and sm if not overridden)
- * @param desktop - Value for md and above
- * @returns A responsive value object
- *
- * @example
- * createResponsiveBreakpoint(1, 2) // { xs: 1, md: 2 }
- */
+// Creates { xs: mobile, md: desktop } shorthand for common pattern
 export function createResponsiveBreakpoint<T>(
   mobile: T,
   desktop: T
@@ -110,9 +87,7 @@ export function createResponsiveBreakpoint<T>(
   return { xs: mobile, md: desktop };
 }
 
-/**
- * Checks if a value is a responsive value object.
- */
+// Type guard for responsive value objects
 export function isResponsiveValue<T>(
   value: unknown
 ): value is ResponsiveValue<T> {
@@ -127,20 +102,7 @@ export function isResponsiveValue<T>(
 // DISPLAY TOGGLE UTILITIES
 // ============================================================================
 
-/**
- * Creates display toggle sx props for showing/hiding elements at breakpoints.
- * Mobile-first: sets xs value, then overrides at the specified breakpoint.
- *
- * @param options - Configuration for mobile/desktop display values
- * @returns SxProps for display toggling
- *
- * @example
- * // Hide on mobile, show as block on sm+
- * createDisplayToggle({ mobile: 'none', desktop: 'block' })
- *
- * // Show on mobile, hide on md+
- * createDisplayToggle({ mobile: 'block', desktop: 'none', breakpoint: 'md' })
- */
+// Creates sx props for showing/hiding elements at breakpoints (mobile-first)
 export function createDisplayToggle({
   mobile = 'none',
   desktop = 'block',
@@ -158,34 +120,14 @@ export function createDisplayToggle({
   };
 }
 
-/**
- * Creates responsive display value for all breakpoints.
- * More flexible than createDisplayToggle for complex visibility patterns.
- *
- * @param values - Display values for each breakpoint
- * @returns SxProps for display
- *
- * @example
- * createResponsiveDisplay({ xs: 'none', sm: 'flex', lg: 'grid' })
- */
+// Creates responsive display for all breakpoints (more flexible than createDisplayToggle)
 export function createResponsiveDisplay(
   values: ResponsiveValue<DisplayValue>
 ): SxProps<Theme> {
   return { display: values };
 }
 
-/**
- * Creates visibility pattern that shows only on specific breakpoint range.
- *
- * @param from - Start breakpoint (inclusive)
- * @param to - End breakpoint (exclusive) - element hidden at this breakpoint and above
- * @param displayType - Display type when visible (default: 'block')
- * @returns SxProps for conditional visibility
- *
- * @example
- * // Only visible between sm and md (600px - 899px)
- * createVisibleBetween('sm', 'md')
- */
+// Creates visibility only for specific breakpoint range (from inclusive, to exclusive)
 export function createVisibleBetween(
   from: BreakpointKey,
   to: BreakpointKey,
