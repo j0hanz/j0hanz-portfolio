@@ -40,12 +40,15 @@ export function useFullPageScroll(): void {
   const isScrolling = useRef(false);
   const containerRef = useRef<HTMLElement | null>(null);
 
-  const isMobile = useMobileBreakpoint('md');
   const prefersReducedMotion = useReducedMotion();
+  const isTouchPrimaryBreakpoint = useMobileBreakpoint('md');
 
-  // Disable when: reduced motion, mobile view, or scroll not locked (e.g. footer)
-  const shouldDisable = Boolean(
-    prefersReducedMotion || isMobile || !isScrollLocked
+  // Disable all listeners when reduced motion is preferred or scroll lock is off (e.g. footer)
+  const shouldDisable = Boolean(prefersReducedMotion || !isScrollLocked);
+
+  // Wheel/keyboard navigation can be noisy on touch devices; keep gestures active.
+  const disableNonTouchInputs = Boolean(
+    shouldDisable || isTouchPrimaryBreakpoint
   );
 
   // Cache container reference
@@ -89,6 +92,7 @@ export function useFullPageScroll(): void {
   useScrollEvents({
     onNavigate,
     shouldDisable,
+    disableNonTouchInputs,
     isScrolling,
   });
 }

@@ -21,6 +21,7 @@ function getKeyboardDirection(key: string): ScrollDirection | null {
 export function useScrollEvents({
   onNavigate,
   shouldDisable,
+  disableNonTouchInputs = false,
   isScrolling,
 }: UseScrollEventsProps): void {
   const touchStartY = useRef(0);
@@ -72,19 +73,26 @@ export function useScrollEvents({
 
     const passiveOption = { passive: false };
 
-    window.addEventListener('wheel', handleWheel, passiveOption);
-    window.addEventListener('keydown', handleKeyDown);
+    if (!disableNonTouchInputs) {
+      window.addEventListener('wheel', handleWheel, passiveOption);
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
     window.addEventListener('touchstart', handleTouchStart, passiveOption);
     window.addEventListener('touchend', handleTouchEnd, passiveOption);
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('keydown', handleKeyDown);
+      if (!disableNonTouchInputs) {
+        window.removeEventListener('wheel', handleWheel);
+        window.removeEventListener('keydown', handleKeyDown);
+      }
+
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [
     shouldDisable,
+    disableNonTouchInputs,
     handleWheel,
     handleKeyDown,
     handleTouchStart,
