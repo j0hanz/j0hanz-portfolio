@@ -136,7 +136,7 @@ function NavLinkItem(props: NavLinkItemProps): JSX.Element {
               inset: 0,
               borderRadius: 2,
               zIndex: 0,
-              bgColor: 'action.selected',
+              bgcolor: 'action.selected',
             }}
           />
         )}

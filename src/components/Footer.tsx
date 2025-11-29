@@ -119,7 +119,7 @@ function Footer(): React.JSX.Element {
   };
 
   return (
-    <Box component="footer" sx={footerSx}>
+    <Box component="footer" id="footer" sx={footerSx}>
       <Container maxWidth={false}>
         <Grid container sx={{ mx: 'auto' }}>
           <Grid size={GRID_COLUMNS.footerLeft}>

@@ -193,7 +193,7 @@ function AboutMe(): React.JSX.Element {
 
   return (
     <SectionContainer
-      id="about-me"
+      id="aboutMe"
       title={<TextReveal text="About Me" as="span" />}
       icon={PersonOutlined}
     >
