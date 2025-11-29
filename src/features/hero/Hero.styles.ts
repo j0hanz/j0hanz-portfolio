@@ -2,6 +2,11 @@ import { alpha, SxProps, Theme } from '@mui/material';
 
 import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
 import {
+  RESPONSIVE_FONT_SIZE,
+  RESPONSIVE_SIZE,
+  RESPONSIVE_SPACING,
+} from '@/config/responsive';
+import {
   BUTTON_HEIGHT_LARGE,
   BUTTON_MIN_WIDTH_HERO,
   CLIP_ROUNDED,
@@ -10,7 +15,7 @@ import {
 
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
-  fontSize: 'clamp(2.5rem, 5vw, 3.2rem)',
+  fontSize: RESPONSIVE_FONT_SIZE.heroTitle,
   letterSpacing: '2px',
   fontWeight: 500,
   lineHeight: 1,
@@ -45,7 +50,7 @@ export const sectionSx: SxProps<Theme> = {
 };
 
 export const heroCardSx: SxProps<Theme> = {
-  p: { xs: 2, sm: 3, md: 3 },
+  p: RESPONSIVE_SPACING.card,
 };
 
 export const containerSx: SxProps<Theme> = {
@@ -59,8 +64,8 @@ export const profileWrapperSx: SxProps<Theme> = {
 };
 
 export const profileImgSx: SxProps<Theme> = {
-  width: { xs: 225, md: 300, lg: 400 },
-  height: { xs: 225, md: 300, lg: 400 },
+  width: RESPONSIVE_SIZE.profileImage,
+  height: RESPONSIVE_SIZE.profileImage,
   clipPath: CLIP_ROUNDED,
   objectFit: 'cover',
   cursor: 'pointer',
@@ -88,7 +93,7 @@ export const overlaySx: SxProps<Theme> = {
 };
 
 export const subtitleSx: SxProps<Theme> = {
-  fontSize: { xs: '1.2rem', sm: '1.3rem' },
+  fontSize: RESPONSIVE_FONT_SIZE.subtitle,
   letterSpacing: { xs: '0.5px', sm: '2px' },
   textTransform: 'uppercase',
   color: 'text.primary',

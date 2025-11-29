@@ -17,6 +17,13 @@ import { SxProps } from '@mui/system';
 
 import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
+import {
+  GRID_COLUMNS,
+  footerContainerMarginSx,
+  footerSocialLinkMarginSx,
+  justifyResponsiveSx,
+  textAlignResponsiveSx,
+} from '@/config/responsive';
 import { SocialLinkRenderProps } from '@/config/types';
 import { useCopyWithFeedback, useModal } from '@/hooks';
 import {
@@ -95,7 +102,7 @@ const wrapFooterSocialLink = (
   id: string,
   node: React.JSX.Element
 ): React.JSX.Element => (
-  <Grid size="auto" sx={{ mb: { xs: 2, sm: 0 } }} key={id}>
+  <Grid size="auto" sx={footerSocialLinkMarginSx} key={id}>
     {node}
   </Grid>
 );
@@ -117,7 +124,7 @@ function Footer(): React.JSX.Element {
     <Box component="footer" sx={footerSx}>
       <Container maxWidth={false}>
         <Grid container sx={{ mx: 'auto' }}>
-          <Grid size={{ sm: 6 }}>
+          <Grid size={GRID_COLUMNS.footerLeft}>
             <Typography sx={contactLabelSx}>Contact Details</Typography>
             <Stack direction="row" alignItems="center">
               <EmailRounded sx={emailIconSx} />
@@ -143,23 +150,22 @@ function Footer(): React.JSX.Element {
               </Tooltip>
             </Stack>
           </Grid>
-          <Grid size={{ sm: 6 }} sx={{ textAlign: { sm: 'right' }, mt: 1 }}>
+          <Grid size={GRID_COLUMNS.footerRight} sx={{ ...textAlignResponsiveSx, mt: 1 }}>
             <Stack
               direction="row"
               alignItems="center"
-              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
-              sx={{ pb: 3 }}
+              sx={{ ...justifyResponsiveSx, pb: 3 }}
             >
               <Box component={SiCreativecommons} sx={copyrightIconSx} />
               <Box component="small" sx={copyrightTextSx}>
                 Copyright 2025
               </Box>
             </Stack>
-            <Box sx={{ mt: { xs: 4, sm: 0 } }}>
+            <Box sx={footerContainerMarginSx}>
               <Grid
                 container
                 sx={{
-                  justifyContent: { xs: 'space-between', sm: 'flex-end' },
+                  ...justifyResponsiveSx,
                   fontSize: '0.9rem',
                 }}
               >

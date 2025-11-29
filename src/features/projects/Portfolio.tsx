@@ -7,6 +7,7 @@ import { motion } from 'motion/react';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer } from '@/config/motion';
+import { MASONRY_COLUMNS, RESPONSIVE_SPACING } from '@/config/responsive';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
 import projects from '@/lib/data/projects';
 
@@ -16,9 +17,11 @@ import ProjectMasonryItem from './ProjectMasonryItem';
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
   const isMobile = useMobileBreakpoint('sm');
+  // Use animate instead of whileInView for full-page scroll sections
+  // whileInView can fail to trigger on mobile due to viewport detection issues
   const motionProps = useMotionVariant(createStaggerContainer(0.1, 0.15), {
     initial: 'initial',
-    whileInView: 'animate',
+    animate: 'animate',
   });
 
   // Use Masonry on desktop, Grid on mobile for better UX
@@ -30,7 +33,7 @@ function Portfolio(): React.JSX.Element {
         icon={FolderTwoTone}
       >
         <Box component={motion.div} {...motionProps} sx={{ width: '100%' }}>
-          <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+          <Grid container spacing={RESPONSIVE_SPACING.grid}>
             {projects.map((project) => (
               <ProjectGridItem key={project.github} project={project} />
             ))}
@@ -47,7 +50,10 @@ function Portfolio(): React.JSX.Element {
       icon={FolderTwoTone}
     >
       <Box component={motion.div} {...motionProps} sx={{ width: '100%' }}>
-        <Masonry columns={{ sm: 2, md: 2, lg: 3 }} spacing={{ sm: 3, md: 4 }}>
+        <Masonry
+          columns={MASONRY_COLUMNS.projects}
+          spacing={RESPONSIVE_SPACING.masonry}
+        >
           {projects.map((project) => (
             <ProjectMasonryItem key={project.github} project={project} />
           ))}

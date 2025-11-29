@@ -110,8 +110,10 @@ export {
   useBatchedDomUpdate,
   usePulse,
   useSvgPathDraw,
-  // Responsive breakpoint hook
+  // Responsive breakpoint hooks
   useMobileBreakpoint,
+  useCurrentBreakpoint,
+  useBreakpointBetween,
   // Timeline section setup hook
   useTimelineSectionRefs,
   useTimelineSectionController,
@@ -120,6 +122,40 @@ export {
   // Timeline card motion hook (shared for Education/WorkExperience)
   useTimelineCardMotion,
 } from './useMotions';
+
+// ============================================================================
+// Responsive Constants (re-exported from config for convenience)
+// ============================================================================
+
+export {
+  RESPONSIVE_SPACING,
+  CONTAINER_MAX_WIDTH,
+  GRID_COLUMNS,
+  RESPONSIVE_FONT_SIZE,
+  RESPONSIVE_SIZE,
+  RESPONSIVE_CARD_PADDING,
+  RESPONSIVE_GAP,
+  MASONRY_COLUMNS,
+  sectionCenteredSx,
+  containerPaddingSx,
+  sectionHeaderSx,
+  hideOnMobileSx,
+  showOnMobileSx,
+  hideOnMobileInlineSx,
+  hideOnMobileFlexSx,
+  textAlignResponsiveSx,
+  justifyResponsiveSx,
+  footerSocialLinkMarginSx,
+  footerContainerMarginSx,
+  gridItemFlexSx,
+  fullWidthSx,
+  createResponsiveMarginBottom,
+} from '@/config/responsive';
+
+export type {
+  BreakpointKey,
+  ResponsiveValue,
+} from '@/config/responsive';
 
 // ============================================================================
 // TanStack Query Hooks and Utilities

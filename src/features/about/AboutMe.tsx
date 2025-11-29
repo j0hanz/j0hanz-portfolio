@@ -25,6 +25,12 @@ import {
   listItemStaggerVariants,
   viewportPresets,
 } from '@/config/motion';
+import {
+  GRID_COLUMNS,
+  gridItemFlexSx,
+  RESPONSIVE_FONT_SIZE,
+  RESPONSIVE_SPACING,
+} from '@/config/responsive';
 import type {
   AboutMeListProps,
   CardItemProps,
@@ -45,7 +51,7 @@ import { credentialButtonSx, TEXT_LINE_HEIGHT } from '@/styles/shared';
 const overviewTextSx: SxProps<Theme> = {
   lineHeight: TEXT_LINE_HEIGHT,
   color: 'text.primary',
-  fontSize: { xs: '0.95rem', md: '1rem' },
+  fontSize: RESPONSIVE_FONT_SIZE.body,
 };
 
 // Table styles
@@ -71,11 +77,6 @@ const titleCellSx: SxProps<Theme> = {
 
 const descCellSx: SxProps<Theme> = {
   color: 'text.secondary',
-};
-
-// Grid item styles for equal height cards
-const gridItemSx: SxProps<Theme> = {
-  display: 'flex',
 };
 
 // Overview card with description
@@ -198,13 +199,13 @@ function AboutMe(): React.JSX.Element {
     >
       {/* Cards Grid */}
       <Box ref={containerRef}>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} alignItems="stretch">
-          <Grid size={{ xs: 12, md: 6 }} sx={gridItemSx}>
+        <Grid container spacing={RESPONSIVE_SPACING.grid} alignItems="stretch">
+          <Grid size={GRID_COLUMNS.twoColumn} sx={gridItemFlexSx}>
             <CardItem index={0} yTransform={y1} isInView={isInView}>
               <AboutMeText />
             </CardItem>
           </Grid>
-          <Grid size={{ xs: 12, md: 6 }} sx={gridItemSx}>
+          <Grid size={GRID_COLUMNS.twoColumn} sx={gridItemFlexSx}>
             <CardItem index={1} yTransform={y2} isInView={isInView}>
               <AboutMeList items={aboutMeItems} onShowModal={openModal} />
             </CardItem>

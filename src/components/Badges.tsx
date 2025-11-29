@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
+import { RESPONSIVE_GAP, RESPONSIVE_SIZE } from '@/config/responsive';
 import type { BadgeItemProps, BadgesProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
@@ -19,7 +20,7 @@ const wrapperSx: SxProps<Theme> = {
 };
 
 const imgSx: SxProps<Theme> = {
-  width: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
+  width: RESPONSIVE_SIZE.badgeWidth,
   objectFit: 'cover',
   boxShadow: (theme) =>
     `0 4px 12px ${alpha(theme.palette.common.black, 0.3)}, 0 6px 24px ${alpha(theme.palette.common.black, 0.3)}`,
@@ -40,6 +41,8 @@ const textSx: SxProps<Theme> = {
 const stackSx: SxProps<Theme> = {
   textAlign: 'center',
   pt: '3rem',
+  gap: RESPONSIVE_GAP.badge,
+  flexWrap: 'wrap',
 };
 
 // Component for individual badge items
@@ -53,8 +56,8 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
         <Box
           sx={{
             position: 'relative',
-            width: { xs: 85, sm: 105, md: 115, lg: 140 },
-            height: { xs: 85, sm: 105, md: 115, lg: 140 },
+            width: RESPONSIVE_SIZE.badge,
+            height: RESPONSIVE_SIZE.badge,
           }}
         >
           {!isLoaded && (
@@ -96,7 +99,7 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
 // Component for displaying a list of badges
 function Badges({ items = defaultBadgeItems }: BadgesProps): React.JSX.Element {
   return (
-    <Stack direction="row" justifyContent="space-between" sx={stackSx}>
+    <Stack direction="row" justifyContent="center" sx={stackSx}>
       {items.map((badge) => (
         <BadgeItem key={badge.href} {...badge} />
       ))}

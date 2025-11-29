@@ -20,6 +20,7 @@ import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
 import { CONTACT_COPY, FORM_RESET_DELAY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
+import { RESPONSIVE_SPACING, hideOnMobileInlineSx } from '@/config/responsive';
 import type {
   ContactFieldErrorKey,
   ContactFieldKey,
@@ -53,10 +54,6 @@ const successTextSx: SxProps<Theme> = {
 
 const formCardSx: SxProps<Theme> = {
   height: 'auto',
-};
-
-const clearTextSx: SxProps<Theme> = {
-  display: { xs: 'none', sm: 'inline' },
 };
 
 const createEmptyFormValues = (): ContactFormValues => ({
@@ -133,7 +130,7 @@ function FormActions({
         aria-label={CONTACT_COPY.clearAriaLabel}
         sx={buttonMinWidthSx}
       >
-        <Box component="span" sx={clearTextSx}>
+        <Box component="span" sx={hideOnMobileInlineSx}>
           {CONTACT_COPY.clearLabel}
         </Box>
       </Button>
@@ -270,7 +267,7 @@ function ContactForm(): React.JSX.Element {
       title={CONTACT_COPY.sectionTitle}
       icon={EmailRounded}
     >
-      <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+      <Grid container spacing={RESPONSIVE_SPACING.grid}>
         <Grid size={12}>
           <ContactFormContent />
           <Badges />

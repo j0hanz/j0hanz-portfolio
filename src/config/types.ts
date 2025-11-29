@@ -615,6 +615,8 @@ export interface SectionContainerProps {
   subtitle?: ReactNode;
   /** Optional actions/buttons displayed in the header */
   headerActions?: ReactNode;
+  /** Maximum container width - defaults to 'lg' */
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 }
 
 export interface SectionWrapperProps {

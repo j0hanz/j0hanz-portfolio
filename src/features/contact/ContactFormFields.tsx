@@ -13,6 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
 
+import { GRID_COLUMNS } from '@/config/responsive';
 import type {
   ContactFieldConfig,
   FormFieldProps,
@@ -29,7 +30,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     placeholder: 'enter your name...',
     required: true,
     errorKey: 'name',
-    gridProps: { xs: 12, md: 6 },
+    gridProps: GRID_COLUMNS.formField,
   },
   {
     key: 'email',
@@ -40,7 +41,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     placeholder: 'enter your email...',
     required: true,
     errorKey: 'email',
-    gridProps: { xs: 12, md: 6 },
+    gridProps: GRID_COLUMNS.formField,
   },
   {
     key: 'company',
@@ -48,7 +49,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     icon: WorkOutline,
     label: 'Company',
     placeholder: 'company... (optional)',
-    gridProps: { xs: 12, md: 6 },
+    gridProps: GRID_COLUMNS.formField,
   },
   {
     key: 'url',
@@ -58,7 +59,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     label: 'Website',
     placeholder: 'website url... (optional)',
     errorKey: 'url',
-    gridProps: { xs: 12, md: 6 },
+    gridProps: GRID_COLUMNS.formField,
   },
   {
     key: 'message',
@@ -71,7 +72,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     minRows: 3,
     maxRows: 8,
     errorKey: 'message',
-    gridProps: { xs: 12 },
+    gridProps: GRID_COLUMNS.formFieldFull,
   },
 ];
 

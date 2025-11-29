@@ -17,6 +17,7 @@ import { Parallax } from '@/components/Parallax';
 import { ProfileSkeleton } from '@/components/Skeletons';
 import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
+import { GRID_COLUMNS, RESPONSIVE_SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import SkillBadgeRow from '@/features/hero/SkillBadgeRow';
 import {
@@ -103,8 +104,8 @@ function Hero(): React.JSX.Element {
   return (
     <Box component="section" id="hero" sx={sectionSx}>
       <Container maxWidth="lg" sx={containerSx}>
-        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} alignItems="center">
-          <Grid size={{ xs: 12, md: 'auto' }}>
+        <Grid container spacing={RESPONSIVE_SPACING.grid} alignItems="center">
+          <Grid size={GRID_COLUMNS.heroImage}>
             <Parallax offset={30}>
               <Box
                 component={motion.div}
@@ -149,7 +150,7 @@ function Hero(): React.JSX.Element {
               </Box>
             </Parallax>
           </Grid>
-          <Grid size={{ xs: 12, md: 'grow' }}>
+          <Grid size={GRID_COLUMNS.heroContent}>
             <Card noContentPadding sx={heroCardSx}>
               <Box sx={heroContentSx}>
                 <StaggerContainer stagger={0.1}>

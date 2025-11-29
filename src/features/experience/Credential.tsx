@@ -5,6 +5,7 @@ import { SxProps } from '@mui/system';
 import ImageCredential from '@/assets/Credential.webp';
 import BaseModal from '@/components/BaseModal';
 import Image from '@/components/Image';
+import { RESPONSIVE_SIZE } from '@/config/responsive';
 import { CredentialProps } from '@/config/types';
 import { TRANSITION_STANDARD } from '@/styles/shared';
 
@@ -39,7 +40,7 @@ const hoverTextSx: SxProps<Theme> = {
   width: '100%',
   transform: 'translate(-50%, -50%)',
   color: 'common.white',
-  fontSize: { xs: '1.7rem', sm: '2.5rem' },
+  fontSize: RESPONSIVE_SIZE.credentialText,
   textAlign: 'center',
   opacity: 0,
   transition: TRANSITION_STANDARD,

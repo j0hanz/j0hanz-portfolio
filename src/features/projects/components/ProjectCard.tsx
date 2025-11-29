@@ -7,6 +7,7 @@ import { AnimatedCard } from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { CARD_MOTION_VARIANTS } from '@/config/motion';
+import { RESPONSIVE_CARD_PADDING } from '@/config/responsive';
 import { Project } from '@/config/types';
 import { prefetchRepoStats, useInViewMotion } from '@/hooks';
 import { getProjectMeta } from '@/utils/project';
@@ -18,7 +19,7 @@ import ProjectTechStack from './ProjectTechStack';
 
 const articleSx: SxProps<Theme> = {
   height: 1,
-  p: { xs: 1.5, sm: 2, md: 2.5 },
+  p: RESPONSIVE_CARD_PADDING.projectCard,
   display: 'flex',
   flexDirection: 'column',
 };

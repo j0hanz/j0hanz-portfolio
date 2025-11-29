@@ -1,6 +1,7 @@
 import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
 import { motion, type Variants } from 'motion/react';
 
+import { RESPONSIVE_SPACING } from '@/config/responsive';
 import SkillBadge from '@/features/hero/SkillBadge';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
@@ -18,7 +19,7 @@ const labelSx: SxProps<Theme> = {
 };
 
 const stackSx: SxProps<Theme> = {
-  gap: { xs: 1.5, md: 2 },
+  gap: RESPONSIVE_SPACING.stack,
   flexWrap: 'wrap',
   justifyContent: 'flex-start',
 };

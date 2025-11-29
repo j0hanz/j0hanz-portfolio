@@ -1,6 +1,7 @@
 import { Box, type SxProps, type Theme, Tooltip } from '@mui/material';
 import { motion } from 'motion/react';
 
+import { RESPONSIVE_SIZE } from '@/config/responsive';
 import type { Skill } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 
@@ -16,7 +17,7 @@ const badgeContainerSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: { xs: '1.5rem', md: '1.75rem' },
+  fontSize: RESPONSIVE_SIZE.iconSm,
   color: 'text.secondary',
   transition: 'color 0.2s ease',
   '&:hover': {
@@ -45,7 +46,7 @@ function SkillBadge({ skill }: SkillBadgeProps): React.JSX.Element {
         aria-label={`${skill.label} skill`}
         role="img"
       >
-        <Box component={IconComponent} sx={iconSx} />
+        <Box component={IconComponent} sx={iconSx} aria-hidden="true" />
       </Box>
     </Tooltip>
   );
