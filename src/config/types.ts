@@ -893,6 +893,7 @@ export interface ScrollBoundaries {
 export interface UseScrollEventsProps {
   onNavigate: (direction: ScrollDirection) => boolean;
   shouldDisable: boolean;
+  disableNonTouchInputs?: boolean;
   isScrolling: React.MutableRefObject<boolean>;
 }
 
