@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { Breakpoint, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   animate,
@@ -46,6 +46,8 @@ import {
   viewportConfig,
   viewportPresets,
 } from '@/config/motion';
+import { resolveResponsiveValue } from '@/config/responsive';
+import type { BreakpointKey, ResponsiveValue } from '@/config/responsive';
 import type {
   AnimationConfig,
   AnimationPriority,
@@ -1059,8 +1061,6 @@ export function useSvgPathDraw(
 // RESPONSIVE BREAKPOINT HOOKS
 // ============================================================================
 
-type BreakpointKey = Breakpoint;
-
 /**
  * Detects if viewport is below the specified breakpoint.
  * Uses MUI's useMediaQuery with theme breakpoints for SSR support.
@@ -1116,4 +1116,18 @@ export function useBreakpointBetween(
   return useMediaQuery(theme.breakpoints.between(start, end), {
     noSsr: true,
   });
+}
+
+/**
+ * Returns the responsive value mapped to the current breakpoint with fallback handling.
+ *
+ * @example
+ * const layout = useResponsiveValue({ xs: 'stack', md: 'grid' }, 'grid');
+ */
+export function useResponsiveValue<T>(
+  value: ResponsiveValue<T> | T,
+  fallback?: T
+): T {
+  const breakpoint = useCurrentBreakpoint();
+  return resolveResponsiveValue(value, breakpoint, fallback);
 }

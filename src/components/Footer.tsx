@@ -18,9 +18,9 @@ import { SxProps } from '@mui/system';
 import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
 import {
-  GRID_COLUMNS,
   footerContainerMarginSx,
   footerSocialLinkMarginSx,
+  GRID_COLUMNS,
   justifyResponsiveSx,
   textAlignResponsiveSx,
 } from '@/config/responsive';
@@ -150,7 +150,10 @@ function Footer(): React.JSX.Element {
               </Tooltip>
             </Stack>
           </Grid>
-          <Grid size={GRID_COLUMNS.footerRight} sx={{ ...textAlignResponsiveSx, mt: 1 }}>
+          <Grid
+            size={GRID_COLUMNS.footerRight}
+            sx={{ ...textAlignResponsiveSx, mt: 1 }}
+          >
             <Stack
               direction="row"
               alignItems="center"

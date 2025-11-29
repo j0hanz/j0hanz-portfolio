@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
 
 // ============================================================================
@@ -19,6 +21,67 @@ export type ResponsiveValue<T> = {
   xl?: T;
 };
 
+export const BREAKPOINT_KEYS: readonly BreakpointKey[] = [
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+] as const;
+
+type DisplayValue = CSSProperties['display'];
+
+// Resolves a responsive value using the current breakpoint with safe fallbacks
+export function resolveResponsiveValue<T>(
+  value: ResponsiveValue<T> | T,
+  breakpoint: BreakpointKey,
+  fallback?: T
+): T {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    return (value ?? fallback) as T;
+  }
+
+  const map = value as ResponsiveValue<T>;
+  const currentIndex = BREAKPOINT_KEYS.indexOf(breakpoint);
+
+  // Prefer exact or smaller breakpoint match first
+  for (let i = currentIndex; i >= 0; i -= 1) {
+    const candidate = map[BREAKPOINT_KEYS[i]];
+    if (candidate !== undefined) return candidate;
+  }
+
+  // Fallback to larger breakpoints if nothing smaller exists
+  for (let i = currentIndex + 1; i < BREAKPOINT_KEYS.length; i += 1) {
+    const candidate = map[BREAKPOINT_KEYS[i]];
+    if (candidate !== undefined) return candidate;
+  }
+
+  const firstDefined = BREAKPOINT_KEYS.map((key) => map[key]).find(
+    (item) => item !== undefined
+  );
+
+  if (firstDefined !== undefined) return firstDefined;
+  return fallback as T;
+}
+
+// Utility to build display toggles for common visibility helpers
+export function createDisplayToggle({
+  mobile = 'none',
+  desktop = 'block',
+  breakpoint = 'sm',
+}: {
+  mobile?: DisplayValue;
+  desktop?: DisplayValue;
+  breakpoint?: BreakpointKey;
+}): SxProps<Theme> {
+  return {
+    display: {
+      xs: mobile,
+      [breakpoint]: desktop,
+    },
+  };
+}
+
 // ============================================================================
 // RESPONSIVE SPACING SCALE
 // Consistent spacing that adapts across breakpoints
@@ -27,21 +90,21 @@ export type ResponsiveValue<T> = {
 
 export const RESPONSIVE_SPACING = {
   // Section padding (py for vertical sections)
-  section: { xs: 4, md: 10 },
+  section: { xs: 4, md: 10 } satisfies ResponsiveValue<number>,
   // Card/container internal padding
-  card: { xs: 2, sm: 3, md: 3 },
+  card: { xs: 2, sm: 3, md: 3 } satisfies ResponsiveValue<number>,
   // Grid gaps between items
-  grid: { xs: 2, sm: 3, md: 4 },
+  grid: { xs: 2, sm: 3, md: 4 } satisfies ResponsiveValue<number>,
   // Masonry spacing (excludes xs since masonry usually used on sm+)
-  masonry: { sm: 3, md: 4 },
+  masonry: { sm: 3, md: 4 } satisfies ResponsiveValue<number>,
   // Stack gaps for vertical/horizontal lists
-  stack: { xs: 1.5, md: 2 },
+  stack: { xs: 1.5, md: 2 } satisfies ResponsiveValue<number>,
   // Compact spacing for dense layouts
-  compact: { xs: 1, sm: 1.5, md: 2 },
+  compact: { xs: 1, sm: 1.5, md: 2 } satisfies ResponsiveValue<number>,
   // Section header margin bottom
-  headerMargin: { xs: 3, md: 4 },
+  headerMargin: { xs: 3, md: 4 } satisfies ResponsiveValue<number>,
   // Container horizontal padding
-  containerPadding: { xs: 2, sm: 3 },
+  containerPadding: { xs: 2, sm: 3 } satisfies ResponsiveValue<number>,
 } as const;
 
 // ============================================================================
@@ -93,13 +156,16 @@ export const RESPONSIVE_FONT_SIZE = {
   // Hero name (largest) - uses clamp for fluid scaling
   heroTitle: 'clamp(2.5rem, 5vw, 3.2rem)',
   // Section headings
-  sectionTitle: { xs: '1.75rem', md: '2.125rem' },
+  sectionTitle: {
+    xs: '1.75rem',
+    md: '2.125rem',
+  } satisfies ResponsiveValue<string>,
   // Subtitles
-  subtitle: { xs: '1.2rem', sm: '1.3rem' },
+  subtitle: { xs: '1.2rem', sm: '1.3rem' } satisfies ResponsiveValue<string>,
   // Body text
-  body: { xs: '0.95rem', md: '1rem' },
+  body: { xs: '0.95rem', md: '1rem' } satisfies ResponsiveValue<string>,
   // Small/caption text
-  small: { xs: '0.8rem', md: '0.875rem' },
+  small: { xs: '0.8rem', md: '0.875rem' } satisfies ResponsiveValue<string>,
 } as const;
 
 // ============================================================================
@@ -109,22 +175,35 @@ export const RESPONSIVE_FONT_SIZE = {
 
 export const RESPONSIVE_SIZE = {
   // Profile image dimensions
-  profileImage: { xs: 225, md: 300, lg: 400 },
+  profileImage: { xs: 225, md: 300, lg: 400 } satisfies ResponsiveValue<number>,
   // Icon sizes - medium (section headers)
-  iconMd: { xs: '2rem', md: '2.5rem' },
+  iconMd: { xs: '2rem', md: '2.5rem' } satisfies ResponsiveValue<string>,
   // Icon sizes - small (skill badges, etc.)
-  iconSm: { xs: '1.5rem', md: '1.75rem' },
+  iconSm: { xs: '1.5rem', md: '1.75rem' } satisfies ResponsiveValue<string>,
   // Button heights
   buttonLarge: 35,
   buttonStandard: 30,
   // Badge dimensions (credential badges)
-  badge: { xs: 85, sm: 105, md: 115, lg: 140 },
-  badgeWidth: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
+  badge: {
+    xs: 85,
+    sm: 105,
+    md: 115,
+    lg: 140,
+  } satisfies ResponsiveValue<number>,
+  badgeWidth: {
+    xs: '85px',
+    sm: '105px',
+    md: '115px',
+    lg: '140px',
+  } satisfies ResponsiveValue<string>,
   // Min width badge
   badgeMinWidth: 45,
   badgeHeight: 21,
   // Credential hover text
-  credentialText: { xs: '1.7rem', sm: '2.5rem' },
+  credentialText: {
+    xs: '1.7rem',
+    sm: '2.5rem',
+  } satisfies ResponsiveValue<string>,
 } as const;
 
 // ============================================================================
@@ -134,7 +213,7 @@ export const RESPONSIVE_SIZE = {
 
 export const RESPONSIVE_CARD_PADDING = {
   // Project card padding
-  projectCard: { xs: 1.5, sm: 2, md: 2.5 },
+  projectCard: { xs: 1.5, sm: 2, md: 2.5 } satisfies ResponsiveValue<number>,
 } as const;
 
 // ============================================================================
@@ -144,7 +223,7 @@ export const RESPONSIVE_CARD_PADDING = {
 
 export const RESPONSIVE_GAP = {
   // Badge container gap
-  badge: { xs: 1.5, sm: 2, md: 3 },
+  badge: { xs: 1.5, sm: 2, md: 3 } satisfies ResponsiveValue<number>,
 } as const;
 
 // ============================================================================
@@ -154,7 +233,7 @@ export const RESPONSIVE_GAP = {
 
 export const MASONRY_COLUMNS = {
   // Portfolio projects - 2 on tablet, 3 on desktop
-  projects: { sm: 2, md: 2, lg: 3 },
+  projects: { sm: 2, md: 2, lg: 3 } satisfies ResponsiveValue<number>,
 } as const;
 
 // ============================================================================
@@ -182,24 +261,29 @@ export const sectionHeaderSx: SxProps<Theme> = {
 };
 
 // Hide on mobile (xs), show on sm+
-export const hideOnMobileSx: SxProps<Theme> = {
-  display: { xs: 'none', sm: 'block' },
-};
+export const hideOnMobileSx = createDisplayToggle({
+  mobile: 'none',
+  desktop: 'block',
+});
 
 // Show on mobile (xs), hide on sm+
-export const showOnMobileSx: SxProps<Theme> = {
-  display: { xs: 'block', sm: 'none' },
-};
+export const showOnMobileSx = createDisplayToggle({
+  mobile: 'block',
+  desktop: 'none',
+});
 
 // Hide on mobile (xs), show as inline on sm+
-export const hideOnMobileInlineSx: SxProps<Theme> = {
-  display: { xs: 'none', sm: 'inline' },
-};
+export const hideOnMobileInlineSx = createDisplayToggle({
+  mobile: 'none',
+  desktop: 'inline',
+});
 
 // Hide on mobile (xs), show as flex on sm+
-export const hideOnMobileFlexSx: SxProps<Theme> = {
-  display: { xs: 'none', md: 'flex' },
-};
+export const hideOnMobileFlexSx = createDisplayToggle({
+  mobile: 'none',
+  desktop: 'flex',
+  breakpoint: 'md',
+});
 
 // Flexible text alignment (left on mobile, right on desktop)
 export const textAlignResponsiveSx: SxProps<Theme> = {

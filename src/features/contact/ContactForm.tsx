@@ -20,7 +20,7 @@ import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
 import { CONTACT_COPY, FORM_RESET_DELAY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
-import { RESPONSIVE_SPACING, hideOnMobileInlineSx } from '@/config/responsive';
+import { hideOnMobileInlineSx, RESPONSIVE_SPACING } from '@/config/responsive';
 import type {
   ContactFieldErrorKey,
   ContactFieldKey,

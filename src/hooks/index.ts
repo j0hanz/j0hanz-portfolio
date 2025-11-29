@@ -114,6 +114,7 @@ export {
   useMobileBreakpoint,
   useCurrentBreakpoint,
   useBreakpointBetween,
+  useResponsiveValue,
   // Timeline section setup hook
   useTimelineSectionRefs,
   useTimelineSectionController,
@@ -150,12 +151,12 @@ export {
   gridItemFlexSx,
   fullWidthSx,
   createResponsiveMarginBottom,
+  createDisplayToggle,
+  resolveResponsiveValue,
+  BREAKPOINT_KEYS,
 } from '@/config/responsive';
 
-export type {
-  BreakpointKey,
-  ResponsiveValue,
-} from '@/config/responsive';
+export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';
 
 // ============================================================================
 // TanStack Query Hooks and Utilities
