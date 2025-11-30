@@ -9,6 +9,7 @@ import {
   type Theme,
 } from '@mui/material';
 
+import { UI_TIMING } from '@/config/constants';
 import { SnackbarContext } from '@/contexts/SnackbarContext';
 import { useEventCallback } from '@/hooks';
 
@@ -36,7 +37,7 @@ const INITIAL_SNACKBAR_STATE: SnackbarState = {
   open: false,
   message: '',
   severity: 'info',
-  duration: 3000,
+  duration: UI_TIMING.SNACKBAR_DURATION_DEFAULT,
 };
 
 function snackbarReducer(
@@ -67,7 +68,7 @@ export function SnackbarProvider({
     (
       message: string,
       severity: AlertColor = 'info',
-      duration: number | null = 3000
+      duration: number | null = UI_TIMING.SNACKBAR_DURATION_DEFAULT
     ) => {
       dispatch({
         type: 'SHOW',
@@ -80,11 +81,11 @@ export function SnackbarProvider({
     dispatch({ type: 'CLOSE' });
   });
 
-  // Wrap with useEventCallback for stable reference in Snackbar onClose
+  // Delegates to closeSnackbar, handling clickaway event
   const handleClose = useEventCallback(
     (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
       if (reason === 'clickaway') return;
-      dispatch({ type: 'CLOSE' });
+      closeSnackbar();
     }
   );
 

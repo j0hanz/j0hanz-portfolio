@@ -56,12 +56,13 @@ function BaseModal({
     }
   }, [open]);
 
-  const transition =
-    animationPreset === 'slideDown'
-      ? getTransition('smooth', { duration: 0.45 })
-      : animationPreset === 'zoomOut'
-        ? getTransition('spring', { duration: 0.4 })
-        : getTransition('smooth');
+  // Config-driven transition selection - eliminates nested ternary for KISS compliance
+  const transitionConfigs = {
+    slideDown: () => getTransition('smooth', { duration: 0.45 }),
+    zoomOut: () => getTransition('spring', { duration: 0.4 }),
+    modal: () => getTransition('smooth'),
+  } as const;
+  const transition = transitionConfigs[animationPreset]();
   const modalVariant = modalVariants[animationPreset];
 
   return (

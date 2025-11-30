@@ -15,7 +15,8 @@ import {
 import Grid from '@mui/material/Grid';
 import { SxProps } from '@mui/system';
 
-import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
+import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
+import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_EMAIL } from '@/config/constants';
 import {
   footerContainerMarginSx,
@@ -24,7 +25,6 @@ import {
   justifyResponsiveSx,
   textAlignResponsiveSx,
 } from '@/config/responsive';
-import { SocialLinkRenderProps } from '@/config/types';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
 import {
   ICON_SIZE,
@@ -109,10 +109,6 @@ function Footer(): React.JSX.Element {
   const { openCvModal } = useCvModalActions();
   const { copyWithFeedback } = useCopyWithFeedback();
 
-  const renderFooterSocialLink = (
-    props: SocialLinkRenderProps
-  ): React.JSX.Element => <SocialLinkButton {...props} />;
-
   const handleCopyEmail = async () => {
     const messages = getCopyMessages('email');
     await copyWithFeedback(CONTACT_EMAIL, messages.success, messages.error);
@@ -172,7 +168,7 @@ function Footer(): React.JSX.Element {
               >
                 <SocialLinkList
                   openModal={openCvModal}
-                  renderLink={renderFooterSocialLink}
+                  renderLink={defaultSocialLinkRenderer}
                   wrapItem={wrapFooterSocialLink}
                 />
               </Grid>

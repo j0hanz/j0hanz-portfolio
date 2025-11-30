@@ -2,16 +2,17 @@ import { useEffect, useRef } from 'react';
 
 import { useReducedMotion } from 'motion/react';
 
+import {
+  SCROLL_LOCK_DURATION_MS,
+  SCROLL_TOLERANCE_PX,
+  SECTION_CONTAINER_ID,
+} from '@/config/constants';
 import type { ScrollBoundaries, ScrollDirection } from '@/config/types';
 
 import { useMobileBreakpoint } from './useBreakpoints';
 import useEventCallback from './useEventCallback';
 import { useNavigationActions, useNavigationState } from './useNavigation';
 import { useScrollEvents } from './useScrollEvents';
-
-const SCROLL_LOCK_DURATION_MS = 1000;
-const SCROLL_TOLERANCE_PX = 2;
-const SECTION_CONTAINER_ID = 'active-section-container';
 
 // Gets scroll boundary state for a container element
 function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {

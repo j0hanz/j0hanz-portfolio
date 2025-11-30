@@ -1,6 +1,26 @@
 import type { RepoStats } from './types';
 
 // ============================================================================
+// SCROLL CONSTANTS
+// ============================================================================
+
+export const SECTION_CONTAINER_ID = 'active-section-container';
+export const SCROLL_TOLERANCE_PX = 2;
+export const SCROLL_LOCK_DURATION_MS = 1000;
+export const WHEEL_THRESHOLD_PX = 30;
+export const TOUCH_THRESHOLD_PX = 50;
+
+// ============================================================================
+// UI TIMING CONSTANTS
+// ============================================================================
+
+export const UI_TIMING = {
+  SNACKBAR_DURATION_DEFAULT: 3000,
+  TRANSITION_FADE: 0.5,
+  TRANSITION_SMOOTH: 0.3,
+} as const;
+
+// ============================================================================
 // APP COPY
 // ============================================================================
 

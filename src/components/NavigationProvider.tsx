@@ -35,15 +35,12 @@ function clampIndex(index: number): number {
   return index;
 }
 
-function resolveIndexById(id: string): number | null {
-  const matchIndex = sections.findIndex((section) => section.id === id);
-  return matchIndex >= 0 ? matchIndex : null;
-}
-
-function resolveIndexByHash(hash: string): number | null {
-  const section = getSectionByHash(hash);
+// Unified resolver for section index by ID or hash
+function resolveIndex(identifier: string, byHash = false): number | null {
+  const section = byHash
+    ? getSectionByHash(identifier)
+    : sections.find((s) => s.id === identifier);
   if (!section) return null;
-
   const matchIndex = sections.indexOf(section);
   return matchIndex >= 0 ? matchIndex : null;
 }
@@ -89,7 +86,7 @@ function navigationReducer(
         : next;
     }
     case 'SET_ID': {
-      const targetIndex = resolveIndexById(action.payload);
+      const targetIndex = resolveIndex(action.payload);
       if (targetIndex === null) return state;
 
       const next = buildSnapshot(targetIndex, state.activeSectionIndex);
@@ -107,7 +104,7 @@ function navigationReducer(
         : next;
     }
     case 'SYNC_HASH': {
-      const targetIndex = resolveIndexByHash(action.payload);
+      const targetIndex = resolveIndex(action.payload, true);
       if (targetIndex === null) return state;
 
       const next = buildSnapshot(targetIndex, state.activeSectionIndex);

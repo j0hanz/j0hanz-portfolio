@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 
+import {
+  SCROLL_TOLERANCE_PX,
+  SECTION_CONTAINER_ID,
+  TOUCH_THRESHOLD_PX,
+  WHEEL_THRESHOLD_PX,
+} from '@/config/constants';
 import type { ScrollDirection, UseScrollEventsProps } from '@/config/types';
 
 import useEventCallback from './useEventCallback';
-
-// Threshold values for gesture detection
-const WHEEL_THRESHOLD_PX = 30;
-const TOUCH_THRESHOLD_PX = 50;
-const SECTION_CONTAINER_ID = 'active-section-container';
-const SCROLL_TOLERANCE_PX = 2;
 
 // Key mappings for keyboard navigation
 const KEYS_DOWN = new Set(['ArrowDown', 'PageDown', ' ']);

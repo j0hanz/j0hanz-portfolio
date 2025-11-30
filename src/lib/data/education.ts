@@ -1,11 +1,8 @@
-const education: Array<{
-  title: string;
-  school: string;
-  duration: string;
-  description: string[];
-  hasCredential: boolean;
-}> = [
+import type { Experience } from '@/config/types';
+
+const education: Experience[] = [
   {
+    type: 'education',
     title: 'Diploma in Full Stack Software Development',
     school: 'Code Institute',
     duration: 'Feb 2024 - Jul 2024',
@@ -13,13 +10,13 @@ const education: Array<{
     hasCredential: true,
   },
   {
+    type: 'education',
     title: 'Leadership Training',
     school: 'Webhallen',
     duration: '2019',
     description: [
       'Building winning teams through norms, values, and coaching leadership.',
     ],
-    hasCredential: false,
   },
 ];
 

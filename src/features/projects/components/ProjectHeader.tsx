@@ -13,24 +13,21 @@ import { motion } from 'motion/react';
 
 import { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { BADGE_HEIGHT, BADGE_MIN_WIDTH, SKEW_TRANSFORM } from '@/styles/shared';
+import {
+  BADGE_HEIGHT,
+  BADGE_MIN_WIDTH,
+  SKEW_TRANSFORM,
+  textEllipsisSx,
+} from '@/styles/shared';
 
 const titleSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.h6.fontSize,
   color: 'text.primary',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  minWidth: 0,
+  ...textEllipsisSx,
   flex: 1,
 };
 
-const titleInnerSx: SxProps<Theme> = {
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  minWidth: 0,
-};
+const titleInnerSx: SxProps<Theme> = textEllipsisSx;
 
 const apiIconSx: SxProps<Theme> = {
   mr: 0.75,
@@ -63,7 +60,12 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography variant="h6" component="h3" sx={titleSx}>
-        <Stack direction="row" alignItems="center" component="span" sx={titleInnerSx}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          component="span"
+          sx={titleInnerSx}
+        >
           {project.api && <DnsTwoTone sx={apiIconSx} />}
           <Box component="span" sx={titleInnerSx}>
             {project.title}

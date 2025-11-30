@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig(
-  { ignores: ['dist', '.github/mcp-playwright-server/**'] },
+  { ignores: ['dist', 'playwright-mcp/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...tanstackQuery.configs['flat/recommended'],

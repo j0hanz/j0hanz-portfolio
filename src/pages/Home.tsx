@@ -6,19 +6,12 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { SectionSkeleton } from '@/components/Skeletons';
 import { useFullPageScroll, useNavigationState } from '@/hooks';
+import { centeredFullViewportSx } from '@/styles/shared';
 
 // Fallback for section-level errors (prevents entire app from breaking)
 function SectionErrorFallback(): React.JSX.Element {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        p: 3,
-      }}
-    >
+    <Box sx={{ ...centeredFullViewportSx, height: '100vh' }}>
       <Typography variant="body1" color="text.secondary">
         This section failed to load. Please try refreshing the page.
       </Typography>

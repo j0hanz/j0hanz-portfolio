@@ -4,8 +4,9 @@ import { motion } from 'motion/react';
 
 import { CustomButtonProps } from '@/config/types';
 import { useButtonGesture } from '@/hooks';
+import { filterMotionConflicts } from '@/utils/motionProps';
 
-const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({
+const StyledButton = styled(MuiButton)({
   textTransform: 'uppercase',
   maxWidth: '100%',
   display: 'flex',
@@ -16,7 +17,7 @@ const StyledButton = styled(MuiButton)(({ theme: _theme }) => ({
     display: 'flex',
     alignItems: 'center',
   },
-}));
+});
 
 const MotionButton = motion.create(StyledButton);
 
@@ -46,20 +47,8 @@ const Button = function Button({
     ...(motionWhileFocus && { whileFocus: motionWhileFocus }),
   };
 
-  // Filter out HTML drag events that conflict with Motion's drag system
-  const {
-    onDrag: _onDrag,
-    onDragStart: _onDragStart,
-    onDragEnd: _onDragEnd,
-    onDragOver: _onDragOver,
-    onDragEnter: _onDragEnter,
-    onDragLeave: _onDragLeave,
-    onDrop: _onDrop,
-    onAnimationStart: _onAnimationStart,
-    onAnimationEnd: _onAnimationEnd,
-    onAnimationIteration: _onAnimationIteration,
-    ...safeProps
-  } = props;
+  // Filter out HTML drag/animation events that conflict with Motion's system
+  const safeProps = filterMotionConflicts(props);
 
   return (
     <MotionButton

@@ -138,6 +138,23 @@ export const visuallyHiddenSx: SxProps<Theme> = {
   border: 0,
 };
 
+// Text ellipsis pattern for truncated text - DRY across components
+export const textEllipsisSx: SxProps<Theme> = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  minWidth: 0,
+};
+
+// Centered full-viewport layout for error pages and loading states
+export const centeredFullViewportSx: SxProps<Theme> = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  p: 3,
+};
+
 // Transparent modal content styling
 export const transparentModalContentSx: SxProps<Theme> = {
   p: 0,

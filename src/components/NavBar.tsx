@@ -36,13 +36,10 @@ import {
   navLogoStackSx,
   socialLinksBoxSx,
 } from '@/components/NavBar.styles';
-import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
+import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
+import { SocialLinkList } from '@/components/SocialLinks';
 import { navVariants } from '@/config/motion';
-import type {
-  NavLinkItemProps,
-  OffcanvasMenuProps,
-  SocialLinkRenderProps,
-} from '@/config/types';
+import type { NavLinkItemProps, OffcanvasMenuProps } from '@/config/types';
 import {
   useAnimationConfig,
   useCvModalActions,
@@ -58,10 +55,6 @@ const isIOS =
   /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
-
-const renderNavSocialLink = (props: SocialLinkRenderProps): JSX.Element => (
-  <SocialLinkButton {...props} />
-);
 
 function NavLogo({ onClose }: { onClose?: () => void }): JSX.Element {
   const { navigateTo } = useNavigationActions();
@@ -213,7 +206,7 @@ function SocialLinks({
       >
         <SocialLinkList
           openModal={openModal}
-          renderLink={renderNavSocialLink}
+          renderLink={defaultSocialLinkRenderer}
           iconSize={iconSize}
           wrapItem={wrapSocialItem}
         />

@@ -1,8 +1,6 @@
-const aboutMeItems: Array<{
-  title: string;
-  description: string;
-  hasCredential: boolean;
-}> = [
+import type { AboutMeItem } from '@/config/types';
+
+const aboutMeItems: AboutMeItem[] = [
   {
     title: 'Tech Enthusiast',
     description: 'Passionate about technology.',
