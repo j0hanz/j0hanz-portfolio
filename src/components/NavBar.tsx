@@ -83,6 +83,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): JSX.Element {
       direction="row"
       alignItems="center"
       sx={navLogoStackSx}
+      aria-label="Home"
     >
       <Box
         component={motion.img}

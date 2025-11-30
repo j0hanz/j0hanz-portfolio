@@ -50,7 +50,7 @@ const BaseCard = function Card({
       {noContentPadding ? (
         children
       ) : (
-        <Box sx={contentSx}>
+        <Box sx={contentSx} data-card-content="true">
           <Typography variant="h5" component="div" gutterBottom>
             {title}
           </Typography>

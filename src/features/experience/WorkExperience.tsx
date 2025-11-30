@@ -133,6 +133,7 @@ function EducationCard({
         title={experience.title}
         metadata={metadata}
         dataAttributes={EXPERIENCE_CARD_ATTRIBUTES}
+        metaDataAttribute="data-exp-meta"
       >
         {experience.description.length > 0 && (
           <Box sx={timelineDescriptionWrapperSx}>

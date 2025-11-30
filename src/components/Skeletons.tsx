@@ -73,7 +73,7 @@ const projectCardSx: SxProps<Theme> = {
 
 export function ProjectCardSkeleton(): React.JSX.Element {
   return (
-    <Box sx={projectCardSx}>
+    <Box component="article" sx={projectCardSx}>
       <Stack spacing={2} sx={{ flex: '1 1 auto' }}>
         {/* Header */}
         <Stack

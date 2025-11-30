@@ -368,11 +368,13 @@ export function useParallaxTransform(
 
 // Enhanced useInView with defaults (once=true, amount=0.2)
 export function useInView(ref: RefObject<Element>, options?: UseInViewOptions) {
-  return useMotionInView(ref, {
+  // const prefersReducedMotion = useReducedMotion();
+  const inView = useMotionInView(ref, {
     once: true,
     amount: 0.2,
     ...options,
   });
+  return inView; // prefersReducedMotion || inView;
 }
 
 // ============================================================================
@@ -701,7 +703,7 @@ export function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const isInView = useMotionInView(containerRef, viewportPreset);
+  const isInView = useInView(containerRef, viewportPreset);
 
   // Combine refs into single callback ref
   const combinedRef = useEventCallback((node: HTMLDivElement | null) => {
@@ -764,7 +766,7 @@ export function useTimelineSectionController({
 // Simplified card inView hook for timeline cards
 export function useCardInView(viewportPreset: UseInViewOptions) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useMotionInView(cardRef, viewportPreset);
+  const isInView = useInView(cardRef, viewportPreset);
   return { cardRef, isInView };
 }
 
@@ -1034,7 +1036,7 @@ export function useSvgPathDraw(
 ) {
   const { duration = 1.5, delay = 0, once = true } = options;
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const isInView = useMotionInView(ref, { once, amount: 0.5 });
+  const isInView = useInView(ref, { once, amount: 0.5 });
   const pathLength = useMotionValue(prefersReducedMotion ? 1 : 0);
 
   useEffect(() => {
