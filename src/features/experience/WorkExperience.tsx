@@ -71,7 +71,10 @@ function WorkCard({
   experience: Experience;
   showDuration?: boolean;
 }) {
-  const { cardRef, itemMotion } = useTimelineCardMotion(viewportPresets.card);
+  // Use fullPageCard preset for full-page scroll sections to replay animations on remount
+  const { cardRef, itemMotion } = useTimelineCardMotion(
+    viewportPresets.fullPageCard
+  );
 
   const metadata = buildExperienceMetadata(experience, showDuration);
 
@@ -114,11 +117,12 @@ function EducationCard({
   onShowModal: () => void;
   showDuration?: boolean;
 }) {
+  // Use fullPageCard preset for full-page scroll sections to replay animations on remount
   const {
     cardRef,
     isInView,
     itemMotion: descriptionMotion,
-  } = useTimelineCardMotion(viewportPresets.cardLarge);
+  } = useTimelineCardMotion(viewportPresets.fullPageCard);
 
   const metadata = buildExperienceMetadata(experience, showDuration);
 
@@ -196,8 +200,9 @@ function ExperienceCard({
 // Rendering unified experience section (work + education timeline)
 function WorkExperience(): React.JSX.Element {
   const credentialModal = useModal(false);
+  // Use fullPageSection preset for full-page scroll sections to replay animations on remount
   const { combinedRef, cardMotion } = useTimelineSectionController({
-    viewportPreset: viewportPresets.section,
+    viewportPreset: viewportPresets.fullPageSection,
     selectors: {
       cards: '[data-exp-card]',
       description: '[data-exp-description]',

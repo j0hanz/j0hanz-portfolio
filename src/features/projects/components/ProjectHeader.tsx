@@ -18,6 +18,18 @@ import { BADGE_HEIGHT, BADGE_MIN_WIDTH, SKEW_TRANSFORM } from '@/styles/shared';
 const titleSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.h6.fontSize,
   color: 'text.primary',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  minWidth: 0,
+  flex: 1,
+};
+
+const titleInnerSx: SxProps<Theme> = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  minWidth: 0,
 };
 
 const apiIconSx: SxProps<Theme> = {
@@ -51,9 +63,11 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <Typography variant="h6" component="h3" sx={titleSx}>
-        <Stack direction="row" alignItems="center" component="span">
+        <Stack direction="row" alignItems="center" component="span" sx={titleInnerSx}>
           {project.api && <DnsTwoTone sx={apiIconSx} />}
-          {project.title}
+          <Box component="span" sx={titleInnerSx}>
+            {project.title}
+          </Box>
           {project.isNew && (
             <Box
               component={motion.span}
@@ -82,7 +96,7 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
           )}
         </Stack>
       </Typography>
-      <Box>
+      <Box sx={{ flexShrink: 0 }}>
         {project.collaborative ? (
           <GroupsTwoTone sx={iconSx} />
         ) : (

@@ -45,6 +45,10 @@ export const viewportPresets = {
   cardLarge: { once: true, amount: 0.3 },
   list: { once: true, amount: 0.2 },
   listCompact: { once: true, amount: 0.15 },
+  // Full-page scroll presets: once: false ensures animations replay on remount
+  fullPageSection: { once: false, amount: 0.1 },
+  fullPageCard: { once: false, amount: 0.2 },
+  fullPageList: { once: false, amount: 0.15 },
 } as const;
 
 // Common easing curves
@@ -1011,6 +1015,14 @@ export const viewportConfigLazy = {
   once: true,
   amount: 0.35,
   margin: '0px 0px -30% 0px',
+} as const;
+
+// Full-page scroll sections: use once: false since sections remount on navigation
+// and may already be in viewport when mounted
+export const viewportConfigFullPage = {
+  once: false,
+  amount: 0.1,
+  margin: '0px',
 } as const;
 
 // ============================================================================

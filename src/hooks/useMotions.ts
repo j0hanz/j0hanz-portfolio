@@ -367,14 +367,17 @@ export function useParallaxTransform(
 // ============================================================================
 
 // Enhanced useInView with defaults (once=true, amount=0.2)
-export function useInView(ref: RefObject<Element>, options?: UseInViewOptions) {
-  // const prefersReducedMotion = useReducedMotion();
+// For full-page scroll sections that remount, pass once: false in options
+export function useInView(
+  ref: RefObject<Element | null>,
+  options?: UseInViewOptions
+) {
   const inView = useMotionInView(ref, {
     once: true,
     amount: 0.2,
     ...options,
   });
-  return inView; // prefersReducedMotion || inView;
+  return inView;
 }
 
 // ============================================================================
@@ -679,6 +682,12 @@ export function useSectionSequence(
   const sequencePlan = buildSectionSequencePlan(selectors, getStagger);
 
   const { scrollYProgress } = useScroll({ target: ref, offset });
+
+  // Reset hasPlayed on mount - this ensures animations replay when component remounts
+  // (e.g., when navigating away and back in full-page scroll sections)
+  useEffect(() => {
+    hasPlayed.current = false;
+  }, []);
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
     if (
