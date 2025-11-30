@@ -46,4 +46,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-playwright-mcp-main/
+playwright-mcp/
