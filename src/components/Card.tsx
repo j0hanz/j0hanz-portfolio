@@ -13,15 +13,10 @@ import { cardBaseSx } from '@/styles/shared';
 
 const MotionPaper = motion.create(MuiPaper);
 
-const contentSx: SxProps<Theme> = {
-  p: 2,
-};
+const contentSx: SxProps<Theme> = { p: 2 };
+const subtitleSx: SxProps<Theme> = { mb: 1 };
 
-const subtitleSx: SxProps<Theme> = {
-  mb: 1,
-};
-
-const BaseCard = function Card({
+function BaseCard({
   title,
   subtitle,
   children,
@@ -64,7 +59,7 @@ const BaseCard = function Card({
       )}
     </MotionPaper>
   );
-};
+}
 
 BaseCard.displayName = 'Card';
 

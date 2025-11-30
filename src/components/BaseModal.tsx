@@ -49,20 +49,18 @@ function BaseModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Auto-focus close button synchronously when modal opens
-  // useLayoutEffect ensures focus happens before browser paint
   useLayoutEffect(() => {
-    if (open) {
-      closeButtonRef.current?.focus();
-    }
+    if (open) closeButtonRef.current?.focus();
   }, [open]);
 
-  // Config-driven transition selection - eliminates nested ternary for KISS compliance
-  const transitionConfigs = {
-    slideDown: () => getTransition('smooth', { duration: 0.45 }),
-    zoomOut: () => getTransition('spring', { duration: 0.4 }),
-    modal: () => getTransition('smooth'),
-  } as const;
-  const transition = transitionConfigs[animationPreset]();
+  // Simplified transition config - direct mapping reduces cognitive load
+  const transition =
+    animationPreset === 'slideDown'
+      ? getTransition('smooth', { duration: 0.45 })
+      : animationPreset === 'zoomOut'
+        ? getTransition('spring', { duration: 0.4 })
+        : getTransition('smooth');
+
   const modalVariant = modalVariants[animationPreset];
 
   return (

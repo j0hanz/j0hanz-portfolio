@@ -8,7 +8,7 @@ import type {
 
 import { useSnackbar } from './useSnackbar';
 
-const isClipboardSupported = () =>
+const isClipboardSupported =
   typeof navigator !== 'undefined' && Boolean(navigator.clipboard);
 
 // Copies text to clipboard with success/error state tracking
@@ -19,10 +19,8 @@ export function useCopyToClipboard(): UseCopyToClipboardReturn {
   });
 
   const copyToClipboard: CopyFn = async (text) => {
-    if (!isClipboardSupported()) {
-      if (import.meta.env.DEV) {
-        console.warn('Clipboard not supported');
-      }
+    if (!isClipboardSupported) {
+      if (import.meta.env.DEV) console.warn('Clipboard not supported');
       setState({ value: null, success: false });
       return false;
     }
@@ -32,9 +30,7 @@ export function useCopyToClipboard(): UseCopyToClipboardReturn {
       setState({ value: text, success: true });
       return true;
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.warn('Copy failed', error);
-      }
+      if (import.meta.env.DEV) console.warn('Copy failed', error);
       setState({ value: null, success: false });
       return false;
     }
@@ -48,20 +44,20 @@ export function useCopyWithFeedback() {
   const [copyToClipboard] = useCopyToClipboard();
   const { showSnackbar } = useSnackbar();
 
-  const copyWithFeedback = async (
-    text: string,
-    successMessage = 'Copied to clipboard',
-    errorMessage = 'Unable to copy'
-  ) => {
-    const success = await copyToClipboard(text);
-    showSnackbar(
-      success ? successMessage : errorMessage,
-      success ? 'success' : 'error'
-    );
-    return success;
+  return {
+    copyWithFeedback: async (
+      text: string,
+      successMessage = 'Copied to clipboard',
+      errorMessage = 'Unable to copy'
+    ) => {
+      const success = await copyToClipboard(text);
+      showSnackbar(
+        success ? successMessage : errorMessage,
+        success ? 'success' : 'error'
+      );
+      return success;
+    },
   };
-
-  return { copyWithFeedback };
 }
 
 export default useCopyToClipboard;
