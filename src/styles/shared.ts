@@ -18,7 +18,7 @@ export const BUTTON_MIN_WIDTH = 120;
 export const BUTTON_MIN_WIDTH_WIDE = 140;
 export const BUTTON_MIN_WIDTH_HERO = 140;
 export const BUTTON_HEIGHT_STANDARD = 30;
-export const BUTTON_HEIGHT_LARGE = 35;
+export const BUTTON_HEIGHT_LARGE = 44; // Minimum touch target for iOS/Android accessibility
 
 // Badge dimensions
 export const BADGE_MIN_WIDTH = 45;

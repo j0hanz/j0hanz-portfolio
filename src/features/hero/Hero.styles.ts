@@ -65,7 +65,8 @@ export const profileWrapperSx: SxProps<Theme> = {
 
 export const profileImgSx: SxProps<Theme> = {
   width: RESPONSIVE_SIZE.profileImage,
-  height: RESPONSIVE_SIZE.profileImage,
+  height: 'auto',
+  aspectRatio: '1 / 1',
   clipPath: CLIP_ROUNDED,
   objectFit: 'cover',
   cursor: 'pointer',

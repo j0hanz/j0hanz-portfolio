@@ -240,8 +240,8 @@ export const RESPONSIVE_SIZE = {
   iconMd: { xs: '2rem', md: '2.5rem' } satisfies ResponsiveValue<string>,
   // Icon sizes - small (skill badges, etc.)
   iconSm: { xs: '1.5rem', md: '1.75rem' } satisfies ResponsiveValue<string>,
-  // Button heights
-  buttonLarge: 35,
+  // Button heights (44px minimum for mobile touch targets per WCAG)
+  buttonLarge: 44,
   buttonStandard: 30,
   // Badge dimensions (credential badges)
   badge: {
