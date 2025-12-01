@@ -17,17 +17,7 @@ interface AppProvidersProps {
   children: ReactNode;
 }
 
-/**
- * Wraps the application with all necessary context providers.
- * Order matters:
- * 1. QueryClientProvider (Data fetching)
- * 2. QueryErrorResetBoundary (Query error handling)
- * 3. ErrorBoundary (Global error handling)
- * 4. AppThemeProvider (Theme context)
- * 5. SnackbarProvider (Notifications)
- * 6. NavigationProvider (Routing/Navigation)
- * 7. CvModalProvider (Modal state)
- */
+// Provider order: data → errors → theme → notifications → navigation → modals
 export function AppProviders({ children }: AppProvidersProps) {
   return (
     <>

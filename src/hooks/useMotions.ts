@@ -608,11 +608,7 @@ const animateElements = (
   );
 };
 
-/**
- * Builds animation sequence plan from selector configuration.
- * Uses configuration-driven approach to reduce complexity and improve maintainability.
- * Sequences animations: description → cards → CTA with proper timing delays.
- */
+// Builds animation sequence plan from selector config (description → cards → CTA timing)
 function buildSectionSequencePlan(
   selectors: Record<string, string | undefined>,
   getStagger: AnimationConfig['getStagger']

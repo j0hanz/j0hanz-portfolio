@@ -593,11 +593,8 @@ export interface SectionContainerProps {
   className?: string;
   sx?: SxProps<Theme>;
   headingLevel?: 'h1' | 'h2' | 'h3' | 'h4';
-  /** Optional subtitle below the main title */
   subtitle?: ReactNode;
-  /** Optional actions/buttons displayed in the header */
   headerActions?: ReactNode;
-  /** Maximum container width - defaults to 'lg' */
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 }
 

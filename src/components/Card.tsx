@@ -46,7 +46,7 @@ function BaseCard({
         children
       ) : (
         <Box sx={contentSx} data-card-content="true">
-          <Typography variant="h5" component="div" gutterBottom>
+          <Typography variant="h5" component="h3" gutterBottom>
             {title}
           </Typography>
           {subtitle && (
