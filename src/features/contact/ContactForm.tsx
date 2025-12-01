@@ -18,7 +18,7 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
-import { CONTACT_COPY, FORM_RESET_DELAY } from '@/config/constants';
+import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import { hideOnMobileInlineSx, RESPONSIVE_SPACING } from '@/config/responsive';
 import type {
@@ -210,7 +210,7 @@ function ContactFormContent() {
   // Auto-reset form after successful submission
   useEffect(() => {
     if (!showSuccess) return;
-    const timer = setTimeout(handleReset, FORM_RESET_DELAY);
+    const timer = setTimeout(handleReset, CONTACT_CONFIG.FORM_RESET_DELAY);
     return () => clearTimeout(timer);
   }, [showSuccess, handleReset]);
 

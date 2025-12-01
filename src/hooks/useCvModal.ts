@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { use } from 'react';
 
 import {
   CvModalActions,
@@ -9,7 +9,7 @@ import {
 
 // Read-only state hook - won't re-render when actions change
 export function useCvModalState(): CvModalState {
-  const context = useContext(CvModalStateContext);
+  const context = use(CvModalStateContext);
   if (!context) {
     throw new Error('useCvModalState must be used within CvModalProvider');
   }
@@ -18,7 +18,7 @@ export function useCvModalState(): CvModalState {
 
 // Actions-only hook - won't re-render when state changes
 export function useCvModalActions(): CvModalActions {
-  const context = useContext(CvModalActionsContext);
+  const context = use(CvModalActionsContext);
   if (!context) {
     throw new Error('useCvModalActions must be used within CvModalProvider');
   }

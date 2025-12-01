@@ -2,87 +2,116 @@ import type { SxProps, Theme } from '@mui/material';
 
 // ============================================================================
 // SHARED STYLE CONSTANTS
-// Eliminates duplication across components and ensures consistency
+// Single source of truth for reusable styling patterns
+// Organized by category for discoverability
 // ============================================================================
 
 // ============================================================================
 // SIZING CONSTANTS
 // ============================================================================
 
-// Icon sizes
-export const ICON_SIZE = '1rem';
-export const ICON_SIZE_SMALL = '0.9rem';
+export const SIZING = {
+  // Icon sizes
+  icon: '1rem',
+  iconSmall: '0.9rem',
+  // Button dimensions
+  buttonMinWidth: 120,
+  buttonMinWidthWide: 140,
+  buttonMinWidthHero: 140,
+  buttonHeightStandard: 30,
+  buttonHeightLarge: 44, // WCAG minimum touch target
+  // Badge dimensions
+  badgeMinWidth: 45,
+  badgeHeight: 21,
+} as const;
 
-// Button dimensions
-export const BUTTON_MIN_WIDTH = 120;
-export const BUTTON_MIN_WIDTH_WIDE = 140;
-export const BUTTON_MIN_WIDTH_HERO = 140;
-export const BUTTON_HEIGHT_STANDARD = 30;
-export const BUTTON_HEIGHT_LARGE = 44; // Minimum touch target for iOS/Android accessibility
-
-// Badge dimensions
-export const BADGE_MIN_WIDTH = 45;
-export const BADGE_HEIGHT = 21;
+// Direct destructured exports for cleaner imports
+export const {
+  icon: ICON_SIZE,
+  iconSmall: ICON_SIZE_SMALL,
+  buttonMinWidth: BUTTON_MIN_WIDTH,
+  buttonMinWidthWide: BUTTON_MIN_WIDTH_WIDE,
+  buttonMinWidthHero: BUTTON_MIN_WIDTH_HERO,
+  buttonHeightStandard: BUTTON_HEIGHT_STANDARD,
+  buttonHeightLarge: BUTTON_HEIGHT_LARGE,
+  badgeMinWidth: BADGE_MIN_WIDTH,
+  badgeHeight: BADGE_HEIGHT,
+} = SIZING;
 
 // ============================================================================
 // TYPOGRAPHY CONSTANTS
 // ============================================================================
 
-// Text line height
-export const TEXT_LINE_HEIGHT = 2;
+export const TYPOGRAPHY = {
+  lineHeight: 2,
+  letterSpacingTight: 0.5,
+  letterSpacingNormal: 1,
+  letterSpacingWide: 1.5,
+} as const;
 
-// Letter spacing presets
-export const LETTER_SPACING_TIGHT = 0.5;
-export const LETTER_SPACING_NORMAL = 1;
-export const LETTER_SPACING_WIDE = 1.5;
+// Direct destructured exports
+export const {
+  lineHeight: TEXT_LINE_HEIGHT,
+  letterSpacingTight: LETTER_SPACING_TIGHT,
+  letterSpacingNormal: LETTER_SPACING_NORMAL,
+  letterSpacingWide: LETTER_SPACING_WIDE,
+} = TYPOGRAPHY;
 
 // ============================================================================
 // ANIMATION & TRANSFORM CONSTANTS
 // ============================================================================
 
-// CSS transition for non-Motion elements
-export const TRANSITION_STANDARD = 'all 0.3s ease';
+export const TRANSFORMS = {
+  transitionStandard: 'all 0.3s ease',
+  clipRounded: 'inset(0 round 8px)',
+  skew: 'skew(-5deg)',
+} as const;
 
-// Hardware-accelerated clipPath for rounded corners
-export const CLIP_ROUNDED = 'inset(0 round 8px)';
-
-// Skew transform for stylized elements
-export const SKEW_TRANSFORM = 'skew(-5deg)';
+// Direct destructured exports
+export const {
+  transitionStandard: TRANSITION_STANDARD,
+  clipRounded: CLIP_ROUNDED,
+  skew: SKEW_TRANSFORM,
+} = TRANSFORMS;
 
 // ============================================================================
-// REUSABLE SX PROPS
+// REUSABLE SX PROPS - ICONS
 // ============================================================================
 
-// Icon styles
 export const iconSx: SxProps<Theme> = {
-  fontSize: ICON_SIZE,
+  fontSize: SIZING.icon,
 };
 
 export const iconBody2Sx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.body2.fontSize,
 };
 
-// Tooltip wrapper for inline elements
+// ============================================================================
+// REUSABLE SX PROPS - BUTTONS
+// ============================================================================
+
+export const buttonMinWidthSx: SxProps<Theme> = {
+  minWidth: SIZING.buttonMinWidth,
+};
+
+export const contactButtonSx: SxProps<Theme> = {
+  minWidth: SIZING.buttonMinWidthHero,
+  height: SIZING.buttonHeightLarge,
+};
+
+export const credentialButtonSx: SxProps<Theme> = {
+  minWidth: SIZING.buttonMinWidthWide,
+  height: SIZING.buttonHeightStandard,
+};
+
+// ============================================================================
+// REUSABLE SX PROPS - LAYOUT
+// ============================================================================
+
 export const tooltipWrapperSx: SxProps<Theme> = {
   display: 'inline-block',
 };
 
-// Button styles
-export const buttonMinWidthSx: SxProps<Theme> = {
-  minWidth: BUTTON_MIN_WIDTH,
-};
-
-export const contactButtonSx: SxProps<Theme> = {
-  minWidth: BUTTON_MIN_WIDTH_HERO,
-  height: BUTTON_HEIGHT_LARGE,
-};
-
-export const credentialButtonSx: SxProps<Theme> = {
-  minWidth: BUTTON_MIN_WIDTH_WIDE,
-  height: BUTTON_HEIGHT_STANDARD,
-};
-
-// Section layout styles
 export const sectionGridItemSx: SxProps<Theme> = {
   mb: 4,
 };
@@ -92,9 +121,20 @@ export const sectionSpacingSx: SxProps<Theme> = {
   pb: 5,
 };
 
-// Text styles
+export const centeredFullViewportSx: SxProps<Theme> = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  p: 3,
+};
+
+// ============================================================================
+// REUSABLE SX PROPS - TEXT
+// ============================================================================
+
 export const descriptionTextSx: SxProps<Theme> = {
-  lineHeight: TEXT_LINE_HEIGHT,
+  lineHeight: TYPOGRAPHY.lineHeight,
   color: 'text.secondary',
 };
 
@@ -105,18 +145,17 @@ export const listContainerSx: SxProps<Theme> = {
   color: 'text.secondary',
 };
 
-// Timeline card wrapper styles
-export const timelineCardWrapperSx: SxProps<Theme> = {
-  position: 'relative',
-  zIndex: 1,
+export const textEllipsisSx: SxProps<Theme> = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  minWidth: 0,
 };
 
-// Description wrapper for timeline items
-export const timelineDescriptionWrapperSx: SxProps<Theme> = {
-  mb: 2,
-};
+// ============================================================================
+// REUSABLE SX PROPS - CARDS & CONTAINERS
+// ============================================================================
 
-// Card base styling
 export const cardBaseSx: SxProps<Theme> = {
   height: 1,
   display: 'flex',
@@ -124,6 +163,25 @@ export const cardBaseSx: SxProps<Theme> = {
   borderRadius: 2,
   backgroundColor: 'backdrop.glass',
 };
+
+export const timelineCardWrapperSx: SxProps<Theme> = {
+  position: 'relative',
+  zIndex: 1,
+};
+
+export const timelineDescriptionWrapperSx: SxProps<Theme> = {
+  mb: 2,
+};
+
+export const transparentModalContentSx: SxProps<Theme> = {
+  p: 0,
+  bgcolor: 'transparent',
+  overflow: 'hidden',
+};
+
+// ============================================================================
+// REUSABLE SX PROPS - ACCESSIBILITY
+// ============================================================================
 
 // Visually hidden content for screen readers (WCAG compliant)
 export const visuallyHiddenSx: SxProps<Theme> = {
@@ -136,28 +194,4 @@ export const visuallyHiddenSx: SxProps<Theme> = {
   clip: 'rect(0, 0, 0, 0)',
   whiteSpace: 'nowrap',
   border: 0,
-};
-
-// Text ellipsis pattern for truncated text - DRY across components
-export const textEllipsisSx: SxProps<Theme> = {
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  minWidth: 0,
-};
-
-// Centered full-viewport layout for error pages and loading states
-export const centeredFullViewportSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: '100vh',
-  p: 3,
-};
-
-// Transparent modal content styling
-export const transparentModalContentSx: SxProps<Theme> = {
-  p: 0,
-  bgcolor: 'transparent',
-  overflow: 'hidden',
 };

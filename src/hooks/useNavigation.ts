@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { use } from 'react';
 
 import type { NavigationActions, NavigationState } from '@/config/types';
 import {
@@ -8,7 +8,7 @@ import {
 
 // Full state hook - subscribes to all navigation state changes
 export function useNavigationState(): NavigationState {
-  const context = useContext(NavigationStateContext);
+  const context = use(NavigationStateContext);
   if (!context) {
     throw new Error(
       'useNavigationState must be used within a NavigationProvider'
@@ -19,7 +19,7 @@ export function useNavigationState(): NavigationState {
 
 // Actions-only hook - never causes re-renders on state changes
 export function useNavigationActions(): NavigationActions {
-  const context = useContext(NavigationActionsContext);
+  const context = use(NavigationActionsContext);
   if (!context) {
     throw new Error(
       'useNavigationActions must be used within a NavigationProvider'

@@ -1,10 +1,4 @@
-import {
-  EMAIL_PATTERN,
-  ERROR_MESSAGES,
-  MIN_MESSAGE_LENGTH,
-  NAME_PATTERN,
-  URL_PATTERN,
-} from '@/config/constants';
+import { ERROR_MESSAGES, VALIDATION } from '@/config/constants';
 import type {
   ContactFormErrors,
   ContactFormValues,
@@ -41,23 +35,29 @@ function createValidator(config: ValidatorConfig) {
 
 export const validateName = createValidator({
   required: ERROR_MESSAGES.NAME_REQUIRED,
-  pattern: { regex: NAME_PATTERN, error: ERROR_MESSAGES.NAME_INVALID },
+  pattern: {
+    regex: VALIDATION.NAME_PATTERN,
+    error: ERROR_MESSAGES.NAME_INVALID,
+  },
 });
 
 export const validateEmail = createValidator({
   required: ERROR_MESSAGES.EMAIL_REQUIRED,
-  pattern: { regex: EMAIL_PATTERN, error: ERROR_MESSAGES.EMAIL_INVALID },
+  pattern: {
+    regex: VALIDATION.EMAIL_PATTERN,
+    error: ERROR_MESSAGES.EMAIL_INVALID,
+  },
 });
 
 export const validateUrl = createValidator({
   optional: true,
-  pattern: { regex: URL_PATTERN, error: ERROR_MESSAGES.URL_INVALID },
+  pattern: { regex: VALIDATION.URL_PATTERN, error: ERROR_MESSAGES.URL_INVALID },
 });
 
 export const validateMessage = createValidator({
   required: ERROR_MESSAGES.MESSAGE_REQUIRED,
   minLength: {
-    value: MIN_MESSAGE_LENGTH,
+    value: VALIDATION.MIN_MESSAGE_LENGTH,
     error: ERROR_MESSAGES.MESSAGE_TOO_SHORT,
   },
 });

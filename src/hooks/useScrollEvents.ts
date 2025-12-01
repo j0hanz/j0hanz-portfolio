@@ -1,35 +1,39 @@
 import { useEffect, useRef } from 'react';
 
-import {
-  SCROLL_TOLERANCE_PX,
-  SECTION_CONTAINER_ID,
-  TOUCH_THRESHOLD_PX,
-  WHEEL_THRESHOLD_PX,
-} from '@/config/constants';
+import { SCROLL_CONFIG } from '@/config/constants';
 import type { ScrollDirection, UseScrollEventsProps } from '@/config/types';
 
 import useEventCallback from './useEventCallback';
 
 // Key mappings for keyboard navigation
-const KEYS_DOWN = new Set(['ArrowDown', 'PageDown', ' ']);
-const KEYS_UP = new Set(['ArrowUp', 'PageUp']);
+const NAVIGATION_KEYS: Record<string, ScrollDirection> = {
+  ArrowDown: 'down',
+  PageDown: 'down',
+  ' ': 'down',
+  ArrowUp: 'up',
+  PageUp: 'up',
+} as const;
 
-function getKeyboardDirection(key: string): ScrollDirection | null {
-  if (KEYS_DOWN.has(key)) return 'down';
-  if (KEYS_UP.has(key)) return 'up';
-  return null;
-}
+const getKeyboardDirection = (key: string): ScrollDirection | null =>
+  NAVIGATION_KEYS[key] ?? null;
 
-// Check if container is at scroll boundary
+// Gets scroll boundary state from container
+const getScrollBoundaryState = (container: HTMLElement) => {
+  const { scrollTop, scrollHeight, clientHeight } = container;
+  return {
+    isAtTop: scrollTop <= SCROLL_CONFIG.TOLERANCE_PX,
+    isAtBottom:
+      Math.abs(scrollHeight - clientHeight - scrollTop) <=
+      SCROLL_CONFIG.TOLERANCE_PX,
+  };
+};
+
+// Check if container is at scroll boundary for given direction
 function isAtScrollBoundary(direction: ScrollDirection): boolean {
-  const container = document.getElementById(SECTION_CONTAINER_ID);
+  const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
   if (!container) return true;
 
-  const { scrollTop, scrollHeight, clientHeight } = container;
-  const isAtTop = scrollTop <= SCROLL_TOLERANCE_PX;
-  const isAtBottom =
-    Math.abs(scrollHeight - clientHeight - scrollTop) <= SCROLL_TOLERANCE_PX;
-
+  const { isAtTop, isAtBottom } = getScrollBoundaryState(container);
   return direction === 'down' ? isAtBottom : isAtTop;
 }
 
@@ -49,7 +53,7 @@ export function useScrollEvents({
       return;
     }
 
-    if (Math.abs(e.deltaY) <= WHEEL_THRESHOLD_PX) return;
+    if (Math.abs(e.deltaY) <= SCROLL_CONFIG.WHEEL_THRESHOLD_PX) return;
 
     const direction: ScrollDirection = e.deltaY > 0 ? 'down' : 'up';
     if (onNavigate(direction)) {
@@ -85,7 +89,7 @@ export function useScrollEvents({
     // Only prevent default and navigate if at scroll boundary
     // This allows normal scrolling within the section content
     if (
-      Math.abs(deltaY) > TOUCH_THRESHOLD_PX &&
+      Math.abs(deltaY) > SCROLL_CONFIG.TOUCH_THRESHOLD_PX &&
       isAtScrollBoundary(direction)
     ) {
       if (onNavigate(direction)) {
@@ -108,7 +112,8 @@ export function useScrollEvents({
     isTouchActive.current = false;
 
     // Skip if gesture was too small or took too long (not a swipe)
-    if (Math.abs(deltaY) <= TOUCH_THRESHOLD_PX || elapsed > 500) return;
+    if (Math.abs(deltaY) <= SCROLL_CONFIG.TOUCH_THRESHOLD_PX || elapsed > 500)
+      return;
 
     const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
 

@@ -2,16 +2,15 @@ import emailjs from '@emailjs/browser';
 
 import { ContactFormValues as FormData } from '@/config/types';
 
-export const initEmailJs = (): void => {
-  const userId = import.meta.env.VITE_USER_ID;
-  if (typeof userId === 'string') {
-    emailjs.init(userId);
-  } else if (import.meta.env.DEV) {
-    console.error('VITE_USER_ID is not defined');
-  }
-};
+// Required environment variables for EmailJS
+const ENV_KEYS = [
+  'VITE_SERVICE_ID',
+  'VITE_TEMPLATE_ID',
+  'VITE_USER_ID',
+] as const;
 
-const getEnvVariable = (key: string): string => {
+// Gets environment variable or throws if missing
+const getEnvVar = (key: string): string => {
   const value = import.meta.env[key];
   if (typeof value !== 'string') {
     throw new Error(`Environment variable ${key} is not defined`);
@@ -19,29 +18,36 @@ const getEnvVariable = (key: string): string => {
   return value;
 };
 
-const buildTemplateParams = (formData: FormData): Record<string, string> => ({
-  from_name: formData.name,
-  from_email: formData.email,
-  company: formData.company || '',
-  url: formData.url || '',
-  message: formData.message,
-});
+export const initEmailJs = (): void => {
+  try {
+    emailjs.init(getEnvVar('VITE_USER_ID'));
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.error('EmailJS init failed:', error);
+    }
+  }
+};
 
 export const sendEmail = async (formData: FormData): Promise<boolean> => {
-  const templateParams = buildTemplateParams(formData);
-
   try {
-    const serviceId = getEnvVariable('VITE_SERVICE_ID');
-    const templateId = getEnvVariable('VITE_TEMPLATE_ID');
-    const userId = getEnvVariable('VITE_USER_ID');
+    const [serviceId, templateId, userId] = ENV_KEYS.map(getEnvVar);
 
-    await emailjs.send(serviceId, templateId, templateParams, userId);
+    await emailjs.send(
+      serviceId,
+      templateId,
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        company: formData.company || '',
+        url: formData.url || '',
+        message: formData.message,
+      },
+      userId
+    );
     return true;
   } catch (error) {
     if (import.meta.env.DEV) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      console.error('Failed to send email:', errorMessage);
+      console.error('Failed to send email:', error);
     }
     return false;
   }

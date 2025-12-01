@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import { type JSX, useEffect, useState } from 'react';
 
 import LanguageRounded from '@mui/icons-material/LanguageRounded';
 import {
@@ -74,6 +74,16 @@ const flagButtonBaseSx: SxProps<Theme> = {
 
 function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
   const { showSnackbar } = useSnackbar();
+  const [flagIconsLoaded, setFlagIconsLoaded] = useState(false);
+
+  // Lazy-load flag-icons CSS only when modal opens
+  useEffect(() => {
+    if (open && !flagIconsLoaded) {
+      import('flag-icons/css/flag-icons.min.css').then(() => {
+        setFlagIconsLoaded(true);
+      });
+    }
+  }, [open, flagIconsLoaded]);
 
   const handleDownload = (cv: string, fileName: string): void => {
     try {

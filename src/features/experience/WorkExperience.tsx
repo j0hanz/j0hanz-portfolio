@@ -1,4 +1,4 @@
-import React from 'react';
+import type { JSX } from 'react';
 
 import {
   SchoolTwoTone,
@@ -14,11 +14,7 @@ import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';
-import type {
-  Experience,
-  ExperienceCardProps,
-  IconBadgeMetaItem,
-} from '@/config/types';
+import type { Experience, IconBadgeMetaItem } from '@/config/types';
 import {
   useModal,
   useMotionVariant,
@@ -44,9 +40,33 @@ import {
 
 import Credential from './Credential';
 
-const EXPERIENCE_CARD_ATTRIBUTES = { 'data-exp-card': 'true' } as const;
-const DESCRIPTION_DATA_ATTRIBUTE = { 'data-exp-description': 'true' } as const;
-const CTA_DATA_ATTRIBUTE = { 'data-exp-cta': 'true' } as const;
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const DATA_ATTRIBUTES = {
+  card: { 'data-exp-card': 'true' },
+  description: { 'data-exp-description': 'true' },
+  cta: { 'data-exp-cta': 'true' },
+} as const;
+
+const TIMELINE_SELECTORS = {
+  cards: '[data-exp-card]',
+  description: '[data-exp-description]',
+  cta: '[data-exp-cta]',
+} as const;
+
+const SEQUENCE_OPTIONS: {
+  offset: ['start 0.9', 'end 0.25'];
+  threshold: number;
+} = {
+  offset: ['start 0.9', 'end 0.25'],
+  threshold: 0.15,
+};
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
 
 const buildExperienceMetadata = (
   experience: Experience,
@@ -64,18 +84,27 @@ const buildExperienceMetadata = (
   return compactMetadata([baseMeta, durationMeta]);
 };
 
-function WorkCard({
-  experience,
-  showDuration = true,
-}: {
-  experience: Experience;
-  showDuration?: boolean;
-}) {
-  // Use fullPageCard preset for full-page scroll sections to replay animations on remount
-  const { cardRef, itemMotion } = useTimelineCardMotion(
-    viewportPresets.fullPageCard
-  );
+const getExperienceIcon = (item: Experience) =>
+  item.type === 'education' ? SchoolTwoTone : WorkOutlineTwoTone;
 
+// ============================================================================
+// SHARED CARD WRAPPER
+// DRY pattern for timeline card structure
+// ============================================================================
+
+interface TimelineCardWrapperProps {
+  experience: Experience;
+  showDuration: boolean;
+  children: React.ReactNode;
+  cardRef: React.RefObject<HTMLDivElement | null>;
+}
+
+function TimelineCardWrapper({
+  experience,
+  showDuration,
+  children,
+  cardRef,
+}: TimelineCardWrapperProps): JSX.Element {
   const metadata = buildExperienceMetadata(experience, showDuration);
 
   return (
@@ -83,107 +112,133 @@ function WorkCard({
       <TimelineCard
         title={experience.title}
         metadata={metadata}
-        dataAttributes={EXPERIENCE_CARD_ATTRIBUTES}
+        dataAttributes={DATA_ATTRIBUTES.card}
         metaDataAttribute="data-exp-meta"
       >
-        <Box
-          component="ul"
-          {...DESCRIPTION_DATA_ATTRIBUTE}
-          sx={listContainerSx}
-        >
-          {experience.description.map((item, index) => (
-            <motion.li
-              key={buildItemKey(experience.title, item, index)}
-              custom={index}
-              {...itemMotion}
-            >
-              <Typography variant="body2" component="small">
-                {item}
-              </Typography>
-            </motion.li>
-          ))}
-        </Box>
+        {children}
       </TimelineCard>
     </Box>
   );
+}
+
+// ============================================================================
+// CARD VARIANTS
+// ============================================================================
+
+interface BaseCardProps {
+  experience: Experience;
+  showDuration?: boolean;
+}
+
+function WorkCard({
+  experience,
+  showDuration = true,
+}: BaseCardProps): JSX.Element {
+  const { cardRef, itemMotion } = useTimelineCardMotion(
+    viewportPresets.cardReplay
+  );
+
+  return (
+    <TimelineCardWrapper
+      experience={experience}
+      showDuration={showDuration}
+      cardRef={cardRef}
+    >
+      <Box component="ul" {...DATA_ATTRIBUTES.description} sx={listContainerSx}>
+        {experience.description.map((item, index) => (
+          <motion.li
+            key={buildItemKey(experience.title, item, index)}
+            custom={index}
+            {...itemMotion}
+          >
+            <Typography variant="body2" component="small">
+              {item}
+            </Typography>
+          </motion.li>
+        ))}
+      </Box>
+    </TimelineCardWrapper>
+  );
+}
+
+interface EducationCardProps extends BaseCardProps {
+  onShowModal: () => void;
 }
 
 function EducationCard({
   experience,
   onShowModal,
   showDuration = true,
-}: {
-  experience: Experience;
-  onShowModal: () => void;
-  showDuration?: boolean;
-}) {
-  // Use fullPageCard preset for full-page scroll sections to replay animations on remount
+}: EducationCardProps): JSX.Element {
   const {
     cardRef,
     isInView,
     itemMotion: descriptionMotion,
-  } = useTimelineCardMotion(viewportPresets.fullPageCard);
-
-  const metadata = buildExperienceMetadata(experience, showDuration);
+  } = useTimelineCardMotion(viewportPresets.cardReplay);
 
   const buttonMotion = useMotionVariant(buttonPopVariants, {
     initial: 'hidden',
     animate: 'visible',
   });
 
+  const hasDescription = experience.description.length > 0;
+  const showCredential = experience.hasCredential && isInView;
+
   return (
-    <Box ref={cardRef} sx={timelineCardWrapperSx}>
-      <TimelineCard
-        title={experience.title}
-        metadata={metadata}
-        dataAttributes={EXPERIENCE_CARD_ATTRIBUTES}
-        metaDataAttribute="data-exp-meta"
-      >
-        {experience.description.length > 0 && (
-          <Box sx={timelineDescriptionWrapperSx}>
-            {experience.description.map((desc, index) => (
-              <Box
-                component={motion.p}
-                key={buildItemKey(experience.title, desc, index)}
-                custom={index}
-                {...descriptionMotion}
-                {...DESCRIPTION_DATA_ATTRIBUTE}
-                sx={descriptionTextSx}
-              >
-                {desc}
-              </Box>
-            ))}
-          </Box>
+    <TimelineCardWrapper
+      experience={experience}
+      showDuration={showDuration}
+      cardRef={cardRef}
+    >
+      {hasDescription && (
+        <Box sx={timelineDescriptionWrapperSx}>
+          {experience.description.map((desc, index) => (
+            <Box
+              component={motion.p}
+              key={buildItemKey(experience.title, desc, index)}
+              custom={index}
+              {...descriptionMotion}
+              {...DATA_ATTRIBUTES.description}
+              sx={descriptionTextSx}
+            >
+              {desc}
+            </Box>
+          ))}
+        </Box>
+      )}
+      <AnimatePresence mode="wait">
+        {showCredential && (
+          <motion.div {...buttonMotion} exit="hidden">
+            <Button
+              onClick={onShowModal}
+              variant="text"
+              color="inherit"
+              startIcon={<VerifiedTwoTone />}
+              {...DATA_ATTRIBUTES.cta}
+              sx={credentialButtonSx}
+            >
+              Credential
+            </Button>
+          </motion.div>
         )}
-        <AnimatePresence mode="wait">
-          {experience.hasCredential && isInView && (
-            <motion.div {...buttonMotion} exit="hidden">
-              <Button
-                onClick={onShowModal}
-                variant="text"
-                color="inherit"
-                startIcon={<VerifiedTwoTone />}
-                {...CTA_DATA_ATTRIBUTE}
-                sx={credentialButtonSx}
-              >
-                Credential
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </TimelineCard>
-    </Box>
+      </AnimatePresence>
+    </TimelineCardWrapper>
   );
+}
+
+// ============================================================================
+// CARD DISPATCHER
+// ============================================================================
+
+interface ExperienceCardProps extends BaseCardProps {
+  onShowModal: () => void;
 }
 
 function ExperienceCard({
   experience,
   onShowModal,
   showDuration = true,
-}: Omit<ExperienceCardProps, 'align'> & {
-  onShowModal: () => void;
-  showDuration?: boolean;
-}) {
+}: ExperienceCardProps): JSX.Element {
   if (experience.type === 'education') {
     return (
       <EducationCard
@@ -197,21 +252,17 @@ function ExperienceCard({
   return <WorkCard experience={experience} showDuration={showDuration} />;
 }
 
-// Rendering unified experience section (work + education timeline)
-function WorkExperience(): React.JSX.Element {
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
+function WorkExperience(): JSX.Element {
   const credentialModal = useModal(false);
-  // Use fullPageSection preset for full-page scroll sections to replay animations on remount
+
   const { combinedRef, cardMotion } = useTimelineSectionController({
-    viewportPreset: viewportPresets.fullPageSection,
-    selectors: {
-      cards: '[data-exp-card]',
-      description: '[data-exp-description]',
-      cta: '[data-exp-cta]',
-    },
-    sequenceOptions: {
-      offset: ['start 0.9', 'end 0.25'],
-      threshold: 0.15,
-    },
+    viewportPreset: viewportPresets.sectionReplay,
+    selectors: TIMELINE_SELECTORS,
+    sequenceOptions: SEQUENCE_OPTIONS,
   });
 
   return (
@@ -225,9 +276,7 @@ function WorkExperience(): React.JSX.Element {
         <TimelineList
           items={experiences}
           Icon={WorkOutlineTwoTone}
-          getItemIcon={(item) =>
-            item.type === 'education' ? SchoolTwoTone : WorkOutlineTwoTone
-          }
+          getItemIcon={getExperienceIcon}
           cardMotion={cardMotion}
           renderItem={(experience, _index, isMobile) => (
             <ExperienceCard

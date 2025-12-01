@@ -17,7 +17,7 @@ import { SxProps } from '@mui/system';
 
 import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
 import { SocialLinkList } from '@/components/SocialLinks';
-import { CONTACT_EMAIL } from '@/config/constants';
+import { CONTACT_CONFIG } from '@/config/constants';
 import {
   footerContainerMarginSx,
   footerSocialLinkMarginSx,
@@ -111,7 +111,11 @@ function Footer(): React.JSX.Element {
 
   const handleCopyEmail = async () => {
     const messages = getCopyMessages('email');
-    await copyWithFeedback(CONTACT_EMAIL, messages.success, messages.error);
+    await copyWithFeedback(
+      CONTACT_CONFIG.EMAIL,
+      messages.success,
+      messages.error
+    );
   };
 
   return (
@@ -124,10 +128,10 @@ function Footer(): React.JSX.Element {
               <EmailRounded sx={emailIconSx} />
               <Box
                 component="a"
-                href={`mailto:${CONTACT_EMAIL}`}
+                href={`mailto:${CONTACT_CONFIG.EMAIL}`}
                 sx={emailLinkSx}
               >
-                {CONTACT_EMAIL}
+                {CONTACT_CONFIG.EMAIL}
               </Box>
               <Tooltip title="Copy email" placement="top">
                 <IconButton

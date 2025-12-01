@@ -1,3 +1,5 @@
+import type { JSX, ReactNode, Ref } from 'react';
+
 import {
   Box,
   Paper as MuiPaper,
@@ -5,18 +7,75 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
-import { motion } from 'motion/react';
+import { motion, type MotionProps } from 'motion/react';
 
-import { CardProps, InternalCardProps } from '@/config/types';
+import type { CardProps, InternalCardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
 
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
 const MotionPaper = motion.create(MuiPaper);
 
-const contentSx: SxProps<Theme> = { p: 2 };
-const subtitleSx: SxProps<Theme> = { mb: 1 };
+const CARD_CONTENT_SX: SxProps<Theme> = { p: 2 };
+const CARD_SUBTITLE_SX: SxProps<Theme> = { mb: 1 };
 
-function BaseCard({
+// ============================================================================
+// CARD SLOTS (Compound Component Pattern)
+// ============================================================================
+
+// Header slot for custom card headers
+function CardHeader({
+  children,
+  sx,
+}: {
+  children: ReactNode;
+  sx?: SxProps<Theme>;
+}): JSX.Element {
+  return <Box sx={sx}>{children}</Box>;
+}
+
+// Content slot for card body
+function CardContent({
+  children,
+  sx,
+}: {
+  children: ReactNode;
+  sx?: SxProps<Theme>;
+}): JSX.Element {
+  return (
+    <Box
+      sx={[CARD_CONTENT_SX, ...(Array.isArray(sx) ? sx : [sx])]}
+      data-card-content="true"
+    >
+      {children}
+    </Box>
+  );
+}
+
+// Footer slot for card actions
+function CardFooter({
+  children,
+  sx,
+}: {
+  children: ReactNode;
+  sx?: SxProps<Theme>;
+}): JSX.Element {
+  return <Box sx={sx}>{children}</Box>;
+}
+
+// ============================================================================
+// BASE CARD COMPONENT
+// ============================================================================
+
+interface CardComponentProps extends InternalCardProps {
+  ref?: Ref<HTMLDivElement>;
+  animated?: boolean;
+}
+
+function CardBase({
   title,
   subtitle,
   children,
@@ -24,11 +83,15 @@ function BaseCard({
   sx,
   noContentPadding = false,
   motionProps,
+  animated = false,
   ref,
   ...rest
-}: InternalCardProps & {
-  ref?: React.Ref<HTMLDivElement>;
-}): React.ReactElement {
+}: CardComponentProps): JSX.Element {
+  const hoverMotion = useCardHover();
+  const resolvedMotionProps: MotionProps = animated
+    ? hoverMotion
+    : (motionProps ?? {});
+
   return (
     <MotionPaper
       ref={ref}
@@ -37,20 +100,20 @@ function BaseCard({
       sx={[
         cardBaseSx,
         (theme) => theme.mixins.glass,
-        ...(Array.isArray(sx) ? sx : [sx]),
+        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
       ]}
-      {...(motionProps ?? {})}
+      {...resolvedMotionProps}
       {...rest}
     >
       {noContentPadding ? (
         children
       ) : (
-        <Box sx={contentSx} data-card-content="true">
+        <Box sx={CARD_CONTENT_SX} data-card-content="true">
           <Typography variant="h5" component="h3" gutterBottom>
             {title}
           </Typography>
           {subtitle && (
-            <Typography variant="body1" component="div" sx={subtitleSx}>
+            <Typography variant="body1" component="div" sx={CARD_SUBTITLE_SX}>
               {subtitle}
             </Typography>
           )}
@@ -61,15 +124,26 @@ function BaseCard({
   );
 }
 
-BaseCard.displayName = 'Card';
+// ============================================================================
+// COMPOUND COMPONENT EXPORTS
+// ============================================================================
 
+// Main Card with attached slot components
+const Card = Object.assign(CardBase, {
+  Header: CardHeader,
+  Content: CardContent,
+  Footer: CardFooter,
+});
+
+// Convenience export for animated variant (uses animated prop internally)
 function AnimatedCard({
   ref,
   ...props
-}: CardProps & { ref?: React.Ref<HTMLDivElement> }): React.ReactElement {
-  const hoverMotion = useCardHover();
-  return <BaseCard ref={ref} motionProps={hoverMotion} {...props} />;
+}: CardProps & { ref?: Ref<HTMLDivElement> }): JSX.Element {
+  return <Card ref={ref} animated {...props} />;
 }
 
+AnimatedCard.displayName = 'AnimatedCard';
+
 export { AnimatedCard };
-export default BaseCard;
+export default Card;

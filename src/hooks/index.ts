@@ -1,118 +1,135 @@
-// Centralized exports for all reusable hooks
+// ============================================================================
+// HOOKS BARREL EXPORT
+// Organized by category for discoverability and maintainability
+// ============================================================================
 
-// Cursor magnet interaction effects
-export * from './useCursorMagnet';
+// ============================================================================
+// CORE UTILITY HOOKS
+// Fundamental hooks used across the application
+// ============================================================================
 
-// Creates stable callback references that always access latest values
 export { default as useEventCallback } from './useEventCallback';
-
-// Tracks image loading state with stable handlers
-export { useImageLoading } from './useImageLoading';
-export type { UseImageLoadingReturn } from './useImageLoading';
-
-// Lazily computes expensive values and exposes a manual refresh handle
-export { useLazy } from './useLazy';
-export type { UseLazyReturn } from '@/config/types';
-
-// Captures the value from the previous render for comparison logic
+export { default as useEventListener } from './useEventListener';
 export { usePrevious } from './usePrevious';
-
-// Reactive wrapper around Web Storage APIs with JSON serialization
+export { useLazy } from './useLazy';
+export { useToggle } from './useToggle';
+export { default as useModal } from './useModal';
 export { useStorage } from './useStorage';
+
+export type { UseModalReturn } from './useModal';
 export type {
-  StorageSource,
+  UseLazyReturn,
+  UseToggleReturn,
   UseStorageOptions,
   UseStorageReturn,
+  StorageSource,
 } from '@/config/types';
 
-// Boolean state helper with ergonomic toggle helpers
-export { useToggle } from './useToggle';
-export type { UseToggleReturn } from '@/config/types';
+// ============================================================================
+// UI STATE HOOKS
+// Interaction and loading state management
+// ============================================================================
 
-// Modal state management with semantic naming
-export { default as useModal } from './useModal';
-export type { UseModalReturn } from './useModal';
-
-// Triggers an animation sequence when a section is scrolled into view
-export { default as useScrollAnimation } from './useScrollAnimation';
-
-// Manages the initial loading state of the application
+export { default as useHover } from './useHover';
+export { useImageLoading } from './useImageLoading';
 export { useInitialLoading } from './useInitialLoading';
-
-// Full-page scroll navigation
-export { useFullPageScroll } from './useFullPageScroll';
-
-// Accesses the NavigationContext
-// Split hooks: useNavigationState (full state), useNavigationActions (actions only)
-export { useNavigationActions, useNavigationState } from './useNavigation';
-
-// Accesses the ThemeMode context with helpful error messaging
-// Split hooks for render optimization: useThemeModeState (read-only), useThemeModeActions (actions)
-export { useTheme, useThemeModeActions, useThemeModeState } from './useTheme';
-
-// Copies text to clipboard and provides success/error feedback
 export {
   default as useCopyToClipboard,
   useCopyWithFeedback,
 } from './useCopyToClipboard';
+export * from './useCursorMagnet';
 
-// Detects if the mouse is hovering over a specific element
-export { default as useHover } from './useHover';
+export type { UseImageLoadingReturn } from './useImageLoading';
 
-// Detects if the user is currently online or offline
-export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
+// ============================================================================
+// CONTEXT HOOKS
+// Accessing React Context providers
+// ============================================================================
 
-// Accesses the SnackbarContext
+// Navigation (split for render optimization)
+export { useNavigationState, useNavigationActions } from './useNavigation';
+
+// Theme (split for render optimization)
+export { useTheme, useThemeModeState, useThemeModeActions } from './useTheme';
+
+// Snackbar notifications
 export { default as useSnackbar } from './useSnackbar';
 
-// Accesses the CvModalContext
-// Split hooks for render optimization: useCvModalState (read-only), useCvModalActions (actions)
-export { useCvModalActions, useCvModalState } from './useCvModal';
+// CV Modal (split for render optimization)
+export { useCvModalState, useCvModalActions } from './useCvModal';
 
-// Attaches an event listener to a DOM element, window, or document
-export { default as useEventListener } from './useEventListener';
+// Connectivity status
+export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
 
-// Motion helpers respecting reduced-motion preferences
+// ============================================================================
+// SCROLL & NAVIGATION HOOKS
+// Full-page scroll and scroll event handling
+// ============================================================================
+
+export { useFullPageScroll } from './useFullPageScroll';
+export { useScrollEvents } from './useScrollEvents';
+export { default as useScrollAnimation } from './useScrollAnimation';
+
+// ============================================================================
+// MOTION & ANIMATION HOOKS
+// Framer Motion utilities respecting reduced-motion preferences
+// ============================================================================
+
+// Core motion utilities
 export {
   useReducedMotion,
   useAnimationConfig,
-  useCardHover,
-  useButtonGesture,
+  useAnimationPriority,
+  useMotionVariant,
+  useInViewMotion,
+  useContentMotion,
+} from './useMotions';
+
+// Gesture hooks
+export { useCardHover, useButtonGesture } from './useMotions';
+
+// Scroll-linked animations
+export {
   useScrollProgress,
   useSmoothScrollProgress,
   useScrollDirection,
-  useContinuousMotion,
   useParallaxTransform,
-  useInView,
-  usePresence,
-  useAnimationSequence,
-  useMeasure,
-  useAnimationPriority,
-  useContentMotion,
-  useSectionSequence,
-  useMotionVariant,
-  useInViewMotion,
-  useCountUp,
-  // Motion v12 enhanced hooks (used)
-  useVelocityTilt,
-  useTimelineSequence,
   useEnhancedScrollProgress,
+} from './useMotions';
+
+// View detection
+export { useInView, usePresence, useCardInView } from './useMotions';
+
+// Animation sequencing
+export {
+  useAnimationSequence,
+  useSectionSequence,
+  useTimelineSequence,
   useBatchedDomUpdate,
-  // Timeline section setup hook
+} from './useMotions';
+
+// Timeline-specific hooks (shared patterns for Education/WorkExperience)
+export {
   useTimelineSectionRefs,
   useTimelineSectionController,
-  // Card inView hook
-  useCardInView,
-  // Timeline card motion hook (shared for Education/WorkExperience)
   useTimelineCardMotion,
 } from './useMotions';
 
+// Measurement & continuous motion
+export {
+  useMeasure,
+  useContinuousMotion,
+  useCountUp,
+  useVelocityTilt,
+} from './useMotions';
+
 // ============================================================================
-// Responsive Breakpoint Hooks (consolidated)
+// RESPONSIVE HOOKS
+// Breakpoint detection and responsive utilities
 // ============================================================================
 
 export {
-  // Core breakpoint detection hooks
+  // Core breakpoint detection
   useMobileBreakpoint,
   useDesktopBreakpoint,
   useBreakpointBetween,
@@ -120,7 +137,7 @@ export {
   useCurrentBreakpoint,
   useCurrentBreakpointSync,
   useResponsiveValue,
-  // Viewport and device detection
+  // Device capability detection
   useViewportDimensions,
   useIsTouchDevice,
   usePrefersReducedMotion,
@@ -133,18 +150,26 @@ export {
 } from './useBreakpoints';
 
 // ============================================================================
-// Responsive Constants (re-exported from config for convenience)
+// RESPONSIVE CONSTANTS (Re-exported for convenience)
+// Import directly from @/config/responsive for full access
 // ============================================================================
 
 export {
+  // Spacing scales
   RESPONSIVE_SPACING,
-  CONTAINER_MAX_WIDTH,
-  GRID_COLUMNS,
-  RESPONSIVE_FONT_SIZE,
-  RESPONSIVE_SIZE,
   RESPONSIVE_CARD_PADDING,
   RESPONSIVE_GAP,
+  // Layout constants
+  CONTAINER_MAX_WIDTH,
+  GRID_COLUMNS,
   MASONRY_COLUMNS,
+  // Typography & sizing
+  RESPONSIVE_FONT_SIZE,
+  RESPONSIVE_SIZE,
+  // Breakpoint values
+  BREAKPOINT_KEYS,
+  BREAKPOINT_VALUES,
+  // Pre-built sx utilities
   sectionCenteredSx,
   containerPaddingSx,
   sectionHeaderSx,
@@ -158,6 +183,7 @@ export {
   footerContainerMarginSx,
   gridItemFlexSx,
   fullWidthSx,
+  // Utility functions
   createResponsiveMarginBottom,
   createDisplayToggle,
   createResponsiveDisplay,
@@ -165,29 +191,31 @@ export {
   resolveResponsiveValue,
   createResponsiveBreakpoint,
   isResponsiveValue,
-  BREAKPOINT_KEYS,
-  BREAKPOINT_VALUES,
 } from '@/config/responsive';
 
 export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';
 
 // ============================================================================
-// TanStack Query Hooks and Utilities
+// DATA FETCHING (TanStack Query)
+// Query hooks and utilities
 // ============================================================================
 
 export {
+  // Query client
+  queryClient,
+  LONG_CACHE_OPTIONS,
+  // Query keys
   githubKeys,
   contactKeys,
-  queryClient,
-  useRepoStatsQuery,
-  useContactFormMutation,
-  fetchRepoStats,
-  submitContactForm,
-  handleQueryError,
   buildQueryKey,
+  // GitHub queries
+  useRepoStatsQuery,
+  fetchRepoStats,
   prefetchRepoStats,
   invalidateRepoStats,
-  LONG_CACHE_OPTIONS,
+  // Contact mutations
+  useContactFormMutation,
+  submitContactForm,
+  // Error handling
+  handleQueryError,
 } from '@/utils/query/index';
-
-export * from './useScrollEvents';

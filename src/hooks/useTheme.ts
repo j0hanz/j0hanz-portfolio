@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { use } from 'react';
 
 import type {
   ThemeModeActions,
@@ -12,7 +12,7 @@ import {
 
 // Read-only state hook - won't re-render when actions change
 export function useThemeModeState(): ThemeModeState {
-  const context = useContext(ThemeModeStateContext);
+  const context = use(ThemeModeStateContext);
   if (!context) {
     throw new Error('useThemeModeState must be used within AppThemeProvider');
   }
@@ -21,7 +21,7 @@ export function useThemeModeState(): ThemeModeState {
 
 // Actions-only hook - won't re-render when state changes
 export function useThemeModeActions(): ThemeModeActions {
-  const context = useContext(ThemeModeActionsContext);
+  const context = use(ThemeModeActionsContext);
   if (!context) {
     throw new Error('useThemeModeActions must be used within AppThemeProvider');
   }

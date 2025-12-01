@@ -2,11 +2,7 @@ import { useRef } from 'react';
 
 import { useReducedMotion } from 'motion/react';
 
-import {
-  SCROLL_LOCK_DURATION_MS,
-  SCROLL_TOLERANCE_PX,
-  SECTION_CONTAINER_ID,
-} from '@/config/constants';
+import { SCROLL_CONFIG } from '@/config/constants';
 import type { ScrollBoundaries, ScrollDirection } from '@/config/types';
 
 import { useMobileBreakpoint } from './useBreakpoints';
@@ -23,7 +19,8 @@ function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
   return {
     isAtTop: scrollTop <= 0,
     isAtBottom:
-      Math.abs(scrollHeight - clientHeight - scrollTop) < SCROLL_TOLERANCE_PX,
+      Math.abs(scrollHeight - clientHeight - scrollTop) <
+      SCROLL_CONFIG.TOLERANCE_PX,
   };
 }
 
@@ -55,7 +52,7 @@ export function useFullPageScroll(): void {
     if (isScrolling.current || isPending) return false;
 
     // Direct DOM access is safe and efficient here
-    const container = document.getElementById(SECTION_CONTAINER_ID);
+    const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
     const boundaries = getScrollBoundaries(container);
 
     if (!canNavigate(boundaries, direction)) return false;
@@ -68,7 +65,7 @@ export function useFullPageScroll(): void {
     // Debounce navigation
     setTimeout(() => {
       isScrolling.current = false;
-    }, SCROLL_LOCK_DURATION_MS);
+    }, SCROLL_CONFIG.LOCK_DURATION_MS);
 
     return true;
   });

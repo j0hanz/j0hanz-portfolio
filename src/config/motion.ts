@@ -42,13 +42,21 @@ export const STAGGER_DRAMATIC = 0.12;
 export const CARD_HOVER_LIFT = { y: -5 } as const;
 
 // Viewport preset configurations for useInView
+// Base presets (once: true) - for standard scroll-triggered animations
+// Replay presets (once: false) - for full-page scroll where sections remount
 export const viewportPresets = {
+  // Standard presets - animate once when scrolled into view
   section: { once: true, amount: 0.1 },
   card: { once: true, amount: 0.25 },
-  cardLarge: { once: true, amount: 0.3 },
   list: { once: true, amount: 0.2 },
+  // Replay presets - for full-page scroll sections that remount
+  // Use these when section content should re-animate on navigation
+  sectionReplay: { once: false, amount: 0.1 },
+  cardReplay: { once: false, amount: 0.2 },
+  listReplay: { once: false, amount: 0.15 },
+  // Deprecated aliases - use explicit names above
+  cardLarge: { once: true, amount: 0.3 },
   listCompact: { once: true, amount: 0.15 },
-  // Full-page scroll presets: once: false ensures animations replay on remount
   fullPageSection: { once: false, amount: 0.1 },
   fullPageCard: { once: false, amount: 0.2 },
   fullPageList: { once: false, amount: 0.15 },
@@ -310,13 +318,16 @@ export const FILTER_LIFT_HOVER =
 export const FILTER_LIFT_TAP =
   'drop-shadow(0 8px 20px var(--shadow-color, rgba(0,0,0,0.12)))';
 
-// Legacy boxShadow presets (kept for static styles, not animations)
-export const SHADOW_LIFT_REST =
-  '0 4px 12px var(--shadow-color, rgba(0,0,0,0.08))';
-export const SHADOW_LIFT_HOVER =
-  '0 20px 40px var(--shadow-color, rgba(0,0,0,0.15))';
-export const SHADOW_LIFT_TAP =
-  '0 8px 20px var(--shadow-color, rgba(0,0,0,0.12))';
+// Unified shadow constants for static styles (non-animated)
+export const SHADOWS = {
+  liftRest: '0 4px 12px var(--shadow-color, rgba(0,0,0,0.08))',
+  liftHover: '0 20px 40px var(--shadow-color, rgba(0,0,0,0.15))',
+  liftTap: '0 8px 20px var(--shadow-color, rgba(0,0,0,0.12))',
+  hoverLift: '0 16px 40px var(--shadow-color, rgba(0,0,0,0.12))',
+  hoverGlow: '0 0 20px var(--glow-color, rgba(255,255,255,0.2))',
+  focusRing: '0 0 0 3px var(--focus-ring-color, rgba(66, 153, 225, 0.5))',
+  focusGlow: '0 0 12px var(--focus-glow-color, rgba(66, 153, 225, 0.4))',
+} as const;
 
 export const gestureVariants = {
   hoverScale: {
@@ -1212,17 +1223,11 @@ export type {
 // HOVER EFFECT PRESETS
 // ============================================================================
 
-// Hover shadow constants
-export const SHADOW_HOVER_LIFT =
-  '0 16px 40px var(--shadow-color, rgba(0,0,0,0.12))';
-export const SHADOW_HOVER_GLOW =
-  '0 0 20px var(--glow-color, rgba(255,255,255,0.2))';
-
 export const hoverEffects = {
   lift: {
     y: -6,
     scale: 1.02,
-    boxShadow: SHADOW_HOVER_LIFT,
+    boxShadow: SHADOWS.hoverLift,
   },
   grow: {
     scale: 1.05,
@@ -1232,7 +1237,7 @@ export const hoverEffects = {
   },
   glow: {
     filter: 'brightness(1.1)',
-    boxShadow: SHADOW_HOVER_GLOW,
+    boxShadow: SHADOWS.hoverGlow,
   },
   tilt: {
     rotateY: 5,
@@ -1271,20 +1276,14 @@ export const tapEffects = {
 // FOCUS EFFECT PRESETS
 // ============================================================================
 
-// Focus shadow constants using CSS variables for theme integration
-export const SHADOW_FOCUS_RING =
-  '0 0 0 3px var(--focus-ring-color, rgba(66, 153, 225, 0.5))';
-export const SHADOW_FOCUS_GLOW =
-  '0 0 12px var(--focus-glow-color, rgba(66, 153, 225, 0.4))';
-
 export const focusEffects = {
   ring: {
-    boxShadow: SHADOW_FOCUS_RING,
+    boxShadow: SHADOWS.focusRing,
     scale: 1.01,
   },
   glow: {
     filter: 'brightness(1.05)',
-    boxShadow: SHADOW_FOCUS_GLOW,
+    boxShadow: SHADOWS.focusGlow,
   },
   outline: {
     outline: '2px solid currentColor',

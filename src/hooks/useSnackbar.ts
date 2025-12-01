@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { use } from 'react';
 
 import {
   SnackbarContext,
@@ -6,7 +6,7 @@ import {
 } from '@/contexts/SnackbarContext';
 
 export function useSnackbar(): SnackbarContextType {
-  const context = useContext(SnackbarContext);
+  const context = use(SnackbarContext);
   if (!context) {
     throw new Error('useSnackbar must be used within a SnackbarProvider');
   }

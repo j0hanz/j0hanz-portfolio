@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ComponentType, JSX, ReactNode } from 'react';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import {
@@ -13,35 +13,49 @@ import { NavigationProvider } from '@/components/NavigationProvider';
 import { SnackbarProvider } from '@/components/SnackbarProvider';
 import { queryClient } from '@/utils/query/index';
 
-interface AppProvidersProps {
-  children: ReactNode;
-}
+type Provider = ComponentType<{ children: ReactNode }>;
 
-// Provider order: data → errors → theme → notifications → navigation → modals
-export function AppProviders({ children }: AppProvidersProps) {
+// Composes providers into nested structure (applies right-to-left)
+// Example: compose(A, B, C) renders as <A><B><C>{children}</C></B></A>
+const composeProviders = (...providers: Provider[]): Provider =>
+  function ComposedProviders({ children }) {
+    return providers.reduceRight<ReactNode>(
+      (nested, Provider) => <Provider>{nested}</Provider>,
+      children
+    );
+  };
+
+// Wrapper providers with render props pattern
+const QueryErrorBoundaryProvider: Provider = ({ children }) => (
+  <QueryErrorResetBoundary>
+    {({ reset }) => <ErrorBoundary onReset={reset}>{children}</ErrorBoundary>}
+  </QueryErrorResetBoundary>
+);
+
+const QueryProvider: Provider = ({ children }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
+
+// Provider composition: outermost → innermost
+// Order: Data layer → error handling → theming → notifications → navigation → modals
+const ComposedProviders = composeProviders(
+  QueryProvider,
+  QueryErrorBoundaryProvider,
+  AppThemeProvider,
+  SnackbarProvider,
+  NavigationProvider,
+  CvModalProvider
+);
+
+export function AppProviders({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
   return (
     <>
-      {/* 
-        InitColorSchemeScript is placed here for SPA mode. 
-        Ideally, this should be in index.html to prevent FOUC, 
-        but for a pure client-side app, this ensures the script runs early in the React tree.
-      */}
       <InitColorSchemeScript attribute="data-mui-color-scheme" />
-      <QueryClientProvider client={queryClient}>
-        <QueryErrorResetBoundary>
-          {({ reset }) => (
-            <ErrorBoundary onReset={reset}>
-              <AppThemeProvider>
-                <SnackbarProvider>
-                  <NavigationProvider>
-                    <CvModalProvider>{children}</CvModalProvider>
-                  </NavigationProvider>
-                </SnackbarProvider>
-              </AppThemeProvider>
-            </ErrorBoundary>
-          )}
-        </QueryErrorResetBoundary>
-      </QueryClientProvider>
+      <ComposedProviders>{children}</ComposedProviders>
     </>
   );
 }

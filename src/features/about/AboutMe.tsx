@@ -94,10 +94,10 @@ function AboutMeList({
   onShowModal,
 }: AboutMeListProps): React.JSX.Element {
   const tableRef = useRef<HTMLTableElement>(null);
-  // Use fullPageList preset for full-page scroll sections to replay animations on remount
+  // Use listReplay preset for full-page scroll sections to replay animations on remount
   const isInView = useInView(
     tableRef as ElementRef,
-    viewportPresets.fullPageList
+    viewportPresets.listReplay
   );
 
   const rowMotion = useMotionVariant(listItemStaggerVariants, {
@@ -182,10 +182,10 @@ function AboutMe(): React.JSX.Element {
     setFalse: closeModal,
   } = useToggle(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  // Use fullPageList preset for full-page scroll sections to replay animations on remount
+  // Use listReplay preset for full-page scroll sections to replay animations on remount
   const isInView = useInView(
     containerRef as ElementRef,
-    viewportPresets.fullPageList
+    viewportPresets.listReplay
   );
 
   const { scrollYProgress } = useScroll({

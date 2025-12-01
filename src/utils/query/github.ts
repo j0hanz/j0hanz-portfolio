@@ -1,7 +1,11 @@
 // GitHub API queries with TanStack Query
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { EMPTY_STATS, GITHUB_API_BASE_URL } from '@/config/constants';
+import {
+  EMPTY_STATS,
+  GITHUB_API_BASE_URL,
+  QUERY_CONFIG,
+} from '@/config/constants';
 import type { RepoStats } from '@/config/types';
 
 import { LONG_CACHE_OPTIONS, queryClient } from './client';
@@ -31,7 +35,9 @@ export async function fetchRepoStats(
   try {
     // Add artificial delay in development to make skeleton loading visible
     if (import.meta.env.DEV) {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, QUERY_CONFIG.DEV_DELAY_MS)
+      );
     }
 
     const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`, {

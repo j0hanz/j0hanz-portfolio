@@ -82,26 +82,43 @@ const resolveMotionState = <T extends MotionProps['initial']>(
   fallback: T = REDUCED_MOTION_TARGET as T
 ): T => (prefersReduced ? fallback : (state ?? fallback));
 
+// Timing helper factories - pure functions for cleaner composition
+const createDuration =
+  (prefersReduced: boolean) =>
+  (multiplier = 1) =>
+    prefersReduced ? 0 : BASE_DURATION * multiplier;
+
+const createDelay =
+  (prefersReduced: boolean) =>
+  (steps = 1) =>
+    prefersReduced ? 0 : BASE_DELAY * steps;
+
+const createStagger =
+  (prefersReduced: boolean) =>
+  (multiplier = 1) =>
+    prefersReduced ? 0 : BASE_STAGGER * multiplier;
+
+const createTransition =
+  (prefersReduced: boolean) =>
+  (
+    preset: TransitionPreset = 'smooth',
+    overrides?: Partial<Transition>
+  ): Transition => {
+    const base = transitions[preset] ?? transitions.smooth;
+    const reducedOverride = prefersReduced ? REDUCED_TRANSITION : {};
+    return { ...base, ...reducedOverride, ...overrides };
+  };
+
 // Animation configuration respecting user motion preferences with timing helpers
 export function useAnimationConfig(): AnimationConfig {
   const prefersReducedMotion = useReducedMotion();
 
   return {
     prefersReducedMotion,
-    getDuration: (multiplier = 1) =>
-      prefersReducedMotion ? 0 : BASE_DURATION * multiplier,
-    getDelay: (steps = 1) => (prefersReducedMotion ? 0 : BASE_DELAY * steps),
-    getStagger: (multiplier = 1) =>
-      prefersReducedMotion ? 0 : BASE_STAGGER * multiplier,
-    getTransition: (
-      preset: TransitionPreset = 'smooth',
-      overrides?: Partial<Transition>
-    ) => {
-      const base = transitions[preset] ?? transitions.smooth;
-      return prefersReducedMotion
-        ? { ...base, ...REDUCED_TRANSITION, ...overrides }
-        : { ...base, ...overrides };
-    },
+    getDuration: createDuration(prefersReducedMotion),
+    getDelay: createDelay(prefersReducedMotion),
+    getStagger: createStagger(prefersReducedMotion),
+    getTransition: createTransition(prefersReducedMotion),
     motionViewport: viewportConfig,
     reducedMotionTarget: REDUCED_MOTION_TARGET,
     resolveMotionState,
@@ -227,23 +244,30 @@ export function useCountUp(value: number, duration = 0.7) {
 // GESTURE VARIANTS
 // ============================================================================
 
-// Helper to create gesture variant props with motion states
+// Base gesture props - common structure for all gesture variants
+const GESTURE_BASE = {
+  initial: 'rest',
+  animate: 'rest',
+} as const;
+
+// Interactive gesture props - added when motion is allowed
+const GESTURE_INTERACTIVE = {
+  whileHover: 'hover',
+  whileFocus: 'focus',
+  whileTap: 'tap',
+} as const;
+
+// Creates gesture props with optional interactivity based on motion preference
 const createGestureProps = (
   variants: (typeof gestureVariants)[keyof typeof gestureVariants],
   transition: Transition,
   prefersReducedMotion: boolean
-) =>
-  prefersReducedMotion
-    ? { variants, initial: 'rest', animate: 'rest', transition }
-    : {
-        variants,
-        initial: 'rest',
-        animate: 'rest',
-        transition,
-        whileHover: 'hover',
-        whileFocus: 'focus',
-        whileTap: 'tap',
-      };
+) => ({
+  variants,
+  transition,
+  ...GESTURE_BASE,
+  ...(prefersReducedMotion ? {} : GESTURE_INTERACTIVE),
+});
 
 // Returns card hover motion props with gesture variants
 export function useCardHover(): CardHoverMotion {
@@ -545,17 +569,19 @@ export const useAnimationPriority = (): AnimationPriority => {
 // CONTENT MOTION
 // ============================================================================
 
+// Content motion states - defined once for reuse
+const CONTENT_VISIBLE = { opacity: 1, y: 0 } as const;
+const CONTENT_ENTER = { opacity: 0, y: 24 } as const;
+const CONTENT_EXIT = { opacity: 0, y: -24 } as const;
+
 // Returns motion config for main content transitions
 export function useContentMotion() {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const staticState = { opacity: 1, y: 0 };
-  const animatedInitial = { opacity: 0, y: 24 };
-  const animatedExit = { opacity: 0, y: -24 };
 
   return {
-    initial: prefersReducedMotion ? staticState : animatedInitial,
-    animate: staticState,
-    exit: prefersReducedMotion ? staticState : animatedExit,
+    initial: prefersReducedMotion ? CONTENT_VISIBLE : CONTENT_ENTER,
+    animate: CONTENT_VISIBLE,
+    exit: prefersReducedMotion ? CONTENT_VISIBLE : CONTENT_EXIT,
     transition: getTransition('smooth', { duration: 0.55 }),
   } as const;
 }

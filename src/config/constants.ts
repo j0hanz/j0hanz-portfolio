@@ -12,13 +12,6 @@ export const SCROLL_CONFIG = {
   TOUCH_THRESHOLD_PX: 50,
 } as const;
 
-// Legacy exports for backwards compatibility
-export const SECTION_CONTAINER_ID = SCROLL_CONFIG.CONTAINER_ID;
-export const SCROLL_TOLERANCE_PX = SCROLL_CONFIG.TOLERANCE_PX;
-export const SCROLL_LOCK_DURATION_MS = SCROLL_CONFIG.LOCK_DURATION_MS;
-export const WHEEL_THRESHOLD_PX = SCROLL_CONFIG.WHEEL_THRESHOLD_PX;
-export const TOUCH_THRESHOLD_PX = SCROLL_CONFIG.TOUCH_THRESHOLD_PX;
-
 // ============================================================================
 // UI TIMING CONSTANTS
 // ============================================================================
@@ -56,11 +49,8 @@ export const QUERY_CONFIG = {
   STALE_TIME_LONG: 10 * 60 * 1000, // 10 minutes
   GC_TIME_LONG: 30 * 60 * 1000, // 30 minutes
   ANIMATION_DURATION_STATS: 800,
+  DEV_DELAY_MS: 2000, // Artificial delay in dev for skeleton visibility
 } as const;
-
-// Legacy exports for backwards compatibility
-export const CACHE_DURATION = QUERY_CONFIG.CACHE_DURATION;
-export const ANIMATION_DURATION_STATS = QUERY_CONFIG.ANIMATION_DURATION_STATS;
 
 export const EMPTY_STATS: RepoStats = {
   stars: 0,
@@ -77,11 +67,6 @@ export const CONTACT_CONFIG = {
   SEND_ERROR_MESSAGE: 'Failed to send message! Please try again later.',
   FORM_RESET_DELAY: 3000,
 } as const;
-
-// Legacy exports for backwards compatibility
-export const CONTACT_EMAIL = CONTACT_CONFIG.EMAIL;
-export const SEND_ERROR_MESSAGE = CONTACT_CONFIG.SEND_ERROR_MESSAGE;
-export const FORM_RESET_DELAY = CONTACT_CONFIG.FORM_RESET_DELAY;
 
 export const CONTACT_COPY = {
   sectionTitle: 'Contact',
@@ -118,12 +103,6 @@ export const VALIDATION = {
   MIN_MESSAGE_LENGTH: 10,
 } as const;
 
-// Legacy exports for backwards compatibility
-export const NAME_PATTERN = VALIDATION.NAME_PATTERN;
-export const EMAIL_PATTERN = VALIDATION.EMAIL_PATTERN;
-export const URL_PATTERN = VALIDATION.URL_PATTERN;
-export const MIN_MESSAGE_LENGTH = VALIDATION.MIN_MESSAGE_LENGTH;
-
 export const ERROR_MESSAGES = {
   NAME_REQUIRED: 'Name is required.',
   NAME_INVALID: 'Please enter a valid name (letters and spaces only).',
@@ -131,7 +110,7 @@ export const ERROR_MESSAGES = {
   EMAIL_INVALID: 'Email address is invalid.',
   URL_INVALID: 'URL is invalid.',
   MESSAGE_REQUIRED: 'Message is required.',
-  MESSAGE_TOO_SHORT: `Message must be at least ${MIN_MESSAGE_LENGTH} characters long.`,
+  MESSAGE_TOO_SHORT: `Message must be at least ${VALIDATION.MIN_MESSAGE_LENGTH} characters long.`,
 } as const;
 
 // ============================================================================

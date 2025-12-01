@@ -25,12 +25,7 @@ interface SnackbarState {
 }
 
 type SnackbarAction =
-  | {
-      type: 'SHOW';
-      message: string;
-      severity: AlertColor;
-      duration: number | null;
-    }
+  | { type: 'SHOW'; payload: Omit<SnackbarState, 'open'> }
   | { type: 'CLOSE' };
 
 const INITIAL_STATE: SnackbarState = {
@@ -43,15 +38,10 @@ const INITIAL_STATE: SnackbarState = {
 const snackbarReducer = (
   state: SnackbarState,
   action: SnackbarAction
-): SnackbarState => {
-  if (action.type === 'CLOSE') return { ...state, open: false };
-  return {
-    open: true,
-    message: action.message,
-    severity: action.severity,
-    duration: action.duration,
-  };
-};
+): SnackbarState =>
+  action.type === 'CLOSE'
+    ? { ...state, open: false }
+    : { open: true, ...action.payload };
 
 export function SnackbarProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(snackbarReducer, INITIAL_STATE);
@@ -61,7 +51,7 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
       message: string,
       severity: AlertColor = 'info',
       duration: number | null = UI_TIMING.SNACKBAR_DURATION_DEFAULT
-    ) => dispatch({ type: 'SHOW', message, severity, duration })
+    ) => dispatch({ type: 'SHOW', payload: { message, severity, duration } })
   );
 
   const closeSnackbar = useEventCallback(() => dispatch({ type: 'CLOSE' }));
