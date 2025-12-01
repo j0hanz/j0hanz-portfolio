@@ -1,4 +1,4 @@
-import type { JSX, MouseEvent, ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import MenuRounded from '@mui/icons-material/MenuRounded';
@@ -31,6 +31,8 @@ import {
   listItemIconSelectedSx,
   listItemIconSx,
   listItemTextPrimarySx,
+  menuButtonSx,
+  navBarContainerSx,
   navLinksListSx,
   navLogoImgSx,
   navLogoStackSx,
@@ -48,23 +50,20 @@ import {
   useNavigationState,
 } from '@/hooks';
 import { navLinks } from '@/lib/data/navLinks';
-
-// Detect iOS for swipeable drawer optimization
-const isIOS =
-  typeof navigator !== 'undefined' &&
-  /iPad|iPhone|iPod/.test(navigator.userAgent);
+import { isIOS } from '@/utils/platform';
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
 
-function NavLogo({ onClose }: { onClose?: () => void }): JSX.Element {
+function NavLogo({ onClose }: { onClose?: () => void }) {
   const { navigateTo } = useNavigationActions();
   const { isPending } = useNavigationState();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    if (isPending) return;
-    navigateTo('hero');
-    onClose?.();
+    if (!isPending) {
+      navigateTo('hero');
+      onClose?.();
+    }
   };
 
   return (
@@ -90,7 +89,7 @@ function NavLogo({ onClose }: { onClose?: () => void }): JSX.Element {
   );
 }
 
-function NavLinkItem(props: NavLinkItemProps): JSX.Element {
+function NavLinkItem(props: NavLinkItemProps) {
   const {
     id,
     icon: Icon,
@@ -148,7 +147,7 @@ function NavLinkItem(props: NavLinkItemProps): JSX.Element {
   );
 }
 
-function NavLinks({ onClose }: { onClose?: () => void }): JSX.Element {
+function NavLinks({ onClose }: { onClose?: () => void }) {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
@@ -193,7 +192,7 @@ function SocialLinks({
 }: {
   openModal: () => void;
   iconSize?: string | number;
-}): JSX.Element {
+}) {
   return (
     <Box sx={socialLinksBoxSx}>
       <Stack
@@ -220,9 +219,7 @@ function OffcanvasMenu({
   closeOffcanvas,
   openOffcanvas,
   openModal,
-}: OffcanvasMenuProps & {
-  openOffcanvas: () => void;
-}): JSX.Element {
+}: OffcanvasMenuProps & { openOffcanvas: () => void }) {
   return (
     <SwipeableDrawer
       anchor="right"
@@ -297,7 +294,7 @@ function OffcanvasMenu({
   );
 }
 
-function NavBar(): JSX.Element {
+function NavBar() {
   const { openCvModal } = useCvModalActions();
   const offcanvasMenu = useModal(false);
   const { prefersReducedMotion } = useAnimationConfig();
@@ -308,18 +305,7 @@ function NavBar(): JSX.Element {
         component="nav"
         direction="row"
         spacing={2}
-        sx={[
-          {
-            position: 'fixed',
-            top: 8,
-            right: 8,
-            zIndex: (theme) => theme.zIndex.appBar,
-            bgcolor: 'backdrop.glass',
-            borderRadius: 2,
-            p: 0.5,
-          },
-          (theme) => theme.mixins.glass,
-        ]}
+        sx={[navBarContainerSx, (theme) => theme.mixins.glass]}
       >
         <DarkModeToggle />
         <Tooltip
@@ -341,14 +327,7 @@ function NavBar(): JSX.Element {
             aria-haspopup="menu"
             size="small"
             edge="end"
-            sx={{
-              '&:hover': { bgcolor: 'transparent' },
-              '& svg': { transition: 'transform 0.2s, color 0.2s' },
-              '&:hover svg': {
-                transform: 'scale(1.15)',
-                color: 'primary.main',
-              },
-            }}
+            sx={menuButtonSx}
           >
             <motion.div
               animate={

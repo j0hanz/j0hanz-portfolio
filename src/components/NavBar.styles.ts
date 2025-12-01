@@ -134,3 +134,22 @@ export const connectTextSx: SxProps<Theme> = {
   fontWeight: 500,
   letterSpacing: LETTER_SPACING_WIDE,
 };
+
+export const navBarContainerSx: SystemStyleObject<Theme> = {
+  position: 'fixed',
+  top: 8,
+  right: 8,
+  zIndex: (theme) => theme.zIndex.appBar,
+  bgcolor: 'backdrop.glass',
+  borderRadius: 2,
+  p: 0.5,
+};
+
+export const menuButtonSx: SystemStyleObject<Theme> = {
+  '&:hover': { bgcolor: 'transparent' },
+  '& svg': { transition: 'transform 0.2s, color 0.2s' },
+  '&:hover svg': {
+    transform: 'scale(1.15)',
+    color: 'primary.main',
+  },
+};

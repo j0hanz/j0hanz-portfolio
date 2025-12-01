@@ -1,10 +1,6 @@
 import { useContext } from 'react';
 
-import type {
-  NavigationActions,
-  NavigationContextType,
-  NavigationState,
-} from '@/config/types';
+import type { NavigationActions, NavigationState } from '@/config/types';
 import {
   NavigationActionsContext,
   NavigationStateContext,
@@ -30,11 +26,4 @@ export function useNavigationActions(): NavigationActions {
     );
   }
   return context;
-}
-
-// Combined hook for backwards compatibility
-export function useNavigation(): NavigationContextType {
-  const state = useNavigationState();
-  const actions = useNavigationActions();
-  return { ...state, ...actions };
 }

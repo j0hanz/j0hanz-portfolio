@@ -1,25 +1,14 @@
 import { Suspense } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
+import { SectionErrorFallback } from '@/components/SectionErrorFallback';
 import { SectionSkeleton } from '@/components/Skeletons';
 import { useFullPageScroll, useNavigationState } from '@/hooks';
-import { centeredFullViewportSx } from '@/styles/shared';
 
-// Fallback for section-level errors (prevents entire app from breaking)
-function SectionErrorFallback(): React.JSX.Element {
-  return (
-    <Box sx={{ ...centeredFullViewportSx, height: '100vh' }}>
-      <Typography variant="body1" color="text.secondary">
-        This section failed to load. Please try refreshing the page.
-      </Typography>
-    </Box>
-  );
-}
-
-function MainContent(): React.JSX.Element {
+function Home(): React.JSX.Element {
   useFullPageScroll();
   const { activeSection, activeSectionId, direction } = useNavigationState();
   const Component = activeSection.Component;
@@ -49,4 +38,4 @@ function MainContent(): React.JSX.Element {
   );
 }
 
-export default MainContent;
+export default Home;

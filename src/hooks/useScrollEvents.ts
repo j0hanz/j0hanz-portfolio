@@ -141,6 +141,11 @@ export function useScrollEvents({
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
+
+      // Reset touch state refs to prevent stale data on remount
+      touchStartY.current = 0;
+      touchStartTime.current = 0;
+      isTouchActive.current = false;
     };
   }, [
     shouldDisable,

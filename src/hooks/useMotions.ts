@@ -5,16 +5,13 @@ import {
   frame,
   stagger,
   useAnimate,
-  useAnimationFrame,
   useInView as useMotionInView,
   usePresence as useMotionPresence,
   useReducedMotion as useMotionReducedMotion,
-  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useScroll,
   useSpring,
-  useTime,
   useTransform,
   useVelocity,
 } from 'motion/react';
@@ -49,7 +46,6 @@ import type {
   AnimationPriority,
   AnimationSequenceControls,
   CardHoverMotion,
-  CursorFollowResult,
   MeasureRect,
   PresenceControls,
   ScrollProgressValue,
@@ -69,54 +65,46 @@ import useEventCallback from './useEventCallback';
 
 // Detects if user prefers reduced motion
 export function useReducedMotion(): boolean {
-  const shouldReduce = useMotionReducedMotion();
-  return shouldReduce ?? false;
+  return useMotionReducedMotion() ?? false;
 }
 
 // ============================================================================
 // ANIMATION CONFIGURATION
 // ============================================================================
 
-// Helper to resolve motion state based on preferences
-function resolveMotionState<T extends MotionProps['initial']>(
+// Instant transition for reduced motion scenarios
+const REDUCED_TRANSITION: Transition = { duration: 0.01 };
+
+// Resolves motion state based on user motion preferences
+const resolveMotionState = <T extends MotionProps['initial']>(
   prefersReduced: boolean,
   state?: T,
   fallback: T = REDUCED_MOTION_TARGET as T
-): T {
-  return prefersReduced ? fallback : (state ?? fallback);
-}
+): T => (prefersReduced ? fallback : (state ?? fallback));
 
 // Animation configuration respecting user motion preferences with timing helpers
 export function useAnimationConfig(): AnimationConfig {
   const prefersReducedMotion = useReducedMotion();
 
-  const getDuration = (multiplier = 1) =>
-    prefersReducedMotion ? 0 : BASE_DURATION * multiplier;
-  const getDelay = (steps = 1) =>
-    prefersReducedMotion ? 0 : BASE_DELAY * steps;
-  const getStagger = (multiplier = 1) =>
-    prefersReducedMotion ? 0 : BASE_STAGGER * multiplier;
-
-  const getTransition = (
-    preset: TransitionPreset = 'smooth',
-    overrides?: Partial<Transition>
-  ) => {
-    const base = transitions[preset] ?? transitions.smooth;
-    return prefersReducedMotion
-      ? { ...base, duration: 0.01, ...overrides }
-      : { ...base, ...overrides };
-  };
-
   return {
     prefersReducedMotion,
-    getDuration,
-    getDelay,
-    getStagger,
-    getTransition,
+    getDuration: (multiplier = 1) =>
+      prefersReducedMotion ? 0 : BASE_DURATION * multiplier,
+    getDelay: (steps = 1) => (prefersReducedMotion ? 0 : BASE_DELAY * steps),
+    getStagger: (multiplier = 1) =>
+      prefersReducedMotion ? 0 : BASE_STAGGER * multiplier,
+    getTransition: (
+      preset: TransitionPreset = 'smooth',
+      overrides?: Partial<Transition>
+    ) => {
+      const base = transitions[preset] ?? transitions.smooth;
+      return prefersReducedMotion
+        ? { ...base, ...REDUCED_TRANSITION, ...overrides }
+        : { ...base, ...overrides };
+    },
     motionViewport: viewportConfig,
     reducedMotionTarget: REDUCED_MOTION_TARGET,
-    resolveMotionState: (prefersReduced, state, fallback) =>
-      resolveMotionState(prefersReduced, state, fallback),
+    resolveMotionState,
   };
 }
 
@@ -239,17 +227,23 @@ export function useCountUp(value: number, duration = 0.7) {
 // GESTURE VARIANTS
 // ============================================================================
 
-// Helper to create gesture variant props
-function createGestureProps(
+// Helper to create gesture variant props with motion states
+const createGestureProps = (
   variants: (typeof gestureVariants)[keyof typeof gestureVariants],
   transition: Transition,
   prefersReducedMotion: boolean
-) {
-  const base = { variants, initial: 'rest', animate: 'rest', transition };
-  return prefersReducedMotion
-    ? base
-    : { ...base, whileHover: 'hover', whileFocus: 'focus', whileTap: 'tap' };
-}
+) =>
+  prefersReducedMotion
+    ? { variants, initial: 'rest', animate: 'rest', transition }
+    : {
+        variants,
+        initial: 'rest',
+        animate: 'rest',
+        transition,
+        whileHover: 'hover',
+        whileFocus: 'focus',
+        whileTap: 'tap',
+      };
 
 // Returns card hover motion props with gesture variants
 export function useCardHover(): CardHoverMotion {
@@ -413,7 +407,9 @@ export function useAnimationSequence(): AnimationSequenceControls {
 
   useEffect(() => {
     return () => {
-      controlsRef.current.forEach((control) => control.stop());
+      // Copy to local variable to avoid stale ref during cleanup
+      const controlsToStop = [...controlsRef.current];
+      controlsToStop.forEach((control) => control.stop());
       controlsRef.current = [];
     };
   }, []);
@@ -530,22 +526,20 @@ export function useMeasure<
 // ANIMATION PRIORITY DETECTION
 // ============================================================================
 
-// Device capability detection helper
-function getDeviceCapability(): AnimationPriority {
+// Detects device capability based on hardware concurrency and memory
+const getDeviceCapability = (): AnimationPriority => {
   if (typeof navigator === 'undefined') return 'reduced';
-
   const cores = navigator.hardwareConcurrency ?? 4;
   const memory =
     (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
-
   return cores <= 4 || memory <= 4 ? 'reduced' : 'high';
-}
+};
 
-// Detects device capability for complex animations (high/reduced)
-export function useAnimationPriority(): AnimationPriority {
+// Returns animation priority based on user preferences and device capability
+export const useAnimationPriority = (): AnimationPriority => {
   const prefersReducedMotion = useReducedMotion();
   return prefersReducedMotion ? 'reduced' : getDeviceCapability();
-}
+};
 
 // ============================================================================
 // CONTENT MOTION
@@ -554,19 +548,14 @@ export function useAnimationPriority(): AnimationPriority {
 // Returns motion config for main content transitions
 export function useContentMotion() {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-
-  const initial = prefersReducedMotion
-    ? { opacity: 1, y: 0 }
-    : { opacity: 0, y: 24 };
-  const animate = { opacity: 1, y: 0 };
-  const exit = prefersReducedMotion
-    ? { opacity: 1, y: 0 }
-    : { opacity: 0, y: -24 };
+  const staticState = { opacity: 1, y: 0 };
+  const animatedInitial = { opacity: 0, y: 24 };
+  const animatedExit = { opacity: 0, y: -24 };
 
   return {
-    initial,
-    animate,
-    exit,
+    initial: prefersReducedMotion ? staticState : animatedInitial,
+    animate: staticState,
+    exit: prefersReducedMotion ? staticState : animatedExit,
     transition: getTransition('smooth', { duration: 0.55 }),
   } as const;
 }
@@ -598,31 +587,26 @@ const SEQUENCE_ORDER: readonly SequenceStepKey[] = [
   'cta',
 ];
 
-function animateElements(
+const animateElements = (
   scopeElement: HTMLElement,
   selector: string,
   delay: number,
   useStagger: boolean,
   staggerValue = BASE_STAGGER
-) {
+) => {
   const elements = scopeElement.querySelectorAll(selector);
   if (elements.length === 0) return;
 
-  const keyframes = {
-    opacity: [0, 1],
-    y: [20, 0],
-  };
-
-  const options = useStagger
-    ? {
-        delay: stagger(staggerValue, { startDelay: delay }),
-        duration: 0.5,
-        ease: 'easeOut' as const,
-      }
-    : { delay, duration: 0.5, ease: 'easeOut' as const };
-
-  animate(elements, keyframes, options);
-}
+  animate(
+    elements,
+    { opacity: [0, 1], y: [20, 0] },
+    {
+      delay: useStagger ? stagger(staggerValue, { startDelay: delay }) : delay,
+      duration: 0.5,
+      ease: 'easeOut' as const,
+    }
+  );
+};
 
 /**
  * Builds animation sequence plan from selector configuration.
@@ -656,14 +640,13 @@ function buildSectionSequencePlan(
   });
 }
 
-function runSectionSequence(
+const runSectionSequence = (
   scopeElement: HTMLElement,
   steps: SectionSequenceStep[]
-) {
+) =>
   steps.forEach(({ selector, delay, useStagger, staggerValue }) =>
     animateElements(scopeElement, selector, delay, useStagger, staggerValue)
   );
-}
 
 // Orchestrates section animations based on scroll position with hardware-accelerated transforms
 export function useSectionSequence(
@@ -798,108 +781,6 @@ export function useTimelineCardMotion(
 // MOTION V12 ENHANCED HOOKS
 // ============================================================================
 
-// Tracks velocity of a motion value for physics-based effects
-export function useMotionVelocity(
-  motionValue: ReturnType<typeof useMotionValue<number>>
-) {
-  return useVelocity(motionValue);
-}
-
-// Creates time-based animations (perpetual, no re-renders)
-export function useTimeBasedAnimation(duration: number, clamp = false) {
-  const time = useTime();
-
-  return useTransform(time, [0, duration], [0, 1], { clamp });
-}
-
-// Cursor-following motion values with spring physics
-export function useCursorFollow(
-  stiffness = 150,
-  damping = 20
-): CursorFollowResult {
-  const prefersReducedMotion = useReducedMotion();
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothX = useSpring(mouseX, { stiffness, damping });
-  const smoothY = useSpring(mouseY, { stiffness, damping });
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    const handleMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-      setIsActive(true);
-    };
-
-    const handleLeave = () => setIsActive(false);
-
-    window.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseleave', handleLeave);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMove);
-      document.removeEventListener('mouseleave', handleLeave);
-    };
-  }, [prefersReducedMotion, mouseX, mouseY]);
-
-  return {
-    x: prefersReducedMotion ? mouseX : smoothX,
-    y: prefersReducedMotion ? mouseY : smoothY,
-    isActive,
-  };
-}
-
-// Dynamic gradient that follows cursor position with cached rect for performance
-export function useCursorGradient(
-  ref: RefObject<HTMLElement | null>,
-  gradientSize = 50
-) {
-  const prefersReducedMotion = useReducedMotion();
-  const x = useMotionValue(50);
-  const y = useMotionValue(50);
-  const rectRef = useRef<DOMRect | null>(null);
-
-  const background = useMotionTemplate`
-    radial-gradient(
-      circle at ${x}% ${y}%,
-      rgba(255,255,255,0.15),
-      transparent ${gradientSize}%
-    )
-  `;
-
-  useEffect(() => {
-    const element = ref.current;
-    if (prefersReducedMotion || !element) return;
-
-    // Cache rect initially and update on scroll/resize
-    const updateRect = () => {
-      rectRef.current = element.getBoundingClientRect();
-    };
-    updateRect();
-
-    const handleMove = (e: MouseEvent) => {
-      const rect = rectRef.current;
-      if (!rect) return;
-      x.set(((e.clientX - rect.left) / rect.width) * 100);
-      y.set(((e.clientY - rect.top) / rect.height) * 100);
-    };
-
-    element.addEventListener('mousemove', handleMove);
-    window.addEventListener('resize', updateRect);
-    window.addEventListener('scroll', updateRect, { passive: true });
-
-    return () => {
-      element.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('resize', updateRect);
-      window.removeEventListener('scroll', updateRect);
-    };
-  }, [prefersReducedMotion, ref, x, y]);
-
-  return { background, x, y };
-}
-
 // Velocity-based tilt effect for draggable elements
 export function useVelocityTilt(
   motionValueX: ReturnType<typeof useMotionValue<number>>,
@@ -961,13 +842,16 @@ export function useTimelineSequence() {
   });
 
   useEffect(() => {
+    // Capture ref value to avoid stale reference in cleanup
+    const currentControls = controlsRef.current;
     return () => {
-      controlsRef.current?.stop();
+      currentControls?.stop();
     };
   }, []);
 
   useEffect(() => {
     if (!prefersReducedMotion) return;
+    // Stop and clear when user enables reduced motion preference
     controlsRef.current?.stop();
     controlsRef.current = null;
   }, [prefersReducedMotion]);
@@ -998,19 +882,6 @@ export function useEnhancedScrollProgress(
   };
 }
 
-// Continuous animation frame for custom render loops
-export function useContinuousFrame(
-  callback: (time: number, delta: number) => void,
-  enabled = true
-) {
-  const prefersReducedMotion = useReducedMotion();
-
-  useAnimationFrame((time, delta) => {
-    if (!enabled || prefersReducedMotion) return;
-    callback(time, delta);
-  });
-}
-
 // Batched DOM operations using Motion's frame utility
 export function useBatchedDomUpdate() {
   const scheduleRead = useEventCallback((callback: () => void) => {
@@ -1023,50 +894,3 @@ export function useBatchedDomUpdate() {
 
   return { scheduleRead, scheduleRender };
 }
-
-// Pulsing animation using useTime
-export function usePulse(minScale = 1, maxScale = 1.1, duration = 2000) {
-  const prefersReducedMotion = useReducedMotion();
-  const time = useTime();
-
-  const scale = useTransform(time, (t) => {
-    if (prefersReducedMotion) return 1;
-    const progress = (Math.sin((t / duration) * Math.PI * 2) + 1) / 2;
-    return minScale + progress * (maxScale - minScale);
-  });
-
-  return scale;
-}
-
-// SVG path draw animation hook
-export function useSvgPathDraw(
-  ref: RefObject<SVGPathElement | null>,
-  options: { duration?: number; delay?: number; once?: boolean } = {}
-) {
-  const { duration = 1.5, delay = 0, once = true } = options;
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const isInView = useInView(ref, { once, amount: 0.5 });
-  const pathLength = useMotionValue(prefersReducedMotion ? 1 : 0);
-
-  useEffect(() => {
-    if (!isInView || prefersReducedMotion) return;
-
-    const controls = animate(pathLength, 1, {
-      ...getTransition('easeOut', { duration, delay }),
-    });
-
-    return () => controls.stop();
-  }, [
-    isInView,
-    prefersReducedMotion,
-    pathLength,
-    getTransition,
-    duration,
-    delay,
-  ]);
-
-  return { pathLength, isInView };
-}
-
-// Note: Responsive breakpoint hooks (useMobileBreakpoint, useCurrentBreakpoint, etc.)
-// have been moved to useBreakpoints.ts for better organization

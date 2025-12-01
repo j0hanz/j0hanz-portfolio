@@ -1,6 +1,9 @@
 import type { Variants } from 'motion/react';
 
-import type { StaggerContainerOptions } from '@/config/types';
+import type {
+  SectionMotionVariantId,
+  StaggerContainerOptions,
+} from '@/config/types';
 
 // ============================================================================
 // ANIMATION CONSTANTS
@@ -714,6 +717,18 @@ export const sectionVariants = {
     whileInView: { opacity: 1, scaleX: 1, scaleY: 1 },
   },
 } as const;
+
+// Map section IDs to variants
+export const variantMap: Record<
+  SectionMotionVariantId,
+  keyof typeof sectionVariants
+> = {
+  hero: 'default',
+  aboutMe: 'slideUp',
+  portfolio: 'slideUp',
+  workExperience: 'slideUp',
+  contact: 'slideUp',
+};
 
 // ============================================================================
 // MODAL VARIANTS

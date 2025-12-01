@@ -4,11 +4,20 @@ import type { RepoStats } from './types';
 // SCROLL CONSTANTS
 // ============================================================================
 
-export const SECTION_CONTAINER_ID = 'active-section-container';
-export const SCROLL_TOLERANCE_PX = 2;
-export const SCROLL_LOCK_DURATION_MS = 1000;
-export const WHEEL_THRESHOLD_PX = 30;
-export const TOUCH_THRESHOLD_PX = 50;
+export const SCROLL_CONFIG = {
+  CONTAINER_ID: 'active-section-container',
+  TOLERANCE_PX: 2,
+  LOCK_DURATION_MS: 1000,
+  WHEEL_THRESHOLD_PX: 30,
+  TOUCH_THRESHOLD_PX: 50,
+} as const;
+
+// Legacy exports for backwards compatibility
+export const SECTION_CONTAINER_ID = SCROLL_CONFIG.CONTAINER_ID;
+export const SCROLL_TOLERANCE_PX = SCROLL_CONFIG.TOLERANCE_PX;
+export const SCROLL_LOCK_DURATION_MS = SCROLL_CONFIG.LOCK_DURATION_MS;
+export const WHEEL_THRESHOLD_PX = SCROLL_CONFIG.WHEEL_THRESHOLD_PX;
+export const TOUCH_THRESHOLD_PX = SCROLL_CONFIG.TOUCH_THRESHOLD_PX;
 
 // ============================================================================
 // UI TIMING CONSTANTS
@@ -38,17 +47,20 @@ export const INITIAL_LOADING_DELAY_MS = 2000;
 // PROJECT STATS CONSTANTS
 // ============================================================================
 
-export const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 export const GITHUB_API_BASE_URL = 'https://api.github.com/repos';
 
 export const QUERY_CONFIG = {
+  CACHE_DURATION: 10 * 60 * 1000, // 10 minutes
   STALE_TIME_SHORT: 60 * 1000, // 1 minute
   GC_TIME_SHORT: 5 * 60 * 1000, // 5 minutes
   STALE_TIME_LONG: 10 * 60 * 1000, // 10 minutes
   GC_TIME_LONG: 30 * 60 * 1000, // 30 minutes
+  ANIMATION_DURATION_STATS: 800,
 } as const;
 
-export const ANIMATION_DURATION_STATS = 800;
+// Legacy exports for backwards compatibility
+export const CACHE_DURATION = QUERY_CONFIG.CACHE_DURATION;
+export const ANIMATION_DURATION_STATS = QUERY_CONFIG.ANIMATION_DURATION_STATS;
 
 export const EMPTY_STATS: RepoStats = {
   stars: 0,
@@ -60,10 +72,16 @@ export const EMPTY_STATS: RepoStats = {
 // CONTACT CONSTANTS
 // ============================================================================
 
-export const CONTACT_EMAIL = 'l.johansson93@outlook.com';
-export const SEND_ERROR_MESSAGE =
-  'Failed to send message! Please try again later.';
-export const FORM_RESET_DELAY = 3000;
+export const CONTACT_CONFIG = {
+  EMAIL: 'l.johansson93@outlook.com',
+  SEND_ERROR_MESSAGE: 'Failed to send message! Please try again later.',
+  FORM_RESET_DELAY: 3000,
+} as const;
+
+// Legacy exports for backwards compatibility
+export const CONTACT_EMAIL = CONTACT_CONFIG.EMAIL;
+export const SEND_ERROR_MESSAGE = CONTACT_CONFIG.SEND_ERROR_MESSAGE;
+export const FORM_RESET_DELAY = CONTACT_CONFIG.FORM_RESET_DELAY;
 
 export const CONTACT_COPY = {
   sectionTitle: 'Contact',
@@ -93,10 +111,18 @@ export const CONNECTIVITY_BANNER_AUTO_DISMISS = 3500;
 // VALIDATION CONSTANTS
 // ============================================================================
 
-export const NAME_PATTERN = /^[a-zA-Z\s]{2,}$/;
-export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const URL_PATTERN = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*\/?$/;
-export const MIN_MESSAGE_LENGTH = 10;
+export const VALIDATION = {
+  NAME_PATTERN: /^[a-zA-Z\s]{2,}$/,
+  EMAIL_PATTERN: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  URL_PATTERN: /^(https?:\/\/)?([\w-]+(\.\w[\w-]+)+)(\/[\w-]*)*\/?$/,
+  MIN_MESSAGE_LENGTH: 10,
+} as const;
+
+// Legacy exports for backwards compatibility
+export const NAME_PATTERN = VALIDATION.NAME_PATTERN;
+export const EMAIL_PATTERN = VALIDATION.EMAIL_PATTERN;
+export const URL_PATTERN = VALIDATION.URL_PATTERN;
+export const MIN_MESSAGE_LENGTH = VALIDATION.MIN_MESSAGE_LENGTH;
 
 export const ERROR_MESSAGES = {
   NAME_REQUIRED: 'Name is required.',
@@ -237,4 +263,34 @@ export const SECTION_THEME_COLORS = {
     light: '#94a3b8', // Slate
     dark: '#002558ff', // Deep slate
   },
+} as const;
+
+// Animation timing constants for consistent feel
+export const BACKGROUND_ANIMATION_CONFIG = {
+  // Primary blob - slow, organic movement
+  primary: {
+    duration: 28,
+    delayOffset: 0,
+  },
+  // Secondary blob - slightly faster, creates depth
+  secondary: {
+    duration: 22,
+    delayOffset: 3,
+  },
+  // Tertiary blob - fastest, adds visual interest
+  tertiary: {
+    duration: 18,
+    delayOffset: 6,
+  },
+  // Color transition timing
+  colorTransition: {
+    duration: 0.4,
+    ease: [0.16, 0, 0.1, 1] as const,
+  },
+} as const;
+
+// Gradient opacity values for light/dark modes
+export const BACKGROUND_GRADIENT_OPACITY = {
+  light: { primary: 0.24, secondary: 0.14, tertiary: 0.09 },
+  dark: { primary: 0.38, secondary: 0.24, tertiary: 0.16 },
 } as const;

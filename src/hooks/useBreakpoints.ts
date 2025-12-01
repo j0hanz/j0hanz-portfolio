@@ -137,6 +137,31 @@ const DEFAULT_VIEWPORT: ViewportDimensions = {
   isLandscape: true,
 };
 
+// Cache for viewport dimensions to prevent object identity changes
+let cachedViewport: ViewportDimensions = DEFAULT_VIEWPORT;
+let cachedKey = '';
+
+function getViewportSnapshot(): ViewportDimensions {
+  if (typeof window === 'undefined') return DEFAULT_VIEWPORT;
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const key = `${width}-${height}`;
+
+  // Return cached object if dimensions unchanged (preserves referential equality)
+  if (key === cachedKey) return cachedViewport;
+
+  cachedKey = key;
+  cachedViewport = {
+    width,
+    height,
+    isPortrait: height > width,
+    isLandscape: width >= height,
+  };
+
+  return cachedViewport;
+}
+
 // Returns viewport width, height, and orientation flags (updates on resize)
 export function useViewportDimensions(): ViewportDimensions {
   const subscribe = (callback: () => void) => {
@@ -145,22 +170,11 @@ export function useViewportDimensions(): ViewportDimensions {
     return () => window.removeEventListener('resize', callback);
   };
 
-  const getSnapshot = (): ViewportDimensions => {
-    if (typeof window === 'undefined') return DEFAULT_VIEWPORT;
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    return {
-      width,
-      height,
-      isPortrait: height > width,
-      isLandscape: width >= height,
-    };
-  };
-
-  const getServerSnapshot = () => DEFAULT_VIEWPORT;
-
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(
+    subscribe,
+    getViewportSnapshot,
+    () => DEFAULT_VIEWPORT
+  );
 }
 
 // ============================================================================

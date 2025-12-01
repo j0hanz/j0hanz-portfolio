@@ -48,39 +48,35 @@ import {
 
 const HERO_NAME = 'Linus Johansson';
 
-// Hero action button configurations
-const createHeroActions = (
-  onCvClick: () => void
-): readonly HeroActionConfig[] =>
-  [
-    {
-      key: 'download-cv',
-      label: 'Download CV',
-      buttonProps: {
-        onClick: onCvClick,
-        startIcon: <DownloadRounded sx={iconSx} />,
-        sx: downloadButtonSx,
-        variant: 'contained',
-        color: 'primary',
-        motionWhileTap: { scale: 0.95, rotate: -2 },
-      },
+// Hero action button configurations - static array for consistent rendering
+const HERO_ACTIONS: readonly HeroActionConfig[] = [
+  {
+    key: 'download-cv',
+    label: 'Download CV',
+    buttonProps: {
+      startIcon: <DownloadRounded sx={iconSx} />,
+      sx: downloadButtonSx,
+      variant: 'contained',
+      color: 'primary',
+      motionWhileTap: { scale: 0.95, rotate: -2 },
     },
-    {
-      key: 'contact',
-      label: 'Get in Touch',
-      buttonProps: {
-        href: '#contact',
-        startIcon: <EmailRounded sx={iconSx} />,
-        sx: contactButtonSx,
-        variant: 'text',
-        color: 'inherit',
-        motionWhileTap: { scale: 0.95, rotate: 2 },
-      },
+  },
+  {
+    key: 'contact',
+    label: 'Get in Touch',
+    buttonProps: {
+      href: '#contact',
+      startIcon: <EmailRounded sx={iconSx} />,
+      sx: contactButtonSx,
+      variant: 'text',
+      color: 'inherit',
+      motionWhileTap: { scale: 0.95, rotate: 2 },
     },
-  ] as const;
+  },
+] as const;
 
 // Rendering hero section
-function Hero(): React.JSX.Element {
+function Hero() {
   const { openCvModal } = useCvModalActions();
   const imageModal = useModal(false);
   const profileImageRef = useRef<HTMLImageElement | null>(null);
@@ -92,14 +88,19 @@ function Hero(): React.JSX.Element {
 
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
-
-  const heroActions = createHeroActions(openCvModal);
-
   const profileMotion = useMotionVariant(fadeVariants.up);
   const subtitleMotion = useMotionVariant(subtitleClipPath, {
     initial: 'initial',
     animate: 'animate',
   });
+
+  // Handle image keyboard interaction
+  const handleImageKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      imageModal.open();
+    }
+  };
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>
@@ -123,12 +124,7 @@ function Hero(): React.JSX.Element {
                   tabIndex={0}
                   aria-label="View enlarged profile photo"
                   onClick={imageModal.open}
-                  onKeyDown={(e: React.KeyboardEvent) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      imageModal.open();
-                    }
-                  }}
+                  onKeyDown={handleImageKeyDown}
                   onLoad={handleProfileLoad}
                   animate={{
                     opacity: isProfileLoaded ? (isProfileHovered ? 0.8 : 1) : 0,
@@ -167,7 +163,6 @@ function Hero(): React.JSX.Element {
                       ...heroNameStyles,
                     }}
                   />
-
                   <Typography
                     variant="h2"
                     component={motion.h2}
@@ -189,13 +184,23 @@ function Hero(): React.JSX.Element {
                     alignItems="flex-start"
                     sx={buttonsStackSx}
                   >
-                    {heroActions.map(({ key, label, buttonProps }) => (
-                      <MagneticWrapper key={key} disabled={disableMagnetic}>
-                        <Button variant="contained" {...buttonProps}>
-                          {label}
-                        </Button>
-                      </MagneticWrapper>
-                    ))}
+                    {HERO_ACTIONS.map((action) => {
+                      const isDownload = action.key === 'download-cv';
+                      return (
+                        <MagneticWrapper
+                          key={action.key}
+                          disabled={disableMagnetic}
+                        >
+                          <Button
+                            variant="contained"
+                            {...action.buttonProps}
+                            onClick={isDownload ? openCvModal : undefined}
+                          >
+                            {action.label}
+                          </Button>
+                        </MagneticWrapper>
+                      );
+                    })}
                   </Stack>
                   <SkillBadgeRow />
                 </StaggerContainer>

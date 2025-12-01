@@ -2,18 +2,10 @@ import { StrictMode } from 'react';
 
 import { createRoot } from 'react-dom/client';
 
-import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import {
-  QueryClientProvider,
-  QueryErrorResetBoundary,
-} from '@tanstack/react-query';
-
-import App from '@/App';
-import AppThemeProvider from '@/components/AppThemeProvider';
-import ErrorBoundary from '@/components/ErrorBoundary';
-import { SnackbarProvider } from '@/components/SnackbarProvider';
+import { AppProviders } from '@/components/AppProviders';
 import { initEmailJs } from '@/lib/emailJs';
-import { queryClient } from '@/utils/query/index';
+
+import App from './App';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -32,19 +24,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <InitColorSchemeScript attribute="data-mui-color-scheme" />
-    <QueryClientProvider client={queryClient}>
-      <QueryErrorResetBoundary>
-        {({ reset }) => (
-          <ErrorBoundary onReset={reset}>
-            <AppThemeProvider>
-              <SnackbarProvider>
-                <App />
-              </SnackbarProvider>
-            </AppThemeProvider>
-          </ErrorBoundary>
-        )}
-      </QueryErrorResetBoundary>
-    </QueryClientProvider>
+    <AppProviders>
+      <App />
+    </AppProviders>
   </StrictMode>
 );

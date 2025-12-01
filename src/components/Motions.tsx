@@ -21,13 +21,13 @@ import {
   staggerContainerVariants,
   staggerItemSimpleVariants,
   svgPathVariants,
+  variantMap,
   viewportConfig,
 } from '@/config/motion';
 import type {
   AnimateActivityProps,
   FadeInViewProps,
   MotionWrapperProps,
-  SectionMotionVariantId,
   SlideFromSideProps,
   StaggerContainerProps,
   StaggerItemProps,
@@ -35,50 +35,38 @@ import type {
 import { useAnimationConfig, useInView, useNavigationState } from '@/hooks';
 
 // ============================================================================
+// SHARED STYLES
+// ============================================================================
+
+const PAGE_TRANSITION_SX = {
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  top: 0,
+  left: 0,
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  willChange: 'transform, opacity',
+} as const;
+
+// ============================================================================
 // SECTION MOTION WRAPPER
 // ============================================================================
 
-// Map section IDs to variants
-const variantMap: Record<SectionMotionVariantId, keyof typeof sectionVariants> =
-  {
-    hero: 'default',
-    aboutMe: 'slideUp',
-    portfolio: 'slideUp',
-    workExperience: 'slideUp',
-    contact: 'slideUp',
-  };
-
-// Wraps sections with scroll-triggered animations (auto handles reduced motion)
-function MotionWrapper({
+// Internal implementation with animations
+function MotionWrapperInternal({
   children,
   sectionId,
   style,
   transition: transitionOverride,
   viewport: viewportOverride,
   ...props
-}: MotionWrapperProps): React.JSX.Element {
-  const { prefersReducedMotion, getTransition, reducedMotionTarget } =
-    useAnimationConfig();
-
+}: MotionWrapperProps) {
+  const { getTransition } = useAnimationConfig();
   const variantKey = variantMap[sectionId] ?? 'default';
   const variant = sectionVariants[variantKey];
-
-  const viewport =
-    viewportOverride ?? (prefersReducedMotion ? undefined : viewportConfig);
+  const viewport = viewportOverride ?? viewportConfig;
   const transition = transitionOverride ?? getTransition('easeOut');
-
-  if (prefersReducedMotion) {
-    return (
-      <motion.div
-        initial={reducedMotionTarget}
-        animate={reducedMotionTarget}
-        style={style}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  }
 
   return (
     <motion.div
@@ -94,6 +82,25 @@ function MotionWrapper({
   );
 }
 
+// Wraps sections with scroll-triggered animations (auto handles reduced motion)
+function MotionWrapper(props: MotionWrapperProps) {
+  const { prefersReducedMotion, reducedMotionTarget } = useAnimationConfig();
+
+  if (prefersReducedMotion) {
+    return (
+      <motion.div
+        initial={reducedMotionTarget}
+        animate={reducedMotionTarget}
+        style={props.style}
+      >
+        {props.children}
+      </motion.div>
+    );
+  }
+
+  return <MotionWrapperInternal {...props} />;
+}
+
 // ============================================================================
 // SLIDE FROM SIDE
 // ============================================================================
@@ -106,15 +113,9 @@ function SlideFromSide({
   transition: transitionOverride,
   viewport: viewportOverride,
   ...props
-}: SlideFromSideProps): React.JSX.Element {
+}: SlideFromSideProps) {
   const { prefersReducedMotion, getTransition, reducedMotionTarget } =
     useAnimationConfig();
-
-  const initialTransform =
-    from === 'left' ? 'translateX(-50px)' : 'translateX(50px)';
-  const viewport =
-    viewportOverride ?? (prefersReducedMotion ? undefined : viewportConfig);
-  const transition = transitionOverride ?? getTransition('easeOut');
 
   if (prefersReducedMotion) {
     return (
@@ -129,12 +130,14 @@ function SlideFromSide({
     );
   }
 
+  const xOffset = from === 'left' ? '-50px' : '50px';
+
   return (
     <motion.div
-      initial={{ opacity: 0, transform: initialTransform }}
+      initial={{ opacity: 0, transform: `translateX(${xOffset})` }}
       whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
-      transition={transition}
-      viewport={viewport}
+      transition={transitionOverride ?? getTransition('easeOut')}
+      viewport={viewportOverride ?? viewportConfig}
       style={style}
       {...props}
     >
@@ -285,19 +288,10 @@ export function PageTransitionWrapper({
       transition={{
         transform: prefersReducedMotion
           ? { duration: 0 }
-          : { type: 'spring', visualDuration: 0.4, bounce: 0.15 },
+          : { type: 'spring' as const, visualDuration: 0.4, bounce: 0.15 },
         opacity: { duration: prefersReducedMotion ? 0 : 0.2 },
       }}
-      sx={{
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        willChange: 'transform, opacity',
-      }}
+      sx={PAGE_TRANSITION_SX}
     >
       {children}
     </Box>
@@ -418,7 +412,7 @@ export function BlinkingCursor({
 }: {
   style?: React.CSSProperties;
   blinkDuration?: number;
-}): React.JSX.Element | null {
+}) {
   const { prefersReducedMotion } = useAnimationConfig();
   const time = useTime();
 
@@ -439,6 +433,9 @@ export function BlinkingCursor({
 // ANIMATED CHECKMARK
 // ============================================================================
 
+// Circle circumference for stroke-dasharray (r=9)
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 9;
+
 // Animated checkmark with circle and path draw effect
 export function AnimatedCheckmark({
   size = 38,
@@ -446,11 +443,8 @@ export function AnimatedCheckmark({
 }: {
   size?: number;
   strokeWidth?: number;
-}): React.JSX.Element {
+}) {
   const { prefersReducedMotion } = useAnimationConfig();
-
-  // Circle circumference for stroke-dasharray
-  const circleCircumference = 2 * Math.PI * 9; // r=9
 
   return (
     <motion.svg
@@ -469,8 +463,8 @@ export function AnimatedCheckmark({
         cy="12"
         r="9"
         initial={{
-          strokeDasharray: circleCircumference,
-          strokeDashoffset: prefersReducedMotion ? 0 : circleCircumference,
+          strokeDasharray: CIRCLE_CIRCUMFERENCE,
+          strokeDashoffset: prefersReducedMotion ? 0 : CIRCLE_CIRCUMFERENCE,
         }}
         animate={{ strokeDashoffset: 0 }}
         transition={{
@@ -484,9 +478,7 @@ export function AnimatedCheckmark({
         d="M7.5 12.5l3 3.2 6-6.7"
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{
-          pathLength: prefersReducedMotion ? 1 : 0,
-        }}
+        initial={{ pathLength: prefersReducedMotion ? 1 : 0 }}
         animate={{ pathLength: 1 }}
         transition={{
           type: 'spring',

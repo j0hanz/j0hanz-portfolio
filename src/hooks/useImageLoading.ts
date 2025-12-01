@@ -13,13 +13,13 @@ export function useImageLoading(): UseImageLoadingReturn {
 
   // Both load and error mark the image as "loaded" (no longer loading)
   // React Compiler auto-stabilizes these callbacks
-  const markComplete = () => setIsLoaded(true);
+  const handleComplete = () => setIsLoaded(true);
   const reset = () => setIsLoaded(false);
 
   return {
     isLoaded,
-    handleLoad: markComplete,
-    handleError: markComplete,
+    handleLoad: handleComplete,
+    handleError: handleComplete,
     reset,
   };
 }

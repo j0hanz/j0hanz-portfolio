@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { useReducedMotion } from 'motion/react';
 
@@ -39,7 +39,6 @@ export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
   const { isScrollLocked, isPending } = useNavigationState();
   const isScrolling = useRef(false);
-  const containerRef = useRef<HTMLElement | null>(null);
 
   const prefersReducedMotion = useReducedMotion();
   const isTouchPrimaryBreakpoint = useMobileBreakpoint('md');
@@ -52,27 +51,11 @@ export function useFullPageScroll(): void {
     shouldDisable || isTouchPrimaryBreakpoint
   );
 
-  // Cache container reference
-  useEffect(() => {
-    containerRef.current = document.getElementById(SECTION_CONTAINER_ID);
-    return () => {
-      containerRef.current = null;
-    };
-  }, []);
-
-  const resolveContainer = useEventCallback(() => {
-    const cached = containerRef.current;
-    if (cached?.isConnected) return cached;
-
-    const node = document.getElementById(SECTION_CONTAINER_ID);
-    containerRef.current = node;
-    return node;
-  });
-
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
     if (isScrolling.current || isPending) return false;
 
-    const container = resolveContainer();
+    // Direct DOM access is safe and efficient here
+    const container = document.getElementById(SECTION_CONTAINER_ID);
     const boundaries = getScrollBoundaries(container);
 
     if (!canNavigate(boundaries, direction)) return false;

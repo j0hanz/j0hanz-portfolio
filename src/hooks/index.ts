@@ -1,12 +1,7 @@
 // Centralized exports for all reusable hooks
 
-// Detects pointer interactions outside of the provided ref
-// Note: For most cases, prefer MUI's ClickAwayListener component instead
-export { useClickOutside } from './useClickOutside';
-
-// Debounces rapidly changing values before propagating downstream
+// Cursor magnet interaction effects
 export * from './useCursorMagnet';
-export * from './useDebounce';
 
 // Creates stable callback references that always access latest values
 export { default as useEventCallback } from './useEventCallback';
@@ -38,22 +33,18 @@ export type { UseToggleReturn } from '@/config/types';
 export { default as useModal } from './useModal';
 export type { UseModalReturn } from './useModal';
 
-// Combines multiple refs into a single ref callback
-export { default as useCombinedRefs } from './useCombinedRefs';
-
 // Triggers an animation sequence when a section is scrolled into view
 export { default as useScrollAnimation } from './useScrollAnimation';
+
+// Manages the initial loading state of the application
+export { useInitialLoading } from './useInitialLoading';
 
 // Full-page scroll navigation
 export { useFullPageScroll } from './useFullPageScroll';
 
 // Accesses the NavigationContext
 // Split hooks: useNavigationState (full state), useNavigationActions (actions only)
-export {
-  useNavigation,
-  useNavigationActions,
-  useNavigationState,
-} from './useNavigation';
+export { useNavigationActions, useNavigationState } from './useNavigation';
 
 // Accesses the ThemeMode context with helpful error messaging
 // Split hooks for render optimization: useThemeModeState (read-only), useThemeModeActions (actions)
@@ -102,18 +93,11 @@ export {
   useMotionVariant,
   useInViewMotion,
   useCountUp,
-  // Motion v12 enhanced hooks
-  useMotionVelocity,
-  useTimeBasedAnimation,
-  useCursorFollow,
-  useCursorGradient,
+  // Motion v12 enhanced hooks (used)
   useVelocityTilt,
   useTimelineSequence,
   useEnhancedScrollProgress,
-  useContinuousFrame,
   useBatchedDomUpdate,
-  usePulse,
-  useSvgPathDraw,
   // Timeline section setup hook
   useTimelineSectionRefs,
   useTimelineSectionController,

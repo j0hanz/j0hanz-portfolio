@@ -441,23 +441,6 @@ export interface AnimationSequenceControls {
 
 export type AnimationPriority = 'high' | 'reduced';
 
-// Motion v12 Enhanced Types
-export interface VelocityConfig {
-  velocityFactor?: number;
-  clamp?: boolean;
-}
-
-export interface CursorFollowResult {
-  x: MotionValue<number>;
-  y: MotionValue<number>;
-  isActive: boolean;
-}
-
-export interface TimeBasedAnimationConfig {
-  duration: number;
-  clamp?: boolean;
-}
-
 export type AnimateActivityMode = 'visible' | 'hidden';
 export type LayoutMode = 'sync' | 'pop';
 

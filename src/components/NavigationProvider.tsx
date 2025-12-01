@@ -8,8 +8,7 @@ import {
 } from '@/contexts/NavigationContext';
 import { useEventCallback } from '@/hooks';
 
-const SECTION_COUNT = sections.length;
-const LAST_INDEX = SECTION_COUNT - 1;
+const LAST_INDEX = sections.length - 1;
 
 type NavigationSnapshot = Omit<NavigationState, 'isPending'>;
 
@@ -19,45 +18,48 @@ type NavigationAction =
   | { type: 'STEP'; payload: 1 | -1 }
   | { type: 'SYNC_HASH'; payload: string };
 
-// Get initial section index from URL hash on mount
-function getInitialSectionIndex(): number {
-  if (typeof window === 'undefined') return 0;
+// Clamps index within valid section bounds
+// Defensive clamp: handles NaN, infinities, negative zero, non-integers
+const clampIndex = (index: number): number => {
+  if (!Number.isFinite(index)) return 0;
+  // Convert to integer
+  let n = Math.trunc(index);
+  // Clamp to [0, LAST_INDEX]
+  n = Math.max(0, Math.min(n, LAST_INDEX));
+  // Normalize -0 to 0
+  return n === 0 ? 0 : n;
+};
 
-  const section = getSectionByHash(window.location.hash);
-  const index = section ? sections.indexOf(section) : -1;
-  return index >= 0 ? index : 0;
-}
-
-function clampIndex(index: number): number {
-  if (Number.isNaN(index)) return 0;
-  if (index < 0) return 0;
-  if (index > LAST_INDEX) return LAST_INDEX;
-  return index;
-}
-
-// Unified resolver for section index by ID or hash
-function resolveIndex(identifier: string, byHash = false): number | null {
+// Resolves section index by ID or hash
+const resolveIndex = (identifier: string, byHash = false): number => {
   const section = byHash
     ? getSectionByHash(identifier)
     : sections.find((s) => s.id === identifier);
-  if (!section) return null;
-  const matchIndex = sections.indexOf(section);
-  return matchIndex >= 0 ? matchIndex : null;
-}
+  return section ? sections.indexOf(section) : -1;
+};
 
-function buildSnapshot(
+// Get initial section index from URL hash (idempotent for React 19 strict mode)
+const getInitialIndex = (): number => {
+  if (typeof window === 'undefined') return 0;
+  const hash = window.location.hash;
+  if (!hash) return 0;
+  const index = resolveIndex(hash, true);
+  return index >= 0 ? index : 0;
+};
+
+// Builds navigation state snapshot from target index
+const buildSnapshot = (
   targetIndex: number,
   previousIndex: number
-): NavigationSnapshot {
+): NavigationSnapshot => {
   const index = clampIndex(targetIndex);
   const activeSection = sections[index];
-  if (!activeSection) {
-    if (import.meta.env.DEV) {
-      throw new Error(
-        `NavigationProvider: sections[${index}] is undefined. This should never happen.`
-      );
-    }
+
+  if (!activeSection && import.meta.env.DEV) {
+    throw new Error(`NavigationProvider: sections[${index}] is undefined.`);
   }
+
+  // Single expression for direction calculation
   const direction: Direction =
     index === previousIndex ? null : index > previousIndex ? 'down' : 'up';
 
@@ -66,98 +68,79 @@ function buildSnapshot(
     activeSectionId: activeSection.id,
     activeSectionHash: activeSection.hash,
     activeSection,
-    totalSections: SECTION_COUNT,
+    totalSections: sections.length,
     direction,
     isFirst: index === 0,
     isLast: index === LAST_INDEX,
     isScrollLocked: !activeSection.disableScrollLock,
   };
-}
+};
 
-function navigationReducer(
+// Navigation reducer - computes target index from action, returns new state if changed
+const navigationReducer = (
   state: NavigationSnapshot,
   action: NavigationAction
-): NavigationSnapshot {
-  switch (action.type) {
-    case 'SET_INDEX': {
-      const next = buildSnapshot(action.payload, state.activeSectionIndex);
-      return next.activeSectionIndex === state.activeSectionIndex
-        ? state
-        : next;
-    }
-    case 'SET_ID': {
-      const targetIndex = resolveIndex(action.payload);
-      if (targetIndex === null) return state;
+): NavigationSnapshot => {
+  const current = state.activeSectionIndex;
 
-      const next = buildSnapshot(targetIndex, state.activeSectionIndex);
-      return next.activeSectionIndex === state.activeSectionIndex
-        ? state
-        : next;
+  // Compute target index based on action type
+  const target = (() => {
+    switch (action.type) {
+      case 'SET_INDEX':
+        return action.payload;
+      case 'SET_ID': {
+        const idx = resolveIndex(action.payload);
+        return idx >= 0 ? idx : current;
+      }
+      case 'STEP':
+        return current + action.payload;
+      case 'SYNC_HASH': {
+        const idx = resolveIndex(action.payload, true);
+        return idx >= 0 ? idx : current;
+      }
     }
-    case 'STEP': {
-      const next = buildSnapshot(
-        state.activeSectionIndex + action.payload,
-        state.activeSectionIndex
-      );
-      return next.activeSectionIndex === state.activeSectionIndex
-        ? state
-        : next;
-    }
-    case 'SYNC_HASH': {
-      const targetIndex = resolveIndex(action.payload, true);
-      if (targetIndex === null) return state;
+  })();
 
-      const next = buildSnapshot(targetIndex, state.activeSectionIndex);
-      return next.activeSectionIndex === state.activeSectionIndex
-        ? state
-        : next;
-    }
-    default:
-      return state;
-  }
-}
+  return target === current ? state : buildSnapshot(target, current);
+};
 
-// Sync browser hash with active section
-function syncHashWithSection(hash: string): void {
-  if (typeof window !== 'undefined' && window.location.hash !== hash) {
+// Sync browser hash with active section (no-op if unchanged)
+const syncHashWithSection = (hash: string): void => {
+  if (typeof window !== 'undefined' && window.location.hash !== hash)
     window.history.replaceState(null, '', hash);
-  }
-}
+};
 
-export function NavigationProvider({
-  children,
-}: {
-  children: ReactNode;
-}): React.JSX.Element {
+export function NavigationProvider({ children }: { children: ReactNode }) {
   const [isPending, startTransition] = useTransition();
-  const [navigationState, dispatch] = useReducer(
+  const [state, dispatch] = useReducer(
     navigationReducer,
-    getInitialSectionIndex(),
-    (initialIndex) => buildSnapshot(initialIndex, initialIndex)
+    getInitialIndex(),
+    (idx) => buildSnapshot(idx, idx)
+  );
+
+  // Transition-wrapped dispatch for smooth updates (React 19 Concurrent Mode)
+  const transitionDispatch = useEventCallback((action: NavigationAction) =>
+    startTransition(() => dispatch(action))
   );
 
   const setActiveSection = useEventCallback((indexOrId: number | string) => {
-    startTransition(() => {
-      if (typeof indexOrId === 'string') {
-        dispatch({ type: 'SET_ID', payload: indexOrId });
-        return;
-      }
-      dispatch({ type: 'SET_INDEX', payload: indexOrId });
-    });
+    const action: NavigationAction =
+      typeof indexOrId === 'string'
+        ? { type: 'SET_ID', payload: indexOrId }
+        : { type: 'SET_INDEX', payload: indexOrId };
+    transitionDispatch(action);
   });
 
   const handleHashChange = useEventCallback(() => {
-    if (typeof window === 'undefined') return;
-
-    startTransition(() => {
-      dispatch({ type: 'SYNC_HASH', payload: window.location.hash });
-    });
+    if (typeof window !== 'undefined') {
+      transitionDispatch({ type: 'SYNC_HASH', payload: window.location.hash });
+    }
   });
 
   // Sync browser hash when section changes
   useEffect(() => {
-    syncHashWithSection(navigationState.activeSectionHash);
-  }, [navigationState.activeSectionHash]);
+    syncHashWithSection(state.activeSectionHash);
+  }, [state.activeSectionHash]);
 
   // Listen for browser back/forward navigation
   useEffect(() => {
@@ -165,29 +148,20 @@ export function NavigationProvider({
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [handleHashChange]);
 
-  const navigateTo = useEventCallback((id: string) => {
-    startTransition(() => dispatch({ type: 'SET_ID', payload: id }));
-  });
+  const stateValue: NavigationState = { ...state, isPending };
 
-  const moveNext = useEventCallback(() => {
-    startTransition(() => dispatch({ type: 'STEP', payload: 1 }));
-  });
+  // Navigation action handlers - stable references via useEventCallback
+  const navigateTo = useEventCallback((id: string) =>
+    transitionDispatch({ type: 'SET_ID', payload: id })
+  );
+  const moveNext = useEventCallback(() =>
+    transitionDispatch({ type: 'STEP', payload: 1 })
+  );
+  const movePrev = useEventCallback(() =>
+    transitionDispatch({ type: 'STEP', payload: -1 })
+  );
 
-  const movePrev = useEventCallback(() => {
-    startTransition(() => dispatch({ type: 'STEP', payload: -1 }));
-  });
-
-  const stateValue: NavigationState = {
-    ...navigationState,
-    isPending,
-  };
-
-  const actionsValue = {
-    setActiveSection,
-    navigateTo,
-    moveNext,
-    movePrev,
-  };
+  const actionsValue = { setActiveSection, navigateTo, moveNext, movePrev };
 
   return (
     <NavigationActionsContext value={actionsValue}>
