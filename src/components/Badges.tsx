@@ -41,7 +41,7 @@ const textSx: SxProps<Theme> = {
 
 const stackSx: SxProps<Theme> = {
   textAlign: 'center',
-  pt: '3rem',
+  pt: { xs: '2rem', md: '3rem' },
   gap: { xs: 1.5, sm: 2, md: 3 },
   flexWrap: 'wrap',
 };

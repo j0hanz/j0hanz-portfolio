@@ -10,21 +10,16 @@ import Grid from '@mui/material/Grid';
 import Button from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyWithFeedback } from '@/hooks';
-import {
-  BUTTON_HEIGHT_STANDARD,
-  iconBody2Sx,
-  tooltipWrapperSx,
-} from '@/styles/shared';
+import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
-const ACTION_BUTTON_MIN_WIDTH = 104;
 const actionButtonSx = {
-  minWidth: ACTION_BUTTON_MIN_WIDTH,
-  height: BUTTON_HEIGHT_STANDARD,
+  minWidth: { xs: 90, sm: 104 },
+  height: SIZING.buttonHeightStandard,
 } as const;
 
 const gridSx: SxProps<Theme> = {
-  mt: 2,
+  mt: { xs: 1.5, md: 2 },
 };
 
 function ActionButton({

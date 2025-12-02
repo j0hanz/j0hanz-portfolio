@@ -23,9 +23,9 @@ export default function StatusBanner({
             sx={{
               borderRadius: 0,
               textAlign: 'center',
-              fontSize: '0.85rem',
+              fontSize: { xs: '0.8rem', sm: '0.85rem' },
               letterSpacing: LETTER_SPACING_TIGHT,
-              py: 1,
+              py: { xs: 0.75, sm: 1 },
             }}
           >
             {statusBanner.message}

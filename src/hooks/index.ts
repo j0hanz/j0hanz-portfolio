@@ -129,27 +129,11 @@ export {
 // ============================================================================
 
 export {
-  // Core breakpoint detection
+  // Core breakpoint detection (used)
   useMobileBreakpoint,
-  useDesktopBreakpoint,
-  useBreakpointBetween,
-  useBreakpointOnly,
   useCurrentBreakpoint,
-  useCurrentBreakpointSync,
   useResponsiveValue,
-  // Device capability detection
-  useViewportDimensions,
-  useIsTouchDevice,
-  usePrefersReducedMotion,
-  usePrefersDarkMode,
-  useHasHoverCapability,
-  // Element-level responsive (container query-like)
-  useElementSize,
-  useElementQuery,
-  // Breakpoint transition detection
-  useBreakpointCallback,
-  useMobileDesktopTransition,
-  // Breakpoint comparison utilities
+  // Breakpoint comparison utilities (used by useResponsiveValue)
   getBreakpointIndex,
   isBreakpointSmaller,
   isBreakpointLargerOrEqual,
@@ -161,7 +145,7 @@ export {
 // ============================================================================
 
 export {
-  // Primary constants (new simplified names)
+  // Primary constants
   SPACING,
   GRID,
   CONTAINER_WIDTH,
@@ -178,12 +162,6 @@ export {
   sectionHeaderSx,
   // Core utility
   resolveResponsiveValue,
-  // Legacy exports (backwards compatibility - prefer new names)
-  RESPONSIVE_SPACING,
-  GRID_COLUMNS,
-  CONTAINER_MAX_WIDTH,
-  RESPONSIVE_FONT_SIZE,
-  RESPONSIVE_SIZE,
 } from '@/config/responsive';
 
 export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';

@@ -19,7 +19,7 @@ import type {
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
-import { ICON_SIZE } from '@/styles/shared';
+import { SIZING } from '@/styles/shared';
 
 const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
   {
@@ -86,11 +86,11 @@ const iconSx: SxProps<Theme> = {
 };
 
 const errorIconSx: SxProps<Theme> = {
-  fontSize: ICON_SIZE,
+  fontSize: SIZING.icon,
 };
 
 const inputSx: SxProps<Theme> = {
-  marginTop: 2, // Add margin top to account for the label
+  marginTop: { xs: 1.5, md: 2 },
   '&:before': {
     borderBottom: '2px solid',
     borderBottomColor: 'divider',

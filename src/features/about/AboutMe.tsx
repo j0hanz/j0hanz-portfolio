@@ -57,7 +57,7 @@ const tableSx: SxProps<Theme> = {
     borderBottom: 1,
     borderColor: 'divider',
     px: 0,
-    py: 1.5,
+    py: { xs: 1.25, md: 1.5 },
   },
   '& .MuiTableRow-root:last-child .MuiTableCell-root': {
     borderBottom: 0,

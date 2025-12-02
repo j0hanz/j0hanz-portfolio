@@ -112,7 +112,7 @@ function BaseModal({
           aria-label="Close modal"
           sx={closeButtonSx}
         >
-          <Close sx={{ fontSize: '1.2rem' }} />
+          <Close sx={{ fontSize: { xs: '1.1rem', sm: '1.2rem' } }} />
         </IconButton>
         {children}
       </MotionDialogContent>

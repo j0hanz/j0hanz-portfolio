@@ -9,8 +9,9 @@ import { SocialLinkListProps, SocialLinkRenderProps } from '@/config/types';
 import { useAnimationConfig, useCursorMagnet } from '@/hooks';
 import { socialLinks } from '@/lib/data/socialLinks';
 
-const AVATAR_SIZE = 38;
-const ICON_SIZE_DEFAULT = '1.25rem';
+// Responsive avatar and icon sizes
+const AVATAR_SIZE = { xs: 34, sm: 38 };
+const ICON_SIZE_DEFAULT = { xs: '1.1rem', sm: '1.25rem' };
 
 export function SocialLinkButton({
   href,

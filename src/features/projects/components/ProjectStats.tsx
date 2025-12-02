@@ -62,7 +62,9 @@ function AnimatedStat({
 
   return (
     <Stack direction="row" alignItems="center" spacing={1.5}>
-      <Icon sx={{ color: 'text.secondary', fontSize: '1.1rem' }} />
+      <Icon
+        sx={{ color: 'text.secondary', fontSize: { xs: '1rem', sm: '1.1rem' } }}
+      />
       <Typography variant="body2" sx={labelSx}>
         {label}
       </Typography>

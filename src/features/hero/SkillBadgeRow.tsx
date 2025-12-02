@@ -1,13 +1,13 @@
 import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
 import { motion, type Variants } from 'motion/react';
 
-import { RESPONSIVE_SPACING } from '@/config/responsive';
+import { SPACING } from '@/config/responsive';
 import SkillBadge from '@/features/hero/SkillBadge';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
 
 const containerSx: SxProps<Theme> = {
-  mt: 4,
+  mt: { xs: 3, md: 4 },
   width: '100%',
 };
 
@@ -15,12 +15,11 @@ const labelSx: SxProps<Theme> = {
   color: 'text.secondary',
   letterSpacing: { xs: 1.5, sm: 2 },
   mb: { xs: 1, sm: 1.5 },
-  // Responsive font size for better mobile readability
   fontSize: { xs: '0.6rem', sm: '0.65rem' },
 };
 
 const stackSx: SxProps<Theme> = {
-  gap: RESPONSIVE_SPACING.stack,
+  gap: SPACING.stack,
   flexWrap: 'wrap',
   justifyContent: 'flex-start',
 };

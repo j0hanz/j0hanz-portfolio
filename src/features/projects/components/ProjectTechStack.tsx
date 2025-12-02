@@ -9,10 +9,10 @@ const containerSx: SxProps<Theme> = {
 };
 
 const chipSx: SxProps<Theme> = {
-  mr: 1,
-  mb: 1,
+  mr: { xs: 0.75, sm: 1 },
+  mb: { xs: 0.75, sm: 1 },
   color: 'text.primary',
-  fontSize: (theme) => theme.typography.caption.fontSize,
+  fontSize: { xs: '0.65rem', sm: '0.7rem' },
   opacity: 0.85,
   transform: SKEW_TRANSFORM,
   '& .MuiChip-label': {

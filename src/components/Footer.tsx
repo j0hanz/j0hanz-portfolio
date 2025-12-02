@@ -20,17 +20,12 @@ import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
 import { SPACING } from '@/config/responsive';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
-import {
-  ICON_SIZE,
-  ICON_SIZE_SMALL,
-  SKEW_TRANSFORM,
-  TRANSITION_STANDARD,
-} from '@/styles/shared';
+import { SIZING, SKEW_TRANSFORM, TRANSITION_STANDARD } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
 const footerSx: SxProps<Theme> = {
   bgcolor: 'neutral.dark',
-  py: 2,
+  py: { xs: 1.5, md: 2 },
   pb: { xs: 0.25, sm: 2 },
   color: 'primary.contrastText',
   height: '100%',
@@ -50,14 +45,14 @@ const contactLabelSx: SxProps<Theme> = {
 const emailIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
-  fontSize: ICON_SIZE_SMALL,
-  mr: 1.25,
+  fontSize: SIZING.iconSmall,
+  mr: { xs: 1, sm: 1.25 },
   transition: TRANSITION_STANDARD,
 };
 
 const emailLinkSx: SxProps<Theme> = {
   textDecoration: 'none',
-  fontSize: ICON_SIZE_SMALL,
+  fontSize: SIZING.iconSmall,
   color: 'inherit',
   transition: TRANSITION_STANDARD,
   opacity: 0.8,
@@ -78,8 +73,8 @@ const copyButtonSx: SxProps<Theme> = {
 const copyrightIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
-  fontSize: ICON_SIZE_SMALL,
-  mr: '10px',
+  fontSize: SIZING.iconSmall,
+  mr: { xs: '8px', sm: '10px' },
   transition: TRANSITION_STANDARD,
 };
 
@@ -138,7 +133,7 @@ function Footer(): React.JSX.Element {
                   sx={copyButtonSx}
                 >
                   <ContentCopyRounded
-                    sx={{ fontSize: ICON_SIZE, opacity: 0.85 }}
+                    sx={{ fontSize: SIZING.icon, opacity: 0.85 }}
                   />
                 </IconButton>
               </Tooltip>
@@ -166,7 +161,7 @@ function Footer(): React.JSX.Element {
                 container
                 sx={{
                   justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                  fontSize: '0.9rem',
+                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
                 }}
               >
                 <SocialLinkList

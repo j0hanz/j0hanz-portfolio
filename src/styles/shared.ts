@@ -7,26 +7,11 @@ import type { SxProps, Theme } from '@mui/material';
 // ============================================================================
 
 // ============================================================================
-// SIZING CONSTANTS
+// SIZING CONSTANTS (Responsive - mobile-first)
+// All sizing uses responsive values for consistent mobile/desktop experience
 // ============================================================================
 
 export const SIZING = {
-  // Icon sizes
-  icon: '1rem',
-  iconSmall: '0.9rem',
-  // Button dimensions
-  buttonMinWidth: 120,
-  buttonMinWidthWide: 140,
-  buttonMinWidthHero: 140,
-  buttonHeightStandard: 30,
-  buttonHeightLarge: 44, // WCAG minimum touch target
-  // Badge dimensions
-  badgeMinWidth: 45,
-  badgeHeight: 21,
-} as const;
-
-// Responsive sizing variants for sx prop usage
-export const SIZING_RESPONSIVE = {
   /** Responsive icon size */
   icon: { xs: '0.9rem', sm: '1rem' },
   /** Responsive small icon size */
@@ -39,22 +24,19 @@ export const SIZING_RESPONSIVE = {
   buttonMinWidthHero: { xs: 125, sm: 140 },
   /** Responsive standard button height */
   buttonHeightStandard: { xs: 28, sm: 30 },
-  /** Responsive large button height (touch target) */
+  /** Responsive large button height (WCAG touch target) */
   buttonHeightLarge: { xs: 40, sm: 44 },
+  /** Badge dimensions (static - small decorative elements) */
+  badgeMinWidth: 45,
+  badgeHeight: 21,
 } as const;
 
-// Direct destructured exports for cleaner imports
-export const {
-  icon: ICON_SIZE,
-  iconSmall: ICON_SIZE_SMALL,
-  buttonMinWidth: BUTTON_MIN_WIDTH,
-  buttonMinWidthWide: BUTTON_MIN_WIDTH_WIDE,
-  buttonMinWidthHero: BUTTON_MIN_WIDTH_HERO,
-  buttonHeightStandard: BUTTON_HEIGHT_STANDARD,
-  buttonHeightLarge: BUTTON_HEIGHT_LARGE,
-  badgeMinWidth: BADGE_MIN_WIDTH,
-  badgeHeight: BADGE_HEIGHT,
-} = SIZING;
+// Convenience exports for badge sizing (static - small decorative elements)
+export const BADGE_MIN_WIDTH = SIZING.badgeMinWidth;
+export const BADGE_HEIGHT = SIZING.badgeHeight;
+
+// Alias for backwards compatibility
+export const SIZING_RESPONSIVE = SIZING;
 
 // ============================================================================
 // TYPOGRAPHY CONSTANTS
@@ -131,12 +113,12 @@ export const tooltipWrapperSx: SxProps<Theme> = {
 };
 
 export const sectionGridItemSx: SxProps<Theme> = {
-  mb: 4,
+  mb: { xs: 3, md: 4 },
 };
 
 export const sectionSpacingSx: SxProps<Theme> = {
   px: 0,
-  pb: 5,
+  pb: { xs: 3, md: 5 },
 };
 
 export const centeredFullViewportSx: SxProps<Theme> = {
@@ -206,7 +188,7 @@ export const timelineCardWrapperSx: SxProps<Theme> = {
 };
 
 export const timelineDescriptionWrapperSx: SxProps<Theme> = {
-  mb: 2,
+  mb: { xs: 1.5, md: 2 },
 };
 
 export const transparentModalContentSx: SxProps<Theme> = {

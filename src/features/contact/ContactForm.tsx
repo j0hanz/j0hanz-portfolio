@@ -44,7 +44,10 @@ import { validateForm } from '@/utils/validation';
 import ContactFormFields from './ContactFormFields';
 
 // Style constants
-const SUCCESS_STACK_SX: SxProps<Theme> = { mt: 2, px: 2 };
+const SUCCESS_STACK_SX: SxProps<Theme> = {
+  mt: { xs: 1.5, md: 2 },
+  px: { xs: 1.5, md: 2 },
+};
 const SUCCESS_TEXT_SX: SxProps<Theme> = { fontWeight: 500 };
 const FORM_CARD_SX: SxProps<Theme> = { height: 'auto' };
 

@@ -20,7 +20,7 @@ const cardWrapperSx: SxProps<Theme> = {
 const contentWrapperSx: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
-  gap: 2,
+  gap: { xs: 1.5, md: 2 },
 };
 
 // Content slot for timeline card body

@@ -36,7 +36,7 @@ const TITLE_SX: SxProps<Theme> = {
 
 const SUBTITLE_SX: SxProps<Theme> = {
   color: 'text.secondary',
-  mt: 1,
+  mt: { xs: 0.75, md: 1 },
   textAlign: 'center',
 };
 

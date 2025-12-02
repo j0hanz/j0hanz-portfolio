@@ -2,12 +2,7 @@ import { alpha, SxProps, Theme } from '@mui/material';
 
 import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
 import { FONT_SIZE, SIZE, SPACING } from '@/config/responsive';
-import {
-  BUTTON_HEIGHT_LARGE,
-  BUTTON_MIN_WIDTH_HERO,
-  CLIP_ROUNDED,
-  LETTER_SPACING_NORMAL,
-} from '@/styles/shared';
+import { CLIP_ROUNDED, LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
@@ -84,7 +79,7 @@ export const overlaySx: SxProps<Theme> = {
   justifyContent: 'center',
   color: 'common.white',
   letterSpacing: LETTER_SPACING_NORMAL,
-  fontSize: '0.9rem',
+  fontSize: { xs: '0.8rem', sm: '0.9rem' },
   pointerEvents: 'none',
   textTransform: 'uppercase',
 };
@@ -102,11 +97,11 @@ export const subtitleSx: SxProps<Theme> = {
 };
 
 export const buttonsStackSx: SxProps<Theme> = {
-  mt: 2,
+  mt: { xs: 1.5, md: 2 },
 };
 
 export const downloadButtonSx: SxProps<Theme> = {
   // Responsive button dimensions
-  minWidth: { xs: 125, sm: BUTTON_MIN_WIDTH_HERO },
-  height: { xs: 40, sm: BUTTON_HEIGHT_LARGE },
+  minWidth: SIZING.buttonMinWidthHero,
+  height: SIZING.buttonHeightLarge,
 };
