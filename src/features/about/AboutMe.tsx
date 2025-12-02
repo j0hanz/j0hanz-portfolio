@@ -166,8 +166,8 @@ function CardItem({
         y: prefersReducedMotion || isMobile ? 0 : yTransform,
       }}
       sx={{
-        height: '100%',
-        width: '100%',
+        height: 1, // = 100%
+        width: 1, // = 100%
       }}
     >
       {children}

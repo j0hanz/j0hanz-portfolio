@@ -23,7 +23,7 @@ const containerSx: SxProps<Theme> = {
 const skeletonSx: SxProps<Theme> = {
   position: 'absolute',
   inset: 0,
-  borderRadius: '10px',
+  borderRadius: 2.5, // 2.5 * 4px = 10px
   bgcolor: 'action.hover',
 };
 
@@ -33,7 +33,7 @@ const imgStyle = {
   width: 'auto',
   height: 'auto',
   objectFit: 'contain',
-  borderRadius: '10px',
+  borderRadius: 10, // CSS pixels for inline style
   display: 'block',
 } as const;
 

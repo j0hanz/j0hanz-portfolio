@@ -11,7 +11,7 @@ const spinnerSx: SxProps<Theme> = {
   // Responsive spinner dimensions
   width: { xs: 80, sm: 100, md: 120 },
   height: { xs: 80, sm: 100, md: 120 },
-  borderRadius: '50%',
+  borderRadius: '50%', // Circle shape - not a theme multiplier
   borderWidth: { xs: 2, sm: 3 },
   borderStyle: 'solid',
   borderColor: (theme) => alpha(theme.palette.common.white, 0.2),
@@ -23,7 +23,7 @@ const spinnerSx: SxProps<Theme> = {
     content: '""',
     position: 'absolute',
     inset: { xs: 6, sm: 8, md: 10 },
-    borderRadius: '50%',
+    borderRadius: '50%', // Circle shape
     border: '2px solid',
     borderColor: (theme) => alpha(theme.palette.common.white, 0.15),
   },

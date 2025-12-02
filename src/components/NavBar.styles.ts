@@ -141,8 +141,8 @@ export const connectTextSx: SxProps<Theme> = {
 
 export const navBarContainerSx: SystemStyleObject<Theme> = {
   position: 'fixed',
-  top: 8,
-  right: 8,
+  top: (theme) => theme.spacing(1),
+  right: (theme) => theme.spacing(1),
   zIndex: (theme) => theme.zIndex.appBar,
   bgcolor: 'backdrop.glass',
   borderRadius: 2,

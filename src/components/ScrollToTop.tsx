@@ -12,9 +12,9 @@ import {
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',
-  bottom: 20,
-  right: 8,
-  zIndex: 100,
+  bottom: (theme) => theme.spacing(2.5),
+  right: (theme) => theme.spacing(1),
+  zIndex: 'tooltip',
 };
 
 const fabSx: SxProps<Theme> = {
@@ -24,15 +24,19 @@ const fabSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: 28,
+  fontSize: { xs: 24, sm: 28 },
 };
+
+// Progress ring wraps FAB (40px small size + 8px padding for stroke)
+const PROGRESS_RING_SIZE = 48;
+const PROGRESS_RING_OFFSET = -4;
 
 const progressRingSx: SxProps<Theme> = {
   position: 'absolute',
-  top: -4,
-  left: -4,
-  width: 48,
-  height: 48,
+  top: PROGRESS_RING_OFFSET,
+  left: PROGRESS_RING_OFFSET,
+  width: PROGRESS_RING_SIZE,
+  height: PROGRESS_RING_SIZE,
   pointerEvents: 'none',
   color: 'primary.main',
 };

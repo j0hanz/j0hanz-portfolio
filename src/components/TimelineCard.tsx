@@ -11,9 +11,9 @@ const metaWrapperSx: SxProps<Theme> = {
 };
 
 const cardWrapperSx: SxProps<Theme> = {
-  width: 1,
-  // Responsive maxWidth for better layout across breakpoints
-  maxWidth: { xs: '100%', sm: 450, md: 480, lg: 520 },
+  width: 1, // = 100%
+  // Responsive maxWidth: 1 = 100% at xs, fixed widths at larger breakpoints
+  maxWidth: { xs: 1, sm: 450, md: 480, lg: 520 },
   textAlign: 'left',
 };
 

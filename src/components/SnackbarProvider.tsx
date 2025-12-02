@@ -15,7 +15,7 @@ import { useEventCallback } from '@/hooks';
 
 // Styles extracted as constants for reusability
 const SNACKBAR_SX: SxProps<Theme> = { mt: { xs: 8, sm: 9 } };
-const ALERT_SX: SxProps<Theme> = { width: '100%', boxShadow: 3 };
+const ALERT_SX: SxProps<Theme> = { width: 1, boxShadow: 3 };
 
 interface SnackbarState {
   open: boolean;

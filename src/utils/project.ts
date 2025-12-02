@@ -4,6 +4,12 @@ import hackathonBadge from '@/assets/hackathonBadge.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
 import { BadgeConfig, Project, ProjectMeta } from '@/config/types';
 
+// Badge image dimensions (fixed for image assets)
+const BADGE_SIZE = {
+  hackathon: { width: 112, height: 112 },
+  gitpod: { width: 56, height: 56 },
+} as const;
+
 const hackathonBadgeBase = {
   alt: 'Hackathon Badge',
   style: {
@@ -13,8 +19,7 @@ const hackathonBadgeBase = {
     width: '7rem',
     filter: 'contrast(0.9)',
   },
-  width: 112,
-  height: 112,
+  ...BADGE_SIZE.hackathon,
 } as const;
 
 export const badgeConfig = [
@@ -49,8 +54,7 @@ export const badgeConfig = [
       width: '3.5rem',
       filter: 'contrast(0.9)',
     },
-    width: 56,
-    height: 56,
+    ...BADGE_SIZE.gitpod,
   },
 ] satisfies BadgeConfig[];
 

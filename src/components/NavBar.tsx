@@ -238,7 +238,7 @@ function OffcanvasMenu({
         component={motion.div}
         initial="closed"
         animate={showOffcanvas ? 'open' : 'closed'}
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        sx={{ height: 1, display: 'flex', flexDirection: 'column' }}
       >
         <Stack
           direction="row"

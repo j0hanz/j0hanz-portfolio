@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { SIZE } from '@/config/responsive';
+import { FONT_SIZE, SIZE } from '@/config/responsive';
 import type { BadgeItemProps, BadgesProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
@@ -17,6 +17,13 @@ import { TRANSITION_STANDARD } from '@/styles/shared';
 
 const wrapperSx: SxProps<Theme> = {
   width: 'auto',
+};
+
+const skeletonSx: SxProps<Theme> = {
+  position: 'absolute',
+  inset: 0,
+  width: 1,
+  height: 1,
 };
 
 const imgSx: SxProps<Theme> = {
@@ -34,14 +41,14 @@ const textSx: SxProps<Theme> = {
   opacity: 0.9,
   textDecoration: 'none',
   textTransform: 'uppercase',
-  // Responsive font size for badge date text
-  fontSize: { xs: '0.65rem', sm: '0.7rem' },
+  fontSize: FONT_SIZE.xs,
   mt: { xs: 0.75, sm: 1 },
 };
 
 const stackSx: SxProps<Theme> = {
   textAlign: 'center',
-  pt: { xs: '2rem', md: '3rem' },
+  // Spacing units: 4*8=32px, 6*8=48px
+  pt: { xs: 4, md: 6 },
   gap: { xs: 1.5, sm: 2, md: 3 },
   flexWrap: 'wrap',
 };
@@ -62,16 +69,7 @@ function BadgeItem({ href, imgSrc, date }: BadgeItemProps): React.JSX.Element {
           }}
         >
           {!isLoaded && (
-            <Skeleton
-              variant="rectangular"
-              animation="wave"
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-              }}
-            />
+            <Skeleton variant="rectangular" animation="wave" sx={skeletonSx} />
           )}
           <Box
             component={motion.img}

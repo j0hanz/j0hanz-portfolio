@@ -32,7 +32,7 @@ function LoadingView() {
       {...LOADER_MOTION}
       sx={loaderContainerSx}
     >
-      <Spinner sx={{ height: '100%' }} />
+      <Spinner sx={{ height: 1 }} />
     </Box>
   );
 }

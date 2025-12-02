@@ -15,8 +15,8 @@ import {
 
 const linkBoxSx: SxProps<Theme> = {
   display: 'block',
-  width: '100%',
-  height: '100%',
+  width: 1, // = 100%
+  height: 1, // = 100%
   position: 'relative',
   overflow: 'hidden',
   '&:hover .credential-image': {
@@ -32,8 +32,8 @@ const linkBoxSx: SxProps<Theme> = {
 const imageWrapperSx: SxProps<Theme> = {
   position: 'relative',
   display: 'inline-block',
-  width: '100%',
-  height: '100%',
+  width: 1, // = 100%
+  height: 1, // = 100%
   transition: TRANSITION_STANDARD,
 };
 
@@ -41,7 +41,7 @@ const hoverTextSx: SxProps<Theme> = {
   position: 'absolute',
   top: '45%',
   left: '50%',
-  width: '100%',
+  width: 1, // = 100%
   transform: 'translate(-50%, -50%)',
   color: 'common.white',
   fontSize: SIZE.credentialText,

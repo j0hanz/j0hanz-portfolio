@@ -8,7 +8,7 @@ import { filterMotionConflicts } from '@/utils/motionProps';
 
 const StyledButton = styled(MuiButton)({
   textTransform: 'uppercase',
-  maxWidth: '100%',
+  maxWidth: '100%', // Keep as string for styled() CSS-in-JS
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',

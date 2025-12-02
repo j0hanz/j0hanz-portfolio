@@ -43,7 +43,7 @@ class ErrorBoundary extends Component<
       return (
         <Box sx={centeredFullViewportSx}>
           <Stack spacing={3} alignItems="center" maxWidth="sm">
-            <Alert severity="error" sx={{ width: '100%' }}>
+            <Alert severity="error" sx={{ width: 1 }}>
               <Typography variant="h6" gutterBottom>
                 Something went wrong
               </Typography>

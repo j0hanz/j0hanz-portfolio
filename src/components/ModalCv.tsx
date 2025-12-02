@@ -13,13 +13,16 @@ import {
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
+import { SIZE } from '@/config/responsive';
 import { ModalCvProps } from '@/config/types';
 import { useSnackbar } from '@/hooks';
 import { TRANSITION_STANDARD } from '@/styles/shared';
 
+// Flag icon sizes - large for visibility
+const FLAG_ICON_SIZE = { xs: '2.8rem', sm: '3.5rem' } as const;
+
 const flagIconStyles: SxProps<Theme> = {
-  // Responsive flag icon size
-  fontSize: { xs: '2.8rem', sm: '3.5rem' },
+  fontSize: FLAG_ICON_SIZE,
   cursor: 'pointer',
   opacity: 0.7,
   transition: TRANSITION_STANDARD,
@@ -34,20 +37,22 @@ const flagIconStyles: SxProps<Theme> = {
 
 const contentSx: SxProps<Theme> = {
   bgcolor: 'backdrop.glass',
-  borderRadius: '10px',
+  borderRadius: 2.5, // 2.5 * 4px = 10px
   p: 3,
   color: 'text.primary',
   overflow: 'hidden',
 };
 
+// Header font sizes for dialog title
+const HEADER_FONT_SIZE = { xs: '1.2rem', sm: '1.4rem' } as const;
+
 const headerStackSx: SxProps<Theme> = {
   mb: 4,
-  fontSize: { xs: '1.2rem', sm: '1.4rem' },
+  fontSize: HEADER_FONT_SIZE,
 };
 
 const iconSx: SxProps<Theme> = {
-  // Responsive icon size
-  fontSize: { xs: '1rem', sm: '1.2rem' },
+  fontSize: SIZE.iconXs,
   mr: 0.5,
 };
 

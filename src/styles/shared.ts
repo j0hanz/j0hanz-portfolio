@@ -27,11 +27,13 @@ export const SIZING = {
   /** Responsive large button height (WCAG touch target) */
   buttonHeightLarge: { xs: 40, sm: 44 },
   /** Badge dimensions (static - small decorative elements) */
-  badgeMinWidth: 45,
-  badgeHeight: 21,
+  badgeMinWidth: { xs: 40, sm: 45 },
+  badgeHeight: { xs: 18, sm: 21 },
+  /** Action button minimum width for project cards */
+  actionButtonMinWidth: { xs: 90, sm: 104 },
 } as const;
 
-// Convenience exports for badge sizing (static - small decorative elements)
+// Convenience exports for badge sizing (responsive)
 export const BADGE_MIN_WIDTH = SIZING.badgeMinWidth;
 export const BADGE_HEIGHT = SIZING.badgeHeight;
 
@@ -141,7 +143,7 @@ export const descriptionTextSx: SxProps<Theme> = {
 export const listContainerSx: SxProps<Theme> = {
   pl: 2.5,
   m: 0,
-  lineHeight: 1.8,
+  lineHeight: { xs: 1.6, md: 1.8 }, // Responsive line height
   color: 'text.secondary',
 };
 

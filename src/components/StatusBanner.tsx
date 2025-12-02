@@ -2,6 +2,7 @@ import type { JSX } from 'react';
 
 import { Alert, Box, Collapse } from '@mui/material';
 
+import { FONT_SIZE } from '@/config/responsive';
 import type { StatusBannerProps } from '@/config/types';
 import { LETTER_SPACING_TIGHT } from '@/styles/shared';
 
@@ -23,7 +24,7 @@ export default function StatusBanner({
             sx={{
               borderRadius: 0,
               textAlign: 'center',
-              fontSize: { xs: '0.8rem', sm: '0.85rem' },
+              fontSize: FONT_SIZE.small,
               letterSpacing: LETTER_SPACING_TIGHT,
               py: { xs: 0.75, sm: 1 },
             }}

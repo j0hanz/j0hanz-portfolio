@@ -46,8 +46,8 @@ import {
 
 const PAGE_TRANSITION_SX = {
   position: 'absolute',
-  width: '100%',
-  height: '100%',
+  width: 1, // = 100%
+  height: 1, // = 100%
   top: 0,
   left: 0,
   overflowY: 'auto',

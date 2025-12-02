@@ -18,7 +18,7 @@ import { SxProps } from '@mui/system';
 import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
 import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
-import { SPACING } from '@/config/responsive';
+import { FONT_SIZE, SIZE, SPACING } from '@/config/responsive';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
 import { SIZING, SKEW_TRANSFORM, TRANSITION_STANDARD } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
@@ -28,7 +28,7 @@ const footerSx: SxProps<Theme> = {
   py: { xs: 1.5, md: 2 },
   pb: { xs: 0.25, sm: 2 },
   color: 'primary.contrastText',
-  height: '100%',
+  height: 1, // = 100%
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -36,8 +36,7 @@ const footerSx: SxProps<Theme> = {
 
 const contactLabelSx: SxProps<Theme> = {
   pb: { xs: 2, sm: 3 },
-  // Responsive font size for better mobile readability
-  fontSize: { xs: '1rem', sm: '1.1rem' },
+  fontSize: SIZE.iconXs,
   color: 'inherit',
   opacity: 0.8,
 };
@@ -74,15 +73,14 @@ const copyrightIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
   fontSize: SIZING.iconSmall,
-  mr: { xs: '8px', sm: '10px' },
+  mr: { xs: 1, sm: 1.25 },
   transition: TRANSITION_STANDARD,
 };
 
 const copyrightTextSx: SxProps<Theme> = {
   transform: SKEW_TRANSFORM,
   textTransform: 'uppercase',
-  // Responsive copyright text size
-  fontSize: { xs: '0.75rem', sm: '0.8rem' },
+  fontSize: FONT_SIZE.small,
   color: 'inherit',
   opacity: 0.8,
 };
@@ -161,7 +159,7 @@ function Footer(): React.JSX.Element {
                 container
                 sx={{
                   justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                  fontSize: { xs: '0.85rem', sm: '0.9rem' },
+                  fontSize: FONT_SIZE.body,
                 }}
               >
                 <SocialLinkList

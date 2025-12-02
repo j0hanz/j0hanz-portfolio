@@ -7,23 +7,27 @@ import { SxProps } from '@mui/system';
 import { motion } from 'motion/react';
 
 import { modalVariants } from '@/config/motion';
+import { SIZE } from '@/config/responsive';
 import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 
 const MotionDialogContent = motion.create(DialogContent);
+
+// Asymmetric border radius for modal close button design
+const CLOSE_BUTTON_BORDER_RADIUS = '0 10rem 0 50rem';
 
 const closeButtonSx: SxProps<Theme> = {
   position: 'absolute',
   top: 0,
   right: 0,
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
-  borderRadius: '0 10rem 0 50rem',
+  borderRadius: CLOSE_BUTTON_BORDER_RADIUS,
   // Responsive sizing: larger touch target on mobile (WCAG 2.1 AA)
   height: { xs: 44, sm: 38 },
   width: { xs: 44, sm: 38 },
   pl: { xs: 1.25, sm: 1 },
   pb: { xs: 1.25, sm: 1 },
-  zIndex: 10,
+  zIndex: 'modal', // Use theme z-index
   color: 'common.white',
   opacity: 0.7,
   '&:hover': {
@@ -112,7 +116,7 @@ function BaseModal({
           aria-label="Close modal"
           sx={closeButtonSx}
         >
-          <Close sx={{ fontSize: { xs: '1.1rem', sm: '1.2rem' } }} />
+          <Close sx={{ fontSize: SIZE.iconXs }} />
         </IconButton>
         {children}
       </MotionDialogContent>

@@ -7,7 +7,7 @@ import { CLIP_ROUNDED, LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
   fontSize: FONT_SIZE.heroTitle,
-  letterSpacing: '2px',
+  letterSpacing: '0.125em', // Use relative units for scaling
   fontWeight: 500,
   lineHeight: 1,
   justifyContent: 'flex-start',
@@ -19,7 +19,7 @@ export const cursorStyle: React.CSSProperties = {
   width: '2px',
   height: '1.1em',
   backgroundColor: 'currentColor',
-  marginLeft: '0.35rem',
+  marginLeft: '0.1875em', // Relative to font size (~3px at 16px)
   willChange: 'opacity',
 } as const;
 
@@ -36,7 +36,7 @@ export const sectionSx: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '100%',
+  height: 1, // = 100%
   pt: 0,
 };
 
@@ -79,7 +79,7 @@ export const overlaySx: SxProps<Theme> = {
   justifyContent: 'center',
   color: 'common.white',
   letterSpacing: LETTER_SPACING_NORMAL,
-  fontSize: { xs: '0.8rem', sm: '0.9rem' },
+  fontSize: FONT_SIZE.small,
   pointerEvents: 'none',
   textTransform: 'uppercase',
 };

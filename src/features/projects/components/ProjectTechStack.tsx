@@ -1,5 +1,6 @@
 import { Box, Chip, type SxProps, type Theme } from '@mui/material';
 
+import { FONT_SIZE } from '@/config/responsive';
 import { ProjectTechStackProps } from '@/config/types';
 import { SKEW_TRANSFORM } from '@/styles/shared';
 
@@ -12,7 +13,7 @@ const chipSx: SxProps<Theme> = {
   mr: { xs: 0.75, sm: 1 },
   mb: { xs: 0.75, sm: 1 },
   color: 'text.primary',
-  fontSize: { xs: '0.65rem', sm: '0.7rem' },
+  fontSize: FONT_SIZE.xs,
   opacity: 0.85,
   transform: SKEW_TRANSFORM,
   '& .MuiChip-label': {

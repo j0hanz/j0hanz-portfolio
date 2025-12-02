@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
+import { SIZE } from '@/config/responsive';
 import {
   STAT_CONFIG,
   STAT_KEYS,
@@ -62,9 +63,7 @@ function AnimatedStat({
 
   return (
     <Stack direction="row" alignItems="center" spacing={1.5}>
-      <Icon
-        sx={{ color: 'text.secondary', fontSize: { xs: '1rem', sm: '1.1rem' } }}
-      />
+      <Icon sx={{ color: 'text.secondary', fontSize: SIZE.iconXs }} />
       <Typography variant="body2" sx={labelSx}>
         {label}
       </Typography>

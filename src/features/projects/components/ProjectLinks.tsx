@@ -14,7 +14,7 @@ import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
 const actionButtonSx = {
-  minWidth: { xs: 90, sm: 104 },
+  minWidth: SIZING.actionButtonMinWidth,
   height: SIZING.buttonHeightStandard,
 } as const;
 
