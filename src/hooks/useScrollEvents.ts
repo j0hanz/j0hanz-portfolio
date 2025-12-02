@@ -74,52 +74,42 @@ export function useScrollEvents({
   });
 
   const handleTouchStart = useEventCallback((e: TouchEvent) => {
+    // Don't interfere with ongoing scroll animation
+    if (isScrolling.current) return;
+
     touchStartY.current = e.touches[0].clientY;
     touchStartTime.current = Date.now();
     isTouchActive.current = true;
   });
 
-  const handleTouchMove = useEventCallback((e: TouchEvent) => {
-    if (!isTouchActive.current || isScrolling.current) return;
-
-    const currentY = e.touches[0].clientY;
-    const deltaY = touchStartY.current - currentY;
-    const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
-
-    // Only prevent default and navigate if at scroll boundary
-    // This allows normal scrolling within the section content
-    if (
-      Math.abs(deltaY) > SCROLL_CONFIG.TOUCH_THRESHOLD_PX &&
-      isAtScrollBoundary(direction)
-    ) {
-      if (onNavigate(direction)) {
-        e.preventDefault();
-        isTouchActive.current = false;
-      }
-    }
+  const handleTouchMove = useEventCallback((_e: TouchEvent) => {
+    // Track touch movement but don't prevent default here
+    // This allows natural scrolling within sections
+    if (!isTouchActive.current) return;
   });
 
   const handleTouchEnd = useEventCallback((e: TouchEvent) => {
-    if (!isTouchActive.current || isScrolling.current) {
-      isTouchActive.current = false;
-      return;
-    }
+    if (!isTouchActive.current) return;
 
     const deltaY = touchStartY.current - e.changedTouches[0].clientY;
     const elapsed = Date.now() - touchStartTime.current;
 
-    // Reset touch state
+    // Reset touch state first
     isTouchActive.current = false;
 
-    // Skip if gesture was too small or took too long (not a swipe)
-    if (Math.abs(deltaY) <= SCROLL_CONFIG.TOUCH_THRESHOLD_PX || elapsed > 500)
-      return;
+    // Don't navigate if already scrolling
+    if (isScrolling.current) return;
+
+    // More forgiving swipe detection: 40px minimum, 600ms maximum
+    if (Math.abs(deltaY) < 40 || elapsed > 600) return;
 
     const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
 
-    // Only navigate if at scroll boundary
-    if (isAtScrollBoundary(direction) && onNavigate(direction)) {
-      e.preventDefault();
+    // Check boundary and navigate
+    if (isAtScrollBoundary(direction)) {
+      if (onNavigate(direction)) {
+        e.preventDefault();
+      }
     }
   });
 
@@ -127,14 +117,18 @@ export function useScrollEvents({
     if (shouldDisable) return;
 
     const passiveOption = { passive: false };
+    const passiveTouchOption = { passive: true };
 
     if (!disableNonTouchInputs) {
       window.addEventListener('wheel', handleWheel, passiveOption);
       window.addEventListener('keydown', handleKeyDown);
     }
 
-    window.addEventListener('touchstart', handleTouchStart, passiveOption);
-    window.addEventListener('touchmove', handleTouchMove, passiveOption);
+    // touchstart can be passive (we don't preventDefault there)
+    window.addEventListener('touchstart', handleTouchStart, passiveTouchOption);
+    // touchmove can be passive (we simplified it to only track position)
+    window.addEventListener('touchmove', handleTouchMove, passiveTouchOption);
+    // touchend needs non-passive for preventDefault
     window.addEventListener('touchend', handleTouchEnd, passiveOption);
 
     return () => {

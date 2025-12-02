@@ -408,6 +408,18 @@ export const staggerItemVariant: Variants = {
   exit: { opacity: 0, y: -14, scale: 0.94, filter: 'blur(2px)' },
 };
 
+// Mobile-optimized variant without blur filters for better performance
+export const staggerItemVariantMobile: Variants = {
+  initial: { opacity: 0, y: 28, scale: 0.96 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: 'spring' as const, stiffness: 280, damping: 24 },
+  },
+  exit: { opacity: 0, y: -14, scale: 0.94 },
+};
+
 // Enhanced stagger with rotation
 export const staggerItemRotateVariant: Variants = {
   initial: { opacity: 0, y: 32, scale: 0.94, rotate: -3 },
@@ -517,6 +529,21 @@ export const cardEntranceVariants = {
     y: 0,
     scale: 1,
     filter: 'blur(0px)',
+    transition: {
+      delay: i * 0.18,
+      duration: 0.65,
+      ease: EASE_OUT_EXPO,
+    },
+  }),
+};
+
+// Mobile-optimized card entrance without blur for better performance
+export const cardEntranceVariantsMobile = {
+  hidden: { opacity: 0, y: 44, scale: 0.96 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
     transition: {
       delay: i * 0.18,
       duration: 0.65,

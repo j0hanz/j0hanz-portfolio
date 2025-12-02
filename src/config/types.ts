@@ -872,8 +872,8 @@ export interface ScrollBoundaries {
 
 export interface UseScrollEventsProps {
   onNavigate: (direction: ScrollDirection) => boolean;
-  shouldDisable: boolean;
-  disableNonTouchInputs?: boolean;
+  shouldDisable: boolean; // Disables ALL event listeners (touch, wheel, keyboard)
+  disableNonTouchInputs?: boolean; // Only disables wheel and keyboard, keeps touch active
   isScrolling: React.MutableRefObject<boolean>;
 }
 

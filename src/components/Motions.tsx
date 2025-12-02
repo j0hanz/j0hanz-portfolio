@@ -20,6 +20,7 @@ import {
   sectionVariants,
   staggerContainerVariants,
   staggerItemSimpleVariants,
+  staggerItemVariantMobile,
   svgPathVariants,
   variantMap,
   viewportConfig,
@@ -32,7 +33,12 @@ import type {
   StaggerContainerProps,
   StaggerItemProps,
 } from '@/config/types';
-import { useAnimationConfig, useInView, useNavigationState } from '@/hooks';
+import {
+  useAnimationConfig,
+  useInView,
+  useMobileBreakpoint,
+  useNavigationState,
+} from '@/hooks';
 
 // ============================================================================
 // SHARED STYLES
@@ -235,6 +241,7 @@ export function StaggerItem({
   sx,
 }: StaggerItemProps) {
   const { prefersReducedMotion } = useAnimationConfig();
+  const isMobile = useMobileBreakpoint('md');
 
   if (prefersReducedMotion) {
     return (
@@ -244,13 +251,18 @@ export function StaggerItem({
     );
   }
 
+  // Use mobile-optimized variant without blur filter on mobile devices
+  const variants = isMobile
+    ? staggerItemVariantMobile
+    : staggerItemSimpleVariants;
+
   return (
     <Box
       component={motion.div}
       className={className}
       style={style}
       sx={sx}
-      variants={staggerItemSimpleVariants}
+      variants={variants}
     >
       {children}
     </Box>

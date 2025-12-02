@@ -44,9 +44,14 @@ export function useFullPageScroll(): void {
   const shouldDisable = Boolean(prefersReducedMotion || !isScrollLocked);
 
   // Wheel/keyboard navigation can be noisy on touch devices; keep gestures active.
+  // Only disable non-touch inputs on mobile, never disable touch events
   const disableNonTouchInputs = Boolean(
     shouldDisable || isTouchPrimaryBreakpoint
   );
+
+  // Touch events should work on mobile even when non-touch inputs are disabled
+  // Only disable touch when reduced motion is preferred or scroll is unlocked
+  const disableTouchInputs = shouldDisable;
 
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
     if (isScrolling.current || isPending) return false;
@@ -72,7 +77,7 @@ export function useFullPageScroll(): void {
 
   useScrollEvents({
     onNavigate,
-    shouldDisable,
+    shouldDisable: disableTouchInputs,
     disableNonTouchInputs,
     isScrolling,
   });

@@ -22,6 +22,7 @@ import { TextReveal } from '@/components/TextReveal';
 import {
   CARD_HOVER_LIFT,
   cardEntranceVariants,
+  cardEntranceVariantsMobile,
   listItemStaggerVariants,
   viewportPresets,
 } from '@/config/motion';
@@ -40,6 +41,7 @@ import Credential from '@/features/experience/Credential';
 import {
   useAnimationConfig,
   useInView,
+  useMobileBreakpoint,
   useMotionVariant,
   useToggle,
 } from '@/hooks';
@@ -150,7 +152,10 @@ function CardItem({
   children,
 }: CardItemProps): React.JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
-  const cardMotion = useMotionVariant(cardEntranceVariants, {
+  const isMobile = useMobileBreakpoint('md');
+  // Use mobile-optimized variant without blur on mobile devices
+  const variants = isMobile ? cardEntranceVariantsMobile : cardEntranceVariants;
+  const cardMotion = useMotionVariant(variants, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
     whileHover: CARD_HOVER_LIFT,
@@ -162,7 +167,8 @@ function CardItem({
       custom={index}
       {...cardMotion}
       style={{
-        y: prefersReducedMotion ? 0 : yTransform,
+        // Disable parallax transforms on mobile to prevent scroll conflicts
+        y: prefersReducedMotion || isMobile ? 0 : yTransform,
       }}
       sx={{
         height: '100%',

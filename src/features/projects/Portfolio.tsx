@@ -21,11 +21,12 @@ function Portfolio(): React.JSX.Element {
     'masonry'
   );
   const useGridLayout = layoutMode === 'grid';
-  // Use animate instead of whileInView for full-page scroll sections
-  // whileInView can fail to trigger on mobile due to viewport detection issues
+  // Use animate with proper viewport config for full-page scroll sections
+  // Using once:false ensures animations replay when section remounts on navigation
   const motionProps = useMotionVariant(createStaggerContainer(0.1, 0.15), {
     initial: 'initial',
-    animate: 'animate',
+    whileInView: 'animate',
+    viewport: { once: false, amount: 0.1 },
   });
 
   return (

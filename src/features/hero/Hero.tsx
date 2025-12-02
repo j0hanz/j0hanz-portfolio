@@ -25,6 +25,7 @@ import {
   useCvModalActions,
   useHover,
   useImageLoading,
+  useMobileBreakpoint,
   useModal,
   useMotionVariant,
 } from '@/hooks';
@@ -88,6 +89,7 @@ function Hero() {
 
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
+  const isMobile = useMobileBreakpoint('md');
   const profileMotion = useMotionVariant(fadeVariants.up);
   const subtitleMotion = useMotionVariant(subtitleClipPath, {
     initial: 'initial',
@@ -186,18 +188,25 @@ function Hero() {
                   >
                     {HERO_ACTIONS.map((action) => {
                       const isDownload = action.key === 'download-cv';
-                      return (
+                      const button = (
+                        <Button
+                          variant="contained"
+                          {...action.buttonProps}
+                          onClick={isDownload ? openCvModal : undefined}
+                        >
+                          {action.label}
+                        </Button>
+                      );
+
+                      // Only wrap with MagneticWrapper on desktop
+                      return isMobile ? (
+                        <Box key={action.key}>{button}</Box>
+                      ) : (
                         <MagneticWrapper
                           key={action.key}
                           disabled={disableMagnetic}
                         >
-                          <Button
-                            variant="contained"
-                            {...action.buttonProps}
-                            onClick={isDownload ? openCvModal : undefined}
-                          >
-                            {action.label}
-                          </Button>
+                          {button}
                         </MagneticWrapper>
                       );
                     })}

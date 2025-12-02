@@ -684,6 +684,7 @@ export function useSectionSequence(
   const { offset = ['start 0.85', 'end 0.2'], threshold = 0.2 } = options;
   const { prefersReducedMotion, getStagger } = useAnimationConfig();
   const hasPlayed = useRef(false);
+  const animationTimeoutRef = useRef<number | null>(null);
   const sequencePlan = buildSectionSequencePlan(selectors, getStagger);
 
   const { scrollYProgress } = useScroll({ target: ref, offset });
@@ -692,6 +693,11 @@ export function useSectionSequence(
   // (e.g., when navigating away and back in full-page scroll sections)
   useEffect(() => {
     hasPlayed.current = false;
+    return () => {
+      if (animationTimeoutRef.current !== null) {
+        window.clearTimeout(animationTimeoutRef.current);
+      }
+    };
   }, []);
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
@@ -707,7 +713,15 @@ export function useSectionSequence(
     hasPlayed.current = true;
     const scopeElement = ref.current;
 
-    runSectionSequence(scopeElement, sequencePlan);
+    // Debounce animation trigger on mobile to prevent rapid firing during touch scroll
+    if (animationTimeoutRef.current !== null) {
+      window.clearTimeout(animationTimeoutRef.current);
+    }
+
+    animationTimeoutRef.current = window.setTimeout(() => {
+      runSectionSequence(scopeElement, sequencePlan);
+      animationTimeoutRef.current = null;
+    }, 16); // Single frame delay for touch scroll smoothing
   });
 }
 
