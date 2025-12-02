@@ -25,6 +25,24 @@ export const SIZING = {
   badgeHeight: 21,
 } as const;
 
+// Responsive sizing variants for sx prop usage
+export const SIZING_RESPONSIVE = {
+  /** Responsive icon size */
+  icon: { xs: '0.9rem', sm: '1rem' },
+  /** Responsive small icon size */
+  iconSmall: { xs: '0.8rem', sm: '0.9rem' },
+  /** Responsive button minimum width */
+  buttonMinWidth: { xs: 100, sm: 120 },
+  /** Responsive wide button minimum width */
+  buttonMinWidthWide: { xs: 120, sm: 140 },
+  /** Responsive hero button minimum width */
+  buttonMinWidthHero: { xs: 125, sm: 140 },
+  /** Responsive standard button height */
+  buttonHeightStandard: { xs: 28, sm: 30 },
+  /** Responsive large button height (touch target) */
+  buttonHeightLarge: { xs: 40, sm: 44 },
+} as const;
+
 // Direct destructured exports for cleaner imports
 export const {
   icon: ICON_SIZE,
@@ -150,6 +168,24 @@ export const textEllipsisSx: SxProps<Theme> = {
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   minWidth: 0,
+};
+
+/** Multi-line text clamp - limits text to specified number of lines */
+export const textClampSx = (lines: number): SxProps<Theme> => ({
+  overflow: 'hidden',
+  display: '-webkit-box',
+  WebkitLineClamp: lines,
+  WebkitBoxOrient: 'vertical',
+});
+
+/** Responsive line height for improved mobile readability */
+export const responsiveLineHeightSx: SxProps<Theme> = {
+  lineHeight: { xs: 1.6, md: 1.75 },
+};
+
+/** Responsive letter spacing for headings */
+export const headingLetterSpacingSx: SxProps<Theme> = {
+  letterSpacing: { xs: '-0.02em', md: '-0.015em' },
 };
 
 // ============================================================================

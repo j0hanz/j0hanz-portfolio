@@ -40,8 +40,9 @@ const footerSx: SxProps<Theme> = {
 };
 
 const contactLabelSx: SxProps<Theme> = {
-  pb: 3,
-  fontSize: '1.1rem',
+  pb: { xs: 2, sm: 3 },
+  // Responsive font size for better mobile readability
+  fontSize: { xs: '1rem', sm: '1.1rem' },
   color: 'inherit',
   opacity: 0.8,
 };
@@ -85,7 +86,8 @@ const copyrightIconSx: SxProps<Theme> = {
 const copyrightTextSx: SxProps<Theme> = {
   transform: SKEW_TRANSFORM,
   textTransform: 'uppercase',
-  fontSize: '0.8rem',
+  // Responsive copyright text size
+  fontSize: { xs: '0.75rem', sm: '0.8rem' },
   color: 'inherit',
   opacity: 0.8,
 };

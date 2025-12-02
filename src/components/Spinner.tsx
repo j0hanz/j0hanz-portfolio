@@ -8,10 +8,11 @@ const stackSx: SxProps<Theme> = {
 };
 
 const spinnerSx: SxProps<Theme> = {
-  width: 120,
-  height: 120,
+  // Responsive spinner dimensions
+  width: { xs: 80, sm: 100, md: 120 },
+  height: { xs: 80, sm: 100, md: 120 },
   borderRadius: '50%',
-  borderWidth: 3,
+  borderWidth: { xs: 2, sm: 3 },
   borderStyle: 'solid',
   borderColor: (theme) => alpha(theme.palette.common.white, 0.2),
   borderTopColor: 'primary.main',
@@ -21,7 +22,7 @@ const spinnerSx: SxProps<Theme> = {
   '&::after': {
     content: '""',
     position: 'absolute',
-    inset: 10,
+    inset: { xs: 6, sm: 8, md: 10 },
     borderRadius: '50%',
     border: '2px solid',
     borderColor: (theme) => alpha(theme.palette.common.white, 0.15),

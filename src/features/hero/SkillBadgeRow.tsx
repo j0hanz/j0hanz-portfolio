@@ -13,9 +13,10 @@ const containerSx: SxProps<Theme> = {
 
 const labelSx: SxProps<Theme> = {
   color: 'text.secondary',
-  letterSpacing: 2,
-  mb: 1.5,
-  fontSize: '0.65rem',
+  letterSpacing: { xs: 1.5, sm: 2 },
+  mb: { xs: 1, sm: 1.5 },
+  // Responsive font size for better mobile readability
+  fontSize: { xs: '0.6rem', sm: '0.65rem' },
 };
 
 const stackSx: SxProps<Theme> = {

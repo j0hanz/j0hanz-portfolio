@@ -34,8 +34,9 @@ const textSx: SxProps<Theme> = {
   opacity: 0.9,
   textDecoration: 'none',
   textTransform: 'uppercase',
-  fontSize: '0.7rem',
-  mt: 1,
+  // Responsive font size for badge date text
+  fontSize: { xs: '0.65rem', sm: '0.7rem' },
+  mt: { xs: 0.75, sm: 1 },
 };
 
 const stackSx: SxProps<Theme> = {

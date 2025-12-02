@@ -167,6 +167,8 @@ export {
   CONTAINER_WIDTH,
   FONT_SIZE,
   SIZE,
+  DISPLAY,
+  TYPOGRAPHY,
   // Breakpoint values
   BREAKPOINT_KEYS,
   BREAKPOINT_VALUES,

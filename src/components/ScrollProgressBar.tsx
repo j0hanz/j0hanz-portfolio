@@ -19,7 +19,8 @@ export function ScrollProgressBar() {
         top: 0,
         left: 0,
         right: 0,
-        height: '3px',
+        // Slightly thicker on mobile for better visibility
+        height: { xs: '4px', sm: '3px' },
         backgroundColor: 'primary.main',
         zIndex: (theme) => theme.zIndex.appBar + 1,
         willChange: 'transform',

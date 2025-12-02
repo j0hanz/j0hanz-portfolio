@@ -18,7 +18,8 @@ import { useSnackbar } from '@/hooks';
 import { TRANSITION_STANDARD } from '@/styles/shared';
 
 const flagIconStyles: SxProps<Theme> = {
-  fontSize: '3.5rem',
+  // Responsive flag icon size
+  fontSize: { xs: '2.8rem', sm: '3.5rem' },
   cursor: 'pointer',
   opacity: 0.7,
   transition: TRANSITION_STANDARD,
@@ -45,7 +46,8 @@ const headerStackSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: '1.2rem',
+  // Responsive icon size
+  fontSize: { xs: '1rem', sm: '1.2rem' },
   mr: 0.5,
 };
 
@@ -55,8 +57,8 @@ const textSx: SxProps<Theme> = {
 };
 
 const flagsStackSx: SxProps<Theme> = {
-  mt: 4,
-  px: 4,
+  mt: { xs: 3, sm: 4 },
+  px: { xs: 2, sm: 4 },
 };
 
 const flagButtonBaseSx: SxProps<Theme> = {

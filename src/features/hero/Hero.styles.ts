@@ -106,6 +106,7 @@ export const buttonsStackSx: SxProps<Theme> = {
 };
 
 export const downloadButtonSx: SxProps<Theme> = {
-  minWidth: BUTTON_MIN_WIDTH_HERO,
-  height: BUTTON_HEIGHT_LARGE,
+  // Responsive button dimensions
+  minWidth: { xs: 125, sm: BUTTON_MIN_WIDTH_HERO },
+  height: { xs: 40, sm: BUTTON_HEIGHT_LARGE },
 };

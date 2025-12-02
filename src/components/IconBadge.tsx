@@ -9,19 +9,22 @@ const containerSx: SxProps<Theme> = {
   display: 'inline-flex',
   alignItems: 'center',
   color: 'text.primary',
-  mr: '2rem',
+  // Responsive margin for better mobile spacing
+  mr: { xs: '1rem', sm: '1.5rem', md: '2rem' },
   transform: SKEW_TRANSFORM,
-  gap: 0.75,
+  gap: { xs: 0.5, sm: 0.75 },
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: 17,
+  // Responsive icon size
+  fontSize: { xs: 15, sm: 17 },
 };
 
 const textSx: SxProps<Theme> = {
   color: 'text.primary',
   textTransform: 'uppercase',
-  fontSize: '0.9rem',
+  // Responsive text size for better mobile readability
+  fontSize: { xs: '0.8rem', sm: '0.9rem' },
 };
 
 function IconBadge({ icon: Icon, text }: IconBadgeProps): JSX.Element {

@@ -104,12 +104,20 @@ export const CONTAINER_WIDTH = {
 export const FONT_SIZE = {
   /** Hero name - fluid scaling */
   heroTitle: 'clamp(2.5rem, 5vw, 3.2rem)',
-  /** Section headings */
+  /** Section headings - fluid */
   sectionTitle: { xs: '1.75rem', md: '2.125rem' },
-  /** Subtitles */
+  /** Subtitles - fluid */
   subtitle: { xs: '1.2rem', sm: '1.3rem' },
   /** Body text */
   body: { xs: '0.95rem', md: '1rem' },
+  /** Small text (captions, labels) */
+  small: { xs: '0.75rem', sm: '0.8rem' },
+  /** Extra small (badges, chips) */
+  xs: { xs: '0.65rem', sm: '0.7rem' },
+  /** Fluid hero subtitle using clamp */
+  heroSubtitle: 'clamp(1rem, 2.5vw, 1.3rem)',
+  /** Fluid section subtitle */
+  sectionSubtitle: 'clamp(0.9rem, 1.5vw, 1.1rem)',
 } as const;
 
 // ============================================================================
@@ -127,6 +135,98 @@ export const SIZE = {
   badge: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
   /** Credential hover text */
   credentialText: { xs: '1.7rem', sm: '2.5rem' },
+  /** Minimum touch target (WCAG 2.1 AA: 44x44px) */
+  touchTarget: 44,
+  /** Avatar sizes */
+  avatar: { xs: 32, sm: 40, md: 48 },
+  /** Large avatar (profile) */
+  avatarLg: { xs: 56, sm: 72, md: 96 },
+  /** Icon button sizes - ensures WCAG touch targets */
+  iconButton: { xs: 40, sm: 36 },
+  /** Large icon button */
+  iconButtonLg: { xs: 48, sm: 44 },
+  /** Responsive icon scale for common use */
+  icon: { xs: '1.25rem', sm: '1.5rem' },
+  /** Small icons */
+  iconXs: { xs: '1rem', sm: '1.125rem' },
+} as const;
+
+// ============================================================================
+// RESPONSIVE TYPOGRAPHY ENHANCEMENTS
+// Line heights, letter spacing for improved readability
+// ============================================================================
+
+export const LINE_HEIGHT = {
+  /** Tight - headings */
+  tight: { xs: 1.2, md: 1.3 },
+  /** Normal - body text */
+  normal: { xs: 1.6, md: 1.75 },
+  /** Relaxed - improved mobile readability */
+  relaxed: { xs: 1.8, md: 2 },
+} as const satisfies Record<string, ResponsiveValue<number>>;
+
+export const LETTER_SPACING = {
+  /** Tight - large headings */
+  tight: { xs: '-0.02em', md: '-0.015em' },
+  /** Normal - body text */
+  normal: '0',
+  /** Wide - small caps, labels */
+  wide: { xs: '0.05em', md: '0.08em' },
+} as const;
+
+/** Combined typography settings for convenient access */
+export const TYPOGRAPHY = {
+  lineHeight: LINE_HEIGHT,
+  letterSpacing: LETTER_SPACING,
+} as const;
+
+// ============================================================================
+// DISPLAY UTILITIES
+// Visibility and display patterns for responsive layouts
+// ============================================================================
+
+export const DISPLAY = {
+  /** Hide on mobile (xs), show on sm+ */
+  hideOnMobile: { xs: 'none', sm: 'block' },
+  /** Show on mobile (xs), hide on sm+ */
+  showOnMobile: { xs: 'block', sm: 'none' },
+  /** Hide on mobile, flex on desktop */
+  hideOnMobileFlex: { xs: 'none', sm: 'flex' },
+  /** Flex on mobile, none on desktop */
+  showOnMobileFlex: { xs: 'flex', sm: 'none' },
+  /** Inline variants */
+  hideOnMobileInline: { xs: 'none', sm: 'inline' },
+  showOnMobileInline: { xs: 'inline', sm: 'none' },
+  /** Print utilities - hide element when printing */
+  hidePrint: { '@media print': { display: 'none' } },
+  /** Print utilities - show only when printing */
+  showPrint: { display: 'none', '@media print': { display: 'block' } },
+} as const;
+
+// ============================================================================
+// OVERFLOW UTILITIES
+// Text and container overflow handling
+// ============================================================================
+
+export const OVERFLOW = {
+  /** Text ellipsis for single line truncation */
+  ellipsis: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  /** Multi-line text clamp (use with WebkitLineClamp) */
+  lineClamp: (lines: number) => ({
+    overflow: 'hidden',
+    display: '-webkit-box',
+    WebkitLineClamp: lines,
+    WebkitBoxOrient: 'vertical' as const,
+  }),
+  /** Responsive overflow behavior */
+  responsive: {
+    hidden: { xs: 'hidden', md: 'visible' },
+    auto: { xs: 'auto', md: 'hidden' },
+  },
 } as const;
 
 // ============================================================================

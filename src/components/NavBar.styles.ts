@@ -8,13 +8,15 @@ import {
 } from '@/styles/shared';
 
 export const navLogoStackSx: SxProps<Theme> = {
-  height: 50,
+  // Responsive logo height for better mobile fit
+  height: { xs: 44, sm: 50 },
   textDecoration: 'none',
   cursor: 'pointer',
 };
 
 export const navLogoImgSx: SxProps<Theme> = {
-  width: '2.2rem',
+  // Responsive logo image width
+  width: { xs: '1.9rem', sm: '2.2rem' },
 };
 
 export const navLinksListSx: SxProps<Theme> = {
@@ -46,8 +48,9 @@ export const listItemButtonSx: SystemStyleObject<Theme> = {
   position: 'relative',
   overflow: 'hidden',
   clipPath: CLIP_ROUNDED,
-  py: 1.5,
-  px: 2,
+  // Responsive padding for better mobile touch targets
+  py: { xs: 1.25, sm: 1.5 },
+  px: { xs: 1.5, sm: 2 },
   '& > *': {
     position: 'relative',
     zIndex: 1,
@@ -73,7 +76,8 @@ export const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
 };
 
 export const listItemIconSx: SystemStyleObject<Theme> = {
-  minWidth: 40,
+  // Responsive icon container width
+  minWidth: { xs: 36, sm: 40 },
   color: 'text.secondary',
 };
 

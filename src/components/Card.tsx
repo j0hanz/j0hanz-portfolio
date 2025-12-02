@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { motion, type MotionProps } from 'motion/react';
 
+import { SPACING } from '@/config/responsive';
 import type { CardProps, InternalCardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
@@ -19,7 +20,8 @@ import { cardBaseSx } from '@/styles/shared';
 
 const MotionPaper = motion.create(MuiPaper);
 
-const CARD_CONTENT_SX: SxProps<Theme> = { p: 2 };
+// Responsive card content padding
+const CARD_CONTENT_SX: SxProps<Theme> = { p: SPACING.card };
 const CARD_SUBTITLE_SX: SxProps<Theme> = { mb: 1 };
 
 // ============================================================================
