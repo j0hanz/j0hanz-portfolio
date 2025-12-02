@@ -20,7 +20,7 @@ import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
 import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
-import { hideOnMobileInlineSx, RESPONSIVE_SPACING } from '@/config/responsive';
+import { SPACING } from '@/config/responsive';
 import type {
   ContactFieldErrorKey,
   ContactFieldKey,
@@ -115,7 +115,7 @@ function FormActions({ onReset, isPending }: FormActionsProps) {
         aria-label={CONTACT_COPY.clearAriaLabel}
         sx={buttonMinWidthSx}
       >
-        <Box component="span" sx={hideOnMobileInlineSx}>
+        <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
           {CONTACT_COPY.clearLabel}
         </Box>
       </Button>
@@ -244,7 +244,7 @@ function ContactForm() {
       title={CONTACT_COPY.sectionTitle}
       icon={EmailRounded}
     >
-      <Grid container spacing={RESPONSIVE_SPACING.grid}>
+      <Grid container spacing={SPACING.grid}>
         <Grid size={12}>
           <ContactFormContent />
           <Badges />

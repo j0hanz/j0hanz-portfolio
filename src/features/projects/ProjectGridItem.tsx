@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import { staggerItemVariant } from '@/config/motion';
-import { GRID_COLUMNS, gridItemFlexSx } from '@/config/responsive';
+import { GRID } from '@/config/responsive';
 import { ProjectListProps } from '@/config/types';
 
 import { ProjectCard } from './components/ProjectCard';
@@ -35,7 +35,7 @@ export function ProjectCardMotionWrapper({
 
 function ProjectGridItem({ project }: ProjectListProps): React.JSX.Element {
   return (
-    <Grid size={GRID_COLUMNS.projectCard} sx={gridItemFlexSx}>
+    <Grid size={GRID.projectCard} sx={{ display: 'flex' }}>
       <ProjectCardMotionWrapper>
         <ProjectCard project={project} />
       </ProjectCardMotionWrapper>

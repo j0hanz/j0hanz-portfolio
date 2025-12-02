@@ -143,6 +143,12 @@ export {
   usePrefersReducedMotion,
   usePrefersDarkMode,
   useHasHoverCapability,
+  // Element-level responsive (container query-like)
+  useElementSize,
+  useElementQuery,
+  // Breakpoint transition detection
+  useBreakpointCallback,
+  useMobileDesktopTransition,
   // Breakpoint comparison utilities
   getBreakpointIndex,
   isBreakpointSmaller,
@@ -155,17 +161,12 @@ export {
 // ============================================================================
 
 export {
-  // Spacing scales
-  RESPONSIVE_SPACING,
-  RESPONSIVE_CARD_PADDING,
-  RESPONSIVE_GAP,
-  // Layout constants
-  CONTAINER_MAX_WIDTH,
-  GRID_COLUMNS,
-  MASONRY_COLUMNS,
-  // Typography & sizing
-  RESPONSIVE_FONT_SIZE,
-  RESPONSIVE_SIZE,
+  // Primary constants (new simplified names)
+  SPACING,
+  GRID,
+  CONTAINER_WIDTH,
+  FONT_SIZE,
+  SIZE,
   // Breakpoint values
   BREAKPOINT_KEYS,
   BREAKPOINT_VALUES,
@@ -173,24 +174,14 @@ export {
   sectionCenteredSx,
   containerPaddingSx,
   sectionHeaderSx,
-  hideOnMobileSx,
-  showOnMobileSx,
-  hideOnMobileInlineSx,
-  hideOnMobileFlexSx,
-  textAlignResponsiveSx,
-  justifyResponsiveSx,
-  footerSocialLinkMarginSx,
-  footerContainerMarginSx,
-  gridItemFlexSx,
-  fullWidthSx,
-  // Utility functions
-  createResponsiveMarginBottom,
-  createDisplayToggle,
-  createResponsiveDisplay,
-  createVisibleBetween,
+  // Core utility
   resolveResponsiveValue,
-  createResponsiveBreakpoint,
-  isResponsiveValue,
+  // Legacy exports (backwards compatibility - prefer new names)
+  RESPONSIVE_SPACING,
+  GRID_COLUMNS,
+  CONTAINER_MAX_WIDTH,
+  RESPONSIVE_FONT_SIZE,
+  RESPONSIVE_SIZE,
 } from '@/config/responsive';
 
 export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';

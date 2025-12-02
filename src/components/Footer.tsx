@@ -18,13 +18,7 @@ import { SxProps } from '@mui/system';
 import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
 import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
-import {
-  footerContainerMarginSx,
-  footerSocialLinkMarginSx,
-  GRID_COLUMNS,
-  justifyResponsiveSx,
-  textAlignResponsiveSx,
-} from '@/config/responsive';
+import { SPACING } from '@/config/responsive';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
 import {
   ICON_SIZE,
@@ -100,7 +94,7 @@ const wrapFooterSocialLink = (
   id: string,
   node: React.JSX.Element
 ): React.JSX.Element => (
-  <Grid size="auto" sx={footerSocialLinkMarginSx} key={id}>
+  <Grid size="auto" sx={{ mb: { xs: 2, sm: 0 } }} key={id}>
     {node}
   </Grid>
 );
@@ -121,8 +115,8 @@ function Footer(): React.JSX.Element {
   return (
     <Box component="footer" id="footer" sx={footerSx}>
       <Container maxWidth={false}>
-        <Grid container sx={{ mx: 'auto' }}>
-          <Grid size={GRID_COLUMNS.footerLeft}>
+        <Grid container spacing={SPACING.grid} sx={{ mx: 'auto' }}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Typography sx={contactLabelSx}>Contact Details</Typography>
             <Stack direction="row" alignItems="center">
               <EmailRounded sx={emailIconSx} />
@@ -149,24 +143,27 @@ function Footer(): React.JSX.Element {
             </Stack>
           </Grid>
           <Grid
-            size={GRID_COLUMNS.footerRight}
-            sx={{ ...textAlignResponsiveSx, mt: 1 }}
+            size={{ xs: 12, sm: 6 }}
+            sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: 1 }}
           >
             <Stack
               direction="row"
               alignItems="center"
-              sx={{ ...justifyResponsiveSx, pb: 3 }}
+              sx={{
+                justifyContent: { xs: 'flex-start', sm: 'flex-end' },
+                pb: 3,
+              }}
             >
               <Box component={SiCreativecommons} sx={copyrightIconSx} />
               <Box component="small" sx={copyrightTextSx}>
                 Copyright 2025
               </Box>
             </Stack>
-            <Box sx={footerContainerMarginSx}>
+            <Box sx={{ mt: { xs: 4, sm: 0 } }}>
               <Grid
                 container
                 sx={{
-                  ...justifyResponsiveSx,
+                  justifyContent: { xs: 'flex-start', sm: 'flex-end' },
                   fontSize: '0.9rem',
                 }}
               >

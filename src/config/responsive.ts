@@ -1,18 +1,24 @@
-import type { CSSProperties } from 'react';
-
 import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
 
 // ============================================================================
 // BREAKPOINT REFERENCE (MUI v7 defaults)
-// xs: 0px, sm: 600px, md: 900px, lg: 1200px, xl: 1536px
+// xs: 0px   - Extra small devices (phones, < 600px)
+// sm: 600px - Small devices (tablets, >= 600px)
+// md: 900px - Medium devices (small laptops, >= 900px)
+// lg: 1200px - Large devices (desktops, >= 1200px)
+// xl: 1536px - Extra large devices (large desktops, >= 1536px)
+//
+// Mobile-first approach: styles cascade upward from xs to xl
+// Example: { xs: 1, md: 2 } means 1 for xs/sm, 2 for md/lg/xl
 // ============================================================================
 
 // ============================================================================
-// TYPE DEFINITIONS
+// TYPES
 // ============================================================================
 
 export type BreakpointKey = Breakpoint;
 
+/** Responsive value object - values cascade upward (mobile-first) */
 export type ResponsiveValue<T> = {
   xs?: T;
   sm?: T;
@@ -29,7 +35,7 @@ export const BREAKPOINT_KEYS: readonly BreakpointKey[] = [
   'xl',
 ] as const;
 
-// Breakpoint pixel values for reference
+/** Breakpoint pixel values matching MUI v7 defaults */
 export const BREAKPOINT_VALUES = {
   xs: 0,
   sm: 600,
@@ -38,19 +44,128 @@ export const BREAKPOINT_VALUES = {
   xl: 1536,
 } as const satisfies Record<BreakpointKey, number>;
 
-type DisplayValue = CSSProperties['display'];
+// ============================================================================
+// SPACING (unified - replaces RESPONSIVE_SPACING + RESPONSIVE_GAP)
+// Uses theme.spacing() factor (8px base). Material Design: 16px mobile, 24px desktop
+// ============================================================================
+
+export const SPACING = {
+  /** Section vertical padding: py */
+  section: { xs: 4, md: 10 },
+  /** Card/container internal padding */
+  card: { xs: 2, sm: 3, md: 3 },
+  /** Grid gaps between items */
+  grid: { xs: 2, sm: 3, md: 4 },
+  /** Masonry spacing (sm+ only) */
+  masonry: { sm: 3, md: 4 },
+  /** Stack gaps */
+  stack: { xs: 1.5, md: 2 },
+  /** Section header margin bottom */
+  headerMargin: { xs: 3, md: 4 },
+  /** Container horizontal padding */
+  containerPadding: { xs: 2, sm: 3 },
+  /** Form field gaps */
+  formField: { xs: 1.25, md: 2 },
+} as const satisfies Record<string, ResponsiveValue<number>>;
 
 // ============================================================================
-// RESPONSIVE VALUE UTILITIES
+// GRID COLUMNS (MUI v7 Grid `size` prop patterns)
 // ============================================================================
 
-// Resolves responsive value using mobile-first fallback (exact match, then smaller, then larger)
+export const GRID = {
+  /** Full width always */
+  full: { xs: 12 },
+  /** Full mobile, half desktop */
+  half: { xs: 12, md: 6 },
+  /** Full mobile, third desktop */
+  third: { xs: 12, sm: 6, lg: 4 },
+  /** Project card layout (responsive 3-column) */
+  projectCard: { xs: 12, sm: 6, md: 6, lg: 4 },
+  /** Form field layout */
+  formField: { xs: 12, md: 6 },
+} as const;
+
+// ============================================================================
+// CONTAINER WIDTHS
+// ============================================================================
+
+export const CONTAINER_WIDTH = {
+  narrow: 'sm',
+  medium: 'md',
+  wide: 'lg',
+  full: 'xl',
+  fluid: false,
+} as const satisfies Record<string, Breakpoint | false>;
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+
+export const FONT_SIZE = {
+  /** Hero name - fluid scaling */
+  heroTitle: 'clamp(2.5rem, 5vw, 3.2rem)',
+  /** Section headings */
+  sectionTitle: { xs: '1.75rem', md: '2.125rem' },
+  /** Subtitles */
+  subtitle: { xs: '1.2rem', sm: '1.3rem' },
+  /** Body text */
+  body: { xs: '0.95rem', md: '1rem' },
+} as const;
+
+// ============================================================================
+// ELEMENT SIZES
+// ============================================================================
+
+export const SIZE = {
+  /** Profile image dimensions */
+  profileImage: { xs: 225, md: 300, lg: 400 },
+  /** Section header icons */
+  iconMd: { xs: '2rem', md: '2.5rem' },
+  /** Skill badge icons */
+  iconSm: { xs: '1.5rem', md: '1.75rem' },
+  /** Credential badges */
+  badge: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
+  /** Credential hover text */
+  credentialText: { xs: '1.7rem', sm: '2.5rem' },
+} as const;
+
+// ============================================================================
+// SECTION SX PRESETS (commonly used patterns)
+// ============================================================================
+
+/** Centers content vertically with responsive section padding */
+export const sectionCenteredSx: SxProps<Theme> = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  py: SPACING.section,
+};
+
+/** Responsive container horizontal padding */
+export const containerPaddingSx: SxProps<Theme> = {
+  px: SPACING.containerPadding,
+};
+
+/** Section header margin bottom */
+export const sectionHeaderSx: SxProps<Theme> = {
+  mb: SPACING.headerMargin,
+};
+
+// ============================================================================
+// UTILITY: Resolve responsive value for current breakpoint
+// ============================================================================
+
+/**
+ * Resolves a responsive value to the appropriate value for a breakpoint.
+ * Uses mobile-first cascade: tries exact match, then smaller breakpoints.
+ */
 export function resolveResponsiveValue<T>(
   value: ResponsiveValue<T> | T,
   breakpoint: BreakpointKey,
   fallback?: T
 ): T {
-  // Handle scalar values and null/undefined
+  // Handle scalar values
   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
     return (value ?? fallback) as T;
   }
@@ -58,331 +173,74 @@ export function resolveResponsiveValue<T>(
   const map = value as ResponsiveValue<T>;
   const currentIndex = BREAKPOINT_KEYS.indexOf(breakpoint);
 
-  // Mobile-first: prefer exact or smaller breakpoint match first
+  // Mobile-first: check current and smaller breakpoints first
   for (let i = currentIndex; i >= 0; i -= 1) {
     const candidate = map[BREAKPOINT_KEYS[i]];
     if (candidate !== undefined) return candidate;
   }
 
-  // Fallback to larger breakpoints if nothing smaller exists
+  // Fallback to larger breakpoints
   for (let i = currentIndex + 1; i < BREAKPOINT_KEYS.length; i += 1) {
     const candidate = map[BREAKPOINT_KEYS[i]];
     if (candidate !== undefined) return candidate;
   }
 
-  // Last resort: return any defined value or fallback
-  const firstDefined = BREAKPOINT_KEYS.map((key) => map[key]).find(
-    (item) => item !== undefined
-  );
-
-  if (firstDefined !== undefined) return firstDefined;
   return fallback as T;
 }
 
-// Creates { xs: mobile, md: desktop } shorthand for common pattern
-export function createResponsiveBreakpoint<T>(
-  mobile: T,
-  desktop: T
-): ResponsiveValue<T> {
-  return { xs: mobile, md: desktop };
-}
-
-// Type guard for responsive value objects
-export function isResponsiveValue<T>(
-  value: unknown
-): value is ResponsiveValue<T> {
-  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-    return false;
-  }
-  const keys = Object.keys(value);
-  return keys.some((key) => BREAKPOINT_KEYS.includes(key as BreakpointKey));
-}
-
 // ============================================================================
-// DISPLAY TOGGLE UTILITIES
+// LEGACY EXPORTS (backwards compatibility - to be removed)
+// These map old names to new consolidated constants
 // ============================================================================
 
-// Creates sx props for showing/hiding elements at breakpoints (mobile-first)
-export function createDisplayToggle({
-  mobile = 'none',
-  desktop = 'block',
-  breakpoint = 'sm',
-}: {
-  mobile?: DisplayValue;
-  desktop?: DisplayValue;
-  breakpoint?: BreakpointKey;
-}): SxProps<Theme> {
-  return {
-    display: {
-      xs: mobile,
-      [breakpoint]: desktop,
-    },
-  };
-}
+/** @deprecated Use SPACING instead */
+export const RESPONSIVE_SPACING = SPACING;
 
-// Creates responsive display for all breakpoints (more flexible than createDisplayToggle)
-export function createResponsiveDisplay(
-  values: ResponsiveValue<DisplayValue>
-): SxProps<Theme> {
-  return { display: values };
-}
+/** @deprecated Use FONT_SIZE instead */
+export const RESPONSIVE_FONT_SIZE = FONT_SIZE;
 
-// Creates visibility only for specific breakpoint range (from inclusive, to exclusive)
-export function createVisibleBetween(
-  from: BreakpointKey,
-  to: BreakpointKey,
-  displayType: DisplayValue = 'block'
-): SxProps<Theme> {
-  return {
-    display: {
-      xs: 'none',
-      [from]: displayType,
-      [to]: 'none',
-    },
-  };
-}
+/** @deprecated Use SIZE instead */
+export const RESPONSIVE_SIZE = SIZE;
 
-// ============================================================================
-// RESPONSIVE SPACING SCALE
-// Consistent spacing that adapts across breakpoints
-// Uses theme.spacing() factor (8px by default)
-// ============================================================================
+/** @deprecated Use CONTAINER_WIDTH instead */
+export const CONTAINER_MAX_WIDTH = CONTAINER_WIDTH;
 
-export const RESPONSIVE_SPACING = {
-  // Section padding (py for vertical sections)
-  section: { xs: 4, md: 10 } satisfies ResponsiveValue<number>,
-  // Card/container internal padding
-  card: { xs: 2, sm: 3, md: 3 } satisfies ResponsiveValue<number>,
-  // Grid gaps between items
-  grid: { xs: 2, sm: 3, md: 4 } satisfies ResponsiveValue<number>,
-  // Masonry spacing (excludes xs since masonry usually used on sm+)
-  masonry: { sm: 3, md: 4 } satisfies ResponsiveValue<number>,
-  // Stack gaps for vertical/horizontal lists
-  stack: { xs: 1.5, md: 2 } satisfies ResponsiveValue<number>,
-  // Compact spacing for dense layouts
-  compact: { xs: 1, sm: 1.5, md: 2 } satisfies ResponsiveValue<number>,
-  // Section header margin bottom
-  headerMargin: { xs: 3, md: 4 } satisfies ResponsiveValue<number>,
-  // Container horizontal padding
-  containerPadding: { xs: 2, sm: 3 } satisfies ResponsiveValue<number>,
-} as const;
-
-// ============================================================================
-// RESPONSIVE CONTAINER WIDTHS
-// Max-width constraints for different section types
-// ============================================================================
-
-export const CONTAINER_MAX_WIDTH = {
-  narrow: 'sm', // ~600px - single column content
-  medium: 'md', // ~900px - forms, small cards
-  wide: 'lg', // ~1200px - standard sections (default)
-  full: 'xl', // ~1536px - portfolio grids
-  fluid: false, // Full width
-} as const satisfies Record<string, Breakpoint | false>;
-
-// ============================================================================
-// RESPONSIVE COLUMN CONFIGURATIONS
-// Grid column spans for common layout patterns
-// ============================================================================
-
+/** @deprecated Use GRID instead - component-specific patterns should be inline */
 export const GRID_COLUMNS = {
-  // Full width always
-  full: { xs: 12 },
-  // Full width on mobile, half on tablet+
-  twoColumn: { xs: 12, md: 6 },
-  // Full width on mobile, third on desktop
-  threeColumn: { xs: 12, sm: 6, lg: 4 },
-  // Portfolio/project cards
+  ...GRID,
+  // Component-specific patterns (kept for compatibility, should migrate to inline)
+  twoColumn: GRID.half,
+  threeColumn: GRID.third,
   projectCard: { xs: 12, sm: 6, md: 6, lg: 4 },
-  // Hero layout - image/content split
   heroImage: { xs: 12, md: 'auto' as const },
   heroContent: { xs: 12, md: 'grow' as const },
-  // Footer columns
   footerLeft: { xs: 12, sm: 6 },
   footerRight: { xs: 12, sm: 6 },
-  // Form fields layout
-  formField: { xs: 12, md: 6 },
   formFieldFull: { xs: 12 },
-  // Auto-size column
   auto: { xs: 'auto' as const },
 } as const;
 
-// ============================================================================
-// RESPONSIVE TYPOGRAPHY SIZES
-// Font sizes that scale with viewport
-// ============================================================================
-
-export const RESPONSIVE_FONT_SIZE = {
-  // Hero name (largest) - uses clamp for fluid scaling
-  heroTitle: 'clamp(2.5rem, 5vw, 3.2rem)',
-  // Section headings
-  sectionTitle: {
-    xs: '1.75rem',
-    md: '2.125rem',
-  } satisfies ResponsiveValue<string>,
-  // Subtitles
-  subtitle: { xs: '1.2rem', sm: '1.3rem' } satisfies ResponsiveValue<string>,
-  // Body text
-  body: { xs: '0.95rem', md: '1rem' } satisfies ResponsiveValue<string>,
-  // Small/caption text
-  small: { xs: '0.8rem', md: '0.875rem' } satisfies ResponsiveValue<string>,
-} as const;
-
-// ============================================================================
-// RESPONSIVE ELEMENT SIZES
-// Dimensions for images, icons, and interactive elements
-// ============================================================================
-
-export const RESPONSIVE_SIZE = {
-  // Profile image dimensions
-  profileImage: { xs: 225, md: 300, lg: 400 } satisfies ResponsiveValue<number>,
-  // Icon sizes - medium (section headers)
-  iconMd: { xs: '2rem', md: '2.5rem' } satisfies ResponsiveValue<string>,
-  // Icon sizes - small (skill badges, etc.)
-  iconSm: { xs: '1.5rem', md: '1.75rem' } satisfies ResponsiveValue<string>,
-  // Button heights (44px minimum for mobile touch targets per WCAG)
-  buttonLarge: 44,
-  buttonStandard: 30,
-  // Badge dimensions (credential badges)
-  badge: {
-    xs: 85,
-    sm: 105,
-    md: 115,
-    lg: 140,
-  } satisfies ResponsiveValue<number>,
-  badgeWidth: {
-    xs: '85px',
-    sm: '105px',
-    md: '115px',
-    lg: '140px',
-  } satisfies ResponsiveValue<string>,
-  // Min width badge
-  badgeMinWidth: 45,
-  badgeHeight: 21,
-  // Credential hover text
-  credentialText: {
-    xs: '1.7rem',
-    sm: '2.5rem',
-  } satisfies ResponsiveValue<string>,
-} as const;
-
-// ============================================================================
-// RESPONSIVE CARD PADDING
-// Padding for project cards and similar containers
-// ============================================================================
-
-export const RESPONSIVE_CARD_PADDING = {
-  // Project card padding
-  projectCard: { xs: 1.5, sm: 2, md: 2.5 } satisfies ResponsiveValue<number>,
-} as const;
-
-// ============================================================================
-// RESPONSIVE GAPS
-// Flexible gap configurations
-// ============================================================================
-
-export const RESPONSIVE_GAP = {
-  // Badge container gap
-  badge: { xs: 1.5, sm: 2, md: 3 } satisfies ResponsiveValue<number>,
-} as const;
-
-// ============================================================================
-// MASONRY COLUMN CONFIGURATIONS
-// For MUI Lab Masonry component
-// ============================================================================
-
+/** @deprecated Inline { sm: 2, md: 2, lg: 3 } at callsite */
 export const MASONRY_COLUMNS = {
-  // Portfolio projects - 2 on tablet, 3 on desktop
-  projects: { sm: 2, md: 2, lg: 3 } satisfies ResponsiveValue<number>,
+  projects: { sm: 2, md: 2, lg: 3 },
 } as const;
 
-// ============================================================================
-// RESPONSIVE SX UTILITIES
-// Pre-built sx props for common responsive patterns
-// ============================================================================
+/** @deprecated Inline { xs: 1.5, sm: 2, md: 2.5 } at callsite */
+export const RESPONSIVE_CARD_PADDING = {
+  projectCard: { xs: 1.5, sm: 2, md: 2.5 },
+} as const;
 
-// Centers content vertically with responsive padding
-export const sectionCenteredSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: '100vh',
-  py: RESPONSIVE_SPACING.section,
-};
+/** @deprecated Inline { xs: 1.5, sm: 2, md: 3 } at callsite */
+export const RESPONSIVE_GAP = {
+  badge: { xs: 1.5, sm: 2, md: 3 },
+} as const;
 
-// Responsive container horizontal padding
-export const containerPaddingSx: SxProps<Theme> = {
-  px: RESPONSIVE_SPACING.containerPadding,
-};
-
-// Responsive margin bottom for section headers
-export const sectionHeaderSx: SxProps<Theme> = {
-  mb: RESPONSIVE_SPACING.headerMargin,
-};
-
-// Hide on mobile (xs), show on sm+
-export const hideOnMobileSx = createDisplayToggle({
-  mobile: 'none',
-  desktop: 'block',
-});
-
-// Show on mobile (xs), hide on sm+
-export const showOnMobileSx = createDisplayToggle({
-  mobile: 'block',
-  desktop: 'none',
-});
-
-// Hide on mobile (xs), show as inline on sm+
-export const hideOnMobileInlineSx = createDisplayToggle({
-  mobile: 'none',
-  desktop: 'inline',
-});
-
-// Hide on mobile (xs), show as flex on sm+
-export const hideOnMobileFlexSx = createDisplayToggle({
-  mobile: 'none',
-  desktop: 'flex',
-  breakpoint: 'md',
-});
-
-// Flexible text alignment (left on mobile, right on desktop)
-export const textAlignResponsiveSx: SxProps<Theme> = {
-  textAlign: { xs: 'left', sm: 'right' },
-};
-
-// Flexible justify content (start on mobile, end on desktop)
-export const justifyResponsiveSx: SxProps<Theme> = {
-  justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-};
-
-// Footer social link margin (margin on mobile, none on desktop)
-export const footerSocialLinkMarginSx: SxProps<Theme> = {
-  mb: { xs: 2, sm: 0 },
-};
-
-// Footer container margin (margin on mobile, none on desktop)
-export const footerContainerMarginSx: SxProps<Theme> = {
-  mt: { xs: 4, sm: 0 },
-};
-
-// Grid item that displays as flex (for equal height cards)
+/** @deprecated Inline sx={{ display: 'flex' }} at callsite */
 export const gridItemFlexSx: SxProps<Theme> = {
   display: 'flex',
 };
 
-// Full width box
-export const fullWidthSx: SxProps<Theme> = {
-  width: '100%',
+/** @deprecated Inline sx={{ display: { xs: 'none', sm: 'inline' } }} at callsite */
+export const hideOnMobileInlineSx: SxProps<Theme> = {
+  display: { xs: 'none', sm: 'inline' },
 };
-
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
-
-// Creates responsive bottom margin with optional mobile offset
-export const createResponsiveMarginBottom = (
-  mobile: number,
-  desktop = 0
-): SxProps<Theme> => ({
-  mb: { xs: mobile, md: desktop },
-});

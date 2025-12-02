@@ -1,11 +1,7 @@
 import { alpha, SxProps, Theme } from '@mui/material';
 
 import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
-import {
-  RESPONSIVE_FONT_SIZE,
-  RESPONSIVE_SIZE,
-  RESPONSIVE_SPACING,
-} from '@/config/responsive';
+import { FONT_SIZE, SIZE, SPACING } from '@/config/responsive';
 import {
   BUTTON_HEIGHT_LARGE,
   BUTTON_MIN_WIDTH_HERO,
@@ -15,7 +11,7 @@ import {
 
 // Animation configs
 export const heroNameStyles: React.CSSProperties = {
-  fontSize: RESPONSIVE_FONT_SIZE.heroTitle,
+  fontSize: FONT_SIZE.heroTitle,
   letterSpacing: '2px',
   fontWeight: 500,
   lineHeight: 1,
@@ -50,7 +46,7 @@ export const sectionSx: SxProps<Theme> = {
 };
 
 export const heroCardSx: SxProps<Theme> = {
-  p: RESPONSIVE_SPACING.card,
+  p: SPACING.card,
 };
 
 export const containerSx: SxProps<Theme> = {
@@ -64,7 +60,7 @@ export const profileWrapperSx: SxProps<Theme> = {
 };
 
 export const profileImgSx: SxProps<Theme> = {
-  width: RESPONSIVE_SIZE.profileImage,
+  width: SIZE.profileImage,
   height: 'auto',
   aspectRatio: '1 / 1',
   clipPath: CLIP_ROUNDED,
@@ -94,7 +90,7 @@ export const overlaySx: SxProps<Theme> = {
 };
 
 export const subtitleSx: SxProps<Theme> = {
-  fontSize: RESPONSIVE_FONT_SIZE.subtitle,
+  fontSize: FONT_SIZE.subtitle,
   letterSpacing: { xs: '0.5px', sm: '2px' },
   textTransform: 'uppercase',
   color: 'text.primary',

@@ -10,12 +10,12 @@ import {
 } from '@mui/material';
 
 import {
-  CONTAINER_MAX_WIDTH,
+  CONTAINER_WIDTH,
   containerPaddingSx,
-  RESPONSIVE_FONT_SIZE,
-  RESPONSIVE_SIZE,
+  FONT_SIZE,
   sectionCenteredSx,
   sectionHeaderSx,
+  SIZE,
 } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
 
@@ -25,13 +25,13 @@ import type { SectionContainerProps } from '@/config/types';
 
 const ICON_SX: SxProps<Theme> = {
   mr: 1.5,
-  fontSize: RESPONSIVE_SIZE.iconMd,
+  fontSize: SIZE.iconMd,
   color: 'primary.main',
 };
 
 const TITLE_SX: SxProps<Theme> = {
   fontWeight: 400,
-  fontSize: RESPONSIVE_FONT_SIZE.sectionTitle,
+  fontSize: FONT_SIZE.sectionTitle,
 };
 
 const SUBTITLE_SX: SxProps<Theme> = {
@@ -115,7 +115,7 @@ function SectionContainerBase({
   headingLevel = 'h2',
   subtitle,
   headerActions,
-  maxWidth = CONTAINER_MAX_WIDTH.wide,
+  maxWidth = CONTAINER_WIDTH.wide,
 }: SectionContainerProps): JSX.Element {
   return (
     <Box

@@ -13,7 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
 
-import { GRID_COLUMNS } from '@/config/responsive';
+import { GRID, SPACING } from '@/config/responsive';
 import type {
   ContactFieldConfig,
   FormFieldProps,
@@ -30,7 +30,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     placeholder: 'enter your name...',
     required: true,
     errorKey: 'name',
-    gridProps: GRID_COLUMNS.formField,
+    gridProps: GRID.formField,
   },
   {
     key: 'email',
@@ -41,7 +41,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     placeholder: 'enter your email...',
     required: true,
     errorKey: 'email',
-    gridProps: GRID_COLUMNS.formField,
+    gridProps: GRID.formField,
   },
   {
     key: 'company',
@@ -49,7 +49,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     icon: WorkOutline,
     label: 'Company',
     placeholder: 'company... (optional)',
-    gridProps: GRID_COLUMNS.formField,
+    gridProps: GRID.formField,
   },
   {
     key: 'url',
@@ -59,7 +59,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     label: 'Website',
     placeholder: 'website url... (optional)',
     errorKey: 'url',
-    gridProps: GRID_COLUMNS.formField,
+    gridProps: GRID.formField,
   },
   {
     key: 'message',
@@ -72,7 +72,7 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
     minRows: 3,
     maxRows: 8,
     errorKey: 'message',
-    gridProps: GRID_COLUMNS.formFieldFull,
+    gridProps: GRID.full,
   },
 ];
 
@@ -182,7 +182,7 @@ function ContactFormFields({
   disabled = false,
 }: FormFieldsProps): React.JSX.Element {
   return (
-    <Grid container spacing={1.25}>
+    <Grid container spacing={SPACING.formField}>
       {CONTACT_FIELD_CONFIGS.map((config) => {
         const { key, ...fieldProps } = config;
         const value = formData[key] ?? '';

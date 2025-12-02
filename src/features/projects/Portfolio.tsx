@@ -7,7 +7,7 @@ import { motion } from 'motion/react';
 import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer } from '@/config/motion';
-import { MASONRY_COLUMNS, RESPONSIVE_SPACING } from '@/config/responsive';
+import { SPACING } from '@/config/responsive';
 import { useMotionVariant, useResponsiveValue } from '@/hooks';
 import projects from '@/lib/data/projects';
 
@@ -37,16 +37,13 @@ function Portfolio(): React.JSX.Element {
     >
       <Box component={motion.div} {...motionProps} sx={{ width: '100%' }}>
         {useGridLayout ? (
-          <Grid container spacing={RESPONSIVE_SPACING.grid}>
+          <Grid container spacing={SPACING.grid}>
             {projects.map((project) => (
               <ProjectGridItem key={project.github} project={project} />
             ))}
           </Grid>
         ) : (
-          <Masonry
-            columns={MASONRY_COLUMNS.projects}
-            spacing={RESPONSIVE_SPACING.masonry}
-          >
+          <Masonry columns={{ sm: 2, md: 2, lg: 3 }} spacing={SPACING.masonry}>
             {projects.map((project) => (
               <ProjectMasonryItem key={project.github} project={project} />
             ))}
