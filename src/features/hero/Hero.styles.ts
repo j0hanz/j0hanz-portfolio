@@ -45,7 +45,7 @@ export const sectionSx: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '100vh',
+  height: '100%',
   pt: 0,
 };
 
