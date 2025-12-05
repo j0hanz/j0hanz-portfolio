@@ -2,15 +2,15 @@ import { alpha, Box, Stack, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { useAnimationConfig } from '@/hooks';
+import { SIZING } from '@/styles/shared';
 
 const stackSx: SxProps<Theme> = {
   height: '60vh',
 };
 
 const spinnerSx: SxProps<Theme> = {
-  // Responsive spinner dimensions
-  width: { xs: 80, sm: 100, md: 120 },
-  height: { xs: 80, sm: 100, md: 120 },
+  width: SIZING.spinner,
+  height: SIZING.spinner,
   borderRadius: '50%', // Circle shape - not a theme multiplier
   borderWidth: { xs: 2, sm: 3 },
   borderStyle: 'solid',
@@ -24,7 +24,8 @@ const spinnerSx: SxProps<Theme> = {
     position: 'absolute',
     inset: { xs: 6, sm: 8, md: 10 },
     borderRadius: '50%', // Circle shape
-    border: '2px solid',
+    borderWidth: 2,
+    borderStyle: 'solid',
     borderColor: (theme) => alpha(theme.palette.common.white, 0.15),
   },
 };

@@ -1,17 +1,12 @@
-import { ReactNode } from 'react';
-
 import { AnimatePresence } from 'motion/react';
 
 import ModalCv from '@/components/ModalCv';
+import type { CvModalProviderProps } from '@/config/types';
 import {
   CvModalActionsContext,
   CvModalStateContext,
 } from '@/contexts/CvModalContext';
 import { useEventCallback, useToggle } from '@/hooks';
-
-interface CvModalProviderProps {
-  children: ReactNode;
-}
 
 // Centralized CV modal state management
 // Eliminates duplicate useModal(false) calls in Hero, NavBar, and Footer

@@ -64,7 +64,7 @@ export function SectionSkeleton(): React.JSX.Element {
 
 // Project card skeleton matching full card layout
 const projectCardSx: SxProps<Theme> = {
-  height: 1,
+  minHeight: { xs: 320, sm: 340, md: 360 },
   display: 'flex',
   flexDirection: 'column',
   ...baseSx.rounded,
@@ -73,45 +73,56 @@ const projectCardSx: SxProps<Theme> = {
 
 export function ProjectCardSkeleton(): React.JSX.Element {
   return (
-    <Box component="article" sx={projectCardSx}>
+    <Box
+      component="article"
+      sx={projectCardSx}
+      role="status"
+      aria-label="Loading project"
+    >
       <Stack spacing={2} sx={{ flex: '1 1 auto' }}>
-        {/* Header */}
+        {/* Header - title + icon */}
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <TextLine width="70%" height={32} />
-          <Circle size={24} />
+          <Skeleton variant="text" width="65%" height={28} />
+          <Circle size={22} />
         </Stack>
 
-        {/* Description */}
-        <Box>
-          <TextLine width="100%" />
-          <TextLine width="90%" />
-          <TextLine width="60%" />
-        </Box>
+        {/* Description - 2-3 lines */}
+        <Stack spacing={0.5}>
+          <Skeleton variant="text" width="100%" height={18} />
+          <Skeleton variant="text" width="95%" height={18} />
+          <Skeleton variant="text" width="70%" height={18} />
+        </Stack>
 
-        {/* Tech stack */}
-        <Stack direction="row" flexWrap="wrap" sx={{ gap: 1 }}>
-          {[70, 80, 90, 100].map((w, i) => (
-            <Chip key={i} width={w} />
+        {/* Tech stack chips */}
+        <Stack direction="row" flexWrap="wrap" sx={{ gap: 0.75 }}>
+          {[65, 55, 70, 60, 50].map((w, i) => (
+            <Chip key={`chip-${i}`} width={w} />
           ))}
         </Stack>
 
-        {/* Stats */}
-        <Stack spacing={1.5} alignItems="flex-start">
-          {[0, 1, 2].map((i) => (
-            <StatRow key={i} />
-          ))}
+        {/* Stats - 2 rows (stars, forks) */}
+        <Stack spacing={1} alignItems="flex-start">
+          <StatRow />
+          <StatRow />
         </Stack>
       </Stack>
 
-      {/* Actions */}
-      <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
-        {[0, 1, 2].map((i) => (
-          <ActionButton key={i} />
-        ))}
+      {/* Action buttons */}
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mt: 'auto', pt: 2 }}
+      >
+        <Stack direction="row" spacing={1}>
+          <ActionButton width={90} />
+          <ActionButton width={70} />
+        </Stack>
+        <ActionButton width={85} />
       </Stack>
     </Box>
   );

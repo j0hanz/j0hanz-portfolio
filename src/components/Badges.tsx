@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { FONT_SIZE, SIZE } from '@/config/responsive';
+import { SIZE } from '@/config/responsive';
 import type { BadgeItemProps, BadgesProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 import { badgeItems as defaultBadgeItems } from '@/lib/data/badges';
@@ -41,15 +41,15 @@ const textSx: SxProps<Theme> = {
   opacity: 0.9,
   textDecoration: 'none',
   textTransform: 'uppercase',
-  fontSize: FONT_SIZE.xs,
-  mt: { xs: 0.75, sm: 1 },
+  fontSize: (theme) => theme.typography.caption.fontSize,
+  mt: { xs: 0.75, sm: 0.875, md: 1, lg: 1.25 },
 };
 
 const stackSx: SxProps<Theme> = {
   textAlign: 'center',
   // Spacing units: 4*8=32px, 6*8=48px
-  pt: { xs: 4, md: 6 },
-  gap: { xs: 1.5, sm: 2, md: 3 },
+  pt: { xs: 4, sm: 5, md: 6, lg: 7 },
+  gap: { xs: 1.5, sm: 2, md: 2.5, lg: 3 },
   flexWrap: 'wrap',
 };
 

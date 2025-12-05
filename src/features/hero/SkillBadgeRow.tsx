@@ -1,53 +1,28 @@
 import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
-import { motion, type Variants } from 'motion/react';
+import { motion } from 'motion/react';
 
-import { FONT_SIZE, SPACING } from '@/config/responsive';
+import { skillBadgeVariants } from '@/config/motion';
+import { SPACING } from '@/config/responsive';
 import SkillBadge from '@/features/hero/SkillBadge';
 import { useAnimationConfig } from '@/hooks';
 import skills from '@/lib/data/skills';
 
 const containerSx: SxProps<Theme> = {
-  mt: { xs: 3, md: 4 },
+  mt: { xs: 3, sm: 3.5, md: 4, lg: 5 },
   width: 1, // = 100%
 };
 
 const labelSx: SxProps<Theme> = {
   color: 'text.secondary',
-  letterSpacing: { xs: 1.5, sm: 2 },
-  mb: { xs: 1, sm: 1.5 },
-  fontSize: FONT_SIZE.xs,
+  letterSpacing: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+  mb: { xs: 1, sm: 1.25, md: 1.5, lg: 2 },
+  fontSize: (theme) => theme.typography.caption.fontSize,
 };
 
 const stackSx: SxProps<Theme> = {
   gap: SPACING.stack,
   flexWrap: 'wrap',
   justifyContent: 'flex-start',
-};
-
-// Stagger container variants
-const containerVariants: Variants = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-// Item variants for stagger effect
-const itemVariants: Variants = {
-  initial: { opacity: 0, y: 15, scale: 0.9 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 300,
-      damping: 24,
-    },
-  },
 };
 
 function SkillBadgeRow(): React.JSX.Element {
@@ -71,7 +46,7 @@ function SkillBadgeRow(): React.JSX.Element {
   return (
     <Stack
       component={motion.div}
-      variants={containerVariants}
+      variants={skillBadgeVariants.container}
       initial="initial"
       whileInView="animate"
       viewport={motionViewport}
@@ -83,7 +58,7 @@ function SkillBadgeRow(): React.JSX.Element {
       </Typography>
       <Stack direction="row" sx={stackSx}>
         {skills.map((skill) => (
-          <motion.span key={skill.label} variants={itemVariants}>
+          <motion.span key={skill.label} variants={skillBadgeVariants.item}>
             <SkillBadge skill={skill} />
           </motion.span>
         ))}

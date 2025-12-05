@@ -49,9 +49,12 @@ import type {
   MeasureRect,
   PresenceControls,
   ScrollProgressValue,
+  SectionSequenceStep,
   SequenceAnimator,
   SequenceItem,
+  SequenceStepKey,
   TimelineControls,
+  TimelineSectionControllerOptions,
   TimelineSegment,
   TransitionPreset,
   UseMeasureReturn,
@@ -591,12 +594,6 @@ export function useContentMotion() {
 // ============================================================================
 
 // Helper to animate elements with hardware-accelerated transforms
-type SectionSequenceStep = {
-  selector: string;
-  delay: number;
-  useStagger: boolean;
-  staggerValue?: number;
-};
 
 // Configuration-driven sequence building reduces cyclomatic complexity
 // and makes it easier to add or modify animation sequences
@@ -606,7 +603,6 @@ const SEQUENCE_STEP_CONFIG = {
   cta: { baseDelay: 0.4, useStagger: true, defaultStagger: 0.1 },
 } as const;
 
-type SequenceStepKey = keyof typeof SEQUENCE_STEP_CONFIG;
 const SEQUENCE_ORDER: readonly SequenceStepKey[] = [
   'description',
   'cards',
@@ -747,20 +743,6 @@ export function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
     isInView,
     scopeRef,
   };
-}
-
-type TimelineSequenceSelectors = Parameters<typeof useSectionSequence>[1];
-type TimelineSequenceOptions = Parameters<typeof useSectionSequence>[2];
-
-interface TimelineSectionControllerOptions {
-  viewportPreset?: UseInViewOptions;
-  selectors: TimelineSequenceSelectors;
-  sequenceOptions?: TimelineSequenceOptions;
-  variants?: Variants;
-  hoverEffect?: Target | string;
-  initialState?: string;
-  visibleState?: string;
-  hiddenState?: string;
 }
 
 // Bundles timeline section refs, card motion, and scroll sequence wiring

@@ -1,9 +1,8 @@
 import type { SxProps, Theme } from '@mui/material';
 
-// Timeline component utilities for Education and WorkExperience sections
+import type { TimelineAlignment } from '@/config/types';
 
-// Timeline alignment type for clearer code
-export type TimelineAlignment = 'left' | 'right';
+// Timeline component utilities for Education and WorkExperience sections
 
 // Calculate if timeline item should be left-aligned in alternating layout
 export function isTimelineItemLeftAligned(

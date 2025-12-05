@@ -4,12 +4,7 @@ import {
   BACKGROUND_GRADIENT_OPACITY,
   SECTION_THEME_COLORS,
 } from '@/config/constants';
-
-interface GradientConfig {
-  primaryGradient: string;
-  secondaryGradient: string;
-  tertiaryGradient: string;
-}
+import type { GradientConfig } from '@/config/types';
 
 // Generates background gradients based on theme mode and active section
 export function getBackgroundGradients(

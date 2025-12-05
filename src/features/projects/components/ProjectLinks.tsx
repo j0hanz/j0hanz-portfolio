@@ -1,4 +1,4 @@
-import type { JSX } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 import { SiGithub } from 'react-icons/si';
 
@@ -22,19 +22,24 @@ const gridSx: SxProps<Theme> = {
   mt: { xs: 1.5, md: 2 },
 };
 
-function ActionButton({
+// Extracted pattern: Tooltip + wrapper + ActionButton (DRY - was repeated 4 times)
+function TooltipActionButton({
+  tooltip,
   label,
   icon,
-  sx,
   ...props
-}: ActionButtonProps): JSX.Element {
+}: ActionButtonProps & { tooltip: ReactNode }): JSX.Element {
   return (
-    <Button
-      {...props}
-      text={label}
-      startIcon={icon}
-      sx={{ ...actionButtonSx, ...sx }}
-    />
+    <Tooltip title={tooltip} placement="bottom">
+      <Box component="span" sx={tooltipWrapperSx}>
+        <Button
+          {...props}
+          text={label}
+          startIcon={icon}
+          sx={{ ...actionButtonSx, ...props.sx }}
+        />
+      </Box>
+    </Tooltip>
   );
 }
 
@@ -46,36 +51,6 @@ function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
     await copyWithFeedback(project.github, messages.success, messages.error);
   };
 
-  const renderDemoButton = () => {
-    if (project.demo) {
-      return (
-        <Tooltip title="View live demo" placement="bottom">
-          <Box component="span" sx={tooltipWrapperSx}>
-            <ActionButton
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              icon={<PlayArrowRounded sx={iconBody2Sx} />}
-              label="Demo"
-            />
-          </Box>
-        </Tooltip>
-      );
-    }
-
-    return (
-      <Tooltip title="Coming soon!" placement="bottom">
-        <Box component="span" sx={tooltipWrapperSx}>
-          <ActionButton
-            disabled
-            icon={<PlayArrowRounded sx={iconBody2Sx} />}
-            label="Demo"
-          />
-        </Box>
-      </Tooltip>
-    );
-  };
-
   return (
     <Grid sx={gridSx}>
       <Stack
@@ -84,32 +59,34 @@ function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
         flexWrap="wrap"
         gap={1}
       >
-        <Tooltip title="View source code" placement="bottom">
-          <Box component="span" sx={tooltipWrapperSx}>
-            <ActionButton
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="text"
-              color="inherit"
-              icon={<SiGithub />}
-              label="GitHub"
-            />
-          </Box>
-        </Tooltip>
-        <Tooltip title="Copy repository URL" placement="bottom">
-          <Box component="span" sx={tooltipWrapperSx}>
-            <ActionButton
-              type="button"
-              onClick={handleCopyRepo}
-              color="inherit"
-              variant="text"
-              icon={<ContentCopyRounded sx={iconBody2Sx} />}
-              label="Copy"
-            />
-          </Box>
-        </Tooltip>
-        {renderDemoButton()}
+        <TooltipActionButton
+          tooltip="View source code"
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="text"
+          color="inherit"
+          icon={<SiGithub />}
+          label="GitHub"
+        />
+        <TooltipActionButton
+          tooltip="Copy repository URL"
+          type="button"
+          onClick={handleCopyRepo}
+          color="inherit"
+          variant="text"
+          icon={<ContentCopyRounded sx={iconBody2Sx} />}
+          label="Copy"
+        />
+        <TooltipActionButton
+          tooltip={project.demo ? 'View live demo' : 'Coming soon!'}
+          href={project.demo || undefined}
+          target={project.demo ? '_blank' : undefined}
+          rel={project.demo ? 'noopener noreferrer' : undefined}
+          disabled={!project.demo}
+          icon={<PlayArrowRounded sx={iconBody2Sx} />}
+          label="Demo"
+        />
       </Stack>
     </Grid>
   );

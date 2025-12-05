@@ -3,14 +3,8 @@ import type {
   ContactFormErrors,
   ContactFormValues,
   ValidationError,
+  ValidatorConfig,
 } from '@/config/types';
-
-interface ValidatorConfig {
-  required?: string;
-  pattern?: { regex: RegExp; error: string };
-  minLength?: { value: number; error: string };
-  optional?: boolean;
-}
 
 // Generic validator factory to reduce duplication
 function createValidator(config: ValidatorConfig) {

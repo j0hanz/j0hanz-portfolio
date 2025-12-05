@@ -11,7 +11,7 @@ export function useNavigationState(): NavigationState {
   const context = use(NavigationStateContext);
   if (!context) {
     throw new Error(
-      'useNavigationState must be used within a NavigationProvider'
+      'useNavigationState must be used within NavigationProvider'
     );
   }
   return context;
@@ -22,7 +22,7 @@ export function useNavigationActions(): NavigationActions {
   const context = use(NavigationActionsContext);
   if (!context) {
     throw new Error(
-      'useNavigationActions must be used within a NavigationProvider'
+      'useNavigationActions must be used within NavigationProvider'
     );
   }
   return context;

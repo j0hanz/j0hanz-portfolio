@@ -10,4 +10,4 @@ export {
 } from './github';
 export { submitContactForm, useContactFormMutation } from './contact';
 export { classifyQueryError, handleQueryError } from './utils';
-export type { QueryErrorInfo, QueryErrorType } from './utils';
+export type { QueryErrorInfo, QueryErrorType } from '@/config/types';

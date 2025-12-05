@@ -16,8 +16,8 @@ export { useToggle } from './useToggle';
 export { default as useModal } from './useModal';
 export { useStorage } from './useStorage';
 
-export type { UseModalReturn } from './useModal';
 export type {
+  UseModalReturn,
   UseLazyReturn,
   UseToggleReturn,
   UseStorageOptions,
@@ -39,7 +39,7 @@ export {
 } from './useCopyToClipboard';
 export * from './useCursorMagnet';
 
-export type { UseImageLoadingReturn } from './useImageLoading';
+export type { UseImageLoadingReturn } from '@/config/types';
 
 // ============================================================================
 // CONTEXT HOOKS
@@ -52,8 +52,12 @@ export { useNavigationState, useNavigationActions } from './useNavigation';
 // Theme (split for render optimization)
 export { useTheme, useThemeModeState, useThemeModeActions } from './useTheme';
 
-// Snackbar notifications
-export { default as useSnackbar } from './useSnackbar';
+// Snackbar notifications (split for render optimization)
+export {
+  default as useSnackbar,
+  useSnackbarState,
+  useSnackbarActions,
+} from './useSnackbar';
 
 // CV Modal (split for render optimization)
 export { useCvModalState, useCvModalActions } from './useCvModal';
@@ -128,16 +132,7 @@ export {
 // Breakpoint detection and responsive utilities
 // ============================================================================
 
-export {
-  // Core breakpoint detection (used)
-  useMobileBreakpoint,
-  useCurrentBreakpoint,
-  useResponsiveValue,
-  // Breakpoint comparison utilities (used by useResponsiveValue)
-  getBreakpointIndex,
-  isBreakpointSmaller,
-  isBreakpointLargerOrEqual,
-} from './useBreakpoints';
+export { useMobileBreakpoint } from './useBreakpoints';
 
 // ============================================================================
 // RESPONSIVE CONSTANTS (Re-exported for convenience)
@@ -145,23 +140,11 @@ export {
 // ============================================================================
 
 export {
-  // Primary constants
   SPACING,
   GRID,
   CONTAINER_WIDTH,
   FONT_SIZE,
   SIZE,
-  DISPLAY,
-  TYPOGRAPHY,
-  // Breakpoint values
-  BREAKPOINT_KEYS,
-  BREAKPOINT_VALUES,
-  // Pre-built sx utilities
-  sectionCenteredSx,
-  containerPaddingSx,
-  sectionHeaderSx,
-  // Core utility
-  resolveResponsiveValue,
 } from '@/config/responsive';
 
 export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';

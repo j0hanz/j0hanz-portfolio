@@ -7,7 +7,6 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { SIZE } from '@/config/responsive';
 import {
   STAT_CONFIG,
   STAT_KEYS,
@@ -15,7 +14,7 @@ import {
 } from '@/config/stats';
 import type { ProjectStatsProps, RepoStats, StatItem } from '@/config/types';
 import { useAnimationConfig, useCountUp } from '@/hooks';
-import { LETTER_SPACING_NORMAL } from '@/styles/shared';
+import { LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 import { useRepoStatsQuery } from '@/utils/query/index';
 
 const labelSx: SxProps<Theme> = {
@@ -63,7 +62,12 @@ function AnimatedStat({
 
   return (
     <Stack direction="row" alignItems="center" spacing={1.5}>
-      <Icon sx={{ color: 'text.secondary', fontSize: SIZE.iconXs }} />
+      <Icon
+        sx={{
+          color: 'text.secondary',
+          fontSize: SIZING.iconMd,
+        }}
+      />
       <Typography variant="body2" sx={labelSx}>
         {label}
       </Typography>

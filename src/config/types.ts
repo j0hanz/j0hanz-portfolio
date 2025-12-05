@@ -8,6 +8,7 @@ import {
   RefObject,
 } from 'react';
 
+import type { SvgIconComponent } from '@mui/icons-material';
 import {
   AlertColor,
   ButtonProps as MuiButtonProps,
@@ -15,6 +16,7 @@ import {
   SxProps,
   Theme,
 } from '@mui/material';
+import type { Breakpoint } from '@mui/material/styles';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
 import type {
   AnimationOptions,
@@ -23,6 +25,7 @@ import type {
   ElementOrSelector,
   MotionProps,
   MotionValue,
+  Target,
   Transition,
   UseScrollOptions,
   Variants,
@@ -31,8 +34,23 @@ import type {
 // Type alias for cleaner RefObject<Element> casting
 export type ElementRef = RefObject<Element>;
 
+// --- Provider Types ---
+export type Provider = ComponentType<{ children: ReactNode }>;
+
 // --- Icon Type ---
 export type IconComponent = ComponentType<SvgIconProps>;
+
+// --- Responsive Types (from responsive.ts) ---
+export type BreakpointKey = Breakpoint;
+
+/** Responsive value object - values cascade upward (mobile-first) */
+export type ResponsiveValue<T> = {
+  xs?: T;
+  sm?: T;
+  md?: T;
+  lg?: T;
+  xl?: T;
+};
 
 // --- Direction & Navigation Types ---
 export type Direction = 'up' | 'down' | null;
@@ -58,6 +76,15 @@ export interface NavigationActions {
 }
 
 export type NavigationContextType = NavigationState & NavigationActions;
+
+// Navigation internal types (from NavigationProvider)
+export type NavigationSnapshot = Omit<NavigationState, 'isPending'>;
+
+export type NavigationAction =
+  | { type: 'SET_INDEX'; payload: number }
+  | { type: 'SET_ID'; payload: string }
+  | { type: 'STEP'; payload: 1 | -1 }
+  | { type: 'SYNC_HASH'; payload: string };
 
 // --- Config Section Type ---
 export interface Section {
@@ -208,6 +235,26 @@ export interface InternalCardProps extends CardProps {
   motionProps?: MotionProps;
 }
 
+// Card component internal types (from Card.tsx)
+export interface CardComponentProps extends InternalCardProps {
+  ref?: React.Ref<HTMLDivElement>;
+  animated?: boolean;
+}
+
+// CV Modal types (from CvModalContext.ts and CvModalProvider.tsx)
+export interface CvModalActions {
+  openCvModal: () => void;
+  closeCvModal: () => void;
+}
+
+export interface CvModalState {
+  isCvModalOpen: boolean;
+}
+
+export interface CvModalProviderProps {
+  children: ReactNode;
+}
+
 export interface BadgeItemProps {
   href: string;
   imgSrc: string;
@@ -334,6 +381,19 @@ export interface TimelineCardProps {
 export interface TimelineSectionProps {
   children: ReactNode;
   position?: 'left' | 'right' | 'alternate' | 'alternate-reverse';
+}
+
+export interface TimelineItemData {
+  title: string;
+  duration: string;
+}
+
+export interface TimelineListProps<T extends TimelineItemData> {
+  items: T[];
+  renderItem: (item: T, index: number, isMobile: boolean) => React.ReactNode;
+  Icon: SvgIconComponent;
+  cardMotion: MotionProps;
+  getItemIcon?: (item: T) => SvgIconComponent;
 }
 
 // --- Theme ---
@@ -580,6 +640,11 @@ export interface TextRevealProps {
   sx?: SxProps<Theme>;
 }
 
+export interface TextRevealExtendedProps extends TextRevealProps {
+  // 'word' = word-by-word (default), 'char' = character-by-character
+  splitBy?: 'word' | 'char';
+}
+
 export interface SlideFromSideProps extends MotionProps {
   children: ReactNode;
   from: 'left' | 'right';
@@ -632,6 +697,29 @@ export interface Experience {
 export interface ExperienceCardProps {
   experience: Experience;
   align?: 'left' | 'right';
+}
+
+// WorkExperience component internal ExperienceCardProps (extends BaseCardProps)
+// Note: This is different from the legacy ExperienceCardProps above
+export interface WorkExperienceCardProps extends BaseCardProps {
+  onShowModal: () => void;
+}
+
+// WorkExperience component types
+export interface TimelineCardWrapperProps {
+  experience: Experience;
+  showDuration: boolean;
+  children: React.ReactNode;
+  cardRef: React.RefObject<HTMLDivElement | null>;
+}
+
+export interface BaseCardProps {
+  experience: Experience;
+  showDuration?: boolean;
+}
+
+export interface EducationCardProps extends BaseCardProps {
+  onShowModal: () => void;
 }
 
 // --- Feature: Education ---
@@ -721,6 +809,10 @@ export interface SkillCardProps {
   skill: Skill;
 }
 
+export interface SkillBadgeProps {
+  skill: Skill;
+}
+
 // --- Pages ---
 export type SectionId =
   | 'hero'
@@ -801,7 +893,15 @@ export interface SnackbarOptions {
   duration?: number | null;
 }
 
-export interface SnackbarContextType {
+// Split state for render optimization
+export interface SnackbarState {
+  open: boolean;
+  message: string;
+  severity: AlertColor;
+}
+
+// Split actions for render optimization
+export interface SnackbarActions {
   showSnackbar: (
     message: string,
     severity?: AlertColor,
@@ -809,6 +909,21 @@ export interface SnackbarContextType {
   ) => void;
   closeSnackbar: () => void;
 }
+
+// Combined type for backwards compatibility
+export interface SnackbarContextType extends SnackbarState, SnackbarActions {}
+
+// Snackbar reducer types (from SnackbarProvider.tsx)
+export interface SnackbarReducerState {
+  open: boolean;
+  message: string;
+  severity: AlertColor;
+  duration: number | null;
+}
+
+export type SnackbarAction =
+  | { type: 'SHOW'; payload: Omit<SnackbarReducerState, 'open'> }
+  | { type: 'CLOSE' };
 
 // --- Hooks ---
 export interface UseClickOutsideOptions {
@@ -862,6 +977,53 @@ export interface UseToggleReturn {
   setFalse: () => void;
 }
 
+// Hook return types (from hooks files)
+export interface UseImageLoadingReturn {
+  isLoaded: boolean;
+  handleLoad: () => void;
+  handleError: () => void;
+  reset: () => void;
+}
+
+export interface UseModalReturn {
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+}
+
+// Motion hook types (from useMotions.ts)
+export type SectionSequenceStep = {
+  selector: string;
+  delay: number;
+  useStagger: boolean;
+  staggerValue?: number;
+};
+
+export type SequenceStepKey = 'description' | 'cards' | 'cta';
+
+export type TimelineSequenceSelectors = {
+  cards?: string;
+  description?: string;
+  cta?: string;
+  [key: string]: string | undefined;
+};
+
+export type TimelineSequenceOptions = {
+  offset?: UseScrollOptions['offset'];
+  threshold?: number;
+};
+
+export interface TimelineSectionControllerOptions {
+  viewportPreset?: { once?: boolean; amount?: number | 'some' | 'all' };
+  selectors: TimelineSequenceSelectors;
+  sequenceOptions?: TimelineSequenceOptions;
+  variants?: Variants;
+  hoverEffect?: Target | string;
+  initialState?: string;
+  visibleState?: string;
+  hiddenState?: string;
+}
+
 // --- Scroll & Navigation Hooks ---
 export type ScrollDirection = 'up' | 'down';
 
@@ -891,6 +1053,61 @@ export type StatusBanner = {
   message: string;
   severity: AlertColor;
   persistent: boolean;
+};
+
+// Query utility types (from utils/query/utils.ts)
+export type QueryErrorType = 'network' | 'rate-limit' | 'not-found' | 'unknown';
+
+export interface QueryErrorInfo {
+  type: QueryErrorType;
+  message: string;
+  retryable: boolean;
+}
+
+// Background utility types (from utils/background.ts)
+export interface GradientConfig {
+  primaryGradient: string;
+  secondaryGradient: string;
+  tertiaryGradient: string;
+}
+
+// Metadata utility types (from utils/metadata.ts)
+export type MetaType = 'workplace' | 'school' | 'duration';
+export type MetaValue = string | null | undefined;
+
+// Motion props utility types (from utils/motionProps.ts)
+export type ConflictingEvent =
+  | 'onDrag'
+  | 'onDragStart'
+  | 'onDragEnd'
+  | 'onDragOver'
+  | 'onDragEnter'
+  | 'onDragLeave'
+  | 'onDrop'
+  | 'onAnimationStart'
+  | 'onAnimationEnd'
+  | 'onAnimationIteration';
+
+// Timeline utility types (from utils/timeline.ts)
+export type TimelineAlignment = 'left' | 'right';
+
+// Validation utility types (from utils/validation.ts)
+export interface ValidatorConfig {
+  required?: string;
+  pattern?: { regex: RegExp; error: string };
+  minLength?: { value: number; error: string };
+  optional?: boolean;
+}
+
+// Component overrides types (from config/overrides.ts)
+export type Components<T = unknown> = Record<string, { styleOverrides?: T }>;
+
+// BackgroundMorph types (from components/BackgroundMorph.tsx)
+export type BlobConfig = {
+  inset: string;
+  size: string;
+  blur?: number;
+  opacity?: number;
 };
 
 export type FadeVariant = 'in' | 'up' | 'down';

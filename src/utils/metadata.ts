@@ -4,12 +4,14 @@ import {
   SchoolTwoTone,
 } from '@mui/icons-material';
 
-import type { IconBadgeMetaItem, IconComponent } from '@/config/types';
+import type {
+  IconBadgeMetaItem,
+  IconComponent,
+  MetaType,
+  MetaValue,
+} from '@/config/types';
 
 // Shared metadata creation utilities for consistent badge rendering
-
-type MetaType = 'workplace' | 'school' | 'duration';
-type MetaValue = string | null | undefined;
 
 const META_ICONS: Record<MetaType, IconComponent> = {
   workplace: ApartmentTwoTone,

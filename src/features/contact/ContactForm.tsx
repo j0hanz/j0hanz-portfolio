@@ -45,8 +45,8 @@ import ContactFormFields from './ContactFormFields';
 
 // Style constants
 const SUCCESS_STACK_SX: SxProps<Theme> = {
-  mt: { xs: 1.5, md: 2 },
-  px: { xs: 1.5, md: 2 },
+  mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+  px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
 };
 const SUCCESS_TEXT_SX: SxProps<Theme> = { fontWeight: 500 };
 const FORM_CARD_SX: SxProps<Theme> = { height: 'auto' };

@@ -26,7 +26,7 @@ import {
   listItemStaggerVariants,
   viewportPresets,
 } from '@/config/motion';
-import { FONT_SIZE, GRID, SPACING } from '@/config/responsive';
+import { GRID, SPACING } from '@/config/responsive';
 import type {
   AboutMeListProps,
   CardItemProps,
@@ -48,7 +48,7 @@ import { credentialButtonSx, TEXT_LINE_HEIGHT } from '@/styles/shared';
 const overviewTextSx: SxProps<Theme> = {
   lineHeight: TEXT_LINE_HEIGHT,
   color: 'text.primary',
-  fontSize: FONT_SIZE.body,
+  fontSize: (theme) => theme.typography.body1.fontSize,
 };
 
 // Table styles
@@ -57,7 +57,7 @@ const tableSx: SxProps<Theme> = {
     borderBottom: 1,
     borderColor: 'divider',
     px: 0,
-    py: { xs: 1.25, md: 1.5 },
+    py: { xs: 1.25, sm: 1.375, md: 1.5, lg: 1.75 },
   },
   '& .MuiTableRow-root:last-child .MuiTableCell-root': {
     borderBottom: 0,

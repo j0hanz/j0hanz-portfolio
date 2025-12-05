@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import type { Transition } from 'motion/react';
 
 import { BACKGROUND_ANIMATION_CONFIG } from '@/config/constants';
+import type { BlobConfig } from '@/config/types';
 import {
   useAnimationConfig,
   useAnimationPriority,
@@ -36,12 +37,6 @@ const createBlobTransition = (
     : undefined;
 
 // Blob style configurations - DRY pattern for repeated blob styling
-type BlobConfig = {
-  inset: string;
-  size: string;
-  blur?: number;
-  opacity?: number;
-};
 const BLOB_CONFIGS: Record<'primary' | 'secondary' | 'tertiary', BlobConfig> = {
   primary: { inset: '-38%', size: '178%' },
   secondary: { inset: '-34%', size: '165%', blur: 90, opacity: 0.72 },
@@ -143,8 +138,10 @@ function BackgroundMorph(): React.JSX.Element {
             y: primaryTransition(1.08),
             rotate: primaryTransition(0.92),
           }}
-          style={{ background: primaryGradient }}
-          sx={createBlobSx(BLOB_CONFIGS.primary, shouldAnimate)}
+          sx={{
+            ...createBlobSx(BLOB_CONFIGS.primary, shouldAnimate),
+            background: primaryGradient,
+          }}
         />
       </AnimatePresence>
 
@@ -161,8 +158,10 @@ function BackgroundMorph(): React.JSX.Element {
           y: secondaryTransition(1.12),
           scale: secondaryTransition(0.85),
         }}
-        style={{ background: secondaryGradient }}
-        sx={createBlobSx(BLOB_CONFIGS.secondary, shouldAnimate)}
+        sx={{
+          ...createBlobSx(BLOB_CONFIGS.secondary, shouldAnimate),
+          background: secondaryGradient,
+        }}
       />
 
       {/* Tertiary Depth Blob - subtle, adds layered depth */}
@@ -178,8 +177,10 @@ function BackgroundMorph(): React.JSX.Element {
           y: tertiaryTransition(1.15),
           scale: tertiaryTransition(0.88),
         }}
-        style={{ background: tertiaryGradient }}
-        sx={createBlobSx(BLOB_CONFIGS.tertiary, shouldAnimate)}
+        sx={{
+          ...createBlobSx(BLOB_CONFIGS.tertiary, shouldAnimate),
+          background: tertiaryGradient,
+        }}
       />
     </Box>
   );

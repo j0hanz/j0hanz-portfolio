@@ -7,9 +7,9 @@ import { SxProps } from '@mui/system';
 import { motion } from 'motion/react';
 
 import { modalVariants } from '@/config/motion';
-import { SIZE } from '@/config/responsive';
 import { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
+import { SIZING } from '@/styles/shared';
 
 const MotionDialogContent = motion.create(DialogContent);
 
@@ -23,10 +23,10 @@ const closeButtonSx: SxProps<Theme> = {
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
   borderRadius: CLOSE_BUTTON_BORDER_RADIUS,
   // Responsive sizing: larger touch target on mobile (WCAG 2.1 AA)
-  height: { xs: 44, sm: 38 },
-  width: { xs: 44, sm: 38 },
-  pl: { xs: 1.25, sm: 1 },
-  pb: { xs: 1.25, sm: 1 },
+  height: SIZING.closeButton,
+  width: SIZING.closeButton,
+  pl: { xs: 1.25, sm: 1.125, md: 1 },
+  pb: { xs: 1.25, sm: 1.125, md: 1 },
   zIndex: 'modal', // Use theme z-index
   color: 'common.white',
   opacity: 0.7,
@@ -116,7 +116,7 @@ function BaseModal({
           aria-label="Close modal"
           sx={closeButtonSx}
         >
-          <Close sx={{ fontSize: SIZE.iconXs }} />
+          <Close sx={{ fontSize: SIZING.iconXs }} />
         </IconButton>
         {children}
       </MotionDialogContent>

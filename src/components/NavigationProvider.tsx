@@ -1,7 +1,12 @@
 import { ReactNode, useEffect, useReducer, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
-import type { Direction, NavigationState } from '@/config/types';
+import type {
+  Direction,
+  NavigationAction,
+  NavigationSnapshot,
+  NavigationState,
+} from '@/config/types';
 import {
   NavigationActionsContext,
   NavigationStateContext,
@@ -9,14 +14,6 @@ import {
 import { useEventCallback } from '@/hooks';
 
 const LAST_INDEX = sections.length - 1;
-
-type NavigationSnapshot = Omit<NavigationState, 'isPending'>;
-
-type NavigationAction =
-  | { type: 'SET_INDEX'; payload: number }
-  | { type: 'SET_ID'; payload: string }
-  | { type: 'STEP'; payload: 1 | -1 }
-  | { type: 'SYNC_HASH'; payload: string };
 
 // Clamps index within valid section bounds
 // Defensive clamp: handles NaN, infinities, negative zero, non-integers

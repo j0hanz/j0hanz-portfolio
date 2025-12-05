@@ -1,12 +1,22 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 import { PALETTES } from './constants';
-import { componentOverrides } from './overrides';
+import { getComponentOverrides } from './overrides';
 
-const theme = createTheme({
+// Base theme without component overrides (needed to pass theme to overrides)
+const baseTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-mui-color-scheme',
     cssVarPrefix: 'portfolio',
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
   },
   colorSchemes: {
     light: {
@@ -72,14 +82,18 @@ const theme = createTheme({
       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)',
     },
   },
-  components: componentOverrides,
+});
+
+// Full theme with component overrides
+const theme = createTheme(baseTheme, {
+  components: getComponentOverrides(baseTheme),
 });
 
 export const appTheme = responsiveFontSizes(theme, {
-  // Breakpoints where typography scales: sm (600px), md (900px), lg (1200px)
-  breakpoints: ['sm', 'md', 'lg'],
-  // Factor determines scaling ratio between breakpoints
-  // Factor 2 = ~12% size reduction per breakpoint down
+  // Breakpoints for responsive typography scaling
+  // sm (600px), md (768px), lg (1024px), xl (1280px)
+  breakpoints: ['sm', 'md', 'lg', 'xl'],
+  // Factor 2 provides ~12% size reduction per breakpoint for balanced scaling
   factor: 2,
   // Variants to apply responsive scaling (all heading variants)
   variants: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2'],

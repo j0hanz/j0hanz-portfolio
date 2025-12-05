@@ -8,7 +8,7 @@ import SectionContainer from '@/components/SectionContainer';
 import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
-import { useMotionVariant, useResponsiveValue } from '@/hooks';
+import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
 import projects from '@/lib/data/projects';
 
 import ProjectGridItem from './ProjectGridItem';
@@ -16,11 +16,8 @@ import ProjectMasonryItem from './ProjectMasonryItem';
 
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
-  const layoutMode = useResponsiveValue<'grid' | 'masonry'>(
-    { xs: 'grid', sm: 'grid', md: 'masonry' },
-    'masonry'
-  );
-  const useGridLayout = layoutMode === 'grid';
+  // Use grid on mobile (< md), masonry on desktop (>= md)
+  const useGridLayout = useMobileBreakpoint('md');
   // Use animate with proper viewport config for full-page scroll sections
   // Using once:false ensures animations replay when section remounts on navigation
   const motionProps = useMotionVariant(createStaggerContainer(0.1, 0.15), {
@@ -43,7 +40,10 @@ function Portfolio(): React.JSX.Element {
             ))}
           </Grid>
         ) : (
-          <Masonry columns={{ sm: 2, md: 2, lg: 3 }} spacing={SPACING.masonry}>
+          <Masonry
+            columns={{ sm: 2, md: 2, lg: 2, xl: 3 }}
+            spacing={SPACING.masonry}
+          >
             {projects.map((project) => (
               <ProjectMasonryItem key={project.github} project={project} />
             ))}

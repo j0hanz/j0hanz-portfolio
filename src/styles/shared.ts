@@ -9,28 +9,73 @@ import type { SxProps, Theme } from '@mui/material';
 // ============================================================================
 // SIZING CONSTANTS (Responsive - mobile-first)
 // All sizing uses responsive values for consistent mobile/desktop experience
+// SINGLE SOURCE OF TRUTH - import these instead of hardcoding values
 // ============================================================================
 
 export const SIZING = {
-  /** Responsive icon size */
-  icon: { xs: '0.9rem', sm: '1rem' },
-  /** Responsive small icon size */
-  iconSmall: { xs: '0.8rem', sm: '0.9rem' },
-  /** Responsive button minimum width */
-  buttonMinWidth: { xs: 100, sm: 120 },
-  /** Responsive wide button minimum width */
-  buttonMinWidthWide: { xs: 120, sm: 140 },
-  /** Responsive hero button minimum width */
-  buttonMinWidthHero: { xs: 125, sm: 140 },
-  /** Responsive standard button height */
-  buttonHeightStandard: { xs: 28, sm: 30 },
-  /** Responsive large button height (WCAG touch target) */
-  buttonHeightLarge: { xs: 40, sm: 44 },
-  /** Badge dimensions (static - small decorative elements) */
-  badgeMinWidth: { xs: 40, sm: 45 },
-  badgeHeight: { xs: 18, sm: 21 },
-  /** Action button minimum width for project cards */
-  actionButtonMinWidth: { xs: 90, sm: 104 },
+  // ---------------------------------------------------------------------------
+  // ICON SIZES (pixels - icons use absolute pixel values, not theme spacing)
+  // ---------------------------------------------------------------------------
+  /** Extra small icon (close buttons, inline indicators) */
+  iconXs: { xs: 14, sm: 15, md: 16, lg: 16 },
+  /** Small icon (badges, metadata, form field icons) */
+  iconSm: { xs: 15, sm: 16, md: 17, lg: 18 },
+  /** Default icon (standard UI icons, buttons) */
+  icon: { xs: 16, sm: 18, md: 20, lg: 20 },
+  /** Medium icon (stat icons, action buttons, subtitles) */
+  iconMd: { xs: 18, sm: 20, md: 22, lg: 24 },
+  /** Large icon (feature icons, skill badges) */
+  iconLg: { xs: 22, sm: 24, md: 28, lg: 32 },
+  /** Extra large icon (section headers, decorative) */
+  iconXl: { xs: 28, sm: 32, md: 36, lg: 40 },
+  /** Scroll/FAB icons */
+  iconFab: { xs: 24, sm: 26, md: 28, lg: 28 },
+  /** Flag icons (CV modal) */
+  iconFlag: { xs: 42, sm: 48, md: 56, lg: 64 },
+  /** Spinner/loading size */
+  spinner: { xs: 80, sm: 100, md: 120, lg: 120 },
+
+  // ---------------------------------------------------------------------------
+  // BUTTON DIMENSIONS
+  // ---------------------------------------------------------------------------
+  /** Standard button minimum width */
+  buttonMinWidth: { xs: 80, sm: 100, md: 120, lg: 120 },
+  /** Wide button minimum width */
+  buttonMinWidthWide: { xs: 100, sm: 120, md: 130, lg: 140 },
+  /** Hero CTA button minimum width */
+  buttonMinWidthHero: { xs: 115, sm: 130, md: 145, lg: 150 },
+  /** Standard button height */
+  buttonHeightStandard: { xs: 26, sm: 28, md: 30, lg: 32 },
+  /** Large button height (WCAG 44px touch target on mobile) */
+  buttonHeightLarge: { xs: 44, sm: 44, md: 46, lg: 48 },
+  /** Action button minimum width (project cards) */
+  actionButtonMinWidth: { xs: 90, sm: 100, md: 110, lg: 120 },
+
+  // ---------------------------------------------------------------------------
+  // BADGE & CHIP DIMENSIONS
+  // ---------------------------------------------------------------------------
+  /** Badge minimum width */
+  badgeMinWidth: { xs: 38, sm: 43, md: 48, lg: 52 },
+  /** Badge height */
+  badgeHeight: { xs: 16, sm: 19, md: 22, lg: 24 },
+
+  // ---------------------------------------------------------------------------
+  // NAVIGATION & TOOLBAR
+  // ---------------------------------------------------------------------------
+  /** NavBar height */
+  navBarHeight: { xs: 44, sm: 50, md: 56, lg: 56 },
+  /** NavBar button min width */
+  navButtonMinWidth: { xs: 36, sm: 40, md: 44, lg: 44 },
+  /** Logo image width */
+  logoWidth: { xs: 30, sm: 35, md: 38, lg: 40 },
+  /** Modal close button size (WCAG touch target) */
+  closeButton: { xs: 44, sm: 40, md: 38, lg: 38 },
+
+  // ---------------------------------------------------------------------------
+  // PROGRESS & INDICATORS
+  // ---------------------------------------------------------------------------
+  /** Scroll progress bar height (spacing units, not pixels) */
+  progressBarHeight: { xs: 0.5, sm: 0.4375, md: 0.375, lg: 0.375 },
 } as const;
 
 // Convenience exports for badge sizing (responsive)
@@ -115,12 +160,12 @@ export const tooltipWrapperSx: SxProps<Theme> = {
 };
 
 export const sectionGridItemSx: SxProps<Theme> = {
-  mb: { xs: 3, md: 4 },
+  mb: { xs: 2, sm: 2.5, md: 3, lg: 4 },
 };
 
 export const sectionSpacingSx: SxProps<Theme> = {
   px: 0,
-  pb: { xs: 3, md: 5 },
+  pb: { xs: 2, sm: 3, md: 4, lg: 5 },
 };
 
 export const centeredFullViewportSx: SxProps<Theme> = {
@@ -143,7 +188,7 @@ export const descriptionTextSx: SxProps<Theme> = {
 export const listContainerSx: SxProps<Theme> = {
   pl: 2.5,
   m: 0,
-  lineHeight: { xs: 1.6, md: 1.8 }, // Responsive line height
+  lineHeight: { xs: 1.5, sm: 1.6, md: 1.8 },
   color: 'text.secondary',
 };
 
@@ -164,7 +209,7 @@ export const textClampSx = (lines: number): SxProps<Theme> => ({
 
 /** Responsive line height for improved mobile readability */
 export const responsiveLineHeightSx: SxProps<Theme> = {
-  lineHeight: { xs: 1.6, md: 1.75 },
+  lineHeight: { xs: 1.6, sm: 1.7, md: 1.75, lg: 1.8 },
 };
 
 /** Responsive letter spacing for headings */
@@ -190,7 +235,7 @@ export const timelineCardWrapperSx: SxProps<Theme> = {
 };
 
 export const timelineDescriptionWrapperSx: SxProps<Theme> = {
-  mb: { xs: 1.5, md: 2 },
+  mb: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
 };
 
 export const transparentModalContentSx: SxProps<Theme> = {

@@ -20,12 +20,11 @@ function Image({
   const { isLoaded, handleLoad, handleError } = useImageLoading();
   const { getTransition } = useAnimationConfig();
 
-  const borderRadius =
-    radius === 'circle' ? '50%' : radius === 'flat' ? '0px' : '7.5px';
+  // Border radius: circle=50%, flat=0, rounded=theme default
+  const borderRadius = radius === 'circle' ? '50%' : radius === 'flat' ? 0 : 1;
   const defaultStyle: CSSProperties = {
     maxWidth: '100%',
     objectFit: 'cover',
-    borderRadius,
     display: 'block',
   };
   const combinedStyle: CSSProperties = {
@@ -73,6 +72,7 @@ function Image({
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={getTransition('smooth')}
         loading="lazy"
+        sx={{ borderRadius }}
       />
     </Box>
   );

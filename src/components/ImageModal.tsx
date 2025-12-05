@@ -33,7 +33,7 @@ const imgStyle = {
   width: 'auto',
   height: 'auto',
   objectFit: 'contain',
-  borderRadius: 10, // CSS pixels for inline style
+  borderRadius: 10, // 10px - numeric for motion.img style prop
   display: 'block',
 } as const;
 

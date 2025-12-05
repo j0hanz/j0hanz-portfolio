@@ -1207,6 +1207,32 @@ export const badgeVariants = {
   },
 } as const;
 
+// Skill badge stagger variants for hero section
+export const skillBadgeVariants = {
+  container: {
+    initial: {},
+    animate: {
+      transition: {
+        staggerChildren: 0.04,
+        delayChildren: 0.3,
+      },
+    },
+  },
+  item: {
+    initial: { opacity: 0, y: 15, scale: 0.9 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: 'spring' as const,
+        stiffness: 300,
+        damping: 24,
+      },
+    },
+  },
+} as const;
+
 // ============================================================================
 // TOOLTIP & POPOVER VARIANTS
 // ============================================================================

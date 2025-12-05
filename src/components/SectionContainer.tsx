@@ -9,38 +9,50 @@ import {
   Typography,
 } from '@mui/material';
 
-import {
-  CONTAINER_WIDTH,
-  containerPaddingSx,
-  FONT_SIZE,
-  sectionCenteredSx,
-  sectionHeaderSx,
-  SIZE,
-} from '@/config/responsive';
+import { CONTAINER_WIDTH, SPACING } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
+import { SIZING } from '@/styles/shared';
 
 // ============================================================================
 // STYLE CONSTANTS
+// Inlined from responsive.ts - component-specific patterns
 // ============================================================================
 
-const ICON_SX: SxProps<Theme> = {
-  mr: 1.5,
-  fontSize: SIZE.iconMd,
+const sectionCenteredSx: SxProps<Theme> = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
+  py: SPACING.section,
+};
+
+const containerPaddingSx: SxProps<Theme> = {
+  px: SPACING.containerPadding,
+};
+
+const sectionHeaderSx: SxProps<Theme> = {
+  mb: SPACING.headerMargin,
+};
+
+const iconSx: SxProps<Theme> = {
+  mr: { xs: 1, sm: 1.25, md: 1.5 },
+  fontSize: SIZING.iconXl,
   color: 'primary.main',
 };
 
-const TITLE_SX: SxProps<Theme> = {
+const titleSx: SxProps<Theme> = {
   fontWeight: 400,
-  fontSize: FONT_SIZE.sectionTitle,
+  fontSize: (theme) => theme.typography.h3.fontSize,
+  my: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
 };
 
-const SUBTITLE_SX: SxProps<Theme> = {
+const subtitleSx: SxProps<Theme> = {
   color: 'text.secondary',
-  mt: { xs: 0.75, md: 1 },
+  mt: { xs: 0.75, sm: 0.875, md: 1, lg: 1.25 },
   textAlign: 'center',
 };
 
-const HEADER_ACTIONS_SX: SxProps<Theme> = {
+const headerActionsSx: SxProps<Theme> = {
   mt: 2,
   display: 'flex',
   justifyContent: 'center',
@@ -50,7 +62,6 @@ const HEADER_ACTIONS_SX: SxProps<Theme> = {
 // COMPOUND COMPONENT SLOTS
 // ============================================================================
 
-// Header slot for custom section headers
 function SectionHeader({
   children,
   icon: Icon,
@@ -67,15 +78,14 @@ function SectionHeader({
       alignItems="center"
       sx={sectionHeaderSx}
     >
-      {Icon && <Box component={Icon} sx={ICON_SX} />}
-      <Typography variant="h3" component={headingLevel} sx={TITLE_SX}>
+      {Icon && <Box component={Icon} sx={iconSx} />}
+      <Typography variant="h3" component={headingLevel} sx={titleSx}>
         {children}
       </Typography>
     </Stack>
   );
 }
 
-// Content slot for section body
 function SectionContent({
   children,
   sx,
@@ -86,7 +96,6 @@ function SectionContent({
   return <Box sx={sx}>{children}</Box>;
 }
 
-// Actions slot for header-level actions
 function SectionActions({
   children,
   sx,
@@ -95,7 +104,7 @@ function SectionActions({
   sx?: SxProps<Theme>;
 }): JSX.Element {
   return (
-    <Box sx={[HEADER_ACTIONS_SX, ...(Array.isArray(sx) ? sx : [sx])]}>
+    <Box sx={[headerActionsSx, ...(Array.isArray(sx) ? sx : [sx])]}>
       {children}
     </Box>
   );
@@ -129,7 +138,7 @@ function SectionContainerBase({
           {title}
         </SectionHeader>
         {subtitle && (
-          <Typography variant="body1" sx={SUBTITLE_SX}>
+          <Typography variant="body1" sx={subtitleSx}>
             {subtitle}
           </Typography>
         )}
@@ -140,7 +149,6 @@ function SectionContainerBase({
   );
 }
 
-// Compound component with attached slots
 const SectionContainer = Object.assign(SectionContainerBase, {
   Header: SectionHeader,
   Content: SectionContent,

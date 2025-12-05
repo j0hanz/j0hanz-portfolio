@@ -18,15 +18,15 @@ import { SxProps } from '@mui/system';
 import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
 import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
-import { FONT_SIZE, SIZE, SPACING } from '@/config/responsive';
+import { SPACING } from '@/config/responsive';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
 import { SIZING, SKEW_TRANSFORM, TRANSITION_STANDARD } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
 const footerSx: SxProps<Theme> = {
   bgcolor: 'neutral.dark',
-  py: { xs: 1.5, md: 2 },
-  pb: { xs: 0.25, sm: 2 },
+  py: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+  pb: { xs: 0.25, sm: 1, md: 2, lg: 2.5 },
   color: 'primary.contrastText',
   height: 1, // = 100%
   display: 'flex',
@@ -35,8 +35,8 @@ const footerSx: SxProps<Theme> = {
 };
 
 const contactLabelSx: SxProps<Theme> = {
-  pb: { xs: 2, sm: 3 },
-  fontSize: SIZE.iconXs,
+  pb: { xs: 2, sm: 2.5, md: 3, lg: 3.5 },
+  fontSize: (theme) => theme.typography.body1.fontSize,
   color: 'inherit',
   opacity: 0.8,
 };
@@ -44,14 +44,14 @@ const contactLabelSx: SxProps<Theme> = {
 const emailIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
-  fontSize: SIZING.iconSmall,
-  mr: { xs: 1, sm: 1.25 },
+  fontSize: SIZING.iconSm,
+  mr: { xs: 1, sm: 1.25, md: 1.5 },
   transition: TRANSITION_STANDARD,
 };
 
 const emailLinkSx: SxProps<Theme> = {
   textDecoration: 'none',
-  fontSize: SIZING.iconSmall,
+  fontSize: SIZING.iconSm,
   color: 'inherit',
   transition: TRANSITION_STANDARD,
   opacity: 0.8,
@@ -72,15 +72,15 @@ const copyButtonSx: SxProps<Theme> = {
 const copyrightIconSx: SxProps<Theme> = {
   color: 'inherit',
   opacity: 0.8,
-  fontSize: SIZING.iconSmall,
-  mr: { xs: 1, sm: 1.25 },
+  fontSize: SIZING.iconSm,
+  mr: { xs: 1, sm: 1.25, md: 1.5 },
   transition: TRANSITION_STANDARD,
 };
 
 const copyrightTextSx: SxProps<Theme> = {
   transform: SKEW_TRANSFORM,
   textTransform: 'uppercase',
-  fontSize: FONT_SIZE.small,
+  fontSize: (theme) => theme.typography.caption.fontSize,
   color: 'inherit',
   opacity: 0.8,
 };
@@ -146,20 +146,20 @@ function Footer(): React.JSX.Element {
               alignItems="center"
               sx={{
                 justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                pb: 3,
+                pb: { xs: 2.5, sm: 3, md: 3.5 },
               }}
             >
               <Box component={SiCreativecommons} sx={copyrightIconSx} />
-              <Box component="small" sx={copyrightTextSx}>
+              <Typography variant="caption" sx={copyrightTextSx}>
                 Copyright 2025
-              </Box>
+              </Typography>
             </Stack>
-            <Box sx={{ mt: { xs: 4, sm: 0 } }}>
+            <Box sx={{ mt: { xs: 4, sm: 2, md: 0 } }}>
               <Grid
                 container
                 sx={{
                   justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                  fontSize: FONT_SIZE.body,
+                  fontSize: (theme) => theme.typography.body1.fontSize,
                 }}
               >
                 <SocialLinkList

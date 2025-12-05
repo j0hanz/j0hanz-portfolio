@@ -14,9 +14,9 @@ const hackathonBadgeBase = {
   alt: 'Hackathon Badge',
   style: {
     position: 'absolute',
-    bottom: '3rem',
-    right: '0.5rem',
-    width: '7rem',
+    bottom: 48, // 3rem = 48px
+    right: 8, // 0.5rem = 8px
+    width: 112, // 7rem = 112px
     filter: 'contrast(0.9)',
   },
   ...BADGE_SIZE.hackathon,
@@ -49,9 +49,9 @@ export const badgeConfig = [
     alt: 'Gitpod Template',
     style: {
       position: 'absolute',
-      bottom: '4rem',
-      right: '1rem',
-      width: '3.5rem',
+      bottom: 64, // 4rem = 64px
+      right: 16, // 1rem = 16px
+      width: 56, // 3.5rem = 56px
       filter: 'contrast(0.9)',
     },
     ...BADGE_SIZE.gitpod,

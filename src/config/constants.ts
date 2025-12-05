@@ -207,7 +207,7 @@ export const PALETTES = {
     },
     divider: '#333333',
     backdrop: {
-      glass: 'rgba(20, 20, 20, 0.23)',
+      glass: 'rgba(0, 0, 0, 0.55)',
     },
     github: {
       main: '#ffffff',

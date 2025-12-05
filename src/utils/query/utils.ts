@@ -1,13 +1,5 @@
 // Query utility functions with typed error handling
-
-// Discriminated union for query error types
-export type QueryErrorType = 'network' | 'rate-limit' | 'not-found' | 'unknown';
-
-export interface QueryErrorInfo {
-  type: QueryErrorType;
-  message: string;
-  retryable: boolean;
-}
+import type { QueryErrorInfo, QueryErrorType } from '@/config/types';
 
 // Error messages for each type
 const ERROR_MESSAGES: Readonly<Record<QueryErrorType, string>> = {

@@ -10,25 +10,18 @@ import {
 } from '@mui/material';
 
 import { UI_TIMING } from '@/config/constants';
-import { SnackbarContext } from '@/contexts/SnackbarContext';
+import type { SnackbarAction, SnackbarReducerState } from '@/config/types';
+import {
+  SnackbarActionsContext,
+  SnackbarStateContext,
+} from '@/contexts/SnackbarContext';
 import { useEventCallback } from '@/hooks';
 
 // Styles extracted as constants for reusability
 const SNACKBAR_SX: SxProps<Theme> = { mt: { xs: 8, sm: 9 } };
 const ALERT_SX: SxProps<Theme> = { width: 1, boxShadow: 3 };
 
-interface SnackbarState {
-  open: boolean;
-  message: string;
-  severity: AlertColor;
-  duration: number | null;
-}
-
-type SnackbarAction =
-  | { type: 'SHOW'; payload: Omit<SnackbarState, 'open'> }
-  | { type: 'CLOSE' };
-
-const INITIAL_STATE: SnackbarState = {
+const INITIAL_STATE: SnackbarReducerState = {
   open: false,
   message: '',
   severity: 'info',
@@ -36,9 +29,9 @@ const INITIAL_STATE: SnackbarState = {
 };
 
 const snackbarReducer = (
-  state: SnackbarState,
+  state: SnackbarReducerState,
   action: SnackbarAction
-): SnackbarState =>
+): SnackbarReducerState =>
   action.type === 'CLOSE'
     ? { ...state, open: false }
     : { open: true, ...action.payload };
@@ -62,25 +55,35 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
     }
   );
 
+  // Split context values for render optimization
+  const stateValue = {
+    open: state.open,
+    message: state.message,
+    severity: state.severity,
+  };
+  const actionsValue = { showSnackbar, closeSnackbar };
+
   return (
-    <SnackbarContext value={{ showSnackbar, closeSnackbar }}>
-      {children}
-      <Snackbar
-        open={state.open}
-        autoHideDuration={state.duration}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={SNACKBAR_SX}
-      >
-        <Alert
+    <SnackbarActionsContext value={actionsValue}>
+      <SnackbarStateContext value={stateValue}>
+        {children}
+        <Snackbar
+          open={state.open}
+          autoHideDuration={state.duration}
           onClose={handleClose}
-          severity={state.severity}
-          variant="filled"
-          sx={ALERT_SX}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          sx={SNACKBAR_SX}
         >
-          {state.message}
-        </Alert>
-      </Snackbar>
-    </SnackbarContext>
+          <Alert
+            onClose={handleClose}
+            severity={state.severity}
+            variant="filled"
+            sx={ALERT_SX}
+          >
+            {state.message}
+          </Alert>
+        </Snackbar>
+      </SnackbarStateContext>
+    </SnackbarActionsContext>
   );
 }

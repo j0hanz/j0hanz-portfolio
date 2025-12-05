@@ -90,7 +90,7 @@ const errorIconSx: SxProps<Theme> = {
 };
 
 const inputSx: SxProps<Theme> = {
-  mt: { xs: 1.5, md: 2 },
+  mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
   '&:before': {
     borderBottom: '2px solid',
     borderBottomColor: 'divider',

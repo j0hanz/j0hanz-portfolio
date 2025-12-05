@@ -1,13 +1,9 @@
 import { Box, type SxProps, type Theme, Tooltip } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { SIZE } from '@/config/responsive';
-import type { Skill } from '@/config/types';
+import type { SkillBadgeProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-
-interface SkillBadgeProps {
-  skill: Skill;
-}
+import { SIZING } from '@/styles/shared';
 
 const badgeContainerSx: SxProps<Theme> = {
   position: 'relative',
@@ -17,7 +13,7 @@ const badgeContainerSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: SIZE.iconSm,
+  fontSize: SIZING.iconLg,
   color: 'text.secondary',
   transition: 'color 0.2s ease',
   '&:hover': {

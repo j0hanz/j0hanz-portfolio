@@ -13,16 +13,12 @@ import {
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import BaseModal from '@/components/BaseModal';
-import { SIZE } from '@/config/responsive';
 import { ModalCvProps } from '@/config/types';
 import { useSnackbar } from '@/hooks';
-import { TRANSITION_STANDARD } from '@/styles/shared';
-
-// Flag icon sizes - large for visibility
-const FLAG_ICON_SIZE = { xs: '2.8rem', sm: '3.5rem' } as const;
+import { SIZING, TRANSITION_STANDARD } from '@/styles/shared';
 
 const flagIconStyles: SxProps<Theme> = {
-  fontSize: FLAG_ICON_SIZE,
+  fontSize: SIZING.iconFlag,
   cursor: 'pointer',
   opacity: 0.7,
   transition: TRANSITION_STANDARD,
@@ -38,32 +34,29 @@ const flagIconStyles: SxProps<Theme> = {
 const contentSx: SxProps<Theme> = {
   bgcolor: 'backdrop.glass',
   borderRadius: 2.5, // 2.5 * 4px = 10px
-  p: 3,
+  p: { xs: 2.5, sm: 3, md: 3.5 },
   color: 'text.primary',
   overflow: 'hidden',
 };
 
-// Header font sizes for dialog title
-const HEADER_FONT_SIZE = { xs: '1.2rem', sm: '1.4rem' } as const;
-
 const headerStackSx: SxProps<Theme> = {
   mb: 4,
-  fontSize: HEADER_FONT_SIZE,
+  fontSize: SIZING.iconMd, // Reuses medium icon scale for header text
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: SIZE.iconXs,
-  mr: 0.5,
+  fontSize: SIZING.iconSm,
+  mr: { xs: 0.5, sm: 0.625, md: 0.75 },
 };
 
 const textSx: SxProps<Theme> = {
   textAlign: 'center',
-  mb: 2,
+  mb: { xs: 1.5, sm: 2, md: 2.5 },
 };
 
 const flagsStackSx: SxProps<Theme> = {
-  mt: { xs: 3, sm: 4 },
-  px: { xs: 2, sm: 4 },
+  mt: { xs: 3, sm: 3.5, md: 4, lg: 5 },
+  px: { xs: 2, sm: 3, md: 4, lg: 5 },
 };
 
 const flagButtonBaseSx: SxProps<Theme> = {

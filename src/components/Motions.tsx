@@ -136,12 +136,13 @@ function SlideFromSide({
     );
   }
 
-  const xOffset = from === 'left' ? '-50px' : '50px';
+  // Offset value in pixels for slide animation
+  const xOffset = from === 'left' ? -50 : 50;
 
   return (
     <motion.div
-      initial={{ opacity: 0, transform: `translateX(${xOffset})` }}
-      whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
+      initial={{ opacity: 0, x: xOffset }}
+      whileInView={{ opacity: 1, x: 0 }}
       transition={transitionOverride ?? getTransition('easeOut')}
       viewport={viewportOverride ?? viewportConfig}
       style={style}

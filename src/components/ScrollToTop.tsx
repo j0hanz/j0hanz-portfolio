@@ -9,6 +9,7 @@ import {
   useNavigationActions,
   useNavigationState,
 } from '@/hooks';
+import { SIZING } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',
@@ -24,7 +25,7 @@ const fabSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: { xs: 24, sm: 28 },
+  fontSize: SIZING.iconFab,
 };
 
 // Progress ring wraps FAB (40px small size + 8px padding for stroke)

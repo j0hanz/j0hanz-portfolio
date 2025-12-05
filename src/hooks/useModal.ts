@@ -1,10 +1,6 @@
-import { useToggle } from './useToggle';
+import type { UseModalReturn } from '@/config/types';
 
-export interface UseModalReturn {
-  isOpen: boolean;
-  open: () => void;
-  close: () => void;
-}
+import { useToggle } from './useToggle';
 
 // Reusable modal state management hook with semantic naming
 export function useModal(initialState = false): UseModalReturn {

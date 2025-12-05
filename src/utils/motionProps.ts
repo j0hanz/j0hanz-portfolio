@@ -1,7 +1,8 @@
 // Filters HTML drag/animation events that conflict with Motion's drag system
 // These events are defined on HTMLAttributes but cause runtime issues when passed to Motion components
+import type { ConflictingEvent } from '@/config/types';
 
-const CONFLICTING_EVENTS = [
+const CONFLICTING_EVENTS: ConflictingEvent[] = [
   'onDrag',
   'onDragStart',
   'onDragEnd',
@@ -12,9 +13,7 @@ const CONFLICTING_EVENTS = [
   'onAnimationStart',
   'onAnimationEnd',
   'onAnimationIteration',
-] as const;
-
-type ConflictingEvent = (typeof CONFLICTING_EVENTS)[number];
+];
 
 // Filters props object to remove HTML events that conflict with Motion's event system
 export function filterMotionConflicts<T extends Record<string, unknown>>(

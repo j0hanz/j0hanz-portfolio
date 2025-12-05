@@ -5,18 +5,17 @@ import {
   CLIP_ROUNDED,
   LETTER_SPACING_TIGHT,
   LETTER_SPACING_WIDE,
+  SIZING,
 } from '@/styles/shared';
 
 export const navLogoStackSx: SxProps<Theme> = {
-  // Responsive logo height for better mobile fit
-  height: { xs: 44, sm: 50 },
+  height: SIZING.navBarHeight,
   textDecoration: 'none',
   cursor: 'pointer',
 };
 
 export const navLogoImgSx: SxProps<Theme> = {
-  // Responsive logo image width
-  width: { xs: '1.9rem', sm: '2.2rem' },
+  width: SIZING.logoWidth,
 };
 
 export const navLinksListSx: SxProps<Theme> = {
@@ -76,8 +75,7 @@ export const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
 };
 
 export const listItemIconSx: SystemStyleObject<Theme> = {
-  // Responsive icon container width
-  minWidth: { xs: 36, sm: 40 },
+  minWidth: SIZING.navButtonMinWidth,
   color: 'text.secondary',
 };
 

@@ -1,4 +1,4 @@
-import type { ComponentType, JSX, ReactNode } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import {
@@ -11,9 +11,8 @@ import { CvModalProvider } from '@/components/CvModalProvider';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { NavigationProvider } from '@/components/NavigationProvider';
 import { SnackbarProvider } from '@/components/SnackbarProvider';
+import type { Provider } from '@/config/types';
 import { queryClient } from '@/utils/query/index';
-
-type Provider = ComponentType<{ children: ReactNode }>;
 
 // Composes providers into nested structure (applies right-to-left)
 // Example: compose(A, B, C) renders as <A><B><C>{children}</C></B></A>

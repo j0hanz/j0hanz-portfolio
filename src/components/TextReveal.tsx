@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { textRevealVariants } from '@/config/motion';
-import type { ElementRef, TextRevealProps } from '@/config/types';
+import type { ElementRef, TextRevealExtendedProps } from '@/config/types';
 import { useAnimationConfig, useInView, useReducedMotion } from '@/hooks';
 
 const wrapperSx = { display: 'flex', flexWrap: 'wrap' } as const;
@@ -38,11 +38,6 @@ const containerVariants = {
     },
   },
 };
-
-interface TextRevealExtendedProps extends TextRevealProps {
-  // 'word' = word-by-word (default), 'char' = character-by-character
-  splitBy?: 'word' | 'char';
-}
 
 // Reveals text word-by-word or character-by-character with stagger animation
 export function TextReveal({

@@ -10,7 +10,7 @@ import {
 import { motion, type MotionProps } from 'motion/react';
 
 import { SPACING } from '@/config/responsive';
-import type { CardProps, InternalCardProps } from '@/config/types';
+import type { CardComponentProps, CardProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
 
@@ -71,11 +71,6 @@ function CardFooter({
 // ============================================================================
 // BASE CARD COMPONENT
 // ============================================================================
-
-interface CardComponentProps extends InternalCardProps {
-  ref?: Ref<HTMLDivElement>;
-  animated?: boolean;
-}
 
 function CardBase({
   title,

@@ -1,54 +1,21 @@
-import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
-
 // ============================================================================
-// BREAKPOINT REFERENCE (MUI v7 defaults)
-// xs: 0px   - Extra small devices (phones, < 600px)
-// sm: 600px - Small devices (tablets, >= 600px)
-// md: 900px - Medium devices (small laptops, >= 900px)
-// lg: 1200px - Large devices (desktops, >= 1200px)
-// xl: 1536px - Extra large devices (large desktops, >= 1536px)
+// RESPONSIVE DESIGN TOKENS
 //
-// Mobile-first approach: styles cascade upward from xs to xl
-// Example: { xs: 1, md: 2 } means 1 for xs/sm, 2 for md/lg/xl
+// Keep this file minimal - only values not available in MUI theme.
+// For typography, use theme.typography variants (h1, body1, caption, etc.)
+// For spacing in components, prefer inline { xs: 2, md: 3 } patterns.
 // ============================================================================
+import type { Breakpoint } from '@mui/material/styles';
 
-// ============================================================================
-// TYPES
-// ============================================================================
+import type { ResponsiveValue } from '@/config/types';
 
-export type BreakpointKey = Breakpoint;
-
-/** Responsive value object - values cascade upward (mobile-first) */
-export type ResponsiveValue<T> = {
-  xs?: T;
-  sm?: T;
-  md?: T;
-  lg?: T;
-  xl?: T;
-};
-
-export const BREAKPOINT_KEYS: readonly BreakpointKey[] = [
-  'xs',
-  'sm',
-  'md',
-  'lg',
-  'xl',
-] as const;
-
-/** Breakpoint pixel values matching MUI v7 defaults */
-export const BREAKPOINT_VALUES = {
-  xs: 0,
-  sm: 600,
-  md: 900,
-  lg: 1200,
-  xl: 1536,
-} as const satisfies Record<BreakpointKey, number>;
+// Re-export types from centralized types.ts for convenience
+export type { BreakpointKey, ResponsiveValue } from '@/config/types';
 
 // ============================================================================
-// SPACING (unified - replaces RESPONSIVE_SPACING + RESPONSIVE_GAP)
-// Uses theme.spacing() factor (8px base). Material Design: 16px mobile, 24px desktop
+// SPACING
+// Centralized spacing values using theme.spacing() factor (8px base)
 // ============================================================================
-
 export const SPACING = {
   /** Section vertical padding: py */
   section: { xs: 4, md: 10 },
@@ -69,7 +36,8 @@ export const SPACING = {
 } as const satisfies Record<string, ResponsiveValue<number>>;
 
 // ============================================================================
-// GRID COLUMNS (MUI v7 Grid `size` prop patterns)
+// GRID COLUMNS
+// MUI v7 Grid `size` prop patterns
 // ============================================================================
 
 export const GRID = {
@@ -98,192 +66,38 @@ export const CONTAINER_WIDTH = {
 } as const satisfies Record<string, Breakpoint | false>;
 
 // ============================================================================
-// TYPOGRAPHY
-// ============================================================================
-
-export const FONT_SIZE = {
-  /** Hero name - fluid scaling */
-  heroTitle: 'clamp(2.5rem, 5vw, 3.2rem)',
-  /** Section headings - fluid */
-  sectionTitle: { xs: '1.75rem', md: '2.125rem' },
-  /** Subtitles - fluid */
-  subtitle: { xs: '1.2rem', sm: '1.3rem' },
-  /** Body text */
-  body: { xs: '0.95rem', md: '1rem' },
-  /** Small text (captions, labels) */
-  small: { xs: '0.75rem', sm: '0.8rem' },
-  /** Extra small (badges, chips) */
-  xs: { xs: '0.65rem', sm: '0.7rem' },
-  /** Fluid hero subtitle using clamp */
-  heroSubtitle: 'clamp(1rem, 2.5vw, 1.3rem)',
-  /** Fluid section subtitle */
-  sectionSubtitle: 'clamp(0.9rem, 1.5vw, 1.1rem)',
-} as const;
-
-// ============================================================================
-// ELEMENT SIZES
+// PROJECT-SPECIFIC SIZES
+// Values unique to this portfolio that don't map to MUI defaults
+// NOTE: For icon/button/nav sizing, use SIZING from @/styles/shared
 // ============================================================================
 
 export const SIZE = {
   /** Profile image dimensions */
-  profileImage: { xs: 225, md: 300, lg: 400 },
-  /** Section header icons */
-  iconMd: { xs: '2rem', md: '2.5rem' },
-  /** Skill badge icons */
-  iconSm: { xs: '1.5rem', md: '1.75rem' },
-  /** Credential badges */
-  badge: { xs: '85px', sm: '105px', md: '115px', lg: '140px' },
-  /** Credential hover text */
-  credentialText: { xs: '1.7rem', sm: '2.5rem' },
-  /** Minimum touch target (WCAG 2.1 AA: 44x44px) */
+  profileImage: { xs: 200, sm: 240, md: 280, lg: 340, xl: 400 },
+  /** Credential badge dimensions (pixels for fixed image sizing) */
+  badge: { xs: 80, sm: 95, md: 105, lg: 120, xl: 140 },
+  /** Credential hover text size (uses h4/h3 scale) */
+  credentialText: {
+    xs: 'h6.fontSize',
+    sm: 'h5.fontSize',
+    md: 'h5.fontSize',
+    lg: 'h4.fontSize',
+  },
+  /** WCAG 2.1 AA minimum touch target */
   touchTarget: 44,
-  /** Avatar sizes */
-  avatar: { xs: 32, sm: 40, md: 48 },
-  /** Large avatar (profile) */
-  avatarLg: { xs: 56, sm: 72, md: 96 },
-  /** Icon button sizes - ensures WCAG touch targets */
-  iconButton: { xs: 40, sm: 36 },
-  /** Large icon button */
-  iconButtonLg: { xs: 48, sm: 44 },
-  /** Responsive icon scale for common use */
-  icon: { xs: '1.25rem', sm: '1.5rem' },
-  /** Small icons */
-  iconXs: { xs: '1rem', sm: '1.125rem' },
 } as const;
 
 // ============================================================================
-// RESPONSIVE TYPOGRAPHY ENHANCEMENTS
-// Line heights, letter spacing for improved readability
+// FONT SIZES
+// For custom sizing not covered by theme.typography variants
+// Prefer theme.typography.h1, body1, caption, etc. when possible
 // ============================================================================
 
-export const LINE_HEIGHT = {
-  /** Tight - headings */
-  tight: { xs: 1.2, md: 1.3 },
-  /** Normal - body text */
-  normal: { xs: 1.6, md: 1.75 },
-  /** Relaxed - improved mobile readability */
-  relaxed: { xs: 1.8, md: 2 },
-} as const satisfies Record<string, ResponsiveValue<number>>;
-
-export const LETTER_SPACING = {
-  /** Tight - large headings */
-  tight: { xs: '-0.02em', md: '-0.015em' },
-  /** Normal - body text */
-  normal: '0',
-  /** Wide - small caps, labels */
-  wide: { xs: '0.05em', md: '0.08em' },
+export const FONT_SIZE = {
+  /** Hero name - fluid scaling (clamp for smooth responsive) */
+  heroTitle: 'clamp(2rem, 4vw + 1rem, 3.5rem)',
+  /** Hero subtitle - fluid scaling (clamp for smooth responsive) */
+  heroSubtitle: 'clamp(0.95rem, 2vw + 0.5rem, 1.4rem)',
+  /** Section headings - maps to theme h3 variant */
+  sectionTitle: 'h3.fontSize',
 } as const;
-
-/** Combined typography settings for convenient access */
-export const TYPOGRAPHY = {
-  lineHeight: LINE_HEIGHT,
-  letterSpacing: LETTER_SPACING,
-} as const;
-
-// ============================================================================
-// DISPLAY UTILITIES
-// Visibility and display patterns for responsive layouts
-// ============================================================================
-
-export const DISPLAY = {
-  /** Hide on mobile (xs), show on sm+ */
-  hideOnMobile: { xs: 'none', sm: 'block' },
-  /** Show on mobile (xs), hide on sm+ */
-  showOnMobile: { xs: 'block', sm: 'none' },
-  /** Hide on mobile, flex on desktop */
-  hideOnMobileFlex: { xs: 'none', sm: 'flex' },
-  /** Flex on mobile, none on desktop */
-  showOnMobileFlex: { xs: 'flex', sm: 'none' },
-  /** Inline variants */
-  hideOnMobileInline: { xs: 'none', sm: 'inline' },
-  showOnMobileInline: { xs: 'inline', sm: 'none' },
-  /** Print utilities - hide element when printing */
-  hidePrint: { '@media print': { display: 'none' } },
-  /** Print utilities - show only when printing */
-  showPrint: { display: 'none', '@media print': { display: 'block' } },
-} as const;
-
-// ============================================================================
-// OVERFLOW UTILITIES
-// Text and container overflow handling
-// ============================================================================
-
-export const OVERFLOW = {
-  /** Text ellipsis for single line truncation */
-  ellipsis: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-  /** Multi-line text clamp (use with WebkitLineClamp) */
-  lineClamp: (lines: number) => ({
-    overflow: 'hidden',
-    display: '-webkit-box',
-    WebkitLineClamp: lines,
-    WebkitBoxOrient: 'vertical' as const,
-  }),
-  /** Responsive overflow behavior */
-  responsive: {
-    hidden: { xs: 'hidden', md: 'visible' },
-    auto: { xs: 'auto', md: 'hidden' },
-  },
-} as const;
-
-// ============================================================================
-// SECTION SX PRESETS (commonly used patterns)
-// ============================================================================
-
-/** Centers content vertically with responsive section padding */
-export const sectionCenteredSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: '100vh',
-  py: SPACING.section,
-};
-
-/** Responsive container horizontal padding */
-export const containerPaddingSx: SxProps<Theme> = {
-  px: SPACING.containerPadding,
-};
-
-/** Section header margin bottom */
-export const sectionHeaderSx: SxProps<Theme> = {
-  mb: SPACING.headerMargin,
-};
-
-// ============================================================================
-// UTILITY: Resolve responsive value for current breakpoint
-// ============================================================================
-
-/**
- * Resolves a responsive value to the appropriate value for a breakpoint.
- * Uses mobile-first cascade: tries exact match, then smaller breakpoints.
- */
-export function resolveResponsiveValue<T>(
-  value: ResponsiveValue<T> | T,
-  breakpoint: BreakpointKey,
-  fallback?: T
-): T {
-  // Handle scalar values
-  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
-    return (value ?? fallback) as T;
-  }
-
-  const map = value as ResponsiveValue<T>;
-  const currentIndex = BREAKPOINT_KEYS.indexOf(breakpoint);
-
-  // Mobile-first: check current and smaller breakpoints first
-  for (let i = currentIndex; i >= 0; i -= 1) {
-    const candidate = map[BREAKPOINT_KEYS[i]];
-    if (candidate !== undefined) return candidate;
-  }
-
-  // Fallback to larger breakpoints
-  for (let i = currentIndex + 1; i < BREAKPOINT_KEYS.length; i += 1) {
-    const candidate = map[BREAKPOINT_KEYS[i]];
-    if (candidate !== undefined) return candidate;
-  }
-
-  return fallback as T;
-}

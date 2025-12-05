@@ -33,11 +33,6 @@ const apiIconSx: SxProps<Theme> = {
   mr: 0.75,
 };
 
-const newBadgeWrapperSx: SxProps<Theme> = {
-  ml: 1,
-  display: 'inline-flex',
-};
-
 const newBadgeSx: SxProps<Theme> = {
   bgcolor: 'primary.main',
   color: 'primary.contrastText',
@@ -71,30 +66,22 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
             {project.title}
           </Box>
           {project.isNew && (
-            <Box
-              component={motion.span}
-              sx={newBadgeWrapperSx}
+            <motion.span
+              style={{ marginLeft: 8, display: 'inline-flex' }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={
                 prefersReducedMotion
                   ? { opacity: 1, scale: 1 }
-                  : {
-                      opacity: 1,
-                      scale: [1, 1.1, 1],
-                    }
+                  : { opacity: 1, scale: [1, 1.1, 1] }
               }
               transition={
                 prefersReducedMotion
                   ? getTransition('smooth')
-                  : {
-                      duration: 1.6,
-                      repeat: Infinity,
-                      repeatType: 'reverse',
-                    }
+                  : { duration: 1.6, repeat: Infinity, repeatType: 'reverse' }
               }
             >
               <Chip label="New" size="small" sx={newBadgeSx} />
-            </Box>
+            </motion.span>
           )}
         </Stack>
       </Typography>

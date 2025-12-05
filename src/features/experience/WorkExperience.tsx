@@ -14,7 +14,14 @@ import { TextReveal } from '@/components/TextReveal';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';
-import type { Experience, IconBadgeMetaItem } from '@/config/types';
+import type {
+  BaseCardProps,
+  EducationCardProps,
+  Experience,
+  IconBadgeMetaItem,
+  TimelineCardWrapperProps,
+  WorkExperienceCardProps,
+} from '@/config/types';
 import {
   useModal,
   useMotionVariant,
@@ -92,13 +99,6 @@ const getExperienceIcon = (item: Experience) =>
 // DRY pattern for timeline card structure
 // ============================================================================
 
-interface TimelineCardWrapperProps {
-  experience: Experience;
-  showDuration: boolean;
-  children: React.ReactNode;
-  cardRef: React.RefObject<HTMLDivElement | null>;
-}
-
 function TimelineCardWrapper({
   experience,
   showDuration,
@@ -124,11 +124,6 @@ function TimelineCardWrapper({
 // ============================================================================
 // CARD VARIANTS
 // ============================================================================
-
-interface BaseCardProps {
-  experience: Experience;
-  showDuration?: boolean;
-}
 
 function WorkCard({
   experience,
@@ -159,10 +154,6 @@ function WorkCard({
       </Box>
     </TimelineCardWrapper>
   );
-}
-
-interface EducationCardProps extends BaseCardProps {
-  onShowModal: () => void;
 }
 
 function EducationCard({
@@ -230,15 +221,11 @@ function EducationCard({
 // CARD DISPATCHER
 // ============================================================================
 
-interface ExperienceCardProps extends BaseCardProps {
-  onShowModal: () => void;
-}
-
 function ExperienceCard({
   experience,
   onShowModal,
   showDuration = true,
-}: ExperienceCardProps): JSX.Element {
+}: WorkExperienceCardProps): JSX.Element {
   if (experience.type === 'education') {
     return (
       <EducationCard

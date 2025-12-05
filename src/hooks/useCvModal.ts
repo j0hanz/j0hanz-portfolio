@@ -1,9 +1,8 @@
 import { use } from 'react';
 
+import type { CvModalActions, CvModalState } from '@/config/types';
 import {
-  CvModalActions,
   CvModalActionsContext,
-  CvModalState,
   CvModalStateContext,
 } from '@/contexts/CvModalContext';
 
