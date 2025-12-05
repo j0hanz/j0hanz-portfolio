@@ -15,7 +15,7 @@ const NAVIGATION_KEYS: Record<string, ScrollDirection> = {
 };
 
 // Check if container is at scroll boundary for given direction
-function isAtScrollBoundary(direction: ScrollDirection): boolean {
+export function isAtScrollBoundary(direction: ScrollDirection): boolean {
   const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
   if (!container) return true;
 

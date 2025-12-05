@@ -8,21 +8,7 @@ import type { ScrollDirection } from '@/config/types';
 import { useMobileBreakpoint } from './useBreakpoints';
 import useEventCallback from './useEventCallback';
 import { useNavigationActions, useNavigationState } from './useNavigation';
-import { useScrollEvents } from './useScrollEvents';
-
-// Check if navigation is allowed based on scroll position
-function canNavigateFromBoundary(direction: ScrollDirection): boolean {
-  const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
-  if (!container) return true;
-
-  const { scrollTop, scrollHeight, clientHeight } = container;
-  const isAtTop = scrollTop <= 0;
-  const isAtBottom =
-    Math.abs(scrollHeight - clientHeight - scrollTop) <
-    SCROLL_CONFIG.TOLERANCE_PX;
-
-  return direction === 'down' ? isAtBottom : isAtTop;
-}
+import { isAtScrollBoundary, useScrollEvents } from './useScrollEvents';
 
 export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
@@ -39,11 +25,7 @@ export function useFullPageScroll(): void {
   const disableNonTouchInputs = shouldDisable || isMobile;
 
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
-    if (
-      isScrolling.current ||
-      isPending ||
-      !canNavigateFromBoundary(direction)
-    ) {
+    if (isScrolling.current || isPending || !isAtScrollBoundary(direction)) {
       return false;
     }
 
