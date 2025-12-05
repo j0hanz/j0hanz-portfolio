@@ -7,9 +7,8 @@ import { SIZING } from '@/styles/shared';
 
 const badgeContainerSx: SxProps<Theme> = {
   position: 'relative',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: 'inline-grid',
+  placeItems: 'center',
 };
 
 const iconSx: SxProps<Theme> = {

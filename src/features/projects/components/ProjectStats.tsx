@@ -31,7 +31,7 @@ const valueSx: SxProps<Theme> = {
 
 const containerSx: SxProps<Theme> = {
   position: 'relative',
-  flexShrink: 0,
+  flex: 'none',
 };
 
 // Builds stat items array based on configuration

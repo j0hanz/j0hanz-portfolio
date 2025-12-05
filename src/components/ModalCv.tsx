@@ -112,9 +112,9 @@ function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
       <DialogTitle
         id="cv-language-selection-title"
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: 'grid',
+          placeItems: 'center',
+          gridAutoFlow: 'column',
           ...headerStackSx,
         }}
       >

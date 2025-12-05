@@ -18,7 +18,7 @@ export type { BreakpointKey, ResponsiveValue } from '@/config/types';
 // ============================================================================
 export const SPACING = {
   /** Section vertical padding: py */
-  section: { xs: 4, md: 10 },
+  section: { xs: 4, md: 6, lg: 8, xl: 10 },
   /** Card/container internal padding */
   card: { xs: 2, sm: 2.5, md: 3 },
   /** Grid gaps between items */

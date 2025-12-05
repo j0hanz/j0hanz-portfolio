@@ -28,10 +28,9 @@ const footerSx: SxProps<Theme> = {
   py: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
   pb: { xs: 0.25, sm: 1, md: 2, lg: 2.5 },
   color: 'primary.contrastText',
-  height: 1, // = 100%
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
+  height: 1,
+  display: 'grid',
+  placeContent: 'center',
 };
 
 const contactLabelSx: SxProps<Theme> = {

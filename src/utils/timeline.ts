@@ -27,8 +27,6 @@ export function getTimelineOppositeContentSx(
 ): SxProps<Theme> {
   return {
     display: { xs: 'none', md: 'flex' },
-    py: 0,
-    px: 2,
     textAlign: isLeftAligned ? 'left' : 'right',
     justifyContent: isLeftAligned ? 'flex-start' : 'flex-end',
   };

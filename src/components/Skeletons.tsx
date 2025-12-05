@@ -57,9 +57,8 @@ export function SectionSkeleton(): React.JSX.Element {
       sx={{
         width: 1,
         height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: 'grid',
+        placeItems: 'center',
       }}
       role="status"
       aria-label="Loading content"

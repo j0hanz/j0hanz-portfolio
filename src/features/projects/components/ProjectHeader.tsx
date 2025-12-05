@@ -86,7 +86,7 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
           )}
         </Stack>
       </Typography>
-      <Box sx={{ flexShrink: 0 }}>
+      <Box sx={{ flex: 'none' }}>
         {project.collaborative ? (
           <GroupsTwoTone sx={iconSx} />
         ) : (

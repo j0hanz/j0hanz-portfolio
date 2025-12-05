@@ -3,18 +3,17 @@ import { SxProps, Theme } from '@mui/material';
 export const mainContainerSx: SxProps<Theme> = {
   position: 'relative',
   display: 'flex',
-  flexDirection: 'column',
+  flexFlow: 'column nowrap',
   minHeight: '100vh',
   maxWidth: 1600,
-  margin: '0 auto',
+  mx: 'auto',
   overflow: 'hidden',
 };
 
 export const loaderContainerSx: SxProps<Theme> = {
   flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: 'grid',
+  placeItems: 'center',
   position: 'relative',
   zIndex: 1,
   height: '100vh',

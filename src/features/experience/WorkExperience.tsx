@@ -256,7 +256,6 @@ function WorkExperience(): JSX.Element {
       id="workExperience"
       title={<TextReveal text="Experience" as="span" />}
       icon={WorkOutlineTwoTone}
-      maxWidth={false}
     >
       <Box ref={combinedRef}>
         <TimelineList

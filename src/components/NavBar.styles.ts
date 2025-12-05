@@ -19,9 +19,9 @@ export const navLogoImgSx: SxProps<Theme> = {
 };
 
 export const navLinksListSx: SxProps<Theme> = {
-  flexGrow: 1,
+  flex: 1,
   display: 'flex',
-  flexDirection: 'column',
+  flexFlow: 'column nowrap',
   position: 'relative',
   p: 2,
   // Replicating .cardBgImage
@@ -95,7 +95,7 @@ export const drawerPaperSx: SxProps<Theme> = {
   backgroundImage: 'none',
   height: '100dvh',
   display: 'flex',
-  flexDirection: 'column',
+  flexFlow: 'column nowrap',
   overflowX: 'hidden',
   backdropFilter: 'blur(10px) saturate(180%)',
   WebkitBackdropFilter: 'blur(10px) saturate(180%)',
@@ -120,10 +120,10 @@ export const closeButtonSx: SxProps<Theme> = {
 };
 
 export const drawerContentSx: SxProps<Theme> = {
-  flexGrow: 1,
+  flex: 1,
   overflowY: 'auto',
   display: 'flex',
-  flexDirection: 'column',
+  flexFlow: 'column nowrap',
 };
 
 export const drawerFooterSx: SxProps<Theme> = {

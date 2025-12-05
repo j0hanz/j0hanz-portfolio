@@ -13,9 +13,9 @@ import type { SxProps, Theme } from '@mui/material';
 
 export const PROJECT_CARD_ARTICLE_SX: SxProps<Theme> = {
   display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  padding: { xs: 2, sm: 2.5, md: 3, lg: 4 },
+  flexFlow: 'column nowrap',
+  height: 1,
+  p: { xs: 2, sm: 2.5, md: 3, lg: 4 },
 };
 
 export const PROJECT_CARD_CONTENT_SX: SxProps<Theme> = {
@@ -176,9 +176,8 @@ export const tooltipWrapperSx: SxProps<Theme> = {
 };
 
 export const centeredFullViewportSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: 'grid',
+  placeItems: 'center',
   minHeight: '100vh',
   p: 3,
 };
@@ -193,9 +192,7 @@ export const descriptionTextSx: SxProps<Theme> = {
 };
 
 export const listContainerSx: SxProps<Theme> = {
-  pl: 2.5,
   m: 0,
-  lineHeight: { xs: 1.5, sm: 1.6, md: 1.8 },
   color: 'text.secondary',
 };
 
@@ -231,9 +228,9 @@ export const headingLetterSpacingSx: SxProps<Theme> = {
 export const cardBaseSx: SxProps<Theme> = {
   height: 1,
   display: 'flex',
-  flexDirection: 'column',
+  flexFlow: 'column nowrap',
   borderRadius: 2,
-  backgroundColor: 'backdrop.glass',
+  bgcolor: 'backdrop.glass',
 };
 
 export const timelineCardWrapperSx: SxProps<Theme> = {

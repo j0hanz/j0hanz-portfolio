@@ -32,7 +32,7 @@ import ProjectTechStack from './ProjectTechStack';
 
 const descriptionSx: SxProps<Theme> = {
   color: 'text.secondary',
-  flexShrink: 0,
+  flex: 'none',
 };
 
 // Card content that triggers Suspense when stats are loading

@@ -32,10 +32,9 @@ export const subtitleClipPath = {
 } as const;
 
 export const sectionSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: 1, // = 100%
+  display: 'grid',
+  placeItems: 'center',
+  height: 1,
   pt: 0,
 };
 
@@ -73,9 +72,8 @@ export const overlaySx: SxProps<Theme> = {
   inset: 0,
   clipPath: CLIP_ROUNDED,
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: 'grid',
+  placeItems: 'center',
   color: 'common.white',
   letterSpacing: LETTER_SPACING_NORMAL,
   fontSize: (theme) => theme.typography.caption.fontSize,

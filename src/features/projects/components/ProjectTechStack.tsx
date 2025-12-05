@@ -5,7 +5,7 @@ import { SKEW_TRANSFORM } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   transform: SKEW_TRANSFORM,
-  flexShrink: 0,
+  flex: 'none',
 };
 
 const chipSx: SxProps<Theme> = {

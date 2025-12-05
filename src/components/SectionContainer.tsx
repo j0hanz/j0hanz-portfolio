@@ -19,12 +19,11 @@ import { SIZING } from '@/styles/shared';
 // ============================================================================
 
 const sectionCenteredSx: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: 'grid',
+  placeItems: 'center',
   minHeight: '100vh',
   py: SPACING.section,
-  overflowX: 'hidden', // Prevent horizontal overflow from children
+  overflowX: 'hidden',
 };
 
 const containerPaddingSx: SxProps<Theme> = {
