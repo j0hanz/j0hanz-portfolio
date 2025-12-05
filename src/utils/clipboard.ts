@@ -1,7 +1,6 @@
 // Clipboard utility functions for copy operations
 
-// Copy message configurations for consistent feedback
-export const COPY_MESSAGES = {
+const COPY_MESSAGES = {
   email: {
     success: 'Email copied to clipboard',
     error: 'Unable to copy email',

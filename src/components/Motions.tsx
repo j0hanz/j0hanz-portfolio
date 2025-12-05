@@ -1,44 +1,15 @@
-import { useRef } from 'react';
-
 // ============================================================================
 // MOTION COMPONENTS
 // ============================================================================
-
 import { Box, type SxProps, type Theme } from '@mui/material';
-import {
-  AnimatePresence,
-  motion,
-  usePresenceData,
-  useTime,
-  useTransform,
-} from 'motion/react';
+import { AnimatePresence, motion, useTime, useTransform } from 'motion/react';
 
 import {
-  fadeInViewVariants,
   pageTransitionVariants,
-  presenceAwareVariants,
-  sectionVariants,
   staggerContainerVariants,
-  staggerItemSimpleVariants,
-  staggerItemVariantMobile,
-  svgPathVariants,
-  variantMap,
-  viewportConfig,
 } from '@/config/motion';
-import type {
-  AnimateActivityProps,
-  FadeInViewProps,
-  MotionWrapperProps,
-  SlideFromSideProps,
-  StaggerContainerProps,
-  StaggerItemProps,
-} from '@/config/types';
-import {
-  useAnimationConfig,
-  useInView,
-  useMobileBreakpoint,
-  useNavigationState,
-} from '@/hooks';
+import type { StaggerContainerProps } from '@/config/types';
+import { useAnimationConfig, useNavigationState } from '@/hooks';
 
 // ============================================================================
 // SHARED STYLES
@@ -46,139 +17,14 @@ import {
 
 const PAGE_TRANSITION_SX = {
   position: 'absolute',
-  width: 1, // = 100%
-  height: 1, // = 100%
+  width: 1,
+  height: 1,
   top: 0,
   left: 0,
   overflowY: 'auto',
   overflowX: 'hidden',
   willChange: 'transform, opacity',
 } as const;
-
-// ============================================================================
-// SECTION MOTION WRAPPER
-// ============================================================================
-
-// Wraps sections with scroll-triggered animations (handles reduced motion)
-function MotionWrapper({
-  children,
-  sectionId,
-  style,
-  transition: transitionOverride,
-  viewport: viewportOverride,
-  ...props
-}: MotionWrapperProps) {
-  const { prefersReducedMotion, reducedMotionTarget, getTransition } =
-    useAnimationConfig();
-
-  if (prefersReducedMotion) {
-    return (
-      <motion.div
-        initial={reducedMotionTarget}
-        animate={reducedMotionTarget}
-        style={style}
-      >
-        {children}
-      </motion.div>
-    );
-  }
-
-  const variant = sectionVariants[variantMap[sectionId] ?? 'default'];
-
-  return (
-    <motion.div
-      initial={variant.initial}
-      whileInView={variant.whileInView}
-      transition={transitionOverride ?? getTransition('easeOut')}
-      viewport={viewportOverride ?? viewportConfig}
-      style={style}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// ============================================================================
-// SLIDE FROM SIDE
-// ============================================================================
-
-// Animates elements sliding in from left or right
-function SlideFromSide({
-  children,
-  from,
-  style,
-  transition: transitionOverride,
-  viewport: viewportOverride,
-  ...props
-}: SlideFromSideProps) {
-  const { prefersReducedMotion, getTransition, reducedMotionTarget } =
-    useAnimationConfig();
-
-  if (prefersReducedMotion) {
-    return (
-      <motion.div
-        initial={reducedMotionTarget}
-        animate={reducedMotionTarget}
-        style={style}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  }
-
-  // Offset value in pixels for slide animation
-  const xOffset = from === 'left' ? -50 : 50;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: xOffset }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={transitionOverride ?? getTransition('easeOut')}
-      viewport={viewportOverride ?? viewportConfig}
-      style={style}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// ============================================================================
-// FADE IN VIEW
-// ============================================================================
-
-// Simple fade-in when element enters viewport
-export function FadeInView({
-  children,
-  delay = 0,
-  threshold = 0.2,
-  ref: externalRef,
-  ...props
-}: FadeInViewProps) {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const internalRef = useRef<HTMLDivElement>(null);
-  const ref = (externalRef as React.RefObject<HTMLDivElement>) ?? internalRef;
-  const isInView = useInView(ref, { once: true, amount: threshold });
-
-  if (prefersReducedMotion) {
-    return <div ref={ref}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={fadeInViewVariants}
-      initial="initial"
-      animate={isInView ? 'animate' : 'initial'}
-      transition={getTransition('easeOut', { delay })}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 // ============================================================================
 // STAGGER CONTAINER
@@ -213,46 +59,6 @@ export function StaggerContainer({
       viewport={{ once: true, amount: 0.15 }}
       variants={staggerContainerVariants}
       custom={stagger}
-    >
-      {children}
-    </Box>
-  );
-}
-
-// ============================================================================
-// STAGGER ITEM
-// ============================================================================
-
-// Item to be used inside StaggerContainer
-export function StaggerItem({
-  children,
-  className,
-  style,
-  sx,
-}: StaggerItemProps) {
-  const { prefersReducedMotion } = useAnimationConfig();
-  const isMobile = useMobileBreakpoint('md');
-
-  if (prefersReducedMotion) {
-    return (
-      <Box className={className} style={style} sx={sx}>
-        {children}
-      </Box>
-    );
-  }
-
-  // Use mobile-optimized variant without blur filter on mobile devices
-  const variants = isMobile
-    ? staggerItemVariantMobile
-    : staggerItemSimpleVariants;
-
-  return (
-    <Box
-      component={motion.div}
-      className={className}
-      style={style}
-      sx={sx}
-      variants={variants}
     >
       {children}
     </Box>
@@ -297,109 +103,6 @@ export function PageTransitionWrapper({
     >
       {children}
     </Box>
-  );
-}
-
-// ============================================================================
-// ANIMATE ACTIVITY WRAPPER
-// ============================================================================
-
-// AnimateActivity-style wrapper for tab/section visibility transitions
-export function AnimateActivityWrapper({
-  children,
-  mode,
-  layoutMode = 'sync',
-  onExitComplete,
-}: AnimateActivityProps) {
-  const { prefersReducedMotion } = useAnimationConfig();
-
-  if (prefersReducedMotion) {
-    return mode === 'visible' ? <>{children}</> : null;
-  }
-
-  return (
-    <AnimatePresence
-      mode={layoutMode === 'pop' ? 'popLayout' : 'sync'}
-      onExitComplete={onExitComplete}
-    >
-      {mode === 'visible' && children}
-    </AnimatePresence>
-  );
-}
-
-// ============================================================================
-// PRESENCE-AWARE WRAPPER
-// ============================================================================
-
-// Wrapper that uses direction data from parent AnimatePresence
-export function PresenceAwareWrapper({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const direction = usePresenceData() as 'up' | 'down' | null;
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      className={className}
-      custom={direction}
-      variants={presenceAwareVariants}
-      initial="enter"
-      animate="center"
-      exit="exit"
-      transition={getTransition('springVisual')}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// ============================================================================
-// SVG PATH ANIMATION
-// ============================================================================
-
-// Animated SVG path with draw effect
-export function AnimatedSvgPath({
-  d,
-  className,
-  stroke = 'currentColor',
-  strokeWidth = 2,
-  fill = 'transparent',
-  duration = 1.5,
-}: {
-  d: string;
-  className?: string;
-  stroke?: string;
-  strokeWidth?: number;
-  fill?: string;
-  duration?: number;
-}) {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
-
-  return (
-    <motion.path
-      d={d}
-      className={className}
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-      fill={fill}
-      variants={svgPathVariants.draw}
-      initial="initial"
-      whileInView="animate"
-      viewport={{ once: true, amount: 0.5 }}
-      transition={
-        prefersReducedMotion
-          ? { duration: 0 }
-          : getTransition('easeInOut', { duration })
-      }
-    />
   );
 }
 
@@ -507,4 +210,4 @@ export function AnimatedCheckmark({
 // EXPORTS
 // ============================================================================
 
-export { MotionWrapper, SlideFromSide, AnimatePresence };
+export { AnimatePresence };

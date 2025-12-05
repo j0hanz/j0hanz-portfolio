@@ -74,18 +74,13 @@ export function useScrollEvents({
   });
 
   const handleTouchEnd = useEventCallback((e: TouchEvent) => {
-    if (!isTouchActive.current) return;
+    if (!isTouchActive.current || isScrolling.current) return;
 
     const deltaY = touchStartY.current - e.changedTouches[0].clientY;
     const elapsed = Date.now() - touchStartTime.current;
-
-    // Reset touch state first
     isTouchActive.current = false;
 
-    // Don't navigate if already scrolling
-    if (isScrolling.current) return;
-
-    // More forgiving swipe detection using centralized thresholds
+    // Validate swipe gesture
     if (
       Math.abs(deltaY) < SCROLL_CONFIG.SWIPE_MIN_DISTANCE_PX ||
       elapsed > SCROLL_CONFIG.SWIPE_MAX_DURATION_MS
@@ -93,12 +88,8 @@ export function useScrollEvents({
       return;
 
     const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
-
-    // Check boundary and navigate
-    if (isAtScrollBoundary(direction)) {
-      if (onNavigate(direction)) {
-        e.preventDefault();
-      }
+    if (isAtScrollBoundary(direction) && onNavigate(direction)) {
+      e.preventDefault();
     }
   });
 

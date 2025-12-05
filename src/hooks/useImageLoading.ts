@@ -6,10 +6,15 @@ import type { UseImageLoadingReturn } from '@/config/types';
 export function useImageLoading(): UseImageLoadingReturn {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const setLoaded = () => setIsLoaded(true);
-  const reset = () => setIsLoaded(false);
+  // Single handler for both load and error (image is "done" either way)
+  const handleComplete = () => setIsLoaded(true);
 
-  return { isLoaded, handleLoad: setLoaded, handleError: setLoaded, reset };
+  return {
+    isLoaded,
+    handleLoad: handleComplete,
+    handleError: handleComplete,
+    reset: () => setIsLoaded(false),
+  };
 }
 
 export default useImageLoading;

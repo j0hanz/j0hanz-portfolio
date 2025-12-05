@@ -22,7 +22,7 @@ const hackathonBadgeBase = {
   ...BADGE_SIZE.hackathon,
 } as const;
 
-export const badgeConfig = [
+const badgeConfig = [
   {
     flag: 'december-2024',
     src: hackathonBadge,
@@ -61,7 +61,7 @@ export const badgeConfig = [
 const repoPathCache = new Map<string, string | null>();
 const projectMetaCache = new WeakMap<Project, ProjectMeta>();
 
-export const extractRepoPath = (githubUrl: string): string | null => {
+const extractRepoPath = (githubUrl: string): string | null => {
   const cached = repoPathCache.get(githubUrl);
   if (cached !== undefined) {
     return cached;

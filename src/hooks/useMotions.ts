@@ -1,11 +1,10 @@
-import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
 import {
   animate,
   frame,
   useAnimate,
   useInView as useMotionInView,
-  usePresence as useMotionPresence,
   useReducedMotion as useMotionReducedMotion,
   useMotionValue,
   useMotionValueEvent,
@@ -37,18 +36,12 @@ import type {
   AnimationPriority,
   AnimationSequenceControls,
   CardHoverMotion,
-  MeasureRect,
-  PresenceControls,
   ScrollProgressValue,
   SequenceAnimator,
-  TimelineControls,
   TimelineSectionControllerOptions,
-  TimelineSegment,
-  UseMeasureReturn,
 } from '@/config/types';
 import {
   buildSectionSequencePlan,
-  buildTimelineSequence,
   createDelay,
   createDuration,
   createGestureProps,
@@ -236,81 +229,6 @@ export function useScrollProgress(): ScrollProgressValue {
 }
 
 // ============================================================================
-// SMOOTH SCROLL PROGRESS (No Re-renders)
-// ============================================================================
-
-// Returns smoothed scroll progress using useSpring (120fps updates, no re-renders)
-export function useSmoothScrollProgress(
-  config = { stiffness: 100, damping: 30, restDelta: 0.001 }
-) {
-  const prefersReducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const smoothProgress = useSpring(scrollYProgress, config);
-
-  return {
-    scrollYProgress,
-    smoothProgress: prefersReducedMotion ? scrollYProgress : smoothProgress,
-  };
-}
-
-// ============================================================================
-// SCROLL DIRECTION
-// ============================================================================
-
-// Detects scroll direction (up/down) using useMotionValueEvent
-export function useScrollDirection() {
-  const { scrollY } = useScroll();
-  const [direction, setDirection] = useState<'up' | 'down' | null>(null);
-
-  useMotionValueEvent(scrollY, 'change', (current) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    const diff = current - previous;
-
-    if (diff !== 0) {
-      setDirection(diff > 0 ? 'down' : 'up');
-    }
-  });
-
-  return { direction, scrollY };
-}
-
-// ============================================================================
-// CONTINUOUS MOTION VALUE
-// ============================================================================
-
-// Creates a motion value for continuous animations (120fps, no re-renders)
-export function useContinuousMotion<T extends string | number>(
-  initialValue: T
-) {
-  const motionValue = useMotionValue(initialValue);
-
-  return {
-    motionValue,
-    set: (value: T) => motionValue.set(value),
-    get: () => motionValue.get(),
-  };
-}
-
-// ============================================================================
-// PARALLAX TRANSFORM
-// ============================================================================
-
-// Creates parallax effect using useTransform (no re-renders)
-export function useParallaxTransform(
-  ref: RefObject<HTMLElement>,
-  range: [number, number] = [-50, 50]
-) {
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], range);
-
-  return { y, scrollYProgress };
-}
-
-// ============================================================================
 // IN VIEW DETECTION
 // ============================================================================
 
@@ -326,17 +244,6 @@ export function useInView(
     ...options,
   });
   return inView;
-}
-
-// ============================================================================
-// PRESENCE DETECTION
-// ============================================================================
-
-// Detects if component is present in AnimatePresence tree
-export function usePresence(): PresenceControls {
-  const [isPresent, safeToRemove] = useMotionPresence();
-
-  return { isPresent, safeToRemove: safeToRemove ?? null };
 }
 
 // ============================================================================
@@ -406,74 +313,6 @@ export function useAnimationSequence(): AnimationSequenceControls {
   );
 
   return { scopeRef, runSequence, isAnimating };
-}
-
-// ============================================================================
-// ELEMENT MEASUREMENT
-// ============================================================================
-
-// Note: width/height/top/left are measurement values, not animation properties
-// They're used for layout calculations, not animated directly
-const defaultMeasureRect: MeasureRect = {
-  width: 0,
-  height: 0,
-  top: 0,
-  left: 0,
-};
-
-// Measures element dimensions with ResizeObserver
-export function useMeasure<
-  T extends HTMLElement = HTMLElement,
->(): UseMeasureReturn<T> {
-  const [node, setNode] = useState<T | null>(null);
-  const [bounds, setBounds] = useState<MeasureRect>(defaultMeasureRect);
-
-  const measureNode = useEventCallback((element: T) => {
-    const rect = element.getBoundingClientRect();
-    setBounds({
-      width: rect.width,
-      height: rect.height,
-      top: rect.top + window.scrollY,
-      left: rect.left + window.scrollX,
-    });
-  });
-
-  const remeasure = () => {
-    if (node && typeof window !== 'undefined') {
-      measureNode(node);
-    }
-  };
-
-  useLayoutEffect(() => {
-    if (!node || typeof window === 'undefined') {
-      return;
-    }
-
-    const measure = () => measureNode(node);
-    const frame = window.requestAnimationFrame(measure);
-
-    if (typeof ResizeObserver === 'undefined') {
-      return () => {
-        cancelAnimationFrame(frame);
-      };
-    }
-
-    const observer = new ResizeObserver(measure);
-    observer.observe(node);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-    };
-  }, [node, measureNode]);
-
-  return {
-    ref: (instance: T | null) => {
-      setNode(instance);
-    },
-    bounds,
-    remeasure,
-  };
 }
 
 // ============================================================================
@@ -634,63 +473,6 @@ export function useVelocityTilt(
 ) {
   const xVelocity = useVelocity(motionValueX);
   return useTransform(xVelocity, [-1000, 0, 1000], [-maxTilt, 0, maxTilt]);
-}
-
-// Timeline sequencing for complex animation orchestration
-export function useTimelineSequence() {
-  const controlsRef = useRef<TimelineControls | null>(null);
-  const { prefersReducedMotion } = useAnimationConfig();
-
-  const runTimeline = useEventCallback((segments: TimelineSegment[]) => {
-    if (prefersReducedMotion || segments.length === 0) return null;
-
-    controlsRef.current?.stop();
-
-    // Build sequence array in Motion's expected format
-    const sequence = buildTimelineSequence(segments);
-
-    const controls = animate(sequence);
-
-    controlsRef.current = {
-      play: () => controls.play?.(),
-      pause: () => controls.pause?.(),
-      stop: () => controls.stop(),
-      get time() {
-        return controls.time;
-      },
-      set time(t: number) {
-        controls.time = t;
-      },
-      get duration() {
-        return controls.duration;
-      },
-      get speed() {
-        return controls.speed;
-      },
-      set speed(s: number) {
-        controls.speed = s;
-      },
-    };
-
-    return controlsRef.current;
-  });
-
-  useEffect(() => {
-    // Capture ref value to avoid stale reference in cleanup
-    const currentControls = controlsRef.current;
-    return () => {
-      currentControls?.stop();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!prefersReducedMotion) return;
-    // Stop and clear when user enables reduced motion preference
-    controlsRef.current?.stop();
-    controlsRef.current = null;
-  }, [prefersReducedMotion]);
-
-  return { runTimeline, controls: controlsRef.current };
 }
 
 // Smooth scroll progress with velocity tracking

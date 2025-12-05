@@ -11,7 +11,8 @@ const wrapperSx = { display: 'flex', flexWrap: 'wrap' } as const;
 const wordSx = { marginRight: '0.25em', display: 'inline-block' } as const;
 const charSx = { display: 'inline-block' } as const;
 
-// Character animation variants for staggered reveal
+// Character variant for fine-grained animation
+// Tween for filter prevents spring overshoot causing negative blur values
 const charVariants = {
   hidden: {
     opacity: 0,
@@ -24,6 +25,13 @@ const charVariants = {
     y: 0,
     rotateX: 0,
     filter: 'blur(0px)',
+    transition: {
+      filter: {
+        type: 'tween' as const,
+        duration: 0.4,
+        ease: 'easeOut' as const,
+      },
+    },
   },
 };
 

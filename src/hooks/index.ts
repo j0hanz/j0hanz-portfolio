@@ -11,19 +11,10 @@
 export { default as useEventCallback } from './useEventCallback';
 export { default as useEventListener } from './useEventListener';
 export { usePrevious } from './usePrevious';
-export { useLazy } from './useLazy';
 export { useToggle } from './useToggle';
 export { default as useModal } from './useModal';
-export { useStorage } from './useStorage';
 
-export type {
-  UseModalReturn,
-  UseLazyReturn,
-  UseToggleReturn,
-  UseStorageOptions,
-  UseStorageReturn,
-  StorageSource,
-} from '@/config/types';
+export type { UseModalReturn, UseToggleReturn } from '@/config/types';
 
 // ============================================================================
 // UI STATE HOOKS
@@ -72,7 +63,6 @@ export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
 
 export { useFullPageScroll } from './useFullPageScroll';
 export { useScrollEvents } from './useScrollEvents';
-export { default as useScrollAnimation } from './useScrollAnimation';
 
 // ============================================================================
 // MOTION & ANIMATION HOOKS
@@ -93,39 +83,22 @@ export {
 export { useCardHover, useButtonGesture } from './useMotions';
 
 // Scroll-linked animations
-export {
-  useScrollProgress,
-  useSmoothScrollProgress,
-  useScrollDirection,
-  useParallaxTransform,
-  useEnhancedScrollProgress,
-} from './useMotions';
+export { useScrollProgress, useEnhancedScrollProgress } from './useMotions';
 
 // View detection
-export { useInView, usePresence, useCardInView } from './useMotions';
+export { useInView } from './useMotions';
 
 // Animation sequencing
-export {
-  useAnimationSequence,
-  useSectionSequence,
-  useTimelineSequence,
-  useBatchedDomUpdate,
-} from './useMotions';
+export { useBatchedDomUpdate } from './useMotions';
 
 // Timeline-specific hooks (shared patterns for Education/WorkExperience)
 export {
-  useTimelineSectionRefs,
   useTimelineSectionController,
   useTimelineCardMotion,
 } from './useMotions';
 
 // Measurement & continuous motion
-export {
-  useMeasure,
-  useContinuousMotion,
-  useCountUp,
-  useVelocityTilt,
-} from './useMotions';
+export { useCountUp, useVelocityTilt } from './useMotions';
 
 // ============================================================================
 // RESPONSIVE HOOKS
@@ -170,6 +143,4 @@ export {
   // Contact mutations
   useContactFormMutation,
   submitContactForm,
-  // Error handling
-  handleQueryError,
 } from '@/utils/query/index';

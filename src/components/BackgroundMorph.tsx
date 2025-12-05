@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Box, useTheme } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material';
@@ -15,32 +15,28 @@ import {
 } from '@/hooks';
 import { getBackgroundGradients } from '@/utils/background';
 
-// Smooth easing for organic motion - defined once, reused across blobs
 const ORGANIC_EASE = [0.37, 0, 0.63, 1] as const;
 
-// Helper to create blob animation transition config
-const createBlobTransition = (
-  config: (typeof BACKGROUND_ANIMATION_CONFIG)[keyof typeof BACKGROUND_ANIMATION_CONFIG],
-  durationMultiplier: number,
-  getTransition: ReturnType<typeof useAnimationConfig>['getTransition'],
-  shouldAnimate: boolean
-): Transition | undefined =>
-  shouldAnimate
-    ? getTransition('easeInOut', {
-        duration:
-          'duration' in config ? config.duration * durationMultiplier : 0,
-        repeat: Infinity,
-        repeatType: 'mirror',
-        delay: 'delayOffset' in config ? config.delayOffset : 0,
-        ease: ORGANIC_EASE,
-      })
-    : undefined;
-
-// Blob style configurations - DRY pattern for repeated blob styling
-const BLOB_CONFIGS: Record<'primary' | 'secondary' | 'tertiary', BlobConfig> = {
-  primary: { inset: '-38%', size: '178%' },
-  secondary: { inset: '-34%', size: '165%', blur: 90, opacity: 0.72 },
-  tertiary: { inset: '-26%', size: '152%', blur: 120, opacity: 0.52 },
+// Blob configurations with animation presets
+const BLOB_CONFIGS: Record<
+  'primary' | 'secondary' | 'tertiary',
+  BlobConfig & { animKey: keyof typeof BACKGROUND_ANIMATION_CONFIG }
+> = {
+  primary: { inset: '-38%', size: '178%', animKey: 'primary' },
+  secondary: {
+    inset: '-34%',
+    size: '165%',
+    blur: 90,
+    opacity: 0.72,
+    animKey: 'secondary',
+  },
+  tertiary: {
+    inset: '-26%',
+    size: '152%',
+    blur: 120,
+    opacity: 0.52,
+    animKey: 'tertiary',
+  },
 };
 
 const createBlobSx = (
@@ -58,6 +54,24 @@ const createBlobSx = (
   }),
 });
 
+// Unified transition factory
+const createBlobTransition = (
+  animKey: keyof typeof BACKGROUND_ANIMATION_CONFIG,
+  mult: number,
+  getTransition: ReturnType<typeof useAnimationConfig>['getTransition'],
+  shouldAnimate: boolean
+): Transition | undefined => {
+  if (!shouldAnimate) return undefined;
+  const config = BACKGROUND_ANIMATION_CONFIG[animKey];
+  return getTransition('easeInOut', {
+    duration: 'duration' in config ? config.duration * mult : 0,
+    repeat: Infinity,
+    repeatType: 'mirror',
+    delay: 'delayOffset' in config ? config.delayOffset : 0,
+    ease: ORGANIC_EASE,
+  });
+};
+
 function BackgroundMorph(): React.JSX.Element {
   const theme = useTheme();
   const { mode } = useThemeModeState();
@@ -66,7 +80,6 @@ function BackgroundMorph(): React.JSX.Element {
   const { activeSectionId } = useNavigationState();
   const [isDocumentVisible, setIsDocumentVisible] = useState(true);
 
-  // Pause animation when document is hidden
   useEffect(() => {
     const handleVisibility = () => setIsDocumentVisible(!document.hidden);
     document.addEventListener('visibilitychange', handleVisibility);
@@ -76,31 +89,14 @@ function BackgroundMorph(): React.JSX.Element {
 
   const shouldAnimate =
     priority === 'high' && !prefersReducedMotion && isDocumentVisible;
-
   const { primaryGradient, secondaryGradient, tertiaryGradient } =
     getBackgroundGradients(theme, mode, activeSectionId);
-
-  // Key for AnimatePresence to trigger fade transition on color change
   const colorKey = `${activeSectionId}-${mode === 'dark' ? 'dark' : 'light'}`;
 
-  // Create transition configs for each blob type
-  const primaryTransition = (mult: number) =>
+  // Consolidated transition helper using animKey from config
+  const getTrans = (key: keyof typeof BLOB_CONFIGS, mult: number) =>
     createBlobTransition(
-      BACKGROUND_ANIMATION_CONFIG.primary,
-      mult,
-      getTransition,
-      shouldAnimate
-    );
-  const secondaryTransition = (mult: number) =>
-    createBlobTransition(
-      BACKGROUND_ANIMATION_CONFIG.secondary,
-      mult,
-      getTransition,
-      shouldAnimate
-    );
-  const tertiaryTransition = (mult: number) =>
-    createBlobTransition(
-      BACKGROUND_ANIMATION_CONFIG.tertiary,
+      BLOB_CONFIGS[key].animKey,
       mult,
       getTransition,
       shouldAnimate
@@ -118,7 +114,6 @@ function BackgroundMorph(): React.JSX.Element {
       aria-hidden="true"
     >
       <AnimatePresence mode="wait">
-        {/* Primary Morphing Blob - section color, organic floating */}
         <Box
           component={motion.div}
           key={colorKey}
@@ -134,9 +129,9 @@ function BackgroundMorph(): React.JSX.Element {
           transition={{
             opacity: BACKGROUND_ANIMATION_CONFIG.colorTransition,
             scale: BACKGROUND_ANIMATION_CONFIG.colorTransition,
-            x: primaryTransition(1),
-            y: primaryTransition(1.08),
-            rotate: primaryTransition(0.92),
+            x: getTrans('primary', 1),
+            y: getTrans('primary', 1.08),
+            rotate: getTrans('primary', 0.92),
           }}
           sx={{
             ...createBlobSx(BLOB_CONFIGS.primary, shouldAnimate),
@@ -145,7 +140,6 @@ function BackgroundMorph(): React.JSX.Element {
         />
       </AnimatePresence>
 
-      {/* Secondary Ambient Blob - theme accent, slower movement */}
       <Box
         component={motion.div}
         animate={{
@@ -154,9 +148,9 @@ function BackgroundMorph(): React.JSX.Element {
           scale: shouldAnimate ? [1, 1.06, 1.02, 1.04, 1] : 1,
         }}
         transition={{
-          x: secondaryTransition(1),
-          y: secondaryTransition(1.12),
-          scale: secondaryTransition(0.85),
+          x: getTrans('secondary', 1),
+          y: getTrans('secondary', 1.12),
+          scale: getTrans('secondary', 0.85),
         }}
         sx={{
           ...createBlobSx(BLOB_CONFIGS.secondary, shouldAnimate),
@@ -164,7 +158,6 @@ function BackgroundMorph(): React.JSX.Element {
         }}
       />
 
-      {/* Tertiary Depth Blob - subtle, adds layered depth */}
       <Box
         component={motion.div}
         animate={{
@@ -173,9 +166,9 @@ function BackgroundMorph(): React.JSX.Element {
           scale: shouldAnimate ? [1, 0.97, 1.03, 0.99, 1] : 1,
         }}
         transition={{
-          x: tertiaryTransition(1),
-          y: tertiaryTransition(1.15),
-          scale: tertiaryTransition(0.88),
+          x: getTrans('tertiary', 1),
+          y: getTrans('tertiary', 1.15),
+          scale: getTrans('tertiary', 0.88),
         }}
         sx={{
           ...createBlobSx(BLOB_CONFIGS.tertiary, shouldAnimate),

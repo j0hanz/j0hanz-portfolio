@@ -17,8 +17,6 @@ import type {
   AnimationConfig,
   AnimationPriority,
   SectionSequenceStep,
-  SequenceItem,
-  TimelineSegment,
   TransitionPreset,
 } from '@/config/types';
 
@@ -27,7 +25,7 @@ import type {
 // ============================================================================
 
 // Instant transition for reduced motion scenarios
-export const REDUCED_TRANSITION: Transition = { duration: 0.01 };
+const REDUCED_TRANSITION: Transition = { duration: 0.01 };
 
 // Resolves motion state based on user motion preferences
 export const resolveMotionState = <T extends MotionProps['initial']>(
@@ -160,21 +158,6 @@ export const runSectionSequence = (
   steps.forEach(({ selector, delay, useStagger, staggerValue }) =>
     animateElements(scopeElement, selector, delay, useStagger, staggerValue)
   );
-
-// ============================================================================
-// TIMELINE HELPERS
-// ============================================================================
-
-// Timeline sequence builder - maps segments to Motion's sequence format
-export function buildTimelineSequence(
-  segments: TimelineSegment[]
-): SequenceItem[] {
-  return segments.map((seg) =>
-    seg.options
-      ? [seg.target, seg.keyframes, seg.options]
-      : [seg.target, seg.keyframes]
-  ) as SequenceItem[];
-}
 
 // ============================================================================
 // DEVICE CAPABILITY

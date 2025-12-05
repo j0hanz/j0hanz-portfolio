@@ -394,7 +394,16 @@ export const staggerItemVariant: Variants = {
     y: 0,
     scale: 1,
     filter: 'blur(0px)',
-    transition: { type: 'spring' as const, stiffness: 280, damping: 24 },
+    transition: {
+      type: 'spring' as const,
+      stiffness: 280,
+      damping: 24,
+      filter: {
+        type: 'tween' as const,
+        duration: 0.35,
+        ease: 'easeOut' as const,
+      },
+    },
   },
   exit: { opacity: 0, y: -14, scale: 0.94, filter: 'blur(2px)' },
 };
@@ -869,6 +878,11 @@ export const textRevealVariants = {
         damping: 14,
         stiffness: 140,
         duration,
+        filter: {
+          type: 'tween' as const,
+          duration: duration * 0.8,
+          ease: 'easeOut' as const,
+        },
       },
     }),
     hidden: (duration = 0.5) => ({
@@ -881,6 +895,11 @@ export const textRevealVariants = {
         damping: 14,
         stiffness: 140,
         duration,
+        filter: {
+          type: 'tween' as const,
+          duration: duration * 0.6,
+          ease: 'easeIn' as const,
+        },
       },
     }),
   },

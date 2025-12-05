@@ -476,11 +476,6 @@ export interface ScrollProgressValue {
   progress: number;
 }
 
-export interface PresenceControls {
-  isPresent: boolean;
-  safeToRemove: (() => void) | null;
-}
-
 export type SequenceAnimator = (
   target: ElementOrSelector,
   keyframes: DOMKeyframesDefinition,
@@ -502,56 +497,12 @@ export interface AnimationSequenceControls {
 
 export type AnimationPriority = 'high' | 'reduced';
 
-export type AnimateActivityMode = 'visible' | 'hidden';
-export type LayoutMode = 'sync' | 'pop';
-
-export interface AnimateActivityProps {
-  children: ReactNode;
-  mode: AnimateActivityMode;
-  layoutMode?: LayoutMode;
-  onExitComplete?: () => void;
-}
-
-export interface TimelineSegment {
-  target: ElementOrSelector;
-  keyframes: DOMKeyframesDefinition;
-  options?: AnimationOptions & { at?: number | string };
-}
-
-export type TimelineSequence = (TimelineSegment | string)[];
-
-export type SequenceItem =
-  | [ElementOrSelector, DOMKeyframesDefinition]
-  | [ElementOrSelector, DOMKeyframesDefinition, AnimationOptions];
-
 export type StaggerContainerOptions = {
   exitDirection?: 1 | -1;
   exitStagger?: number;
   initialOpacity?: number;
   animateOpacity?: number;
 };
-
-export interface TimelineControls {
-  play: () => void;
-  pause: () => void;
-  stop: () => void;
-  time: number;
-  duration: number;
-  speed: number;
-}
-
-export interface MeasureRect {
-  width: number;
-  height: number;
-  top: number;
-  left: number;
-}
-
-export interface UseMeasureReturn<T extends HTMLElement = HTMLElement> {
-  ref: (node: T | null) => void;
-  bounds: MeasureRect;
-  remeasure: () => void;
-}
 
 export interface GestureVariants {
   variants: Variants;
@@ -586,31 +537,9 @@ export interface LayoutAnimationProps {
   transition?: Transition;
 }
 
-export interface MotionWrapperProps extends MotionProps {
-  children: ReactNode;
-  sectionId: SectionMotionVariantId;
-}
-
-export interface FadeInViewProps extends Omit<
-  MotionProps,
-  'initial' | 'animate'
-> {
-  children: ReactNode;
-  delay?: number;
-  threshold?: number;
-  ref?: React.Ref<HTMLDivElement>;
-}
-
 export interface StaggerContainerProps {
   children: ReactNode;
   stagger?: number;
-  className?: string;
-  style?: CSSProperties;
-  sx?: SxProps<Theme>;
-}
-
-export interface StaggerItemProps {
-  children: ReactNode;
   className?: string;
   style?: CSSProperties;
   sx?: SxProps<Theme>;
@@ -644,13 +573,7 @@ export interface TextRevealProps {
 }
 
 export interface TextRevealExtendedProps extends TextRevealProps {
-  // 'word' = word-by-word (default), 'char' = character-by-character
   splitBy?: 'word' | 'char';
-}
-
-export interface SlideFromSideProps extends MotionProps {
-  children: ReactNode;
-  from: 'left' | 'right';
 }
 
 export interface SectionContainerProps {
@@ -948,31 +871,6 @@ export interface MagnetMotionProps {
   onPointerLeave?: React.PointerEventHandler<HTMLDivElement>;
 }
 
-export interface UseLazyReturn<T> {
-  value: T;
-  refresh: () => void;
-}
-
-export type StorageSource = Storage | 'local' | 'session';
-
-export interface UseStorageOptions<T> {
-  storage?: StorageSource;
-  serializer?: (value: T) => string;
-  parser?: (value: string) => T;
-  listen?: boolean;
-  validate?: (data: unknown) => data is T;
-}
-
-export interface UseStorageReturn<T> {
-  value: T;
-  set: (value: T | ((previous: T) => T)) => void;
-  get: () => T;
-  remove: () => void;
-  refresh: () => void;
-  isSupported: boolean;
-  error: Error | null;
-}
-
 export interface UseToggleReturn {
   value: boolean;
   toggle: (nextValue?: boolean) => void;
@@ -1037,11 +935,6 @@ export interface UseScrollEventsProps {
   isScrolling: React.MutableRefObject<boolean>;
 }
 
-export interface UseScrollAnimationOptions {
-  offset?: UseScrollOptions['offset'];
-  triggerThreshold?: number;
-}
-
 // --- Utils ---
 export type ValidationError = string | undefined;
 
@@ -1052,15 +945,6 @@ export type StatusBanner = {
   severity: AlertColor;
   persistent: boolean;
 };
-
-// Query utility types (from utils/query/utils.ts)
-export type QueryErrorType = 'network' | 'rate-limit' | 'not-found' | 'unknown';
-
-export interface QueryErrorInfo {
-  type: QueryErrorType;
-  message: string;
-  retryable: boolean;
-}
 
 // Background utility types (from utils/background.ts)
 export interface GradientConfig {
