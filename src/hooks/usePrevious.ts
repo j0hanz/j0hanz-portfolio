@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Returns the value from the previous render
-// Uses state to expose previous value (ref access during render forbidden by React Compiler)
-// Effect updates refs after render to track current → previous transition
+// Uses ref to track current value and state for render-time access
 export function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef(value);
   const [previous, setPrevious] = useState<T | undefined>(undefined);
-  const currentRef = useRef<T>(value);
 
-  // Update previous state and current ref after each render
   useEffect(() => {
-    setPrevious(currentRef.current);
-    currentRef.current = value;
+    setPrevious(ref.current);
+    ref.current = value;
   }, [value]);
 
   return previous;

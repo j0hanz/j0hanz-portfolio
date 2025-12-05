@@ -12,20 +12,6 @@ const NAVIGATION_KEYS: Record<string, ScrollDirection> = {
   ' ': 'down',
   ArrowUp: 'up',
   PageUp: 'up',
-} as const;
-
-const getKeyboardDirection = (key: string): ScrollDirection | null =>
-  NAVIGATION_KEYS[key] ?? null;
-
-// Gets scroll boundary state from container
-const getScrollBoundaryState = (container: HTMLElement) => {
-  const { scrollTop, scrollHeight, clientHeight } = container;
-  return {
-    isAtTop: scrollTop <= SCROLL_CONFIG.TOLERANCE_PX,
-    isAtBottom:
-      Math.abs(scrollHeight - clientHeight - scrollTop) <=
-      SCROLL_CONFIG.TOLERANCE_PX,
-  };
 };
 
 // Check if container is at scroll boundary for given direction
@@ -33,7 +19,12 @@ function isAtScrollBoundary(direction: ScrollDirection): boolean {
   const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
   if (!container) return true;
 
-  const { isAtTop, isAtBottom } = getScrollBoundaryState(container);
+  const { scrollTop, scrollHeight, clientHeight } = container;
+  const isAtTop = scrollTop <= SCROLL_CONFIG.TOLERANCE_PX;
+  const isAtBottom =
+    Math.abs(scrollHeight - clientHeight - scrollTop) <=
+    SCROLL_CONFIG.TOLERANCE_PX;
+
   return direction === 'down' ? isAtBottom : isAtTop;
 }
 
@@ -67,7 +58,7 @@ export function useScrollEvents({
       return;
     }
 
-    const direction = getKeyboardDirection(e.key);
+    const direction = NAVIGATION_KEYS[e.key];
     if (direction && onNavigate(direction)) {
       e.preventDefault();
     }
@@ -80,12 +71,6 @@ export function useScrollEvents({
     touchStartY.current = e.touches[0].clientY;
     touchStartTime.current = Date.now();
     isTouchActive.current = true;
-  });
-
-  const handleTouchMove = useEventCallback((_e: TouchEvent) => {
-    // Track touch movement but don't prevent default here
-    // This allows natural scrolling within sections
-    if (!isTouchActive.current) return;
   });
 
   const handleTouchEnd = useEventCallback((e: TouchEvent) => {
@@ -130,8 +115,6 @@ export function useScrollEvents({
 
     // touchstart can be passive (we don't preventDefault there)
     window.addEventListener('touchstart', handleTouchStart, passiveTouchOption);
-    // touchmove can be passive (we simplified it to only track position)
-    window.addEventListener('touchmove', handleTouchMove, passiveTouchOption);
     // touchend needs non-passive for preventDefault
     window.addEventListener('touchend', handleTouchEnd, passiveOption);
 
@@ -142,10 +125,9 @@ export function useScrollEvents({
       }
 
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
 
-      // Reset touch state refs to prevent stale data on remount
+      // Reset touch state refs on unmount
       touchStartY.current = 0;
       touchStartTime.current = 0;
       isTouchActive.current = false;
@@ -156,7 +138,6 @@ export function useScrollEvents({
     handleWheel,
     handleKeyDown,
     handleTouchStart,
-    handleTouchMove,
     handleTouchEnd,
   ]);
 }

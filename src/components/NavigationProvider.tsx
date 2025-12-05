@@ -16,16 +16,8 @@ import { useEventCallback } from '@/hooks';
 const LAST_INDEX = sections.length - 1;
 
 // Clamps index within valid section bounds
-// Defensive clamp: handles NaN, infinities, negative zero, non-integers
-const clampIndex = (index: number): number => {
-  if (!Number.isFinite(index)) return 0;
-  // Convert to integer
-  let n = Math.trunc(index);
-  // Clamp to [0, LAST_INDEX]
-  n = Math.max(0, Math.min(n, LAST_INDEX));
-  // Normalize -0 to 0
-  return n === 0 ? 0 : n;
-};
+const clampIndex = (index: number): number =>
+  Math.max(0, Math.min(Math.trunc(index) || 0, LAST_INDEX));
 
 // Resolves section index by ID or hash
 const resolveIndex = (identifier: string, byHash = false): number => {
@@ -52,11 +44,6 @@ const buildSnapshot = (
   const index = clampIndex(targetIndex);
   const activeSection = sections[index];
 
-  if (!activeSection && import.meta.env.DEV) {
-    throw new Error(`NavigationProvider: sections[${index}] is undefined.`);
-  }
-
-  // Single expression for direction calculation
   const direction: Direction =
     index === previousIndex ? null : index > previousIndex ? 'down' : 'up';
 

@@ -1,8 +1,5 @@
 import {
   animate,
-  type AnimationOptions,
-  type DOMKeyframesDefinition,
-  type ElementOrSelector,
   type MotionProps,
   stagger,
   type Transition,
@@ -21,7 +18,6 @@ import type {
   AnimationPriority,
   SectionSequenceStep,
   SequenceItem,
-  SequenceStepKey,
   TimelineSegment,
   TransitionPreset,
 } from '@/config/types';
@@ -100,18 +96,19 @@ export const createGestureProps = (
 // SEQUENCE HELPERS
 // ============================================================================
 
+type SequenceStepKey = 'description' | 'cards' | 'cta';
+
 // Configuration-driven sequence building reduces cyclomatic complexity
-const SEQUENCE_STEP_CONFIG = {
+const SEQUENCE_STEP_CONFIG: Record<
+  SequenceStepKey,
+  { baseDelay: number; useStagger: boolean; defaultStagger?: number }
+> = {
   description: { baseDelay: 0, useStagger: false },
   cards: { baseDelay: 0.2, useStagger: true, defaultStagger: 0.1 },
   cta: { baseDelay: 0.4, useStagger: true, defaultStagger: 0.1 },
-} as const;
+};
 
-const SEQUENCE_ORDER: readonly SequenceStepKey[] = [
-  'description',
-  'cards',
-  'cta',
-];
+const SEQUENCE_ORDER: SequenceStepKey[] = ['description', 'cards', 'cta'];
 
 export const animateElements = (
   scopeElement: HTMLElement,
@@ -141,22 +138,16 @@ export function buildSectionSequencePlan(
 ): SectionSequenceStep[] {
   let cumulativeDelay = 0;
 
-  return SEQUENCE_ORDER.filter(
-    (key): key is SequenceStepKey =>
-      Boolean(selectors[key]) && (selectors[key]?.trim().length ?? 0) > 0
-  ).map((key) => {
+  return SEQUENCE_ORDER.filter((key) => selectors[key]?.trim()).map((key) => {
     const config = SEQUENCE_STEP_CONFIG[key];
-    const selector = selectors[key]!;
-
     const step: SectionSequenceStep = {
-      selector,
+      selector: selectors[key]!,
       delay: cumulativeDelay,
       useStagger: config.useStagger,
       staggerValue: config.useStagger
         ? getStagger(config.defaultStagger)
         : undefined,
     };
-
     cumulativeDelay += config.baseDelay;
     return step;
   });
@@ -174,22 +165,15 @@ export const runSectionSequence = (
 // TIMELINE HELPERS
 // ============================================================================
 
+// Timeline sequence builder - maps segments to Motion's sequence format
 export function buildTimelineSequence(
   segments: TimelineSegment[]
 ): SequenceItem[] {
-  return segments.map((seg) => {
-    if (seg.options) {
-      return [seg.target, seg.keyframes, seg.options] as [
-        ElementOrSelector,
-        DOMKeyframesDefinition,
-        AnimationOptions,
-      ];
-    }
-    return [seg.target, seg.keyframes] as [
-      ElementOrSelector,
-      DOMKeyframesDefinition,
-    ];
-  });
+  return segments.map((seg) =>
+    seg.options
+      ? [seg.target, seg.keyframes, seg.options]
+      : [seg.target, seg.keyframes]
+  ) as SequenceItem[];
 }
 
 // ============================================================================

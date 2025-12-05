@@ -2,21 +2,18 @@ import { useState } from 'react';
 
 import type { UseToggleReturn } from '@/config/types';
 
-// Boolean state with toggle/setTrue/setFalse helpers (defaults to false)
-export function useToggle(initialState: boolean | (() => boolean) = false) {
-  const [value, setValue] = useState<boolean>(
-    typeof initialState === 'function' ? initialState : () => initialState
-  );
+// Boolean state with toggle/setTrue/setFalse helpers
+export function useToggle(
+  initial: boolean | (() => boolean) = false
+): UseToggleReturn {
+  const [value, setValue] = useState(initial);
 
-  // React Compiler auto-stabilizes these callbacks
-  const toggle = (nextValue?: boolean) => {
-    setValue((prev) => (nextValue !== undefined ? nextValue : !prev));
+  return {
+    value,
+    toggle: (next?: boolean) => setValue((prev) => next ?? !prev),
+    setTrue: () => setValue(true),
+    setFalse: () => setValue(false),
   };
-
-  const setTrue = () => setValue(true);
-  const setFalse = () => setValue(false);
-
-  return { value, toggle, setTrue, setFalse } satisfies UseToggleReturn;
 }
 
 export default useToggle;

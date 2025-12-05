@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {
+import type {
   StorageSource,
   UseStorageOptions,
   UseStorageReturn,
@@ -12,26 +12,19 @@ type DefaultValue<T> = T | (() => T);
 
 const isBrowser = typeof window !== 'undefined';
 
-const defaultSerializer = <T>(value: T) => JSON.stringify(value);
+const evaluate = <T>(v: DefaultValue<T>): T =>
+  typeof v === 'function' ? (v as () => T)() : v;
 
-// Safe parser that returns unknown for validation
-const parseJson = (value: string): unknown => JSON.parse(value);
-
-const evaluateDefaultValue = <T>(value: DefaultValue<T>): T =>
-  typeof value === 'function' ? (value as () => T)() : value;
-
-const normalizeError = (error: unknown, fallback: string): Error =>
-  error instanceof Error
-    ? error
-    : new Error(typeof error === 'string' ? `${fallback}: ${error}` : fallback);
+const toError = (err: unknown, msg: string): Error =>
+  err instanceof Error ? err : new Error(msg);
 
 const resolveStorage = (source?: StorageSource): Storage | null => {
   if (!isBrowser) return null;
-  if (!source || source === 'local') return window.localStorage;
-  return source === 'session' ? window.sessionStorage : source;
+  if (!source || source === 'local') return localStorage;
+  return source === 'session' ? sessionStorage : source;
 };
 
-// Syncs React state with Web Storage API (local/session) with defensive parsing
+// Syncs React state with Web Storage API (local/session)
 export function useStorage<T>(
   key: string,
   defaultValue: DefaultValue<T>,
@@ -39,135 +32,86 @@ export function useStorage<T>(
 ): UseStorageReturn<T> {
   const {
     storage = 'local',
-    serializer = defaultSerializer<T>,
+    serializer = JSON.stringify,
     parser,
     listen = true,
     validate,
   } = options;
 
-  const resolvedStorage = resolveStorage(storage);
-  const isSupported = Boolean(resolvedStorage);
-
-  const getDefaultValue = (): T => evaluateDefaultValue(defaultValue);
-
+  const resolved = resolveStorage(storage);
+  const isSupported = Boolean(resolved);
   const [error, setError] = useState<Error | null>(null);
 
-  // Safe parsing with optional validation
-  const safeParse = (raw: string): T => {
-    // If custom parser provided, use it directly
-    if (parser) {
-      return parser(raw);
+  const parse = (raw: string): T => {
+    if (parser) return parser(raw);
+    const parsed: unknown = JSON.parse(raw);
+    if (validate && !validate(parsed)) {
+      throw new Error(`Invalid data format for "${key}"`);
     }
-
-    // Parse to unknown first
-    const parsed = parseJson(raw);
-
-    // Validate if validator provided
-    if (validate) {
-      if (!validate(parsed)) {
-        throw new Error(`Invalid data format for "${key}"`);
-      }
-      return parsed;
-    }
-
-    // Without validation, cast (matches original behavior)
     return parsed as T;
   };
 
   const readValueImpl = (): T => {
-    if (!resolvedStorage) return getDefaultValue();
-
+    if (!resolved) return evaluate(defaultValue);
     try {
-      const raw = resolvedStorage.getItem(key);
-      return raw === null ? getDefaultValue() : safeParse(raw);
-    } catch (readError) {
-      const normalized = normalizeError(
-        readError,
-        `Failed to read "${key}" from storage`
-      );
-      setError(normalized);
-      return getDefaultValue();
+      const raw = resolved.getItem(key);
+      return raw === null ? evaluate(defaultValue) : parse(raw);
+    } catch (e) {
+      setError(toError(e, `Failed to read "${key}" from storage`));
+      return evaluate(defaultValue);
     }
   };
 
-  // Wrap with useEventCallback for stable reference in effects
   const readValue = useEventCallback(readValueImpl);
+  const [value, setValue] = useState<T>(readValueImpl);
 
-  const [value, setValue] = useState<T>(() => readValueImpl());
-
-  const persist = (nextValue: T): void => {
-    if (!resolvedStorage) return;
-
+  const persist = (next: T): void => {
+    if (!resolved) return;
     try {
-      resolvedStorage.setItem(key, serializer(nextValue));
+      resolved.setItem(key, serializer(next));
       setError(null);
-    } catch (writeError) {
-      setError(
-        normalizeError(writeError, `Failed to store "${key}" in storage`)
-      );
+    } catch (e) {
+      setError(toError(e, `Failed to store "${key}" in storage`));
     }
   };
 
-  const set = (nextValue: T | ((previous: T) => T)) => {
+  const set = (next: T | ((prev: T) => T)) =>
     setValue((prev) => {
-      const resolvedValue =
-        typeof nextValue === 'function'
-          ? (nextValue as (previous: T) => T)(prev)
-          : nextValue;
-      persist(resolvedValue);
-      return resolvedValue;
+      const val =
+        typeof next === 'function' ? (next as (p: T) => T)(prev) : next;
+      persist(val);
+      return val;
     });
-  };
 
   const remove = (): void => {
-    if (resolvedStorage) {
+    if (resolved) {
       try {
-        resolvedStorage.removeItem(key);
+        resolved.removeItem(key);
         setError(null);
-      } catch (removeError) {
-        setError(
-          normalizeError(removeError, `Failed to remove "${key}" from storage`)
-        );
+      } catch (e) {
+        setError(toError(e, `Failed to remove "${key}" from storage`));
       }
     }
-    setValue(getDefaultValue());
+    setValue(evaluate(defaultValue));
   };
 
-  const refresh = () => {
+  const refresh = () =>
     setValue((prev) => {
       const next = readValue();
       return Object.is(prev, next) ? prev : next;
     });
-  };
 
-  const get = () => readValue();
-
-  const onStorageChange = useEventCallback((event: StorageEvent) => {
-    if (event.key === key && event.storageArea === resolvedStorage) {
-      setValue(readValue());
-    }
+  const onStorageChange = useEventCallback((e: StorageEvent) => {
+    if (e.key === key && e.storageArea === resolved) setValue(readValue());
   });
 
   useEffect(() => {
-    if (!listen || !resolvedStorage) return undefined;
+    if (!listen || !resolved) return;
+    window.addEventListener('storage', onStorageChange);
+    return () => window.removeEventListener('storage', onStorageChange);
+  }, [listen, resolved, onStorageChange]);
 
-    const handleStorage = (event: StorageEvent): void => {
-      onStorageChange(event);
-    };
-
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, [listen, resolvedStorage, onStorageChange]);
-
-  return {
-    value,
-    set,
-    get,
-    remove,
-    refresh,
-    isSupported,
-    error,
-  };
+  return { value, set, get: readValue, remove, refresh, isSupported, error };
 }
 
 export default useStorage;

@@ -3,33 +3,25 @@ import { useRef } from 'react';
 import { useReducedMotion } from 'motion/react';
 
 import { SCROLL_CONFIG } from '@/config/constants';
-import type { ScrollBoundaries, ScrollDirection } from '@/config/types';
+import type { ScrollDirection } from '@/config/types';
 
 import { useMobileBreakpoint } from './useBreakpoints';
 import useEventCallback from './useEventCallback';
 import { useNavigationActions, useNavigationState } from './useNavigation';
 import { useScrollEvents } from './useScrollEvents';
 
-// Gets scroll boundary state for a container element
-function getScrollBoundaries(container: HTMLElement | null): ScrollBoundaries {
-  if (!container) return { isAtTop: true, isAtBottom: true };
+// Check if navigation is allowed based on scroll position
+function canNavigateFromBoundary(direction: ScrollDirection): boolean {
+  const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
+  if (!container) return true;
 
   const { scrollTop, scrollHeight, clientHeight } = container;
+  const isAtTop = scrollTop <= 0;
+  const isAtBottom =
+    Math.abs(scrollHeight - clientHeight - scrollTop) <
+    SCROLL_CONFIG.TOLERANCE_PX;
 
-  return {
-    isAtTop: scrollTop <= 0,
-    isAtBottom:
-      Math.abs(scrollHeight - clientHeight - scrollTop) <
-      SCROLL_CONFIG.TOLERANCE_PX,
-  };
-}
-
-// Checks if navigation is allowed based on scroll position
-function canNavigate(
-  boundaries: ScrollBoundaries,
-  direction: ScrollDirection
-): boolean {
-  return direction === 'down' ? boundaries.isAtBottom : boundaries.isAtTop;
+  return direction === 'down' ? isAtBottom : isAtTop;
 }
 
 export function useFullPageScroll(): void {
@@ -38,36 +30,26 @@ export function useFullPageScroll(): void {
   const isScrolling = useRef(false);
 
   const prefersReducedMotion = useReducedMotion();
-  const isTouchPrimaryBreakpoint = useMobileBreakpoint('md');
+  const isMobile = useMobileBreakpoint('md');
 
-  // Disable all listeners when reduced motion is preferred or scroll lock is off (e.g. footer)
+  // Disable all listeners when reduced motion is preferred or scroll lock is off
   const shouldDisable = Boolean(prefersReducedMotion || !isScrollLocked);
 
-  // Wheel/keyboard navigation can be noisy on touch devices; keep gestures active.
-  // Only disable non-touch inputs on mobile, never disable touch events
-  const disableNonTouchInputs = Boolean(
-    shouldDisable || isTouchPrimaryBreakpoint
-  );
-
-  // Touch events should work on mobile even when non-touch inputs are disabled
-  // Only disable touch when reduced motion is preferred or scroll is unlocked
-  const disableTouchInputs = shouldDisable;
+  // Disable wheel/keyboard on mobile, keep touch active
+  const disableNonTouchInputs = shouldDisable || isMobile;
 
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
-    if (isScrolling.current || isPending) return false;
+    if (
+      isScrolling.current ||
+      isPending ||
+      !canNavigateFromBoundary(direction)
+    ) {
+      return false;
+    }
 
-    // Direct DOM access is safe and efficient here
-    const container = document.getElementById(SCROLL_CONFIG.CONTAINER_ID);
-    const boundaries = getScrollBoundaries(container);
-
-    if (!canNavigate(boundaries, direction)) return false;
-
-    // Trigger navigation
-    const navigate = direction === 'down' ? moveNext : movePrev;
     isScrolling.current = true;
-    navigate();
+    (direction === 'down' ? moveNext : movePrev)();
 
-    // Debounce navigation
     setTimeout(() => {
       isScrolling.current = false;
     }, SCROLL_CONFIG.LOCK_DURATION_MS);
@@ -77,7 +59,7 @@ export function useFullPageScroll(): void {
 
   useScrollEvents({
     onNavigate,
-    shouldDisable: disableTouchInputs,
+    shouldDisable,
     disableNonTouchInputs,
     isScrolling,
   });

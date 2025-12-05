@@ -110,36 +110,26 @@ export function useMotionVariant(
   const { prefersReducedMotion, motionViewport } = useAnimationConfig();
 
   if (prefersReducedMotion) {
-    return {
-      initial: options?.animate ?? options?.whileInView ?? 'animate',
-      animate: options?.animate ?? options?.whileInView ?? 'animate',
-    };
+    const fallbackState = options?.animate ?? options?.whileInView ?? 'animate';
+    return { initial: fallbackState, animate: fallbackState };
   }
 
-  // Support both animate and whileInView modes
-  // If animate is explicitly provided, use it instead of whileInView
-  const hasExplicitAnimate = options?.animate !== undefined;
-
-  if (hasExplicitAnimate) {
-    return {
-      variants,
-      initial: options?.initial ?? 'initial',
-      animate: options.animate,
-      whileHover: options?.whileHover,
-      whileTap: options?.whileTap,
-      whileFocus: options?.whileFocus,
-    };
-  }
-
-  return {
+  const baseProps = {
     variants,
     initial: options?.initial ?? 'initial',
-    whileInView: options?.whileInView ?? 'animate',
-    viewport: options?.viewport ?? motionViewport,
     whileHover: options?.whileHover,
     whileTap: options?.whileTap,
     whileFocus: options?.whileFocus,
   };
+
+  // Use animate mode if explicitly provided, otherwise use whileInView
+  return options?.animate !== undefined
+    ? { ...baseProps, animate: options.animate }
+    : {
+        ...baseProps,
+        whileInView: options?.whileInView ?? 'animate',
+        viewport: options?.viewport ?? motionViewport,
+      };
 }
 
 // Returns motion props for in-view animations with custom variants
@@ -521,7 +511,7 @@ export function useContentMotion() {
 // SECTION SEQUENCE
 // ============================================================================
 
-// Orchestrates section animations based on scroll position with hardware-accelerated transforms
+// Orchestrates section animations based on scroll position
 export function useSectionSequence(
   ref: RefObject<HTMLElement | null>,
   selectors: {
@@ -535,20 +525,13 @@ export function useSectionSequence(
   const { offset = ['start 0.85', 'end 0.2'], threshold = 0.2 } = options;
   const { prefersReducedMotion, getStagger } = useAnimationConfig();
   const hasPlayed = useRef(false);
-  const animationTimeoutRef = useRef<number | null>(null);
   const sequencePlan = buildSectionSequencePlan(selectors, getStagger);
 
   const { scrollYProgress } = useScroll({ target: ref, offset });
 
-  // Reset hasPlayed on mount - this ensures animations replay when component remounts
-  // (e.g., when navigating away and back in full-page scroll sections)
+  // Reset on mount for full-page scroll sections that remount
   useEffect(() => {
     hasPlayed.current = false;
-    return () => {
-      if (animationTimeoutRef.current !== null) {
-        window.clearTimeout(animationTimeoutRef.current);
-      }
-    };
   }, []);
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
@@ -562,17 +545,7 @@ export function useSectionSequence(
       return;
 
     hasPlayed.current = true;
-    const scopeElement = ref.current;
-
-    // Debounce animation trigger on mobile to prevent rapid firing during touch scroll
-    if (animationTimeoutRef.current !== null) {
-      window.clearTimeout(animationTimeoutRef.current);
-    }
-
-    animationTimeoutRef.current = window.setTimeout(() => {
-      runSectionSequence(scopeElement, sequencePlan);
-      animationTimeoutRef.current = null;
-    }, 16); // Single frame delay for touch scroll smoothing
+    runSectionSequence(ref.current, sequencePlan);
   });
 }
 

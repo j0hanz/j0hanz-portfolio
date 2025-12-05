@@ -1030,11 +1030,6 @@ export interface TimelineSectionControllerOptions {
 // --- Scroll & Navigation Hooks ---
 export type ScrollDirection = 'up' | 'down';
 
-export interface ScrollBoundaries {
-  isAtTop: boolean;
-  isAtBottom: boolean;
-}
-
 export interface UseScrollEventsProps {
   onNavigate: (direction: ScrollDirection) => boolean;
   shouldDisable: boolean; // Disables ALL event listeners (touch, wheel, keyboard)

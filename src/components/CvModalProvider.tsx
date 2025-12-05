@@ -6,22 +6,17 @@ import {
   CvModalActionsContext,
   CvModalStateContext,
 } from '@/contexts/CvModalContext';
-import { useEventCallback, useToggle } from '@/hooks';
+import { useToggle } from '@/hooks';
 
 // Centralized CV modal state management
-// Eliminates duplicate useModal(false) calls in Hero, NavBar, and Footer
 export function CvModalProvider({
   children,
 }: CvModalProviderProps): React.JSX.Element {
   const {
     value: isCvModalOpen,
-    setTrue: openModal,
-    setFalse: closeModal,
+    setTrue: openCvModal,
+    setFalse: closeCvModal,
   } = useToggle(false);
-
-  // Wrap with useEventCallback for stable references
-  const openCvModal = useEventCallback(() => openModal());
-  const closeCvModal = useEventCallback(() => closeModal());
 
   const stateValue = { isCvModalOpen };
   const actionsValue = { openCvModal, closeCvModal };

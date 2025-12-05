@@ -45,21 +45,12 @@ export const CARD_HOVER_LIFT = { y: -5 } as const;
 // Base presets (once: true) - for standard scroll-triggered animations
 // Replay presets (once: false) - for full-page scroll where sections remount
 export const viewportPresets = {
-  // Standard presets - animate once when scrolled into view
   section: { once: true, amount: 0.1 },
   card: { once: true, amount: 0.25 },
   list: { once: true, amount: 0.2 },
-  // Replay presets - for full-page scroll sections that remount
-  // Use these when section content should re-animate on navigation
   sectionReplay: { once: false, amount: 0.1 },
   cardReplay: { once: false, amount: 0.2 },
   listReplay: { once: false, amount: 0.15 },
-  // Deprecated aliases - use explicit names above
-  cardLarge: { once: true, amount: 0.3 },
-  listCompact: { once: true, amount: 0.15 },
-  fullPageSection: { once: false, amount: 0.1 },
-  fullPageCard: { once: false, amount: 0.2 },
-  fullPageList: { once: false, amount: 0.15 },
 } as const;
 
 // Common easing curves

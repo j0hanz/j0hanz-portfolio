@@ -59,8 +59,8 @@ const PAGE_TRANSITION_SX = {
 // SECTION MOTION WRAPPER
 // ============================================================================
 
-// Internal implementation with animations
-function MotionWrapperInternal({
+// Wraps sections with scroll-triggered animations (handles reduced motion)
+function MotionWrapper({
   children,
   sectionId,
   style,
@@ -68,43 +68,35 @@ function MotionWrapperInternal({
   viewport: viewportOverride,
   ...props
 }: MotionWrapperProps) {
-  const { getTransition } = useAnimationConfig();
-  const variantKey = variantMap[sectionId] ?? 'default';
-  const variant = sectionVariants[variantKey];
-  const viewport = viewportOverride ?? viewportConfig;
-  const transition = transitionOverride ?? getTransition('easeOut');
-
-  return (
-    <motion.div
-      initial={variant.initial}
-      whileInView={variant.whileInView}
-      transition={transition}
-      viewport={viewport}
-      style={style}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Wraps sections with scroll-triggered animations (auto handles reduced motion)
-function MotionWrapper(props: MotionWrapperProps) {
-  const { prefersReducedMotion, reducedMotionTarget } = useAnimationConfig();
+  const { prefersReducedMotion, reducedMotionTarget, getTransition } =
+    useAnimationConfig();
 
   if (prefersReducedMotion) {
     return (
       <motion.div
         initial={reducedMotionTarget}
         animate={reducedMotionTarget}
-        style={props.style}
+        style={style}
       >
-        {props.children}
+        {children}
       </motion.div>
     );
   }
 
-  return <MotionWrapperInternal {...props} />;
+  const variant = sectionVariants[variantMap[sectionId] ?? 'default'];
+
+  return (
+    <motion.div
+      initial={variant.initial}
+      whileInView={variant.whileInView}
+      transition={transitionOverride ?? getTransition('easeOut')}
+      viewport={viewportOverride ?? viewportConfig}
+      style={style}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 // ============================================================================
@@ -157,29 +149,26 @@ function SlideFromSide({
 // FADE IN VIEW
 // ============================================================================
 
-// Simple fade-in when element enters viewport (React 19: ref as prop)
+// Simple fade-in when element enters viewport
 export function FadeInView({
   children,
   delay = 0,
   threshold = 0.2,
-  ref,
+  ref: externalRef,
   ...props
 }: FadeInViewProps) {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const localRef = useRef<HTMLDivElement>(null);
-  const effectiveRef = (ref as React.RefObject<Element>) || localRef;
-  const isInView = useInView(effectiveRef, {
-    once: true,
-    amount: threshold,
-  });
+  const internalRef = useRef<HTMLDivElement>(null);
+  const ref = (externalRef as React.RefObject<HTMLDivElement>) ?? internalRef;
+  const isInView = useInView(ref, { once: true, amount: threshold });
 
   if (prefersReducedMotion) {
-    return <div ref={ref || localRef}>{children}</div>;
+    return <div ref={ref}>{children}</div>;
   }
 
   return (
     <motion.div
-      ref={ref || localRef}
+      ref={ref}
       variants={fadeInViewVariants}
       initial="initial"
       animate={isInView ? 'animate' : 'initial'}
