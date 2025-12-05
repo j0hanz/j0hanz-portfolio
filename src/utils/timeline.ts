@@ -29,6 +29,7 @@ export function getTimelineOppositeContentSx(
     display: { xs: 'none', md: 'flex' },
     textAlign: isLeftAligned ? 'left' : 'right',
     justifyContent: isLeftAligned ? 'flex-start' : 'flex-end',
+    paddingTop: 2,
   };
 }
 
