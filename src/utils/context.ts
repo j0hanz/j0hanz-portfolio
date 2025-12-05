@@ -1,30 +1,6 @@
 import { Context, use } from 'react';
 
-// ============================================================================
-// CONTEXT UTILITY - DRY Factory for Context Hooks
-// ============================================================================
-
-/**
- * Creates a type-safe context hook with automatic null check and error message.
- * Eliminates boilerplate in context consumer hooks.
- *
- * @example
- * // Before (repeated in every context hook file):
- * export function useSnackbarState(): SnackbarState {
- *   const context = use(SnackbarStateContext);
- *   if (!context) {
- *     throw new Error('useSnackbarState must be used within SnackbarProvider');
- *   }
- *   return context;
- * }
- *
- * // After (single line):
- * export const useSnackbarState = createContextHook(
- *   SnackbarStateContext,
- *   'useSnackbarState',
- *   'SnackbarProvider'
- * );
- */
+// Type-safe context hook factory with null check and error message
 export function createContextHook<T>(
   context: Context<T | null>,
   hookName: string,
@@ -39,17 +15,7 @@ export function createContextHook<T>(
   };
 }
 
-/**
- * Creates a pair of state and actions hooks for split contexts.
- * Common pattern for render-optimized context providers.
- *
- * @example
- * const [useSnackbarState, useSnackbarActions] = createSplitContextHooks(
- *   { state: SnackbarStateContext, actions: SnackbarActionsContext },
- *   'Snackbar',
- *   'SnackbarProvider'
- * );
- */
+// Creates split state/actions hook pair for render-optimized providers
 export function createSplitContextHooks<TState, TActions>(
   contexts: {
     state: Context<TState | null>;
