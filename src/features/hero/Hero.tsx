@@ -34,7 +34,7 @@ import { contactButtonSx, iconSx } from '@/styles/shared';
 import {
   buttonsStackSx,
   containerSx,
-  cursorStyle,
+  cursorSx,
   downloadButtonSx,
   heroCardSx,
   heroContentSx,
@@ -176,9 +176,7 @@ function Hero() {
                     sx={subtitleSx}
                   >
                     Junior Full-Stack Developer
-                    {!prefersReducedMotion && (
-                      <BlinkingCursor style={cursorStyle} />
-                    )}
+                    {!prefersReducedMotion && <BlinkingCursor sx={cursorSx} />}
                   </Typography>
                   <Stack
                     direction="column"

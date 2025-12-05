@@ -4,7 +4,7 @@ import { useRef } from 'react';
 // MOTION COMPONENTS
 // ============================================================================
 
-import { Box } from '@mui/material';
+import { Box, type SxProps, type Theme } from '@mui/material';
 import {
   AnimatePresence,
   motion,
@@ -420,10 +420,10 @@ export function AnimatedSvgPath({
 
 // Blinking cursor for text input effects using time-based animation
 export function BlinkingCursor({
-  style,
+  sx,
   blinkDuration = 900,
 }: {
-  style?: React.CSSProperties;
+  sx?: SxProps<Theme>;
   blinkDuration?: number;
 }) {
   const { prefersReducedMotion } = useAnimationConfig();
@@ -436,10 +436,19 @@ export function BlinkingCursor({
   });
 
   if (prefersReducedMotion) {
-    return <span aria-hidden="true" style={{ ...style, opacity: 1 }} />;
+    return (
+      <Box component="span" aria-hidden="true" sx={{ opacity: 1, ...sx }} />
+    );
   }
 
-  return <motion.span aria-hidden="true" style={{ ...style, opacity }} />;
+  return (
+    <Box
+      component={motion.span}
+      aria-hidden="true"
+      sx={sx}
+      style={{ opacity }}
+    />
+  );
 }
 
 // ============================================================================

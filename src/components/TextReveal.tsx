@@ -79,7 +79,8 @@ export function TextReveal({
         sx={{ ...wrapperSx, ...sx }}
         aria-label={text}
       >
-        <motion.span
+        <Box
+          component={motion.span}
           variants={{
             ...containerVariants,
             visible: {
@@ -92,7 +93,7 @@ export function TextReveal({
           }}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          style={{ display: 'flex', flexWrap: 'wrap' }}
+          sx={wrapperSx}
         >
           {words.map((word, wordIndex) => (
             <Box
@@ -114,7 +115,7 @@ export function TextReveal({
               ))}
             </Box>
           ))}
-        </motion.span>
+        </Box>
       </Box>
     );
   }
@@ -138,11 +139,12 @@ export function TextReveal({
       style={style}
       sx={{ ...wrapperSx, ...sx }}
     >
-      <motion.span
+      <Box
+        component={motion.span}
         variants={container}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
-        style={{ display: 'flex', flexWrap: 'wrap' }}
+        sx={wrapperSx}
       >
         {text.split(' ').map((word, wordIndex) => (
           <Box
@@ -154,7 +156,7 @@ export function TextReveal({
             {word}
           </Box>
         ))}
-      </motion.span>
+      </Box>
     </Box>
   );
 }

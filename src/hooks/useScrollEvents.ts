@@ -100,8 +100,12 @@ export function useScrollEvents({
     // Don't navigate if already scrolling
     if (isScrolling.current) return;
 
-    // More forgiving swipe detection: 40px minimum, 600ms maximum
-    if (Math.abs(deltaY) < 40 || elapsed > 600) return;
+    // More forgiving swipe detection using centralized thresholds
+    if (
+      Math.abs(deltaY) < SCROLL_CONFIG.SWIPE_MIN_DISTANCE_PX ||
+      elapsed > SCROLL_CONFIG.SWIPE_MAX_DURATION_MS
+    )
+      return;
 
     const direction: ScrollDirection = deltaY > 0 ? 'down' : 'up';
 

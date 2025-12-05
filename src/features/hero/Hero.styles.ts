@@ -13,7 +13,7 @@ export const heroNameStyles: React.CSSProperties = {
 } as const;
 
 // Cursor for typing effect - uses transform for hardware acceleration
-export const cursorStyle: React.CSSProperties = {
+export const cursorSx: SxProps<Theme> = {
   display: 'inline-block',
   width: 2, // 2px
   height: '1.1em',

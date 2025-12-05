@@ -13,18 +13,17 @@ import { useCopyWithFeedback } from '@/hooks';
 import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
-const actionButtonSx = {
-  minWidth: SIZING.actionButtonMinWidth,
+const actionButtonSx: SxProps<Theme> = {
   height: SIZING.buttonHeightStandard,
-} as const;
+  fontSize: { xs: '0.75rem', sm: '0.9rem' },
+};
 
 const gridSx: SxProps<Theme> = {
   mt: { xs: 1.5, md: 2 },
 };
 
 const buttonStackSx: SxProps<Theme> = {
-  flexWrap: 'wrap',
-  gap: { xs: 0.5, sm: 1 },
+  flexWrap: 'nowrap',
 };
 
 // Extracted pattern: Tooltip + wrapper + ActionButton (DRY - was repeated 4 times)
@@ -37,12 +36,7 @@ function TooltipActionButton({
   return (
     <Tooltip title={tooltip} placement="bottom">
       <Box component="span" sx={tooltipWrapperSx}>
-        <Button
-          {...props}
-          text={label}
-          startIcon={icon}
-          sx={{ ...actionButtonSx, ...props.sx }}
-        />
+        <Button {...props} text={label} startIcon={icon} sx={actionButtonSx} />
       </Box>
     </Tooltip>
   );

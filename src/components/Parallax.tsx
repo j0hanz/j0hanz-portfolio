@@ -1,6 +1,12 @@
 import { useRef } from 'react';
 
-import { motion, useScroll, useTransform } from 'motion/react';
+import { Box } from '@mui/material';
+import {
+  motion,
+  type MotionProps,
+  useScroll,
+  useTransform,
+} from 'motion/react';
 
 import type { ParallaxProps } from '@/config/types';
 import { useMobileBreakpoint, useReducedMotion } from '@/hooks';
@@ -13,6 +19,7 @@ export function Parallax({
   offset = 50,
   className,
   style,
+  sx,
 }: ParallaxProps) {
   const ref = useRef(null);
   const prefersReducedMotion = useReducedMotion() ?? false;
@@ -28,23 +35,24 @@ export function Parallax({
   // Disable parallax on mobile devices to prevent touch scroll conflicts
   if (prefersReducedMotion || isMobile) {
     return (
-      <div ref={ref} className={className} style={style}>
+      <Box ref={ref} className={className} sx={sx} style={style}>
         {children}
-      </div>
+      </Box>
     );
   }
 
   return (
-    <motion.div
+    <Box
+      component={motion.div}
       ref={ref}
       className={className}
-      style={{
-        y,
-        ...style,
+      sx={{
+        ...sx,
         willChange: prefersReducedMotion ? 'auto' : 'transform',
       }}
+      style={{ y, ...(style ?? {}) } as MotionProps['style']}
     >
       {children}
-    </motion.div>
+    </Box>
   );
 }

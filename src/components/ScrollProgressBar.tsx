@@ -11,11 +11,8 @@ export function ScrollProgressBar() {
   return (
     <Box
       component={motion.div}
-      style={{
-        scaleX: smoothProgress,
-        transformOrigin: '0%',
-      }}
       sx={{
+        transformOrigin: '0 0',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -25,6 +22,7 @@ export function ScrollProgressBar() {
         zIndex: (theme) => theme.zIndex.appBar + 1,
         willChange: 'transform',
       }}
+      style={{ scaleX: smoothProgress }}
       aria-hidden="true"
     />
   );

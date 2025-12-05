@@ -621,6 +621,7 @@ export interface MagneticWrapperProps {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
+  sx?: SxProps<Theme>;
 }
 
 export interface ParallaxProps {
@@ -628,6 +629,7 @@ export interface ParallaxProps {
   offset?: number;
   className?: string;
   style?: CSSProperties;
+  sx?: SxProps<Theme>;
 }
 
 export interface TextRevealProps {

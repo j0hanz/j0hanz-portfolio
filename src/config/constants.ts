@@ -10,6 +10,8 @@ export const SCROLL_CONFIG = {
   LOCK_DURATION_MS: 1000,
   WHEEL_THRESHOLD_PX: 30,
   TOUCH_THRESHOLD_PX: 50,
+  SWIPE_MIN_DISTANCE_PX: 40,
+  SWIPE_MAX_DURATION_MS: 600,
 } as const;
 
 // ============================================================================

@@ -66,8 +66,9 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
             {project.title}
           </Box>
           {project.isNew && (
-            <motion.span
-              style={{ marginLeft: 8, display: 'inline-flex' }}
+            <Box
+              component={motion.span}
+              sx={{ ml: 1, display: 'inline-flex' }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={
                 prefersReducedMotion
@@ -81,7 +82,7 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
               }
             >
               <Chip label="New" size="small" sx={newBadgeSx} />
-            </motion.span>
+            </Box>
           )}
         </Stack>
       </Typography>

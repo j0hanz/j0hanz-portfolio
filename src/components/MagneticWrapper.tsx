@@ -1,6 +1,12 @@
 import { useRef } from 'react';
 
-import { motion, useMotionValue, useSpring } from 'motion/react';
+import { Box } from '@mui/material';
+import {
+  motion,
+  type MotionProps,
+  useMotionValue,
+  useSpring,
+} from 'motion/react';
 
 import type { MagneticWrapperProps } from '@/config/types';
 import { useBatchedDomUpdate, useReducedMotion } from '@/hooks';
@@ -12,6 +18,7 @@ export function MagneticWrapper({
   disabled = false,
   className,
   style,
+  sx,
 }: MagneticWrapperProps) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -75,25 +82,28 @@ export function MagneticWrapper({
 
   if (disabled || prefersReducedMotion) {
     return (
-      <div className={className} style={style}>
+      <Box className={className} sx={sx} style={style}>
         {children}
-      </div>
+      </Box>
     );
   }
 
   return (
-    <motion.div
+    <Box
+      component={motion.div}
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{
-        x: springX,
-        y: springY,
-        display: 'inline-block',
-      }}
       className={className}
+      sx={{
+        display: 'inline-block',
+        ...sx,
+      }}
+      style={
+        { x: springX, y: springY, ...(style ?? {}) } as MotionProps['style']
+      }
     >
       {children}
-    </motion.div>
+    </Box>
   );
 }

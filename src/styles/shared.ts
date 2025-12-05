@@ -146,7 +146,7 @@ export const iconSx: SxProps<Theme> = {
 };
 
 export const iconBody2Sx: SxProps<Theme> = {
-  fontSize: SIZING.iconSm,
+  fontSize: SIZING.iconXs,
 };
 
 // ============================================================================
