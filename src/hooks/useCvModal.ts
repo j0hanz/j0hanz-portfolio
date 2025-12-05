@@ -1,25 +1,16 @@
-import { use } from 'react';
-
 import type { CvModalActions, CvModalState } from '@/config/types';
 import {
   CvModalActionsContext,
   CvModalStateContext,
 } from '@/contexts/CvModalContext';
+import { createSplitContextHooks } from '@/utils/context';
 
-// Read-only state hook - won't re-render when actions change
-export function useCvModalState(): CvModalState {
-  const context = use(CvModalStateContext);
-  if (!context) {
-    throw new Error('useCvModalState must be used within CvModalProvider');
-  }
-  return context;
-}
-
-// Actions-only hook - won't re-render when state changes
-export function useCvModalActions(): CvModalActions {
-  const context = use(CvModalActionsContext);
-  if (!context) {
-    throw new Error('useCvModalActions must be used within CvModalProvider');
-  }
-  return context;
-}
+// Split context hooks - state and actions separated for render optimization
+export const [useCvModalState, useCvModalActions] = createSplitContextHooks<
+  CvModalState,
+  CvModalActions
+>(
+  { state: CvModalStateContext, actions: CvModalActionsContext },
+  'CvModal',
+  'CvModalProvider'
+);

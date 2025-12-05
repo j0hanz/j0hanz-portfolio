@@ -1,5 +1,3 @@
-import { use } from 'react';
-
 import type {
   SnackbarActions,
   SnackbarContextType,
@@ -9,24 +7,17 @@ import {
   SnackbarActionsContext,
   SnackbarStateContext,
 } from '@/contexts/SnackbarContext';
+import { createSplitContextHooks } from '@/utils/context';
 
-// Read-only state hook - won't re-render when actions change
-export function useSnackbarState(): SnackbarState {
-  const context = use(SnackbarStateContext);
-  if (!context) {
-    throw new Error('useSnackbarState must be used within SnackbarProvider');
-  }
-  return context;
-}
-
-// Actions-only hook - won't re-render when state changes
-export function useSnackbarActions(): SnackbarActions {
-  const context = use(SnackbarActionsContext);
-  if (!context) {
-    throw new Error('useSnackbarActions must be used within SnackbarProvider');
-  }
-  return context;
-}
+// Split context hooks - state and actions separated for render optimization
+export const [useSnackbarState, useSnackbarActions] = createSplitContextHooks<
+  SnackbarState,
+  SnackbarActions
+>(
+  { state: SnackbarStateContext, actions: SnackbarActionsContext },
+  'Snackbar',
+  'SnackbarProvider'
+);
 
 // Combined hook for backwards compatibility
 export function useSnackbar(): SnackbarContextType {

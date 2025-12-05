@@ -1,29 +1,14 @@
-import { use } from 'react';
-
 import type { NavigationActions, NavigationState } from '@/config/types';
 import {
   NavigationActionsContext,
   NavigationStateContext,
 } from '@/contexts/NavigationContext';
+import { createSplitContextHooks } from '@/utils/context';
 
-// Full state hook - subscribes to all navigation state changes
-export function useNavigationState(): NavigationState {
-  const context = use(NavigationStateContext);
-  if (!context) {
-    throw new Error(
-      'useNavigationState must be used within NavigationProvider'
-    );
-  }
-  return context;
-}
-
-// Actions-only hook - never causes re-renders on state changes
-export function useNavigationActions(): NavigationActions {
-  const context = use(NavigationActionsContext);
-  if (!context) {
-    throw new Error(
-      'useNavigationActions must be used within NavigationProvider'
-    );
-  }
-  return context;
-}
+// Split context hooks - state and actions separated for render optimization
+export const [useNavigationState, useNavigationActions] =
+  createSplitContextHooks<NavigationState, NavigationActions>(
+    { state: NavigationStateContext, actions: NavigationActionsContext },
+    'Navigation',
+    'NavigationProvider'
+  );

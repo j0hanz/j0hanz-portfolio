@@ -1,4 +1,12 @@
-import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
+import type { ReactNode } from 'react';
+
+import {
+  Box,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import { motion } from 'motion/react';
 
 import { skillBadgeVariants } from '@/config/motion';
@@ -25,24 +33,53 @@ const stackSx: SxProps<Theme> = {
   justifyContent: 'flex-start',
 };
 
+// Badge wrapper - applies animation variants when motion is enabled
+function BadgeWrapper({
+  children,
+  animate,
+}: {
+  children: ReactNode;
+  animate: boolean;
+}): React.JSX.Element {
+  if (!animate) return <>{children}</>;
+  return (
+    <Box component={motion.span} variants={skillBadgeVariants.item}>
+      {children}
+    </Box>
+  );
+}
+
+// Shared content - DRY rendering of badge list
+function BadgeList({ animate }: { animate: boolean }): React.JSX.Element {
+  return (
+    <>
+      <Typography variant="overline" sx={labelSx}>
+        Tech Stack
+      </Typography>
+      <Stack direction="row" sx={stackSx}>
+        {skills.map((skill) => (
+          <BadgeWrapper key={skill.label} animate={animate}>
+            <SkillBadge skill={skill} />
+          </BadgeWrapper>
+        ))}
+      </Stack>
+    </>
+  );
+}
+
 function SkillBadgeRow(): React.JSX.Element {
   const { prefersReducedMotion, motionViewport } = useAnimationConfig();
 
+  // Static version for reduced motion - no animation props
   if (prefersReducedMotion) {
     return (
       <Stack sx={containerSx} alignItems="flex-start">
-        <Typography variant="overline" sx={labelSx}>
-          Tech Stack
-        </Typography>
-        <Stack direction="row" sx={stackSx}>
-          {skills.map((skill) => (
-            <SkillBadge key={skill.label} skill={skill} />
-          ))}
-        </Stack>
+        <BadgeList animate={false} />
       </Stack>
     );
   }
 
+  // Animated version with motion
   return (
     <Stack
       component={motion.div}
@@ -53,16 +90,7 @@ function SkillBadgeRow(): React.JSX.Element {
       sx={containerSx}
       alignItems="flex-start"
     >
-      <Typography variant="overline" sx={labelSx}>
-        Tech Stack
-      </Typography>
-      <Stack direction="row" sx={stackSx}>
-        {skills.map((skill) => (
-          <motion.span key={skill.label} variants={skillBadgeVariants.item}>
-            <SkillBadge skill={skill} />
-          </motion.span>
-        ))}
-      </Stack>
+      <BadgeList animate />
     </Stack>
   );
 }

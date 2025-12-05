@@ -1,5 +1,3 @@
-import { use } from 'react';
-
 import type {
   ThemeModeActions,
   ThemeModeState,
@@ -9,24 +7,17 @@ import {
   ThemeModeActionsContext,
   ThemeModeStateContext,
 } from '@/contexts/themeContext';
+import { createSplitContextHooks } from '@/utils/context';
 
-// Read-only state hook - won't re-render when actions change
-export function useThemeModeState(): ThemeModeState {
-  const context = use(ThemeModeStateContext);
-  if (!context) {
-    throw new Error('useThemeModeState must be used within AppThemeProvider');
-  }
-  return context;
-}
-
-// Actions-only hook - won't re-render when state changes
-export function useThemeModeActions(): ThemeModeActions {
-  const context = use(ThemeModeActionsContext);
-  if (!context) {
-    throw new Error('useThemeModeActions must be used within AppThemeProvider');
-  }
-  return context;
-}
+// Split context hooks - state and actions separated for render optimization
+export const [useThemeModeState, useThemeModeActions] = createSplitContextHooks<
+  ThemeModeState,
+  ThemeModeActions
+>(
+  { state: ThemeModeStateContext, actions: ThemeModeActionsContext },
+  'ThemeMode',
+  'AppThemeProvider'
+);
 
 // Combined hook for backwards compatibility
 export const useTheme = (): ThemeModeValue => {
