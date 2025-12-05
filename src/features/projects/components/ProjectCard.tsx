@@ -1,14 +1,24 @@
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
 
-import { Stack, type SxProps, type Theme, Typography } from '@mui/material';
+import {
+  Box,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import { LayoutGroup, motion } from 'motion/react';
 
-import { AnimatedCard } from '@/components/Card';
+import Card from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
-import { CARD_MOTION_VARIANTS } from '@/config/motion';
-import { Project } from '@/config/types';
-import { prefetchRepoStats, useInViewMotion } from '@/hooks';
+import {
+  CARD_HOVER_LIFT,
+  cardEntranceVariants,
+  viewportPresets,
+} from '@/config/motion';
+import type { ElementRef, Project } from '@/config/types';
+import { prefetchRepoStats, useInView, useMotionVariant } from '@/hooks';
 import {
   PROJECT_CARD_ARTICLE_SX,
   PROJECT_CARD_CONTENT_SX,
@@ -50,6 +60,9 @@ export function ProjectCard({
   project: Project;
 }): React.JSX.Element {
   const { repoPath } = getProjectMeta(project);
+  const cardRef = useRef<HTMLDivElement>(null);
+  // Use cardReplay preset for full-page scroll sections
+  const isInView = useInView(cardRef as ElementRef, viewportPresets.cardReplay);
 
   const handleMouseEnter = () => {
     // Only prefetch if we have a valid repo path
@@ -58,26 +71,33 @@ export function ProjectCard({
     }
   };
 
-  const motionProps = useInViewMotion(CARD_MOTION_VARIANTS);
+  // Use same pattern as AboutMe CardItem - variants with hover effect
+  const cardMotion = useMotionVariant(cardEntranceVariants, {
+    initial: 'hidden',
+    animate: isInView ? 'visible' : 'hidden',
+    whileHover: CARD_HOVER_LIFT,
+  });
 
   // Generate unique layoutId from project github URL
   const layoutId = `project-card-${project.github.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
   return (
     <LayoutGroup id={layoutId}>
-      <motion.div
-        {...motionProps}
+      <Box
+        ref={cardRef}
+        component={motion.div}
+        {...cardMotion}
         layoutId={`${layoutId}-container`}
-        layoutDependency={project.github}
+        onMouseEnter={handleMouseEnter}
       >
-        <AnimatedCard title="" noContentPadding onMouseEnter={handleMouseEnter}>
+        <Card title="" noContentPadding>
           <ErrorBoundary fallback={<ProjectCardSkeleton />}>
             <Suspense fallback={<ProjectCardSkeleton />}>
               <CardContent project={project} />
             </Suspense>
           </ErrorBoundary>
-        </AnimatedCard>
-      </motion.div>
+        </Card>
+      </Box>
     </LayoutGroup>
   );
 }
