@@ -15,11 +15,11 @@ import { getCopyMessages } from '@/utils/clipboard';
 
 const actionButtonSx: SxProps<Theme> = {
   height: SIZING.buttonHeightStandard,
-  fontSize: { xs: '0.75rem', sm: '0.9rem' },
+  fontSize: { xs: '0.8rem', sm: '0.9rem' },
 };
 
 const gridSx: SxProps<Theme> = {
-  mt: { xs: 1.5, md: 2 },
+  mt: { xs: 1, md: 1.5 },
 };
 
 const buttonStackSx: SxProps<Theme> = {

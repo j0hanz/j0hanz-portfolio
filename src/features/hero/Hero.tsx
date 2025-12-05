@@ -108,7 +108,7 @@ function Hero() {
     <Box component="section" id="hero" sx={sectionSx}>
       <Container maxWidth={DEFAULT_SECTION_MAX_WIDTH} sx={containerSx}>
         <Grid container spacing={SPACING.grid} alignItems="center">
-          <Grid size={{ xs: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, lg: 'auto' }}>
             <Parallax offset={30}>
               <Box
                 component={motion.div}

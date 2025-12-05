@@ -30,7 +30,7 @@ export const SPACING = {
   /** Section header margin bottom */
   headerMargin: { xs: 3, md: 4 },
   /** Container horizontal padding - reduced on xs to maximize content width */
-  containerPadding: { xs: 1.5, sm: 2.5, md: 3 },
+  containerPadding: { xs: 0.5 },
   /** Form field gaps */
   formField: { xs: 1.25, md: 2 },
 } as const satisfies Record<string, ResponsiveValue<number>>;
@@ -54,22 +54,18 @@ export const GRID = {
 // ============================================================================
 // CONTAINER WIDTHS
 // ============================================================================
-
-/** Default max width for all sections - use xl for better large screen utilization */
 export const DEFAULT_SECTION_MAX_WIDTH = 'xl' as const;
 
 export const CONTAINER_WIDTH = {
   /** Narrow containers for focused content (forms, modals) */
-  narrow: 'sm',
+  narrow: false,
   /** Medium containers for balanced layouts */
-  medium: 'md',
+  medium: false,
   /** Wide containers - default for sections */
-  wide: DEFAULT_SECTION_MAX_WIDTH,
-  /** Full width containers */
-  full: 'xl',
+  wide: 'xl',
   /** Fluid containers (no max width) */
   fluid: false,
-} as const satisfies Record<string, Breakpoint | false>;
+} as const satisfies Record<string, false | Breakpoint>;
 
 // ============================================================================
 // PROJECT-SPECIFIC SIZES

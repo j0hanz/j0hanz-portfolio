@@ -143,7 +143,6 @@ export {
   SPACING,
   GRID,
   CONTAINER_WIDTH,
-  DEFAULT_SECTION_MAX_WIDTH,
   FONT_SIZE,
   SIZE,
 } from '@/config/responsive';

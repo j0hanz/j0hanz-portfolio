@@ -3,7 +3,6 @@ import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   animate,
   frame,
-  stagger,
   useAnimate,
   useInView as useMotionInView,
   usePresence as useMotionPresence,
@@ -16,11 +15,7 @@ import {
   useVelocity,
 } from 'motion/react';
 import type {
-  AnimationOptions,
   AnimationPlaybackControls,
-  DOMKeyframesDefinition,
-  ElementOrSelector,
-  MotionProps,
   Target,
   Transition,
   UseInViewOptions,
@@ -29,15 +24,11 @@ import type {
 } from 'motion/react';
 
 import {
-  BASE_DELAY,
-  BASE_DURATION,
-  BASE_STAGGER,
   CARD_HOVER_LIFT,
   gestureVariants,
   REDUCED_MOTION_TARGET,
   timelineCardVariants,
   timelineDescriptionVariants,
-  transitions,
   viewportConfig,
   viewportPresets,
 } from '@/config/motion';
@@ -49,16 +40,24 @@ import type {
   MeasureRect,
   PresenceControls,
   ScrollProgressValue,
-  SectionSequenceStep,
   SequenceAnimator,
-  SequenceItem,
-  SequenceStepKey,
   TimelineControls,
   TimelineSectionControllerOptions,
   TimelineSegment,
-  TransitionPreset,
   UseMeasureReturn,
 } from '@/config/types';
+import {
+  buildSectionSequencePlan,
+  buildTimelineSequence,
+  createDelay,
+  createDuration,
+  createGestureProps,
+  createStagger,
+  createTransition,
+  getDeviceCapability,
+  resolveMotionState,
+  runSectionSequence,
+} from '@/utils/motion';
 
 import useEventCallback from './useEventCallback';
 
@@ -74,43 +73,6 @@ export function useReducedMotion(): boolean {
 // ============================================================================
 // ANIMATION CONFIGURATION
 // ============================================================================
-
-// Instant transition for reduced motion scenarios
-const REDUCED_TRANSITION: Transition = { duration: 0.01 };
-
-// Resolves motion state based on user motion preferences
-const resolveMotionState = <T extends MotionProps['initial']>(
-  prefersReduced: boolean,
-  state?: T,
-  fallback: T = REDUCED_MOTION_TARGET as T
-): T => (prefersReduced ? fallback : (state ?? fallback));
-
-// Timing helper factories - pure functions for cleaner composition
-const createDuration =
-  (prefersReduced: boolean) =>
-  (multiplier = 1) =>
-    prefersReduced ? 0 : BASE_DURATION * multiplier;
-
-const createDelay =
-  (prefersReduced: boolean) =>
-  (steps = 1) =>
-    prefersReduced ? 0 : BASE_DELAY * steps;
-
-const createStagger =
-  (prefersReduced: boolean) =>
-  (multiplier = 1) =>
-    prefersReduced ? 0 : BASE_STAGGER * multiplier;
-
-const createTransition =
-  (prefersReduced: boolean) =>
-  (
-    preset: TransitionPreset = 'smooth',
-    overrides?: Partial<Transition>
-  ): Transition => {
-    const base = transitions[preset] ?? transitions.smooth;
-    const reducedOverride = prefersReduced ? REDUCED_TRANSITION : {};
-    return { ...base, ...reducedOverride, ...overrides };
-  };
 
 // Animation configuration respecting user motion preferences with timing helpers
 export function useAnimationConfig(): AnimationConfig {
@@ -246,31 +208,6 @@ export function useCountUp(value: number, duration = 0.7) {
 // ============================================================================
 // GESTURE VARIANTS
 // ============================================================================
-
-// Base gesture props - common structure for all gesture variants
-const GESTURE_BASE = {
-  initial: 'rest',
-  animate: 'rest',
-} as const;
-
-// Interactive gesture props - added when motion is allowed
-const GESTURE_INTERACTIVE = {
-  whileHover: 'hover',
-  whileFocus: 'focus',
-  whileTap: 'tap',
-} as const;
-
-// Creates gesture props with optional interactivity based on motion preference
-const createGestureProps = (
-  variants: (typeof gestureVariants)[keyof typeof gestureVariants],
-  transition: Transition,
-  prefersReducedMotion: boolean
-) => ({
-  variants,
-  transition,
-  ...GESTURE_BASE,
-  ...(prefersReducedMotion ? {} : GESTURE_INTERACTIVE),
-});
 
 // Returns card hover motion props with gesture variants
 export function useCardHover(): CardHoverMotion {
@@ -553,15 +490,6 @@ export function useMeasure<
 // ANIMATION PRIORITY DETECTION
 // ============================================================================
 
-// Detects device capability based on hardware concurrency and memory
-const getDeviceCapability = (): AnimationPriority => {
-  if (typeof navigator === 'undefined') return 'reduced';
-  const cores = navigator.hardwareConcurrency ?? 4;
-  const memory =
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
-  return cores <= 4 || memory <= 4 ? 'reduced' : 'high';
-};
-
 // Returns animation priority based on user preferences and device capability
 export const useAnimationPriority = (): AnimationPriority => {
   const prefersReducedMotion = useReducedMotion();
@@ -592,79 +520,6 @@ export function useContentMotion() {
 // ============================================================================
 // SECTION SEQUENCE
 // ============================================================================
-
-// Helper to animate elements with hardware-accelerated transforms
-
-// Configuration-driven sequence building reduces cyclomatic complexity
-// and makes it easier to add or modify animation sequences
-const SEQUENCE_STEP_CONFIG = {
-  description: { baseDelay: 0, useStagger: false },
-  cards: { baseDelay: 0.2, useStagger: true, defaultStagger: 0.1 },
-  cta: { baseDelay: 0.4, useStagger: true, defaultStagger: 0.1 },
-} as const;
-
-const SEQUENCE_ORDER: readonly SequenceStepKey[] = [
-  'description',
-  'cards',
-  'cta',
-];
-
-const animateElements = (
-  scopeElement: HTMLElement,
-  selector: string,
-  delay: number,
-  useStagger: boolean,
-  staggerValue = BASE_STAGGER
-) => {
-  const elements = scopeElement.querySelectorAll(selector);
-  if (elements.length === 0) return;
-
-  animate(
-    elements,
-    { opacity: [0, 1], y: [20, 0] },
-    {
-      delay: useStagger ? stagger(staggerValue, { startDelay: delay }) : delay,
-      duration: 0.5,
-      ease: 'easeOut' as const,
-    }
-  );
-};
-
-// Builds animation sequence plan from selector config (description → cards → CTA timing)
-function buildSectionSequencePlan(
-  selectors: Record<string, string | undefined>,
-  getStagger: AnimationConfig['getStagger']
-): SectionSequenceStep[] {
-  let cumulativeDelay = 0;
-
-  return SEQUENCE_ORDER.filter(
-    (key): key is SequenceStepKey =>
-      Boolean(selectors[key]) && (selectors[key]?.trim().length ?? 0) > 0
-  ).map((key) => {
-    const config = SEQUENCE_STEP_CONFIG[key];
-    const selector = selectors[key]!;
-
-    const step: SectionSequenceStep = {
-      selector,
-      delay: cumulativeDelay,
-      useStagger: config.useStagger,
-      staggerValue: config.useStagger
-        ? getStagger(config.defaultStagger)
-        : undefined,
-    };
-
-    cumulativeDelay += config.baseDelay;
-    return step;
-  });
-}
-
-const runSectionSequence = (
-  scopeElement: HTMLElement,
-  steps: SectionSequenceStep[]
-) =>
-  steps.forEach(({ selector, delay, useStagger, staggerValue }) =>
-    animateElements(scopeElement, selector, delay, useStagger, staggerValue)
-  );
 
 // Orchestrates section animations based on scroll position with hardware-accelerated transforms
 export function useSectionSequence(
@@ -819,19 +674,7 @@ export function useTimelineSequence() {
     controlsRef.current?.stop();
 
     // Build sequence array in Motion's expected format
-    const sequence: SequenceItem[] = segments.map((seg) => {
-      if (seg.options) {
-        return [seg.target, seg.keyframes, seg.options] as [
-          ElementOrSelector,
-          DOMKeyframesDefinition,
-          AnimationOptions,
-        ];
-      }
-      return [seg.target, seg.keyframes] as [
-        ElementOrSelector,
-        DOMKeyframesDefinition,
-      ];
-    });
+    const sequence = buildTimelineSequence(segments);
 
     const controls = animate(sequence);
 

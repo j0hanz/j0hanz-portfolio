@@ -50,6 +50,7 @@ export type ResponsiveValue<T> = {
   md?: T;
   lg?: T;
   xl?: T;
+  fluid?: T;
 };
 
 // --- Direction & Navigation Types ---
