@@ -33,7 +33,6 @@ import {
   credentialButtonSx,
   descriptionTextSx,
   listContainerSx,
-  sectionSpacingSx,
   timelineCardWrapperSx,
   timelineDescriptionWrapperSx,
 } from '@/styles/shared';
@@ -257,7 +256,7 @@ function WorkExperience(): JSX.Element {
       id="workExperience"
       title={<TextReveal text="Experience" as="span" />}
       icon={WorkOutlineTwoTone}
-      sx={sectionSpacingSx}
+      maxWidth={false}
     >
       <Box ref={combinedRef}>
         <TimelineList

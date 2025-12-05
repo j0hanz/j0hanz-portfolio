@@ -50,7 +50,7 @@ export function Parallax({
         ...sx,
         willChange: prefersReducedMotion ? 'auto' : 'transform',
       }}
-      style={{ y, ...(style ?? {}) } as MotionProps['style']}
+      style={{ y, ...style } as MotionProps['style']}
     >
       {children}
     </Box>

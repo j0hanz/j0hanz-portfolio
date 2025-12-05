@@ -12,9 +12,9 @@ const baseTheme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 576,
+      sm: 640,
       md: 768,
-      lg: 992,
+      lg: 1024,
       xl: 1200,
     },
   },
@@ -94,7 +94,7 @@ export const appTheme = responsiveFontSizes(theme, {
   // sm (600px), md (768px), lg (1024px), xl (1280px)
   breakpoints: ['sm', 'md', 'lg', 'xl'],
   // Factor 2 provides ~12% size reduction per breakpoint for balanced scaling
-  factor: 2,
+  factor: 2.5,
   // Variants to apply responsive scaling (all heading variants)
   variants: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2'],
 });

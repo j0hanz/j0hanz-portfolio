@@ -224,7 +224,7 @@ const projects: Project[] = [
       'A console-based game to correct misspelled words, designed to boost spelling and vocabulary in a playful way.',
     github: 'https://github.com/j0hanz/FIX-my-SPELL',
     demo: 'https://fix-my-spell-7e3aef96045e.herokuapp.com/',
-    technologies: ['Python', 'Heruko'],
+    technologies: ['Python', 'Heroku'],
     collaborative: false,
     api: false,
     isNew: false,

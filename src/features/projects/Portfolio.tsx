@@ -31,6 +31,7 @@ function Portfolio(): React.JSX.Element {
       id="portfolio"
       title={<TextReveal text="Projects" as="span" />}
       icon={FolderTwoTone}
+      maxWidth={false}
     >
       <Box
         component={motion.div}
@@ -44,10 +45,7 @@ function Portfolio(): React.JSX.Element {
             ))}
           </Grid>
         ) : (
-          <Masonry
-            columns={{ sm: 2, md: 2, lg: 2, xl: 3 }}
-            spacing={SPACING.masonry}
-          >
+          <Masonry columns={{ sm: 1, md: 2, lg: 3 }} spacing={SPACING.masonry}>
             {projects.map((project) => (
               <ProjectMasonryItem key={project.github} project={project} />
             ))}

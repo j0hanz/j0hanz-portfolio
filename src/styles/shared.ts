@@ -175,15 +175,6 @@ export const tooltipWrapperSx: SxProps<Theme> = {
   display: 'inline-block',
 };
 
-export const sectionGridItemSx: SxProps<Theme> = {
-  mb: { xs: 2, sm: 2.5, md: 3, lg: 4 },
-};
-
-export const sectionSpacingSx: SxProps<Theme> = {
-  px: 0,
-  pb: { xs: 2, sm: 3, md: 4, lg: 5 },
-};
-
 export const centeredFullViewportSx: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',

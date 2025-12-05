@@ -20,11 +20,11 @@ export const SPACING = {
   /** Section vertical padding: py */
   section: { xs: 4, md: 10 },
   /** Card/container internal padding */
-  card: { xs: 2, sm: 3, md: 3 },
+  card: { xs: 2, sm: 2.5, md: 3 },
   /** Grid gaps between items */
-  grid: { xs: 2, sm: 3, md: 4 },
+  grid: { xs: 2.5, sm: 3, md: 3.5, lg: 4 },
   /** Masonry spacing - reduced at lg to prevent overflow */
-  masonry: { sm: 3, md: 3, lg: 3, xl: 4 },
+  masonry: { sm: 2, md: 2.5, lg: 3, xl: 3.5 },
   /** Stack gaps */
   stack: { xs: 1.5, md: 2 },
   /** Section header margin bottom */
@@ -54,8 +54,6 @@ export const GRID = {
 // ============================================================================
 // CONTAINER WIDTHS
 // ============================================================================
-export const DEFAULT_SECTION_MAX_WIDTH = 'xl' as const;
-
 export const CONTAINER_WIDTH = {
   /** Narrow containers for focused content (forms, modals) */
   narrow: false,
