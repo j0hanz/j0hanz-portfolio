@@ -1,5 +1,10 @@
 import { Box, Skeleton, Stack, type SxProps, type Theme } from '@mui/material';
 
+import {
+  PROJECT_CARD_ARTICLE_SX,
+  PROJECT_CARD_CONTENT_SX,
+} from '@/styles/shared';
+
 // Shared styles for consistent skeleton appearance
 const baseSx = {
   rounded: { borderRadius: 2 } as const,
@@ -63,23 +68,15 @@ export function SectionSkeleton(): React.JSX.Element {
 }
 
 // Project card skeleton matching full card layout
-const projectCardSx: SxProps<Theme> = {
-  minHeight: { xs: 320, sm: 340, md: 360 },
-  display: 'flex',
-  flexDirection: 'column',
-  ...baseSx.rounded,
-  p: { xs: 1.5, sm: 2, md: 2.5 },
-};
-
 export function ProjectCardSkeleton(): React.JSX.Element {
   return (
-    <Box
+    <Stack
       component="article"
-      sx={projectCardSx}
+      sx={PROJECT_CARD_ARTICLE_SX}
       role="status"
       aria-label="Loading project"
     >
-      <Stack spacing={2} sx={{ flex: '1 1 auto' }}>
+      <Stack spacing={2} sx={PROJECT_CARD_CONTENT_SX}>
         {/* Header - title + icon */}
         <Stack
           direction="row"
@@ -124,7 +121,7 @@ export function ProjectCardSkeleton(): React.JSX.Element {
         </Stack>
         <ActionButton width={85} />
       </Stack>
-    </Box>
+    </Stack>
   );
 }
 

@@ -32,7 +32,11 @@ function Portfolio(): React.JSX.Element {
       title={<TextReveal text="Projects" as="span" />}
       icon={FolderTwoTone}
     >
-      <Box component={motion.div} {...motionProps} sx={{ width: 1 }}>
+      <Box
+        component={motion.div}
+        {...motionProps}
+        sx={{ width: 1, overflow: 'hidden' }}
+      >
         {useGridLayout ? (
           <Grid container spacing={SPACING.grid}>
             {projects.map((project) => (

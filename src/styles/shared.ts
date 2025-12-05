@@ -7,6 +7,22 @@ import type { SxProps, Theme } from '@mui/material';
 // ============================================================================
 
 // ============================================================================
+// PROJECT CARD SHARED STYLES
+// Used by both ProjectCard and ProjectCardSkeleton for consistency
+// ============================================================================
+
+export const PROJECT_CARD_ARTICLE_SX: SxProps<Theme> = {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+  padding: { xs: 2, sm: 2.5, md: 3, lg: 4 },
+};
+
+export const PROJECT_CARD_CONTENT_SX: SxProps<Theme> = {
+  flex: '1 1 auto',
+};
+
+// ============================================================================
 // SIZING CONSTANTS (Responsive - mobile-first)
 // All sizing uses responsive values for consistent mobile/desktop experience
 // SINGLE SOURCE OF TRUTH - import these instead of hardcoding values
@@ -48,8 +64,8 @@ export const SIZING = {
   buttonHeightStandard: { xs: 26, sm: 28, md: 30, lg: 32 },
   /** Large button height (WCAG 44px touch target on mobile) */
   buttonHeightLarge: { xs: 44, sm: 44, md: 46, lg: 48 },
-  /** Action button minimum width (project cards) */
-  actionButtonMinWidth: { xs: 90, sm: 100, md: 110, lg: 120 },
+  /** Action button minimum width (project cards) - smaller on xs to prevent overflow */
+  actionButtonMinWidth: { xs: 70, sm: 90, md: 100, lg: 110 },
 
   // ---------------------------------------------------------------------------
   // BADGE & CHIP DIMENSIONS
@@ -130,7 +146,7 @@ export const iconSx: SxProps<Theme> = {
 };
 
 export const iconBody2Sx: SxProps<Theme> = {
-  fontSize: (theme) => theme.typography.body2.fontSize,
+  fontSize: SIZING.iconSm,
 };
 
 // ============================================================================

@@ -22,6 +22,11 @@ const gridSx: SxProps<Theme> = {
   mt: { xs: 1.5, md: 2 },
 };
 
+const buttonStackSx: SxProps<Theme> = {
+  flexWrap: 'wrap',
+  gap: { xs: 0.5, sm: 1 },
+};
+
 // Extracted pattern: Tooltip + wrapper + ActionButton (DRY - was repeated 4 times)
 function TooltipActionButton({
   tooltip,
@@ -53,12 +58,7 @@ function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
 
   return (
     <Grid sx={gridSx}>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        flexWrap="wrap"
-        gap={1}
-      >
+      <Stack direction="row" justifyContent="space-between" sx={buttonStackSx}>
         <TooltipActionButton
           tooltip="View source code"
           href={project.github}

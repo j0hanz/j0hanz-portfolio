@@ -9,23 +9,16 @@ import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { CARD_MOTION_VARIANTS } from '@/config/motion';
 import { Project } from '@/config/types';
 import { prefetchRepoStats, useInViewMotion } from '@/hooks';
+import {
+  PROJECT_CARD_ARTICLE_SX,
+  PROJECT_CARD_CONTENT_SX,
+} from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
 import ProjectHeader from './ProjectHeader';
 import ProjectLinks from './ProjectLinks';
 import ProjectStats from './ProjectStats';
 import ProjectTechStack from './ProjectTechStack';
-
-const articleSx: SxProps<Theme> = {
-  height: 1,
-  p: { xs: 1.5, sm: 2, md: 2.5 },
-  display: 'flex',
-  flexDirection: 'column',
-};
-
-const contentSx: SxProps<Theme> = {
-  flex: '1 1 auto',
-};
 
 const descriptionSx: SxProps<Theme> = {
   color: 'text.secondary',
@@ -37,8 +30,8 @@ function CardContent({ project }: { project: Project }): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
 
   return (
-    <Stack component="article" sx={articleSx}>
-      <Stack spacing={2} sx={contentSx}>
+    <Stack component="article" sx={PROJECT_CARD_ARTICLE_SX}>
+      <Stack spacing={2} sx={PROJECT_CARD_CONTENT_SX}>
         <ProjectHeader project={project} />
         <Typography sx={descriptionSx}>{project.description}</Typography>
         <ProjectTechStack technologies={project.technologies} />

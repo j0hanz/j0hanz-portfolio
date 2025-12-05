@@ -23,14 +23,14 @@ export const SPACING = {
   card: { xs: 2, sm: 3, md: 3 },
   /** Grid gaps between items */
   grid: { xs: 2, sm: 3, md: 4 },
-  /** Masonry spacing (sm+ only) */
-  masonry: { sm: 3, md: 4 },
+  /** Masonry spacing - reduced at lg to prevent overflow */
+  masonry: { sm: 3, md: 3, lg: 3, xl: 4 },
   /** Stack gaps */
   stack: { xs: 1.5, md: 2 },
   /** Section header margin bottom */
   headerMargin: { xs: 3, md: 4 },
-  /** Container horizontal padding */
-  containerPadding: { xs: 2, sm: 3 },
+  /** Container horizontal padding - reduced on xs to maximize content width */
+  containerPadding: { xs: 1.5, sm: 2.5, md: 3 },
   /** Form field gaps */
   formField: { xs: 1.25, md: 2 },
 } as const satisfies Record<string, ResponsiveValue<number>>;
@@ -45,10 +45,8 @@ export const GRID = {
   full: { xs: 12 },
   /** Full mobile, half desktop */
   half: { xs: 12, md: 6 },
-  /** Full mobile, third desktop */
-  third: { xs: 12, sm: 6, lg: 4 },
-  /** Project card layout (responsive 3-column) */
-  projectCard: { xs: 12, sm: 6, md: 6, lg: 4 },
+  /** Full mobile, half at sm-lg, third at xl (used for project cards, skills, etc.) */
+  third: { xs: 12, sm: 6, xl: 4 },
   /** Form field layout */
   formField: { xs: 12, md: 6 },
 } as const;
@@ -57,11 +55,19 @@ export const GRID = {
 // CONTAINER WIDTHS
 // ============================================================================
 
+/** Default max width for all sections - use xl for better large screen utilization */
+export const DEFAULT_SECTION_MAX_WIDTH = 'xl' as const;
+
 export const CONTAINER_WIDTH = {
+  /** Narrow containers for focused content (forms, modals) */
   narrow: 'sm',
+  /** Medium containers for balanced layouts */
   medium: 'md',
-  wide: 'lg',
+  /** Wide containers - default for sections */
+  wide: DEFAULT_SECTION_MAX_WIDTH,
+  /** Full width containers */
   full: 'xl',
+  /** Fluid containers (no max width) */
   fluid: false,
 } as const satisfies Record<string, Breakpoint | false>;
 

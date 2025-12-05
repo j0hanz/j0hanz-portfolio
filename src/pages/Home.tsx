@@ -18,7 +18,7 @@ function Home(): React.JSX.Element {
       component="main"
       sx={{
         height: '100vh',
-        width: '100vw',
+        width: 1, // Use 100% instead of 100vw to avoid scrollbar width issues
         overflow: 'hidden',
         position: 'relative',
       }}

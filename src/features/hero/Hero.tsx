@@ -16,7 +16,7 @@ import { Parallax } from '@/components/Parallax';
 import { ProfileSkeleton } from '@/components/Skeletons';
 import { TextReveal } from '@/components/TextReveal';
 import { fadeVariants } from '@/config/motion';
-import { SPACING } from '@/config/responsive';
+import { DEFAULT_SECTION_MAX_WIDTH, SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import SkillBadgeRow from '@/features/hero/SkillBadgeRow';
 import {
@@ -106,7 +106,7 @@ function Hero() {
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>
-      <Container maxWidth="lg" sx={containerSx}>
+      <Container maxWidth={DEFAULT_SECTION_MAX_WIDTH} sx={containerSx}>
         <Grid container spacing={SPACING.grid} alignItems="center">
           <Grid size={{ xs: 12, md: 'auto' }}>
             <Parallax offset={30}>

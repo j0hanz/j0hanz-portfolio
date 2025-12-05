@@ -34,6 +34,30 @@ declare module '@mui/material/styles' {
 
 export const getComponentOverrides = (theme: Theme): Components<Theme> => ({
   // ---------------------------------------------------------------------------
+  // GLOBAL BASELINE (Scrollbar hiding while maintaining functionality)
+  // ---------------------------------------------------------------------------
+
+  MuiCssBaseline: {
+    styleOverrides: {
+      // Hide scrollbar globally while keeping scroll functionality
+      '*': {
+        scrollbarWidth: 'none', // Firefox
+        msOverflowStyle: 'none', // IE/Edge
+        '&::-webkit-scrollbar': {
+          display: 'none', // Chrome, Safari, Opera
+        },
+      },
+      // Ensure html/body don't show scrollbars
+      'html, body': {
+        overflow: 'hidden',
+        height: '100%',
+      },
+      '#root': {
+        height: '100%',
+      },
+    },
+  },
+  // ---------------------------------------------------------------------------
   // FORM INPUTS
   // ---------------------------------------------------------------------------
 

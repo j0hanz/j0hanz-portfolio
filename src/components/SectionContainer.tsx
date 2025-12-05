@@ -24,6 +24,7 @@ const sectionCenteredSx: SxProps<Theme> = {
   justifyContent: 'center',
   minHeight: '100vh',
   py: SPACING.section,
+  overflowX: 'hidden', // Prevent horizontal overflow from children
 };
 
 const containerPaddingSx: SxProps<Theme> = {

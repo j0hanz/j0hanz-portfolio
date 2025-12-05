@@ -35,7 +35,7 @@ export function ProjectCardMotionWrapper({
 
 function ProjectGridItem({ project }: ProjectListProps): React.JSX.Element {
   return (
-    <Grid size={GRID.projectCard} sx={{ display: 'flex' }}>
+    <Grid size={GRID.third} sx={{ display: 'flex' }}>
       <ProjectCardMotionWrapper>
         <ProjectCard project={project} />
       </ProjectCardMotionWrapper>
