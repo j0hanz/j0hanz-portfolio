@@ -68,7 +68,7 @@ function BadgeList({ animate }: { animate: boolean }): React.JSX.Element {
 }
 
 function SkillBadgeRow(): React.JSX.Element {
-  const { prefersReducedMotion, motionViewport } = useAnimationConfig();
+  const { prefersReducedMotion } = useAnimationConfig();
 
   // Static version for reduced motion - no animation props
   if (prefersReducedMotion) {
@@ -79,14 +79,14 @@ function SkillBadgeRow(): React.JSX.Element {
     );
   }
 
-  // Animated version with motion
+  // Animated version - uses animate instead of whileInView since Hero is
+  // a full-page section that's always visible when mounted
   return (
     <Stack
       component={motion.div}
       variants={skillBadgeVariants.container}
       initial="initial"
-      whileInView="animate"
-      viewport={motionViewport}
+      animate="animate"
       sx={containerSx}
       alignItems="flex-start"
     >
