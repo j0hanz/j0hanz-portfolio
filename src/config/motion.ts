@@ -36,7 +36,6 @@ export const SPRING_SNAPPY = {
 export const STAGGER_FAST = 0.05;
 export const STAGGER_NORMAL = 0.07;
 export const STAGGER_SLOW = 0.08;
-export const STAGGER_DRAMATIC = 0.12;
 
 // Shared hover transform for cards
 export const CARD_HOVER_LIFT = { y: -5 } as const;
@@ -420,31 +419,6 @@ export const staggerItemVariantMobile: Variants = {
   exit: { opacity: 0, y: -14, scale: 0.94 },
 };
 
-// Enhanced stagger with rotation
-export const staggerItemRotateVariant: Variants = {
-  initial: { opacity: 0, y: 32, scale: 0.94, rotate: -3 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotate: 0,
-    transition: { type: 'spring' as const, stiffness: 300, damping: 22 },
-  },
-  exit: { opacity: 0, y: -16, scale: 0.96, rotate: 2 },
-};
-
-// Cascade stagger for lists
-export const cascadeStaggerVariant: Variants = {
-  initial: { opacity: 0, x: -24, y: 12 },
-  animate: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { type: 'spring' as const, stiffness: 320, damping: 26 },
-  },
-  exit: { opacity: 0, x: 16, y: -8 },
-};
-
 // ============================================================================
 // NAVIGATION DRAWER VARIANTS
 // ============================================================================
@@ -552,28 +526,6 @@ export const cardEntranceVariantsMobile = {
   }),
 };
 
-// Card with 3D perspective effect
-export const cardPerspectiveVariants = {
-  hidden: { opacity: 0, y: 50, rotateX: 15, scale: 0.9 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.15,
-      duration: 0.7,
-      ease: EASE_OUT_QUINT,
-    },
-  }),
-};
-
-// Generic card motion for project cards (used with useInViewMotion)
-export const CARD_MOTION_VARIANTS = {
-  hidden: { opacity: 0, transform: 'translateY(20px) scale(0.98)' },
-  visible: { opacity: 1, transform: 'translateY(0px) scale(1)' },
-} as const;
-
 // Generic list item stagger animation
 export const listItemStaggerVariants = {
   hidden: { opacity: 0, y: 22, x: -8 },
@@ -585,22 +537,6 @@ export const listItemStaggerVariants = {
       delay: i * 0.1,
       duration: 0.5,
       ease: EASE_OUT_EXPO,
-    },
-  }),
-};
-
-// List item with slide effect
-export const listItemSlideVariants = {
-  hidden: { opacity: 0, x: -30, scale: 0.98 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.08,
-      type: 'spring' as const,
-      stiffness: 320,
-      damping: 26,
     },
   }),
 };
@@ -618,23 +554,6 @@ export const buttonPopVariants = {
       stiffness: 380,
       damping: 20,
       mass: 0.8,
-    },
-  },
-};
-
-// Button with bounce effect
-export const buttonBounceVariants = {
-  hidden: { opacity: 0, scale: 0.6, y: 16 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      delay: 0.35,
-      type: 'spring' as const,
-      stiffness: 450,
-      damping: 15,
-      mass: 0.6,
     },
   },
 };
@@ -703,18 +622,6 @@ export const cursorBlinkTransition = {
   duration: 0.9,
   repeat: Infinity,
   ease: 'easeInOut',
-} as const;
-
-// Typing cursor with smoother blink
-export const cursorPulseAnimation = {
-  opacity: [0.3, 1, 0.3],
-  scale: [0.98, 1, 0.98],
-} as const;
-
-export const cursorPulseTransition = {
-  duration: 1.2,
-  repeat: Infinity,
-  ease: [0.4, 0, 0.2, 1],
 } as const;
 
 // ============================================================================
@@ -938,22 +845,6 @@ export const staggerContainerVariants = {
   }),
 };
 
-export const staggerItemSimpleVariants = {
-  initial: { opacity: 0, y: 18, filter: 'blur(3px)' },
-  animate: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { type: 'spring' as const, stiffness: 280, damping: 24 },
-  },
-};
-
-export const fadeInViewVariants = {
-  initial: { opacity: 0, y: 24, scale: 0.98 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: 20, scale: 0.99 },
-};
-
 export const pageTransitionVariants = {
   enter: (direction: 'up' | 'down' | null) => ({
     transform: direction === 'down' ? 'translateY(100%)' : 'translateY(-100%)',
@@ -969,28 +860,6 @@ export const pageTransitionVariants = {
     transform: direction === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
     opacity: 0,
     scale: 0.98,
-  }),
-};
-
-// Direction-aware variants using usePresenceData
-export const presenceAwareVariants = {
-  enter: (direction: 'up' | 'down' | null) => ({
-    y: direction === 'down' ? 60 : -60,
-    opacity: 0,
-    scale: 0.96,
-    filter: 'blur(4px)',
-  }),
-  center: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    filter: 'blur(0px)',
-  },
-  exit: (direction: 'up' | 'down' | null) => ({
-    y: direction === 'down' ? -60 : 60,
-    opacity: 0,
-    scale: 0.96,
-    filter: 'blur(4px)',
   }),
 };
 
@@ -1089,133 +958,8 @@ export const viewportConfigFullPage = {
 } as const;
 
 // ============================================================================
-// SVG PATH ANIMATION VARIANTS
-// ============================================================================
-
-export const svgPathVariants = {
-  draw: {
-    initial: { pathLength: 0, opacity: 0 },
-    animate: { pathLength: 1, opacity: 1 },
-    exit: { pathLength: 0, opacity: 0 },
-  },
-  drawReverse: {
-    initial: { pathLength: 1, opacity: 1 },
-    animate: { pathLength: 0, opacity: 0 },
-  },
-  strokeDash: {
-    initial: { strokeDashoffset: 100 },
-    animate: { strokeDashoffset: 0 },
-  },
-  morphPath: {
-    initial: { pathLength: 0, opacity: 0, strokeWidth: 0 },
-    animate: { pathLength: 1, opacity: 1, strokeWidth: 2 },
-  },
-  fillPath: {
-    initial: { pathLength: 0, fillOpacity: 0 },
-    animate: { pathLength: 1, fillOpacity: 1 },
-  },
-} as const;
-
-// ============================================================================
-// SCROLL-LINKED ANIMATION PRESETS
-// ============================================================================
-
-export const scrollLinkedPresets = {
-  parallax: (range: [number, number] = [-50, 50]) => ({
-    inputRange: [0, 1],
-    outputRange: range,
-  }),
-  parallaxDeep: (range: [number, number] = [-100, 100]) => ({
-    inputRange: [0, 1],
-    outputRange: range,
-  }),
-  fadeOnScroll: {
-    inputRange: [0, 0.25, 0.75, 1],
-    outputRange: [0, 1, 1, 0],
-  },
-  scaleOnScroll: {
-    inputRange: [0, 0.5, 1],
-    outputRange: [0.85, 1, 0.85],
-  },
-  rotateOnScroll: {
-    inputRange: [0, 1],
-    outputRange: [-10, 10],
-  },
-  skewOnScroll: {
-    inputRange: [0, 0.5, 1],
-    outputRange: [-3, 0, 3],
-  },
-  blurOnScroll: {
-    inputRange: [0, 0.3, 0.7, 1],
-    outputRange: ['blur(8px)', 'blur(0px)', 'blur(0px)', 'blur(8px)'],
-  },
-} as const;
-
-// ============================================================================
-// SKELETON & LOADING VARIANTS
-// ============================================================================
-
-export const skeletonVariants = {
-  pulse: {
-    initial: { opacity: 0.5 },
-    animate: {
-      opacity: [0.5, 0.8, 0.5],
-      transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
-    },
-  },
-  shimmer: {
-    initial: { x: '-100%' },
-    animate: {
-      x: '100%',
-      transition: { duration: 1.2, repeat: Infinity, ease: 'linear' },
-    },
-  },
-  wave: {
-    initial: { scaleY: 0.8 },
-    animate: {
-      scaleY: [0.8, 1, 0.8],
-      transition: { duration: 0.8, repeat: Infinity, ease: 'easeInOut' },
-    },
-  },
-} as const;
-
-// ============================================================================
 // BADGE & CHIP VARIANTS
 // ============================================================================
-
-export const badgeVariants = {
-  pop: {
-    initial: { scale: 0, opacity: 0 },
-    animate: {
-      scale: 1,
-      opacity: 1,
-      transition: { type: 'spring', stiffness: 500, damping: 25 },
-    },
-  },
-  bounce: {
-    initial: { scale: 0, y: -10 },
-    animate: {
-      scale: [0, 1.2, 1],
-      y: [10, -4, 0],
-      transition: { duration: 0.5, ease: EASE_OUT_BACK },
-    },
-  },
-  pulse: {
-    initial: { scale: 1 },
-    animate: {
-      scale: [1, 1.08, 1],
-      transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
-    },
-  },
-  glow: {
-    initial: { opacity: 0.8, filter: 'brightness(1)' },
-    animate: {
-      opacity: [0.8, 1, 0.8],
-      filter: ['brightness(1)', 'brightness(1.2)', 'brightness(1)'],
-      transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
-    },
-  },
-} as const;
 
 // Skill badge stagger variants for hero section
 export const skillBadgeVariants = {
@@ -1244,33 +988,6 @@ export const skillBadgeVariants = {
 } as const;
 
 // ============================================================================
-// TOOLTIP & POPOVER VARIANTS
-// ============================================================================
-
-export const tooltipVariants = {
-  fadeUp: {
-    initial: { opacity: 0, y: 8, scale: 0.96 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: 4, scale: 0.98 },
-  },
-  fadeDown: {
-    initial: { opacity: 0, y: -8, scale: 0.96 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -4, scale: 0.98 },
-  },
-  spring: {
-    initial: { opacity: 0, scale: 0.9, y: 6 },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { type: 'spring' as const, stiffness: 400, damping: 24 },
-    },
-    exit: { opacity: 0, scale: 0.95, y: 4 },
-  },
-} as const;
-
-// ============================================================================
 // TYPE EXPORTS
 // ============================================================================
 
@@ -1281,75 +998,3 @@ export type {
   GestureVariant,
   SectionVariant,
 } from '@/config/types';
-
-// ============================================================================
-// HOVER EFFECT PRESETS
-// ============================================================================
-
-export const hoverEffects = {
-  lift: {
-    y: -6,
-    scale: 1.02,
-    boxShadow: SHADOWS.hoverLift,
-  },
-  grow: {
-    scale: 1.05,
-  },
-  shrink: {
-    scale: 0.95,
-  },
-  glow: {
-    filter: 'brightness(1.1)',
-    boxShadow: SHADOWS.hoverGlow,
-  },
-  tilt: {
-    rotateY: 5,
-    rotateX: -5,
-    scale: 1.02,
-  },
-  bounce: {
-    y: [-4, 0],
-    transition: { duration: 0.3, ease: 'easeOut' },
-  },
-} as const;
-
-// ============================================================================
-// TAP EFFECT PRESETS
-// ============================================================================
-
-export const tapEffects = {
-  press: {
-    scale: 0.96,
-    y: 2,
-  },
-  click: {
-    scale: 0.92,
-  },
-  bounce: {
-    scale: [0.95, 1.02, 0.98, 1],
-    transition: { duration: 0.3 },
-  },
-  ripple: {
-    scale: 0.98,
-    filter: 'brightness(0.95)',
-  },
-} as const;
-
-// ============================================================================
-// FOCUS EFFECT PRESETS
-// ============================================================================
-
-export const focusEffects = {
-  ring: {
-    boxShadow: SHADOWS.focusRing,
-    scale: 1.01,
-  },
-  glow: {
-    filter: 'brightness(1.05)',
-    boxShadow: SHADOWS.focusGlow,
-  },
-  outline: {
-    outline: '2px solid currentColor',
-    outlineOffset: '2px',
-  },
-} as const;

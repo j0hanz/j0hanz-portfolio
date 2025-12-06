@@ -8,7 +8,6 @@ import type { StatusBanner } from '@/config/types';
 
 import useEventCallback from './useEventCallback';
 import useEventListener from './useEventListener';
-import usePrevious from './usePrevious';
 import { useSnackbar } from './useSnackbar';
 
 const isInitiallyOnline = () =>
@@ -37,12 +36,19 @@ export function useOnlineStatus(): boolean {
 
 export function useConnectivity() {
   const isOnline = useOnlineStatus();
-  const prevOnline = usePrevious(isOnline);
+  const prevOnlineRef = useRef(isOnline);
+  const [prevOnline, setPrevOnline] = useState<boolean | undefined>(undefined);
   const { showSnackbar } = useSnackbar();
   const [statusBanner, setStatusBanner] = useState<StatusBanner | null>(() =>
     isInitiallyOnline() ? null : OFFLINE_BANNER
   );
   const timeoutRef = useRef<number | null>(null);
+
+  // Track previous value inline (was usePrevious hook - single use, now inlined)
+  useEffect(() => {
+    setPrevOnline(prevOnlineRef.current);
+    prevOnlineRef.current = isOnline;
+  }, [isOnline]);
 
   // Wrap banner state updates with useEventCallback to satisfy lint rules
   const showBanner = useEventCallback((banner: StatusBanner | null) => {

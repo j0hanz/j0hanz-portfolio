@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { CONTAINER_WIDTH, SPACING } from '@/config/responsive';
+import { SPACING } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
 import { SIZING } from '@/styles/shared';
 
@@ -124,7 +124,6 @@ function SectionContainerBase({
   headingLevel = 'h2',
   subtitle,
   headerActions,
-  maxWidth = CONTAINER_WIDTH.wide,
 }: SectionContainerProps): JSX.Element {
   return (
     <Box
@@ -133,7 +132,7 @@ function SectionContainerBase({
       className={className}
       sx={[sectionCenteredSx, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
     >
-      <Container maxWidth={maxWidth} sx={containerPaddingSx}>
+      <Container maxWidth={false} sx={containerPaddingSx}>
         <SectionHeader icon={Icon} headingLevel={headingLevel}>
           {title}
         </SectionHeader>

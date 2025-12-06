@@ -5,7 +5,7 @@ export const mainContainerSx: SxProps<Theme> = {
   display: 'flex',
   flexFlow: 'column nowrap',
   minHeight: '100vh',
-  maxWidth: 1600,
+  maxWidth: 1500,
   mx: 'auto',
   overflow: 'hidden',
 };

@@ -1,7 +1,14 @@
 import { useLayoutEffect, useRef } from 'react';
 
 import Close from '@mui/icons-material/Close';
-import { alpha, Dialog, DialogContent, IconButton, SxProps, Theme } from '@mui/material';
+import {
+  alpha,
+  Dialog,
+  DialogContent,
+  IconButton,
+  SxProps,
+  Theme,
+} from '@mui/material';
 import { motion } from 'motion/react';
 
 import { modalVariants } from '@/config/motion';

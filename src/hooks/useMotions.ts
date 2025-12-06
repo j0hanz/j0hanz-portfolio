@@ -9,14 +9,12 @@ import {
   useMotionValue,
   useMotionValueEvent,
   useScroll,
-  useSpring,
   useTransform,
   useVelocity,
 } from 'motion/react';
 import type {
   AnimationPlaybackControls,
   Target,
-  Transition,
   UseInViewOptions,
   UseScrollOptions,
   Variants,
@@ -36,7 +34,6 @@ import type {
   AnimationPriority,
   AnimationSequenceControls,
   CardHoverMotion,
-  ScrollProgressValue,
   SequenceAnimator,
   TimelineSectionControllerOptions,
 } from '@/config/types';
@@ -125,33 +122,6 @@ export function useMotionVariant(
       };
 }
 
-// Returns motion props for in-view animations with custom variants
-export function useInViewMotion(
-  variants?: { hidden?: Target; visible?: Target },
-  options?: { viewport?: UseInViewOptions; transition?: Transition }
-) {
-  const { prefersReducedMotion, getTransition, reducedMotionTarget } =
-    useAnimationConfig();
-
-  if (prefersReducedMotion) {
-    return {
-      initial: reducedMotionTarget,
-      animate: reducedMotionTarget,
-    };
-  }
-
-  const defaultHidden = { opacity: 0, y: 20 };
-  const defaultVisible = { opacity: 1, y: 0 };
-
-  return {
-    initial: variants?.hidden ?? defaultHidden,
-    whileInView: variants?.visible ?? defaultVisible,
-    viewport: { once: true, amount: 0.2, ...options?.viewport },
-    transition:
-      options?.transition ?? getTransition('easeOut', { duration: 0.5 }),
-  };
-}
-
 // ============================================================================
 // COUNT UP ANIMATION
 // ============================================================================
@@ -210,22 +180,6 @@ export function useButtonGesture() {
     getTransition('springSmooth'),
     prefersReducedMotion
   );
-}
-
-// ============================================================================
-// SCROLL PROGRESS
-// ============================================================================
-
-// Tracks scroll progress as motion value (no re-renders)
-export function useScrollProgress(): ScrollProgressValue {
-  const { scrollYProgress } = useScroll();
-  const progress = scrollYProgress.get();
-
-  return {
-    value: scrollYProgress,
-    // progress property kept for backwards compatibility - snapshot of current value
-    progress,
-  };
 }
 
 // ============================================================================
@@ -473,29 +427,6 @@ export function useVelocityTilt(
 ) {
   const xVelocity = useVelocity(motionValueX);
   return useTransform(xVelocity, [-1000, 0, 1000], [-maxTilt, 0, maxTilt]);
-}
-
-// Smooth scroll progress with velocity tracking
-export function useEnhancedScrollProgress(
-  config = {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-    mass: 0.5,
-  }
-) {
-  const prefersReducedMotion = useReducedMotion();
-  const { scrollYProgress, scrollY } = useScroll();
-  const smoothProgress = useSpring(scrollYProgress, config);
-  const velocity = useVelocity(smoothProgress);
-  const zeroVelocity = useMotionValue(0);
-
-  return {
-    scrollYProgress,
-    scrollY,
-    smoothProgress: prefersReducedMotion ? scrollYProgress : smoothProgress,
-    velocity: prefersReducedMotion ? zeroVelocity : velocity,
-  };
 }
 
 // Batched DOM operations using Motion's frame utility

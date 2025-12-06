@@ -6,6 +6,9 @@ import { motion } from 'motion/react';
 import { ImageProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 
+// Border radius lookup map
+const RADIUS_MAP = { circle: '50%', flat: 0, rounded: 1 } as const;
+
 function Image({
   src,
   alt,
@@ -20,8 +23,7 @@ function Image({
   const { isLoaded, handleLoad, handleError } = useImageLoading();
   const { getTransition } = useAnimationConfig();
 
-  // Border radius: circle=50%, flat=0, rounded=theme default
-  const borderRadius = radius === 'circle' ? '50%' : radius === 'flat' ? 0 : 1;
+  const borderRadius = RADIUS_MAP[radius];
   const defaultStyle: CSSProperties = {
     maxWidth: '100%',
     objectFit: 'cover',

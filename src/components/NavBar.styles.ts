@@ -1,5 +1,5 @@
-import type { SystemStyleObject } from '@mui/system';
 import { SxProps, Theme } from '@mui/material';
+import type { SystemStyleObject } from '@mui/system';
 
 import {
   CLIP_ROUNDED,

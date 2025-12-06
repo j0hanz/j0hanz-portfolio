@@ -76,6 +76,12 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
   },
 ] as const;
 
+// Compute profile image opacity based on load and hover state
+const getProfileOpacity = (isLoaded: boolean, isHovered: boolean): number => {
+  if (!isLoaded) return 0;
+  return isHovered ? 0.8 : 1;
+};
+
 // Rendering hero section
 function Hero() {
   const { openCvModal } = useCvModalActions();
@@ -106,7 +112,7 @@ function Hero() {
 
   return (
     <Box component="section" id="hero" sx={sectionSx}>
-      <Container maxWidth="xl" sx={containerSx}>
+      <Container maxWidth={false} sx={containerSx}>
         <Grid container spacing={SPACING.grid} alignItems="center">
           <Grid size={{ xs: 12, lg: 'auto' }}>
             <Parallax offset={30}>
@@ -129,7 +135,10 @@ function Hero() {
                   onKeyDown={handleImageKeyDown}
                   onLoad={handleProfileLoad}
                   animate={{
-                    opacity: isProfileLoaded ? (isProfileHovered ? 0.8 : 1) : 0,
+                    opacity: getProfileOpacity(
+                      isProfileLoaded,
+                      isProfileHovered
+                    ),
                     scale: isProfileHovered ? 1.02 : 1,
                   }}
                   transition={getTransition('smooth')}

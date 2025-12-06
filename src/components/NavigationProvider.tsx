@@ -36,6 +36,12 @@ const getInitialIndex = (): number => {
   return index >= 0 ? index : 0;
 };
 
+// Computes navigation direction from index change
+const getDirection = (current: number, previous: number): Direction => {
+  if (current === previous) return null;
+  return current > previous ? 'down' : 'up';
+};
+
 // Builds navigation state snapshot from target index
 const buildSnapshot = (
   targetIndex: number,
@@ -43,9 +49,7 @@ const buildSnapshot = (
 ): NavigationSnapshot => {
   const index = clampIndex(targetIndex);
   const activeSection = sections[index];
-
-  const direction: Direction =
-    index === previousIndex ? null : index > previousIndex ? 'down' : 'up';
+  const direction = getDirection(index, previousIndex);
 
   return {
     activeSectionIndex: index,

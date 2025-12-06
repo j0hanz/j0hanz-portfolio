@@ -10,7 +10,6 @@
 
 export { default as useEventCallback } from './useEventCallback';
 export { default as useEventListener } from './useEventListener';
-export { usePrevious } from './usePrevious';
 export { useToggle } from './useToggle';
 export { default as useModal } from './useModal';
 
@@ -75,7 +74,6 @@ export {
   useAnimationConfig,
   useAnimationPriority,
   useMotionVariant,
-  useInViewMotion,
   useContentMotion,
 } from './useMotions';
 
@@ -83,9 +81,6 @@ export {
 export { useCardHover, useButtonGesture } from './useMotions';
 
 // Scroll-linked animations
-export { useScrollProgress, useEnhancedScrollProgress } from './useMotions';
-
-// View detection
 export { useInView } from './useMotions';
 
 // Animation sequencing
