@@ -449,17 +449,6 @@ export interface ParallaxProps {
   sx?: SxProps<Theme>;
 }
 
-export interface TextRevealExtendedProps {
-  text: string;
-  className?: string;
-  delay?: number;
-  duration?: number;
-  as?: ElementType;
-  style?: CSSProperties;
-  sx?: SxProps<Theme>;
-  splitBy?: 'word' | 'char';
-}
-
 export interface SectionContainerProps {
   id: string;
   title: ReactNode;

@@ -10,7 +10,6 @@ import {
   TableCell,
   TableRow,
   type Theme,
-  Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
@@ -18,7 +17,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
-import { TextReveal } from '@/components/TextReveal';
+import { BlurText, SplitText } from '@/components/text-animations';
 import {
   CARD_HOVER_LIFT,
   cardEntranceVariants,
@@ -80,7 +79,14 @@ const descCellSx: SxProps<Theme> = {
 function AboutMeText(): React.JSX.Element {
   return (
     <Card title="Overview">
-      <Typography sx={overviewTextSx}>{aboutMeText}</Typography>
+      <BlurText
+        text={aboutMeText}
+        delay={30}
+        animateBy="words"
+        direction="bottom"
+        stepDuration={0.3}
+        sx={overviewTextSx}
+      />
     </Card>
   );
 }
@@ -200,7 +206,9 @@ function AboutMe(): React.JSX.Element {
   return (
     <SectionContainer
       id="aboutMe"
-      title={<TextReveal text="About Me" as="span" />}
+      title={
+        <SplitText text="About Me" as="span" splitBy="chars" stagger={0.025} />
+      }
       icon={PersonOutlined}
     >
       {/* Cards Grid */}

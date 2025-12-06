@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import Button from '@/components/Button';
 import SectionContainer from '@/components/SectionContainer';
-import { TextReveal } from '@/components/TextReveal';
+import { SplitText } from '@/components/text-animations';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';
@@ -254,7 +254,14 @@ function WorkExperience(): JSX.Element {
   return (
     <SectionContainer
       id="workExperience"
-      title={<TextReveal text="Experience" as="span" />}
+      title={
+        <SplitText
+          text="Experience"
+          as="span"
+          splitBy="chars"
+          stagger={0.025}
+        />
+      }
       icon={WorkOutlineTwoTone}
     >
       <Box ref={combinedRef}>

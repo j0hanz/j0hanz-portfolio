@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
-import { TextReveal } from '@/components/TextReveal';
+import { GlitchText, ShinyText, TextType } from '@/components/text-animations';
 import { SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import HeroProfile from '@/features/hero/HeroProfile';
@@ -36,6 +36,7 @@ import {
 } from './Hero.styles';
 
 const HERO_NAME = 'Linus Johansson';
+const HERO_SUBTITLE = 'Junior Full-Stack Developer';
 
 // Hero action button configurations
 const HERO_ACTIONS: readonly HeroActionConfig[] = [
@@ -80,25 +81,21 @@ function Hero(): React.JSX.Element {
     <Box component="section" id="hero" sx={sectionSx}>
       <Container maxWidth={false} sx={containerSx}>
         <Grid container spacing={SPACING.grid} alignItems="center">
-          <Grid size={{ xs: 12, lg: 'auto' }}>
+          <Grid size={{ xs: 12, lg: 5 }}>
             <HeroProfile />
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
             <Card noContentPadding sx={heroCardSx}>
               <Box sx={heroContentSx}>
                 <StaggerContainer stagger={0.1}>
-                  <TextReveal
-                    text={HERO_NAME}
-                    splitBy="char"
-                    sx={{
-                      '& span': {
-                        background: (theme) => theme.palette.heroGradient,
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                      },
-                      ...heroNameStyles,
-                    }}
-                  />
+                  {/* Hero Name with GlitchText effect */}
+                  <Typography sx={heroNameStyles}>
+                    <GlitchText speed={1} enableShadows enableOnHover={false}>
+                      {HERO_NAME}
+                    </GlitchText>
+                  </Typography>
+
+                  {/* Hero Subtitle with typewriter + shine effect */}
                   <Typography
                     component={motion.h2}
                     {...subtitleMotion}
@@ -108,9 +105,19 @@ function Hero(): React.JSX.Element {
                     })}
                     sx={subtitleSx}
                   >
-                    Junior Full-Stack Developer
+                    <ShinyText speed={4}>
+                      <TextType
+                        text={HERO_SUBTITLE}
+                        typingSpeed={60}
+                        initialDelay={800}
+                        showCursor={false}
+                        loop={false}
+                      />
+                    </ShinyText>
                     {!prefersReducedMotion && <BlinkingCursor sx={cursorSx} />}
                   </Typography>
+
+                  {/* CTA Buttons */}
                   <Stack
                     direction={{ xs: 'column', lg: 'row' }}
                     spacing={2}

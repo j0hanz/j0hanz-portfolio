@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import SectionContainer from '@/components/SectionContainer';
-import { TextReveal } from '@/components/TextReveal';
+import { SplitText } from '@/components/text-animations';
 import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
@@ -29,7 +29,9 @@ function Portfolio(): React.JSX.Element {
   return (
     <SectionContainer
       id="portfolio"
-      title={<TextReveal text="Projects" as="span" />}
+      title={
+        <SplitText text="Projects" as="span" splitBy="chars" stagger={0.025} />
+      }
       icon={FolderTwoTone}
       maxWidth={false}
     >

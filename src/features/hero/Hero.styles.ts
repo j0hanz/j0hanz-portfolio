@@ -3,13 +3,14 @@ import { alpha, SxProps, Theme } from '@mui/material';
 import { FONT_SIZE, SPACING } from '@/config/responsive';
 import { CLIP_ROUNDED, LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 
-// Animation configs
-export const heroNameStyles: React.CSSProperties = {
+// Hero name animation styles - converted to SxProps for MUI compatibility
+export const heroNameStyles: SxProps<Theme> = {
   fontSize: FONT_SIZE.heroTitle,
   fontWeight: 500,
   lineHeight: 1,
   justifyContent: 'flex-start',
-} as const;
+  letterSpacing: { xs: 0, sm: 1, md: 2, lg: 3 },
+};
 
 // Cursor for typing effect - uses transform for hardware acceleration
 export const cursorSx: SxProps<Theme> = {

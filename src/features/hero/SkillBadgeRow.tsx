@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
+import { ShinyText } from '@/components/text-animations';
 import { skillBadgeVariants } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import SkillBadge from '@/features/hero/SkillBadge';
@@ -53,8 +54,8 @@ function BadgeWrapper({
 function BadgeList({ animate }: { animate: boolean }): React.JSX.Element {
   return (
     <>
-      <Typography variant="overline" sx={labelSx}>
-        Tech Stack
+      <Typography variant="overline" component="div" sx={labelSx}>
+        <ShinyText speed={4}>Tech Stack</ShinyText>
       </Typography>
       <Stack direction="row" sx={stackSx}>
         {skills.map((skill) => (
