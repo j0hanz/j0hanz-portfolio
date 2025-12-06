@@ -12,8 +12,6 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
-
-import Badges from '@/components/Badges';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
@@ -250,7 +248,6 @@ function ContactForm() {
       <Grid container spacing={SPACING.grid}>
         <Grid size={12}>
           <ContactFormContent />
-          <Badges />
         </Grid>
       </Grid>
     </SectionContainer>
