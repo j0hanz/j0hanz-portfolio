@@ -20,9 +20,11 @@ import {
 import { useEventCallback } from '@/hooks';
 
 function ThemeModeAdapter({ children }: { children: ReactNode }) {
-  const { mode, setMode } = useColorScheme();
+  const { mode, systemMode, setMode } = useColorScheme();
 
-  const resolvedMode: PaletteMode = (mode as PaletteMode) || 'light';
+  // Resolve actual mode: if 'system', use systemMode; fallback to 'light'
+  const resolvedMode: PaletteMode =
+    mode === 'system' ? (systemMode ?? 'light') : (mode ?? 'light');
 
   // Wrap actions with useEventCallback for stable references
   const toggleMode = useEventCallback(() => {

@@ -755,13 +755,6 @@ export type StatusBanner = {
   persistent: boolean;
 };
 
-// Background utility types (from utils/background.ts)
-export interface GradientConfig {
-  primaryGradient: string;
-  secondaryGradient: string;
-  tertiaryGradient: string;
-}
-
 // Metadata utility types (from utils/metadata.ts)
 export type MetaType = 'workplace' | 'school' | 'duration';
 export type MetaValue = string | null | undefined;
@@ -787,13 +780,12 @@ export interface ValidatorConfig {
   optional?: boolean;
 }
 
-// BackgroundMorph types (from components/BackgroundMorph.tsx)
-export type BlobConfig = {
-  inset: string;
-  size: string;
-  blur?: number;
-  opacity?: number;
-};
+// Aurora background types (from components/Aurora.tsx)
+export interface AuroraConfig {
+  amplitude: { light: number; dark: number };
+  blend: { light: number; dark: number };
+  speed: { light: number; dark: number };
+}
 
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {

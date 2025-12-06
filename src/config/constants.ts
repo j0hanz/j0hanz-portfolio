@@ -246,32 +246,17 @@ export const SECTION_THEME_COLORS = {
   },
 } as const;
 
-// Animation timing constants for consistent feel
-export const BACKGROUND_ANIMATION_CONFIG = {
-  // Primary blob - slow, organic movement
-  primary: {
-    duration: 28,
-    delayOffset: 0,
-  },
-  // Secondary blob - slightly faster, creates depth
-  secondary: {
-    duration: 22,
-    delayOffset: 3,
-  },
-  // Tertiary blob - fastest, adds visual interest
-  tertiary: {
-    duration: 18,
-    delayOffset: 6,
-  },
-  // Color transition timing
+// Aurora background animation configuration
+export const AURORA_CONFIG = {
+  // Amplitude controls the height/intensity of the aurora waves
+  amplitude: { light: 0.2, dark: 0.3 },
+  // Blend controls the softness of the aurora edge
+  blend: { light: 2.5, dark: 2 },
+  // Speed controls the animation speed
+  speed: { light: 2, dark: 2 },
+  // Color transition timing when switching sections
   colorTransition: {
     duration: 0.4,
     ease: [0.16, 0, 0.1, 1] as const,
   },
-} as const;
-
-// Gradient opacity values for light/dark modes
-export const BACKGROUND_GRADIENT_OPACITY = {
-  light: { primary: 0.24, secondary: 0.14, tertiary: 0.09 },
-  dark: { primary: 0.38, secondary: 0.24, tertiary: 0.16 },
 } as const;

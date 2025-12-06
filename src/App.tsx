@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 
-import BackgroundMorph from '@/components/BackgroundMorph';
+import Aurora from '@/components/Aurora';
 import NavBar from '@/components/NavBar';
 import ScrollToTop from '@/components/ScrollToTop';
 import Spinner from '@/components/Spinner';
@@ -63,7 +63,7 @@ function App() {
         data-network-status={isOnline ? 'online' : 'offline'}
       >
         <StatusBanner statusBanner={statusBanner} />
-        <BackgroundMorph />
+        <Aurora />
         <div id="back-to-top-anchor" />
 
         {!isLoading && <NavBar />}
