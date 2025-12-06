@@ -82,7 +82,7 @@ export const overlaySx: SxProps<Theme> = {
 };
 
 export const subtitleSx: SxProps<Theme> = {
-  fontSize: SIZING.iconMd, // Reuses medium icon scale for subtitle text
+  fontSize: FONT_SIZE.heroSubtitle,
   letterSpacing: { xs: 0.5, sm: 1.5, md: 2, lg: 2.5 },
   textTransform: 'uppercase',
   color: 'text.primary',

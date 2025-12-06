@@ -476,11 +476,6 @@ export interface SectionContainerProps {
 export interface ExtendedErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
-}
-
-export interface ExtendedErrorBoundaryProps {
-  children: ReactNode;
-  fallback?: ReactNode;
   onReset?: () => void;
 }
 
