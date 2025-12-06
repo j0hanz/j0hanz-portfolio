@@ -12,8 +12,6 @@ export { useEventCallback } from './useEventCallback';
 export { useToggle } from './useToggle';
 export { useModal } from './useModal';
 
-export type { UseModalReturn, UseToggleReturn } from '@/config/types';
-
 // ============================================================================
 // UI STATE HOOKS
 // Interaction and loading state management
@@ -24,8 +22,6 @@ export { useImageLoading } from './useImageLoading';
 export { useInitialLoading } from './useInitialLoading';
 export { useCopyWithFeedback } from './useCopyToClipboard';
 export * from './useCursorMagnet';
-
-export type { UseImageLoadingReturn } from '@/config/types';
 
 // ============================================================================
 // CONTEXT HOOKS

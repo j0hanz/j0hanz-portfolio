@@ -1,12 +1,6 @@
 import { createContext } from 'react';
 
-import type {
-  NavigationActions,
-  NavigationContextType,
-  NavigationState,
-} from '@/config/types';
-
-export type { NavigationContextType };
+import type { NavigationActions, NavigationState } from '@/config/types';
 
 // Standardized to null for consistency with other contexts
 export const NavigationStateContext = createContext<NavigationState | null>(

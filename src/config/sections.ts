@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 
 import type { Section } from '@/config/types';
-// Eager import for Portfolio to prevent cascading Suspense
+// Import non-lazy section components used outside of main sections
 import Portfolio from '@/features/projects/Portfolio';
 
 // Lazy load section components for code splitting

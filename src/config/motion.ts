@@ -714,15 +714,3 @@ export const skillBadgeVariants = {
     },
   },
 } as const;
-
-// ============================================================================
-// TYPE EXPORTS
-// ============================================================================
-
-export type {
-  FadeVariant,
-  ScaleVariant,
-  SlideVariant,
-  GestureVariant,
-  SectionVariant,
-} from '@/config/types';

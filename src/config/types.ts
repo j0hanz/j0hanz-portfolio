@@ -16,7 +16,6 @@ import {
   SxProps,
   Theme,
 } from '@mui/material';
-import type { Breakpoint } from '@mui/material/styles';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
 import type {
   AnimationOptions,
@@ -39,9 +38,6 @@ export type Provider = ComponentType<{ children: ReactNode }>;
 
 // --- Icon Type ---
 export type IconComponent = ComponentType<SvgIconProps>;
-
-// --- Responsive Types (from responsive.ts) ---
-export type BreakpointKey = Breakpoint;
 
 /** Responsive value object - values cascade upward (mobile-first) */
 export type ResponsiveValue<T> = {
@@ -75,8 +71,6 @@ export interface NavigationActions {
   moveNext: () => void;
   movePrev: () => void;
 }
-
-export type NavigationContextType = NavigationState & NavigationActions;
 
 // Navigation internal types (from NavigationProvider)
 export type NavigationSnapshot = Omit<NavigationState, 'isPending'>;
@@ -120,12 +114,6 @@ export interface CardItemProps {
 }
 
 // --- Feature: Projects ---
-export type HackathonType =
-  | 'december-2024'
-  | 'march-2025'
-  | 'november-2024'
-  | 'september-2024';
-
 export interface Project {
   title: string;
   description: string;
@@ -133,7 +121,11 @@ export interface Project {
   demo: string;
   technologies: string[];
   collaborative: boolean;
-  hackathonType?: HackathonType;
+  hackathonType?:
+    | 'december-2024'
+    | 'march-2025'
+    | 'november-2024'
+    | 'september-2024';
   api: boolean;
   isGitpodTemplate?: boolean;
   isNew?: boolean;
@@ -146,18 +138,6 @@ export interface RepoStats {
   issues: number;
 }
 
-export interface CachedStats {
-  data: RepoStats;
-  timestamp: number;
-}
-
-export interface AnimatedStatProps {
-  label: string;
-  value: number;
-  prefersReducedMotion: boolean;
-  getTransition: AnimationConfig['getTransition'];
-}
-
 export type ActionButtonProps = Omit<
   CustomButtonProps,
   'startIcon' | 'text'
@@ -166,26 +146,18 @@ export type ActionButtonProps = Omit<
   icon: ReactNode;
 };
 
-export type BadgeFlag = HackathonType | 'isGitpodTemplate';
-
 export interface BadgeConfig {
-  flag: BadgeFlag;
+  flag:
+    | 'december-2024'
+    | 'march-2025'
+    | 'november-2024'
+    | 'september-2024'
+    | 'isGitpodTemplate';
   src: string;
   alt: string;
   style?: CSSProperties;
   width?: number;
   height?: number;
-}
-
-export interface ShieldConfig {
-  key: string;
-  hrefPath: string;
-  imgPath: string;
-  query: string;
-  alt: string;
-  className?: string;
-  style?: CSSProperties;
-  shouldRender?: (hasProjectBoard?: boolean) => boolean;
 }
 
 export interface ProjectListProps {
@@ -213,10 +185,6 @@ export interface StatItem {
   value: number;
 }
 
-export interface ProjectBadgesProps {
-  badges: BadgeConfig[];
-}
-
 export interface ProjectLinksProps {
   project: Project;
 }
@@ -232,12 +200,18 @@ export interface AppThemeProviderProps {
   children: ReactNode;
 }
 
-export interface InternalCardProps extends CardProps {
+// Card component props (fully flattened for CardComponentProps)
+export interface CardComponentProps {
+  title?: string;
+  subtitle?: ReactNode;
+  children: ReactNode;
+  className?: string;
+  bodyClassName?: string;
+  sx?: SxProps<Theme>;
+  noContentPadding?: boolean;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
   motionProps?: MotionProps;
-}
-
-// Card component internal types (from Card.tsx)
-export interface CardComponentProps extends InternalCardProps {
   ref?: React.Ref<HTMLDivElement>;
   animated?: boolean;
 }
@@ -266,14 +240,6 @@ export interface BadgesProps {
   items?: BadgeItemProps[];
 }
 
-export interface BadgeImageProps {
-  src: string;
-  alt: string;
-  style?: CSSProperties;
-  width?: number;
-  height?: number;
-}
-
 export interface BaseModalProps {
   open: boolean;
   onClose: () => void;
@@ -281,26 +247,12 @@ export interface BaseModalProps {
   className?: string;
   bodyClassName?: string;
   contentSx?: SxProps<Theme>;
-  animationPreset?: ModalAnimationPreset;
+  animationPreset?: 'modal' | 'slideDown' | 'zoomOut';
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   transparentPaper?: boolean;
   maxWidth?: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fullWidth?: boolean;
-}
-
-export type ModalAnimationPreset = 'modal' | 'slideDown' | 'zoomOut';
-
-export interface CardProps {
-  title?: string;
-  subtitle?: ReactNode;
-  children: ReactNode;
-  className?: string;
-  bodyClassName?: string;
-  sx?: SxProps<Theme>;
-  noContentPadding?: boolean;
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export interface CustomButtonProps extends MuiButtonProps {
@@ -361,10 +313,6 @@ export interface ModalCvProps {
   onClose: () => void;
 }
 
-export interface ScrollToTopProps {
-  window?: () => Window;
-}
-
 // --- Global UI Components ---
 export interface StatusBannerProps {
   statusBanner: StatusBanner | null;
@@ -398,10 +346,6 @@ export interface TimelineListProps<T extends TimelineItemData> {
 }
 
 // --- Theme ---
-export type ThemeModeUpdater = (
-  value: PaletteMode | ((previous: PaletteMode) => PaletteMode)
-) => void;
-
 // Split state for render optimization - read-only state
 export interface ThemeModeState {
   mode: PaletteMode;
@@ -410,34 +354,10 @@ export interface ThemeModeState {
 // Split actions for render optimization - action dispatchers
 export interface ThemeModeActions {
   toggleMode: () => void;
-  setMode: ThemeModeUpdater;
+  setMode: (
+    value: PaletteMode | ((previous: PaletteMode) => PaletteMode)
+  ) => void;
 }
-
-// Combined type for backwards compatibility
-export interface ThemeModeValue extends ThemeModeState, ThemeModeActions {}
-
-export type SectionMotionVariantId =
-  | 'hero'
-  | 'aboutMe'
-  | 'portfolio'
-  | 'workExperience'
-  | 'contact';
-
-// Motion variants keys - hardcoded to avoid runtime import if possible, or just use string
-export type MotionVariantId =
-  | SectionMotionVariantId
-  | 'slideFromLeft'
-  | 'slideFromRight'
-  | 'slideFromLeftAndRight'
-  | 'slideLeftToCenter'
-  | 'slideRightToCenter'
-  | 'staggerContainer'
-  | 'staggerItem'
-  | 'cardHover'
-  | 'buttonTap'
-  | 'scrollFadeUp'
-  | 'scrollParallax'
-  | 'layoutGroup';
 
 export type TransitionPreset =
   | 'spring'
@@ -471,21 +391,11 @@ export interface AnimationConfig {
   ) => T;
 }
 
-export interface ScrollProgressValue {
-  value: MotionValue<number>;
-  progress: number;
-}
-
 export type SequenceAnimator = (
   target: ElementOrSelector,
   keyframes: DOMKeyframesDefinition,
   options?: AnimationOptions
 ) => AnimationPlaybackControls;
-
-export type AnimateScope =
-  | ((node: Element | null) => void)
-  | RefObject<Element | null>
-  | null;
 
 export interface AnimationSequenceControls {
   scopeRef: (node: Element | null) => void;
@@ -504,7 +414,7 @@ export type StaggerContainerOptions = {
   animateOpacity?: number;
 };
 
-export interface GestureVariants {
+export type CardHoverMotion = {
   variants: Variants;
   initial?: string;
   animate?: string;
@@ -512,30 +422,7 @@ export interface GestureVariants {
   whileTap?: string;
   whileFocus?: string;
   transition?: Transition;
-}
-
-export type CardHoverMotion = GestureVariants;
-
-export interface StaggerConfig {
-  container: Variants;
-  item: Variants;
-}
-
-export interface ScrollAnimationConfig {
-  initial?: MotionProps['initial'];
-  animate?: MotionProps['animate'];
-  whileInView?: MotionProps['whileInView'];
-  viewport?: MotionProps['viewport'];
-  transition?: Transition;
-}
-
-export type MotionLayoutSetting = boolean | 'position' | 'size';
-
-export interface LayoutAnimationProps {
-  layout?: MotionLayoutSetting;
-  layoutId?: string;
-  transition?: Transition;
-}
+};
 
 export interface StaggerContainerProps {
   children: ReactNode;
@@ -562,7 +449,7 @@ export interface ParallaxProps {
   sx?: SxProps<Theme>;
 }
 
-export interface TextRevealProps {
+export interface TextRevealExtendedProps {
   text: string;
   className?: string;
   delay?: number;
@@ -570,9 +457,6 @@ export interface TextRevealProps {
   as?: ElementType;
   style?: CSSProperties;
   sx?: SxProps<Theme>;
-}
-
-export interface TextRevealExtendedProps extends TextRevealProps {
   splitBy?: 'word' | 'char';
 }
 
@@ -589,17 +473,14 @@ export interface SectionContainerProps {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
 }
 
-export interface SectionWrapperProps {
-  sectionId: SectionMotionVariantId;
-  children: ReactNode;
-}
-
-export interface ErrorBoundaryProps {
+export interface ExtendedErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
 }
 
-export interface ExtendedErrorBoundaryProps extends ErrorBoundaryProps {
+export interface ExtendedErrorBoundaryProps {
+  children: ReactNode;
+  fallback?: ReactNode;
   onReset?: () => void;
 }
 
@@ -608,10 +489,8 @@ export interface ErrorBoundaryState {
 }
 
 // --- Feature: Experience ---
-export type ExperienceCategory = 'work' | 'education';
-
 export interface Experience {
-  type: ExperienceCategory;
+  type: 'work' | 'education';
   title: string;
   workplace?: string;
   school?: string;
@@ -620,13 +499,7 @@ export interface Experience {
   hasCredential?: boolean;
 }
 
-export interface ExperienceCardProps {
-  experience: Experience;
-  align?: 'left' | 'right';
-}
-
-// WorkExperience component internal ExperienceCardProps (extends BaseCardProps)
-// Note: This is different from the legacy ExperienceCardProps above
+// WorkExperience component types
 export interface WorkExperienceCardProps extends BaseCardProps {
   onShowModal: () => void;
 }
@@ -693,11 +566,6 @@ export interface FormActionsProps {
   isPending: boolean;
 }
 
-export type SubmissionResult = {
-  status: 'idle' | 'success' | 'error';
-  errorMessage?: string;
-};
-
 export interface FormFieldProps {
   controlId: string;
   icon: ElementType;
@@ -731,26 +599,8 @@ export interface Skill {
   learning?: boolean;
 }
 
-export interface SkillCardProps {
-  skill: Skill;
-}
-
 export interface SkillBadgeProps {
   skill: Skill;
-}
-
-// --- Pages ---
-export type SectionId =
-  | 'hero'
-  | 'aboutMe'
-  | 'skills'
-  | 'portfolio'
-  | 'workExperience'
-  | 'contact';
-
-export interface SectionConfig {
-  id: SectionId;
-  Component: ComponentType;
 }
 
 // --- Navigation ---
@@ -791,17 +641,10 @@ export interface SocialLinkRenderProps {
   index: number;
 }
 
-export type SocialLinkRenderer = (props: SocialLinkRenderProps) => ReactElement;
-
-export type SocialLinkWrapper = (
-  id: string,
-  node: ReactElement
-) => ReactElement;
-
 export interface SocialLinkListProps {
   openModal: () => void;
-  renderLink: SocialLinkRenderer;
-  wrapItem?: SocialLinkWrapper;
+  renderLink: (props: SocialLinkRenderProps) => ReactElement;
+  wrapItem?: (id: string, node: ReactElement) => ReactElement;
   iconSize?: string | number | { xs?: string | number; sm?: string | number };
 }
 
@@ -813,12 +656,6 @@ export interface OffcanvasMenuProps {
 }
 
 // --- Snackbar Context ---
-export interface SnackbarOptions {
-  message: string;
-  severity?: AlertColor;
-  duration?: number | null;
-}
-
 // Split state for render optimization
 export interface SnackbarState {
   open: boolean;
@@ -852,10 +689,6 @@ export type SnackbarAction =
   | { type: 'CLOSE' };
 
 // --- Hooks ---
-export interface UseClickOutsideOptions {
-  enabled?: boolean;
-}
-
 export type CopyResult = {
   value: string | null;
   success: boolean | null;
@@ -900,24 +733,18 @@ export type SectionSequenceStep = {
   staggerValue?: number;
 };
 
-export type SequenceStepKey = 'description' | 'cards' | 'cta';
-
-export type TimelineSequenceSelectors = {
-  cards?: string;
-  description?: string;
-  cta?: string;
-  [key: string]: string | undefined;
-};
-
-export type TimelineSequenceOptions = {
-  offset?: UseScrollOptions['offset'];
-  threshold?: number;
-};
-
 export interface TimelineSectionControllerOptions {
   viewportPreset?: { once?: boolean; amount?: number | 'some' | 'all' };
-  selectors: TimelineSequenceSelectors;
-  sequenceOptions?: TimelineSequenceOptions;
+  selectors: {
+    cards?: string;
+    description?: string;
+    cta?: string;
+    [key: string]: string | undefined;
+  };
+  sequenceOptions?: {
+    offset?: UseScrollOptions['offset'];
+    threshold?: number;
+  };
   variants?: Variants;
   hoverEffect?: Target | string;
   initialState?: string;
@@ -937,8 +764,6 @@ export interface UseScrollEventsProps {
 
 // --- Utils ---
 export type ValidationError = string | undefined;
-
-export type PaletteModeKey = 'light' | 'dark';
 
 export type StatusBanner = {
   message: string;
@@ -970,9 +795,6 @@ export type ConflictingEvent =
   | 'onAnimationEnd'
   | 'onAnimationIteration';
 
-// Timeline utility types (from utils/timeline.ts)
-export type TimelineAlignment = 'left' | 'right';
-
 // Validation utility types (from utils/validation.ts)
 export interface ValidatorConfig {
   required?: string;
@@ -981,9 +803,6 @@ export interface ValidatorConfig {
   optional?: boolean;
 }
 
-// Component overrides types (from config/overrides.ts)
-export type Components<T = unknown> = Record<string, { styleOverrides?: T }>;
-
 // BackgroundMorph types (from components/BackgroundMorph.tsx)
 export type BlobConfig = {
   inset: string;
@@ -991,18 +810,6 @@ export type BlobConfig = {
   blur?: number;
   opacity?: number;
 };
-
-export type FadeVariant = 'in' | 'up' | 'down';
-export type ScaleVariant = 'in' | 'pop';
-export type SlideVariant = 'fromLeft' | 'fromRight' | 'fromBottom';
-export type GestureVariant = 'hoverScale' | 'cardHover' | 'buttonTap';
-export type SectionVariant =
-  | 'default'
-  | 'fade'
-  | 'slideUp'
-  | 'slideLeft'
-  | 'slideRight'
-  | 'scale';
 
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {
