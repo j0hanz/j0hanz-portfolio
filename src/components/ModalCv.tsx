@@ -17,26 +17,22 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { motion, type MotionProps } from 'motion/react';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
-import {
-  modalVariants,
-  staggerContainerNormal,
-  staggerItemVariant,
-} from '@/config/motion';
+import { modalVariants, staggerContainerNormal } from '@/config/motion';
 import { GRID, SPACING } from '@/config/responsive';
 import type { ModalCvProps } from '@/config/types';
-import { useAnimationConfig, useMobileBreakpoint, useSnackbar } from '@/hooks';
-import { SIZING, TRANSITION_STANDARD } from '@/styles/shared';
+import { useAnimationConfig, useSnackbar } from '@/hooks';
+import { SIZING } from '@/styles/shared';
 
 // ============================================================================
 // MOTION COMPONENTS
 // ============================================================================
 
 const MotionDialogContent = motion.create(DialogContent);
-const MotionBox = motion.create(Box);
+const MotionGrid = motion.create(Grid);
 const MotionButtonBase = motion.create(ButtonBase);
 
 // ============================================================================
@@ -52,7 +48,7 @@ interface CvOption {
   fileName: string;
 }
 
-const CV_OPTIONS: readonly CvOption[] = [
+const CV_OPTIONS: CvOption[] = [
   {
     id: 'sv',
     flag: 'fi-se',
@@ -69,10 +65,10 @@ const CV_OPTIONS: readonly CvOption[] = [
     file: Cv_en,
     fileName: 'Linus_Johansson_CV_en.pdf',
   },
-] as const;
+];
 
 // ============================================================================
-// STYLE CONSTANTS
+// STYLES
 // ============================================================================
 
 const dialogPaperSx: SxProps<Theme> = {
@@ -82,8 +78,14 @@ const dialogPaperSx: SxProps<Theme> = {
   overflow: 'visible',
 };
 
+const backdropSx: SxProps<Theme> = {
+  bgcolor: (theme) => alpha(theme.palette.common.black, 0.5),
+  backdropFilter: 'blur(8px)',
+  WebkitBackdropFilter: 'blur(8px)',
+};
+
 const contentSx: SxProps<Theme> = {
-  p: 0,
+  p: SPACING.card,
   overflow: 'visible',
   bgcolor: 'backdrop.glass',
   borderRadius: 2,
@@ -93,234 +95,114 @@ const contentSx: SxProps<Theme> = {
   borderColor: (theme) => alpha(theme.palette.divider, 0.1),
 };
 
-const headerSx: SxProps<Theme> = {
-  pt: SPACING.card,
-  px: SPACING.card,
-  pb: 0,
-  textAlign: 'center',
-};
-
-const titleStackSx: SxProps<Theme> = {
-  mb: { xs: 0.5, sm: 0.75, md: 1 },
-};
-
-const titleIconSx: SxProps<Theme> = {
-  fontSize: SIZING.iconLg,
-  color: 'primary.main',
-};
-
-const titleTextSx: SxProps<Theme> = {
-  fontWeight: 500,
-};
-
-const subtitleSx: SxProps<Theme> = {
-  color: 'text.secondary',
-  mb: { xs: 2, sm: 2.5, md: 3 },
-};
-
 const closeButtonSx: SxProps<Theme> = {
   position: 'absolute',
-  top: { xs: 8, sm: 10, md: 12 },
-  right: { xs: 8, sm: 10, md: 12 },
+  top: 8,
+  right: 8,
   color: 'text.secondary',
   bgcolor: (theme) => alpha(theme.palette.action.active, 0.04),
   '&:hover': {
     bgcolor: (theme) => alpha(theme.palette.action.active, 0.12),
     color: 'text.primary',
   },
-  '&:focus-visible': {
-    outline: '2px solid',
-    outlineColor: 'primary.main',
-    outlineOffset: 2,
-  },
 };
 
-const gridContainerSx: SxProps<Theme> = {
-  px: SPACING.card,
-  pb: SPACING.card,
-};
-
-const cardBaseSx: SxProps<Theme> = {
+const cardSx: SxProps<Theme> = {
   width: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
-  gap: { xs: 1.5, sm: 2, md: 2.5 },
+  gap: { xs: 1.5, sm: 2 },
   p: { xs: 2.5, sm: 3, md: 4 },
   borderRadius: 2.5,
   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
-  transition: TRANSITION_STANDARD,
-  cursor: 'pointer',
-  position: 'relative',
-  overflow: 'hidden',
-  // Focus styles
-  '&:focus-visible': {
-    outline: '2px solid',
-    outlineColor: 'primary.main',
-    outlineOffset: 2,
-  },
-  // Hover styles
+  transition: 'all 0.2s ease',
   '&:hover': {
     bgcolor: (theme) => alpha(theme.palette.background.paper, 0.3),
     transform: 'translateY(-4px)',
     boxShadow: (theme) =>
       `0 12px 24px -8px ${alpha(theme.palette.common.black, 0.15)}`,
-    '& .flag-icon': {
-      transform: 'scale(1.1)',
-    },
-    '& .download-icon': {
-      opacity: 1,
-      transform: 'translateY(0)',
-    },
+    '& .flag-icon': { transform: 'scale(1.1)' },
+    '& .download-icon': { opacity: 1 },
   },
-  // Active styles
-  '&:active': {
-    transform: 'translateY(-2px) scale(0.98)',
+  '&:focus-visible': {
+    outline: '2px solid',
+    outlineColor: 'primary.main',
+    outlineOffset: 2,
   },
 };
 
-const flagContainerSx: SxProps<Theme> = {
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const flagIconBaseSx: SxProps<Theme> = {
+const flagSx: SxProps<Theme> = {
   fontSize: SIZING.iconFlag,
-  transition: TRANSITION_STANDARD,
+  transition: 'transform 0.2s ease',
   borderRadius: 1,
   boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.common.black, 0.12)}`,
 };
 
 const downloadIconSx: SxProps<Theme> = {
   position: 'absolute',
-  bottom: { xs: -6, sm: -8 },
-  right: { xs: -6, sm: -8 },
+  bottom: -6,
+  right: -6,
   fontSize: SIZING.iconSm,
   color: 'primary.main',
   bgcolor: 'background.paper',
   borderRadius: '50%',
   p: 0.5,
   opacity: 0,
-  transform: 'translateY(4px)',
-  transition: TRANSITION_STANDARD,
+  transition: 'opacity 0.2s ease',
   boxShadow: (theme) => `0 2px 8px ${alpha(theme.palette.common.black, 0.15)}`,
 };
 
-const languageLabelSx: SxProps<Theme> = {
-  fontWeight: 600,
-  color: 'text.primary',
-  letterSpacing: 0.5,
-};
-
-const languageSubtextSx: SxProps<Theme> = {
-  color: 'text.secondary',
-  fontSize: 'caption.fontSize',
-};
-
 // ============================================================================
-// CV LANGUAGE CARD COMPONENT
-// ============================================================================
-
-interface CvLanguageCardProps {
-  option: CvOption;
-  onClick: () => void;
-  index: number;
-}
-
-function CvLanguageCard({
-  option,
-  onClick,
-  index,
-}: CvLanguageCardProps): JSX.Element {
-  const { prefersReducedMotion } = useAnimationConfig();
-
-  const cardMotion = prefersReducedMotion
-    ? {}
-    : {
-        variants: staggerItemVariant,
-        custom: index,
-      };
-
-  return (
-    <MotionButtonBase
-      onClick={onClick}
-      aria-label={`Download CV in ${option.language}`}
-      sx={cardBaseSx}
-      {...cardMotion}
-    >
-      <Box sx={flagContainerSx}>
-        <Box
-          component="span"
-          className={`fi ${option.flag} flag-icon`}
-          sx={flagIconBaseSx}
-        />
-        <DownloadRounded className="download-icon" sx={downloadIconSx} />
-      </Box>
-      <Stack spacing={0.25} alignItems="center">
-        <Typography variant="body1" sx={languageLabelSx}>
-          {option.label}
-        </Typography>
-        <Typography variant="caption" sx={languageSubtextSx}>
-          {option.language}
-        </Typography>
-      </Stack>
-    </MotionButtonBase>
-  );
-}
-
-// ============================================================================
-// MAIN MODAL COMPONENT
+// MAIN COMPONENT
 // ============================================================================
 
 function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
   const { showSnackbar } = useSnackbar();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const isMobile = useMobileBreakpoint('sm');
   const [flagIconsLoaded, setFlagIconsLoaded] = useState(false);
 
-  // Lazy-load flag-icons CSS only when modal opens
+  // Lazy-load flag-icons CSS when modal opens
   useEffect(() => {
     if (open && !flagIconsLoaded) {
-      import('flag-icons/css/flag-icons.min.css').then(() => {
-        setFlagIconsLoaded(true);
-      });
+      import('flag-icons/css/flag-icons.min.css').then(() =>
+        setFlagIconsLoaded(true)
+      );
     }
   }, [open, flagIconsLoaded]);
 
   const handleDownload = (option: CvOption): void => {
-    try {
-      const link = document.createElement('a');
-      link.href = option.file;
-      link.download = option.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showSnackbar(`Downloading ${option.language} CV...`, 'success');
-      onClose();
-    } catch (error) {
-      showSnackbar('Failed to download CV. Please try again.', 'error');
-      if (import.meta.env.DEV) console.error('Download failed:', error);
-    }
+    const link = document.createElement('a');
+    link.href = option.file;
+    link.download = option.fileName;
+    link.click();
+    showSnackbar(`Downloading ${option.language} CV...`, 'success');
+    onClose();
   };
 
-  // Animation configuration
-  const contentMotion = prefersReducedMotion
+  // Motion props - simplified conditional
+  const contentMotion: MotionProps = prefersReducedMotion
     ? {}
     : {
         ...modalVariants.slideDown,
-        transition: getTransition('springSmooth', { duration: 0.5 }),
+        transition: getTransition('springSmooth'),
       };
 
-  const containerMotion = prefersReducedMotion
+  const containerMotion: MotionProps = prefersReducedMotion
     ? {}
     : {
         variants: staggerContainerNormal,
         initial: 'initial',
         animate: 'animate',
       };
+
+  const itemMotion = (i: number): MotionProps =>
+    prefersReducedMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0, transition: { delay: i * 0.1 } },
+        };
 
   return (
     <Dialog
@@ -332,68 +214,82 @@ function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
       aria-describedby="cv-modal-description"
       slotProps={{
         paper: { sx: dialogPaperSx },
-        backdrop: {
-          sx: {
-            bgcolor: (theme: Theme) => alpha(theme.palette.common.black, 0.5),
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-          },
-        },
+        backdrop: { sx: backdropSx },
       }}
     >
       <MotionDialogContent sx={contentSx} {...contentMotion}>
-        {/* Close Button */}
         <IconButton
           onClick={onClose}
           aria-label="Close modal"
-          size={isMobile ? 'medium' : 'small'}
+          size="small"
           sx={closeButtonSx}
         >
           <CloseRounded sx={{ fontSize: SIZING.iconSm }} />
         </IconButton>
 
         {/* Header */}
-        <Box sx={headerSx}>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            justifyContent="center"
-            sx={titleStackSx}
-          >
-            <LanguageRounded sx={titleIconSx} />
+        <Stack alignItems="center" spacing={0.5} mb={{ xs: 2.5, sm: 3 }}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <LanguageRounded
+              sx={{ fontSize: SIZING.iconLg, color: 'primary.main' }}
+            />
             <DialogTitle
               id="cv-modal-title"
-              sx={{ p: 0, ...titleTextSx }}
+              sx={{ p: 0, fontWeight: 500 }}
               component="h2"
             >
               Download CV
             </DialogTitle>
           </Stack>
-          <Typography id="cv-modal-description" variant="body2" sx={subtitleSx}>
+          <Typography
+            id="cv-modal-description"
+            variant="body2"
+            color="text.secondary"
+          >
             Select your preferred language
           </Typography>
-        </Box>
+        </Stack>
 
-        {/* Language Options Grid */}
-        <MotionBox sx={gridContainerSx} {...containerMotion}>
-          <Grid
-            container
-            spacing={SPACING.grid}
-            role="group"
-            aria-label="CV language options"
-          >
-            {CV_OPTIONS.map((option, index) => (
-              <Grid key={option.id} size={GRID.half}>
-                <CvLanguageCard
-                  option={option}
-                  onClick={() => handleDownload(option)}
-                  index={index}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </MotionBox>
+        {/* Language Options */}
+        <Grid
+          container
+          spacing={SPACING.grid}
+          role="group"
+          aria-label="CV language options"
+          component={MotionGrid}
+          {...containerMotion}
+        >
+          {CV_OPTIONS.map((option, index) => (
+            <Grid key={option.id} size={GRID.half}>
+              <MotionButtonBase
+                onClick={() => handleDownload(option)}
+                aria-label={`Download CV in ${option.language}`}
+                sx={cardSx}
+                {...itemMotion(index)}
+              >
+                <Box sx={{ position: 'relative' }}>
+                  <Box
+                    component="span"
+                    className={`fi ${option.flag} flag-icon`}
+                    sx={flagSx}
+                  />
+                  <DownloadRounded
+                    className="download-icon"
+                    sx={downloadIconSx}
+                  />
+                </Box>
+                <Stack spacing={0.25} alignItems="center">
+                  <Typography variant="body1" fontWeight={600}>
+                    {option.label}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {option.language}
+                  </Typography>
+                </Stack>
+              </MotionButtonBase>
+            </Grid>
+          ))}
+        </Grid>
       </MotionDialogContent>
     </Dialog>
   );
