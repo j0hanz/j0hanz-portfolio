@@ -6,9 +6,7 @@ import { sendEmail } from '@/lib/emailJs';
 import { validateForm } from '@/utils/validation';
 
 // Submits contact form via EmailJS (validates and returns success/failure)
-export async function submitContactForm(
-  data: ContactFormValues
-): Promise<boolean> {
+async function submitContactForm(data: ContactFormValues): Promise<boolean> {
   // Validate form data before submission
   const errors = validateForm(data);
   if (Object.keys(errors).length > 0) {

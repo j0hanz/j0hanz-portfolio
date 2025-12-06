@@ -1,8 +1,4 @@
-import type {
-  ThemeModeActions,
-  ThemeModeState,
-  ThemeModeValue,
-} from '@/config/types';
+import type { ThemeModeActions, ThemeModeState } from '@/config/types';
 import {
   ThemeModeActionsContext,
   ThemeModeStateContext,
@@ -18,10 +14,3 @@ export const [useThemeModeState, useThemeModeActions] = createSplitContextHooks<
   'ThemeMode',
   'AppThemeProvider'
 );
-
-// Combined hook for backwards compatibility
-export const useTheme = (): ThemeModeValue => {
-  const state = useThemeModeState();
-  const actions = useThemeModeActions();
-  return { ...state, ...actions };
-};

@@ -6,7 +6,7 @@ import {
 import { createSplitContextHooks } from '@/utils/context';
 
 // Split context hooks - state and actions separated for render optimization
-export const [useCvModalState, useCvModalActions] = createSplitContextHooks<
+export const [, useCvModalActions] = createSplitContextHooks<
   CvModalState,
   CvModalActions
 >(

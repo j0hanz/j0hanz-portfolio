@@ -215,7 +215,7 @@ function getScopeElement(
 }
 
 // Orchestrates complex animation sequences with cleanup
-export function useAnimationSequence(): AnimationSequenceControls {
+function useAnimationSequence(): AnimationSequenceControls {
   const [scope, animate] = useAnimate();
   const controlsRef = useRef<AnimationPlaybackControls[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -305,7 +305,7 @@ export function useContentMotion() {
 // ============================================================================
 
 // Orchestrates section animations based on scroll position
-export function useSectionSequence(
+function useSectionSequence(
   ref: RefObject<HTMLElement | null>,
   selectors: {
     cards?: string;
@@ -343,7 +343,7 @@ export function useSectionSequence(
 }
 
 // Consolidates timeline section ref setup (Education/WorkExperience pattern)
-export function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
+function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
   const { scopeRef } = useAnimationSequence();
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -395,7 +395,7 @@ export function useTimelineSectionController({
 }
 
 // Simplified card inView hook for timeline cards
-export function useCardInView(viewportPreset: UseInViewOptions) {
+function useCardInView(viewportPreset: UseInViewOptions) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, viewportPreset);
   return { cardRef, isInView };

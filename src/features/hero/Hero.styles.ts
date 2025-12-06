@@ -1,6 +1,5 @@
 import { alpha, SxProps, Theme } from '@mui/material';
 
-import { cursorBlinkAnimation, cursorBlinkTransition } from '@/config/motion';
 import { FONT_SIZE, SPACING } from '@/config/responsive';
 import { CLIP_ROUNDED, LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 
@@ -21,10 +20,6 @@ export const cursorSx: SxProps<Theme> = {
   marginLeft: '0.1875em', // Relative to font size (~3px at 16px)
   willChange: 'opacity',
 } as const;
-
-// Re-export from centralized motion config
-export const cursorAnimation = cursorBlinkAnimation;
-export const cursorTransition = cursorBlinkTransition;
 
 export const subtitleClipPath = {
   initial: { clipPath: 'inset(0 100% 0 0)' },
@@ -48,7 +43,7 @@ export const containerSx: SxProps<Theme> = {
 };
 
 // Profile image responsive dimensions - shared between wrapper and image
-export const PROFILE_SIZE = { xs: 225, sm: 260, md: 300, lg: 400 };
+const PROFILE_SIZE = { xs: 225, sm: 260, md: 300, lg: 400 };
 
 export const profileWrapperSx: SxProps<Theme> = {
   position: 'relative',

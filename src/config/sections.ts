@@ -66,10 +66,5 @@ export const sections: Section[] = [
   },
 ];
 
-export const sectionIds = sections.map((s) => s.id);
-
-export const getSectionById = (id: string): Section | undefined =>
-  sections.find((s) => s.id === id);
-
 export const getSectionByHash = (hash: string): Section | undefined =>
   sections.find((s) => s.hash === hash);

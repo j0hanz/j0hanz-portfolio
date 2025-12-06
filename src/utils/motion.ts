@@ -108,7 +108,7 @@ const SEQUENCE_STEP_CONFIG: Record<
 
 const SEQUENCE_ORDER: SequenceStepKey[] = ['description', 'cards', 'cta'];
 
-export const animateElements = (
+const animateElements = (
   scopeElement: HTMLElement,
   selector: string,
   delay: number,

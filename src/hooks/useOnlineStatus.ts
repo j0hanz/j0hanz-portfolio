@@ -25,7 +25,7 @@ const ONLINE_BANNER: StatusBanner = {
   persistent: false,
 };
 
-export function useOnlineStatus(): boolean {
+function useOnlineStatus(): boolean {
   const [isOnline, setIsOnline] = useState<boolean>(isInitiallyOnline);
 
   useEventListener('online', () => setIsOnline(true));

@@ -98,14 +98,11 @@ export const SIZING = {
 export const BADGE_MIN_WIDTH = SIZING.badgeMinWidth;
 export const BADGE_HEIGHT = SIZING.badgeHeight;
 
-// Alias for backwards compatibility
-export const SIZING_RESPONSIVE = SIZING;
-
 // ============================================================================
 // TYPOGRAPHY CONSTANTS
 // ============================================================================
 
-export const TYPOGRAPHY = {
+const TYPOGRAPHY = {
   lineHeight: 2,
   letterSpacingTight: 0.5,
   letterSpacingNormal: 1,
@@ -124,7 +121,7 @@ export const {
 // ANIMATION & TRANSFORM CONSTANTS
 // ============================================================================
 
-export const TRANSFORMS = {
+const TRANSFORMS = {
   transitionStandard: 'all 0.3s ease',
   clipRounded: 'inset(0 round 8px)',
   skew: 'skew(-5deg)',
@@ -201,24 +198,6 @@ export const textEllipsisSx: SxProps<Theme> = {
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   minWidth: 0,
-};
-
-/** Multi-line text clamp - limits text to specified number of lines */
-export const textClampSx = (lines: number): SxProps<Theme> => ({
-  overflow: 'hidden',
-  display: '-webkit-box',
-  WebkitLineClamp: lines,
-  WebkitBoxOrient: 'vertical',
-});
-
-/** Responsive line height for improved mobile readability */
-export const responsiveLineHeightSx: SxProps<Theme> = {
-  lineHeight: { xs: 1.6, sm: 1.7, md: 1.75, lg: 1.8 },
-};
-
-/** Responsive letter spacing for headings */
-export const headingLetterSpacingSx: SxProps<Theme> = {
-  letterSpacing: { xs: '-0.02em', md: '-0.015em' },
 };
 
 // ============================================================================

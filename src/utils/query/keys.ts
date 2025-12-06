@@ -8,16 +8,3 @@ export const githubKeys = {
   repoStats: (repoPath: string) =>
     [...githubKeys.stats(), 'repo', repoPath] as const,
 } as const;
-
-// Contact query key factory for mutations
-export const contactKeys = {
-  all: ['contact'] as const,
-  submission: () => [...contactKeys.all, 'submission'] as const,
-} as const;
-
-// Type-safe query key builder with generic type preservation
-export function buildQueryKey<
-  T extends readonly (string | number | boolean | object)[],
->(...parts: T): readonly [...T] {
-  return parts as readonly [...T];
-}

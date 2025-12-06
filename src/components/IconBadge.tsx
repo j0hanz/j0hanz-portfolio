@@ -36,8 +36,6 @@ function IconBadge({ icon: Icon, text }: IconBadgeProps): JSX.Element {
   );
 }
 
-export default IconBadge;
-
 export function IconBadgeList({
   items,
   keyPrefix,

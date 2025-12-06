@@ -9,7 +9,6 @@
 // ============================================================================
 
 export { useEventCallback } from './useEventCallback';
-export { useEventListener } from './useEventListener';
 export { useToggle } from './useToggle';
 export { useModal } from './useModal';
 
@@ -23,7 +22,7 @@ export type { UseModalReturn, UseToggleReturn } from '@/config/types';
 export { useHover } from './useHover';
 export { useImageLoading } from './useImageLoading';
 export { useInitialLoading } from './useInitialLoading';
-export { useCopyToClipboard, useCopyWithFeedback } from './useCopyToClipboard';
+export { useCopyWithFeedback } from './useCopyToClipboard';
 export * from './useCursorMagnet';
 
 export type { UseImageLoadingReturn } from '@/config/types';
@@ -37,20 +36,16 @@ export type { UseImageLoadingReturn } from '@/config/types';
 export { useNavigationState, useNavigationActions } from './useNavigation';
 
 // Theme (split for render optimization)
-export { useTheme, useThemeModeState, useThemeModeActions } from './useTheme';
+export { useThemeModeState, useThemeModeActions } from './useTheme';
 
 // Snackbar notifications (split for render optimization)
-export {
-  useSnackbar,
-  useSnackbarState,
-  useSnackbarActions,
-} from './useSnackbar';
+export { useSnackbar } from './useSnackbar';
 
 // CV Modal (split for render optimization)
-export { useCvModalState, useCvModalActions } from './useCvModal';
+export { useCvModalActions } from './useCvModal';
 
 // Connectivity status
-export { useConnectivity, useOnlineStatus } from './useOnlineStatus';
+export { useConnectivity } from './useOnlineStatus';
 
 // ============================================================================
 // SCROLL & NAVIGATION HOOKS
@@ -58,7 +53,6 @@ export { useConnectivity, useOnlineStatus } from './useOnlineStatus';
 // ============================================================================
 
 export { useFullPageScroll } from './useFullPageScroll';
-export { useScrollEvents } from './useScrollEvents';
 
 // ============================================================================
 // MOTION & ANIMATION HOOKS
@@ -104,35 +98,14 @@ export { useMobileBreakpoint } from './useBreakpoints';
 // Import directly from @/config/responsive for full access
 // ============================================================================
 
-export {
-  SPACING,
-  GRID,
-  CONTAINER_WIDTH,
-  FONT_SIZE,
-  SIZE,
-} from '@/config/responsive';
-
-export type { BreakpointKey, ResponsiveValue } from '@/config/responsive';
-
 // ============================================================================
 // DATA FETCHING (TanStack Query)
 // Query hooks and utilities
 // ============================================================================
 
 export {
-  // Query client
-  queryClient,
-  LONG_CACHE_OPTIONS,
-  // Query keys
-  githubKeys,
-  contactKeys,
-  buildQueryKey,
   // GitHub queries
-  useRepoStatsQuery,
-  fetchRepoStats,
   prefetchRepoStats,
-  invalidateRepoStats,
   // Contact mutations
   useContactFormMutation,
-  submitContactForm,
 } from '@/utils/query/index';

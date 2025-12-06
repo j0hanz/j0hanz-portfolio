@@ -5,12 +5,7 @@
 // For typography, use theme.typography variants (h1, body1, caption, etc.)
 // For spacing in components, prefer inline { xs: 2, md: 3 } patterns.
 // ============================================================================
-import type { Breakpoint } from '@mui/material/styles';
-
 import type { ResponsiveValue } from '@/config/types';
-
-// Re-export types from centralized types.ts for convenience
-export type { BreakpointKey, ResponsiveValue } from '@/config/types';
 
 // ============================================================================
 // SPACING
@@ -50,20 +45,6 @@ export const GRID = {
   /** Form field layout */
   formField: { xs: 12, md: 6 },
 } as const;
-
-// ============================================================================
-// CONTAINER WIDTHS
-// ============================================================================
-export const CONTAINER_WIDTH = {
-  /** Narrow containers for focused content (forms, modals) */
-  narrow: false,
-  /** Medium containers for balanced layouts */
-  medium: false,
-  /** Wide containers - default for sections */
-  wide: 'xl',
-  /** Fluid containers (no max width) */
-  fluid: false,
-} as const satisfies Record<string, false | Breakpoint>;
 
 // ============================================================================
 // PROJECT-SPECIFIC SIZES

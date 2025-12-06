@@ -12,7 +12,7 @@ const isClipboardSupported =
   typeof navigator !== 'undefined' && Boolean(navigator.clipboard);
 
 // Copies text to clipboard with success/error state tracking
-export function useCopyToClipboard(): UseCopyToClipboardReturn {
+function useCopyToClipboard(): UseCopyToClipboardReturn {
   const [state, setState] = useState<CopyResult>({
     value: null,
     success: null,

@@ -1,7 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
 
-import type { TimelineAlignment } from '@/config/types';
-
 // Timeline component utilities for Education and WorkExperience sections
 
 // Calculate if timeline item should be left-aligned in alternating layout
@@ -11,14 +9,6 @@ export function isTimelineItemLeftAligned(
 ): boolean {
   // Mobile always right-aligned; desktop alternates based on index
   return !isMobile && index % 2 === 1;
-}
-
-// Get alignment type for timeline item
-export function getTimelineItemAlignment(
-  index: number,
-  isMobile: boolean
-): TimelineAlignment {
-  return isTimelineItemLeftAligned(index, isMobile) ? 'left' : 'right';
 }
 
 // Timeline opposite content sx props factory

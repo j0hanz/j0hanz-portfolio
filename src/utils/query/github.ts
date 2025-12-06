@@ -12,7 +12,7 @@ import { LONG_CACHE_OPTIONS, queryClient } from './client';
 import { githubKeys } from './keys';
 
 // Fetches GitHub repo stats (stars, forks, issues) from 'owner/repo' path
-export async function fetchRepoStats(
+async function fetchRepoStats(
   repoPath: string,
   signal?: AbortSignal
 ): Promise<RepoStats> {
@@ -115,11 +115,4 @@ export function prefetchRepoStats(repoPath: string): Promise<void> {
     .catch(() => {
       // Silently fail - prefetch is optional enhancement
     });
-}
-
-// Invalidates GitHub repo stats cache (all or specific repo)
-export function invalidateRepoStats(repoPath?: string): Promise<void> {
-  return queryClient.invalidateQueries({
-    queryKey: repoPath ? githubKeys.repoStats(repoPath) : githubKeys.all,
-  });
 }

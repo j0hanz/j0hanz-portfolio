@@ -1,4 +1,4 @@
-import type { JSX, ReactNode, Ref } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 import {
   Box,
@@ -10,7 +10,7 @@ import {
 import { motion, type MotionProps } from 'motion/react';
 
 import { SPACING } from '@/config/responsive';
-import type { CardComponentProps, CardProps } from '@/config/types';
+import type { CardComponentProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
 import { cardBaseSx } from '@/styles/shared';
 
@@ -132,15 +132,4 @@ const Card = Object.assign(CardBase, {
   Footer: CardFooter,
 });
 
-// Convenience export for animated variant (uses animated prop internally)
-function AnimatedCard({
-  ref,
-  ...props
-}: CardProps & { ref?: Ref<HTMLDivElement> }): JSX.Element {
-  return <Card ref={ref} animated {...props} />;
-}
-
-AnimatedCard.displayName = 'AnimatedCard';
-
-export { AnimatedCard };
 export default Card;

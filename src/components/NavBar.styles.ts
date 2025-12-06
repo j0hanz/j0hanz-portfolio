@@ -1,5 +1,5 @@
 import { SxProps, Theme } from '@mui/material';
-import type { SystemStyleObject } from '@mui/system';
+import { SystemStyleObject } from '@mui/system';
 
 import {
   CLIP_ROUNDED,
@@ -148,7 +148,7 @@ export const navBarContainerSx: SystemStyleObject<Theme> = {
   p: 0.5,
 };
 
-export const menuButtonSx: SystemStyleObject<Theme> = {
+export const menuButtonSx: SxProps<Theme> = {
   '&:hover': { bgcolor: 'transparent' },
   '& svg': { transition: 'transform 0.2s, color 0.2s' },
   '&:hover svg': {

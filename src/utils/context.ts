@@ -1,7 +1,7 @@
 import { Context, use } from 'react';
 
 // Type-safe context hook factory with null check and error message
-export function createContextHook<T>(
+function createContextHook<T>(
   context: Context<T | null>,
   hookName: string,
   providerName: string
