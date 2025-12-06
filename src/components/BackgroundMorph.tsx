@@ -49,9 +49,7 @@ const createBlobSx = (
   height: config.size,
   ...(config.blur && { filter: `blur(${config.blur}px)` }),
   ...(config.opacity && { opacity: config.opacity, mixBlendMode: 'screen' }),
-  ...(!config.blur && {
-    willChange: shouldAnimate ? 'transform, opacity' : 'auto',
-  }),
+  willChange: shouldAnimate ? 'transform, opacity' : 'auto',
 });
 
 // Unified transition factory

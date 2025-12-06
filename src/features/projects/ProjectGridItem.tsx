@@ -4,9 +4,10 @@ import { Box, type SxProps, type Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
-import { staggerItemVariant } from '@/config/motion';
+import { staggerItemVariant, staggerItemVariantMobile } from '@/config/motion';
 import { GRID } from '@/config/responsive';
 import { ProjectListProps } from '@/config/types';
+import { useMobileBreakpoint } from '@/hooks';
 
 import { ProjectCard } from './components/ProjectCard';
 
@@ -22,10 +23,13 @@ export function ProjectCardMotionWrapper({
   children: ReactNode;
   fullHeight?: boolean;
 }): React.JSX.Element {
+  const isMobile = useMobileBreakpoint('md');
+  const variant = isMobile ? staggerItemVariantMobile : staggerItemVariant;
+
   return (
     <Box
       component={motion.div}
-      variants={staggerItemVariant}
+      variants={variant}
       sx={{ ...wrapperSx, ...(fullHeight ? { height: 1 } : {}) }}
     >
       {children}

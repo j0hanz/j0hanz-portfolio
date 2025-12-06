@@ -419,6 +419,14 @@ export const staggerItemVariantMobile: Variants = {
   exit: { opacity: 0, y: -14, scale: 0.94 },
 };
 
+// Predefined stagger containers
+export const staggerContainerFast = createStaggerContainer(STAGGER_FAST, 0);
+export const staggerContainerNormal = createStaggerContainer(
+  STAGGER_NORMAL,
+  0.08
+);
+export const staggerContainerSlow = createStaggerContainer(STAGGER_SLOW, 0.12);
+
 // ============================================================================
 // NAVIGATION DRAWER VARIANTS
 // ============================================================================
