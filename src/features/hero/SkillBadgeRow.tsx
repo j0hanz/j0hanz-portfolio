@@ -1,19 +1,15 @@
 import type { ReactNode } from 'react';
+import { useRef } from 'react';
 
-import {
-  Box,
-  Stack,
-  type SxProps,
-  type Theme,
-  Typography,
-} from '@mui/material';
+import { Box, Stack, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { ShinyText } from '@/components/text-animations';
-import { skillBadgeVariants } from '@/config/motion';
+import { BlurText } from '@/components/text-animations';
+import { skillBadgeVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
+import type { ElementRef } from '@/config/types';
 import SkillBadge from '@/features/hero/SkillBadge';
-import { useAnimationConfig } from '@/hooks';
+import { useAnimationConfig, useInView } from '@/hooks';
 import { skills } from '@/lib/data/skills';
 
 const containerSx: SxProps<Theme> = {
@@ -51,47 +47,68 @@ function BadgeWrapper({
 }
 
 // Shared content - DRY rendering of badge list
-function BadgeList({ animate }: { animate: boolean }): React.JSX.Element {
+function BadgeList({
+  animate,
+  isInView,
+}: {
+  animate: boolean;
+  isInView: boolean;
+}): React.JSX.Element {
+  const badgeContent = skills.map((skill) => (
+    <BadgeWrapper key={skill.label} animate={animate}>
+      <SkillBadge skill={skill} />
+    </BadgeWrapper>
+  ));
+
   return (
     <>
-      <Typography variant="overline" component="div" sx={labelSx}>
-        <ShinyText speed={4}>Tech Stack</ShinyText>
-      </Typography>
-      <Stack direction="row" sx={stackSx}>
-        {skills.map((skill) => (
-          <BadgeWrapper key={skill.label} animate={animate}>
-            <SkillBadge skill={skill} />
-          </BadgeWrapper>
-        ))}
-      </Stack>
+      <BlurText
+        text="Tech Stack"
+        animateBy="letters"
+        delay={40}
+        direction="top"
+        sx={labelSx}
+      />
+      {animate ? (
+        <Box
+          component={motion.div}
+          variants={skillBadgeVariants.container}
+          initial="initial"
+          animate={isInView ? 'animate' : 'initial'}
+          sx={{ display: 'flex', flexDirection: 'row', ...stackSx }}
+        >
+          {badgeContent}
+        </Box>
+      ) : (
+        <Stack direction="row" sx={stackSx}>
+          {badgeContent}
+        </Stack>
+      )}
     </>
   );
 }
 
 function SkillBadgeRow(): React.JSX.Element {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { prefersReducedMotion } = useAnimationConfig();
+  const isInView = useInView(
+    containerRef as ElementRef,
+    viewportPresets.section
+  );
 
   // Static version for reduced motion - no animation props
   if (prefersReducedMotion) {
     return (
       <Stack sx={containerSx} alignItems="flex-start">
-        <BadgeList animate={false} />
+        <BadgeList animate={false} isInView={false} />
       </Stack>
     );
   }
 
-  // Animated version - uses animate instead of whileInView since Hero is
-  // a full-page section that's always visible when mounted
+  // Animated version - badge stagger handled inside BadgeList
   return (
-    <Stack
-      component={motion.div}
-      variants={skillBadgeVariants.container}
-      initial="initial"
-      animate="animate"
-      sx={containerSx}
-      alignItems="flex-start"
-    >
-      <BadgeList animate />
+    <Stack ref={containerRef} sx={containerSx} alignItems="flex-start">
+      <BadgeList animate isInView={isInView} />
     </Stack>
   );
 }

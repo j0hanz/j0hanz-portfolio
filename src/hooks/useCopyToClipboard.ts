@@ -20,7 +20,6 @@ function useCopyToClipboard(): UseCopyToClipboardReturn {
 
   const copyToClipboard: CopyFn = async (text) => {
     if (!isClipboardSupported) {
-      if (import.meta.env.DEV) console.warn('Clipboard not supported');
       setState({ value: null, success: false });
       return false;
     }
@@ -29,8 +28,7 @@ function useCopyToClipboard(): UseCopyToClipboardReturn {
       await navigator.clipboard.writeText(text);
       setState({ value: text, success: true });
       return true;
-    } catch (error) {
-      if (import.meta.env.DEV) console.warn('Copy failed', error);
+    } catch {
       setState({ value: null, success: false });
       return false;
     }

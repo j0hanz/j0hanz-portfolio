@@ -38,4 +38,4 @@ function Home(): React.JSX.Element {
   );
 }
 
-export default Home;
+export { Home };

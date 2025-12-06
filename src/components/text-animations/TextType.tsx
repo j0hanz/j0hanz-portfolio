@@ -3,7 +3,6 @@ import {
   type JSX,
   type ReactNode,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -88,10 +87,7 @@ export function TextType({
   const prefersReducedMotion = useReducedMotion();
   const cursorRef = useRef<HTMLSpanElement>(null);
 
-  const textArray = useMemo(
-    () => (Array.isArray(text) ? text : [text]),
-    [text]
-  );
+  const textArray = Array.isArray(text) ? text : [text];
 
   // Initialize state - show full text if reduced motion
   const [displayedText, setDisplayedText] = useState(() =>
@@ -125,19 +121,22 @@ export function TextType({
     // Skip animation for reduced motion
     if (prefersReducedMotion) return;
 
+    const currentTextArray = Array.isArray(text) ? text : [text];
     let timeout: ReturnType<typeof setTimeout>;
-    const currentText = textArray[currentTextIndex];
+    const currentText = currentTextArray[currentTextIndex];
 
     const executeTyping = () => {
       if (isDeleting) {
         if (displayedText === '') {
           setIsDeleting(false);
-          if (currentTextIndex === textArray.length - 1 && !loop) return;
+          if (currentTextIndex === currentTextArray.length - 1 && !loop) return;
 
-          onSentenceComplete?.(textArray[currentTextIndex], currentTextIndex);
-          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
+          onSentenceComplete?.(
+            currentTextArray[currentTextIndex],
+            currentTextIndex
+          );
+          setCurrentTextIndex((prev) => (prev + 1) % currentTextArray.length);
           setCurrentCharIndex(0);
-          timeout = setTimeout(() => {}, pauseDuration);
         } else {
           timeout = setTimeout(() => {
             setDisplayedText((prev) => prev.slice(0, -1));
@@ -149,8 +148,8 @@ export function TextType({
             setDisplayedText((prev) => prev + currentText[currentCharIndex]);
             setCurrentCharIndex((prev) => prev + 1);
           }, typingSpeed);
-        } else if (textArray.length > 1 || loop) {
-          if (!loop && currentTextIndex === textArray.length - 1) return;
+        } else if (currentTextArray.length > 1 || loop) {
+          if (!loop && currentTextIndex === currentTextArray.length - 1) return;
           timeout = setTimeout(() => {
             setIsDeleting(true);
           }, pauseDuration);
@@ -172,7 +171,7 @@ export function TextType({
     typingSpeed,
     deletingSpeed,
     pauseDuration,
-    textArray,
+    text,
     currentTextIndex,
     loop,
     initialDelay,

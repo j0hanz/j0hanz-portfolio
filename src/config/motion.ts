@@ -628,21 +628,22 @@ export const skillBadgeVariants = {
     initial: {},
     animate: {
       transition: {
-        staggerChildren: 0.04,
-        delayChildren: 0.3,
+        staggerChildren: 0.06,
+        delayChildren: 0.5,
       },
     },
   },
   item: {
-    initial: { opacity: 0, y: 15, scale: 0.9 },
+    initial: { opacity: 0, y: 20, scale: 0.85, filter: 'blur(4px)' },
     animate: {
       opacity: 1,
       y: 0,
       scale: 1,
+      filter: 'blur(0px)',
       transition: {
         type: 'spring' as const,
-        stiffness: 300,
-        damping: 24,
+        stiffness: 280,
+        damping: 22,
       },
     },
   },

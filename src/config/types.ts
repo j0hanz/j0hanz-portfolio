@@ -780,13 +780,6 @@ export interface ValidatorConfig {
   optional?: boolean;
 }
 
-// Aurora background types (from components/Aurora.tsx)
-export interface AuroraConfig {
-  amplitude: { light: number; dark: number };
-  blend: { light: number; dark: number };
-  speed: { light: number; dark: number };
-}
-
 // --- Theme Module Augmentation ---
 declare module '@mui/material/styles' {
   interface Mixins {

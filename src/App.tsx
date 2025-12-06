@@ -8,7 +8,7 @@ import Spinner from '@/components/Spinner';
 import StatusBanner from '@/components/StatusBanner';
 import { INITIAL_LOADING_DELAY_MS } from '@/config/constants';
 import { useConnectivity, useContentMotion, useInitialLoading } from '@/hooks';
-import Home from '@/pages/Home';
+import { Home } from '@/pages/Home';
 import {
   contentContainerSx,
   loaderContainerSx,

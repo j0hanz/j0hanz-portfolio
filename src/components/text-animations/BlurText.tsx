@@ -99,18 +99,38 @@ export function BlurText({
   useEffect(() => {
     if (!ref.current) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          if (ref.current) observer.unobserve(ref.current);
-        }
-      },
-      { threshold, rootMargin }
-    );
+    const element = ref.current;
 
-    observer.observe(ref.current);
-    return () => observer.disconnect();
+    // Use requestAnimationFrame to ensure DOM has painted before checking visibility
+    const rafId = requestAnimationFrame(() => {
+      if (!element) return;
+
+      // Check if already in view on mount (fixes first render issue)
+      const rect = element.getBoundingClientRect();
+      const isAlreadyVisible =
+        rect.top < window.innerHeight && rect.bottom > 0 && rect.height > 0;
+
+      if (isAlreadyVisible) {
+        setInView(true);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            observer.unobserve(element);
+          }
+        },
+        { threshold, rootMargin }
+      );
+
+      observer.observe(element);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
   }, [threshold, rootMargin]);
 
   // Default animation states based on direction
