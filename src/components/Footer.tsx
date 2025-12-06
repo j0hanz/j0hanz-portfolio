@@ -14,7 +14,6 @@ import {
 import Grid from '@mui/material/Grid';
 
 import { AnimatedContent } from '@/components/animations';
-
 import { CONTACT_CONFIG } from '@/config/constants';
 import { GRID } from '@/config/responsive';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
@@ -78,7 +77,6 @@ function AwardBadge({
   href,
   imgSrc,
   date,
-  index,
 }: {
   href: string;
   imgSrc: string;
@@ -87,7 +85,7 @@ function AwardBadge({
 }) {
   return (
     <Grid size={GRID.third}>
-      <AnimatedContent distance={30} delay={index * 0.1} once>
+      <AnimatedContent distance={30}>
         <Stack alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
           <Link
             href={href}

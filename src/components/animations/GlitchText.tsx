@@ -1,4 +1,5 @@
-import { FC, CSSProperties } from 'react';
+import { CSSProperties, FC } from 'react';
+
 import './GlitchText.css';
 
 interface GlitchTextProps {
@@ -21,19 +22,23 @@ export const GlitchText: FC<GlitchTextProps> = ({
   speed = 0.5,
   enableShadows = true,
   enableOnHover = false,
-  className = ''
+  className = '',
 }) => {
   const inlineStyles: CustomCSSProperties = {
     '--after-duration': `${speed * 3}s`,
     '--before-duration': `${speed * 2}s`,
     '--after-shadow': enableShadows ? '-5px 0 red' : 'none',
-    '--before-shadow': enableShadows ? '5px 0 cyan' : 'none'
+    '--before-shadow': enableShadows ? '5px 0 cyan' : 'none',
   };
 
   const hoverClass = enableOnHover ? 'enable-on-hover' : '';
 
   return (
-    <div className={`glitch ${hoverClass} ${className}`} style={inlineStyles} data-text={children}>
+    <div
+      className={`glitch ${hoverClass} ${className}`}
+      style={inlineStyles}
+      data-text={children}
+    >
       {children}
     </div>
   );

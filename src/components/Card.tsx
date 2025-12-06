@@ -9,8 +9,7 @@ import {
 } from '@mui/material';
 import { motion, type MotionProps } from 'motion/react';
 
-import { BlurText } from '@/components/text-animations';
-
+import { BlurText } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { CardComponentProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
@@ -112,7 +111,6 @@ function CardBase({
             {typeof title === 'string' && title ? (
               <BlurText
                 text={title}
-                as="span"
                 animateBy="letters"
                 delay={60}
                 direction="bottom"

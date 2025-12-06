@@ -65,11 +65,10 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
           {project.api && <DnsTwoTone sx={apiIconSx} />}
           <BlurText
             text={project.title}
-            as="span"
-            animateBy="letters"
+            animateBy="words"
             direction="bottom"
-            duration={0.2}
-            sx={titleInnerSx}
+            stepDuration={0.2}
+            className="project-title-blur"
           />
           {project.isNew && (
             <Box

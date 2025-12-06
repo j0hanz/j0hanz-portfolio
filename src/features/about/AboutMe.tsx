@@ -14,10 +14,10 @@ import {
 import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
 
+import { BlurText, SplitText } from '@/components/animations';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
-import { BlurText, SplitText } from '@/components/animations';
 import {
   CARD_HOVER_LIFT,
   cardEntranceVariants,
@@ -41,14 +41,7 @@ import {
 } from '@/hooks';
 import { aboutMeItems } from '@/lib/data/aboutMeItems';
 import { aboutMeText } from '@/lib/data/aboutMeText';
-import { credentialButtonSx, TEXT_LINE_HEIGHT } from '@/styles/shared';
-
-// Card content styles
-const overviewTextSx: SxProps<Theme> = {
-  lineHeight: TEXT_LINE_HEIGHT,
-  color: 'text.primary',
-  fontSize: (theme) => theme.typography.body1.fontSize,
-};
+import { credentialButtonSx } from '@/styles/shared';
 
 // Table styles
 const tableSx: SxProps<Theme> = {
@@ -84,7 +77,7 @@ function AboutMeText(): React.JSX.Element {
         delay={5}
         animateBy="letters"
         direction="bottom"
-        sx={overviewTextSx}
+        className="about-me-text"
       />
     </Card>
   );
@@ -206,7 +199,7 @@ function AboutMe(): React.JSX.Element {
     <SectionContainer
       id="aboutMe"
       title={
-        <SplitText text="About Me" as="span" splitBy="chars" stagger={0.025} />
+        <SplitText text="About Me" tag="span" splitType="chars" delay={2} />
       }
       icon={PersonOutlined}
     >

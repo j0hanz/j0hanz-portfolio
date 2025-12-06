@@ -3,9 +3,9 @@ import type { JSX, ReactNode } from 'react';
 import { Box, type SxProps, type Theme } from '@mui/material';
 
 import { AnimatedContent } from '@/components/animations';
+import { BlurText } from '@/components/animations';
 import Card from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
-import { BlurText } from '@/components/animations';
 import type { TimelineCardProps } from '@/config/types';
 
 const metaWrapperSx: SxProps<Theme> = {
@@ -41,11 +41,6 @@ function Actions({
   return <Box sx={sx}>{children}</Box>;
 }
 
-// Style for the animated title
-const titleSx: SxProps<Theme> = {
-  fontWeight: 500,
-};
-
 function TimelineCardRoot({
   title,
   metadata,
@@ -57,34 +52,33 @@ function TimelineCardRoot({
   const animatedTitle = (
     <BlurText
       text={title}
-      as="span"
       animateBy="words"
-
-
       direction="bottom"
-      duration={0.15}
-      sx={titleSx}
+      stepDuration={0.15}
+      className="timeline-card-title"
     />
   );
 
   return (
-    <AnimatedContent distance={50} sx={cardWrapperSx}>
-      <Box {...dataAttributes}>
-        <Card
-          title={animatedTitle}
-          subtitle={
-            <Box
-              sx={metaWrapperSx}
-              {...(metaDataAttribute ? { [metaDataAttribute]: true } : {})}
-            >
-              <IconBadgeList items={metadata} keyPrefix={title} />
-            </Box>
-          }
-        >
-          {children}
-        </Card>
-      </Box>
-    </AnimatedContent>
+    <Box sx={cardWrapperSx}>
+      <AnimatedContent distance={50}>
+        <Box {...dataAttributes}>
+          <Card
+            title={animatedTitle}
+            subtitle={
+              <Box
+                sx={metaWrapperSx}
+                {...(metaDataAttribute ? { [metaDataAttribute]: true } : {})}
+              >
+                <IconBadgeList items={metadata} keyPrefix={title} />
+              </Box>
+            }
+          >
+            {children}
+          </Card>
+        </Box>
+      </AnimatedContent>
+    </Box>
   );
 }
 

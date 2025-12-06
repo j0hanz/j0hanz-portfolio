@@ -1,10 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+
+import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText as GSAPSplitText } from '@/components/SplitText';
-import { useGSAP } from '@gsap/react';
+import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+
+// Check if fonts are loaded synchronously (runs once at module load)
+const getInitialFontsLoaded = () => document.fonts.status === 'loaded';
 
 export interface SplitTextProps {
   text: string;
@@ -26,7 +30,7 @@ export const SplitText: React.FC<SplitTextProps> = ({
   text,
   className = '',
   delay = 100,
-  duration = 0.6,
+  duration = 0.2,
   ease = 'power3.out',
   splitType = 'chars',
   from = { opacity: 0, y: 40 },
@@ -34,26 +38,36 @@ export const SplitText: React.FC<SplitTextProps> = ({
   threshold = 0.1,
   rootMargin = '-100px',
   textAlign = 'center',
-  tag = 'p',
-  onLetterAnimationComplete
+  tag = 'span',
+  onLetterAnimationComplete,
 }) => {
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
-  const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
+  const fontsLoadedRef = useRef(getInitialFontsLoaded());
 
+  // Subscribe to font loading if not already loaded
   useEffect(() => {
-    if (document.fonts.status === 'loaded') {
-      setFontsLoaded(true);
-    } else {
-      document.fonts.ready.then(() => {
-        setFontsLoaded(true);
-      });
-    }
+    if (fontsLoadedRef.current) return;
+
+    let cancelled = false;
+    document.fonts.ready.then(() => {
+      if (!cancelled) {
+        fontsLoadedRef.current = true;
+        // Force re-render by triggering GSAP setup
+        if (ref.current) {
+          ref.current.dispatchEvent(new CustomEvent('fontsloaded'));
+        }
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useGSAP(
     () => {
-      if (!ref.current || !text || !fontsLoaded) return;
+      if (!ref.current || !text || !fontsLoadedRef.current) return;
 
       const el = ref.current as HTMLElement & {
         _rbsplitInstance?: GSAPSplitText;
@@ -62,7 +76,9 @@ export const SplitText: React.FC<SplitTextProps> = ({
       if (el._rbsplitInstance) {
         try {
           el._rbsplitInstance.revert();
-        } catch (_) {}
+        } catch {
+          // Silently ignore revert errors
+        }
         el._rbsplitInstance = undefined;
       }
 
@@ -79,9 +95,12 @@ export const SplitText: React.FC<SplitTextProps> = ({
       const start = `top ${startPct}%${sign}`;
       let targets: Element[] = [];
       const assignTargets = (self: GSAPSplitText) => {
-        if (splitType.includes('chars') && self.chars.length) targets = self.chars;
-        if (!targets.length && splitType.includes('words') && self.words.length) targets = self.words;
-        if (!targets.length && splitType.includes('lines') && self.lines.length) targets = self.lines;
+        if (splitType.includes('chars') && self.chars.length)
+          targets = self.chars;
+        if (!targets.length && splitType.includes('words') && self.words.length)
+          targets = self.words;
+        if (!targets.length && splitType.includes('lines') && self.lines.length)
+          targets = self.lines;
         if (!targets.length) targets = self.chars || self.words || self.lines;
       };
       const splitInstance = new GSAPSplitText(el, {
@@ -107,26 +126,28 @@ export const SplitText: React.FC<SplitTextProps> = ({
                 start,
                 once: true,
                 fastScrollEnd: true,
-                anticipatePin: 0.4
+                anticipatePin: 0.4,
               },
               onComplete: () => {
                 animationCompletedRef.current = true;
                 onLetterAnimationComplete?.();
               },
               willChange: 'transform, opacity',
-              force3D: true
+              force3D: true,
             }
           );
-        }
+        },
       });
       el._rbsplitInstance = splitInstance;
       return () => {
-        ScrollTrigger.getAll().forEach(st => {
+        ScrollTrigger.getAll().forEach((st) => {
           if (st.trigger === el) st.kill();
         });
         try {
           splitInstance.revert();
-        } catch (_) {}
+        } catch {
+          // Silently ignore revert errors
+        }
         el._rbsplitInstance = undefined;
       };
     },
@@ -141,10 +162,9 @@ export const SplitText: React.FC<SplitTextProps> = ({
         JSON.stringify(to),
         threshold,
         rootMargin,
-        fontsLoaded,
-        onLetterAnimationComplete
+        onLetterAnimationComplete,
       ],
-      scope: ref
+      scope: ref,
     }
   );
 
@@ -155,7 +175,7 @@ export const SplitText: React.FC<SplitTextProps> = ({
       display: 'inline-block',
       whiteSpace: 'normal',
       wordWrap: 'break-word',
-      willChange: 'transform, opacity'
+      willChange: 'transform, opacity',
     };
     const classes = `split-parent ${className}`;
     switch (tag) {

@@ -17,13 +17,6 @@ const containerSx: SxProps<Theme> = {
   width: 1, // = 100%
 };
 
-const labelSx: SxProps<Theme> = {
-  color: 'text.secondary',
-  letterSpacing: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-  mb: { xs: 1, sm: 1.25, md: 1.5, lg: 2 },
-  fontSize: (theme) => theme.typography.caption.fontSize,
-};
-
 const stackSx: SxProps<Theme> = {
   gap: SPACING.stack,
   flexWrap: 'wrap',
@@ -67,7 +60,7 @@ function BadgeList({
         animateBy="letters"
         delay={40}
         direction="top"
-        sx={labelSx}
+        className="skill-badge-label"
       />
       {animate ? (
         <Box

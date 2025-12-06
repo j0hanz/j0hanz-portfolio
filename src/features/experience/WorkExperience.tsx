@@ -8,9 +8,9 @@ import {
 import { Box, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
+import { SplitText } from '@/components/animations';
 import Button from '@/components/Button';
 import SectionContainer from '@/components/SectionContainer';
-import { SplitText } from '@/components/animations';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';
@@ -255,12 +255,7 @@ function WorkExperience(): JSX.Element {
     <SectionContainer
       id="workExperience"
       title={
-        <SplitText
-          text="Experience"
-          as="span"
-          splitBy="chars"
-          stagger={0.025}
-        />
+        <SplitText text="Experience" tag="span" splitType="chars" delay={2} />
       }
       icon={WorkOutlineTwoTone}
     >

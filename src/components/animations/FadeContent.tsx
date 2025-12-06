@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -45,7 +46,8 @@ export const FadeContent: React.FC<FadeContentProps> = ({
     const el = ref.current;
     if (!el) return;
 
-    let scrollerTarget: Element | string | null = container || document.getElementById('snap-main-container') || null;
+    let scrollerTarget: Element | string | null =
+      container || document.getElementById('snap-main-container') || null;
 
     if (typeof scrollerTarget === 'string') {
       scrollerTarget = document.querySelector(scrollerTarget);
@@ -57,7 +59,7 @@ export const FadeContent: React.FC<FadeContentProps> = ({
     gsap.set(el, {
       autoAlpha: initialOpacity,
       filter: blur ? 'blur(10px)' : 'blur(0px)',
-      willChange: 'opacity, filter, transform'
+      willChange: 'opacity, filter, transform',
     });
 
     const tl = gsap.timeline({
@@ -72,17 +74,17 @@ export const FadeContent: React.FC<FadeContentProps> = ({
             delay: getSeconds(disappearAfter),
             duration: getSeconds(disappearDuration),
             ease: disappearEase,
-            onComplete: () => onDisappearanceComplete?.()
+            onComplete: () => onDisappearanceComplete?.(),
           });
         }
-      }
+      },
     });
 
     tl.to(el, {
       autoAlpha: 1,
       filter: 'blur(0px)',
       duration: getSeconds(duration),
-      ease: ease
+      ease: ease,
     });
 
     const st = ScrollTrigger.create({
@@ -90,7 +92,7 @@ export const FadeContent: React.FC<FadeContentProps> = ({
       scroller: scrollerTarget || window,
       start: `top ${startPct}%`,
       once: true,
-      onEnter: () => tl.play()
+      onEnter: () => tl.play(),
     });
 
     return () => {
@@ -98,10 +100,15 @@ export const FadeContent: React.FC<FadeContentProps> = ({
       tl.kill();
       gsap.killTweensOf(el);
     };
-  }, []);
+  });
 
   return (
-    <div ref={ref} className={className} style={{ visibility: 'hidden', ...style }} {...props}>
+    <div
+      ref={ref}
+      className={className}
+      style={{ visibility: 'hidden', ...style }}
+      {...props}
+    >
       {children}
     </div>
   );

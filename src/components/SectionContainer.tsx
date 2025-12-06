@@ -134,7 +134,7 @@ function SectionContainerBase({
       sx={[sectionCenteredSx, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
     >
       <Container maxWidth={false} sx={containerPaddingSx}>
-        <AnimatedContent distance={40} delay={0.05} >
+        <AnimatedContent distance={40} delay={0.05}>
           <SectionHeader icon={Icon} headingLevel={headingLevel}>
             {title}
           </SectionHeader>

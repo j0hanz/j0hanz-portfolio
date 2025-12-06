@@ -4,11 +4,11 @@ import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
+import { GlitchText, TextType } from '@/components/animations';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
-import { GlitchText, ShinyText, TextType } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import HeroProfile from '@/features/hero/HeroProfile';
@@ -105,15 +105,14 @@ function Hero(): React.JSX.Element {
                     })}
                     sx={subtitleSx}
                   >
-                    <ShinyText speed={4}>
-                      <TextType
-                        text={HERO_SUBTITLE}
-                        typingSpeed={60}
-                        initialDelay={800}
-                        showCursor={false}
-                        loop={false}
-                      />
-                    </ShinyText>
+                    <TextType
+                      text={HERO_SUBTITLE}
+                      typingSpeed={60}
+                      initialDelay={800}
+                      showCursor={false}
+                      loop={false}
+                      className="shiny-text"
+                    />
                     {!prefersReducedMotion && <BlinkingCursor sx={cursorSx} />}
                   </Typography>
 

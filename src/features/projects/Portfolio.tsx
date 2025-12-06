@@ -4,8 +4,8 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
-import SectionContainer from '@/components/SectionContainer';
 import { SplitText } from '@/components/animations';
+import SectionContainer from '@/components/SectionContainer';
 import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
@@ -30,7 +30,7 @@ function Portfolio(): React.JSX.Element {
     <SectionContainer
       id="portfolio"
       title={
-        <SplitText text="Projects" as="span" splitBy="chars" stagger={0.025} />
+        <SplitText text="Projects" tag="span" splitType="chars" delay={25} />
       }
       icon={FolderTwoTone}
       maxWidth={false}

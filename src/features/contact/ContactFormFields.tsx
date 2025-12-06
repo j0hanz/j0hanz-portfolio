@@ -101,7 +101,11 @@ function FormField({
       error={!!error}
       disabled={disabled}
     >
-      <InputLabel htmlFor={controlId} shrink sx={{ fontSize: 'body2.fontSize' }}>
+      <InputLabel
+        htmlFor={controlId}
+        shrink
+        sx={{ fontSize: 'body2.fontSize' }}
+      >
         {label}
       </InputLabel>
       <Input
@@ -130,8 +134,14 @@ function FormField({
         aria-describedby={error ? `${controlId}-error` : undefined}
         sx={{
           mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-          '&:before': { borderBottom: '2px solid', borderBottomColor: 'divider' },
-          '&:hover:not(.Mui-disabled, .Mui-error):before': { borderBottom: '2px solid', borderBottomColor: 'divider' },
+          '&:before': {
+            borderBottom: '2px solid',
+            borderBottomColor: 'divider',
+          },
+          '&:hover:not(.Mui-disabled, .Mui-error):before': {
+            borderBottom: '2px solid',
+            borderBottomColor: 'divider',
+          },
           '&.Mui-error:before': { borderBottomColor: 'error.main' },
           '&:after': { borderBottomColor: 'primary.main' },
         }}

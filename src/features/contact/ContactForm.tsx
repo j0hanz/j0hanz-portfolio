@@ -8,11 +8,11 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import { AnimatedContent } from '@/components/animations';
+import { SplitText } from '@/components/animations';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
-import { SplitText } from '@/components/animations';
 import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
@@ -65,7 +65,10 @@ function SuccessIndicator({ visible }: SuccessIndicatorProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={getTransition('smooth')}
-      sx={{ mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 }, px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 } }}
+      sx={{
+        mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+        px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+      }}
     >
       <Box sx={{ color: 'success.main' }}>
         <AnimatedCheckmark />
@@ -230,9 +233,9 @@ export function ContactForm() {
       title={
         <SplitText
           text={CONTACT_COPY.sectionTitle}
-          as="span"
-          splitBy="chars"
-          stagger={0.025}
+          tag="span"
+          splitType="chars"
+          delay={25}
         />
       }
       icon={EmailRounded}
