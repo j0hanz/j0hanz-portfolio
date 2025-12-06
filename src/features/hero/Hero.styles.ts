@@ -47,19 +47,24 @@ export const containerSx: SxProps<Theme> = {
   px: 0,
 };
 
+// Profile image responsive dimensions - shared between wrapper and image
+export const PROFILE_SIZE = { xs: 225, sm: 260, md: 300, lg: 400 };
+
 export const profileWrapperSx: SxProps<Theme> = {
   position: 'relative',
   display: 'inline-flex',
+  width: PROFILE_SIZE,
+  height: PROFILE_SIZE,
+  mb: { xs: 3, sm: 2.5, md: 0 },
 };
 
 export const profileImgSx: SxProps<Theme> = {
-  width: { xs: 225, sm: 260, md: 300, lg: 400 },
-  height: 'auto',
+  width: 1,
+  height: 1,
   aspectRatio: '1 / 1',
   clipPath: CLIP_ROUNDED,
   objectFit: 'cover',
   cursor: 'pointer',
-  mb: { xs: 3, sm: 2.5, md: 0 },
   willChange: 'opacity, transform',
 };
 
