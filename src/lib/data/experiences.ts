@@ -63,4 +63,4 @@ const experiences: Experience[] = [
   },
 ];
 
-export default experiences;
+export { experiences };

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import useEventCallback from './useEventCallback';
+import { useEventCallback } from './useEventCallback';
 
 // Attaches event listener to element/window/document with auto cleanup
 export function useEventListener<
@@ -41,5 +41,3 @@ export function useEventListener<
     };
   }, [eventName, element, options, onEvent]);
 }
-
-export default useEventListener;

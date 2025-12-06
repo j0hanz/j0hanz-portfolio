@@ -11,5 +11,3 @@ export function useModal(initialState = false): UseModalReturn {
   } = useToggle(initialState);
   return { isOpen, open, close };
 }
-
-export default useModal;

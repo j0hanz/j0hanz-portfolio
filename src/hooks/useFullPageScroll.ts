@@ -6,7 +6,7 @@ import { SCROLL_CONFIG } from '@/config/constants';
 import type { ScrollDirection } from '@/config/types';
 
 import { useMobileBreakpoint } from './useBreakpoints';
-import useEventCallback from './useEventCallback';
+import { useEventCallback } from './useEventCallback';
 import { useNavigationActions, useNavigationState } from './useNavigation';
 import { isAtScrollBoundary, useScrollEvents } from './useScrollEvents';
 

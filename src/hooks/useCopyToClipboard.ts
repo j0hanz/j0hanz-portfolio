@@ -59,5 +59,3 @@ export function useCopyWithFeedback() {
     },
   };
 }
-
-export default useCopyToClipboard;

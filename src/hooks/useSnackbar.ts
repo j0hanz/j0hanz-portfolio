@@ -25,5 +25,3 @@ export function useSnackbar(): SnackbarContextType {
   const actions = useSnackbarActions();
   return { ...state, ...actions };
 }
-
-export default useSnackbar;

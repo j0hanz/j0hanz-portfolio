@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { SCROLL_CONFIG } from '@/config/constants';
 import type { ScrollDirection, UseScrollEventsProps } from '@/config/types';
 
-import useEventCallback from './useEventCallback';
+import { useEventCallback } from './useEventCallback';
 
 // Key mappings for keyboard navigation
 const NAVIGATION_KEYS: Record<string, ScrollDirection> = {

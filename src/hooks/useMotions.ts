@@ -49,7 +49,7 @@ import {
   runSectionSequence,
 } from '@/utils/motion';
 
-import useEventCallback from './useEventCallback';
+import { useEventCallback } from './useEventCallback';
 
 // ============================================================================
 // REDUCED MOTION DETECTION

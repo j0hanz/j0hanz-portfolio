@@ -6,8 +6,8 @@ import {
 } from '@/config/constants';
 import type { StatusBanner } from '@/config/types';
 
-import useEventCallback from './useEventCallback';
-import useEventListener from './useEventListener';
+import { useEventCallback } from './useEventCallback';
+import { useEventListener } from './useEventListener';
 import { useSnackbar } from './useSnackbar';
 
 const isInitiallyOnline = () =>
@@ -97,5 +97,3 @@ export function useConnectivity() {
 
   return { isOnline, statusBanner };
 }
-
-export default useConnectivity;

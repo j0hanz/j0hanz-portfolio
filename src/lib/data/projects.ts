@@ -233,4 +233,4 @@ const projects: Project[] = [
   },
 ];
 
-export default projects;
+export { projects };

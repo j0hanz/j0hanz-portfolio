@@ -28,7 +28,7 @@ import {
   useTimelineCardMotion,
   useTimelineSectionController,
 } from '@/hooks';
-import experiences from '@/lib/data/experiences';
+import { experiences } from '@/lib/data/experiences';
 import {
   credentialButtonSx,
   descriptionTextSx,

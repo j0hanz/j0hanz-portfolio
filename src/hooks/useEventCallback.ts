@@ -20,4 +20,4 @@ function useEventCallback<Args extends unknown[], R>(
   }, []);
 }
 
-export default useEventCallback;
+export { useEventCallback };

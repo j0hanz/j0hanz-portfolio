@@ -8,10 +8,10 @@
 // Fundamental hooks used across the application
 // ============================================================================
 
-export { default as useEventCallback } from './useEventCallback';
-export { default as useEventListener } from './useEventListener';
+export { useEventCallback } from './useEventCallback';
+export { useEventListener } from './useEventListener';
 export { useToggle } from './useToggle';
-export { default as useModal } from './useModal';
+export { useModal } from './useModal';
 
 export type { UseModalReturn, UseToggleReturn } from '@/config/types';
 
@@ -20,13 +20,10 @@ export type { UseModalReturn, UseToggleReturn } from '@/config/types';
 // Interaction and loading state management
 // ============================================================================
 
-export { default as useHover } from './useHover';
+export { useHover } from './useHover';
 export { useImageLoading } from './useImageLoading';
 export { useInitialLoading } from './useInitialLoading';
-export {
-  default as useCopyToClipboard,
-  useCopyWithFeedback,
-} from './useCopyToClipboard';
+export { useCopyToClipboard, useCopyWithFeedback } from './useCopyToClipboard';
 export * from './useCursorMagnet';
 
 export type { UseImageLoadingReturn } from '@/config/types';
@@ -44,7 +41,7 @@ export { useTheme, useThemeModeState, useThemeModeActions } from './useTheme';
 
 // Snackbar notifications (split for render optimization)
 export {
-  default as useSnackbar,
+  useSnackbar,
   useSnackbarState,
   useSnackbarActions,
 } from './useSnackbar';
@@ -53,7 +50,7 @@ export {
 export { useCvModalState, useCvModalActions } from './useCvModal';
 
 // Connectivity status
-export { default as useConnectivity, useOnlineStatus } from './useOnlineStatus';
+export { useConnectivity, useOnlineStatus } from './useOnlineStatus';
 
 // ============================================================================
 // SCROLL & NAVIGATION HOOKS

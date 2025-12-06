@@ -13,7 +13,7 @@ import { skillBadgeVariants } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import SkillBadge from '@/features/hero/SkillBadge';
 import { useAnimationConfig } from '@/hooks';
-import skills from '@/lib/data/skills';
+import { skills } from '@/lib/data/skills';
 
 const containerSx: SxProps<Theme> = {
   mt: { xs: 3, sm: 3.5, md: 4, lg: 5 },

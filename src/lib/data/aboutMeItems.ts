@@ -28,4 +28,4 @@ const aboutMeItems: AboutMeItem[] = [
   },
 ];
 
-export default aboutMeItems;
+export { aboutMeItems };

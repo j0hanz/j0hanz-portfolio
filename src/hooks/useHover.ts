@@ -1,6 +1,6 @@
 import { RefObject, useState } from 'react';
 
-import useEventListener from './useEventListener';
+import { useEventListener } from './useEventListener';
 
 // Detects if the mouse is hovering over a specific element
 export function useHover<T extends HTMLElement = HTMLElement>(
@@ -14,5 +14,3 @@ export function useHover<T extends HTMLElement = HTMLElement>(
 
   return value;
 }
-
-export default useHover;

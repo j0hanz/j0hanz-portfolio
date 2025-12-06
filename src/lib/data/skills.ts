@@ -36,4 +36,4 @@ const skills: Skill[] = [
   { icon: SiTailwindcss, label: 'Tailwind CSS', learning: true },
 ];
 
-export default skills;
+export { skills };

@@ -40,8 +40,8 @@ import {
   useMotionVariant,
   useToggle,
 } from '@/hooks';
-import aboutMeItems from '@/lib/data/aboutMeItems';
-import aboutMeText from '@/lib/data/aboutMeText';
+import { aboutMeItems } from '@/lib/data/aboutMeItems';
+import { aboutMeText } from '@/lib/data/aboutMeText';
 import { credentialButtonSx, TEXT_LINE_HEIGHT } from '@/styles/shared';
 
 // Card content styles

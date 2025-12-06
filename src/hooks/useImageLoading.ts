@@ -16,5 +16,3 @@ export function useImageLoading(): UseImageLoadingReturn {
     reset: () => setIsLoaded(false),
   };
 }
-
-export default useImageLoading;

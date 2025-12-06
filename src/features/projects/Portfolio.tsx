@@ -9,7 +9,7 @@ import { TextReveal } from '@/components/TextReveal';
 import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
-import projects from '@/lib/data/projects';
+import { projects } from '@/lib/data/projects';
 
 import ProjectGridItem from './ProjectGridItem';
 import ProjectMasonryItem from './ProjectMasonryItem';

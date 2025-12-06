@@ -6,4 +6,4 @@ systems using Django REST Framework. Dedicated to creating user-friendly and
 visually appealing interfaces.
 `;
 
-export default aboutMeText;
+export { aboutMeText };
