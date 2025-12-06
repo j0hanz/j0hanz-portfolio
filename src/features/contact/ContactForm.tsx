@@ -7,8 +7,11 @@ import { Box, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
-import { AnimatedContent } from '@/components/animations';
-import { SplitText } from '@/components/animations';
+import {
+  AnimatedContent,
+  FadeContent,
+  SplitText,
+} from '@/components/animations';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
@@ -25,7 +28,6 @@ import type {
   SuccessIndicatorProps,
 } from '@/config/types';
 import {
-  useAnimationConfig,
   useContactFormMutation,
   useEventCallback,
   useInView,
@@ -49,34 +51,32 @@ const EMPTY_FORM: ContactFormValues = {
 const ERROR_FIELDS = new Set(['name', 'email', 'url', 'message'] as const);
 
 function SuccessIndicator({ visible }: SuccessIndicatorProps) {
-  const { getTransition } = useAnimationConfig();
-
   if (!visible) return null;
 
   return (
-    <Stack
-      component={motion.div}
-      key="contact-success"
-      direction="row"
-      alignItems="center"
-      justifyContent="center"
-      spacing={1.5}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={getTransition('smooth')}
-      sx={{
-        mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-        px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-      }}
-    >
-      <Box sx={{ color: 'success.main' }}>
-        <AnimatedCheckmark />
-      </Box>
-      <Typography variant="body2" color="success.main" sx={{ fontWeight: 500 }}>
-        {CONTACT_COPY.successInline}
-      </Typography>
-    </Stack>
+    <FadeContent delay={0.1} threshold={0.2}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        spacing={1.5}
+        sx={{
+          mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+          px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+        }}
+      >
+        <Box sx={{ color: 'success.main' }}>
+          <AnimatedCheckmark />
+        </Box>
+        <Typography
+          variant="body2"
+          color="success.main"
+          sx={{ fontWeight: 500 }}
+        >
+          {CONTACT_COPY.successInline}
+        </Typography>
+      </Stack>
+    </FadeContent>
   );
 }
 
@@ -233,9 +233,10 @@ export function ContactForm() {
       title={
         <SplitText
           text={CONTACT_COPY.sectionTitle}
-          tag="span"
           splitType="chars"
-          delay={25}
+          delay={50}
+          duration={0.5}
+          ease="power3.out"
         />
       }
       icon={EmailRounded}

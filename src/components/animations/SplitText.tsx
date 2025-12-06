@@ -29,14 +29,14 @@ export interface SplitTextProps {
 export const SplitText: React.FC<SplitTextProps> = ({
   text,
   className = '',
-  delay = 1,
-  duration = 0.12,
+  delay = 0,
+  duration = 0.1,
   ease = 'power2.out',
   splitType = 'chars',
-  from = { opacity: 0, y: 30 },
+  from = { opacity: 0, y: 20 },
   to = { opacity: 1, y: 0 },
   threshold = 0.1,
-  rootMargin = '-80px',
+  rootMargin = 0,
   textAlign = 'center',
   tag = 'span',
   onLetterAnimationComplete,
@@ -83,7 +83,9 @@ export const SplitText: React.FC<SplitTextProps> = ({
       }
 
       const startPct = (1 - threshold) * 100;
-      const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(rootMargin);
+      const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(
+        rootMargin.toString()
+      );
       const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
       const marginUnit = marginMatch ? marginMatch[2] || 'px' : 'px';
       const sign =

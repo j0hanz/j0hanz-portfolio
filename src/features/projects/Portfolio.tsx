@@ -30,7 +30,13 @@ function Portfolio(): React.JSX.Element {
     <SectionContainer
       id="portfolio"
       title={
-        <SplitText text="Projects" tag="span" splitType="chars" delay={25} />
+        <SplitText
+          text="Projects"
+          splitType="chars"
+          delay={50}
+          duration={0.5}
+          ease="power3.out"
+        />
       }
       icon={FolderTwoTone}
       maxWidth={false}

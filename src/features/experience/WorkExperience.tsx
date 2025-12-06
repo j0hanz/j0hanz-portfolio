@@ -255,7 +255,13 @@ function WorkExperience(): JSX.Element {
     <SectionContainer
       id="workExperience"
       title={
-        <SplitText text="Experience" tag="span" splitType="chars" delay={2} />
+        <SplitText
+          text="Experience"
+          splitType="chars"
+          delay={50}
+          duration={0.5}
+          ease="power3.out"
+        />
       }
       icon={WorkOutlineTwoTone}
     >

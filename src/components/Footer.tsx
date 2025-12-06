@@ -14,7 +14,7 @@ import {
 import type { SxProps, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-import { AnimatedContent } from '@/components/animations';
+import { FadeContent } from '@/components/animations';
 import { CONTACT_CONFIG } from '@/config/constants';
 import { GRID } from '@/config/responsive';
 import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
@@ -71,14 +71,16 @@ function AwardBadge({
   href,
   imgSrc,
   date,
+  index = 0,
 }: {
   href: string;
   imgSrc: string;
   date: string;
+  index?: number;
 }) {
   return (
     <Grid size={GRID.third}>
-      <AnimatedContent distance={30}>
+      <FadeContent blur duration={800} delay={index * 150} threshold={0.2}>
         <Stack alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
           <Link
             href={href}
@@ -120,7 +122,7 @@ function AwardBadge({
             {date.toUpperCase()}
           </Typography>
         </Stack>
-      </AnimatedContent>
+      </FadeContent>
     </Grid>
   );
 }
@@ -283,8 +285,8 @@ function Footer() {
             flexWrap: { xs: 'wrap', md: 'nowrap' },
           }}
         >
-          {badgeItems.map((badge) => (
-            <AwardBadge key={badge.href} {...badge} />
+          {badgeItems.map((badge, index) => (
+            <AwardBadge key={badge.href} {...badge} index={index} />
           ))}
         </Grid>
       </Box>

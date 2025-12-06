@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { AnimatedContent } from '@/components/animations';
+import { AnimatedContent, FadeContent } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
 import { SIZING } from '@/styles/shared';
@@ -139,9 +139,16 @@ function SectionContainerBase({
             {title}
           </SectionHeader>
           {subtitle && (
-            <Typography variant="body1" sx={subtitleSx}>
-              {subtitle}
-            </Typography>
+            <FadeContent
+              blur={false}
+              duration={600}
+              delay={200}
+              threshold={0.15}
+            >
+              <Typography variant="body1" sx={subtitleSx}>
+                {subtitle}
+              </Typography>
+            </FadeContent>
           )}
           {headerActions && <SectionActions>{headerActions}</SectionActions>}
         </AnimatedContent>

@@ -14,7 +14,7 @@ import {
 import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
 
-import { BlurText, SplitText } from '@/components/animations';
+import { FadeContent, SplitText } from '@/components/animations';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
@@ -72,12 +72,7 @@ const descCellSx: SxProps<Theme> = {
 function AboutMeText(): React.JSX.Element {
   return (
     <Card title="Overview">
-      <BlurText
-        text={aboutMeText}
-        delay={2}
-        animateBy="letters"
-        direction="bottom"
-      />
+      <FadeContent delay={200}>{aboutMeText}</FadeContent>
     </Card>
   );
 }
@@ -200,9 +195,9 @@ function AboutMe(): React.JSX.Element {
       title={
         <SplitText
           text="About Me"
-          splitType="words"
-          delay={100}
-          duration={0.1}
+          splitType="chars"
+          delay={50}
+          duration={0.5}
           ease="power3.out"
         />
       }

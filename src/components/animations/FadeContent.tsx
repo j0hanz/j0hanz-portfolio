@@ -25,11 +25,10 @@ interface FadeContentProps extends React.HTMLAttributes<HTMLDivElement> {
 export const FadeContent: React.FC<FadeContentProps> = ({
   children,
   container,
-  blur = false,
   duration = 1000,
   ease = 'power2.out',
   delay = 0,
-  threshold = 0.1,
+  threshold = 0,
   initialOpacity = 0,
   disappearAfter = 0,
   disappearDuration = 0.5,
@@ -46,6 +45,16 @@ export const FadeContent: React.FC<FadeContentProps> = ({
     const el = ref.current;
     if (!el) return;
 
+    // Respect reduced motion preferences
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (prefersReducedMotion) {
+      gsap.set(el, { autoAlpha: 1, filter: 'none', visibility: 'visible' });
+      onComplete?.();
+      return;
+    }
+
     let scrollerTarget: Element | string | null =
       container || document.getElementById('snap-main-container') || null;
 
@@ -58,7 +67,7 @@ export const FadeContent: React.FC<FadeContentProps> = ({
 
     gsap.set(el, {
       autoAlpha: initialOpacity,
-      filter: blur ? 'blur(10px)' : 'blur(0px)',
+
       willChange: 'opacity, filter, transform',
     });
 
@@ -70,7 +79,7 @@ export const FadeContent: React.FC<FadeContentProps> = ({
         if (disappearAfter > 0) {
           gsap.to(el, {
             autoAlpha: initialOpacity,
-            filter: blur ? 'blur(10px)' : 'blur(0px)',
+
             delay: getSeconds(disappearAfter),
             duration: getSeconds(disappearDuration),
             ease: disappearEase,
@@ -82,7 +91,7 @@ export const FadeContent: React.FC<FadeContentProps> = ({
 
     tl.to(el, {
       autoAlpha: 1,
-      filter: 'blur(0px)',
+
       duration: getSeconds(duration),
       ease: ease,
     });
@@ -102,7 +111,6 @@ export const FadeContent: React.FC<FadeContentProps> = ({
     };
   }, [
     container,
-    blur,
     duration,
     ease,
     delay,
