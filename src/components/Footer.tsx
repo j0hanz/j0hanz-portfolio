@@ -12,16 +12,12 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+
+import { AnimatedContent } from '@/components/animations';
 
 import { CONTACT_CONFIG } from '@/config/constants';
-import { transitions } from '@/config/motion';
 import { GRID } from '@/config/responsive';
-import {
-  useAnimationConfig,
-  useCopyWithFeedback,
-  useCvModalActions,
-} from '@/hooks';
+import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
 import { badgeItems } from '@/lib/data/badges';
 import { SIZING } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
@@ -78,8 +74,6 @@ const sectionLabelSx = {
 // COMPONENTS
 // ============================================================================
 
-const MotionBox = motion.create(Box);
-
 function AwardBadge({
   href,
   imgSrc,
@@ -91,19 +85,9 @@ function AwardBadge({
   date: string;
   index: number;
 }) {
-  const { prefersReducedMotion } = useAnimationConfig();
-
   return (
     <Grid size={GRID.third}>
-      <MotionBox
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{
-          ...transitions.springSmooth,
-          delay: index * 0.1,
-        }}
-      >
+      <AnimatedContent distance={30} delay={index * 0.1} once>
         <Stack alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
           <Link
             href={href}
@@ -115,7 +99,7 @@ function AwardBadge({
               overflow: 'hidden',
               transition: 'all 0.3s ease',
               '&:hover': {
-                transform: prefersReducedMotion ? 'none' : 'scale(1.05)',
+                transform: 'scale(1.05)',
                 filter: 'brightness(1.1)',
               },
             }}
@@ -145,7 +129,7 @@ function AwardBadge({
             {date.toUpperCase()}
           </Typography>
         </Stack>
-      </MotionBox>
+      </AnimatedContent>
     </Grid>
   );
 }

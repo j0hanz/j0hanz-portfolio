@@ -3,25 +3,20 @@ import { useEffect, useRef, useState } from 'react';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
-import {
-  Box,
-  Stack,
-  type SxProps,
-  type Theme,
-  Typography,
-} from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
+
+import { AnimatedContent } from '@/components/animations';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
-import { SplitText } from '@/components/text-animations';
+import { SplitText } from '@/components/animations';
 import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import type {
-  ContactFieldErrorKey,
   ContactFieldKey,
   ContactFormErrors,
   ContactFormValues,
@@ -40,35 +35,18 @@ import {
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
 import { validateForm } from '@/utils/validation';
 
-import ContactFormFields from './ContactFormFields';
-
-// Style constants
-const SUCCESS_STACK_SX: SxProps<Theme> = {
-  mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-  px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-};
-const SUCCESS_TEXT_SX: SxProps<Theme> = { fontWeight: 500 };
-const FORM_CARD_SX: SxProps<Theme> = { height: 'auto' };
+import { ContactFormFields } from './ContactFormFields';
 
 // Form state helpers
-const createEmptyForm = (): ContactFormValues => ({
+const EMPTY_FORM: ContactFormValues = {
   name: '',
   email: '',
   company: '',
   url: '',
   message: '',
-});
+};
 
-const normalizeForm = (values: ContactFormValues): ContactFormValues => ({
-  name: values.name.trim(),
-  email: values.email.trim(),
-  company: values.company.trim(),
-  url: values.url.trim(),
-  message: values.message.trim(),
-});
-
-const isErrorField = (key: ContactFieldKey): key is ContactFieldErrorKey =>
-  key === 'name' || key === 'email' || key === 'url' || key === 'message';
+const ERROR_FIELDS = new Set(['name', 'email', 'url', 'message'] as const);
 
 function SuccessIndicator({ visible }: SuccessIndicatorProps) {
   const { getTransition } = useAnimationConfig();
@@ -87,12 +65,12 @@ function SuccessIndicator({ visible }: SuccessIndicatorProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={getTransition('smooth')}
-      sx={SUCCESS_STACK_SX}
+      sx={{ mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 }, px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 } }}
     >
       <Box sx={{ color: 'success.main' }}>
         <AnimatedCheckmark />
       </Box>
-      <Typography variant="body2" color="success.main" sx={SUCCESS_TEXT_SX}>
+      <Typography variant="body2" color="success.main" sx={{ fontWeight: 500 }}>
         {CONTACT_COPY.successInline}
       </Typography>
     </Stack>
@@ -141,7 +119,7 @@ function FormActions({ onReset, isPending }: FormActionsProps) {
 
 function ContactFormContent() {
   const formContainerRef = useRef<HTMLDivElement>(null);
-  const [formData, setFormData] = useState<ContactFormValues>(createEmptyForm);
+  const [formData, setFormData] = useState<ContactFormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const { showSnackbar } = useSnackbar();
   const { mutate, reset, isSuccess, isPending } = useContactFormMutation();
@@ -170,19 +148,19 @@ function ContactFormContent() {
       setFormData((prev) => ({ ...prev, [fieldName]: value }));
 
       // Clear field error if present
-      if (isErrorField(fieldName)) {
+      if (ERROR_FIELDS.has(fieldName as keyof ContactFormErrors)) {
         setErrors((prev) => {
-          if (!prev[fieldName]) return prev;
-          const next = { ...prev };
-          delete next[fieldName];
-          return next;
+          const key = fieldName as keyof ContactFormErrors;
+          if (!prev[key]) return prev;
+          const { [key]: _, ...rest } = prev;
+          return rest;
         });
       }
     }
   );
 
   const handleReset = useEventCallback(() => {
-    setFormData(createEmptyForm());
+    setFormData(EMPTY_FORM);
     setErrors({});
     reset();
   });
@@ -192,7 +170,14 @@ function ContactFormContent() {
       e.preventDefault();
       reset();
 
-      const normalized = normalizeForm(formData);
+      // Normalize and validate form data
+      const normalized: ContactFormValues = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        company: formData.company.trim(),
+        url: formData.url.trim(),
+        message: formData.message.trim(),
+      };
       const validationErrors = validateForm(normalized);
       setErrors(validationErrors);
 
@@ -217,7 +202,7 @@ function ContactFormContent() {
   }, [showSuccess, handleReset]);
 
   return (
-    <Card title="" sx={FORM_CARD_SX}>
+    <Card title="" sx={{ height: 'auto' }}>
       <Box ref={formContainerRef}>
         <Stack component="form" onSubmit={handleSubmit} noValidate spacing={2}>
           <motion.div custom={0} {...fieldMotion} layout>
@@ -238,8 +223,7 @@ function ContactFormContent() {
   );
 }
 
-// Rendering contact form section
-function ContactForm() {
+export function ContactForm() {
   return (
     <SectionContainer
       id="contact"
@@ -255,11 +239,11 @@ function ContactForm() {
     >
       <Grid container spacing={SPACING.grid}>
         <Grid size={12}>
-          <ContactFormContent />
+          <AnimatedContent distance={80} delay={0.1}>
+            <ContactFormContent />
+          </AnimatedContent>
         </Grid>
       </Grid>
     </SectionContainer>
   );
 }
-
-export default ContactForm;

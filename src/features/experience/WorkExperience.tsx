@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import Button from '@/components/Button';
 import SectionContainer from '@/components/SectionContainer';
-import { SplitText } from '@/components/text-animations';
+import { SplitText } from '@/components/animations';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';

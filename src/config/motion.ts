@@ -261,24 +261,18 @@ export function createStaggerContainer(
 }
 
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, y: 28, scale: 0.96, filter: 'blur(4px)' },
+  initial: { opacity: 0, y: 28, scale: 0.96 },
   animate: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: 'blur(0px)',
     transition: {
       type: 'spring' as const,
       stiffness: 280,
       damping: 24,
-      filter: {
-        type: 'tween' as const,
-        duration: 0.35,
-        ease: 'easeOut' as const,
-      },
     },
   },
-  exit: { opacity: 0, y: -14, scale: 0.94, filter: 'blur(2px)' },
+  exit: { opacity: 0, y: -14, scale: 0.94 },
 };
 
 export const staggerItemVariantMobile: Variants = {
@@ -358,9 +352,10 @@ export const navVariants = {
     open: { rotate: 90, scale: 1.12 },
     closed: { rotate: 0, scale: 1 },
   },
+  // Note: backdropFilter animation removed for performance - use static CSS instead
   overlay: {
-    open: { opacity: 1, backdropFilter: 'blur(8px)' },
-    closed: { opacity: 0, backdropFilter: 'blur(0px)' },
+    open: { opacity: 1 },
+    closed: { opacity: 0 },
   },
 } as const;
 
@@ -368,13 +363,13 @@ export const navVariants = {
 // CARD & LIST ITEM VARIANTS
 // ============================================================================
 
+// Note: Blur filter removed for performance - use cardEntranceVariantsMobile pattern
 export const cardEntranceVariants = {
-  hidden: { opacity: 0, y: 44, scale: 0.96, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: 44, scale: 0.96 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: 'blur(0px)',
     transition: {
       delay: i * 0.18,
       duration: 0.65,
@@ -433,12 +428,11 @@ export const buttonPopVariants = {
 
 export const formFieldVariants = {
   field: {
-    hidden: { opacity: 0, y: 24, x: -8, filter: 'blur(3px)' },
+    hidden: { opacity: 0, y: 24, x: -8 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       x: 0,
-      filter: 'blur(0px)',
       transition: {
         delay: i * 0.08,
         duration: 0.55,
@@ -498,23 +492,23 @@ function createModalSlideVariant(
       opacity: 0,
       y: yInitial,
       scale: scaleInitial,
-      filter: 'blur(4px)',
     },
-    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, y: yExit, scale: scaleExit, filter: 'blur(2px)' },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: yExit, scale: scaleExit },
   };
 }
 
 export const modalVariants = {
+  // Note: backdropFilter animation removed - use CSS transition on static value instead
   backdrop: {
-    initial: { opacity: 0, backdropFilter: 'blur(0px)' },
-    animate: { opacity: 1, backdropFilter: 'blur(8px)' },
-    exit: { opacity: 0, backdropFilter: 'blur(0px)' },
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
   },
   modal: {
-    initial: { opacity: 0, scale: 0.88, y: 20, filter: 'blur(6px)' },
-    animate: { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' },
-    exit: { opacity: 0, scale: 0.92, y: 16, filter: 'blur(3px)' },
+    initial: { opacity: 0, scale: 0.88, y: 20 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.92, y: 16 },
   },
   slideDown: createModalSlideVariant(-56, 36),
   slideUp: createModalSlideVariant(56, -36),
@@ -581,12 +575,11 @@ export const pageTransitionVariants = {
 // ============================================================================
 
 export const timelineCardVariants = {
-  hidden: { opacity: 0, y: 68, scale: 0.93, filter: 'blur(5px)' },
+  hidden: { opacity: 0, y: 68, scale: 0.93 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: 'blur(0px)',
     transition: {
       delay: i * 0.14,
       duration: 0.75,
@@ -634,12 +627,11 @@ export const skillBadgeVariants = {
     },
   },
   item: {
-    initial: { opacity: 0, y: 20, scale: 0.85, filter: 'blur(4px)' },
+    initial: { opacity: 0, y: 20, scale: 0.85 },
     animate: {
       opacity: 1,
       y: 0,
       scale: 1,
-      filter: 'blur(0px)',
       transition: {
         type: 'spring' as const,
         stiffness: 280,

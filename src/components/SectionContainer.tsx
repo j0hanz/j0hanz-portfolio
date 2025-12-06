@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import { AnimatedContent } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
 import { SIZING } from '@/styles/shared';
@@ -133,15 +134,17 @@ function SectionContainerBase({
       sx={[sectionCenteredSx, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
     >
       <Container maxWidth={false} sx={containerPaddingSx}>
-        <SectionHeader icon={Icon} headingLevel={headingLevel}>
-          {title}
-        </SectionHeader>
-        {subtitle && (
-          <Typography variant="body1" sx={subtitleSx}>
-            {subtitle}
-          </Typography>
-        )}
-        {headerActions && <SectionActions>{headerActions}</SectionActions>}
+        <AnimatedContent distance={40} delay={0.05} >
+          <SectionHeader icon={Icon} headingLevel={headingLevel}>
+            {title}
+          </SectionHeader>
+          {subtitle && (
+            <Typography variant="body1" sx={subtitleSx}>
+              {subtitle}
+            </Typography>
+          )}
+          {headerActions && <SectionActions>{headerActions}</SectionActions>}
+        </AnimatedContent>
         {children}
       </Container>
     </Box>

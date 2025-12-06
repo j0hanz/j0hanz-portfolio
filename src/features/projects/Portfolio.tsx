@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import SectionContainer from '@/components/SectionContainer';
-import { SplitText } from '@/components/text-animations';
+import { SplitText } from '@/components/animations';
 import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';

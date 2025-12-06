@@ -17,7 +17,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import SectionContainer from '@/components/SectionContainer';
-import { BlurText, SplitText } from '@/components/text-animations';
+import { BlurText, SplitText } from '@/components/animations';
 import {
   CARD_HOVER_LIFT,
   cardEntranceVariants,
@@ -84,7 +84,6 @@ function AboutMeText(): React.JSX.Element {
         delay={5}
         animateBy="letters"
         direction="bottom"
-        stepDuration={0.1}
         sx={overviewTextSx}
       />
     </Card>

@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
-import { GlitchText, ShinyText, TextType } from '@/components/text-animations';
+import { GlitchText, ShinyText, TextType } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import HeroProfile from '@/features/hero/HeroProfile';

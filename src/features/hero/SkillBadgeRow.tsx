@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Box, Stack, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { BlurText } from '@/components/text-animations';
+import { BlurText } from '@/components/animations';
 import { skillBadgeVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import type { ElementRef } from '@/config/types';

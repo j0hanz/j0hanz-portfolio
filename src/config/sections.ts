@@ -18,7 +18,9 @@ const AboutMe = lazy(() => import('@/features/about/AboutMe'));
 const WorkExperience = lazy(
   () => import('@/features/experience/WorkExperience')
 );
-const ContactForm = lazy(() => import('@/features/contact/ContactForm'));
+const ContactForm = lazy(() =>
+  import('@/features/contact/ContactForm').then((m) => ({ default: m.ContactForm }))
+);
 const Footer = lazy(() => import('@/components/Footer'));
 
 export const sections: Section[] = [

@@ -4,7 +4,6 @@ import ErrorOutline from '@mui/icons-material/ErrorOutline';
 import LanguageOutlined from '@mui/icons-material/LanguageOutlined';
 import PersonOutline from '@mui/icons-material/PersonOutline';
 import WorkOutline from '@mui/icons-material/WorkOutline';
-import type { SxProps, Theme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
@@ -76,37 +75,6 @@ const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
   },
 ];
 
-const labelSx: SxProps<Theme> = {
-  fontSize: (theme) => theme.typography.body2.fontSize,
-};
-
-const iconSx: SxProps<Theme> = {
-  fontSize: (theme) => theme.typography.h6.fontSize,
-  color: 'action.active',
-};
-
-const errorIconSx: SxProps<Theme> = {
-  fontSize: SIZING.icon,
-};
-
-const inputSx: SxProps<Theme> = {
-  mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-  '&:before': {
-    borderBottom: '2px solid',
-    borderBottomColor: 'divider',
-  },
-  '&:hover:not(.Mui-disabled, .Mui-error):before': {
-    borderBottom: '2px solid',
-    borderBottomColor: 'divider',
-  },
-  '&.Mui-error:before': {
-    borderBottomColor: 'error.main',
-  },
-  '&:after': {
-    borderBottomColor: 'primary.main',
-  },
-};
-
 function FormField({
   controlId,
   icon: Icon,
@@ -133,7 +101,7 @@ function FormField({
       error={!!error}
       disabled={disabled}
     >
-      <InputLabel htmlFor={controlId} shrink sx={labelSx}>
+      <InputLabel htmlFor={controlId} shrink sx={{ fontSize: 'body2.fontSize' }}>
         {label}
       </InputLabel>
       <Input
@@ -156,16 +124,22 @@ function FormField({
               mr: 1,
             }}
           >
-            <Icon sx={iconSx} />
+            <Icon sx={{ fontSize: 'h6.fontSize', color: 'action.active' }} />
           </InputAdornment>
         }
         aria-describedby={error ? `${controlId}-error` : undefined}
-        sx={inputSx}
+        sx={{
+          mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+          '&:before': { borderBottom: '2px solid', borderBottomColor: 'divider' },
+          '&:hover:not(.Mui-disabled, .Mui-error):before': { borderBottom: '2px solid', borderBottomColor: 'divider' },
+          '&.Mui-error:before': { borderBottomColor: 'error.main' },
+          '&:after': { borderBottomColor: 'primary.main' },
+        }}
       />
       {error && (
         <FormHelperText id={`${controlId}-error`}>
           <Stack component="span" direction="row" alignItems="center" gap={0.5}>
-            <ErrorOutline sx={errorIconSx} />
+            <ErrorOutline sx={{ fontSize: SIZING.icon }} />
             {error}
           </Stack>
         </FormHelperText>
@@ -174,8 +148,7 @@ function FormField({
   );
 }
 
-// Rendering contact form fields
-function ContactFormFields({
+export function ContactFormFields({
   formData,
   errors,
   handleChange,
@@ -183,26 +156,18 @@ function ContactFormFields({
 }: FormFieldsProps): React.JSX.Element {
   return (
     <Grid container spacing={SPACING.formField}>
-      {CONTACT_FIELD_CONFIGS.map((config) => {
-        const { key, ...fieldProps } = config;
-        const value = formData[key] ?? '';
-        const error = config.errorKey ? errors[config.errorKey] : undefined;
-
-        return (
-          <Grid key={key} size={config.gridProps}>
-            <FormField
-              {...fieldProps}
-              name={key}
-              value={value}
-              error={error}
-              onChange={handleChange}
-              disabled={disabled}
-            />
-          </Grid>
-        );
-      })}
+      {CONTACT_FIELD_CONFIGS.map(({ key, errorKey, ...fieldProps }) => (
+        <Grid key={key} size={fieldProps.gridProps}>
+          <FormField
+            {...fieldProps}
+            name={key}
+            value={formData[key] ?? ''}
+            error={errorKey ? errors[errorKey] : undefined}
+            onChange={handleChange}
+            disabled={disabled}
+          />
+        </Grid>
+      ))}
     </Grid>
   );
 }
-
-export default ContactFormFields;

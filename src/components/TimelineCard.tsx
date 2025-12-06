@@ -2,9 +2,10 @@ import type { JSX, ReactNode } from 'react';
 
 import { Box, type SxProps, type Theme } from '@mui/material';
 
+import { AnimatedContent } from '@/components/animations';
 import Card from '@/components/Card';
-import { BlurText } from '@/components/text-animations';
 import { IconBadgeList } from '@/components/IconBadge';
+import { BlurText } from '@/components/animations';
 import type { TimelineCardProps } from '@/config/types';
 
 const metaWrapperSx: SxProps<Theme> = {
@@ -57,30 +58,33 @@ function TimelineCardRoot({
     <BlurText
       text={title}
       as="span"
-      animateBy="letters"
-      delay={15}
+      animateBy="words"
+
+
       direction="bottom"
-      stepDuration={0.20}
+      duration={0.15}
       sx={titleSx}
     />
   );
 
   return (
-    <Box sx={cardWrapperSx} {...dataAttributes}>
-      <Card
-        title={animatedTitle}
-        subtitle={
-          <Box
-            sx={metaWrapperSx}
-            {...(metaDataAttribute ? { [metaDataAttribute]: true } : {})}
-          >
-            <IconBadgeList items={metadata} keyPrefix={title} />
-          </Box>
-        }
-      >
-        {children}
-      </Card>
-    </Box>
+    <AnimatedContent distance={50} sx={cardWrapperSx}>
+      <Box {...dataAttributes}>
+        <Card
+          title={animatedTitle}
+          subtitle={
+            <Box
+              sx={metaWrapperSx}
+              {...(metaDataAttribute ? { [metaDataAttribute]: true } : {})}
+            >
+              <IconBadgeList items={metadata} keyPrefix={title} />
+            </Box>
+          }
+        >
+          {children}
+        </Card>
+      </Box>
+    </AnimatedContent>
   );
 }
 
