@@ -1,176 +1,338 @@
-import { SiCreativecommons } from 'react-icons/si';
-
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {
   alpha,
   Box,
-  Container,
   IconButton,
+  Link,
   Stack,
-  SxProps,
-  Theme,
   Tooltip,
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { motion } from 'motion/react';
 
-import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
-import { SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
-import { SPACING } from '@/config/responsive';
-import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
-import { SIZING, SKEW_TRANSFORM, TRANSITION_STANDARD } from '@/styles/shared';
+import { transitions } from '@/config/motion';
+import { GRID } from '@/config/responsive';
+import {
+  useAnimationConfig,
+  useCopyWithFeedback,
+  useCvModalActions,
+} from '@/hooks';
+import { badgeItems } from '@/lib/data/badges';
+import { SIZING } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
-const footerSx: SxProps<Theme> = {
-  bgcolor: 'neutral.dark',
-  py: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-  pb: { xs: 0.25, sm: 1, md: 2, lg: 2.5 },
-  color: 'primary.contrastText',
-  height: 1,
-  display: 'grid',
-  placeContent: 'center',
-};
+// ============================================================================
+// CONSTANTS
+// ============================================================================
 
-const contactLabelSx: SxProps<Theme> = {
-  pb: { xs: 2, sm: 2.5, md: 3, lg: 3.5 },
-  fontSize: (theme) => theme.typography.body1.fontSize,
-  color: 'inherit',
-  opacity: 0.8,
-};
+const BADGE_SIZE = { xs: 70, sm: 95, md: 110, lg: 150 };
 
-const emailIconSx: SxProps<Theme> = {
-  color: 'inherit',
-  opacity: 0.8,
-  fontSize: SIZING.iconSm,
-  mr: { xs: 1, sm: 1.25, md: 1.5 },
-  transition: TRANSITION_STANDARD,
-};
-
-const emailLinkSx: SxProps<Theme> = {
-  textDecoration: 'none',
-  fontSize: SIZING.iconSm,
-  color: 'inherit',
-  transition: TRANSITION_STANDARD,
-  opacity: 0.8,
-  '&:hover': {
-    color: 'primary.light',
-    opacity: 1,
+const SOCIAL_LINKS = [
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
+    icon: LinkedInIcon,
   },
-};
-
-const copyButtonSx: SxProps<Theme> = {
-  ml: 1,
-  bgcolor: (theme) => alpha(theme.palette.common.white, 0.08),
-  '&:hover': {
-    bgcolor: (theme) => alpha(theme.palette.common.white, 0.15),
+  {
+    label: 'GitHub',
+    href: 'https://github.com/j0hanz',
+    icon: GitHubIcon,
   },
-};
+] as const;
 
-const copyrightIconSx: SxProps<Theme> = {
-  color: 'inherit',
-  opacity: 0.8,
-  fontSize: SIZING.iconSm,
-  mr: { xs: 1, sm: 1.25, md: 1.5 },
-  transition: TRANSITION_STANDARD,
-};
+// ============================================================================
+// SHARED STYLES
+// ============================================================================
 
-const copyrightTextSx: SxProps<Theme> = {
-  transform: SKEW_TRANSFORM,
+const iconButtonSx = {
+  p: 1,
+  color: 'text.secondary',
+  bgcolor: (t: { palette: { action: { hover: string } } }) =>
+    alpha(t.palette.action.hover, 0.04),
+  backdropFilter: 'blur(8px)',
+  border: '1px solid',
+  borderColor: 'divider',
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    color: 'primary.main',
+    bgcolor: (t: { palette: { primary: { main: string } } }) =>
+      alpha(t.palette.primary.main, 0.08),
+    borderColor: 'primary.main',
+    transform: 'translateY(-2px)',
+  },
+} as const;
+
+const sectionLabelSx = {
+  fontSize: '0.8rem',
+  fontWeight: 500,
   textTransform: 'uppercase',
-  fontSize: (theme) => theme.typography.caption.fontSize,
-  color: 'inherit',
-  opacity: 0.8,
-};
+  color: 'text.secondary',
+} as const;
 
-const wrapFooterSocialLink = (
-  id: string,
-  node: React.JSX.Element
-): React.JSX.Element => (
-  <Grid size="auto" sx={{ mb: { xs: 2, sm: 0 } }} key={id}>
-    {node}
-  </Grid>
-);
+// ============================================================================
+// COMPONENTS
+// ============================================================================
 
-function Footer(): React.JSX.Element {
-  const { openCvModal } = useCvModalActions();
+const MotionBox = motion.create(Box);
+
+function AwardBadge({
+  href,
+  imgSrc,
+  date,
+  index,
+}: {
+  href: string;
+  imgSrc: string;
+  date: string;
+  index: number;
+}) {
+  const { prefersReducedMotion } = useAnimationConfig();
+
+  return (
+    <Grid size={GRID.third}>
+      <MotionBox
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{
+          ...transitions.springSmooth,
+          delay: index * 0.1,
+        }}
+      >
+        <Stack alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
+          <Link
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              display: 'block',
+              borderRadius: 2,
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: prefersReducedMotion ? 'none' : 'scale(1.05)',
+                filter: 'brightness(1.1)',
+              },
+            }}
+          >
+            <Box
+              component="img"
+              src={imgSrc}
+              alt={`Hackathon Award - ${date}`}
+              loading="lazy"
+              sx={{
+                width: BADGE_SIZE,
+                height: BADGE_SIZE,
+                borderRadius: 2,
+                display: 'block',
+              }}
+            />
+          </Link>
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'text.secondary',
+              letterSpacing: 1.5,
+              fontWeight: 500,
+              fontSize: { xs: '0.65rem', sm: '0.7rem' },
+            }}
+          >
+            {date.toUpperCase()}
+          </Typography>
+        </Stack>
+      </MotionBox>
+    </Grid>
+  );
+}
+
+function ContactSection() {
   const { copyWithFeedback } = useCopyWithFeedback();
+  const { openCvModal } = useCvModalActions();
 
-  const handleCopyEmail = async () => {
-    const messages = getCopyMessages('email');
-    await copyWithFeedback(
-      CONTACT_CONFIG.EMAIL,
-      messages.success,
-      messages.error
-    );
+  const handleCopy = async () => {
+    const msg = getCopyMessages('email');
+    await copyWithFeedback(CONTACT_CONFIG.EMAIL, msg.success, msg.error);
   };
 
   return (
-    <Box component="footer" id="footer" sx={footerSx}>
-      <Container maxWidth={false}>
-        <Grid container spacing={SPACING.grid} sx={{ mx: 'auto' }}>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography sx={contactLabelSx}>Contact Details</Typography>
-            <Stack direction="row" alignItems="center">
-              <EmailRounded sx={emailIconSx} />
-              <Box
-                component="a"
-                href={`mailto:${CONTACT_CONFIG.EMAIL}`}
-                sx={emailLinkSx}
-              >
-                {CONTACT_CONFIG.EMAIL}
-              </Box>
-              <Tooltip title="Copy email" placement="top">
-                <IconButton
-                  onClick={handleCopyEmail}
-                  color="inherit"
-                  aria-label="Copy email address"
-                  size="small"
-                  sx={copyButtonSx}
-                >
-                  <ContentCopyRounded
-                    sx={{ fontSize: SIZING.icon, opacity: 0.85 }}
-                  />
-                </IconButton>
-              </Tooltip>
-            </Stack>
-          </Grid>
-          <Grid
-            size={{ xs: 12, sm: 6 }}
-            sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: 1 }}
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      justifyContent="space-between"
+      alignItems={{ xs: 'center', sm: 'flex-end' }}
+      gap={{ xs: 3, sm: 2 }}
+    >
+      {/* Email */}
+      <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+        <Typography sx={sectionLabelSx}>Email</Typography>
+        <Stack direction="row" alignItems="center" gap={2}>
+          <Link
+            href={`mailto:${CONTACT_CONFIG.EMAIL}`}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              color: 'text.secondary',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+              '&:hover': { color: 'primary.main' },
+            }}
           >
-            <Stack
-              direction="row"
-              alignItems="center"
-              sx={{
-                justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                pb: { xs: 2.5, sm: 3, md: 3.5 },
-              }}
+            <EmailRounded sx={{ fontSize: SIZING.iconSm }} />
+            <Typography
+              variant="body2"
+              sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
             >
-              <Box component={SiCreativecommons} sx={copyrightIconSx} />
-              <Typography variant="caption" sx={copyrightTextSx}>
-                Copyright 2025
-              </Typography>
-            </Stack>
-            <Box sx={{ mt: { xs: 4, sm: 2, md: 0 } }}>
-              <Grid
-                container
+              {CONTACT_CONFIG.EMAIL}
+            </Typography>
+          </Link>
+          <Tooltip title="Copy email" arrow placement="top">
+            <IconButton
+              onClick={handleCopy}
+              sx={{ ...iconButtonSx, p: 0.9 }}
+              size="small"
+              aria-label="Copy email address"
+            >
+              <ContentCopyRounded sx={{ fontSize: SIZING.iconXs }} />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+      </Box>
+
+      {/* Copyright - centered */}
+      <Box
+        sx={{
+          textAlign: 'center',
+          display: { xs: 'none', sm: 'block' },
+          order: { sm: 0 },
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+            fontSize: '0.8rem',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          © {new Date().getFullYear()} Linus Johansson
+        </Typography>
+      </Box>
+
+      {/* Social Links */}
+      <Box sx={{ textAlign: { xs: 'center', sm: 'right' } }}>
+        <Typography sx={sectionLabelSx}>Connect</Typography>
+        <Stack
+          direction="row"
+          gap={4}
+          justifyContent={{ xs: 'center', sm: 'flex-end' }}
+        >
+          {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+            <Tooltip key={label} title={label} arrow placement="top">
+              <IconButton
+                component="a"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={iconButtonSx}
+                aria-label={`Visit ${label} profile`}
+              >
+                <Icon />
+              </IconButton>
+            </Tooltip>
+          ))}
+          <Tooltip title="Download CV" arrow placement="top">
+            <IconButton
+              onClick={openCvModal}
+              sx={iconButtonSx}
+              aria-label="Download CV"
+            >
+              <Typography
+                component="span"
                 sx={{
-                  justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-                  fontSize: (theme) => theme.typography.body1.fontSize,
+                  fontSize: SIZING.iconXs,
+                  fontWeight: 700,
+                  lineHeight: 1,
                 }}
               >
-                <SocialLinkList
-                  openModal={openCvModal}
-                  renderLink={defaultSocialLinkRenderer}
-                  wrapItem={wrapFooterSocialLink}
-                />
-              </Grid>
-            </Box>
-          </Grid>
+                CV
+              </Typography>
+            </IconButton>
+          </Tooltip>
+        </Stack>
+      </Box>
+    </Stack>
+  );
+}
+
+// ============================================================================
+// MAIN
+// ============================================================================
+
+function Footer() {
+  return (
+    <Box
+      component="footer"
+      id="footer"
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        px: { xs: 1, sm: 2, md: 3, lg: 0 },
+        py: { xs: 4, sm: 5, md: 6 },
+      }}
+    >
+      {/* Awards Section */}
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
+        {/* Badges Grid */}
+        <Grid
+          container
+          sx={{
+            gap: { xs: 2, sm: 3, md: 6 },
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: { xs: 'wrap', md: 'nowrap' },
+          }}
+        >
+          {badgeItems.map((badge, index) => (
+            <AwardBadge key={badge.href} {...badge} index={index} />
+          ))}
         </Grid>
-      </Container>
+      </Box>
+      {/* Contact & Copyright */}
+      <Box>
+        <ContactSection />
+
+        {/* Mobile copyright - only shows on xs */}
+        <Typography
+          variant="caption"
+          sx={{
+            display: { xs: 'flex', sm: 'none' },
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 1,
+            color: 'text.secondary',
+            mt: { xs: 6, md: 0 },
+            fontSize: '0.7rem',
+          }}
+        >
+          © {new Date().getFullYear()} Linus Johansson
+        </Typography>
+      </Box>
     </Box>
   );
 }
