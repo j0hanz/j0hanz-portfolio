@@ -111,7 +111,6 @@ const TYPOGRAPHY = {
 
 // Direct destructured exports
 export const {
-  lineHeight: TEXT_LINE_HEIGHT,
   letterSpacingTight: LETTER_SPACING_TIGHT,
   letterSpacingNormal: LETTER_SPACING_NORMAL,
   letterSpacingWide: LETTER_SPACING_WIDE,

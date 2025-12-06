@@ -209,5 +209,3 @@ export const TextType = ({
     </Component>
   );
 };
-
-export default TextType;

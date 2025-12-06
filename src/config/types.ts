@@ -267,7 +267,7 @@ export interface CustomButtonProps extends MuiButtonProps {
 // --- Feature: Hero ---
 export interface HeroActionConfig {
   key: string;
-  label: string;
+  label: ReactNode;
   buttonProps: Partial<CustomButtonProps>;
 }
 
@@ -521,7 +521,6 @@ export type ContactFormErrors = Partial<
 >;
 
 export type ContactFieldKey = keyof ContactFormValues;
-export type ContactFieldErrorKey = keyof ContactFormErrors;
 
 export interface ContactFieldConfig {
   key: ContactFieldKey;
@@ -533,7 +532,7 @@ export interface ContactFieldConfig {
   required?: boolean;
   minRows?: number;
   maxRows?: number;
-  errorKey?: ContactFieldErrorKey;
+  errorKey?: keyof ContactFormErrors;
   gridProps?: { xs?: number; md?: number };
 }
 

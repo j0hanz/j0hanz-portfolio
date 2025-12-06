@@ -165,5 +165,3 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
     </div>
   );
 };
-
-export default AnimatedContent;

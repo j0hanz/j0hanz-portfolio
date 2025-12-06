@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Box, Stack, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { BlurText } from '@/components/animations';
+import { ShinyText } from '@/components/animations';
 import { skillBadgeVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import type { ElementRef } from '@/config/types';
@@ -43,9 +43,11 @@ function BadgeWrapper({
 function BadgeList({
   animate,
   isInView,
+  disableShiny,
 }: {
   animate: boolean;
   isInView: boolean;
+  disableShiny: boolean;
 }): React.JSX.Element {
   const badgeContent = skills.map((skill) => (
     <BadgeWrapper key={skill.label} animate={animate}>
@@ -55,11 +57,10 @@ function BadgeList({
 
   return (
     <>
-      <BlurText
+      <ShinyText
         text="Tech Stack"
-        animateBy="letters"
-        delay={40}
-        direction="top"
+        speed={6}
+        disabled={disableShiny}
         className="skill-badge-label"
       />
       {animate ? (
@@ -93,7 +94,7 @@ function SkillBadgeRow(): React.JSX.Element {
   if (prefersReducedMotion) {
     return (
       <Stack sx={containerSx} alignItems="flex-start">
-        <BadgeList animate={false} isInView={false} />
+        <BadgeList animate={false} isInView={false} disableShiny />
       </Stack>
     );
   }
@@ -101,7 +102,7 @@ function SkillBadgeRow(): React.JSX.Element {
   // Animated version - badge stagger handled inside BadgeList
   return (
     <Stack ref={containerRef} sx={containerSx} alignItems="flex-start">
-      <BadgeList animate isInView={isInView} />
+      <BadgeList animate isInView={isInView} disableShiny={false} />
     </Stack>
   );
 }

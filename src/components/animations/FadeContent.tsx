@@ -134,5 +134,3 @@ export const FadeContent: React.FC<FadeContentProps> = ({
     </div>
   );
 };
-
-export default FadeContent;

@@ -14,7 +14,6 @@ import { useBatchedDomUpdate, useReducedMotion } from '@/hooks';
 // Creates magnetic cursor effect on hover (hardware-accelerated)
 export function MagneticWrapper({
   children,
-  strength = 0.2,
   disabled = false,
   className,
   style,
@@ -31,7 +30,7 @@ export function MagneticWrapper({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const springConfig = { damping: 20, stiffness: 200, mass: 0.5 };
+  const springConfig = { stiffness: 150, mass: 0.3, damping: 15 };
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
@@ -48,15 +47,8 @@ export function MagneticWrapper({
         return;
       }
 
-      const { clientX, clientY } = point;
-      const { height, width, left, top } = target.getBoundingClientRect();
-      const middleX = clientX - (left + width / 2);
-      const middleY = clientY - (top + height / 2);
-
       // Schedule motion value updates in render phase
       scheduleRender(() => {
-        x.set(middleX * strength);
-        y.set(middleY * strength);
         pendingPoint.current = null;
         isScheduled.current = false;
       });

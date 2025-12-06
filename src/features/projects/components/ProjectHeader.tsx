@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { BlurText } from '@/components/animations';
+import { BlurText, ShinyText } from '@/components/animations';
 import { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 import {
@@ -85,7 +85,17 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
                   : { duration: 1.6, repeat: Infinity, repeatType: 'reverse' }
               }
             >
-              <Chip label="New" size="small" sx={newBadgeSx} />
+              <Chip
+                label={
+                  <ShinyText
+                    text="New"
+                    speed={3}
+                    disabled={prefersReducedMotion}
+                  />
+                }
+                size="small"
+                sx={newBadgeSx}
+              />
             </Box>
           )}
         </Stack>

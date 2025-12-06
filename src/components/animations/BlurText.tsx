@@ -49,7 +49,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
 }) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -96,7 +96,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
   );
 
   return (
-    <span ref={ref} className={className}>
+    <div ref={ref} className={className}>
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
@@ -126,8 +126,6 @@ export const BlurText: React.FC<BlurTextProps> = ({
           </motion.span>
         );
       })}
-    </span>
+    </div>
   );
 };
-
-export default BlurText;

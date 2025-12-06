@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
 // Check if fonts are loaded synchronously (runs once at module load)
 const getInitialFontsLoaded = () => document.fonts.status === 'loaded';
 
-export interface SplitTextProps {
+interface SplitTextProps {
   text: string;
   className?: string;
   delay?: number;
@@ -191,5 +191,3 @@ export const SplitText: React.FC<SplitTextProps> = ({
   };
   return renderTag();
 };
-
-export default SplitText;

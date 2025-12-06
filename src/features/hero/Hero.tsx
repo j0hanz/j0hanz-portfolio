@@ -46,9 +46,8 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
     buttonProps: {
       startIcon: <DownloadRounded sx={iconSx} />,
       sx: downloadButtonSx,
-      variant: 'contained',
-      color: 'primary',
-      motionWhileTap: { scale: 0.95, rotate: -2 },
+      variant: 'outlined',
+      color: 'inherit',
     },
   },
   {
@@ -60,7 +59,6 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
       sx: contactButtonSx,
       variant: 'text',
       color: 'inherit',
-      motionWhileTap: { scale: 0.95, rotate: 2 },
     },
   },
 ] as const;
@@ -97,7 +95,7 @@ function Hero(): React.JSX.Element {
 
                   {/* Hero Subtitle with typewriter + shine effect */}
                   <Typography
-                    component={motion.h2}
+                    component={motion.span}
                     {...subtitleMotion}
                     transition={getTransition('easeInOut', {
                       duration: 1.1,
@@ -119,7 +117,7 @@ function Hero(): React.JSX.Element {
                   {/* CTA Buttons */}
                   <Stack
                     direction={{ xs: 'column', lg: 'row' }}
-                    spacing={2}
+                    gap={6}
                     alignItems="flex-start"
                     sx={buttonsStackSx}
                   >

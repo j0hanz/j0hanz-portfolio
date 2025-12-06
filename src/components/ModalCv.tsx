@@ -21,6 +21,7 @@ import { motion, type MotionProps } from 'motion/react';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
+import { ShinyText } from '@/components/animations';
 import { modalVariants, staggerContainerNormal } from '@/config/motion';
 import { GRID, SPACING } from '@/config/responsive';
 import type { ModalCvProps } from '@/config/types';
@@ -238,7 +239,11 @@ function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
               sx={{ p: 0, fontWeight: 500 }}
               component="h2"
             >
-              Download CV
+              <ShinyText
+                text="Download CV"
+                speed={5}
+                disabled={prefersReducedMotion}
+              />
             </DialogTitle>
           </Stack>
           <Typography

@@ -43,5 +43,3 @@ export const GlitchText: FC<GlitchTextProps> = ({
     </div>
   );
 };
-
-export default GlitchText;

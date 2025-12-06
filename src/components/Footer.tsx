@@ -14,10 +14,14 @@ import {
 import type { SxProps, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-import { FadeContent } from '@/components/animations';
+import { FadeContent, ShinyText } from '@/components/animations';
 import { CONTACT_CONFIG } from '@/config/constants';
 import { GRID } from '@/config/responsive';
-import { useCopyWithFeedback, useCvModalActions } from '@/hooks';
+import {
+  useAnimationConfig,
+  useCopyWithFeedback,
+  useCvModalActions,
+} from '@/hooks';
 import { badgeItems } from '@/lib/data/badges';
 import { SIZING } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
@@ -130,6 +134,7 @@ function AwardBadge({
 function ContactSection() {
   const { copyWithFeedback } = useCopyWithFeedback();
   const { openCvModal } = useCvModalActions();
+  const { prefersReducedMotion } = useAnimationConfig();
 
   const handleCopy = async () => {
     const msg = getCopyMessages('email');
@@ -197,7 +202,11 @@ function ContactSection() {
             alignItems: 'center',
           }}
         >
-          © {CURRENT_YEAR} Linus Johansson
+          <ShinyText
+            text={`© ${CURRENT_YEAR} Linus Johansson`}
+            speed={8}
+            disabled={prefersReducedMotion}
+          />
         </Typography>
       </Box>
 
@@ -252,6 +261,8 @@ function ContactSection() {
 // ============================================================================
 
 function Footer() {
+  const { prefersReducedMotion } = useAnimationConfig();
+
   return (
     <Box
       component="footer"
@@ -307,7 +318,11 @@ function Footer() {
             fontSize: '0.7rem',
           }}
         >
-          © {CURRENT_YEAR} Linus Johansson
+          <ShinyText
+            text={`© ${CURRENT_YEAR} Linus Johansson`}
+            speed={8}
+            disabled={prefersReducedMotion}
+          />
         </Typography>
       </Box>
     </Box>
