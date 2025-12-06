@@ -36,6 +36,10 @@ interface BlurTextProps {
   className?: string;
   /** Callback when animation completes */
   onAnimationComplete?: () => void;
+  /** HTML element to render as (default: 'span') */
+  as?: 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  /** Whether to wait for element to be in view before animating (default: true) */
+  startOnView?: boolean;
 }
 
 // Build keyframes from initial state and step array
@@ -69,7 +73,7 @@ const wrapperSx = { display: 'flex', flexWrap: 'wrap' } as const;
  * <BlurText text="Welcome" animateBy="letters" delay={50} />
  * <BlurText
  *   text="Custom"
- *   animationFrom={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
+ *   animationFrom={{ opacity: 0, filter: 'blur(6px)', y: 20 }}
  *   animationTo={[
  *     { opacity: 0.5, filter: 'blur(5px)', y: 10 },
  *     { opacity: 1, filter: 'blur(0px)', y: 0 }
@@ -90,13 +94,17 @@ export function BlurText({
   sx,
   className,
   onAnimationComplete,
+  as = 'span',
+  startOnView = true,
 }: BlurTextProps): JSX.Element {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
-  const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLParagraphElement>(null);
+  const [inView, setInView] = useState(!startOnView);
+  const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    // Skip IntersectionObserver if startOnView is false
+    if (!startOnView) return;
     if (!ref.current) return;
 
     const element = ref.current;
@@ -131,18 +139,18 @@ export function BlurText({
     return () => {
       cancelAnimationFrame(rafId);
     };
-  }, [threshold, rootMargin]);
+  }, [startOnView, threshold, rootMargin]);
 
   // Default animation states based on direction
   const defaultFrom =
     direction === 'top'
-      ? { filter: 'blur(10px)', opacity: 0, y: -50 }
-      : { filter: 'blur(10px)', opacity: 0, y: 50 };
+      ? { filter: 'blur(6px)', opacity: 0, y: -50 }
+      : { filter: 'blur(6px)', opacity: 0, y: 50 };
 
   const defaultTo = [
     {
       filter: 'blur(5px)',
-      opacity: 0.5,
+      opacity: 0.1,
       y: direction === 'top' ? 5 : -5,
     },
     { filter: 'blur(0px)', opacity: 1, y: 0 },
@@ -162,7 +170,7 @@ export function BlurText({
   // Reduced motion fallback
   if (prefersReducedMotion) {
     return (
-      <Box component="p" className={className} sx={sx}>
+      <Box component={as} className={className} sx={sx}>
         {text}
       </Box>
     );
@@ -170,7 +178,7 @@ export function BlurText({
 
   return (
     <Box
-      component="p"
+      component={as}
       ref={ref}
       className={className}
       sx={{ ...wrapperSx, ...sx }}

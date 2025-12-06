@@ -202,7 +202,7 @@ export interface AppThemeProviderProps {
 
 // Card component props (fully flattened for CardComponentProps)
 export interface CardComponentProps {
-  title?: string;
+  title?: string | ReactNode;
   subtitle?: ReactNode;
   children: ReactNode;
   className?: string;
@@ -234,10 +234,6 @@ export interface BadgeItemProps {
   href: string;
   imgSrc: string;
   date: string;
-}
-
-export interface BadgesProps {
-  items?: BadgeItemProps[];
 }
 
 export interface BaseModalProps {

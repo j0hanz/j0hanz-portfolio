@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import { motion } from 'motion/react';
 
+import { BlurText } from '@/components/text-animations';
+
 import { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 import {
@@ -62,13 +64,19 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
           sx={titleInnerSx}
         >
           {project.api && <DnsTwoTone sx={apiIconSx} />}
-          <Box component="span" sx={titleInnerSx}>
-            {project.title}
-          </Box>
+          <BlurText
+            text={project.title}
+            as="span"
+            animateBy="letters"
+            delay={40}
+            direction="bottom"
+            stepDuration={0.2}
+            sx={titleInnerSx}
+          />
           {project.isNew && (
             <Box
               component={motion.span}
-              sx={{ ml: 1, display: 'inline-flex' }}
+              sx={{ ml: 3, display: 'inline-flex' }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={
                 prefersReducedMotion

@@ -73,7 +73,7 @@ export const SIZING = {
   /** Badge minimum width */
   badgeMinWidth: { xs: 38, sm: 43, md: 48, lg: 52 },
   /** Badge height */
-  badgeHeight: { xs: 16, sm: 19, md: 22, lg: 24 },
+  badgeHeight: { xs: 14, sm: 16, md: 20, lg: 22 },
 
   // ---------------------------------------------------------------------------
   // NAVIGATION & TOOLBAR

@@ -16,6 +16,7 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
 import SectionContainer from '@/components/SectionContainer';
+import { SplitText } from '@/components/text-animations';
 import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
@@ -242,7 +243,14 @@ function ContactForm() {
   return (
     <SectionContainer
       id="contact"
-      title={CONTACT_COPY.sectionTitle}
+      title={
+        <SplitText
+          text={CONTACT_COPY.sectionTitle}
+          as="span"
+          splitBy="chars"
+          stagger={0.025}
+        />
+      }
       icon={EmailRounded}
     >
       <Grid container spacing={SPACING.grid}>

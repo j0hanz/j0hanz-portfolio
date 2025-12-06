@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import { motion, type MotionProps } from 'motion/react';
 
+import { BlurText } from '@/components/text-animations';
+
 import { SPACING } from '@/config/responsive';
 import type { CardComponentProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
@@ -107,7 +109,18 @@ function CardBase({
       ) : (
         <Box sx={CARD_CONTENT_SX} data-card-content="true">
           <Typography variant="h5" component="h3" gutterBottom>
-            {title}
+            {typeof title === 'string' && title ? (
+              <BlurText
+                text={title}
+                as="span"
+                animateBy="letters"
+                delay={60}
+                direction="bottom"
+                stepDuration={0.3}
+              />
+            ) : (
+              title
+            )}
           </Typography>
           {subtitle && (
             <Typography variant="body1" component="div" sx={CARD_SUBTITLE_SX}>

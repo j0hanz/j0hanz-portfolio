@@ -3,6 +3,7 @@ import type { JSX, ReactNode } from 'react';
 import { Box, type SxProps, type Theme } from '@mui/material';
 
 import Card from '@/components/Card';
+import { BlurText } from '@/components/text-animations';
 import { IconBadgeList } from '@/components/IconBadge';
 import type { TimelineCardProps } from '@/config/types';
 
@@ -39,6 +40,11 @@ function Actions({
   return <Box sx={sx}>{children}</Box>;
 }
 
+// Style for the animated title
+const titleSx: SxProps<Theme> = {
+  fontWeight: 500,
+};
+
 function TimelineCardRoot({
   title,
   metadata,
@@ -46,10 +52,23 @@ function TimelineCardRoot({
   dataAttributes,
   metaDataAttribute,
 }: TimelineCardProps): JSX.Element {
+  // Animated title using BlurText
+  const animatedTitle = (
+    <BlurText
+      text={title}
+      as="span"
+      animateBy="letters"
+      delay={15}
+      direction="bottom"
+      stepDuration={0.20}
+      sx={titleSx}
+    />
+  );
+
   return (
     <Box sx={cardWrapperSx} {...dataAttributes}>
       <Card
-        title={title}
+        title={animatedTitle}
         subtitle={
           <Box
             sx={metaWrapperSx}

@@ -81,10 +81,10 @@ function AboutMeText(): React.JSX.Element {
     <Card title="Overview">
       <BlurText
         text={aboutMeText}
-        delay={30}
-        animateBy="words"
+        delay={5}
+        animateBy="letters"
         direction="bottom"
-        stepDuration={0.3}
+        stepDuration={0.1}
         sx={overviewTextSx}
       />
     </Card>

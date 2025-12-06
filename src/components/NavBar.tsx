@@ -151,7 +151,7 @@ function NavLinks({ onClose }: { onClose?: () => void }) {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const highlightTransition = getTransition('springSmooth', { duration: 0.35 });
+  const highlightTransition = getTransition('springSmooth', { duration: 0.5 });
 
   const handleNavLinkClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -269,16 +269,16 @@ function OffcanvasMenu({
           component={motion.hr}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
           sx={{ originX: 0 }}
         />
 
         <Box sx={drawerFooterSx}>
           <Typography
             component={motion.span}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.5 }}
             variant="overline"
             display="block"
             align="center"
