@@ -40,6 +40,7 @@ export function Parallax({
       ref={ref}
       className={className}
       sx={{ ...sx, willChange: 'transform' }}
+      // Motion requires style prop for motion values (not sx)
       style={{ y, ...style }}
     >
       {children}

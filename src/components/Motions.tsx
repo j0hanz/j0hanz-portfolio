@@ -138,6 +138,7 @@ export function BlinkingCursor({
       component={motion.span}
       aria-hidden="true"
       sx={sx}
+      // Motion requires style prop for motion values (not sx)
       style={{ opacity }}
     />
   );

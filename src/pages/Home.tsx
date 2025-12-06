@@ -26,7 +26,10 @@ function Home(): React.JSX.Element {
       <AnimatePresence initial={false} mode="popLayout" custom={direction}>
         {Component && (
           <PageTransitionWrapper key={activeSectionId}>
-            <ErrorBoundary fallback={<SectionErrorFallback />}>
+            <ErrorBoundary
+              fallback={<SectionErrorFallback />}
+              data-testid="section-error-boundary"
+            >
               <Suspense fallback={<SectionSkeleton />}>
                 <Component />
               </Suspense>

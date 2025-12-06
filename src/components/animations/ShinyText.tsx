@@ -24,5 +24,3 @@ export const ShinyText: React.FC<ShinyTextProps> = ({
     </div>
   );
 };
-
-export default ShinyText;

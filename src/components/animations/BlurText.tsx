@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { motion, Transition } from 'motion/react';
+import { motion, Transition, useReducedMotion } from 'motion/react';
 
 type BlurTextProps = {
   text?: string;
@@ -50,41 +50,40 @@ export const BlurText: React.FC<BlurTextProps> = ({
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (!ref.current) return;
+    // Capture element reference locally to prevent stale ref in callback
+    const element = ref.current;
+    if (!element) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          observer.unobserve(ref.current as Element);
+          observer.unobserve(element);
         }
       },
       { threshold, rootMargin }
     );
-    observer.observe(ref.current);
+    observer.observe(element);
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
 
-  const defaultFrom = useMemo(
-    () =>
-      direction === 'top'
-        ? { filter: 'blur(8px)', opacity: 0, y: -30 }
-        : { filter: 'blur(8px)', opacity: 0, y: 30 },
-    [direction]
-  );
+  // React Compiler handles memoization - no useMemo needed
+  const defaultFrom =
+    direction === 'top'
+      ? { filter: 'blur(8px)', opacity: 0, y: -30 }
+      : { filter: 'blur(8px)', opacity: 0, y: 30 };
 
-  const defaultTo = useMemo(
-    () => [
-      {
-        filter: 'blur(4px)',
-        opacity: 0.6,
-        y: direction === 'top' ? 3 : -3,
-      },
-      { filter: 'blur(0px)', opacity: 1, y: 0 },
-    ],
-    [direction]
-  );
+  const defaultTo = [
+    {
+      filter: 'blur(4px)',
+      opacity: 0.6,
+      y: direction === 'top' ? 3 : -3,
+    },
+    { filter: 'blur(0px)', opacity: 1, y: 0 },
+  ];
 
   const fromSnapshot = animationFrom ?? defaultFrom;
   const toSnapshots = animationTo ?? defaultTo;
@@ -95,8 +94,23 @@ export const BlurText: React.FC<BlurTextProps> = ({
     stepCount === 1 ? 0 : i / (stepCount - 1)
   );
 
+  // Respect reduced motion preferences (WCAG 2.1)
+  if (prefersReducedMotion) {
+    return (
+      <div ref={ref} className={className}>
+        {elements.map((segment, index) => (
+          <span key={index} style={{ display: 'inline-block' }}>
+            {segment === ' ' ? '\u00A0' : segment}
+            {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
+          </span>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div ref={ref} className={className}>
+      {/* Index as key is safe - elements array is static (derived from text prop) */}
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 

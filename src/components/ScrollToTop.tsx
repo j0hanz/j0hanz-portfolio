@@ -108,6 +108,7 @@ function ScrollToTop(): React.JSX.Element {
               stroke="currentColor"
               strokeWidth="4"
               strokeLinecap="round"
+              // Motion requires style prop for motion values (not sx)
               style={{
                 pathLength: pathProgress,
                 rotate: -90,

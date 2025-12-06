@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  ElementType,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ElementType, useEffect, useRef, useState } from 'react';
 
 import { gsap } from 'gsap';
 
@@ -63,16 +56,8 @@ export const TextType = ({
   const cursorRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const textArray = useMemo(
-    () => (Array.isArray(text) ? text : [text]),
-    [text]
-  );
-
-  const getRandomSpeed = useCallback(() => {
-    if (!variableSpeed) return typingSpeed;
-    const { min, max } = variableSpeed;
-    return Math.random() * (max - min) + min;
-  }, [variableSpeed, typingSpeed]);
+  // Derive text array inline - React Compiler handles optimization
+  const textArray = Array.isArray(text) ? text : [text];
 
   const getCurrentTextColor = () => {
     if (textColors.length === 0) return;
@@ -115,24 +100,36 @@ export const TextType = ({
 
     let timeout: NodeJS.Timeout;
 
-    const currentText = textArray[currentTextIndex];
+    // Derive values inside effect to satisfy exhaustive-deps
+    const effectTextArray = Array.isArray(text) ? text : [text];
+    const currentText = effectTextArray[currentTextIndex];
     const processedText = reverseMode
       ? currentText.split('').reverse().join('')
       : currentText;
+
+    // Define getRandomSpeed inside effect to avoid dependency issues
+    const getRandomSpeed = () => {
+      if (!variableSpeed) return typingSpeed;
+      const { min, max } = variableSpeed;
+      return Math.random() * (max - min) + min;
+    };
 
     const executeTypingAnimation = () => {
       if (isDeleting) {
         if (displayedText === '') {
           setIsDeleting(false);
-          if (currentTextIndex === textArray.length - 1 && !loop) {
+          if (currentTextIndex === effectTextArray.length - 1 && !loop) {
             return;
           }
 
           if (onSentenceComplete) {
-            onSentenceComplete(textArray[currentTextIndex], currentTextIndex);
+            onSentenceComplete(
+              effectTextArray[currentTextIndex],
+              currentTextIndex
+            );
           }
 
-          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
+          setCurrentTextIndex((prev) => (prev + 1) % effectTextArray.length);
           setCurrentCharIndex(0);
           timeout = setTimeout(() => {}, pauseDuration);
         } else {
@@ -151,8 +148,8 @@ export const TextType = ({
             },
             variableSpeed ? getRandomSpeed() : typingSpeed
           );
-        } else if (textArray.length >= 1) {
-          if (!loop && currentTextIndex === textArray.length - 1) return;
+        } else if (effectTextArray.length >= 1) {
+          if (!loop && currentTextIndex === effectTextArray.length - 1) return;
           timeout = setTimeout(() => {
             setIsDeleting(true);
           }, pauseDuration);
@@ -174,7 +171,7 @@ export const TextType = ({
     typingSpeed,
     deletingSpeed,
     pauseDuration,
-    textArray,
+    text,
     currentTextIndex,
     loop,
     initialDelay,
@@ -182,7 +179,6 @@ export const TextType = ({
     reverseMode,
     variableSpeed,
     onSentenceComplete,
-    getRandomSpeed,
   ]);
 
   const shouldHideCursor =

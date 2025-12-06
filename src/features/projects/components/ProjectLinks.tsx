@@ -11,7 +11,7 @@ import Button from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyWithFeedback } from '@/hooks';
 import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
-import { getCopyMessages } from '@/utils/clipboard';
+import { COPY_MESSAGES } from '@/utils/clipboard';
 
 const actionButtonSx: SxProps<Theme> = {
   height: SIZING.buttonHeightStandard,
@@ -46,7 +46,7 @@ function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
   const { copyWithFeedback } = useCopyWithFeedback();
 
   const handleCopyRepo = async () => {
-    const messages = getCopyMessages('repository');
+    const messages = COPY_MESSAGES.repository;
     await copyWithFeedback(project.github, messages.success, messages.error);
   };
 

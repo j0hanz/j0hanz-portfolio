@@ -24,12 +24,12 @@ import {
 } from '@/hooks';
 import { badgeItems } from '@/lib/data/badges';
 import { SIZING } from '@/styles/shared';
-import { getCopyMessages } from '@/utils/clipboard';
+import { COPY_MESSAGES } from '@/utils/clipboard';
 
 // Computed once at module level
 const CURRENT_YEAR = new Date().getFullYear();
 
-const BADGE_SIZE = { xs: 70, sm: 95, md: 110, lg: 150 };
+const BADGE_SIZE = { xs: 80, sm: 90, md: 120, lg: 140 };
 
 const SOCIAL_LINKS = [
   {
@@ -58,13 +58,6 @@ const iconButtonSx: SxProps<Theme> = {
     borderColor: 'primary.main',
     transform: 'translateY(-2px)',
   },
-};
-
-const sectionLabelSx: SxProps<Theme> = {
-  fontSize: '0.8rem',
-  fontWeight: 500,
-  textTransform: 'uppercase',
-  color: 'text.secondary',
 };
 
 // ============================================================================
@@ -119,7 +112,6 @@ function AwardBadge({
             sx={{
               color: 'text.secondary',
               letterSpacing: 1.5,
-              fontWeight: 500,
               fontSize: { xs: '0.65rem', sm: '0.7rem' },
             }}
           >
@@ -137,7 +129,7 @@ function ContactSection() {
   const { prefersReducedMotion } = useAnimationConfig();
 
   const handleCopy = async () => {
-    const msg = getCopyMessages('email');
+    const msg = COPY_MESSAGES.email;
     await copyWithFeedback(CONTACT_CONFIG.EMAIL, msg.success, msg.error);
   };
 
@@ -146,11 +138,10 @@ function ContactSection() {
       direction={{ xs: 'column', sm: 'row' }}
       justifyContent="space-between"
       alignItems={{ xs: 'center', sm: 'flex-end' }}
-      gap={{ xs: 3, sm: 2 }}
+      gap={{ xs: 4, sm: 2 }}
     >
       {/* Email */}
       <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-        <Typography sx={sectionLabelSx}>Email</Typography>
         <Stack direction="row" alignItems="center" gap={2}>
           <Link
             href={`mailto:${CONTACT_CONFIG.EMAIL}`}
@@ -158,6 +149,7 @@ function ContactSection() {
               display: 'flex',
               alignItems: 'center',
               gap: 1,
+              mr: 1,
               color: 'text.secondary',
               textDecoration: 'none',
               transition: 'color 0.2s ease',
@@ -197,14 +189,15 @@ function ContactSection() {
           variant="caption"
           sx={{
             color: 'text.secondary',
-            fontSize: '0.8rem',
+            letterSpacing: 0.5,
+            fontSize: '0.9rem',
             display: 'flex',
             alignItems: 'center',
           }}
         >
           <ShinyText
             text={`© ${CURRENT_YEAR} Linus Johansson`}
-            speed={8}
+            speed={3}
             disabled={prefersReducedMotion}
           />
         </Typography>
@@ -212,7 +205,6 @@ function ContactSection() {
 
       {/* Social Links */}
       <Box sx={{ textAlign: { xs: 'center', sm: 'right' } }}>
-        <Typography sx={sectionLabelSx}>Connect</Typography>
         <Stack
           direction="row"
           gap={4}
@@ -310,17 +302,18 @@ function Footer() {
           variant="caption"
           sx={{
             display: { xs: 'flex', sm: 'none' },
+            letterSpacing: 0.5,
             justifyContent: 'center',
             alignItems: 'center',
             gap: 1,
             color: 'text.secondary',
             mt: { xs: 6, md: 0 },
-            fontSize: '0.7rem',
+            fontSize: '0.8rem',
           }}
         >
           <ShinyText
             text={`© ${CURRENT_YEAR} Linus Johansson`}
-            speed={8}
+            speed={3}
             disabled={prefersReducedMotion}
           />
         </Typography>

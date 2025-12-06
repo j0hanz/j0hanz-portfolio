@@ -36,13 +36,7 @@ import {
   timelineCardWrapperSx,
   timelineDescriptionWrapperSx,
 } from '@/styles/shared';
-import {
-  buildItemKey,
-  compactMetadata,
-  createDurationMeta,
-  createSchoolMeta,
-  createWorkplaceMeta,
-} from '@/utils/metadata';
+import { buildItemKey, compactMetadata, createMeta } from '@/utils/metadata';
 
 import Credential from './Credential';
 
@@ -80,11 +74,11 @@ const buildExperienceMetadata = (
 ): IconBadgeMetaItem[] => {
   const baseMeta =
     experience.type === 'education'
-      ? createSchoolMeta(experience.school)
-      : createWorkplaceMeta(experience.workplace);
+      ? createMeta('school', experience.school)
+      : createMeta('workplace', experience.workplace);
 
   const durationMeta = includeDuration
-    ? createDurationMeta(experience.duration)
+    ? createMeta('duration', experience.duration)
     : null;
 
   return compactMetadata([baseMeta, durationMeta]);

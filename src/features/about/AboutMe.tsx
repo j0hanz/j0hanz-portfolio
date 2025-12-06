@@ -153,10 +153,8 @@ function CardItem({
       component={motion.div}
       custom={index}
       {...cardMotion}
-      style={{
-        // Disable parallax transforms on mobile to prevent scroll conflicts
-        y: prefersReducedMotion || isMobile ? 0 : yTransform,
-      }}
+      // Motion requires style prop for motion values (not sx)
+      style={{ y: prefersReducedMotion || isMobile ? 0 : yTransform }}
       sx={{
         height: 1, // = 100%
         width: 1, // = 100%

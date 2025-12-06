@@ -58,35 +58,19 @@ const badgeConfig = [
   },
 ] satisfies BadgeConfig[];
 
-const repoPathCache = new Map<string, string | null>();
-const projectMetaCache = new WeakMap<Project, ProjectMeta>();
-
 const extractRepoPath = (githubUrl: string): string | null => {
-  const cached = repoPathCache.get(githubUrl);
-  if (cached !== undefined) {
-    return cached;
-  }
-
   try {
     const parsedUrl = new URL(githubUrl);
     if (parsedUrl.hostname !== 'github.com') {
-      repoPathCache.set(githubUrl, null);
       return null;
     }
-
-    const repoPath = parsedUrl.pathname.replace(/^\/+/, '');
-    repoPathCache.set(githubUrl, repoPath);
-    return repoPath;
+    return parsedUrl.pathname.replace(/^\/+/, '');
   } catch {
-    repoPathCache.set(githubUrl, null);
     return null;
   }
 };
 
 export const getProjectMeta = (project: Project): ProjectMeta => {
-  const cachedMeta = projectMetaCache.get(project);
-  if (cachedMeta) return cachedMeta;
-
   const {
     github,
     projectBoard = false,
@@ -101,11 +85,9 @@ export const getProjectMeta = (project: Project): ProjectMeta => {
     return config.flag === hackathonType;
   });
 
-  const meta: ProjectMeta = {
+  return {
     repoPath,
     badges,
     hasProjectBoard: projectBoard,
   };
-  projectMetaCache.set(project, meta);
-  return meta;
 };

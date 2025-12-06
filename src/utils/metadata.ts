@@ -23,20 +23,14 @@ const isPresent = (value: MetaValue): value is string =>
   typeof value === 'string' && value.trim().length > 0;
 
 // Unified metadata factory
-function createMeta(type: MetaType, text: MetaValue): IconBadgeMetaItem | null {
+export function createMeta(
+  type: MetaType,
+  text: MetaValue
+): IconBadgeMetaItem | null {
   if (!isPresent(text)) return null;
 
   return { id: type, icon: META_ICONS[type], text: text.trim() };
 }
-
-export const createWorkplaceMeta = (workplace: MetaValue) =>
-  createMeta('workplace', workplace);
-
-export const createSchoolMeta = (school: MetaValue) =>
-  createMeta('school', school);
-
-export const createDurationMeta = (duration: MetaValue) =>
-  createMeta('duration', duration);
 
 // Remove null metadata entries
 export function compactMetadata(

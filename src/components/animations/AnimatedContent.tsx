@@ -53,6 +53,16 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
     const el = ref.current;
     if (!el) return;
 
+    // Respect reduced motion preferences (WCAG 2.1)
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (prefersReducedMotion) {
+      gsap.set(el, { opacity: 1, visibility: 'visible', x: 0, y: 0, scale: 1 });
+      onComplete?.();
+      return;
+    }
+
     const axis = direction === 'horizontal' ? 'x' : 'y';
     const offset = reverse ? -distance : distance;
 
@@ -118,6 +128,7 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
       return () => {
         observer.disconnect();
         tl.kill();
+        gsap.killTweensOf(el);
       };
     }
 
