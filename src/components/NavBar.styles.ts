@@ -1,5 +1,5 @@
+import type { SystemStyleObject } from '@mui/system';
 import { SxProps, Theme } from '@mui/material';
-import { SystemStyleObject } from '@mui/system';
 
 import {
   CLIP_ROUNDED,
@@ -43,6 +43,7 @@ export const navLinksListSx: SxProps<Theme> = {
   },
 };
 
+// These use SystemStyleObject because they're used in sx arrays
 export const listItemButtonSx: SystemStyleObject<Theme> = {
   position: 'relative',
   overflow: 'hidden',
@@ -139,9 +140,9 @@ export const connectTextSx: SxProps<Theme> = {
 
 export const navBarContainerSx: SystemStyleObject<Theme> = {
   position: 'fixed',
-  top: (theme) => theme.spacing(1),
-  right: (theme) => theme.spacing(1),
-  zIndex: (theme) => theme.zIndex.appBar,
+  top: (theme: Theme) => theme.spacing(1),
+  right: (theme: Theme) => theme.spacing(1),
+  zIndex: (theme: Theme) => theme.zIndex.appBar,
   bgcolor: 'backdrop.glass',
   borderRadius: 2,
   p: 0.5,

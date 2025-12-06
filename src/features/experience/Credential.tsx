@@ -1,6 +1,5 @@
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
-import { Box, DialogTitle, Stack, Theme } from '@mui/material';
-import { SxProps } from '@mui/system';
+import { Box, DialogTitle, Stack, SxProps, Theme } from '@mui/material';
 
 import ImageCredential from '@/assets/Credential.webp';
 import BaseModal from '@/components/BaseModal';

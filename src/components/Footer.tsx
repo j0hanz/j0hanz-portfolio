@@ -8,12 +8,12 @@ import {
   Container,
   IconButton,
   Stack,
+  SxProps,
   Theme,
   Tooltip,
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { SxProps } from '@mui/system';
 
 import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
 import { SocialLinkList } from '@/components/SocialLinks';
