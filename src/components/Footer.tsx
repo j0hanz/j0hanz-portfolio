@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import { AnimatedContent } from '@/components/animations';
@@ -21,9 +22,8 @@ import { badgeItems } from '@/lib/data/badges';
 import { SIZING } from '@/styles/shared';
 import { getCopyMessages } from '@/utils/clipboard';
 
-// ============================================================================
-// CONSTANTS
-// ============================================================================
+// Computed once at module level
+const CURRENT_YEAR = new Date().getFullYear();
 
 const BADGE_SIZE = { xs: 70, sm: 95, md: 110, lg: 150 };
 
@@ -40,34 +40,28 @@ const SOCIAL_LINKS = [
   },
 ] as const;
 
-// ============================================================================
-// SHARED STYLES
-// ============================================================================
-
-const iconButtonSx = {
+const iconButtonSx: SxProps<Theme> = {
   p: 1,
   color: 'text.secondary',
-  bgcolor: (t: { palette: { action: { hover: string } } }) =>
-    alpha(t.palette.action.hover, 0.04),
+  bgcolor: (t) => alpha(t.palette.action.hover, 0.04),
   backdropFilter: 'blur(8px)',
   border: '1px solid',
   borderColor: 'divider',
   transition: 'all 0.2s ease',
   '&:hover': {
     color: 'primary.main',
-    bgcolor: (t: { palette: { primary: { main: string } } }) =>
-      alpha(t.palette.primary.main, 0.08),
+    bgcolor: (t) => alpha(t.palette.primary.main, 0.08),
     borderColor: 'primary.main',
     transform: 'translateY(-2px)',
   },
-} as const;
+};
 
-const sectionLabelSx = {
+const sectionLabelSx: SxProps<Theme> = {
   fontSize: '0.8rem',
   fontWeight: 500,
   textTransform: 'uppercase',
   color: 'text.secondary',
-} as const;
+};
 
 // ============================================================================
 // COMPONENTS
@@ -81,7 +75,6 @@ function AwardBadge({
   href: string;
   imgSrc: string;
   date: string;
-  index: number;
 }) {
   return (
     <Grid size={GRID.third}>
@@ -202,7 +195,7 @@ function ContactSection() {
             alignItems: 'center',
           }}
         >
-          © {new Date().getFullYear()} Linus Johansson
+          © {CURRENT_YEAR} Linus Johansson
         </Typography>
       </Box>
 
@@ -290,8 +283,8 @@ function Footer() {
             flexWrap: { xs: 'wrap', md: 'nowrap' },
           }}
         >
-          {badgeItems.map((badge, index) => (
-            <AwardBadge key={badge.href} {...badge} index={index} />
+          {badgeItems.map((badge) => (
+            <AwardBadge key={badge.href} {...badge} />
           ))}
         </Grid>
       </Box>
@@ -312,11 +305,11 @@ function Footer() {
             fontSize: '0.7rem',
           }}
         >
-          © {new Date().getFullYear()} Linus Johansson
+          © {CURRENT_YEAR} Linus Johansson
         </Typography>
       </Box>
     </Box>
   );
 }
 
-export default Footer;
+export { Footer };

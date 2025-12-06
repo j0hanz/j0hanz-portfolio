@@ -285,8 +285,8 @@ export const useAnimationPriority = (): AnimationPriority => {
 
 // Content motion states - defined once for reuse
 const CONTENT_VISIBLE = { opacity: 1, y: 0 } as const;
-const CONTENT_ENTER = { opacity: 0, y: 24 } as const;
-const CONTENT_EXIT = { opacity: 0, y: -24 } as const;
+const CONTENT_ENTER = { opacity: 0, y: 20 } as const;
+const CONTENT_EXIT = { opacity: 0, y: -20 } as const;
 
 // Returns motion config for main content transitions
 export function useContentMotion() {
@@ -296,7 +296,7 @@ export function useContentMotion() {
     initial: prefersReducedMotion ? CONTENT_VISIBLE : CONTENT_ENTER,
     animate: CONTENT_VISIBLE,
     exit: prefersReducedMotion ? CONTENT_VISIBLE : CONTENT_EXIT,
-    transition: getTransition('smooth', { duration: 0.55 }),
+    transition: getTransition('smooth', { duration: 0.5 }),
   } as const;
 }
 

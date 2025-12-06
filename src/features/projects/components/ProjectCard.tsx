@@ -7,7 +7,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
-import { LayoutGroup, motion } from 'motion/react';
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 
 import Card from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -18,7 +18,12 @@ import {
   viewportPresets,
 } from '@/config/motion';
 import type { ElementRef, Project } from '@/config/types';
-import { prefetchRepoStats, useInView, useMotionVariant } from '@/hooks';
+import {
+  prefetchRepoStats,
+  useAnimationConfig,
+  useInView,
+  useMotionVariant,
+} from '@/hooks';
 import {
   PROJECT_CARD_ARTICLE_SX,
   PROJECT_CARD_CONTENT_SX,
@@ -35,12 +40,28 @@ const descriptionSx: SxProps<Theme> = {
   flex: 'none',
 };
 
+// Content fade variants for smooth skeleton-to-content transition
+const contentFadeVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
 // Card content that triggers Suspense when stats are loading
 function CardContent({ project }: { project: Project }): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
+  const { getTransition } = useAnimationConfig();
 
   return (
-    <Stack component="article" sx={PROJECT_CARD_ARTICLE_SX}>
+    <Stack
+      component={motion.article}
+      variants={contentFadeVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={getTransition('smooth', { duration: 0.25 })}
+      sx={PROJECT_CARD_ARTICLE_SX}
+    >
       <Stack spacing={2} sx={PROJECT_CARD_CONTENT_SX}>
         <ProjectHeader project={project} />
         <Typography sx={descriptionSx}>{project.description}</Typography>
@@ -92,9 +113,11 @@ export function ProjectCard({
       >
         <Card title="" noContentPadding>
           <ErrorBoundary fallback={<ProjectCardSkeleton />}>
-            <Suspense fallback={<ProjectCardSkeleton />}>
-              <CardContent project={project} />
-            </Suspense>
+            <AnimatePresence mode="wait">
+              <Suspense fallback={<ProjectCardSkeleton />}>
+                <CardContent project={project} />
+              </Suspense>
+            </AnimatePresence>
           </ErrorBoundary>
         </Card>
       </Box>

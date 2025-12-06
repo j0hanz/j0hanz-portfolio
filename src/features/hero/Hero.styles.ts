@@ -9,7 +9,8 @@ export const heroNameStyles: SxProps<Theme> = {
   fontWeight: 500,
   lineHeight: 1,
   justifyContent: 'flex-start',
-  letterSpacing: { xs: 0, sm: 1, md: 2, lg: 3 },
+  letterSpacing: { xs: 2, sm: 3, md: 6, lg: 8 },
+  marginY: { xs: 2, lg: 2 },
 };
 
 // Cursor for typing effect - uses transform for hardware acceleration

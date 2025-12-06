@@ -74,10 +74,9 @@ function AboutMeText(): React.JSX.Element {
     <Card title="Overview">
       <BlurText
         text={aboutMeText}
-        delay={5}
+        delay={2}
         animateBy="letters"
         direction="bottom"
-        className="about-me-text"
       />
     </Card>
   );
@@ -199,7 +198,13 @@ function AboutMe(): React.JSX.Element {
     <SectionContainer
       id="aboutMe"
       title={
-        <SplitText text="About Me" tag="span" splitType="chars" delay={2} />
+        <SplitText
+          text="About Me"
+          splitType="words"
+          delay={100}
+          duration={0.1}
+          ease="power3.out"
+        />
       }
       icon={PersonOutlined}
     >

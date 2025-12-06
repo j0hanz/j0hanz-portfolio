@@ -45,11 +45,11 @@ export const BlurText: React.FC<BlurTextProps> = ({
   animationTo,
   easing = (t: number) => t,
   onAnimationComplete,
-  stepDuration = 0.35,
+  stepDuration = 0.2,
 }) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLParagraphElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -69,17 +69,17 @@ export const BlurText: React.FC<BlurTextProps> = ({
   const defaultFrom = useMemo(
     () =>
       direction === 'top'
-        ? { filter: 'blur(10px)', opacity: 0, y: -50 }
-        : { filter: 'blur(10px)', opacity: 0, y: 50 },
+        ? { filter: 'blur(8px)', opacity: 0, y: -30 }
+        : { filter: 'blur(8px)', opacity: 0, y: 30 },
     [direction]
   );
 
   const defaultTo = useMemo(
     () => [
       {
-        filter: 'blur(5px)',
-        opacity: 0.5,
-        y: direction === 'top' ? 5 : -5,
+        filter: 'blur(4px)',
+        opacity: 0.6,
+        y: direction === 'top' ? 3 : -3,
       },
       { filter: 'blur(0px)', opacity: 1, y: 0 },
     ],
@@ -96,11 +96,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
   );
 
   return (
-    <p
-      ref={ref}
-      className={className}
-      style={{ display: 'flex', flexWrap: 'wrap' }}
-    >
+    <span ref={ref} className={className}>
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
@@ -130,7 +126,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
           </motion.span>
         );
       })}
-    </p>
+    </span>
   );
 };
 

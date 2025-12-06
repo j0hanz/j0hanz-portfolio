@@ -129,10 +129,10 @@ export const transitions = {
 // ============================================================================
 
 // Common animation values
-const FADE_Y_SMALL = 10;
-const FADE_Y_MEDIUM = 36;
-const FADE_Y_LARGE = 48;
-const FADE_Y_EXIT = 18;
+const FADE_Y_SMALL = 8;
+const FADE_Y_MEDIUM = 28;
+const FADE_Y_LARGE = 40;
+const FADE_Y_EXIT = 14;
 
 function createFadeVariant(
   yInitial: number,
@@ -261,29 +261,35 @@ export function createStaggerContainer(
 }
 
 export const staggerItemVariant: Variants = {
-  initial: { opacity: 0, y: 28, scale: 0.96 },
+  initial: { opacity: 0, y: 20, scale: 0.97 },
   animate: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
       type: 'spring' as const,
-      stiffness: 280,
-      damping: 24,
+      stiffness: 220,
+      damping: 22,
+      mass: 0.9,
     },
   },
-  exit: { opacity: 0, y: -14, scale: 0.94 },
+  exit: { opacity: 0, y: -10, scale: 0.96 },
 };
 
 export const staggerItemVariantMobile: Variants = {
-  initial: { opacity: 0, y: 28, scale: 0.96 },
+  initial: { opacity: 0, y: 20, scale: 0.97 },
   animate: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: 'spring' as const, stiffness: 280, damping: 24 },
+    transition: {
+      type: 'spring' as const,
+      stiffness: 220,
+      damping: 22,
+      mass: 0.9,
+    },
   },
-  exit: { opacity: 0, y: -14, scale: 0.94 },
+  exit: { opacity: 0, y: -10, scale: 0.96 },
 };
 
 // ============================================================================
@@ -365,58 +371,58 @@ export const navVariants = {
 
 // Note: Blur filter removed for performance - use cardEntranceVariantsMobile pattern
 export const cardEntranceVariants = {
-  hidden: { opacity: 0, y: 44, scale: 0.96 },
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.18,
-      duration: 0.65,
+      delay: i * 0.12,
+      duration: 0.55,
       ease: EASE_OUT_EXPO,
     },
   }),
 };
 
 export const cardEntranceVariantsMobile = {
-  hidden: { opacity: 0, y: 44, scale: 0.96 },
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.18,
-      duration: 0.65,
+      delay: i * 0.12,
+      duration: 0.55,
       ease: EASE_OUT_EXPO,
     },
   }),
 };
 
 export const listItemStaggerVariants = {
-  hidden: { opacity: 0, y: 22, x: -8 },
+  hidden: { opacity: 0, y: 16, x: -6 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     x: 0,
     transition: {
-      delay: i * 0.1,
-      duration: 0.5,
+      delay: i * 0.08,
+      duration: 0.45,
       ease: EASE_OUT_EXPO,
     },
   }),
 };
 
 export const buttonPopVariants = {
-  hidden: { opacity: 0, scale: 0.75, y: 10 },
+  hidden: { opacity: 0, scale: 0.8, y: 8 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
     transition: {
-      delay: 0.4,
+      delay: 0.3,
       type: 'spring' as const,
-      stiffness: 380,
-      damping: 20,
+      stiffness: 350,
+      damping: 22,
       mass: 0.8,
     },
   },
@@ -428,27 +434,27 @@ export const buttonPopVariants = {
 
 export const formFieldVariants = {
   field: {
-    hidden: { opacity: 0, y: 24, x: -8 },
+    hidden: { opacity: 0, y: 20, x: -6 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       x: 0,
       transition: {
-        delay: i * 0.08,
-        duration: 0.55,
+        delay: i * 0.06,
+        duration: 0.5,
         ease: EASE_OUT_EXPO,
       },
     }),
   },
   action: {
-    hidden: { opacity: 0, y: 32, scale: 0.95 },
+    hidden: { opacity: 0, y: 24, scale: 0.96 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        delay: 0.4,
-        duration: 0.6,
+        delay: 0.3,
+        duration: 0.5,
         ease: EASE_OUT_EXPO,
       },
     },
@@ -540,17 +546,17 @@ export const modalVariants = {
 
 export const staggerContainerVariants = {
   initial: { opacity: 0 },
-  animate: (stagger = 0.07) => ({
+  animate: (stagger = 0.06) => ({
     opacity: 1,
     transition: {
       staggerChildren: stagger,
-      delayChildren: 0.08,
+      delayChildren: 0.05,
       when: 'beforeChildren',
     },
   }),
 };
 
-export const staggerContainerNormal = createStaggerContainer(0.07);
+export const staggerContainerNormal = createStaggerContainer(0.06);
 
 export const pageTransitionVariants = {
   enter: (direction: 'up' | 'down' | null) => ({
@@ -575,28 +581,28 @@ export const pageTransitionVariants = {
 // ============================================================================
 
 export const timelineCardVariants = {
-  hidden: { opacity: 0, y: 68, scale: 0.93 },
+  hidden: { opacity: 0, y: 48, scale: 0.95 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.14,
-      duration: 0.75,
+      delay: i * 0.1,
+      duration: 0.6,
       ease: EASE_OUT_QUINT,
     },
   }),
 };
 
 export const timelineDescriptionVariants = {
-  hidden: { opacity: 0, x: -24, y: 4 },
+  hidden: { opacity: 0, x: -16, y: 4 },
   visible: (i: number) => ({
     opacity: 1,
     x: 0,
     y: 0,
     transition: {
-      delay: 0.3 + i * 0.07,
-      duration: 0.5,
+      delay: 0.2 + i * 0.06,
+      duration: 0.45,
       ease: EASE_IN_OUT_CUBIC,
     },
   }),

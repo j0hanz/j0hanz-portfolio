@@ -1,5 +1,7 @@
 import { Box, Skeleton, Stack, type SxProps, type Theme } from '@mui/material';
+import { motion } from 'motion/react';
 
+import { useAnimationConfig } from '@/hooks';
 import {
   CLIP_ROUNDED,
   PROJECT_CARD_ARTICLE_SX,
@@ -24,6 +26,22 @@ export function SectionSkeleton(): React.JSX.Element {
   );
 }
 
+// Title sx matching ProjectHeader titleSx
+const titleSx: SxProps<Theme> = {
+  fontSize: (theme) => theme.typography.h6.fontSize,
+};
+
+// Description sx matching CardContent descriptionSx
+const descriptionSx: SxProps<Theme> = {
+  flex: 'none',
+};
+
+// Container matching ProjectTechStack containerSx exactly
+const chipContainerSx: SxProps<Theme> = {
+  transform: SKEW_TRANSFORM,
+  flex: 'none',
+};
+
 // Chip skeleton sx matching ProjectTechStack chipSx exactly
 const chipSx: SxProps<Theme> = {
   mr: { xs: 0.75, sm: 0.875, md: 1 },
@@ -33,19 +51,24 @@ const chipSx: SxProps<Theme> = {
   display: 'inline-block',
 };
 
-// Container matching ProjectTechStack containerSx exactly
-const chipContainerSx: SxProps<Theme> = {
-  transform: SKEW_TRANSFORM,
+// Stats container matching ProjectStats containerSx
+const statsContainerSx: SxProps<Theme> = {
+  position: 'relative',
   flex: 'none',
 };
 
-// Button skeleton matching actionButtonSx height from ProjectLinks
+// Button skeleton matching actionButtonSx from ProjectLinks
 const buttonSx: SxProps<Theme> = {
   height: SIZING.buttonHeightStandard,
   borderRadius: 1,
 };
 
-// Stat row skeleton - matches ProjectStats AnimatedStat layout
+// Grid sx matching ProjectLinks gridSx
+const actionGridSx: SxProps<Theme> = {
+  mt: { xs: 1, md: 1.5 },
+};
+
+// Stat row skeleton - matches ProjectStats AnimatedStat layout exactly
 function StatRow({ width = 44 }: { width?: number }): React.JSX.Element {
   return (
     <Stack direction="row" alignItems="center" spacing={1.5}>
@@ -63,27 +86,30 @@ function StatRow({ width = 44 }: { width?: number }): React.JSX.Element {
   );
 }
 
-// Project card skeleton matching actual CardContent layout
+// Project card skeleton matching actual ProjectCard/CardContent layout exactly
 export function ProjectCardSkeleton(): React.JSX.Element {
+  const { getTransition } = useAnimationConfig();
+
   return (
     <Stack
-      component="article"
+      component={motion.article}
+      key="project-skeleton"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={getTransition('smooth', { duration: 0.2 })}
       sx={PROJECT_CARD_ARTICLE_SX}
       role="status"
       aria-label="Loading project"
     >
       <Stack spacing={2} sx={PROJECT_CARD_CONTENT_SX}>
-        {/* Header - matches ProjectHeader: title + icon */}
+        {/* Header - matches ProjectHeader: title row with icon */}
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Skeleton
-            variant="text"
-            width="60%"
-            sx={{ fontSize: (theme) => theme.typography.h6.fontSize }}
-          />
+          <Skeleton variant="text" width="60%" sx={titleSx} />
           <Skeleton
             variant="circular"
             sx={{
@@ -94,11 +120,13 @@ export function ProjectCardSkeleton(): React.JSX.Element {
           />
         </Stack>
 
-        {/* Description - matches Typography descriptionSx */}
-        <Skeleton variant="text" width="100%" />
-        <Skeleton variant="text" width="85%" />
+        {/* Description - matches Typography with descriptionSx */}
+        <Box sx={descriptionSx}>
+          <Skeleton variant="text" width="100%" />
+          <Skeleton variant="text" width="85%" />
+        </Box>
 
-        {/* Tech stack - inline chips matching ProjectTechStack */}
+        {/* Tech stack - matches ProjectTechStack with chips */}
         <Box sx={chipContainerSx}>
           {[52, 68, 44, 76, 58, 48].map((w, i) => (
             <Skeleton
@@ -111,15 +139,15 @@ export function ProjectCardSkeleton(): React.JSX.Element {
           ))}
         </Box>
 
-        {/* Stats - 2 rows (Stars, Forks) matching ProjectStats */}
-        <Stack spacing={1.5} alignItems="flex-start" sx={{ flex: 'none' }}>
+        {/* Stats - matches ProjectStats (Stars, Forks rows) */}
+        <Stack spacing={1.5} alignItems="flex-start" sx={statsContainerSx}>
           <StatRow width={40} />
           <StatRow width={38} />
         </Stack>
       </Stack>
 
       {/* Actions - matches ProjectLinks gridSx + buttonStackSx */}
-      <Box sx={{ mt: { xs: 1, md: 1.5 } }}>
+      <Box sx={actionGridSx}>
         <Stack
           direction="row"
           justifyContent="space-between"

@@ -33,7 +33,7 @@ const PAGE_TRANSITION_SX = {
 // Container that staggers child animations
 export function StaggerContainer({
   children,
-  stagger = 0.07,
+  stagger = 0.06,
   className,
   style,
   sx,
@@ -56,7 +56,7 @@ export function StaggerContainer({
       sx={sx}
       initial="initial"
       whileInView="animate"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.1 }}
       variants={staggerContainerVariants}
       custom={stagger}
     >

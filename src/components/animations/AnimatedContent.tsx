@@ -31,16 +31,16 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
   distance = 100,
   direction = 'vertical',
   reverse = false,
-  duration = 0.8,
-  ease = 'power3.out',
+  duration = 0.7,
+  ease = 'power2.out',
   initialOpacity = 0,
   animateOpacity = true,
-  scale = 1,
+  scale = 0.98,
   threshold = 0.1,
-  delay = 0,
+  delay = 0.15,
   disappearAfter = 0,
   disappearDuration = 0.5,
-  disappearEase = 'power3.in',
+  disappearEase = 'power2.in',
   onComplete,
   onDisappearanceComplete,
   className = '',
@@ -53,17 +53,10 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
     const el = ref.current;
     if (!el) return;
 
-    let scrollerTarget: Element | string | null =
-      container || document.getElementById('snap-main-container') || null;
-
-    if (typeof scrollerTarget === 'string') {
-      scrollerTarget = document.querySelector(scrollerTarget);
-    }
-
     const axis = direction === 'horizontal' ? 'x' : 'y';
     const offset = reverse ? -distance : distance;
-    const startPct = (1 - threshold) * 100;
 
+    // Set initial state
     gsap.set(el, {
       [axis]: offset,
       scale,
@@ -71,11 +64,12 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
       visibility: 'visible',
     });
 
+    // Create animation timeline
     const tl = gsap.timeline({
       paused: true,
       delay,
       onComplete: () => {
-        if (onComplete) onComplete();
+        onComplete?.();
 
         if (disappearAfter > 0) {
           gsap.to(el, {
@@ -99,9 +93,39 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
       ease,
     });
 
+    // Determine scroll container
+    let scrollerTarget: Element | string | null =
+      container || document.getElementById('snap-main-container') || null;
+
+    if (typeof scrollerTarget === 'string') {
+      scrollerTarget = document.querySelector(scrollerTarget);
+    }
+
+    // Use IntersectionObserver for full-page scroll (no scroller) or ScrollTrigger otherwise
+    if (!scrollerTarget) {
+      // No scrollable container - use IntersectionObserver to trigger on visibility
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            tl.play();
+            observer.disconnect();
+          }
+        },
+        { threshold, rootMargin: '0px' }
+      );
+      observer.observe(el);
+
+      return () => {
+        observer.disconnect();
+        tl.kill();
+      };
+    }
+
+    // Traditional scrollable container - use ScrollTrigger
+    const startPct = (1 - threshold) * 100;
     const st = ScrollTrigger.create({
       trigger: el,
-      scroller: scrollerTarget || window,
+      scroller: scrollerTarget,
       start: `top ${startPct}%`,
       once: true,
       onEnter: () => tl.play(),

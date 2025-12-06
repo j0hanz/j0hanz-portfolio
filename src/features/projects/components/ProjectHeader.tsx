@@ -68,7 +68,6 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
             animateBy="words"
             direction="bottom"
             stepDuration={0.2}
-            className="project-title-blur"
           />
           {project.isNew && (
             <Box

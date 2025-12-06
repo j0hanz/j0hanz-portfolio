@@ -111,8 +111,7 @@ function CardBase({
             {typeof title === 'string' && title ? (
               <BlurText
                 text={title}
-                animateBy="letters"
-                delay={60}
+                animateBy="words"
                 direction="bottom"
                 stepDuration={0.3}
               />

@@ -23,7 +23,9 @@ const ContactForm = lazy(() =>
     default: m.ContactForm,
   }))
 );
-const Footer = lazy(() => import('@/components/Footer'));
+const Footer = lazy(() =>
+  import('@/components/Footer').then((m) => ({ default: m.Footer }))
+);
 
 export const sections: Section[] = [
   {
