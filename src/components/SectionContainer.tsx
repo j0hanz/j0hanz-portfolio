@@ -125,6 +125,7 @@ function SectionContainerBase({
   headingLevel = 'h2',
   subtitle,
   headerActions,
+  maxWidth = false,
 }: SectionContainerProps): JSX.Element {
   return (
     <Box
@@ -133,7 +134,7 @@ function SectionContainerBase({
       className={className}
       sx={[sectionCenteredSx, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
     >
-      <Container maxWidth={false} sx={containerPaddingSx}>
+      <Container maxWidth={maxWidth} sx={containerPaddingSx}>
         <AnimatedContent distance={40} delay={0.05}>
           <SectionHeader icon={Icon} headingLevel={headingLevel}>
             {title}

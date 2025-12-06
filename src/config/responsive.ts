@@ -24,8 +24,8 @@ export const SPACING = {
   stack: { xs: 1.5, md: 2 },
   /** Section header margin bottom */
   headerMargin: { xs: 3, md: 4 },
-  /** Container horizontal padding - reduced on xs to maximize content width */
-  containerPadding: { xs: 0.5 },
+  /** Container horizontal padding - increased on xs for safe area (16px) */
+  containerPadding: { xs: 1, sm: 2, md: 4 },
   /** Form field gaps */
   formField: { xs: 1.25, md: 2 },
 } as const satisfies Record<string, ResponsiveValue<number>>;
@@ -53,8 +53,8 @@ export const GRID = {
 // ============================================================================
 
 export const SIZE = {
-  /** Profile image dimensions */
-  profileImage: { xs: 200, sm: 240, md: 280, lg: 340, xl: 400 },
+  /** Profile image dimensions - optimized for Hero section */
+  profileImage: { xs: 225, sm: 260, md: 300, lg: 400, xl: 450 },
   /** Credential badge dimensions (pixels for fixed image sizing) */
   badge: { xs: 80, sm: 95, md: 105, lg: 120, xl: 140 },
   /** Credential hover text size (uses h4/h3 scale) */
@@ -79,6 +79,6 @@ export const FONT_SIZE = {
   heroTitle: 'clamp(2rem, 4vw + 1rem, 3.5rem)',
   /** Hero subtitle - fluid scaling (clamp for smooth responsive) */
   heroSubtitle: 'clamp(0.95rem, 2vw + 0.5rem, 1.4rem)',
-  /** Section headings - maps to theme h3 variant */
-  sectionTitle: 'h3.fontSize',
+  /** Section headings - fluid scaling (clamp) instead of static h3 */
+  sectionTitle: 'clamp(2rem, 3vw + 1rem, 3rem)',
 } as const;

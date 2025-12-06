@@ -1,6 +1,6 @@
 import { alpha, SxProps, Theme } from '@mui/material';
 
-import { FONT_SIZE, SPACING } from '@/config/responsive';
+import { FONT_SIZE, SIZE, SPACING } from '@/config/responsive';
 import { CLIP_ROUNDED, LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 
 // Hero name animation styles - converted to SxProps for MUI compatibility
@@ -46,14 +46,11 @@ export const containerSx: SxProps<Theme> = {
   px: 0,
 };
 
-// Profile image responsive dimensions - shared between wrapper and image
-const PROFILE_SIZE = { xs: 225, sm: 260, md: 300, lg: 400 };
-
 export const profileWrapperSx: SxProps<Theme> = {
   position: 'relative',
   display: 'inline-flex',
-  width: PROFILE_SIZE,
-  height: PROFILE_SIZE,
+  width: SIZE.profileImage,
+  height: SIZE.profileImage,
   mb: { xs: 3, sm: 2.5, md: 0 },
 };
 
