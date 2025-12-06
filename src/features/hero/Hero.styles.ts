@@ -34,7 +34,9 @@ export const sectionSx: SxProps<Theme> = {
 };
 
 export const heroCardSx: SxProps<Theme> = {
-  p: SPACING.card,
+  px: SPACING.card,
+  pt: { xs: 1, sm: 1.5, md: 2 },
+  pb: SPACING.card,
 };
 
 export const containerSx: SxProps<Theme> = {

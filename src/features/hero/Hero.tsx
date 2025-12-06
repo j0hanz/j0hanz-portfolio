@@ -89,7 +89,6 @@ function Hero(): React.JSX.Element {
                 <StaggerContainer stagger={0.1}>
                   <TextReveal
                     text={HERO_NAME}
-                    as="h1"
                     splitBy="char"
                     sx={{
                       '& span': {
@@ -101,7 +100,6 @@ function Hero(): React.JSX.Element {
                     }}
                   />
                   <Typography
-                    variant="h2"
                     component={motion.h2}
                     {...subtitleMotion}
                     transition={getTransition('easeInOut', {
@@ -114,7 +112,7 @@ function Hero(): React.JSX.Element {
                     {!prefersReducedMotion && <BlinkingCursor sx={cursorSx} />}
                   </Typography>
                   <Stack
-                    direction="column"
+                    direction={{ xs: 'column', lg: 'row' }}
                     spacing={2}
                     alignItems="flex-start"
                     sx={buttonsStackSx}
