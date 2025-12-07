@@ -105,13 +105,3 @@ export {
   // Contact mutations
   useContactFormMutation,
 } from '@/utils/query/index';
-
-export { ProfilerWrapper } from '@/components/ProfilerWrapper';
-
-export {
-  getProfilerMetrics,
-  getAverageRenderTime,
-  clearProfilerMetrics,
-  getRenderCount,
-  isExcessiveRerender,
-} from '@/utils/profilerMetrics';

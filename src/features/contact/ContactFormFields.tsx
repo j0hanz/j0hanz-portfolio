@@ -124,26 +124,29 @@ function FormField({
             position="start"
             sx={{
               alignSelf: isTextarea ? 'flex-start' : 'center',
-              mt: isTextarea ? 1.5 : 0,
-              mr: 1,
+              pt: isTextarea ? 0.25 : 0,
+              pr: 0.5,
             }}
           >
-            <Icon sx={{ fontSize: 'h6.fontSize', color: 'action.active' }} />
+            <Icon sx={{ fontSize: 'medium', color: 'action.active' }} />
           </InputAdornment>
         }
         aria-describedby={error ? `${controlId}-error` : undefined}
         sx={{
           mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.25 },
           '&:before': {
-            borderBottom: '2px solid',
+            borderBottom: isTextarea ? 'none' : '2px solid',
             borderBottomColor: 'divider',
           },
           '&:hover:not(.Mui-disabled, .Mui-error):before': {
-            borderBottom: '2px solid',
+            borderBottom: isTextarea ? 'none' : '2px solid',
             borderBottomColor: 'divider',
           },
           '&.Mui-error:before': { borderBottomColor: 'error.main' },
-          '&:after': { borderBottomColor: 'primary.main' },
+          '&:after': {
+            borderBottomColor: 'primary.main',
+            borderBottom: isTextarea ? 'none' : undefined,
+          },
         }}
       />
       {error && (

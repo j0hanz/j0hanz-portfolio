@@ -205,9 +205,9 @@ function ContactFormContent() {
   }, [showSuccess, handleReset]);
 
   return (
-    <Card title="" sx={{ height: 'auto' }}>
+    <Card title="">
       <Box ref={formContainerRef}>
-        <Stack component="form" onSubmit={handleSubmit} noValidate spacing={2}>
+        <Stack component="form" onSubmit={handleSubmit} noValidate spacing={3}>
           <motion.div custom={0} {...fieldMotion} layout>
             <ContactFormFields
               formData={formData}

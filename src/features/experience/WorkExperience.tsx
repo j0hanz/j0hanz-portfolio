@@ -286,4 +286,4 @@ function WorkExperience(): JSX.Element {
   );
 }
 
-export default WorkExperience;
+export { WorkExperience };

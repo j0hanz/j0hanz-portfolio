@@ -70,4 +70,4 @@ function Portfolio(): React.JSX.Element {
   );
 }
 
-export default Portfolio;
+export { Portfolio };

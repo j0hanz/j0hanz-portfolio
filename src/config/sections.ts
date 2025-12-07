@@ -10,13 +10,19 @@ import {
 
 import type { Section } from '@/config/types';
 // Import non-lazy section components used outside of main sections
-import Portfolio from '@/features/projects/Portfolio';
+import { Portfolio } from '@/features/projects/Portfolio';
 
 // Lazy load section components for code splitting
-const Hero = lazy(() => import('@/features/hero/Hero'));
-const AboutMe = lazy(() => import('@/features/about/AboutMe'));
-const WorkExperience = lazy(
-  () => import('@/features/experience/WorkExperience')
+const Hero = lazy(() =>
+  import('@/features/hero/Hero').then((m) => ({ default: m.Hero }))
+);
+const AboutMe = lazy(() =>
+  import('@/features/about/AboutMe').then((m) => ({ default: m.AboutMe }))
+);
+const WorkExperience = lazy(() =>
+  import('@/features/experience/WorkExperience').then((m) => ({
+    default: m.WorkExperience,
+  }))
 );
 const ContactForm = lazy(() =>
   import('@/features/contact/ContactForm').then((m) => ({

@@ -22,40 +22,6 @@ const metricsStore = new Map<string, RenderMetrics[]>();
 const renderCountStore = new Map<string, number>();
 const lastRenderTimeStore = new Map<string, number>();
 
-// Get aggregated metrics for a component
-export function getProfilerMetrics(id: string): RenderMetrics[] {
-  return metricsStore.get(id) ?? [];
-}
-
-// Get average render time for a component
-export function getAverageRenderTime(id: string): number {
-  const metrics = metricsStore.get(id);
-  if (!metrics?.length) return 0;
-  const total = metrics.reduce(
-    (sum, m) => sum + parseFloat(m.actualDuration),
-    0
-  );
-  return total / metrics.length;
-}
-
-// Clear stored metrics
-export function clearProfilerMetrics(id?: string): void {
-  if (id) {
-    metricsStore.delete(id);
-    renderCountStore.delete(id);
-    lastRenderTimeStore.delete(id);
-  } else {
-    metricsStore.clear();
-    renderCountStore.clear();
-    lastRenderTimeStore.clear();
-  }
-}
-
-// Get render count for a component
-export function getRenderCount(id: string): number {
-  return renderCountStore.get(id) ?? 0;
-}
-
 // Check if component is re-rendering excessively (>10 renders in 1s)
 export function isExcessiveRerender(id: string): boolean {
   const metrics = metricsStore.get(id) ?? [];

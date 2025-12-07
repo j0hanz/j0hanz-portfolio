@@ -221,4 +221,4 @@ function AboutMe(): React.JSX.Element {
   );
 }
 
-export default AboutMe;
+export { AboutMe };

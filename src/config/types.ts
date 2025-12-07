@@ -18,10 +18,6 @@ import {
 } from '@mui/material';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
 import type {
-  AnimationOptions,
-  AnimationPlaybackControls,
-  DOMKeyframesDefinition,
-  ElementOrSelector,
   MotionProps,
   MotionValue,
   Target,
@@ -385,20 +381,6 @@ export interface AnimationConfig {
     state?: T,
     fallback?: T
   ) => T;
-}
-
-export type SequenceAnimator = (
-  target: ElementOrSelector,
-  keyframes: DOMKeyframesDefinition,
-  options?: AnimationOptions
-) => AnimationPlaybackControls;
-
-export interface AnimationSequenceControls {
-  scopeRef: (node: Element | null) => void;
-  runSequence: (
-    builder: (animate: SequenceAnimator) => Promise<void> | void
-  ) => Promise<void>;
-  isAnimating: boolean;
 }
 
 export type AnimationPriority = 'high' | 'reduced';

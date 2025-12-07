@@ -165,4 +165,4 @@ function Hero(): React.JSX.Element {
   );
 }
 
-export default Hero;
+export { Hero };

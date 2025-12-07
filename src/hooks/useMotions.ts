@@ -1,9 +1,8 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 import {
   animate,
   frame,
-  useAnimate,
   useInView as useMotionInView,
   useReducedMotion as useMotionReducedMotion,
   useMotionValue,
@@ -13,7 +12,6 @@ import {
   useVelocity,
 } from 'motion/react';
 import type {
-  AnimationPlaybackControls,
   Target,
   UseInViewOptions,
   UseScrollOptions,
@@ -32,9 +30,7 @@ import {
 import type {
   AnimationConfig,
   AnimationPriority,
-  AnimationSequenceControls,
   CardHoverMotion,
-  SequenceAnimator,
   TimelineSectionControllerOptions,
 } from '@/config/types';
 import {
@@ -204,71 +200,6 @@ export function useInView(
 // ANIMATION SEQUENCING
 // ============================================================================
 
-// Helper to extract scope element
-function getScopeElement(
-  scope: ReturnType<typeof useAnimate>[0]
-): Element | null {
-  if (typeof scope === 'object' && scope && 'current' in scope) {
-    return scope.current;
-  }
-  return null;
-}
-
-// Orchestrates complex animation sequences with cleanup
-function useAnimationSequence(): AnimationSequenceControls {
-  const [scope, animate] = useAnimate();
-  const controlsRef = useRef<AnimationPlaybackControls[]>([]);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  useEffect(() => {
-    return () => {
-      // Copy to local variable to avoid stale ref during cleanup
-      const controlsToStop = [...controlsRef.current];
-      controlsToStop.forEach((control) => control.stop());
-      controlsRef.current = [];
-    };
-  }, []);
-
-  const scopeRef = useEventCallback((node: Element | null) => {
-    if (typeof scope === 'function') {
-      (scope as (node: Element | null) => void)(node);
-      return;
-    }
-
-    if (scope && typeof scope === 'object' && 'current' in scope) {
-      (scope as React.MutableRefObject<Element | null>).current = node;
-    }
-  });
-
-  const runSequence = useEventCallback(
-    async (builder: (animate: SequenceAnimator) => Promise<void> | void) => {
-      const scopeElement = getScopeElement(scope);
-      if (!scopeElement) return;
-
-      setIsAnimating(true);
-
-      const registeringAnimator: SequenceAnimator = (
-        target,
-        keyframes,
-        options
-      ) => {
-        const control = animate(target, keyframes, options);
-        controlsRef.current.push(control);
-        return control;
-      };
-
-      try {
-        await builder(registeringAnimator);
-      } finally {
-        controlsRef.current = [];
-        setIsAnimating(false);
-      }
-    }
-  );
-
-  return { scopeRef, runSequence, isAnimating };
-}
-
 // ============================================================================
 // ANIMATION PRIORITY DETECTION
 // ============================================================================
@@ -344,7 +275,6 @@ function useSectionSequence(
 
 // Consolidates timeline section ref setup (Education/WorkExperience pattern)
 function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
-  const { scopeRef } = useAnimationSequence();
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -354,7 +284,6 @@ function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
   const combinedRef = useEventCallback((node: HTMLDivElement | null) => {
     sectionRef.current = node;
     containerRef.current = node;
-    scopeRef(node);
   });
 
   return {
@@ -362,7 +291,6 @@ function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
     containerRef,
     combinedRef,
     isInView,
-    scopeRef,
   };
 }
 
