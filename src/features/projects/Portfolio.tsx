@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import FolderTwoTone from '@mui/icons-material/FolderTwoTone';
 import Masonry from '@mui/lab/Masonry';
 import { Box } from '@mui/material';
@@ -7,18 +9,46 @@ import { motion } from 'motion/react';
 import { SplitText } from '@/components/animations';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import SectionContainer from '@/components/SectionContainer';
-import { createStaggerContainer } from '@/config/motion';
+import { createStaggerContainer, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
-import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
+import type { ElementRef } from '@/config/types';
+import {
+  prefetchRepoStats,
+  useInView,
+  useMobileBreakpoint,
+  useMotionVariant,
+} from '@/hooks';
 import { projects } from '@/lib/data/projects';
+import { getProjectRepoPaths } from '@/utils/project';
 
 import ProjectGridItem from './ProjectGridItem';
 import ProjectMasonryItem from './ProjectMasonryItem';
 
+// Pre-compute repo paths for batch prefetching (static data, computed once)
+const PROJECT_REPO_PATHS = getProjectRepoPaths(projects);
+
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const hasPrefetched = useRef(false);
+
   // Use grid on mobile (< md), masonry on desktop (>= md)
   const useGridLayout = useMobileBreakpoint('md');
+
+  // Detect when section enters viewport for prefetching
+  const isInView = useInView(sectionRef as ElementRef, viewportPresets.section);
+
+  // Prefetch all project stats when section becomes visible
+  useEffect(() => {
+    if (isInView && !hasPrefetched.current) {
+      hasPrefetched.current = true;
+      // Stagger prefetch requests to avoid rate limiting
+      PROJECT_REPO_PATHS.forEach((repoPath, index) => {
+        setTimeout(() => prefetchRepoStats(repoPath), index * 100);
+      });
+    }
+  }, [isInView]);
+
   // Use animate with proper viewport config for full-page scroll sections
   // Using once:false ensures animations replay when section remounts on navigation
   const motionProps = useMotionVariant(createStaggerContainer(0.1, 0.15), {
@@ -44,6 +74,7 @@ function Portfolio(): React.JSX.Element {
     >
       <ProfilerWrapper id="Portfolio-Layout" threshold={30}>
         <Box
+          ref={sectionRef}
           component={motion.div}
           {...motionProps}
           sx={{ width: 1, overflow: 'hidden' }}

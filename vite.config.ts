@@ -22,6 +22,8 @@ export default defineConfig({
           mui: ['@mui/material', '@mui/system'],
           'mui-icons': ['@mui/icons-material'],
           query: ['@tanstack/react-query'],
+          gsap: ['gsap', '@gsap/react'],
+          aurora: ['ogl'],
         },
       },
     },

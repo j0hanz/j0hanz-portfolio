@@ -8,3 +8,9 @@ export const githubKeys = {
   repoStats: (repoPath: string) =>
     [...githubKeys.stats(), 'repo', repoPath] as const,
 } as const;
+
+// Contact form mutation keys
+export const contactKeys = {
+  all: ['contact'] as const,
+  submit: () => [...contactKeys.all, 'submit'] as const,
+} as const;

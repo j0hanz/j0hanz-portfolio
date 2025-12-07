@@ -18,6 +18,14 @@ const getEnvVar = (key: string): string => {
   return value;
 };
 
+// Validates all required environment variables at startup
+export const validateEnvVars = (): { valid: boolean; missing: string[] } => {
+  const missing = ENV_KEYS.filter(
+    (key) => typeof import.meta.env[key] !== 'string'
+  );
+  return { valid: missing.length === 0, missing };
+};
+
 export const initEmailJs = (): void => {
   try {
     emailjs.init(getEnvVar('VITE_USER_ID'));

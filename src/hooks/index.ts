@@ -101,6 +101,7 @@ export { useMobileBreakpoint } from './useBreakpoints';
 
 export {
   // GitHub queries
+  useRepoStatsQuery,
   prefetchRepoStats,
   // Contact mutations
   useContactFormMutation,
