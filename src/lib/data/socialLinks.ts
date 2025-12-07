@@ -36,7 +36,7 @@ export const socialLinks: SocialLink[] = [
     href: 'https://www.credential.net/dd705ce7-f66c-456a-b07d-e8712cd7287c#gs.cubcle',
     tooltip: 'Certificate',
     color: 'certificate.main',
-    iconColor: 'common.black',
+    iconColor: 'text.primary',
   },
   {
     id: 'source-code',

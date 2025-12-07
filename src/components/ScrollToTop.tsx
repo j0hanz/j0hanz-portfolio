@@ -22,10 +22,17 @@ const fabSx: SxProps<Theme> = {
   backgroundColor: 'backdrop.glass',
   backdropFilter: 'blur(12px)',
   WebkitBackdropFilter: 'blur(12px)',
+  color: 'text.primary',
+  border: 1,
+  borderColor: 'divider',
+  '&:hover': {
+    backgroundColor: 'action.hover',
+  },
 };
 
 const iconSx: SxProps<Theme> = {
   fontSize: SIZING.iconFab,
+  color: 'primary.main',
 };
 
 // Progress ring wraps FAB (40px small size + 8px padding for stroke)
@@ -78,7 +85,6 @@ function ScrollToTop(): React.JSX.Element {
       <Box onClick={handleClick} role="presentation" sx={containerSx}>
         <Fab
           size="small"
-          color="primary"
           aria-label="scroll back to top"
           disabled={isPending}
           sx={fabSx}

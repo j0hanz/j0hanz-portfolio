@@ -8,7 +8,7 @@ import { SIZING, SKEW_TRANSFORM } from '@/styles/shared';
 const containerSx: SxProps<Theme> = {
   display: 'inline-flex',
   alignItems: 'center',
-  color: 'text.primary',
+  color: 'text.secondary',
   // Responsive margin using spacing units (8px base)
   mr: { xs: 2, sm: 2.5, md: 3, lg: 4 },
   transform: SKEW_TRANSFORM,
@@ -17,10 +17,11 @@ const containerSx: SxProps<Theme> = {
 
 const iconSx: SxProps<Theme> = {
   fontSize: SIZING.iconSm,
+  color: 'text.secondary',
 };
 
 const textSx: SxProps<Theme> = {
-  color: 'text.primary',
+  color: 'text.secondary',
   textTransform: 'uppercase',
   fontSize: (theme) => theme.typography.caption.fontSize,
 };

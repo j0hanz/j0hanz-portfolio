@@ -52,7 +52,7 @@ export function SocialLinkButton({
           height: AVATAR_SIZE,
           // MUI sx prop resolves dot-notation color paths natively
           bgcolor: bgColor ?? 'primary.main',
-          color: iconColor ?? 'common.white',
+          color: iconColor ?? 'primary.contrastText',
           cursor: 'pointer',
         }}
       >

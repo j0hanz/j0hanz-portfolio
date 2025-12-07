@@ -2,7 +2,6 @@ import { useLayoutEffect, useRef } from 'react';
 
 import Close from '@mui/icons-material/Close';
 import {
-  alpha,
   Dialog,
   DialogContent,
   IconButton,
@@ -25,7 +24,7 @@ const closeButtonSx: SxProps<Theme> = {
   position: 'absolute',
   top: 0,
   right: 0,
-  bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
+  bgcolor: 'action.active',
   borderRadius: CLOSE_BUTTON_BORDER_RADIUS,
   // Responsive sizing: larger touch target on mobile (WCAG 2.1 AA)
   height: SIZING.closeButton,
@@ -33,10 +32,10 @@ const closeButtonSx: SxProps<Theme> = {
   pl: { xs: 1, sm: 1, md: 1.25, lg: 1.5 },
   pb: { xs: 1, sm: 1, md: 1.25, lg: 1.5 },
   zIndex: 'modal', // Use theme z-index
-  color: 'common.white',
-  opacity: 0.7,
+  color: 'text.primary',
+  opacity: 0.85,
   '&:hover': {
-    bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
+    bgcolor: 'action.hover',
     opacity: 1,
   },
 };

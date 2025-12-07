@@ -14,11 +14,11 @@ const spinnerSx: SxProps<Theme> = {
   borderRadius: '50%', // Circle shape - not a theme multiplier
   borderWidth: { xs: 2, sm: 3 },
   borderStyle: 'solid',
-  borderColor: (theme) => alpha(theme.palette.common.white, 0.2),
+  borderColor: (theme) => alpha(theme.palette.divider, 0.4),
   borderTopColor: 'primary.main',
   position: 'relative',
   filter: (theme) =>
-    `drop-shadow(0 8px 20px ${alpha(theme.palette.common.black, 0.25)})`,
+    `drop-shadow(0 8px 20px ${alpha(theme.palette.common.black, 0.15)})`,
   '&::after': {
     content: '""',
     position: 'absolute',
@@ -26,7 +26,7 @@ const spinnerSx: SxProps<Theme> = {
     borderRadius: '50%', // Circle shape
     borderWidth: 2,
     borderStyle: 'solid',
-    borderColor: (theme) => alpha(theme.palette.common.white, 0.15),
+    borderColor: (theme) => alpha(theme.palette.divider, 0.3),
   },
 };
 

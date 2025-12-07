@@ -91,10 +91,16 @@ export const overlaySx: SxProps<Theme> = {
   position: 'absolute',
   inset: 0,
   clipPath: CLIP_ROUNDED,
-  bgcolor: (theme) => alpha(theme.palette.common.black, 0.4),
+  bgcolor: (theme) =>
+    alpha(
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.black
+        : theme.palette.grey[800],
+      0.5
+    ),
   display: 'grid',
   placeItems: 'center',
-  color: 'common.white',
+  color: 'grey.100',
   letterSpacing: LETTER_SPACING_NORMAL,
   fontSize: (theme) => theme.typography.caption.fontSize,
   pointerEvents: 'none',

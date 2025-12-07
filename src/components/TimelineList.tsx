@@ -45,7 +45,7 @@ export function TimelineList<T extends TimelineItemData>({
               <Typography
                 variant="subtitle2"
                 component="span"
-                color="primary.contrastText"
+                color="text.secondary"
               >
                 {item.duration}
               </Typography>

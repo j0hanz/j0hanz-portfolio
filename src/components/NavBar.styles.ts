@@ -100,8 +100,10 @@ export const drawerPaperSx: SxProps<Theme> = {
   overflowX: 'hidden',
   backdropFilter: 'blur(10px) saturate(180%)',
   WebkitBackdropFilter: 'blur(10px) saturate(180%)',
-  border: '1px solid rgba(255, 255, 255, 0.125)',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+  border: '1px solid',
+  borderColor: 'divider',
+  boxShadow: (theme) =>
+    `0 8px 32px ${theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.1)'}`,
 };
 
 export const drawerHeaderSx: SxProps<Theme> = {

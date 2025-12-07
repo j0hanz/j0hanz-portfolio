@@ -42,7 +42,7 @@ const hoverTextSx: SxProps<Theme> = {
   left: '50%',
   width: 1, // = 100%
   transform: 'translate(-50%, -50%)',
-  color: 'common.white',
+  color: 'primary.contrastText',
   fontSize: SIZE.credentialText,
   textAlign: 'center',
   opacity: 0,
