@@ -121,3 +121,15 @@
     clip-path: inset(30% 0 40% 0);
   }
 }
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .glitch:not(.enable-on-hover)::after,
+  .glitch:not(.enable-on-hover)::before,
+  .glitch.enable-on-hover:hover::after,
+  .glitch.enable-on-hover:hover::before {
+    animation: none;
+    opacity: 0;
+    content: '';
+  }
+}

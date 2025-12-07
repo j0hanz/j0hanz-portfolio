@@ -7,7 +7,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
-import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { Card } from '@/components/Card';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -99,28 +99,22 @@ export function ProjectCard({
     whileHover: CARD_HOVER_LIFT,
   });
 
-  // Generate unique layoutId from project github URL
-  const layoutId = `project-card-${project.github.replace(/[^a-zA-Z0-9]/g, '-')}`;
-
   return (
-    <LayoutGroup id={layoutId}>
-      <Box
-        ref={cardRef}
-        component={motion.div}
-        {...cardMotion}
-        layoutId={`${layoutId}-container`}
-        onMouseEnter={handleMouseEnter}
-      >
-        <Card title="" noContentPadding>
-          <ErrorBoundary fallback={<ProjectCardSkeleton />}>
-            <AnimatePresence mode="wait">
-              <Suspense fallback={<ProjectCardSkeleton />}>
-                <CardContent project={project} />
-              </Suspense>
-            </AnimatePresence>
-          </ErrorBoundary>
-        </Card>
-      </Box>
-    </LayoutGroup>
+    <Box
+      ref={cardRef}
+      component={motion.div}
+      {...cardMotion}
+      onMouseEnter={handleMouseEnter}
+    >
+      <Card title="" noContentPadding>
+        <ErrorBoundary fallback={<ProjectCardSkeleton />}>
+          <AnimatePresence mode="wait">
+            <Suspense fallback={<ProjectCardSkeleton />}>
+              <CardContent project={project} />
+            </Suspense>
+          </AnimatePresence>
+        </ErrorBoundary>
+      </Card>
+    </Box>
   );
 }

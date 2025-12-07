@@ -70,19 +70,19 @@ export function BlurText({
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
 
-  // React Compiler handles memoization - no useMemo needed
+  // Default animation snapshots
   const defaultFrom =
     direction === 'top'
-      ? { filter: 'blur(8px)', opacity: 0, y: -30 }
-      : { filter: 'blur(8px)', opacity: 0, y: 30 };
+      ? { opacity: 0, scale: 0.96, y: -20 }
+      : { opacity: 0, scale: 0.96, y: 20 };
 
   const defaultTo = [
     {
-      filter: 'blur(4px)',
       opacity: 0.6,
-      y: direction === 'top' ? 3 : -3,
+      scale: 0.98,
+      y: direction === 'top' ? 4 : -4,
     },
-    { filter: 'blur(0px)', opacity: 1, y: 0 },
+    { opacity: 1, scale: 1, y: 0 },
   ];
 
   const fromSnapshot = animationFrom ?? defaultFrom;
@@ -132,7 +132,6 @@ export function BlurText({
             }
             style={{
               display: 'inline-block',
-              willChange: 'transform, filter, opacity',
             }}
           >
             {segment === ' ' ? '\u00A0' : segment}

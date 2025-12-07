@@ -48,7 +48,6 @@ export const REDUCED_MOTION_TARGET = {
   y: 0,
   scale: 1,
   rotate: 0,
-  filter: 'blur(0px)',
 } as const;
 
 // ============================================================================
@@ -65,8 +64,7 @@ export const transitions = {
   springBouncy: {
     type: 'spring' as const,
     stiffness: 380,
-    damping: 18,
-    bounce: 0.35,
+    damping: 15,
     mass: 0.8,
   },
   springSmooth: {
@@ -158,9 +156,9 @@ export const fadeVariants = {
     exit: { opacity: 0, y: -4 },
   },
   blur: {
-    initial: { opacity: 0, filter: 'blur(8px)' },
-    animate: { opacity: 1, filter: 'blur(0px)' },
-    exit: { opacity: 0, filter: 'blur(4px)' },
+    initial: { opacity: 0, scale: 0.98 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.99 },
   },
 } as const;
 
@@ -277,19 +275,17 @@ export const staggerItemVariant: Variants = {
 };
 
 export const staggerItemVariantMobile: Variants = {
-  initial: { opacity: 0, y: 20, scale: 0.97 },
+  initial: { opacity: 0, y: 12 },
   animate: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      type: 'spring' as const,
-      stiffness: 220,
-      damping: 22,
-      mass: 0.9,
+      type: 'tween' as const,
+      duration: 0.3,
+      ease: [0.16, 1, 0.3, 1],
     },
   },
-  exit: { opacity: 0, y: -10, scale: 0.96 },
+  exit: { opacity: 0, y: -6 },
 };
 
 // ============================================================================
@@ -385,14 +381,13 @@ export const cardEntranceVariants = {
 };
 
 export const cardEntranceVariantsMobile = {
-  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  hidden: { opacity: 0, y: 16 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      delay: i * 0.12,
-      duration: 0.55,
+      delay: i * 0.08,
+      duration: 0.35,
       ease: EASE_OUT_EXPO,
     },
   }),

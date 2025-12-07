@@ -25,3 +25,14 @@
 .shiny-text.disabled {
   animation: none;
 }
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+    color: var(--portfolio-palette-text-primary, currentColor);
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
+}
