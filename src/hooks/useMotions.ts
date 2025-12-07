@@ -125,7 +125,7 @@ export function useMotionVariant(
 // Animates a number from 0 to value using motion value for no-re-render animation
 // Returns ref for span element and string representation of value
 export function useCountUp(value: number, duration = 0.7) {
-  const { prefersReducedMotion, getTransition } = useAnimationConfig();
+  const { prefersReducedMotion } = useAnimationConfig();
   const motionValue = useMotionValue(0);
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -135,12 +135,15 @@ export function useCountUp(value: number, duration = 0.7) {
       return;
     }
 
+    // Inline transition to avoid dependency on getTransition which changes every render
     const controls = animate(motionValue, value, {
-      ...getTransition('smooth', { duration }),
+      type: 'tween',
+      ease: [0.4, 0, 0.2, 1],
+      duration,
     });
 
     return () => controls.stop();
-  }, [value, prefersReducedMotion, motionValue, getTransition, duration]);
+  }, [value, prefersReducedMotion, motionValue, duration]);
 
   useMotionValueEvent(motionValue, 'change', (latest) => {
     if (ref.current) {

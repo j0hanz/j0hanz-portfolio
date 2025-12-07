@@ -1,4 +1,4 @@
-import { useCallback, useInsertionEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 // Creates stable callback ref with latest values (React 19 useEffectEvent polyfill)
 // Note: useCallback here is required for stable reference - this is an exception to the
@@ -8,8 +8,8 @@ function useEventCallback<Args extends unknown[], R>(
 ): (...args: Args) => R {
   const ref = useRef<(...args: Args) => R>(fn);
 
-  // useInsertionEffect fires before DOM mutations, ideal for ref updates
-  useInsertionEffect(() => {
+  // useLayoutEffect ensures ref is updated before any effects that depend on it
+  useLayoutEffect(() => {
     ref.current = fn;
   });
 

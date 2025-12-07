@@ -34,7 +34,7 @@ export { useNavigationState, useNavigationActions } from './useNavigation';
 // Theme (split for render optimization)
 export { useThemeModeState, useThemeModeActions } from './useTheme';
 
-// Snackbar notifications (split for render optimization)
+// Snackbar notifications
 export { useSnackbar } from './useSnackbar';
 
 // CV Modal (split for render optimization)
@@ -90,19 +90,10 @@ export { useCountUp, useVelocityTilt } from './useMotions';
 export { useMobileBreakpoint } from './useBreakpoints';
 
 // ============================================================================
-// RESPONSIVE CONSTANTS (Re-exported for convenience)
-// Import directly from @/config/responsive for full access
-// ============================================================================
-
-// ============================================================================
 // DATA FETCHING (TanStack Query)
-// Query hooks and utilities
 // ============================================================================
 
 export {
-  // GitHub queries
-  useRepoStatsQuery,
   prefetchRepoStats,
-  // Contact mutations
   useContactFormMutation,
 } from '@/utils/query/index';

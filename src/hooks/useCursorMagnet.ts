@@ -4,11 +4,30 @@ import { useMotionValue, useSpring } from 'motion/react';
 
 import type { MagnetMotionProps } from '@/config/types';
 
-export function useCursorMagnet(disabled: boolean): MagnetMotionProps {
+// Default spring configuration for cursor magnet effect
+const DEFAULT_SPRING_CONFIG = { stiffness: 200, damping: 24, mass: 0.8 } as const;
+
+// Default strength multiplier for cursor offset
+const DEFAULT_STRENGTH = 0.15;
+
+export interface CursorMagnetOptions {
+  // Multiplier for cursor offset (0-1 range recommended)
+  strength?: number;
+  // Spring physics configuration
+  springConfig?: { stiffness: number; damping: number; mass: number };
+}
+
+export function useCursorMagnet(
+  disabled: boolean,
+  options?: CursorMagnetOptions
+): MagnetMotionProps {
+  const { strength = DEFAULT_STRENGTH, springConfig = DEFAULT_SPRING_CONFIG } =
+    options ?? {};
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 24, mass: 0.8 });
-  const springY = useSpring(y, { stiffness: 200, damping: 24, mass: 0.8 });
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
   const boundsRef = useRef<{ centerX: number; centerY: number } | null>(null);
 
   const resolveBounds = (
@@ -39,8 +58,8 @@ export function useCursorMagnet(disabled: boolean): MagnetMotionProps {
     const bounds = resolveBounds(event.currentTarget);
     if (!bounds) return;
 
-    x.set((event.clientX - bounds.centerX) * 0.15);
-    y.set((event.clientY - bounds.centerY) * 0.15);
+    x.set((event.clientX - bounds.centerX) * strength);
+    y.set((event.clientY - bounds.centerY) * strength);
   };
 
   const handlePointerLeave = reset;

@@ -36,34 +36,20 @@ function useOnlineStatus(): boolean {
 
 export function useConnectivity() {
   const isOnline = useOnlineStatus();
-  const prevOnlineRef = useRef(isOnline);
-  const [prevOnline, setPrevOnline] = useState<boolean | undefined>(undefined);
+  const prevOnlineRef = useRef<boolean | null>(null);
   const { showSnackbar } = useSnackbar();
   const [statusBanner, setStatusBanner] = useState<StatusBanner | null>(() =>
     isInitiallyOnline() ? null : OFFLINE_BANNER
   );
   const timeoutRef = useRef<number | null>(null);
 
-  // Track previous value inline (was usePrevious hook - single use, now inlined)
-  useEffect(() => {
-    setPrevOnline(prevOnlineRef.current);
-    prevOnlineRef.current = isOnline;
-  }, [isOnline]);
-
-  // Wrap banner state updates with useEventCallback to satisfy lint rules
-  const showBanner = useEventCallback((banner: StatusBanner | null) => {
+  // Stable callback for updating banner state (avoids ESLint setState-in-effect warning)
+  const updateBanner = useEventCallback((banner: StatusBanner | null) => {
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
     setStatusBanner(banner);
-  });
-
-  const scheduleBannerDismiss = useEventCallback(() => {
-    timeoutRef.current = window.setTimeout(
-      () => setStatusBanner(null),
-      CONNECTIVITY_BANNER_AUTO_DISMISS
-    );
   });
 
   // Cleanup timeout on unmount
@@ -74,26 +60,32 @@ export function useConnectivity() {
   }, []);
 
   useEffect(() => {
-    // Skip initial mount
-    if (prevOnline === undefined) {
+    const wasOnline = prevOnlineRef.current;
+    prevOnlineRef.current = isOnline;
+
+    // Skip initial mount - show offline snackbar if starting offline
+    if (wasOnline === null) {
       if (!isOnline) {
         showSnackbar(CONNECTIVITY_COPY.offlineSnackbar, 'warning', null);
       }
       return;
     }
 
-    // No change
-    if (isOnline === prevOnline) return;
+    // No change in status
+    if (isOnline === wasOnline) return;
 
     if (isOnline) {
       showSnackbar(CONNECTIVITY_COPY.onlineSnackbar, 'success', 2500);
-      showBanner(ONLINE_BANNER);
-      scheduleBannerDismiss();
+      updateBanner(ONLINE_BANNER);
+      timeoutRef.current = window.setTimeout(
+        () => updateBanner(null),
+        CONNECTIVITY_BANNER_AUTO_DISMISS
+      );
     } else {
       showSnackbar(CONNECTIVITY_COPY.offlineSnackbar, 'warning', null);
-      showBanner(OFFLINE_BANNER);
+      updateBanner(OFFLINE_BANNER);
     }
-  }, [isOnline, prevOnline, showSnackbar, showBanner, scheduleBannerDismiss]);
+  }, [isOnline, showSnackbar, updateBanner]);
 
   return { isOnline, statusBanner };
 }
