@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
@@ -145,7 +145,8 @@ interface AuroraCanvasProps extends AuroraProps {
 }
 
 // WebGL Aurora canvas - handles actual rendering
-const AuroraCanvas = memo(function AuroraCanvas({
+// React 19 Compiler handles memoization automatically
+function AuroraCanvas({
   colorStops,
   amplitude,
   blend,
@@ -250,7 +251,7 @@ const AuroraCanvas = memo(function AuroraCanvas({
       }}
     />
   );
-});
+}
 
 // Static fallback for reduced motion - simple gradient overlay
 function AuroraStatic({ colorStops }: { colorStops: string[] }) {
