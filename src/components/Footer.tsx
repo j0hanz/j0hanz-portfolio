@@ -1,7 +1,5 @@
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {
   alpha,
   Box,
@@ -15,6 +13,7 @@ import type { SxProps, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import { FadeContent, ShinyText } from '@/components/animations';
+import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
 import { GRID } from '@/config/responsive';
 import {
@@ -24,28 +23,14 @@ import {
 } from '@/hooks';
 import { badgeItems } from '@/lib/data/badges';
 import { SIZING } from '@/styles/shared';
-import { COPY_MESSAGES } from '@/utils/clipboard';
 
 // Computed once at module level
 const CURRENT_YEAR = new Date().getFullYear();
 
 const BADGE_SIZE = { xs: 80, sm: 90, md: 120, lg: 140, xl: 160 };
 
-const SOCIAL_LINKS = [
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/linus-johansson-software-dev/',
-    icon: LinkedInIcon,
-  },
-  {
-    label: 'GitHub',
-    href: 'https://github.com/j0hanz',
-    icon: GitHubIcon,
-  },
-] as const;
-
-const iconButtonSx: SxProps<Theme> = {
-  p: 1,
+const copyButtonSx: SxProps<Theme> = {
+  p: 0.9,
   color: 'text.secondary',
   bgcolor: (t) => alpha(t.palette.action.hover, 0.04),
   backdropFilter: 'blur(8px)',
@@ -129,8 +114,11 @@ function ContactSection() {
   const { prefersReducedMotion } = useAnimationConfig();
 
   const handleCopy = async () => {
-    const msg = COPY_MESSAGES.email;
-    await copyWithFeedback(CONTACT_CONFIG.EMAIL, msg.success, msg.error);
+    await copyWithFeedback(
+      CONTACT_CONFIG.EMAIL,
+      'Email copied!',
+      'Failed to copy'
+    );
   };
 
   return (
@@ -167,7 +155,7 @@ function ContactSection() {
           <Tooltip title="Copy email" arrow placement="top">
             <IconButton
               onClick={handleCopy}
-              sx={{ ...iconButtonSx, p: 0.9 }}
+              sx={copyButtonSx}
               size="small"
               aria-label="Copy email address"
             >
@@ -192,7 +180,7 @@ function ContactSection() {
             letterSpacing: 0.5,
             fontSize: '0.9rem',
             display: 'flex',
-            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <ShinyText
@@ -203,45 +191,17 @@ function ContactSection() {
         </Typography>
       </Box>
 
-      {/* Social Links */}
+      {/* Social Links - reuses SocialLinkList for consistency */}
       <Box sx={{ textAlign: { xs: 'center', sm: 'right' } }}>
         <Stack
           direction="row"
-          gap={4}
+          gap={2}
           justifyContent={{ xs: 'center', sm: 'flex-end' }}
         >
-          {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
-            <Tooltip key={label} title={label} arrow placement="top">
-              <IconButton
-                component="a"
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={iconButtonSx}
-                aria-label={`Visit ${label} profile`}
-              >
-                <Icon />
-              </IconButton>
-            </Tooltip>
-          ))}
-          <Tooltip title="Download CV" arrow placement="top">
-            <IconButton
-              onClick={openCvModal}
-              sx={iconButtonSx}
-              aria-label="Download CV"
-            >
-              <Typography
-                component="span"
-                sx={{
-                  fontSize: SIZING.iconXs,
-                  fontWeight: 700,
-                  lineHeight: 1,
-                }}
-              >
-                CV
-              </Typography>
-            </IconButton>
-          </Tooltip>
+          <SocialLinkList
+            openModal={openCvModal}
+            renderLink={(props) => <SocialLinkButton {...props} />}
+          />
         </Stack>
       </Box>
     </Stack>
@@ -259,14 +219,13 @@ function Footer() {
     <Box
       component="footer"
       id="footer"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      alignItems="stretch"
+      minHeight="100vh"
       sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        px: { xs: 1, sm: 2, md: 3, lg: 0 },
-        py: { xs: 4, sm: 5, md: 6 },
+        py: { xs: 2, sm: 3, md: 4 },
       }}
     >
       {/* Awards Section */}

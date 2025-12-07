@@ -199,8 +199,8 @@ function SocialLinks({
         component={motion.div}
         variants={navVariants.social.container}
         direction="row"
-        justifyContent="center"
-        flexWrap="wrap"
+        justifyContent="space-between"
+        flexWrap="nowrap"
         gap={2}
       >
         <SocialLinkList

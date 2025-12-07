@@ -10,8 +10,8 @@ import { useAnimationConfig, useCursorMagnet } from '@/hooks';
 import { socialLinks } from '@/lib/data/socialLinks';
 
 // Responsive avatar and icon sizes
-const AVATAR_SIZE = { xs: 34, sm: 36, md: 38, lg: 42 };
-const ICON_SIZE_DEFAULT = { xs: 18, sm: 19, md: 20, lg: 22 };
+const AVATAR_SIZE = { xs: 36, md: 38, lg: 40 };
+const ICON_SIZE_DEFAULT = { xs: 24, md: 24, lg: 26 };
 
 export function SocialLinkButton({
   href,
