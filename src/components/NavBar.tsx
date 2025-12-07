@@ -18,7 +18,7 @@ import {
 import { motion } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
-import DarkModeToggle from '@/components/DarkModeToggle';
+import { DarkModeToggle } from '@/components/DarkModeToggle';
 import {
   closeButtonSx,
   connectTextSx,
@@ -354,4 +354,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export { NavBar };

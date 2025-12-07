@@ -13,4 +13,4 @@ function ProjectMasonryItem({ project }: ProjectListProps): React.JSX.Element {
 
 ProjectMasonryItem.displayName = 'ProjectMasonryItem';
 
-export default ProjectMasonryItem;
+export { ProjectMasonryItem };

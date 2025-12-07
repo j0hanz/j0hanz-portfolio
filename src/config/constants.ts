@@ -24,14 +24,6 @@ export const UI_TIMING = {
   TRANSITION_SMOOTH: 0.3,
 } as const;
 
-// ============================================================================
-// APP COPY
-// ============================================================================
-
-export const APP_COPY = {
-  title: 'Linus Johansson | Portfolio',
-} as const;
-
 /**
  * Initial loading splash duration in milliseconds.
  * Set to 2s to ensure smooth animation transition and prevent layout flash.

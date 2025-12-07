@@ -15,9 +15,9 @@ import Grid from '@mui/material/Grid';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 import { FadeContent, SplitText } from '@/components/animations';
-import Button from '@/components/Button';
-import Card from '@/components/Card';
-import SectionContainer from '@/components/SectionContainer';
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
+import { SectionContainer } from '@/components/SectionContainer';
 import {
   CARD_HOVER_LIFT,
   cardEntranceVariants,
@@ -31,7 +31,7 @@ import type {
   CardItemProps,
   ElementRef,
 } from '@/config/types';
-import Credential from '@/features/experience/Credential';
+import { Credential } from '@/features/experience/Credential';
 import {
   useAnimationConfig,
   useInView,

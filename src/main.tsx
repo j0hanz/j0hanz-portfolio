@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { AppProviders } from '@/components/AppProviders';
 import { initEmailJs, validateEnvVars } from '@/lib/emailJs';
 
-import App from './App';
+import { App } from './App';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

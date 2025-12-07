@@ -84,4 +84,4 @@ function DarkModeToggle(): JSX.Element {
   );
 }
 
-export default DarkModeToggle;
+export { DarkModeToggle };

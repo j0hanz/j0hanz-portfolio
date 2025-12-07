@@ -8,7 +8,7 @@ import { ShinyText } from '@/components/animations';
 import { skillBadgeVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import type { ElementRef } from '@/config/types';
-import SkillBadge from '@/features/hero/SkillBadge';
+import { SkillBadge } from '@/features/hero/SkillBadge';
 import { useAnimationConfig, useInView } from '@/hooks';
 import { skills } from '@/lib/data/skills';
 
@@ -107,4 +107,4 @@ function SkillBadgeRow(): React.JSX.Element {
   );
 }
 
-export default SkillBadgeRow;
+export { SkillBadgeRow };

@@ -47,4 +47,4 @@ function SkillBadge({ skill }: SkillBadgeProps): React.JSX.Element {
   );
 }
 
-export default SkillBadge;
+export { SkillBadge };

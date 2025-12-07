@@ -142,4 +142,4 @@ const Card = Object.assign(CardBase, {
   Footer: CardFooter,
 });
 
-export default Card;
+export { Card };

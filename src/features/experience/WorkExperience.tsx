@@ -9,10 +9,10 @@ import { Box, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
-import Button from '@/components/Button';
+import { Button } from '@/components/Button';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
-import SectionContainer from '@/components/SectionContainer';
-import TimelineCard from '@/components/TimelineCard';
+import { SectionContainer } from '@/components/SectionContainer';
+import { TimelineCard } from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
 import { buttonPopVariants, viewportPresets } from '@/config/motion';
 import type {
@@ -39,7 +39,7 @@ import {
 } from '@/styles/shared';
 import { buildItemKey, compactMetadata, createMeta } from '@/utils/metadata';
 
-import Credential from './Credential';
+import { Credential } from './Credential';
 
 // ============================================================================
 // CONSTANTS

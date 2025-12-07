@@ -7,7 +7,7 @@ import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
 import { Box, Stack, type SxProps, type Theme, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-import Button from '@/components/Button';
+import { Button } from '@/components/Button';
 import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyWithFeedback } from '@/hooks';
 import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
@@ -88,4 +88,4 @@ function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
 
 ProjectLinks.displayName = 'ProjectLinks';
 
-export default ProjectLinks;
+export { ProjectLinks };

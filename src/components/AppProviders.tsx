@@ -6,9 +6,9 @@ import {
   QueryErrorResetBoundary,
 } from '@tanstack/react-query';
 
-import AppThemeProvider from '@/components/AppThemeProvider';
+import { AppThemeProvider } from '@/components/AppThemeProvider';
 import { CvModalProvider } from '@/components/CvModalProvider';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { NavigationProvider } from '@/components/NavigationProvider';
 import { SnackbarProvider } from '@/components/SnackbarProvider';
 import type { Provider } from '@/config/types';

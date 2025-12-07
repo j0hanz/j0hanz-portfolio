@@ -4,7 +4,7 @@ import { Box, type SxProps, type Theme } from '@mui/material';
 
 import { AnimatedContent } from '@/components/animations';
 import { BlurText } from '@/components/animations';
-import Card from '@/components/Card';
+import { Card } from '@/components/Card';
 import { IconBadgeList } from '@/components/IconBadge';
 import type { TimelineCardProps } from '@/config/types';
 
@@ -88,4 +88,4 @@ const TimelineCard = Object.assign(TimelineCardRoot, {
   Actions,
 });
 
-export default TimelineCard;
+export { TimelineCard };

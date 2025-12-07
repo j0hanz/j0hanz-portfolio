@@ -10,7 +10,7 @@ import {
 import { motion, useMotionValue } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
-import BaseModal from '@/components/BaseModal';
+import { BaseModal } from '@/components/BaseModal';
 import { ImageModalProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading, useVelocityTilt } from '@/hooks';
 import { transparentModalContentSx, visuallyHiddenSx } from '@/styles/shared';
@@ -101,4 +101,4 @@ function ImageModal({ open, onClose }: ImageModalProps): React.JSX.Element {
   );
 }
 
-export default ImageModal;
+export { ImageModal };

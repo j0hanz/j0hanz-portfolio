@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { motion } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
-import ImageModal from '@/components/ImageModal';
+import { ImageModal } from '@/components/ImageModal';
 import { Parallax } from '@/components/Parallax';
 import { ProfileSkeleton } from '@/components/Skeletons';
 import { fadeVariants } from '@/config/motion';
@@ -80,4 +80,4 @@ function HeroProfile(): React.JSX.Element {
   );
 }
 
-export default HeroProfile;
+export { HeroProfile };

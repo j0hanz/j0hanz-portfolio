@@ -165,4 +165,4 @@ const SectionContainer = Object.assign(SectionContainerBase, {
   Actions: SectionActions,
 });
 
-export default SectionContainer;
+export { SectionContainer };

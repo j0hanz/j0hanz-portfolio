@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useOptimistic, useTransition } from 'react';
 
 import {
   CssBaseline,
@@ -20,29 +20,44 @@ import {
 import { useEventCallback } from '@/hooks';
 
 function ThemeModeAdapter({ children }: { children: ReactNode }) {
+  const [isPending, startTransition] = useTransition();
   const { mode, systemMode, setMode } = useColorScheme();
 
   // Resolve actual mode: if 'system', use systemMode; fallback to 'light'
   const resolvedMode: PaletteMode =
     mode === 'system' ? (systemMode ?? 'light') : (mode ?? 'light');
 
-  // Wrap actions with useEventCallback for stable references
+  // Optimistic theme mode: immediately show toggled mode for instant feedback
+  const [optimisticMode, setOptimisticMode] = useOptimistic<
+    PaletteMode,
+    PaletteMode
+  >(resolvedMode, (_current, newMode) => newMode);
+
+  // Wrap theme changes in transition with optimistic update for non-blocking UI
   const toggleMode = useEventCallback(() => {
-    setMode(resolvedMode === 'dark' ? 'light' : 'dark');
+    const nextMode = resolvedMode === 'dark' ? 'light' : 'dark';
+    startTransition(() => {
+      setOptimisticMode(nextMode);
+      setMode(nextMode);
+    });
   });
 
   const handleSetMode = useEventCallback(
     (nextMode: PaletteMode | ((prev: PaletteMode) => PaletteMode)) => {
-      if (typeof nextMode === 'function') {
-        setMode(nextMode(resolvedMode));
-      } else {
-        setMode(nextMode);
-      }
+      const computedMode =
+        typeof nextMode === 'function' ? nextMode(resolvedMode) : nextMode;
+      startTransition(() => {
+        setOptimisticMode(computedMode);
+        setMode(computedMode);
+      });
     }
   );
 
+  // Use optimistic mode for immediate UI updates, fallback to resolved mode
+  const displayMode = isPending ? optimisticMode : resolvedMode;
+
   // Split context values for render optimization
-  const stateValue: ThemeModeState = { mode: resolvedMode };
+  const stateValue: ThemeModeState = { mode: displayMode, isPending };
   const actionsValue: ThemeModeActions = {
     toggleMode,
     setMode: handleSetMode,
@@ -69,4 +84,4 @@ function AppThemeProvider({
   );
 }
 
-export default AppThemeProvider;
+export { AppThemeProvider };

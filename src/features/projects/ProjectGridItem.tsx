@@ -49,4 +49,4 @@ function ProjectGridItem({ project }: ProjectListProps): React.JSX.Element {
 
 ProjectGridItem.displayName = 'ProjectGridItem';
 
-export default ProjectGridItem;
+export { ProjectGridItem };

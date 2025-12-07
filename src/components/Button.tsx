@@ -68,4 +68,4 @@ const Button = function Button({
 
 Button.displayName = 'Button';
 
-export default Button;
+export { Button };

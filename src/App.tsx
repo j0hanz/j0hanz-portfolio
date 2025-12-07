@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 
-import Aurora from '@/components/Aurora';
-import NavBar from '@/components/NavBar';
+import { Aurora } from '@/components/Aurora';
+import { NavBar } from '@/components/NavBar';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
-import ScrollToTop from '@/components/ScrollToTop';
-import Spinner from '@/components/Spinner';
-import StatusBanner from '@/components/StatusBanner';
+import { ScrollToTop } from '@/components/ScrollToTop';
+import { Spinner } from '@/components/Spinner';
+import { StatusBanner } from '@/components/StatusBanner';
 import { INITIAL_LOADING_DELAY_MS } from '@/config/constants';
 import { useConnectivity, useContentMotion, useInitialLoading } from '@/hooks';
 import { Home } from '@/pages/Home';
@@ -57,7 +57,7 @@ function ContentView() {
 
 function App() {
   const { isOnline, statusBanner } = useConnectivity();
-  const isLoading = useInitialLoading(INITIAL_LOADING_DELAY_MS);
+  const { isLoading } = useInitialLoading(INITIAL_LOADING_DELAY_MS);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -79,4 +79,4 @@ function App() {
   );
 }
 
-export default App;
+export { App };

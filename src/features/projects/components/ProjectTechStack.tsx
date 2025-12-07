@@ -34,4 +34,4 @@ function ProjectTechStack({
 
 ProjectTechStack.displayName = 'ProjectTechStack';
 
-export default ProjectTechStack;
+export { ProjectTechStack };

@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useLayoutEffect, useRef } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -41,6 +41,32 @@ export function FadeContent({
 }: FadeContentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
+  // Wrap callbacks in useEffectEvent to prevent Effect re-runs when callbacks change
+  const handleComplete = useEffectEvent(() => onComplete?.());
+  const handleDisappearanceComplete = useEffectEvent(() =>
+    onDisappearanceComplete?.()
+  );
+
+  // Set initial GSAP state synchronously before paint to prevent flash
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    if (prefersReducedMotion) {
+      gsap.set(el, { autoAlpha: 1, filter: 'none', visibility: 'visible' });
+      return;
+    }
+
+    gsap.set(el, {
+      autoAlpha: initialOpacity,
+      willChange: 'opacity, filter, transform',
+    });
+  }, [initialOpacity]);
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -50,8 +76,7 @@ export function FadeContent({
       '(prefers-reduced-motion: reduce)'
     ).matches;
     if (prefersReducedMotion) {
-      gsap.set(el, { autoAlpha: 1, filter: 'none', visibility: 'visible' });
-      onComplete?.();
+      handleComplete();
       return;
     }
 
@@ -65,17 +90,11 @@ export function FadeContent({
     const startPct = (1 - threshold) * 100;
     const getSeconds = (val: number) => (val > 10 ? val / 1000 : val);
 
-    gsap.set(el, {
-      autoAlpha: initialOpacity,
-
-      willChange: 'opacity, filter, transform',
-    });
-
     const tl = gsap.timeline({
       paused: true,
       delay: getSeconds(delay),
       onComplete: () => {
-        if (onComplete) onComplete();
+        handleComplete();
         if (disappearAfter > 0) {
           gsap.to(el, {
             autoAlpha: initialOpacity,
@@ -83,7 +102,7 @@ export function FadeContent({
             delay: getSeconds(disappearAfter),
             duration: getSeconds(disappearDuration),
             ease: disappearEase,
-            onComplete: () => onDisappearanceComplete?.(),
+            onComplete: handleDisappearanceComplete,
           });
         }
       },
@@ -119,8 +138,6 @@ export function FadeContent({
     disappearAfter,
     disappearDuration,
     disappearEase,
-    onComplete,
-    onDisappearanceComplete,
   ]);
 
   return (

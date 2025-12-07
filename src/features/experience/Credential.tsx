@@ -2,8 +2,8 @@ import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import { Box, DialogTitle, Stack, SxProps, Theme } from '@mui/material';
 
 import ImageCredential from '@/assets/Credential.webp';
-import BaseModal from '@/components/BaseModal';
-import Image from '@/components/Image';
+import { BaseModal } from '@/components/BaseModal';
+import { Image } from '@/components/Image';
 import { SIZE } from '@/config/responsive';
 import { CredentialProps } from '@/config/types';
 import {
@@ -118,4 +118,4 @@ function Credential({ open, onClose }: CredentialProps): React.JSX.Element {
   );
 }
 
-export default Credential;
+export { Credential };

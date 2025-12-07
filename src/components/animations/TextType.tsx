@@ -1,4 +1,10 @@
-import { ElementType, useEffect, useRef, useState } from 'react';
+import {
+  ElementType,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from 'react';
 
 import { gsap } from 'gsap';
 
@@ -53,6 +59,13 @@ export const TextType = ({
   const [isVisible, setIsVisible] = useState(!startOnVisible);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Wrap callback in useEffectEvent to prevent Effect re-runs
+  const handleSentenceComplete = useEffectEvent(
+    (sentence: string, index: number) => {
+      onSentenceComplete?.(sentence, index);
+    }
+  );
 
   // Derive text array inline - React Compiler handles optimization
   const textArray = Array.isArray(text) ? text : [text];
@@ -120,12 +133,10 @@ export const TextType = ({
             return;
           }
 
-          if (onSentenceComplete) {
-            onSentenceComplete(
-              effectTextArray[currentTextIndex],
-              currentTextIndex
-            );
-          }
+          handleSentenceComplete(
+            effectTextArray[currentTextIndex],
+            currentTextIndex
+          );
 
           setCurrentTextIndex((prev) => (prev + 1) % effectTextArray.length);
           setCurrentCharIndex(0);
@@ -176,7 +187,6 @@ export const TextType = ({
     isVisible,
     reverseMode,
     variableSpeed,
-    onSentenceComplete,
   ]);
 
   const shouldHideCursor =

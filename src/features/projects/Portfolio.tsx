@@ -8,7 +8,7 @@ import { motion } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
-import SectionContainer from '@/components/SectionContainer';
+import { SectionContainer } from '@/components/SectionContainer';
 import { createStaggerContainer, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import type { ElementRef } from '@/config/types';
@@ -21,8 +21,8 @@ import {
 import { projects } from '@/lib/data/projects';
 import { getProjectRepoPaths } from '@/utils/project';
 
-import ProjectGridItem from './ProjectGridItem';
-import ProjectMasonryItem from './ProjectMasonryItem';
+import { ProjectGridItem } from './ProjectGridItem';
+import { ProjectMasonryItem } from './ProjectMasonryItem';
 
 // Pre-compute repo paths for batch prefetching (static data, computed once)
 const PROJECT_REPO_PATHS = getProjectRepoPaths(projects);

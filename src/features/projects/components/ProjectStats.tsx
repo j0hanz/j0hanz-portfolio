@@ -103,4 +103,4 @@ const ProjectStats = ({
 
 ProjectStats.displayName = 'ProjectStats';
 
-export default ProjectStats;
+export { ProjectStats };

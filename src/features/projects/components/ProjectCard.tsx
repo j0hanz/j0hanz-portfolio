@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 
-import Card from '@/components/Card';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import { Card } from '@/components/Card';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
 import {
   CARD_HOVER_LIFT,
@@ -30,10 +30,10 @@ import {
 } from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
-import ProjectHeader from './ProjectHeader';
-import ProjectLinks from './ProjectLinks';
-import ProjectStats from './ProjectStats';
-import ProjectTechStack from './ProjectTechStack';
+import { ProjectHeader } from './ProjectHeader';
+import { ProjectLinks } from './ProjectLinks';
+import { ProjectStats } from './ProjectStats';
+import { ProjectTechStack } from './ProjectTechStack';
 
 const descriptionSx: SxProps<Theme> = {
   color: 'text.secondary',

@@ -71,4 +71,4 @@ function Spinner({ sx }: { sx?: SxProps<Theme> }): React.JSX.Element {
   );
 }
 
-export default Spinner;
+export { Spinner };

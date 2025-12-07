@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  startTransition,
+  useEffect,
+  useOptimistic,
+  useRef,
+  useState,
+} from 'react';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -12,10 +18,10 @@ import {
   FadeContent,
   SplitText,
 } from '@/components/animations';
-import Button from '@/components/Button';
-import Card from '@/components/Card';
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
 import { AnimatedCheckmark } from '@/components/Motions';
-import SectionContainer from '@/components/SectionContainer';
+import { SectionContainer } from '@/components/SectionContainer';
 import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
@@ -120,6 +126,9 @@ function FormActions({ onReset, isPending }: FormActionsProps) {
   );
 }
 
+// Optimistic submission state type
+type OptimisticStatus = 'idle' | 'sending' | 'sent';
+
 function ContactFormContent() {
   const formContainerRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState<ContactFormValues>(EMPTY_FORM);
@@ -131,6 +140,12 @@ function ContactFormContent() {
     viewportPresets.list
   );
 
+  // Optimistic UI: immediately show sending state before server confirms
+  const [optimisticStatus, setOptimisticStatus] = useOptimistic<
+    OptimisticStatus,
+    OptimisticStatus
+  >('idle', (_current, newStatus) => newStatus);
+
   const fieldMotion = useMotionVariant(formFieldVariants.field, {
     initial: 'hidden',
     animate: isInView ? 'visible' : 'hidden',
@@ -141,7 +156,9 @@ function ContactFormContent() {
     animate: isInView ? 'visible' : 'hidden',
   });
 
-  const showSuccess = isSuccess && !isPending;
+  // Combine optimistic status with actual mutation state
+  const isSending = optimisticStatus === 'sending' || isPending;
+  const showSuccess = (optimisticStatus === 'sent' || isSuccess) && !isPending;
 
   const handleChange = useEventCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -190,9 +207,20 @@ function ContactFormContent() {
         return;
       }
 
-      mutate(normalized, {
-        onSuccess: () => showSnackbar(CONTACT_COPY.successToast, 'success'),
-        onError: (error) => showSnackbar(error.message, 'error'),
+      // Optimistically show sending state immediately
+      startTransition(async () => {
+        setOptimisticStatus('sending');
+
+        mutate(normalized, {
+          onSuccess: () => {
+            setOptimisticStatus('sent');
+            showSnackbar(CONTACT_COPY.successToast, 'success');
+          },
+          onError: (error) => {
+            setOptimisticStatus('idle');
+            showSnackbar(error.message, 'error');
+          },
+        });
       });
     }
   );
@@ -213,12 +241,12 @@ function ContactFormContent() {
               formData={formData}
               errors={errors}
               handleChange={handleChange}
-              disabled={isPending}
+              disabled={isSending}
             />
           </motion.div>
           <SuccessIndicator visible={showSuccess} />
           <motion.div {...actionMotion} layout>
-            <FormActions onReset={handleReset} isPending={isPending} />
+            <FormActions onReset={handleReset} isPending={isSending} />
           </motion.div>
         </Stack>
       </Box>

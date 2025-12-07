@@ -5,15 +5,15 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import { GlitchText, TextType } from '@/components/animations';
-import Button from '@/components/Button';
-import Card from '@/components/Card';
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
-import HeroProfile from '@/features/hero/HeroProfile';
-import SkillBadgeRow from '@/features/hero/SkillBadgeRow';
+import { HeroProfile } from '@/features/hero/HeroProfile';
+import { SkillBadgeRow } from '@/features/hero/SkillBadgeRow';
 import {
   useAnimationConfig,
   useAnimationPriority,

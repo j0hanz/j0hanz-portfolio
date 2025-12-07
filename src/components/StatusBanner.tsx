@@ -5,9 +5,7 @@ import { Alert, Box, Collapse } from '@mui/material';
 import type { StatusBannerProps } from '@/config/types';
 import { LETTER_SPACING_TIGHT } from '@/styles/shared';
 
-export default function StatusBanner({
-  statusBanner,
-}: StatusBannerProps): JSX.Element {
+export function StatusBanner({ statusBanner }: StatusBannerProps): JSX.Element {
   return (
     <Box
       sx={{

@@ -93,7 +93,4 @@ export { useMobileBreakpoint } from './useBreakpoints';
 // DATA FETCHING (TanStack Query)
 // ============================================================================
 
-export {
-  prefetchRepoStats,
-  useContactFormMutation,
-} from '@/utils/query/index';
+export { prefetchRepoStats, useContactFormMutation } from '@/utils/query/index';

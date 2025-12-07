@@ -113,4 +113,4 @@ function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
 
 ProjectHeader.displayName = 'ProjectHeader';
 
-export default ProjectHeader;
+export { ProjectHeader };

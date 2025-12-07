@@ -128,4 +128,4 @@ function BaseModal({
   );
 }
 
-export default BaseModal;
+export { BaseModal };

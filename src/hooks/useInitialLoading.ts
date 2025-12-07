@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 
 // Manages initial loading state with configurable delay
-// Note: Document title should be set in App.tsx or via a dedicated useDocumentTitle hook
-export function useInitialLoading(delay: number): boolean {
+export function useInitialLoading(delay: number): {
+  isLoading: boolean;
+  isPending: boolean;
+} {
   const [isLoading, setIsLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setIsLoading(false), delay);
+    const timer = window.setTimeout(() => {
+      startTransition(() => setIsLoading(false));
+    }, delay);
     return () => window.clearTimeout(timer);
   }, [delay]);
 
-  return isLoading;
+  return { isLoading, isPending };
 }

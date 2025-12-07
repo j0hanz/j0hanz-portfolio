@@ -1,24 +1,32 @@
+import { useTransition } from 'react';
+
 import { AnimatePresence } from 'motion/react';
 
-import ModalCv from '@/components/ModalCv';
+import { ModalCv } from '@/components/ModalCv';
 import type { CvModalProviderProps } from '@/config/types';
 import {
   CvModalActionsContext,
   CvModalStateContext,
 } from '@/contexts/CvModalContext';
-import { useToggle } from '@/hooks';
+import { useEventCallback, useToggle } from '@/hooks';
 
 // Centralized CV modal state management
 export function CvModalProvider({
   children,
 }: CvModalProviderProps): React.JSX.Element {
-  const {
-    value: isCvModalOpen,
-    setTrue: openCvModal,
-    setFalse: closeCvModal,
-  } = useToggle(false);
+  const [isPending, startTransition] = useTransition();
+  const { value: isCvModalOpen, setTrue, setFalse } = useToggle(false);
 
-  const stateValue = { isCvModalOpen };
+  // Wrap modal transitions for non-blocking updates
+  const openCvModal = useEventCallback(() => {
+    startTransition(() => setTrue());
+  });
+
+  const closeCvModal = useEventCallback(() => {
+    startTransition(() => setFalse());
+  });
+
+  const stateValue = { isCvModalOpen, isPending };
   const actionsValue = { openCvModal, closeCvModal };
 
   return (

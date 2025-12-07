@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { startTransition, useOptimistic, useState } from 'react';
 
 import type {
   CopyFn,
@@ -37,23 +37,44 @@ function useCopyToClipboard(): UseCopyToClipboardReturn {
   return [copyToClipboard, state];
 }
 
-// Combines copy-to-clipboard with automatic snackbar feedback
+// Optimistic copy state for instant feedback
+type OptimisticCopyState = 'idle' | 'success' | 'error';
+
+// Combines copy-to-clipboard with automatic snackbar feedback and optimistic UI
 export function useCopyWithFeedback() {
   const [copyToClipboard] = useCopyToClipboard();
   const { showSnackbar } = useSnackbar();
 
+  // Optimistic state: immediately show success before clipboard API confirms
+  const [optimisticState, setOptimisticState] = useOptimistic<
+    OptimisticCopyState,
+    OptimisticCopyState
+  >('idle', (_current, newState) => newState);
+
   return {
+    optimisticCopyState: optimisticState,
     copyWithFeedback: async (
       text: string,
       successMessage = 'Copied to clipboard',
       errorMessage = 'Unable to copy'
     ) => {
-      const success = await copyToClipboard(text);
-      showSnackbar(
-        success ? successMessage : errorMessage,
-        success ? 'success' : 'error'
-      );
-      return success;
+      // Optimistically show success immediately for better UX
+      startTransition(async () => {
+        setOptimisticState('success');
+
+        const success = await copyToClipboard(text);
+
+        if (success) {
+          showSnackbar(successMessage, 'success');
+        } else {
+          // Revert optimistic state on failure
+          setOptimisticState('error');
+          showSnackbar(errorMessage, 'error');
+        }
+      });
+
+      // Return actual clipboard result
+      return copyToClipboard(text);
     },
   };
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
 import {
   CONNECTIVITY_BANNER_AUTO_DISMISS,
@@ -7,11 +7,30 @@ import {
 import type { StatusBanner } from '@/config/types';
 
 import { useEventCallback } from './useEventCallback';
-import { useEventListener } from './useEventListener';
 import { useSnackbar } from './useSnackbar';
 
-const isInitiallyOnline = () =>
-  typeof navigator === 'undefined' || navigator.onLine;
+// ============================================================================
+// ONLINE STATUS STORE (useSyncExternalStore pattern)
+// Subscribes to navigator.onLine browser API
+// ============================================================================
+
+function getSnapshot(): boolean {
+  return navigator.onLine;
+}
+
+function getServerSnapshot(): boolean {
+  // Assume online for SSR - will hydrate with actual value on client
+  return true;
+}
+
+function subscribe(callback: () => void): () => void {
+  window.addEventListener('online', callback);
+  window.addEventListener('offline', callback);
+  return () => {
+    window.removeEventListener('online', callback);
+    window.removeEventListener('offline', callback);
+  };
+}
 
 const OFFLINE_BANNER: StatusBanner = {
   message: CONNECTIVITY_COPY.offlineBanner,
@@ -25,13 +44,9 @@ const ONLINE_BANNER: StatusBanner = {
   persistent: false,
 };
 
+// Subscribes to browser online/offline status using useSyncExternalStore
 function useOnlineStatus(): boolean {
-  const [isOnline, setIsOnline] = useState<boolean>(isInitiallyOnline);
-
-  useEventListener('online', () => setIsOnline(true));
-  useEventListener('offline', () => setIsOnline(false));
-
-  return isOnline;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 export function useConnectivity() {
@@ -39,7 +54,10 @@ export function useConnectivity() {
   const prevOnlineRef = useRef<boolean | null>(null);
   const { showSnackbar } = useSnackbar();
   const [statusBanner, setStatusBanner] = useState<StatusBanner | null>(() =>
-    isInitiallyOnline() ? null : OFFLINE_BANNER
+    // Use getSnapshot directly for initial state since useSyncExternalStore handles SSR
+    typeof navigator !== 'undefined' && !navigator.onLine
+      ? OFFLINE_BANNER
+      : null
   );
   const timeoutRef = useRef<number | null>(null);
 

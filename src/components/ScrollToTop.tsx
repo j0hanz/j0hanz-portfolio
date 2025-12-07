@@ -129,4 +129,4 @@ function ScrollToTop(): React.JSX.Element {
   );
 }
 
-export default ScrollToTop;
+export { ScrollToTop };

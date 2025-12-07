@@ -220,6 +220,7 @@ export interface CvModalActions {
 
 export interface CvModalState {
   isCvModalOpen: boolean;
+  isPending: boolean;
 }
 
 export interface CvModalProviderProps {
@@ -341,6 +342,7 @@ export interface TimelineListProps<T extends TimelineItemData> {
 // Split state for render optimization - read-only state
 export interface ThemeModeState {
   mode: PaletteMode;
+  isPending: boolean;
 }
 
 // Split actions for render optimization - action dispatchers

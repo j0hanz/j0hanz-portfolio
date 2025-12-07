@@ -2,7 +2,7 @@ import { Activity, Suspense } from 'react';
 
 import { Box } from '@mui/material';
 
-import ErrorBoundary from '@/components/ErrorBoundary';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { SectionErrorFallback } from '@/components/SectionErrorFallback';

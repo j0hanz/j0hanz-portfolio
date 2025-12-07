@@ -9,7 +9,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Typography } from '@mui/material';
 import { motion } from 'motion/react';
 
-import TimelineSection from '@/components/TimelineSection';
+import { TimelineSection } from '@/components/TimelineSection';
 import type { TimelineItemData, TimelineListProps } from '@/config/types';
 import { useMobileBreakpoint } from '@/hooks';
 import { buildItemKey } from '@/utils/metadata';

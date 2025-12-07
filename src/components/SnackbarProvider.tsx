@@ -1,4 +1,4 @@
-import { ReactNode, useReducer } from 'react';
+import { ReactNode, useReducer, useTransition } from 'react';
 
 import {
   Alert,
@@ -37,17 +37,25 @@ const snackbarReducer = (
     : { open: true, ...action.payload };
 
 export function SnackbarProvider({ children }: { children: ReactNode }) {
+  const [, startTransition] = useTransition();
   const [state, dispatch] = useReducer(snackbarReducer, INITIAL_STATE);
 
+  // Wrap snackbar updates in transition for non-blocking notifications
   const showSnackbar = useEventCallback(
     (
       message: string,
       severity: AlertColor = 'info',
       duration: number | null = UI_TIMING.SNACKBAR_DURATION_DEFAULT
-    ) => dispatch({ type: 'SHOW', payload: { message, severity, duration } })
+    ) => {
+      startTransition(() => {
+        dispatch({ type: 'SHOW', payload: { message, severity, duration } });
+      });
+    }
   );
 
-  const closeSnackbar = useEventCallback(() => dispatch({ type: 'CLOSE' }));
+  const closeSnackbar = useEventCallback(() => {
+    startTransition(() => dispatch({ type: 'CLOSE' }));
+  });
 
   const handleClose = useEventCallback(
     (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {

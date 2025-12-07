@@ -80,4 +80,4 @@ function Image({
   );
 }
 
-export default Image;
+export { Image };

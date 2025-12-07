@@ -5,15 +5,17 @@ import { useMotionValue, useSpring } from 'motion/react';
 import type { MagnetMotionProps } from '@/config/types';
 
 // Default spring configuration for cursor magnet effect
-const DEFAULT_SPRING_CONFIG = { stiffness: 200, damping: 24, mass: 0.8 } as const;
+const DEFAULT_SPRING_CONFIG = {
+  stiffness: 200,
+  damping: 24,
+  mass: 0.8,
+} as const;
 
 // Default strength multiplier for cursor offset
 const DEFAULT_STRENGTH = 0.15;
 
-export interface CursorMagnetOptions {
-  // Multiplier for cursor offset (0-1 range recommended)
+interface CursorMagnetOptions {
   strength?: number;
-  // Spring physics configuration
   springConfig?: { stiffness: number; damping: number; mass: number };
 }
 

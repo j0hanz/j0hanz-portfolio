@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { AnimatePresence, motion } from 'motion/react';
@@ -153,12 +153,14 @@ function AuroraCanvas({
   speed,
 }: AuroraCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const propsRef = useRef<AuroraProps>({ colorStops, amplitude, blend, speed });
 
-  // Keep props ref in sync via effect (React Compiler compliant)
-  useEffect(() => {
-    propsRef.current = { colorStops, amplitude, blend, speed };
-  });
+  // Use useEffectEvent to always get latest props without causing Effect re-runs
+  const getLatestProps = useEffectEvent(() => ({
+    colorStops,
+    amplitude,
+    blend,
+    speed,
+  }));
 
   useEffect(() => {
     const container = containerRef.current;
@@ -214,7 +216,7 @@ function AuroraCanvas({
     let animateId = 0;
     const update = (t: number) => {
       animateId = requestAnimationFrame(update);
-      const props = propsRef.current;
+      const props = getLatestProps();
       if (program) {
         program.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
         program.uniforms.uAmplitude.value = props.amplitude;
@@ -238,7 +240,7 @@ function AuroraCanvas({
       }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [amplitude, blend, colorStops, speed]);
+  }, [colorStops, amplitude, blend, speed]);
 
   return (
     <Box
@@ -340,4 +342,4 @@ function Aurora(): React.JSX.Element {
   );
 }
 
-export default Aurora;
+export { Aurora };

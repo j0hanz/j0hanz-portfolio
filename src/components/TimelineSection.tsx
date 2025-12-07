@@ -16,4 +16,4 @@ function TimelineSection({
   );
 }
 
-export default TimelineSection;
+export { TimelineSection };
