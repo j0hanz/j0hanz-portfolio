@@ -4,6 +4,8 @@ import { Box, type SxProps, type Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { staggerItemVariant, staggerItemVariantMobile } from '@/config/motion';
 import { GRID } from '@/config/responsive';
 import { ProjectListProps } from '@/config/types';
@@ -41,7 +43,9 @@ function ProjectGridItem({ project }: ProjectListProps): React.JSX.Element {
   return (
     <Grid size={GRID.third} sx={{ display: 'flex' }}>
       <ProjectCardMotionWrapper>
-        <ProjectCard project={project} />
+        <ErrorBoundary fallback={<ProjectCardSkeleton />}>
+          <ProjectCard project={project} />
+        </ErrorBoundary>
       </ProjectCardMotionWrapper>
     </Grid>
   );

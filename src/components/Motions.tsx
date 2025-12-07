@@ -23,7 +23,6 @@ const PAGE_TRANSITION_SX = {
   left: 0,
   overflowY: 'auto',
   overflowX: 'hidden',
-  willChange: 'transform, opacity',
 } as const;
 
 // ============================================================================

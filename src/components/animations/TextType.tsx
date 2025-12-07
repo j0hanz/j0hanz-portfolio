@@ -109,7 +109,7 @@ export const TextType = ({
   useEffect(() => {
     if (!isVisible) return;
 
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
 
     // Derive values inside effect to satisfy exhaustive-deps
     const effectTextArray = Array.isArray(text) ? text : [text];

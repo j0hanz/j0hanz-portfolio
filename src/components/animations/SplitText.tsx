@@ -26,6 +26,9 @@ interface SplitTextProps {
   onLetterAnimationComplete?: () => void;
 }
 
+const DEFAULT_FROM: gsap.TweenVars = { opacity: 0, y: 20 };
+const DEFAULT_TO: gsap.TweenVars = { opacity: 1, y: 0 };
+
 export function SplitText({
   text,
   className = '',
@@ -33,8 +36,8 @@ export function SplitText({
   duration = 0.1,
   ease = 'power2.out',
   splitType = 'chars',
-  from = { opacity: 0, y: 20 },
-  to = { opacity: 1, y: 0 },
+  from = DEFAULT_FROM,
+  to = DEFAULT_TO,
   threshold = 0.1,
   rootMargin = '0px',
   textAlign = 'center',
@@ -159,8 +162,8 @@ export function SplitText({
         duration,
         ease,
         splitType,
-        JSON.stringify(from),
-        JSON.stringify(to),
+        from,
+        to,
         threshold,
         rootMargin,
         onLetterAnimationComplete,
@@ -170,13 +173,13 @@ export function SplitText({
   );
 
   // Style is necessary for GSAP SplitText - cannot use sx prop
+  // Note: willChange is set dynamically by GSAP during animation
   const splitTextStyle: CSSProperties = {
     textAlign,
     overflow: 'hidden',
     display: 'inline-block',
     whiteSpace: 'normal',
     wordWrap: 'break-word',
-    willChange: 'transform, opacity',
   };
 
   return (

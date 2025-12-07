@@ -1,3 +1,5 @@
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { ProjectListProps } from '@/config/types';
 
 import { ProjectCard } from './components/ProjectCard';
@@ -6,7 +8,9 @@ import { ProjectCardMotionWrapper } from './ProjectGridItem';
 function ProjectMasonryItem({ project }: ProjectListProps): React.JSX.Element {
   return (
     <ProjectCardMotionWrapper fullHeight={false}>
-      <ProjectCard project={project} />
+      <ErrorBoundary fallback={<ProjectCardSkeleton />}>
+        <ProjectCard project={project} />
+      </ErrorBoundary>
     </ProjectCardMotionWrapper>
   );
 }
