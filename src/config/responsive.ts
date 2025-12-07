@@ -13,21 +13,21 @@ import type { ResponsiveValue } from '@/config/types';
 // ============================================================================
 export const SPACING = {
   /** Section vertical padding: py */
-  section: { xs: 4, md: 6, lg: 8, xl: 10 },
+  section: { xs: 4, sm: 5, md: 6, lg: 8, xl: 10 },
   /** Card/container internal padding */
-  card: { xs: 2, sm: 2.5, md: 3 },
+  card: { xs: 2, sm: 2.5, md: 3, lg: 3.5 },
   /** Grid gaps between items */
   grid: { xs: 2.5, sm: 3, md: 3.5, lg: 4 },
   /** Masonry spacing - reduced at lg to prevent overflow */
-  masonry: { sm: 2, md: 2.5, lg: 3, xl: 3.5 },
+  masonry: { xs: 1.5, sm: 2, md: 2.5, lg: 3, xl: 3.5 },
   /** Stack gaps */
-  stack: { xs: 1.5, md: 2 },
+  stack: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
   /** Section header margin bottom */
-  headerMargin: { xs: 3, md: 4 },
+  headerMargin: { xs: 3, sm: 3.5, md: 4, lg: 5 },
   /** Container horizontal padding - increased on xs for safe area (16px) */
-  containerPadding: { xs: 1, sm: 2, md: 4 },
+  containerPadding: { xs: 1, sm: 2, md: 4, lg: 6 },
   /** Form field gaps */
-  formField: { xs: 1.25, md: 2 },
+  formField: { xs: 1.25, sm: 1.5, md: 2 },
 } as const satisfies Record<string, ResponsiveValue<number>>;
 
 // ============================================================================
@@ -54,7 +54,7 @@ export const GRID = {
 
 export const SIZE = {
   /** Profile image dimensions - optimized for Hero section */
-  profileImage: { xs: 225, sm: 260, md: 300, lg: 400, xl: 450 },
+  profileImage: { xs: 225, sm: 260, md: 300, lg: 400, xl: 500 },
   /** Credential badge dimensions (pixels for fixed image sizing) */
   badge: { xs: 80, sm: 95, md: 105, lg: 120, xl: 140 },
   /** Credential hover text size (uses h4/h3 scale) */

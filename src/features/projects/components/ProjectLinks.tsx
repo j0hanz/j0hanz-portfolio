@@ -14,7 +14,7 @@ import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
 import { COPY_MESSAGES } from '@/utils/clipboard';
 
 const actionButtonSx: SxProps<Theme> = {
-  height: SIZING.buttonHeightStandard,
+  height: SIZING.buttonHeightSmall,
   fontSize: { xs: '0.8rem', sm: '0.9rem' },
 };
 

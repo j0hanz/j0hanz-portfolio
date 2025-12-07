@@ -91,7 +91,7 @@ export const listItemTextPrimarySx: SxProps<Theme> = {
 export const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
 
 export const drawerPaperSx: SxProps<Theme> = {
-  width: { xs: '100%', sm: 350 },
+  width: { xs: '100%', sm: 320, md: 380 },
   backgroundColor: 'backdrop.glass',
   backgroundImage: 'none',
   height: '100dvh',

@@ -29,7 +29,7 @@ import { COPY_MESSAGES } from '@/utils/clipboard';
 // Computed once at module level
 const CURRENT_YEAR = new Date().getFullYear();
 
-const BADGE_SIZE = { xs: 80, sm: 90, md: 120, lg: 140 };
+const BADGE_SIZE = { xs: 80, sm: 90, md: 120, lg: 140, xl: 160 };
 
 const SOCIAL_LINKS = [
   {
@@ -282,7 +282,7 @@ function Footer() {
         <Grid
           container
           sx={{
-            gap: { xs: 2, sm: 3, md: 6 },
+            gap: { xs: 2, sm: 3, md: 4, lg: 5 },
             justifyContent: 'center',
             alignItems: 'center',
             flexWrap: { xs: 'wrap', md: 'nowrap' },

@@ -37,7 +37,7 @@ export const sectionSx: SxProps<Theme> = {
 
 export const heroCardSx: SxProps<Theme> = {
   px: SPACING.card,
-  pt: { xs: 1, sm: 1.5, md: 2 },
+  pt: { xs: 1, sm: 1.5, md: 2, lg: 2.5 },
   pb: SPACING.card,
 };
 
@@ -48,16 +48,35 @@ export const containerSx: SxProps<Theme> = {
 
 export const profileWrapperSx: SxProps<Theme> = {
   position: 'relative',
-  display: 'inline-flex',
-  width: SIZE.profileImage,
-  height: SIZE.profileImage,
+  display: { xs: 'inline-flex', lg: 'block' },
+  // Fixed square on mobile/tablet, height-sync on large screens
+  width: {
+    xs: SIZE.profileImage.xs,
+    sm: SIZE.profileImage.sm,
+    md: SIZE.profileImage.md,
+    lg: 'auto',
+  },
+  height: {
+    xs: SIZE.profileImage.xs,
+    sm: SIZE.profileImage.sm,
+    md: SIZE.profileImage.md,
+    lg: '100%',
+  },
+  // Minimum dimensions for large screens to prevent collapse
+  minWidth: { lg: 280, xl: 320 },
+  minHeight: { lg: 380, xl: 420 },
+  // Max width constraint to prevent over-stretching
+  maxWidth: { lg: 400, xl: 480 },
   mb: { xs: 3, sm: 2.5, md: 0 },
+  // Smooth transition when resizing
+  transition: 'all 0.3s ease',
 };
 
 export const profileImgSx: SxProps<Theme> = {
   width: 1,
   height: 1,
-  aspectRatio: '1 / 1',
+  // Square on mobile, auto-fit on large screens
+  aspectRatio: { xs: '1 / 1' },
   clipPath: CLIP_ROUNDED,
   objectFit: 'cover',
   cursor: 'pointer',

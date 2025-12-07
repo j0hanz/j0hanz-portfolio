@@ -60,8 +60,8 @@ export const SIZING = {
   buttonMinWidthWide: { xs: 100, sm: 120, md: 130, lg: 140 },
   /** Hero CTA button minimum width */
   buttonMinWidthHero: { xs: 115, sm: 130, md: 145, lg: 150 },
-  /** Standard button height */
-  buttonHeightStandard: { xs: 26, sm: 28, md: 30, lg: 32 },
+  /** Small button height (desktop-only UI, not for touch targets) */
+  buttonHeightSmall: { xs: 26, sm: 28, md: 30, lg: 32 },
   /** Large button height (WCAG 44px touch target on mobile) */
   buttonHeightLarge: { xs: 44, sm: 44, md: 46, lg: 48 },
   /** Action button minimum width (project cards) - smaller on xs to prevent overflow */
@@ -122,7 +122,7 @@ export const {
 
 const TRANSFORMS = {
   transitionStandard: 'all 0.3s ease',
-  clipRounded: 'inset(0 round 8px)',
+  clipRounded: 'inset(0 round 10px)',
   skew: 'skew(-5deg)',
 } as const;
 
@@ -160,7 +160,7 @@ export const contactButtonSx: SxProps<Theme> = {
 
 export const credentialButtonSx: SxProps<Theme> = {
   minWidth: SIZING.buttonMinWidthWide,
-  height: SIZING.buttonHeightStandard,
+  height: SIZING.buttonHeightSmall,
 };
 
 // ============================================================================

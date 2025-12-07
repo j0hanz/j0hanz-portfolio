@@ -78,7 +78,11 @@ function Hero(): React.JSX.Element {
   return (
     <Box component="section" id="hero" sx={sectionSx}>
       <Container maxWidth={false} sx={containerSx}>
-        <Grid container spacing={SPACING.grid} alignItems="center">
+        <Grid
+          container
+          spacing={SPACING.grid}
+          alignItems={{ xs: 'center', lg: 'stretch' }}
+        >
           <Grid size={{ xs: 12, lg: 5 }}>
             <HeroProfile />
           </Grid>
@@ -117,7 +121,7 @@ function Hero(): React.JSX.Element {
                   {/* CTA Buttons */}
                   <Stack
                     direction={{ xs: 'column', lg: 'row' }}
-                    gap={6}
+                    gap={{ xs: 2, sm: 2.5, md: 3 }}
                     alignItems="flex-start"
                     sx={buttonsStackSx}
                   >

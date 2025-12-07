@@ -30,8 +30,8 @@ const closeButtonSx: SxProps<Theme> = {
   // Responsive sizing: larger touch target on mobile (WCAG 2.1 AA)
   height: SIZING.closeButton,
   width: SIZING.closeButton,
-  pl: { xs: 1.25, sm: 1.125, md: 1 },
-  pb: { xs: 1.25, sm: 1.125, md: 1 },
+  pl: { xs: 1, sm: 1, md: 1.25, lg: 1.5 },
+  pb: { xs: 1, sm: 1, md: 1.25, lg: 1.5 },
   zIndex: 'modal', // Use theme z-index
   color: 'common.white',
   opacity: 0.7,

@@ -59,7 +59,7 @@ const statsContainerSx: SxProps<Theme> = {
 
 // Button skeleton matching actionButtonSx from ProjectLinks
 const buttonSx: SxProps<Theme> = {
-  height: SIZING.buttonHeightStandard,
+  height: SIZING.buttonHeightSmall,
   borderRadius: 1,
 };
 

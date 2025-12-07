@@ -133,7 +133,7 @@ function FormField({
         }
         aria-describedby={error ? `${controlId}-error` : undefined}
         sx={{
-          mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+          mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.25 },
           '&:before': {
             borderBottom: '2px solid',
             borderBottomColor: 'divider',
