@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
 import Button from '@/components/Button';
+import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import SectionContainer from '@/components/SectionContainer';
 import TimelineCard from '@/components/TimelineCard';
 import { TimelineList } from '@/components/TimelineList';
@@ -260,19 +261,21 @@ function WorkExperience(): JSX.Element {
       icon={WorkOutlineTwoTone}
     >
       <Box ref={combinedRef}>
-        <TimelineList
-          items={experiences}
-          Icon={WorkOutlineTwoTone}
-          getItemIcon={getExperienceIcon}
-          cardMotion={cardMotion}
-          renderItem={(experience, _index, isMobile) => (
-            <ExperienceCard
-              experience={experience}
-              onShowModal={credentialModal.open}
-              showDuration={isMobile}
-            />
-          )}
-        />
+        <ProfilerWrapper id="WorkExperience-Timeline" threshold={25}>
+          <TimelineList
+            items={experiences}
+            Icon={WorkOutlineTwoTone}
+            getItemIcon={getExperienceIcon}
+            cardMotion={cardMotion}
+            renderItem={(experience, _index, isMobile) => (
+              <ExperienceCard
+                experience={experience}
+                onShowModal={credentialModal.open}
+                showDuration={isMobile}
+              />
+            )}
+          />
+        </ProfilerWrapper>
       </Box>
 
       <Credential

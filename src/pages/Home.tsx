@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
+import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { SectionErrorFallback } from '@/components/SectionErrorFallback';
 import { SectionSkeleton } from '@/components/Skeletons';
 import { sections } from '@/config/sections';
@@ -26,7 +27,10 @@ function Home(): React.JSX.Element {
     >
       <AnimatePresence initial={false} mode="popLayout" custom={direction}>
         {sections.map(({ id, Component }) => (
-          <Activity key={id} mode={activeSectionId === id ? 'visible' : 'hidden'}>
+          <Activity
+            key={id}
+            mode={activeSectionId === id ? 'visible' : 'hidden'}
+          >
             <Box position="relative" height={1}>
               {activeSectionId === id && (
                 <PageTransitionWrapper key={id}>
@@ -35,7 +39,9 @@ function Home(): React.JSX.Element {
                     data-testid="section-error-boundary"
                   >
                     <Suspense fallback={<SectionSkeleton />}>
-                      <Component />
+                      <ProfilerWrapper id={`Section-${id}`} threshold={25}>
+                        <Component />
+                      </ProfilerWrapper>
                     </Suspense>
                   </ErrorBoundary>
                 </PageTransitionWrapper>

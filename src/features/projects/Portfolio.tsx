@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import { motion } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
+import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import SectionContainer from '@/components/SectionContainer';
 import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
@@ -41,25 +42,30 @@ function Portfolio(): React.JSX.Element {
       icon={FolderTwoTone}
       maxWidth={false}
     >
-      <Box
-        component={motion.div}
-        {...motionProps}
-        sx={{ width: 1, overflow: 'hidden' }}
-      >
-        {useGridLayout ? (
-          <Grid container spacing={SPACING.grid}>
-            {projects.map((project) => (
-              <ProjectGridItem key={project.github} project={project} />
-            ))}
-          </Grid>
-        ) : (
-          <Masonry columns={{ sm: 1, md: 2, lg: 3 }} spacing={SPACING.masonry}>
-            {projects.map((project) => (
-              <ProjectMasonryItem key={project.github} project={project} />
-            ))}
-          </Masonry>
-        )}
-      </Box>
+      <ProfilerWrapper id="Portfolio-Layout" threshold={30}>
+        <Box
+          component={motion.div}
+          {...motionProps}
+          sx={{ width: 1, overflow: 'hidden' }}
+        >
+          {useGridLayout ? (
+            <Grid container spacing={SPACING.grid}>
+              {projects.map((project) => (
+                <ProjectGridItem key={project.github} project={project} />
+              ))}
+            </Grid>
+          ) : (
+            <Masonry
+              columns={{ sm: 1, md: 2, lg: 3 }}
+              spacing={SPACING.masonry}
+            >
+              {projects.map((project) => (
+                <ProjectMasonryItem key={project.github} project={project} />
+              ))}
+            </Masonry>
+          )}
+        </Box>
+      </ProfilerWrapper>
     </SectionContainer>
   );
 }
