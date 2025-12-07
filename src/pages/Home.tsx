@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Activity, Suspense } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -6,12 +6,13 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { SectionErrorFallback } from '@/components/SectionErrorFallback';
 import { SectionSkeleton } from '@/components/Skeletons';
+import { sections } from '@/config/sections';
 import { useFullPageScroll, useNavigationState } from '@/hooks';
 
+// Home page component with full-page scroll and section transitions
 function Home(): React.JSX.Element {
   useFullPageScroll();
-  const { activeSection, activeSectionId, direction } = useNavigationState();
-  const Component = activeSection.Component;
+  const { activeSectionId, direction } = useNavigationState();
 
   return (
     <Box
@@ -24,18 +25,24 @@ function Home(): React.JSX.Element {
       }}
     >
       <AnimatePresence initial={false} mode="popLayout" custom={direction}>
-        {Component && (
-          <PageTransitionWrapper key={activeSectionId}>
-            <ErrorBoundary
-              fallback={<SectionErrorFallback />}
-              data-testid="section-error-boundary"
-            >
-              <Suspense fallback={<SectionSkeleton />}>
-                <Component />
-              </Suspense>
-            </ErrorBoundary>
-          </PageTransitionWrapper>
-        )}
+        {sections.map(({ id, Component }) => (
+          <Activity key={id} mode={activeSectionId === id ? 'visible' : 'hidden'}>
+            <Box position="relative" height={1}>
+              {activeSectionId === id && (
+                <PageTransitionWrapper key={id}>
+                  <ErrorBoundary
+                    fallback={<SectionErrorFallback />}
+                    data-testid="section-error-boundary"
+                  >
+                    <Suspense fallback={<SectionSkeleton />}>
+                      <Component />
+                    </Suspense>
+                  </ErrorBoundary>
+                </PageTransitionWrapper>
+              )}
+            </Box>
+          </Activity>
+        ))}
       </AnimatePresence>
     </Box>
   );

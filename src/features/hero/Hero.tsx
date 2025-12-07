@@ -91,7 +91,7 @@ function Hero(): React.JSX.Element {
               <Box sx={heroContentSx}>
                 <StaggerContainer stagger={0.1}>
                   {/* Hero Name with GlitchText effect */}
-                  <Typography sx={heroNameStyles}>
+                  <Typography component="div" sx={heroNameStyles}>
                     <GlitchText speed={1.1} enableShadows>
                       {HERO_NAME}
                     </GlitchText>
