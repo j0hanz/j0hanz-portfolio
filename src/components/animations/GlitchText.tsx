@@ -1,4 +1,6 @@
-import { CSSProperties, FC } from 'react';
+import type { CSSProperties } from 'react';
+
+import { Box } from '@mui/material';
 
 import './GlitchText.css';
 
@@ -10,36 +12,38 @@ interface GlitchTextProps {
   className?: string;
 }
 
-interface CustomCSSProperties extends CSSProperties {
+interface GlitchCSSVariables extends CSSProperties {
   '--after-duration': string;
   '--before-duration': string;
   '--after-shadow': string;
   '--before-shadow': string;
 }
 
-export const GlitchText: FC<GlitchTextProps> = ({
+export function GlitchText({
   children,
   speed = 0.5,
   enableShadows = true,
   enableOnHover = false,
   className = '',
-}) => {
-  const inlineStyles: CustomCSSProperties = {
+}: GlitchTextProps) {
+  // CSS variables must be passed via style prop (not supported in sx)
+  const cssVariables: GlitchCSSVariables = {
     '--after-duration': `${speed * 3}s`,
     '--before-duration': `${speed * 2}s`,
     '--after-shadow': enableShadows ? '-5px 0 red' : 'none',
     '--before-shadow': enableShadows ? '5px 0 cyan' : 'none',
   };
 
-  const hoverClass = enableOnHover ? 'enable-on-hover' : '';
+  const combinedClassName = `glitch ${enableOnHover ? 'enable-on-hover' : ''} ${className}`;
 
   return (
-    <div
-      className={`glitch ${hoverClass} ${className}`}
-      style={inlineStyles}
+    <Box
+      component="div"
+      className={combinedClassName}
+      style={cssVariables}
       data-text={children}
     >
       {children}
-    </div>
+    </Box>
   );
-};
+}

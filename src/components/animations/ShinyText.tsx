@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+
 import './ShinyText.css';
 
 interface ShinyTextProps {
@@ -7,20 +9,18 @@ interface ShinyTextProps {
   className?: string;
 }
 
-export const ShinyText: React.FC<ShinyTextProps> = ({
+export function ShinyText({
   text,
   disabled = false,
   speed = 5,
   className = '',
-}) => {
+}: ShinyTextProps) {
   const animationDuration = `${speed}s`;
+  const combinedClassName = `shiny-text ${disabled ? 'disabled' : ''} ${className}`;
 
   return (
-    <div
-      className={`shiny-text ${disabled ? 'disabled' : ''} ${className}`}
-      style={{ animationDuration }}
-    >
+    <Box className={combinedClassName} sx={{ animationDuration }}>
       {text}
-    </div>
+    </Box>
   );
-};
+}

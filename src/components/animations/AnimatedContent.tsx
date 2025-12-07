@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface AnimatedContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+interface AnimatedContentProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
   container?: Element | string | null;
   distance?: number;
   direction?: 'vertical' | 'horizontal';
@@ -25,7 +26,7 @@ interface AnimatedContentProps extends React.HTMLAttributes<HTMLDivElement> {
   onDisappearanceComplete?: () => void;
 }
 
-export const AnimatedContent: React.FC<AnimatedContentProps> = ({
+export function AnimatedContent({
   children,
   container,
   distance = 200,
@@ -46,7 +47,7 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
   className = '',
   style,
   ...props
-}) => {
+}: AnimatedContentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -175,4 +176,4 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
       {children}
     </div>
   );
-};
+}

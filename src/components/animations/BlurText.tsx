@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { motion, Transition, useReducedMotion } from 'motion/react';
 
-type BlurTextProps = {
+interface BlurTextProps {
   text?: string;
   delay?: number;
   className?: string;
@@ -15,12 +15,12 @@ type BlurTextProps = {
   easing?: (t: number) => number;
   onAnimationComplete?: () => void;
   stepDuration?: number;
-};
+}
 
-const buildKeyframes = (
+function buildKeyframes(
   from: Record<string, string | number>,
   steps: Array<Record<string, string | number>>
-): Record<string, Array<string | number>> => {
+): Record<string, Array<string | number>> {
   const keys = new Set<string>([
     ...Object.keys(from),
     ...steps.flatMap((s) => Object.keys(s)),
@@ -31,9 +31,9 @@ const buildKeyframes = (
     keyframes[k] = [from[k], ...steps.map((s) => s[k])];
   });
   return keyframes;
-};
+}
 
-export const BlurText: React.FC<BlurTextProps> = ({
+export function BlurText({
   text = '',
   delay = 200,
   className = '',
@@ -46,7 +46,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
   easing = (t: number) => t,
   onAnimationComplete,
   stepDuration = 0.2,
-}) => {
+}: BlurTextProps) {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -142,4 +142,4 @@ export const BlurText: React.FC<BlurTextProps> = ({
       })}
     </div>
   );
-};
+}

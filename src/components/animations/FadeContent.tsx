@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
 
 import { gsap } from 'gsap';
@@ -6,8 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface FadeContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
+interface FadeContentProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
   container?: Element | string | null;
   blur?: boolean;
   duration?: number;
@@ -22,7 +22,7 @@ interface FadeContentProps extends React.HTMLAttributes<HTMLDivElement> {
   onDisappearanceComplete?: () => void;
 }
 
-export const FadeContent: React.FC<FadeContentProps> = ({
+export function FadeContent({
   children,
   container,
   duration = 1000,
@@ -38,7 +38,7 @@ export const FadeContent: React.FC<FadeContentProps> = ({
   className = '',
   style,
   ...props
-}) => {
+}: FadeContentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -133,4 +133,4 @@ export const FadeContent: React.FC<FadeContentProps> = ({
       {children}
     </div>
   );
-};
+}

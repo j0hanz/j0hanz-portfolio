@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
@@ -21,12 +22,11 @@ interface SplitTextProps {
   to?: gsap.TweenVars;
   threshold?: number;
   rootMargin?: string;
-  tag?: 'span';
-  textAlign?: React.CSSProperties['textAlign'];
+  textAlign?: CSSProperties['textAlign'];
   onLetterAnimationComplete?: () => void;
 }
 
-export const SplitText: React.FC<SplitTextProps> = ({
+export function SplitText({
   text,
   className = '',
   delay = 0,
@@ -36,11 +36,10 @@ export const SplitText: React.FC<SplitTextProps> = ({
   from = { opacity: 0, y: 20 },
   to = { opacity: 1, y: 0 },
   threshold = 0.1,
-  rootMargin = 0,
+  rootMargin = '0px',
   textAlign = 'center',
-  tag = 'span',
   onLetterAnimationComplete,
-}) => {
+}: SplitTextProps) {
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
   const fontsLoadedRef = useRef(getInitialFontsLoaded());
@@ -170,24 +169,23 @@ export const SplitText: React.FC<SplitTextProps> = ({
     }
   );
 
-  const renderTag = () => {
-    const style: React.CSSProperties = {
-      textAlign,
-      overflow: 'hidden',
-      display: 'inline-block',
-      whiteSpace: 'normal',
-      wordWrap: 'break-word',
-      willChange: 'transform, opacity',
-    };
-    const classes = `split-parent ${className}`;
-    switch (tag) {
-      default:
-        return (
-          <span ref={ref} style={style} className={classes}>
-            {text}
-          </span>
-        );
-    }
+  // Style is necessary for GSAP SplitText - cannot use sx prop
+  const splitTextStyle: CSSProperties = {
+    textAlign,
+    overflow: 'hidden',
+    display: 'inline-block',
+    whiteSpace: 'normal',
+    wordWrap: 'break-word',
+    willChange: 'transform, opacity',
   };
-  return renderTag();
-};
+
+  return (
+    <span
+      ref={ref}
+      style={splitTextStyle}
+      className={`split-parent ${className}`}
+    >
+      {text}
+    </span>
+  );
+}
