@@ -1,3 +1,5 @@
+import { use } from 'react';
+
 import {
   Stack,
   type SvgIconProps,
@@ -13,9 +15,8 @@ import {
   STAT_KEYS_WITHOUT_ISSUES,
 } from '@/config/stats';
 import type { ProjectStatsProps, RepoStats, StatItem } from '@/config/types';
-import { useAnimationConfig, useCountUp } from '@/hooks';
+import { useAnimationConfig, useCountUp, useGitHubApi } from '@/hooks';
 import { LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
-import { useRepoStatsQuery } from '@/utils/query/index';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -89,7 +90,9 @@ const ProjectStats = ({
   repoPath,
   hasProjectBoard,
 }: ProjectStatsProps): React.JSX.Element => {
-  const { data: stats } = useRepoStatsQuery(repoPath);
+  const { repoStats } = useGitHubApi(repoPath);
+  const stats = use(repoStats);
+
   const statItems = buildStatItems(stats, hasProjectBoard);
 
   return (

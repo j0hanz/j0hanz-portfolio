@@ -1,5 +1,5 @@
 // TanStack Query - centralized exports
 
 export { queryClient } from './client';
-export { prefetchRepoStats, useRepoStatsQuery } from './github';
+export { prefetchRepoStats } from './github';
 export { useContactFormMutation } from './contact';

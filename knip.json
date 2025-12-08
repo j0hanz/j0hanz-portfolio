@@ -1,18 +1,9 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": [
-    "src/main.tsx!"
-  ],
-  "project": [
-    "src/**/*.{ts,tsx}!"
-  ],
-  "ignore": [
-    "src/vite-env.d.ts"
-  ],
-  "ignoreBinaries": [
-    "vite!",
-    "serve!"
-  ],
+  "entry": ["src/main.tsx!"],
+  "project": ["src/**/*.{ts,tsx}!"],
+  "ignore": ["src/vite-env.d.ts"],
+  "ignoreBinaries": ["vite!", "serve!"],
   "ignoreExportsUsedInFile": true,
   "paths": {
     "@/*": ["./src/*"]

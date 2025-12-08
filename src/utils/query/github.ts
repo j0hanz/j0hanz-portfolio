@@ -1,6 +1,3 @@
-// GitHub API queries with TanStack Query
-import { useSuspenseQuery } from '@tanstack/react-query';
-
 import {
   EMPTY_STATS,
   GITHUB_API_BASE_URL,
@@ -89,17 +86,6 @@ async function fetchRepoStats(
     // Re-throw other errors
     throw error;
   }
-}
-
-// Suspense hook for GitHub stats with long cache (10min stale, 30min gc)
-export function useRepoStatsQuery(repoPath: string) {
-  return useSuspenseQuery({
-    queryKey: githubKeys.repoStats(repoPath),
-    queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
-    ...LONG_CACHE_OPTIONS,
-    retry: 2,
-    refetchOnWindowFocus: true,
-  });
 }
 
 // Prefetches GitHub stats on hover/navigation to reduce perceived loading
