@@ -66,6 +66,9 @@ function SuccessIndicator({ visible }: SuccessIndicatorProps) {
         alignItems="center"
         justifyContent="center"
         spacing={1.5}
+        role="status"
+        aria-live="polite"
+        aria-label="Message sent successfully"
         sx={{
           mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
           px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },

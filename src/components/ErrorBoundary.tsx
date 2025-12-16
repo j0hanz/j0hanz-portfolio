@@ -21,9 +21,23 @@ class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // Only log in development to avoid exposing stack traces in production
+    // Log errors appropriately based on environment
     if (import.meta.env.DEV) {
       console.error('Error caught by boundary:', error, errorInfo);
+    } else {
+      // TODO: Integrate error reporting service (Sentry, LogRocket, etc.)
+      // Example: reportError(error, { componentStack: errorInfo.componentStack });
+      // For now, store in sessionStorage for debugging
+      try {
+        const errorLog = JSON.stringify({
+          message: error.message,
+          stack: error.stack,
+          timestamp: new Date().toISOString(),
+        });
+        sessionStorage.setItem('lastError', errorLog);
+      } catch {
+        // Silently fail if sessionStorage is unavailable
+      }
     }
   }
 

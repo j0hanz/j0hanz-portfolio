@@ -161,6 +161,15 @@ function AuroraCanvas({
     speed,
   }));
 
+  // Memoize color conversion to avoid creating new Color objects every frame
+  const colorStopsArrayRef = useRef<number[][]>([]);
+  useEffect(() => {
+    colorStopsArrayRef.current = colorStops.map((hex) => {
+      const c = new Color(hex);
+      return [c.r, c.g, c.b];
+    });
+  }, [colorStops]);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -192,18 +201,13 @@ function AuroraCanvas({
       delete geometry.attributes.uv;
     }
 
-    const colorStopsArray = colorStops.map((hex) => {
-      const c = new Color(hex);
-      return [c.r, c.g, c.b];
-    });
-
     const program = new Program(gl, {
       vertex: VERT,
       fragment: FRAG,
       uniforms: {
         uTime: { value: 0 },
         uAmplitude: { value: amplitude },
-        uColorStops: { value: colorStopsArray },
+        uColorStops: { value: colorStopsArrayRef.current },
         uResolution: { value: [container.offsetWidth, container.offsetHeight] },
         uBlend: { value: blend },
       },
@@ -220,10 +224,7 @@ function AuroraCanvas({
         program.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
         program.uniforms.uAmplitude.value = props.amplitude;
         program.uniforms.uBlend.value = props.blend;
-        program.uniforms.uColorStops.value = props.colorStops.map((hex) => {
-          const c = new Color(hex);
-          return [c.r, c.g, c.b];
-        });
+        program.uniforms.uColorStops.value = colorStopsArrayRef.current;
         renderer.render({ scene: mesh });
       }
     };

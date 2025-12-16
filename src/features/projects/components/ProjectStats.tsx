@@ -1,4 +1,4 @@
-import { use } from 'react';
+import { Suspense } from 'react';
 
 import {
   Stack,
@@ -7,6 +7,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { motion } from 'motion/react';
 
 import {
@@ -14,9 +15,10 @@ import {
   STAT_KEYS,
   STAT_KEYS_WITHOUT_ISSUES,
 } from '@/config/stats';
-import type { ProjectStatsProps, RepoStats, StatItem } from '@/config/types';
-import { useAnimationConfig, useCountUp, useGitHubApi } from '@/hooks';
+import type { ProjectStatsProps, StatItem } from '@/config/types';
+import { useAnimationConfig, useCountUp } from '@/hooks';
 import { LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
+import { githubKeys } from '@/utils/query/keys';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
@@ -37,7 +39,7 @@ const containerSx: SxProps<Theme> = {
 
 // Builds stat items array based on configuration
 function buildStatItems(
-  stats: RepoStats,
+  stats: { stars: number; forks: number; issues: number },
   includeIssues: boolean
 ): (StatItem & { icon: React.ComponentType<SvgIconProps> })[] {
   const keys = includeIssues ? STAT_KEYS : STAT_KEYS_WITHOUT_ISSUES;
@@ -86,12 +88,34 @@ function AnimatedStat({
   );
 }
 
-const ProjectStats = ({
+function ProjectStatsContent({
   repoPath,
   hasProjectBoard,
-}: ProjectStatsProps): React.JSX.Element => {
-  const { repoStats } = useGitHubApi(repoPath);
-  const stats = use(repoStats);
+}: ProjectStatsProps): React.JSX.Element {
+  // Use TanStack Query's Suspense hook - proper way for React 19
+  const { data: stats } = useSuspenseQuery({
+    queryKey: githubKeys.repoStats(repoPath),
+    queryFn: ({ signal }) =>
+      fetch(`https://api.github.com/repos/${repoPath}`, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+          ...(import.meta.env.VITE_GITHUB_TOKEN && {
+            Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          }),
+        },
+        signal,
+      })
+        .then((res) => (res.ok ? res.json() : Promise.reject()))
+        .then((data) => ({
+          stars: data.stargazers_count ?? 0,
+          forks: data.forks_count ?? 0,
+          issues: data.open_issues_count ?? 0,
+        }))
+        .catch(() => ({ stars: 0, forks: 0, issues: 0 })),
+    staleTime: 10 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
 
   const statItems = buildStatItems(stats, hasProjectBoard);
 
@@ -101,6 +125,14 @@ const ProjectStats = ({
         <AnimatedStat key={key} label={label} value={value} icon={icon} />
       ))}
     </Stack>
+  );
+}
+
+const ProjectStats = (props: ProjectStatsProps): React.JSX.Element => {
+  return (
+    <Suspense fallback={null}>
+      <ProjectStatsContent {...props} />
+    </Suspense>
   );
 };
 

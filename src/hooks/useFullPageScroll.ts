@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { useReducedMotion } from 'motion/react';
 
@@ -13,6 +13,7 @@ export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
   const { isScrollLocked, isPending } = useNavigationState();
   const isScrolling = useRef(false);
+  const timeoutRef = useRef<number | null>(null);
 
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useMobileBreakpoint('md');
@@ -32,14 +33,29 @@ export function useFullPageScroll(): void {
       isScrolling.current = true;
       (direction === 'down' ? moveNext : movePrev)();
 
-      setTimeout(() => {
+      // Clear any existing timeout before setting new one
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = window.setTimeout(() => {
         isScrolling.current = false;
+        timeoutRef.current = null;
       }, SCROLL_CONFIG.LOCK_DURATION_MS);
 
       return true;
     },
     [isPending, moveNext, movePrev]
   );
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   useScrollEvents({
     onNavigate,

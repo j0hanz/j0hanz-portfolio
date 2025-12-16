@@ -92,6 +92,13 @@ export function ProjectCard({
     }
   };
 
+  // Keyboard focus equivalent for accessibility
+  const handleFocus = () => {
+    if (repoPath && repoPath.length > 0) {
+      prefetchRepoStats(repoPath);
+    }
+  };
+
   // Use same pattern as AboutMe CardItem - variants with hover effect
   const cardMotion = useMotionVariant(cardEntranceVariants, {
     initial: 'hidden',
@@ -105,6 +112,8 @@ export function ProjectCard({
       component={motion.div}
       {...cardMotion}
       onMouseEnter={handleMouseEnter}
+      onFocus={handleFocus}
+      tabIndex={0}
     >
       <Card title="" noContentPadding>
         <ErrorBoundary fallback={<ProjectCardSkeleton />}>
