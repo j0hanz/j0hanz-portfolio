@@ -1,4 +1,4 @@
-import { ReactNode, useReducer, useTransition } from 'react';
+import { ReactNode, useCallback, useReducer, useTransition } from 'react';
 
 import {
   Alert,
@@ -15,7 +15,6 @@ import {
   SnackbarActionsContext,
   SnackbarStateContext,
 } from '@/contexts/SnackbarContext';
-import { useEventCallback } from '@/hooks';
 
 // Styles extracted as constants for reusability
 const SNACKBAR_SX: SxProps<Theme> = { mt: { xs: 8, sm: 9 } };
@@ -41,7 +40,7 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(snackbarReducer, INITIAL_STATE);
 
   // Wrap snackbar updates in transition for non-blocking notifications
-  const showSnackbar = useEventCallback(
+  const showSnackbar = useCallback(
     (
       message: string,
       severity: AlertColor = 'info',
@@ -50,17 +49,19 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
       startTransition(() => {
         dispatch({ type: 'SHOW', payload: { message, severity, duration } });
       });
-    }
+    },
+    []
   );
 
-  const closeSnackbar = useEventCallback(() => {
+  const closeSnackbar = useCallback(() => {
     startTransition(() => dispatch({ type: 'CLOSE' }));
-  });
+  }, []);
 
-  const handleClose = useEventCallback(
+  const handleClose = useCallback(
     (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
       if (reason !== 'clickaway') closeSnackbar();
-    }
+    },
+    [closeSnackbar]
   );
 
   // Split context values for render optimization

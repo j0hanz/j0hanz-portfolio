@@ -8,7 +8,6 @@ import { AURORA_CONFIG, PALETTES } from '@/config/constants';
 import { auroraColorStops } from '@/config/reactbits';
 import {
   useAnimationConfig,
-  useAnimationPriority,
   useNavigationState,
   useThemeModeState,
 } from '@/hooks';
@@ -272,7 +271,6 @@ function AuroraStatic({ colorStops }: { colorStops: string[] }) {
 // Main Aurora component with section-based color switching
 function Aurora(): React.JSX.Element {
   const { mode } = useThemeModeState();
-  const priority = useAnimationPriority();
   const { prefersReducedMotion } = useAnimationConfig();
   const { activeSectionId } = useNavigationState();
   const [isDocumentVisible, setIsDocumentVisible] = useState(true);
@@ -285,8 +283,7 @@ function Aurora(): React.JSX.Element {
       document.removeEventListener('visibilitychange', handleVisibility);
   }, []);
 
-  const shouldAnimate =
-    priority === 'high' && !prefersReducedMotion && isDocumentVisible;
+  const shouldAnimate = !prefersReducedMotion && isDocumentVisible;
 
   const sectionId = activeSectionId ?? 'hero';
   const colorStops = getSectionColorStops(sectionId, mode);

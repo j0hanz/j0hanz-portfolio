@@ -1,9 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 
 import { SCROLL_CONFIG } from '@/config/constants';
 import type { ScrollDirection, UseScrollEventsProps } from '@/config/types';
-
-import { useEventCallback } from './useEventCallback';
 
 // Key mappings for keyboard navigation
 const NAVIGATION_KEYS: Record<string, ScrollDirection> = {
@@ -38,7 +36,7 @@ export function useScrollEvents({
   const touchStartTime = useRef(0);
   const isTouchActive = useRef(false);
 
-  const handleWheel = useEventCallback((e: WheelEvent) => {
+  const handleWheel = useEffectEvent((e: WheelEvent) => {
     if (isScrolling.current) {
       e.preventDefault();
       return;
@@ -52,7 +50,7 @@ export function useScrollEvents({
     }
   });
 
-  const handleKeyDown = useEventCallback((e: KeyboardEvent) => {
+  const handleKeyDown = useEffectEvent((e: KeyboardEvent) => {
     if (isScrolling.current) {
       e.preventDefault();
       return;
@@ -64,7 +62,7 @@ export function useScrollEvents({
     }
   });
 
-  const handleTouchStart = useEventCallback((e: TouchEvent) => {
+  const handleTouchStart = useEffectEvent((e: TouchEvent) => {
     // Don't interfere with ongoing scroll animation
     if (isScrolling.current) return;
 
@@ -73,7 +71,7 @@ export function useScrollEvents({
     isTouchActive.current = true;
   });
 
-  const handleTouchEnd = useEventCallback((e: TouchEvent) => {
+  const handleTouchEnd = useEffectEvent((e: TouchEvent) => {
     if (!isTouchActive.current || isScrolling.current) return;
 
     const deltaY = touchStartY.current - e.changedTouches[0].clientY;
@@ -123,12 +121,5 @@ export function useScrollEvents({
       touchStartTime.current = 0;
       isTouchActive.current = false;
     };
-  }, [
-    shouldDisable,
-    disableNonTouchInputs,
-    handleWheel,
-    handleKeyDown,
-    handleTouchStart,
-    handleTouchEnd,
-  ]);
+  }, [shouldDisable, disableNonTouchInputs]);
 }

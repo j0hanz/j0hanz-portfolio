@@ -1,8 +1,7 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useRef } from 'react';
 
 import {
   animate,
-  frame,
   useInView as useMotionInView,
   useReducedMotion as useMotionReducedMotion,
   useMotionValue,
@@ -29,7 +28,6 @@ import {
 } from '@/config/motion';
 import type {
   AnimationConfig,
-  AnimationPriority,
   CardHoverMotion,
   TimelineSectionControllerOptions,
 } from '@/config/types';
@@ -40,12 +38,9 @@ import {
   createGestureProps,
   createStagger,
   createTransition,
-  getDeviceCapability,
   resolveMotionState,
   runSectionSequence,
 } from '@/utils/motion';
-
-import { useEventCallback } from './useEventCallback';
 
 // ============================================================================
 // REDUCED MOTION DETECTION
@@ -200,20 +195,6 @@ export function useInView(
 }
 
 // ============================================================================
-// ANIMATION SEQUENCING
-// ============================================================================
-
-// ============================================================================
-// ANIMATION PRIORITY DETECTION
-// ============================================================================
-
-// Returns animation priority based on user preferences and device capability
-export const useAnimationPriority = (): AnimationPriority => {
-  const prefersReducedMotion = useReducedMotion();
-  return prefersReducedMotion ? 'reduced' : getDeviceCapability();
-};
-
-// ============================================================================
 // CONTENT MOTION
 // ============================================================================
 
@@ -284,10 +265,10 @@ function useTimelineSectionRefs(viewportPreset: UseInViewOptions) {
   const isInView = useInView(containerRef, viewportPreset);
 
   // Combine refs into single callback ref
-  const combinedRef = useEventCallback((node: HTMLDivElement | null) => {
+  const combinedRef = useCallback((node: HTMLDivElement | null) => {
     sectionRef.current = node;
     containerRef.current = node;
-  });
+  }, []);
 
   return {
     sectionRef,
@@ -358,17 +339,4 @@ export function useVelocityTilt(
 ) {
   const xVelocity = useVelocity(motionValueX);
   return useTransform(xVelocity, [-1000, 0, 1000], [-maxTilt, 0, maxTilt]);
-}
-
-// Batched DOM operations using Motion's frame utility
-export function useBatchedDomUpdate() {
-  const scheduleRead = useEventCallback((callback: () => void) => {
-    frame.read(callback);
-  });
-
-  const scheduleRender = useEventCallback((callback: () => void) => {
-    frame.render(callback);
-  });
-
-  return { scheduleRead, scheduleRender };
 }

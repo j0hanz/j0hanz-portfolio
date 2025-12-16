@@ -1,4 +1,4 @@
-import { ReactNode, useOptimistic, useTransition } from 'react';
+import { ReactNode, useCallback, useOptimistic, useTransition } from 'react';
 
 import {
   CssBaseline,
@@ -17,7 +17,6 @@ import {
   ThemeModeActionsContext,
   ThemeModeStateContext,
 } from '@/contexts/themeContext';
-import { useEventCallback } from '@/hooks';
 
 function ThemeModeAdapter({ children }: { children: ReactNode }) {
   const [isPending, startTransition] = useTransition();
@@ -34,15 +33,15 @@ function ThemeModeAdapter({ children }: { children: ReactNode }) {
   >(resolvedMode, (_current, newMode) => newMode);
 
   // Wrap theme changes in transition with optimistic update for non-blocking UI
-  const toggleMode = useEventCallback(() => {
+  const toggleMode = useCallback(() => {
     const nextMode = resolvedMode === 'dark' ? 'light' : 'dark';
     startTransition(() => {
       setOptimisticMode(nextMode);
       setMode(nextMode);
     });
-  });
+  }, [resolvedMode, setMode, setOptimisticMode]);
 
-  const handleSetMode = useEventCallback(
+  const handleSetMode = useCallback(
     (nextMode: PaletteMode | ((prev: PaletteMode) => PaletteMode)) => {
       const computedMode =
         typeof nextMode === 'function' ? nextMode(resolvedMode) : nextMode;
@@ -50,7 +49,8 @@ function ThemeModeAdapter({ children }: { children: ReactNode }) {
         setOptimisticMode(computedMode);
         setMode(computedMode);
       });
-    }
+    },
+    [resolvedMode, setMode, setOptimisticMode]
   );
 
   // Use optimistic mode for immediate UI updates, fallback to resolved mode

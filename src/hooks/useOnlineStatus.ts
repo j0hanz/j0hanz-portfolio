@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import {
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 import {
   CONNECTIVITY_BANNER_AUTO_DISMISS,
@@ -6,7 +12,6 @@ import {
 } from '@/config/constants';
 import type { StatusBanner } from '@/config/types';
 
-import { useEventCallback } from './useEventCallback';
 import { useSnackbar } from './useSnackbar';
 
 // ============================================================================
@@ -62,7 +67,7 @@ export function useConnectivity() {
   const timeoutRef = useRef<number | null>(null);
 
   // Stable callback for updating banner state (avoids ESLint setState-in-effect warning)
-  const updateBanner = useEventCallback((banner: StatusBanner | null) => {
+  const updateBanner = useEffectEvent((banner: StatusBanner | null) => {
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -103,7 +108,7 @@ export function useConnectivity() {
       showSnackbar(CONNECTIVITY_COPY.offlineSnackbar, 'warning', null);
       updateBanner(OFFLINE_BANNER);
     }
-  }, [isOnline, showSnackbar, updateBanner]);
+  }, [isOnline, showSnackbar]);
 
   return { isOnline, statusBanner };
 }

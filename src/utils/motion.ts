@@ -15,7 +15,6 @@ import {
 } from '@/config/motion';
 import type {
   AnimationConfig,
-  AnimationPriority,
   SectionSequenceStep,
   TransitionPreset,
 } from '@/config/types';
@@ -158,16 +157,3 @@ export const runSectionSequence = (
   steps.forEach(({ selector, delay, useStagger, staggerValue }) =>
     animateElements(scopeElement, selector, delay, useStagger, staggerValue)
   );
-
-// ============================================================================
-// DEVICE CAPABILITY
-// ============================================================================
-
-// Detects device capability based on hardware concurrency and memory
-export const getDeviceCapability = (): AnimationPriority => {
-  if (typeof navigator === 'undefined') return 'reduced';
-  const cores = navigator.hardwareConcurrency ?? 4;
-  const memory =
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
-  return cores <= 4 || memory <= 4 ? 'reduced' : 'high';
-};

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { useReducedMotion } from 'motion/react';
 
@@ -6,7 +6,6 @@ import { SCROLL_CONFIG } from '@/config/constants';
 import type { ScrollDirection } from '@/config/types';
 
 import { useMobileBreakpoint } from './useBreakpoints';
-import { useEventCallback } from './useEventCallback';
 import { useNavigationActions, useNavigationState } from './useNavigation';
 import { isAtScrollBoundary, useScrollEvents } from './useScrollEvents';
 
@@ -24,20 +23,23 @@ export function useFullPageScroll(): void {
   // Disable wheel/keyboard on mobile, keep touch active
   const disableNonTouchInputs = shouldDisable || isMobile;
 
-  const onNavigate = useEventCallback((direction: ScrollDirection) => {
-    if (isScrolling.current || isPending || !isAtScrollBoundary(direction)) {
-      return false;
-    }
+  const onNavigate = useCallback(
+    (direction: ScrollDirection) => {
+      if (isScrolling.current || isPending || !isAtScrollBoundary(direction)) {
+        return false;
+      }
 
-    isScrolling.current = true;
-    (direction === 'down' ? moveNext : movePrev)();
+      isScrolling.current = true;
+      (direction === 'down' ? moveNext : movePrev)();
 
-    setTimeout(() => {
-      isScrolling.current = false;
-    }, SCROLL_CONFIG.LOCK_DURATION_MS);
+      setTimeout(() => {
+        isScrolling.current = false;
+      }, SCROLL_CONFIG.LOCK_DURATION_MS);
 
-    return true;
-  });
+      return true;
+    },
+    [isPending, moveNext, movePrev]
+  );
 
   useScrollEvents({
     onNavigate,

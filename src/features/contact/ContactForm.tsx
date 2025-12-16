@@ -1,5 +1,6 @@
 import {
   startTransition,
+  useCallback,
   useEffect,
   useOptimistic,
   useRef,
@@ -35,7 +36,6 @@ import type {
 } from '@/config/types';
 import {
   useContactFormMutation,
-  useEventCallback,
   useInView,
   useMotionVariant,
   useSnackbar,
@@ -160,7 +160,7 @@ function ContactFormContent() {
   const isSending = optimisticStatus === 'sending' || isPending;
   const showSuccess = (optimisticStatus === 'sent' || isSuccess) && !isPending;
 
-  const handleChange = useEventCallback(
+  const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.currentTarget;
       const fieldName = name as ContactFieldKey;
@@ -176,16 +176,17 @@ function ContactFormContent() {
           return rest;
         });
       }
-    }
+    },
+    []
   );
 
-  const handleReset = useEventCallback(() => {
+  const handleReset = useCallback(() => {
     setFormData(EMPTY_FORM);
     setErrors({});
     reset();
-  });
+  }, [reset]);
 
-  const handleSubmit = useEventCallback(
+  const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       reset();
@@ -222,7 +223,8 @@ function ContactFormContent() {
           },
         });
       });
-    }
+    },
+    [formData, mutate, reset, setOptimisticStatus, showSnackbar]
   );
 
   // Auto-reset form after successful submission

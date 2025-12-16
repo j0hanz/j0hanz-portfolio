@@ -1,4 +1,10 @@
-import { ReactNode, useEffect, useReducer, useTransition } from 'react';
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useReducer,
+  useTransition,
+} from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
 import type {
@@ -11,7 +17,6 @@ import {
   NavigationActionsContext,
   NavigationStateContext,
 } from '@/contexts/NavigationContext';
-import { useEventCallback } from '@/hooks';
 
 const LAST_INDEX = sections.length - 1;
 
@@ -107,23 +112,27 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   );
 
   // Transition-wrapped dispatch for smooth updates (React 19 Concurrent Mode)
-  const transitionDispatch = useEventCallback((action: NavigationAction) =>
-    startTransition(() => dispatch(action))
+  const transitionDispatch = useCallback(
+    (action: NavigationAction) => startTransition(() => dispatch(action)),
+    []
   );
 
-  const setActiveSection = useEventCallback((indexOrId: number | string) => {
-    const action: NavigationAction =
-      typeof indexOrId === 'string'
-        ? { type: 'SET_ID', payload: indexOrId }
-        : { type: 'SET_INDEX', payload: indexOrId };
-    transitionDispatch(action);
-  });
+  const setActiveSection = useCallback(
+    (indexOrId: number | string) => {
+      const action: NavigationAction =
+        typeof indexOrId === 'string'
+          ? { type: 'SET_ID', payload: indexOrId }
+          : { type: 'SET_INDEX', payload: indexOrId };
+      transitionDispatch(action);
+    },
+    [transitionDispatch]
+  );
 
-  const handleHashChange = useEventCallback(() => {
+  const handleHashChange = useCallback(() => {
     if (typeof window !== 'undefined') {
       transitionDispatch({ type: 'SYNC_HASH', payload: window.location.hash });
     }
-  });
+  }, [transitionDispatch]);
 
   // Sync browser hash when section changes
   useEffect(() => {
@@ -138,15 +147,18 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
   const stateValue: NavigationState = { ...state, isPending };
 
-  // Navigation action handlers - stable references via useEventCallback
-  const navigateTo = useEventCallback((id: string) =>
-    transitionDispatch({ type: 'SET_ID', payload: id })
+  // Navigation action handlers - stable references via useCallback
+  const navigateTo = useCallback(
+    (id: string) => transitionDispatch({ type: 'SET_ID', payload: id }),
+    [transitionDispatch]
   );
-  const moveNext = useEventCallback(() =>
-    transitionDispatch({ type: 'STEP', payload: 1 })
+  const moveNext = useCallback(
+    () => transitionDispatch({ type: 'STEP', payload: 1 }),
+    [transitionDispatch]
   );
-  const movePrev = useEventCallback(() =>
-    transitionDispatch({ type: 'STEP', payload: -1 })
+  const movePrev = useCallback(
+    () => transitionDispatch({ type: 'STEP', payload: -1 }),
+    [transitionDispatch]
   );
 
   const actionsValue = { setActiveSection, navigateTo, moveNext, movePrev };

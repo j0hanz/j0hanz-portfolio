@@ -2,9 +2,22 @@ import { Button as MuiButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'motion/react';
 
-import { CustomButtonProps } from '@/config/types';
+import type { ConflictingEvent, CustomButtonProps } from '@/config/types';
 import { useButtonGesture } from '@/hooks';
-import { filterMotionConflicts } from '@/utils/motionProps';
+
+// Events that conflict between React's native events and Motion's gesture system
+const CONFLICTING_EVENTS: ConflictingEvent[] = [
+  'onDrag',
+  'onDragStart',
+  'onDragEnd',
+  'onDragOver',
+  'onDragEnter',
+  'onDragLeave',
+  'onDrop',
+  'onAnimationStart',
+  'onAnimationEnd',
+  'onAnimationIteration',
+];
 
 const StyledButton = styled(MuiButton)({
   textTransform: 'uppercase',
@@ -48,7 +61,11 @@ const Button = function Button({
   };
 
   // Filter out HTML drag/animation events that conflict with Motion's system
-  const safeProps = filterMotionConflicts(props);
+  const safeProps = Object.fromEntries(
+    Object.entries(props).filter(
+      ([key]) => !CONFLICTING_EVENTS.includes(key as ConflictingEvent)
+    )
+  );
 
   return (
     <MotionButton

@@ -8,7 +8,6 @@
 // Fundamental hooks used across the application
 // ============================================================================
 
-export { useEventCallback } from './useEventCallback';
 export { useToggle } from './useToggle';
 export { useModal } from './useModal';
 
@@ -59,7 +58,6 @@ export { useFullPageScroll } from './useFullPageScroll';
 export {
   useReducedMotion,
   useAnimationConfig,
-  useAnimationPriority,
   useMotionVariant,
   useContentMotion,
 } from './useMotions';
@@ -69,9 +67,6 @@ export { useCardHover, useButtonGesture } from './useMotions';
 
 // Scroll-linked animations
 export { useInView } from './useMotions';
-
-// Animation sequencing
-export { useBatchedDomUpdate } from './useMotions';
 
 // Timeline-specific hooks (shared patterns for Education/WorkExperience)
 export {

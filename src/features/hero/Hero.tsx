@@ -7,7 +7,6 @@ import { motion } from 'motion/react';
 import { GlitchText, TextType } from '@/components/animations';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
-import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
 import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { SPACING } from '@/config/responsive';
@@ -16,7 +15,7 @@ import { HeroProfile } from '@/features/hero/HeroProfile';
 import { SkillBadgeRow } from '@/features/hero/SkillBadgeRow';
 import {
   useAnimationConfig,
-  useAnimationPriority,
+  useCursorMagnet,
   useCvModalActions,
   useMobileBreakpoint,
   useMotionVariant,
@@ -64,13 +63,52 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
   },
 ] as const;
 
+// Magnetic button wrapper using useCursorMagnet hook
+function HeroButton({
+  action,
+  isDownload,
+  openCvModal,
+  isMobile,
+  disableMagnetic,
+}: {
+  action: HeroActionConfig;
+  isDownload: boolean;
+  openCvModal: () => void;
+  isMobile: boolean;
+  disableMagnetic: boolean;
+}) {
+  const magnetProps = useCursorMagnet(isMobile || disableMagnetic);
+
+  const button = (
+    <Button
+      variant="contained"
+      {...action.buttonProps}
+      onClick={isDownload ? openCvModal : undefined}
+    >
+      {action.label}
+    </Button>
+  );
+
+  if (isMobile || disableMagnetic) {
+    return <Box>{button}</Box>;
+  }
+
+  return (
+    <motion.div
+      style={{ display: 'inline-flex', ...magnetProps.style }}
+      onPointerMove={magnetProps.onPointerMove}
+      onPointerLeave={magnetProps.onPointerLeave}
+    >
+      {button}
+    </motion.div>
+  );
+}
+
 function Hero(): React.JSX.Element {
   const { openCvModal } = useCvModalActions();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  const animationPriority = useAnimationPriority();
   const isMobile = useMobileBreakpoint('md');
-  const disableMagnetic =
-    prefersReducedMotion || animationPriority === 'reduced';
+  const disableMagnetic = prefersReducedMotion;
   const subtitleMotion = useMotionVariant(subtitleClipPath, {
     initial: 'initial',
     animate: 'animate',
@@ -131,25 +169,15 @@ function Hero(): React.JSX.Element {
                     >
                       {HERO_ACTIONS.map((action) => {
                         const isDownload = action.key === 'download-cv';
-                        const button = (
-                          <Button
-                            variant="contained"
-                            {...action.buttonProps}
-                            onClick={isDownload ? openCvModal : undefined}
-                          >
-                            {action.label}
-                          </Button>
-                        );
-
-                        return isMobile ? (
-                          <Box key={action.key}>{button}</Box>
-                        ) : (
-                          <MagneticWrapper
+                        return (
+                          <HeroButton
                             key={action.key}
-                            disabled={disableMagnetic}
-                          >
-                            {button}
-                          </MagneticWrapper>
+                            action={action}
+                            isDownload={isDownload}
+                            openCvModal={openCvModal}
+                            isMobile={isMobile}
+                            disableMagnetic={disableMagnetic}
+                          />
                         );
                       })}
                     </Stack>

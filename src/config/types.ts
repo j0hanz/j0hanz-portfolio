@@ -412,15 +412,6 @@ export interface StaggerContainerProps {
   sx?: SxProps<Theme>;
 }
 
-export interface MagneticWrapperProps {
-  children: ReactNode;
-  strength?: number;
-  disabled?: boolean;
-  className?: string;
-  style?: CSSProperties;
-  sx?: SxProps<Theme>;
-}
-
 export interface ParallaxProps {
   children: ReactNode;
   offset?: number;
