@@ -12,6 +12,11 @@ export const SCROLL_CONFIG = {
   TOUCH_THRESHOLD_PX: 50,
   SWIPE_MIN_DISTANCE_PX: 40,
   SWIPE_MAX_DURATION_MS: 600,
+  ACCESSIBLE: {
+    TOUCH_THRESHOLD_PX: 75,
+    SWIPE_MIN_DISTANCE_PX: 60,
+    SWIPE_MAX_DURATION_MS: 1000,
+  },
 } as const;
 
 // ============================================================================

@@ -57,6 +57,24 @@ export function useFullPageScroll(): void {
     };
   }, []);
 
+  // Handle visibility changes to reset scrolling state
+  useEffect(() => {
+    isScrolling.current = false;
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isScrolling.current = false;
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () =>
+      document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+
   useScrollEvents({
     onNavigate,
     shouldDisable,

@@ -72,11 +72,16 @@ export function useScrollEvents({
   });
 
   const handleTouchEnd = useEffectEvent((e: TouchEvent) => {
-    if (!isTouchActive.current || isScrolling.current) return;
+    if (!isTouchActive.current || isScrolling.current) {
+      isTouchActive.current = false;
+      return;
+    }
 
     const deltaY = touchStartY.current - e.changedTouches[0].clientY;
     const elapsed = Date.now() - touchStartTime.current;
     isTouchActive.current = false;
+    touchStartY.current = 0;
+    touchStartTime.current = 0;
 
     // Validate swipe gesture
     if (
@@ -115,11 +120,6 @@ export function useScrollEvents({
 
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
-
-      // Reset touch state refs on unmount
-      touchStartY.current = 0;
-      touchStartTime.current = 0;
-      isTouchActive.current = false;
     };
   }, [shouldDisable, disableNonTouchInputs]);
 }

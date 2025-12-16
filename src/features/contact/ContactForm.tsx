@@ -41,6 +41,7 @@ import {
   useSnackbar,
 } from '@/hooks';
 import { buttonMinWidthSx, iconSx } from '@/styles/shared';
+import { ErrorMessages } from '@/utils/errors';
 import { validateForm } from '@/utils/validation';
 
 import { ContactFormFields } from './ContactFormFields';
@@ -222,7 +223,8 @@ function ContactFormContent() {
           },
           onError: (error) => {
             setOptimisticStatus('idle');
-            showSnackbar(error.message, 'error');
+            const errorMessage = error.message || ErrorMessages.form.sendFailed;
+            showSnackbar(errorMessage, 'error');
           },
         });
       });
@@ -232,10 +234,10 @@ function ContactFormContent() {
 
   // Auto-reset form after successful submission
   useEffect(() => {
-    if (!showSuccess) return;
+    if (!isSuccess || isPending) return;
     const timer = setTimeout(handleReset, CONTACT_CONFIG.FORM_RESET_DELAY);
     return () => clearTimeout(timer);
-  }, [showSuccess, handleReset]);
+  }, [isSuccess, isPending, handleReset]);
 
   return (
     <Card title="">

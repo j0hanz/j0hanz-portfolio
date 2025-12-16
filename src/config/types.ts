@@ -748,6 +748,7 @@ export interface ValidatorConfig {
   pattern?: { regex: RegExp; error: string };
   minLength?: { value: number; error: string };
   optional?: boolean;
+  validateProtocol?: boolean;
 }
 
 // --- Theme Module Augmentation ---

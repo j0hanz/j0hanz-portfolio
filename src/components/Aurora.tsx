@@ -216,23 +216,28 @@ function AuroraCanvas({
     const mesh = new Mesh(gl, { geometry, program });
     container.appendChild(gl.canvas);
 
+    let isActive = true;
     let animateId = 0;
     const update = (t: number) => {
+      if (!isActive) return;
+
       animateId = requestAnimationFrame(update);
+
+      if (!isActive || !program) return;
+
       const props = getLatestProps();
-      if (program) {
-        program.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
-        program.uniforms.uAmplitude.value = props.amplitude;
-        program.uniforms.uBlend.value = props.blend;
-        program.uniforms.uColorStops.value = colorStopsArrayRef.current;
-        renderer.render({ scene: mesh });
-      }
+      program.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
+      program.uniforms.uAmplitude.value = props.amplitude;
+      program.uniforms.uBlend.value = props.blend;
+      program.uniforms.uColorStops.value = colorStopsArrayRef.current;
+      renderer.render({ scene: mesh });
     };
     animateId = requestAnimationFrame(update);
 
     resize();
 
     return () => {
+      isActive = false;
       cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
       if (container && gl.canvas.parentNode === container) {

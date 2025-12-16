@@ -54,9 +54,26 @@ export const sendEmail = async (formData: FormData): Promise<boolean> => {
     );
     return true;
   } catch (error) {
+    // Log detailed error information for debugging
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
+    const errorDetails = {
+      error: errorMessage,
+      timestamp: new Date().toISOString(),
+      formData: { ...formData, message: '[redacted]' },
+    };
+
     if (import.meta.env.DEV) {
-      console.error('Failed to send email:', error);
+      console.error('Failed to send email:', errorDetails);
+    } else {
+      // Store error for production debugging
+      try {
+        sessionStorage.setItem('lastEmailError', JSON.stringify(errorDetails));
+      } catch {
+        // Silently fail if sessionStorage unavailable
+      }
     }
+
     return false;
   }
 };

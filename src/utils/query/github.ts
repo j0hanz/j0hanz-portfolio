@@ -17,17 +17,11 @@ async function fetchRepoStats(
     throw new Error('Repository path is required');
   }
 
-  // Build headers with optional authentication
+  // Common headers for GitHub API requests
   const headers: HeadersInit = {
     Accept: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
   };
-
-  // Add GitHub token if available (increases rate limit from 60 to 5000/hour)
-  const githubToken = import.meta.env.VITE_GITHUB_TOKEN;
-  if (githubToken) {
-    headers.Authorization = `Bearer ${githubToken}`;
-  }
 
   try {
     // Add artificial delay in development to make skeleton loading visible
@@ -42,12 +36,16 @@ async function fetchRepoStats(
       signal,
     });
 
-    // Handle rate limiting - return cached data or empty stats
+    // Handle rate limiting
     if (response.status === 403 || response.status === 429) {
-      const cached = queryClient.getQueryData<RepoStats>(
-        githubKeys.repoStats(repoPath)
+      const resetTime = response.headers.get('X-RateLimit-Reset');
+      const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000) : null;
+
+      throw new Error(
+        resetDate
+          ? `GitHub API rate limit exceeded. Resets at ${resetDate.toLocaleTimeString()}`
+          : 'GitHub API rate limit exceeded. Please try again later.'
       );
-      return cached ?? EMPTY_STATS;
     }
 
     // Handle not found - return empty stats

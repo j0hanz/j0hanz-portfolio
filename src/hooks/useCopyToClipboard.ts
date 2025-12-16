@@ -5,6 +5,7 @@ import type {
   CopyResult,
   UseCopyToClipboardReturn,
 } from '@/config/types';
+import { ErrorMessages } from '@/utils/errors';
 
 import { useSnackbar } from './useSnackbar';
 
@@ -55,21 +56,24 @@ export function useCopyWithFeedback() {
     optimisticCopyState: optimisticState,
     copyWithFeedback: async (
       text: string,
-      successMessage = 'Copied to clipboard',
-      errorMessage = 'Unable to copy'
+      successMessage?: string,
+      errorMessage?: string
     ) => {
+      const success = successMessage ?? ErrorMessages.clipboard.copySuccess;
+      const error = errorMessage ?? ErrorMessages.clipboard.copyFailed;
+
       // Optimistically show success immediately for better UX
       startTransition(async () => {
         setOptimisticState('success');
 
-        const success = await copyToClipboard(text);
+        const result = await copyToClipboard(text);
 
-        if (success) {
-          showSnackbar(successMessage, 'success');
+        if (result) {
+          showSnackbar(success, 'success');
         } else {
           // Revert optimistic state on failure
           setOptimisticState('error');
-          showSnackbar(errorMessage, 'error');
+          showSnackbar(error, 'error');
         }
       });
 

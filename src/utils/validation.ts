@@ -16,6 +16,19 @@ const createValidator =
       return config.pattern.error;
     if (config.minLength && trimmed.length < config.minLength.value)
       return config.minLength.error;
+
+    // Additional URL protocol validation
+    if (config.validateProtocol && trimmed) {
+      try {
+        const url = new URL(trimmed);
+        if (!['http:', 'https:'].includes(url.protocol)) {
+          return 'URL must use HTTP or HTTPS protocol';
+        }
+      } catch {
+        // URL constructor threw error - already handled by pattern regex
+      }
+    }
+
     return undefined;
   };
 
@@ -44,6 +57,7 @@ const validators: Record<
       regex: VALIDATION.URL_PATTERN,
       error: ERROR_MESSAGES.URL_INVALID,
     },
+    validateProtocol: true,
   }),
   message: createValidator({
     required: ERROR_MESSAGES.MESSAGE_REQUIRED,
