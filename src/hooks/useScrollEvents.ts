@@ -32,9 +32,11 @@ export function useScrollEvents({
   disableNonTouchInputs = false,
   isScrolling,
 }: UseScrollEventsProps): void {
-  const touchStartY = useRef(0);
-  const touchStartTime = useRef(0);
-  const isTouchActive = useRef(false);
+  const touchState = useRef({
+    startY: 0,
+    startTime: 0,
+    isActive: false,
+  });
 
   const handleWheel = useEffectEvent((e: WheelEvent) => {
     if (isScrolling.current) {
@@ -66,22 +68,22 @@ export function useScrollEvents({
     // Don't interfere with ongoing scroll animation
     if (isScrolling.current) return;
 
-    touchStartY.current = e.touches[0].clientY;
-    touchStartTime.current = Date.now();
-    isTouchActive.current = true;
+    touchState.current.startY = e.touches[0].clientY;
+    touchState.current.startTime = Date.now();
+    touchState.current.isActive = true;
   });
 
   const handleTouchEnd = useEffectEvent((e: TouchEvent) => {
-    if (!isTouchActive.current || isScrolling.current) {
-      isTouchActive.current = false;
+    if (!touchState.current.isActive || isScrolling.current) {
+      touchState.current.isActive = false;
       return;
     }
 
-    const deltaY = touchStartY.current - e.changedTouches[0].clientY;
-    const elapsed = Date.now() - touchStartTime.current;
-    isTouchActive.current = false;
-    touchStartY.current = 0;
-    touchStartTime.current = 0;
+    const deltaY = touchState.current.startY - e.changedTouches[0].clientY;
+    const elapsed = Date.now() - touchState.current.startTime;
+
+    // Reset state
+    touchState.current = { startY: 0, startTime: 0, isActive: false };
 
     // Validate swipe gesture
     if (

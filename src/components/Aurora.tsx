@@ -243,7 +243,12 @@ function AuroraCanvas({
       if (container && gl.canvas.parentNode === container) {
         container.removeChild(gl.canvas);
       }
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      try {
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      } catch {
+        // Context already lost (e.g., mobile backgrounding, GPU reset)
+        // Cleanup not needed
+      }
     };
   }, [colorStops, amplitude, blend, speed]);
 

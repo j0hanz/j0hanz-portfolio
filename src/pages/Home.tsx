@@ -18,6 +18,7 @@ function Home(): React.JSX.Element {
   return (
     <Box
       component="main"
+      id="main-content"
       sx={{
         height: '100vh',
         width: 1, // Use 100% instead of 100vw to avoid scrollbar width issues

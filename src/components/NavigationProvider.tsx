@@ -34,11 +34,11 @@ const resolveIndex = (identifier: string, byHash = false): number => {
 
 // Get initial section index from URL hash (idempotent for React 19 strict mode)
 const getInitialIndex = (): number => {
-  if (typeof window === 'undefined') return 0;
-  const hash = window.location.hash;
-  if (!hash) return 0;
-  const index = resolveIndex(hash, true);
-  return index >= 0 ? index : 0;
+  if (typeof window === 'undefined' || !window.location?.hash) {
+    return 0;
+  }
+  const foundIndex = resolveIndex(window.location.hash, true);
+  return Math.max(0, foundIndex);
 };
 
 // Computes navigation direction from index change

@@ -62,13 +62,15 @@ export function useCopyWithFeedback() {
       const success = successMessage ?? ErrorMessages.clipboard.copySuccess;
       const error = errorMessage ?? ErrorMessages.clipboard.copyFailed;
 
+      let clipboardResult: boolean = false;
+
       // Optimistically show success immediately for better UX
       startTransition(async () => {
         setOptimisticState('success');
 
-        const result = await copyToClipboard(text);
+        clipboardResult = await copyToClipboard(text);
 
-        if (result) {
+        if (clipboardResult) {
           showSnackbar(success, 'success');
         } else {
           // Revert optimistic state on failure
@@ -77,8 +79,8 @@ export function useCopyWithFeedback() {
         }
       });
 
-      // Return actual clipboard result
-      return copyToClipboard(text);
+      // Return the clipboard result from the transition
+      return clipboardResult;
     },
   };
 }

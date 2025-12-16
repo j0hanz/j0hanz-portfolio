@@ -196,13 +196,10 @@ function ContactFormContent() {
       reset();
 
       // Normalize and validate form data
-      const normalized: ContactFormValues = {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        company: formData.company.trim(),
-        url: formData.url.trim(),
-        message: formData.message.trim(),
-      };
+      const normalized = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value.trim()])
+      ) as ContactFormValues;
+
       const validationErrors = validateForm(normalized);
       setErrors(validationErrors);
 

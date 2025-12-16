@@ -39,7 +39,11 @@ async function fetchRepoStats(
     // Handle rate limiting
     if (response.status === 403 || response.status === 429) {
       const resetTime = response.headers.get('X-RateLimit-Reset');
-      const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000) : null;
+      const resetTimestamp = resetTime ? parseInt(resetTime, 10) : NaN;
+      const resetDate =
+        !Number.isNaN(resetTimestamp) && resetTimestamp > 0
+          ? new Date(resetTimestamp * 1000)
+          : null;
 
       throw new Error(
         resetDate

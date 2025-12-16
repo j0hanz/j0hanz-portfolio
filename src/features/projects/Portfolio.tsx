@@ -42,10 +42,18 @@ function Portfolio(): React.JSX.Element {
   useEffect(() => {
     if (isInView && !hasPrefetched.current) {
       hasPrefetched.current = true;
+      const timeoutIds: number[] = [];
+
       // Stagger prefetch requests to avoid rate limiting
       PROJECT_REPO_PATHS.forEach((repoPath, index) => {
-        setTimeout(() => prefetchRepoStats(repoPath), index * 100);
+        const id = window.setTimeout(
+          () => prefetchRepoStats(repoPath),
+          index * 100
+        );
+        timeoutIds.push(id);
       });
+
+      return () => timeoutIds.forEach((id) => window.clearTimeout(id));
     }
   }, [isInView]);
 

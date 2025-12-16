@@ -65,6 +65,27 @@ function App() {
         sx={mainContainerSx}
         data-network-status={isOnline ? 'online' : 'offline'}
       >
+        {/* Skip to content link for keyboard users */}
+        <Box
+          component="a"
+          href="#main-content"
+          sx={{
+            position: 'absolute',
+            left: -9999,
+            zIndex: 9999,
+            '&:focus': {
+              left: 0,
+              top: 0,
+              p: 2,
+              bgcolor: 'background.paper',
+              border: '2px solid',
+              borderColor: 'primary.main',
+            },
+          }}
+        >
+          Skip to main content
+        </Box>
+
         <StatusBanner statusBanner={statusBanner} />
         <Aurora />
         <div id="back-to-top-anchor" />

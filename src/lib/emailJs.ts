@@ -54,19 +54,18 @@ export const sendEmail = async (formData: FormData): Promise<boolean> => {
     );
     return true;
   } catch (error) {
-    // Log detailed error information for debugging
+    // Log error information for debugging (PII redacted)
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error';
     const errorDetails = {
       error: errorMessage,
       timestamp: new Date().toISOString(),
-      formData: { ...formData, message: '[redacted]' },
     };
 
     if (import.meta.env.DEV) {
       console.error('Failed to send email:', errorDetails);
     } else {
-      // Store error for production debugging
+      // Store error for production debugging (no PII)
       try {
         sessionStorage.setItem('lastEmailError', JSON.stringify(errorDetails));
       } catch {
