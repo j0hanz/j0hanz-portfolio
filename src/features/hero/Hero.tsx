@@ -9,7 +9,6 @@ import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
-import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import { HeroProfile } from '@/features/hero/HeroProfile';
@@ -89,74 +88,70 @@ function Hero(): React.JSX.Element {
           </Grid>
           <Grid size={{ xs: 12, md: 'grow' }}>
             <Card noContentPadding sx={heroCardSx}>
-              <ProfilerWrapper id="Hero-Content" threshold={20}>
-                <Box sx={heroContentSx}>
-                  <StaggerContainer stagger={0.1}>
-                    {/* Hero Name with GlitchText effect */}
-                    <Typography component="div" sx={heroNameStyles}>
-                      <GlitchText speed={1.1} enableShadows>
-                        {HERO_NAME}
-                      </GlitchText>
-                    </Typography>
+              <Box sx={heroContentSx}>
+                <StaggerContainer stagger={0.1}>
+                  {/* Hero Name with GlitchText effect */}
+                  <Typography component="div" sx={heroNameStyles}>
+                    <GlitchText speed={1.1} enableShadows>
+                      {HERO_NAME}
+                    </GlitchText>
+                  </Typography>
 
-                    {/* Hero Subtitle with typewriter + shine effect */}
-                    <Typography
-                      component={motion.span}
-                      {...subtitleMotion}
-                      transition={getTransition('easeInOut', {
-                        duration: 1.1,
-                        delay: 0.2,
-                      })}
-                      sx={subtitleSx}
-                    >
-                      <TextType
-                        text={HERO_SUBTITLE}
-                        typingSpeed={60}
-                        initialDelay={800}
-                        showCursor={false}
-                        loop={false}
-                        className="shiny-text"
-                      />
-                      {!prefersReducedMotion && (
-                        <BlinkingCursor sx={cursorSx} />
-                      )}
-                    </Typography>
+                  {/* Hero Subtitle with typewriter + shine effect */}
+                  <Typography
+                    component={motion.span}
+                    {...subtitleMotion}
+                    transition={getTransition('easeInOut', {
+                      duration: 1.1,
+                      delay: 0.2,
+                    })}
+                    sx={subtitleSx}
+                  >
+                    <TextType
+                      text={HERO_SUBTITLE}
+                      typingSpeed={60}
+                      initialDelay={800}
+                      showCursor={false}
+                      loop={false}
+                      className="shiny-text"
+                    />
+                    {!prefersReducedMotion && <BlinkingCursor sx={cursorSx} />}
+                  </Typography>
 
-                    {/* CTA Buttons */}
-                    <Stack
-                      direction={{ xs: 'column', lg: 'row' }}
-                      gap={{ xs: 2, sm: 2.5, md: 3 }}
-                      alignItems="flex-start"
-                      sx={buttonsStackSx}
-                    >
-                      {HERO_ACTIONS.map((action) => {
-                        const isDownload = action.key === 'download-cv';
-                        const button = (
-                          <Button
-                            variant="contained"
-                            {...action.buttonProps}
-                            onClick={isDownload ? openCvModal : undefined}
-                          >
-                            {action.label}
-                          </Button>
-                        );
+                  {/* CTA Buttons */}
+                  <Stack
+                    direction={{ xs: 'column', lg: 'row' }}
+                    gap={{ xs: 2, sm: 2.5, md: 3 }}
+                    alignItems="flex-start"
+                    sx={buttonsStackSx}
+                  >
+                    {HERO_ACTIONS.map((action) => {
+                      const isDownload = action.key === 'download-cv';
+                      const button = (
+                        <Button
+                          variant="contained"
+                          {...action.buttonProps}
+                          onClick={isDownload ? openCvModal : undefined}
+                        >
+                          {action.label}
+                        </Button>
+                      );
 
-                        return isMobile ? (
-                          <Box key={action.key}>{button}</Box>
-                        ) : (
-                          <MagneticWrapper
-                            key={action.key}
-                            disabled={disableMagnetic}
-                          >
-                            {button}
-                          </MagneticWrapper>
-                        );
-                      })}
-                    </Stack>
-                    <SkillBadgeRow />
-                  </StaggerContainer>
-                </Box>
-              </ProfilerWrapper>
+                      return isMobile ? (
+                        <Box key={action.key}>{button}</Box>
+                      ) : (
+                        <MagneticWrapper
+                          key={action.key}
+                          disabled={disableMagnetic}
+                        >
+                          {button}
+                        </MagneticWrapper>
+                      );
+                    })}
+                  </Stack>
+                  <SkillBadgeRow />
+                </StaggerContainer>
+              </Box>
             </Card>
           </Grid>
         </Grid>

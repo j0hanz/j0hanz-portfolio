@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
-import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { SectionErrorFallback } from '@/components/SectionErrorFallback';
 import { SectionSkeleton } from '@/components/Skeletons';
 import { sections } from '@/config/sections';
@@ -39,9 +38,7 @@ function Home(): React.JSX.Element {
                     data-testid="section-error-boundary"
                   >
                     <Suspense fallback={<SectionSkeleton />}>
-                      <ProfilerWrapper id={`Section-${id}`} threshold={25}>
-                        <Component />
-                      </ProfilerWrapper>
+                      <Component />
                     </Suspense>
                   </ErrorBoundary>
                 </PageTransitionWrapper>

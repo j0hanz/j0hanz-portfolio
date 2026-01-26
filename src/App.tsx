@@ -3,7 +3,6 @@ import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 
 import { Aurora } from '@/components/Aurora';
 import { NavBar } from '@/components/NavBar';
-import { ProfilerWrapper } from '@/components/ProfilerWrapper';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { Spinner } from '@/components/Spinner';
 import { StatusBanner } from '@/components/StatusBanner';
@@ -42,16 +41,14 @@ function LoadingView() {
 function ContentView() {
   const contentMotion = useContentMotion();
   return (
-    <ProfilerWrapper id="ContentView" threshold={20}>
-      <Box
-        component={motion.div}
-        key="home"
-        {...contentMotion}
-        sx={contentContainerSx}
-      >
-        <Home />
-      </Box>
-    </ProfilerWrapper>
+    <Box
+      component={motion.div}
+      key="home"
+      {...contentMotion}
+      sx={contentContainerSx}
+    >
+      <Home />
+    </Box>
   );
 }
 
