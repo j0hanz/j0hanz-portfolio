@@ -1,12 +1,8 @@
-import {
-  ElementType,
-  useEffect,
-  useEffectEvent,
-  useRef,
-  useState,
-} from 'react';
+import { ElementType, useEffect, useRef, useState } from 'react';
 
 import { gsap } from 'gsap';
+
+import { useEventCallback } from '@/hooks';
 
 import './TextType.css';
 
@@ -143,8 +139,7 @@ export const TextType = ({
   const cursorRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Wrap callback in useEffectEvent to prevent Effect re-runs
-  const handleSentenceComplete = useEffectEvent(
+  const handleSentenceComplete = useEventCallback(
     (sentence: string, index: number) => {
       onSentenceComplete?.(sentence, index);
     }
@@ -259,6 +254,7 @@ export const TextType = ({
     isVisible,
     reverseMode,
     variableSpeed,
+    handleSentenceComplete,
   ]);
 
   const shouldHideCursor =

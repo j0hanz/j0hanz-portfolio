@@ -1,8 +1,10 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { useEffect, useEffectEvent, useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+import { useEventCallback } from '@/hooks';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,9 +45,8 @@ export function FadeContent({
 }: FadeContentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Wrap callbacks in useEffectEvent to prevent Effect re-runs when callbacks change
-  const handleComplete = useEffectEvent(() => onComplete?.());
-  const handleDisappearanceComplete = useEffectEvent(() =>
+  const handleComplete = useEventCallback(() => onComplete?.());
+  const handleDisappearanceComplete = useEventCallback(() =>
     onDisappearanceComplete?.()
   );
 
@@ -140,6 +141,8 @@ export function FadeContent({
     disappearAfter,
     disappearDuration,
     disappearEase,
+    handleComplete,
+    handleDisappearanceComplete,
   ]);
 
   return (

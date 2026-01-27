@@ -152,6 +152,7 @@ export function NavigationProvider({
     transitionDispatch({ type: 'STEP', payload: -1 })
   );
 
+  // React Compiler automatically stabilizes this object
   const actionsValue: NavigationActions = {
     setActiveSection,
     navigateTo,

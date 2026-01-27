@@ -36,17 +36,10 @@ export async function fetchRepoStats(
     throw new Error('Repository path is required');
   }
 
-  // Build headers with optional authentication
   const headers: HeadersInit = {
     Accept: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
   };
-
-  // Add GitHub token if available (increases rate limit from 60 to 5000/hour)
-  const githubToken = import.meta.env.VITE_GITHUB_TOKEN;
-  if (githubToken) {
-    headers.Authorization = `Bearer ${githubToken}`;
-  }
 
   try {
     // Add artificial delay in development to make skeleton loading visible

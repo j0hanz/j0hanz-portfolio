@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { motion } from 'motion/react';
@@ -150,12 +150,10 @@ function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
   const meshRef = useRef<Mesh | null>(null);
   const animationRef = useRef<number | null>(null);
 
-  // Use useEffectEvent to always get latest props without causing Effect re-runs
-  const getLatestProps = useEffectEvent(() => ({
-    amplitude,
-    blend,
-    speed,
-  }));
+  const propsRef = useRef({ amplitude, blend, speed });
+  useEffect(() => {
+    propsRef.current = { amplitude, blend, speed };
+  });
 
   useEffect(() => {
     const container = containerRef.current;
@@ -190,7 +188,7 @@ function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
       delete geometry.attributes.uv;
     }
 
-    const initialProps = getLatestProps();
+    const initialProps = propsRef.current;
     const colorStopsArray = initialColorStopsRef.current.map((hex) => {
       const c = new Color(hex);
       return [c.r, c.g, c.b] as [number, number, number];
@@ -215,7 +213,7 @@ function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
 
     const update = (t: number) => {
       animationRef.current = requestAnimationFrame(update);
-      const props = getLatestProps();
+      const props = propsRef.current;
       const currentProgram = programRef.current;
       const currentRenderer = rendererRef.current;
       const currentMesh = meshRef.current;
