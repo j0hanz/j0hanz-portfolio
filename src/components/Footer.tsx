@@ -26,9 +26,7 @@ import { SIZING } from '@/styles/shared';
 
 // Computed once at module level
 const CURRENT_YEAR = new Date().getFullYear();
-
 const BADGE_SIZE = { xs: 80, sm: 90, md: 120, lg: 140, xl: 160 };
-
 const copyButtonSx: SxProps<Theme> = {
   p: 0.9,
   color: 'text.secondary',
@@ -44,6 +42,7 @@ const copyButtonSx: SxProps<Theme> = {
     transform: 'translateY(-2px)',
   },
 };
+const COPYRIGHT_TEXT = `© ${CURRENT_YEAR} Linus Johansson`;
 
 // ============================================================================
 // COMPONENTS
@@ -109,7 +108,6 @@ function ContactSection() {
   const { copyWithFeedback } = useCopyWithFeedback();
   const { openCvModal } = useCvModalActions();
   const { prefersReducedMotion } = useAnimationConfig();
-
   const handleCopy = async () => {
     await copyWithFeedback(
       CONTACT_CONFIG.EMAIL,
@@ -181,14 +179,14 @@ function ContactSection() {
           }}
         >
           <ShinyText
-            text={`© ${CURRENT_YEAR} Linus Johansson`}
+            text={COPYRIGHT_TEXT}
             speed={3}
             disabled={prefersReducedMotion}
           />
         </Typography>
       </Box>
 
-      {/* Social Links - reuses SocialLinkList for consistency */}
+      {/* Social Links */}
       <Box sx={{ textAlign: { xs: 'center', sm: 'right' } }}>
         <Stack
           direction="row"
@@ -268,7 +266,7 @@ function Footer() {
           }}
         >
           <ShinyText
-            text={`© ${CURRENT_YEAR} Linus Johansson`}
+            text={COPYRIGHT_TEXT}
             speed={3}
             disabled={prefersReducedMotion}
           />

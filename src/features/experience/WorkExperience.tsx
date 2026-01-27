@@ -44,47 +44,40 @@ import { Credential } from './Credential';
 // CONSTANTS
 // ============================================================================
 
-const DATA_ATTRIBUTES = {
+const DATA_ATTR = {
   card: { 'data-exp-card': 'true' },
   description: { 'data-exp-description': 'true' },
   cta: { 'data-exp-cta': 'true' },
 } as const;
 
-const TIMELINE_SELECTORS = {
+const SELECTORS = {
   cards: '[data-exp-card]',
   description: '[data-exp-description]',
   cta: '[data-exp-cta]',
 } as const;
 
-const SEQUENCE_OPTIONS: {
-  offset: ['start 0.9', 'end 0.25'];
-  threshold: number;
-} = {
-  offset: ['start 0.9', 'end 0.25'],
+const SEQUENCE_OPTS = {
+  offset: ['start 0.9', 'end 0.25'] as ['start 0.9', 'end 0.25'],
   threshold: 0.15,
-};
+} as const;
 
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
-const buildExperienceMetadata = (
-  experience: Experience,
-  includeDuration: boolean
-): IconBadgeMetaItem[] => {
-  const baseMeta =
-    experience.type === 'education'
-      ? createMeta('school', experience.school)
-      : createMeta('workplace', experience.workplace);
+const buildMetadata = (
+  exp: Experience,
+  showDuration: boolean
+): IconBadgeMetaItem[] =>
+  compactMetadata([
+    createMeta(
+      exp.type === 'education' ? 'school' : 'workplace',
+      exp.type === 'education' ? exp.school : exp.workplace
+    ),
+    showDuration ? createMeta('duration', exp.duration) : null,
+  ]);
 
-  const durationMeta = includeDuration
-    ? createMeta('duration', experience.duration)
-    : null;
-
-  return compactMetadata([baseMeta, durationMeta]);
-};
-
-const getExperienceIcon = (item: Experience) =>
+const getIcon = (item: Experience) =>
   item.type === 'education' ? SchoolTwoTone : WorkOutlineTwoTone;
 
 // ============================================================================
@@ -98,14 +91,12 @@ function TimelineCardWrapper({
   children,
   cardRef,
 }: Readonly<TimelineCardWrapperProps>): JSX.Element {
-  const metadata = buildExperienceMetadata(experience, showDuration);
-
   return (
     <Box ref={cardRef} sx={timelineCardWrapperSx}>
       <TimelineCard
         title={experience.title}
-        metadata={metadata}
-        dataAttributes={DATA_ATTRIBUTES.card}
+        metadata={buildMetadata(experience, showDuration)}
+        dataAttributes={DATA_ATTR.card}
         metaDataAttribute="data-exp-meta"
       >
         {children}
@@ -132,7 +123,7 @@ function WorkCard({
       showDuration={showDuration}
       cardRef={cardRef}
     >
-      <Box component="ul" {...DATA_ATTRIBUTES.description} sx={listContainerSx}>
+      <Box component="ul" {...DATA_ATTR.description} sx={listContainerSx}>
         {experience.description.map((item, index) => (
           <motion.li
             key={buildItemKey(experience.title, item, index)}
@@ -182,7 +173,7 @@ function EducationCard({
               key={buildItemKey(experience.title, desc, index)}
               custom={index}
               {...descriptionMotion}
-              {...DATA_ATTRIBUTES.description}
+              {...DATA_ATTR.description}
               sx={descriptionTextSx}
             >
               {desc}
@@ -198,7 +189,7 @@ function EducationCard({
               variant="text"
               color="inherit"
               startIcon={<VerifiedTwoTone />}
-              {...DATA_ATTRIBUTES.cta}
+              {...DATA_ATTR.cta}
               sx={credentialButtonSx}
             >
               Credential
@@ -238,11 +229,10 @@ function ExperienceCard({
 
 function WorkExperience(): JSX.Element {
   const credentialModal = useModal(false);
-
   const { combinedRef, cardMotion } = useTimelineSectionController({
     viewportPreset: viewportPresets.sectionReplay,
-    selectors: TIMELINE_SELECTORS,
-    sequenceOptions: SEQUENCE_OPTIONS,
+    selectors: SELECTORS,
+    sequenceOptions: SEQUENCE_OPTS,
   });
 
   return (
@@ -263,7 +253,7 @@ function WorkExperience(): JSX.Element {
         <TimelineList
           items={experiences}
           Icon={WorkOutlineTwoTone}
-          getItemIcon={getExperienceIcon}
+          getItemIcon={getIcon}
           cardMotion={cardMotion}
           renderItem={(experience, _index, isMobile) => (
             <ExperienceCard
@@ -274,7 +264,6 @@ function WorkExperience(): JSX.Element {
           )}
         />
       </Box>
-
       <Credential
         open={credentialModal.isOpen}
         onClose={credentialModal.close}

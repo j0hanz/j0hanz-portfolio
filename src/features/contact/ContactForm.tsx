@@ -40,15 +40,7 @@ import { validateForm } from '@/utils/validation';
 
 import { ContactFormFields } from './ContactFormFields';
 
-type FormActionState = {
-  errors: ContactFormErrors;
-  status: 'idle' | 'sent';
-};
-
-const INITIAL_ACTION_STATE: FormActionState = {
-  errors: {},
-  status: 'idle',
-};
+type FormActionState = { errors: ContactFormErrors; status: 'idle' | 'sent' };
 
 function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
   if (!visible) return null;
@@ -83,7 +75,6 @@ function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
 function FormActions({ onReset, isPending }: Readonly<FormActionsProps>) {
   const { pending } = useFormStatus();
   const isDisabled = isPending || pending;
-
   return (
     <Stack
       direction="row"
@@ -134,15 +125,14 @@ function ContactFormContent() {
     formContainerRef as ElementRef,
     viewportPresets.list
   );
-
+  const animateState = isInView ? 'visible' : 'hidden';
   const fieldMotion = useMotionVariant(formFieldVariants.field, {
     initial: 'hidden',
-    animate: isInView ? 'visible' : 'hidden',
+    animate: animateState,
   });
-
   const actionMotion = useMotionVariant(formFieldVariants.action, {
     initial: 'hidden',
-    animate: isInView ? 'visible' : 'hidden',
+    animate: animateState,
   });
 
   const [errors, setErrors] = useState<ContactFormErrors>({});
@@ -150,39 +140,42 @@ function ContactFormContent() {
   const [actionState, formAction, isFormPending] = useActionState<
     FormActionState,
     FormData
-  >(async (_prevState, formData) => {
-    reset();
+  >(
+    async (_prevState, formData) => {
+      reset();
 
-    const normalized: ContactFormValues = {
-      name: String(formData.get('name') ?? '').trim(),
-      email: String(formData.get('email') ?? '').trim(),
-      company: String(formData.get('company') ?? '').trim(),
-      url: String(formData.get('url') ?? '').trim(),
-      message: String(formData.get('message') ?? '').trim(),
-    };
+      const normalized: ContactFormValues = {
+        name: String(formData.get('name') ?? '').trim(),
+        email: String(formData.get('email') ?? '').trim(),
+        company: String(formData.get('company') ?? '').trim(),
+        url: String(formData.get('url') ?? '').trim(),
+        message: String(formData.get('message') ?? '').trim(),
+      };
 
-    const validationErrors = validateForm(normalized);
-    const firstError = Object.values(validationErrors).find(Boolean);
-    if (firstError) {
-      showSnackbar(firstError, 'error');
-      setErrors(validationErrors);
-      return { errors: validationErrors, status: 'idle' };
-    }
+      const validationErrors = validateForm(normalized);
+      const firstError = Object.values(validationErrors).find(Boolean);
+      if (firstError) {
+        showSnackbar(firstError, 'error');
+        setErrors(validationErrors);
+        return { errors: validationErrors, status: 'idle' };
+      }
 
-    setErrors({});
-    try {
-      await mutateAsync(normalized);
-      showSnackbar(CONTACT_COPY.successToast, 'success');
-      return { errors: {}, status: 'sent' };
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : CONTACT_CONFIG.SEND_ERROR_MESSAGE;
-      showSnackbar(message, 'error');
-      return { errors: {}, status: 'idle' };
-    }
-  }, INITIAL_ACTION_STATE);
+      setErrors({});
+      try {
+        await mutateAsync(normalized);
+        showSnackbar(CONTACT_COPY.successToast, 'success');
+        return { errors: {}, status: 'sent' };
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : CONTACT_CONFIG.SEND_ERROR_MESSAGE;
+        showSnackbar(message, 'error');
+        return { errors: {}, status: 'idle' };
+      }
+    },
+    { errors: {}, status: 'idle' }
+  );
 
   const showSuccess = actionState.status === 'sent';
   const isSending = isPending || isFormPending;

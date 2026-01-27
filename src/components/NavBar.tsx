@@ -62,18 +62,15 @@ const NAV_HIGHLIGHT_SX = {
   zIndex: 0,
   bgcolor: 'action.selected',
 } as const;
-
 const MENU_ICON_STATES = {
   open: { opacity: 0, rotate: 180 },
   closed: { opacity: 1, rotate: 0 },
 } as const;
-
 const MENU_ICON_TRANSITION = { duration: 0.2 } as const;
 
 function NavLogo({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { navigateTo } = useNavigationActions();
   const { isPending } = useNavigationState();
-
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (!isPending) {
@@ -116,7 +113,6 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
     showHighlight,
     highlightTransition,
   } = props;
-
   return (
     <Box
       component={motion.li}
@@ -163,7 +159,6 @@ function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const highlightTransition = getTransition('springSmooth', { duration: 0.5 });
   const showHighlight = !prefersReducedMotion;
-
   const handleNavLinkClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     navigateTo(id);
@@ -200,10 +195,7 @@ const wrapSocialItem = (id: string, child: ReactNode) => (
 function SocialLinks({
   openModal,
   iconSize,
-}: Readonly<{
-  openModal: () => void;
-  iconSize?: string | number;
-}>) {
+}: Readonly<{ openModal: () => void; iconSize?: string | number }>) {
   return (
     <Box sx={socialLinksBoxSx}>
       <Stack
@@ -239,11 +231,7 @@ function OffcanvasMenu({
       onOpen={openOffcanvas}
       disableBackdropTransition={!isIOS}
       disableDiscovery={isIOS}
-      slotProps={{
-        paper: {
-          sx: drawerPaperSx,
-        },
-      }}
+      slotProps={{ paper: { sx: drawerPaperSx } }}
     >
       <Box
         component={motion.div}
@@ -317,7 +305,6 @@ function NavBar() {
   const menuIconTransition = prefersReducedMotion
     ? undefined
     : MENU_ICON_TRANSITION;
-
   return (
     <>
       <Stack
