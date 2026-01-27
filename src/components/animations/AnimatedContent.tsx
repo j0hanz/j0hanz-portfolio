@@ -2,11 +2,16 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { useEventCallback } from '@/hooks';
 
-gsap.registerPlugin(ScrollTrigger);
+import {
+  getPrefersReducedMotion,
+  getScrollTrigger,
+  resolveScrollContainer,
+} from './gsapUtils';
+
+const ScrollTriggerInstance = getScrollTrigger();
 
 type AnimatedContentProps = Readonly<
   HTMLAttributes<HTMLDivElement> & {
@@ -64,9 +69,7 @@ export function AnimatedContent({
     const el = ref.current;
     if (!el) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReducedMotion = getPrefersReducedMotion();
 
     if (prefersReducedMotion) {
       gsap.set(el, { opacity: 1, visibility: 'visible', x: 0, y: 0, scale: 1 });
@@ -89,9 +92,7 @@ export function AnimatedContent({
     if (!el) return;
 
     // Respect reduced motion preferences (WCAG 2.1)
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReducedMotion = getPrefersReducedMotion();
     if (prefersReducedMotion) {
       handleComplete();
       return;
@@ -129,12 +130,7 @@ export function AnimatedContent({
     });
 
     // Determine scroll container
-    let scrollerTarget: Element | string | null =
-      container || document.getElementById('snap-main-container') || null;
-
-    if (typeof scrollerTarget === 'string') {
-      scrollerTarget = document.querySelector(scrollerTarget);
-    }
+    const scrollerTarget = resolveScrollContainer(container);
 
     // Use IntersectionObserver for full-page scroll (no scroller) or ScrollTrigger otherwise
     if (!scrollerTarget) {
@@ -159,7 +155,7 @@ export function AnimatedContent({
 
     // Traditional scrollable container - use ScrollTrigger
     const startPct = (1 - threshold) * 100;
-    const st = ScrollTrigger.create({
+    const st = ScrollTriggerInstance.create({
       trigger: el,
       scroller: scrollerTarget,
       start: `top ${startPct}%`,

@@ -13,7 +13,7 @@ import type { SystemStyleObject } from '@mui/system';
 import { AnimatedContent, FadeContent } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
-import { SIZING } from '@/styles/shared';
+import { mergeSxEntries, normalizeSx, SIZING } from '@/styles/shared';
 
 // ============================================================================
 // STYLE CONSTANTS
@@ -74,26 +74,6 @@ type SectionSlotProps = Readonly<{
   children: ReactNode;
   sx?: SxProps<Theme>;
 }>;
-
-type SxEntry =
-  | boolean
-  | SystemStyleObject<Theme>
-  | ((theme: Theme) => SystemStyleObject<Theme>);
-
-const normalizeSx = (sx?: SxProps<Theme>): SxEntry[] => {
-  if (!sx) return [];
-  return Array.isArray(sx) ? (sx as SxEntry[]) : [sx as SxEntry];
-};
-
-const mergeSxEntries = (
-  theme: Theme,
-  entries: SxEntry[]
-): SystemStyleObject<Theme> =>
-  entries.reduce<SystemStyleObject<Theme>>((acc, entry) => {
-    if (!entry || entry === true) return acc;
-    const next = typeof entry === 'function' ? entry(theme) : entry;
-    return { ...acc, ...next };
-  }, {});
 
 function SectionHeader({
   children,

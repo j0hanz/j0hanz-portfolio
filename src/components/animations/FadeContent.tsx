@@ -2,11 +2,16 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { useEventCallback } from '@/hooks';
 
-gsap.registerPlugin(ScrollTrigger);
+import {
+  getPrefersReducedMotion,
+  getScrollTrigger,
+  resolveScrollContainer,
+} from './gsapUtils';
+
+const ScrollTriggerInstance = getScrollTrigger();
 
 type FadeContentProps = Readonly<
   HTMLAttributes<HTMLDivElement> & {
@@ -55,9 +60,7 @@ export function FadeContent({
     const el = ref.current;
     if (!el) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReducedMotion = getPrefersReducedMotion();
 
     if (prefersReducedMotion) {
       gsap.set(el, { autoAlpha: 1, filter: 'none', visibility: 'visible' });
@@ -75,20 +78,13 @@ export function FadeContent({
     if (!el) return;
 
     // Respect reduced motion preferences
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReducedMotion = getPrefersReducedMotion();
     if (prefersReducedMotion) {
       handleComplete();
       return;
     }
 
-    let scrollerTarget: Element | string | null =
-      container || document.getElementById('snap-main-container') || null;
-
-    if (typeof scrollerTarget === 'string') {
-      scrollerTarget = document.querySelector(scrollerTarget);
-    }
+    const scrollerTarget = resolveScrollContainer(container);
 
     const startPct = (1 - threshold) * 100;
     const getSeconds = (val: number) => (val > 10 ? val / 1000 : val);
@@ -118,7 +114,7 @@ export function FadeContent({
       ease: ease,
     });
 
-    const st = ScrollTrigger.create({
+    const st = ScrollTriggerInstance.create({
       trigger: el,
       scroller: scrollerTarget || window,
       start: `top ${startPct}%`,

@@ -14,32 +14,13 @@ import { BlurText } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
 import type { CardComponentProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
-import { cardBaseSx } from '@/styles/shared';
+import { cardBaseSx, mergeSxEntries, normalizeSx } from '@/styles/shared';
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
 
 const MotionPaper = motion.create(MuiPaper);
-type SxEntry =
-  | boolean
-  | SystemStyleObject<Theme>
-  | ((theme: Theme) => SystemStyleObject<Theme>);
-
-const normalizeSx = (sx?: SxProps<Theme>): SxEntry[] => {
-  if (!sx) return [];
-  return Array.isArray(sx) ? (sx as SxEntry[]) : [sx as SxEntry];
-};
-
-const mergeSxEntries = (
-  theme: Theme,
-  entries: SxEntry[]
-): SystemStyleObject<Theme> =>
-  entries.reduce<SystemStyleObject<Theme>>((acc, entry) => {
-    if (!entry || entry === true) return acc;
-    const next = typeof entry === 'function' ? entry(theme) : entry;
-    return { ...acc, ...next };
-  }, {});
 
 // Responsive card content padding
 const CARD_CONTENT_SX: SxProps<Theme> = { p: SPACING.card };

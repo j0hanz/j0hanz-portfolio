@@ -1,4 +1,30 @@
 import type { SxProps, Theme } from '@mui/material';
+import type { SystemStyleObject } from '@mui/system';
+
+// ============================================================================
+// SX MERGE HELPERS
+// Normalize and merge MUI sx entries consistently across components
+// ============================================================================
+
+type SxEntry =
+  | boolean
+  | SystemStyleObject<Theme>
+  | ((theme: Theme) => SystemStyleObject<Theme>);
+
+export const normalizeSx = (sx?: SxProps<Theme>): SxEntry[] => {
+  if (!sx) return [];
+  return Array.isArray(sx) ? (sx as SxEntry[]) : [sx as SxEntry];
+};
+
+export const mergeSxEntries = (
+  theme: Theme,
+  entries: SxEntry[]
+): SystemStyleObject<Theme> =>
+  entries.reduce<SystemStyleObject<Theme>>((acc, entry) => {
+    if (!entry || entry === true) return acc;
+    const next = typeof entry === 'function' ? entry(theme) : entry;
+    return { ...acc, ...next };
+  }, {});
 
 // ============================================================================
 // SHARED STYLE CONSTANTS
