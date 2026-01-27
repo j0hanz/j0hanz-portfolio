@@ -23,7 +23,7 @@ export const SPACING = {
   /** Stack gaps */
   stack: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
   /** Section header margin bottom */
-  headerMargin: { xs: 1.5 },
+  headerMargin: { xs: 1 },
   /** Container horizontal padding - increased on xs for safe area (16px) */
   containerPadding: { xs: 1, sm: 2, md: 4, lg: 6 },
   /** Form field gaps */

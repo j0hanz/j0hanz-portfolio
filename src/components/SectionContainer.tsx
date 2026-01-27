@@ -24,7 +24,7 @@ const sectionCenteredSx: SxProps<Theme> = {
   display: 'grid',
   placeItems: 'center',
   minHeight: '100vh',
-  my: SPACING.section,
+  py: SPACING.section,
   overflowX: 'hidden',
 };
 
@@ -44,8 +44,8 @@ const iconSx: SxProps<Theme> = {
 
 const titleSx: SxProps<Theme> = {
   fontWeight: 400,
-  fontSize: (theme) => theme.typography.h3.fontSize,
-  my: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+  fontSize: (theme) => theme.typography.h4.fontSize,
+  py: { xs: 0.5, sm: 0.75, md: 1 },
 };
 
 const subtitleSx: SxProps<Theme> = {
@@ -78,17 +78,16 @@ type SectionSlotProps = Readonly<{
 function SectionHeader({
   children,
   icon: Icon,
-  headingLevel = 'h3',
 }: SectionHeaderProps): JSX.Element {
   return (
     <Stack
       direction="row"
       justifyContent="center"
-      alignItems="center"
+      alignItems="baseline"
       sx={sectionHeaderSx}
     >
       {Icon && <Box component={Icon} sx={iconSx} />}
-      <Typography variant="h3" component={headingLevel} sx={titleSx}>
+      <Typography variant="h4" sx={titleSx}>
         {children}
       </Typography>
     </Stack>

@@ -69,7 +69,7 @@ export const SIZING = {
   /** Large icon (feature icons, skill badges) */
   iconLg: { xs: 22, sm: 24, md: 28, lg: 32 },
   /** Extra large icon (section headers, decorative) */
-  iconXl: { xs: 28, sm: 32, md: 36, lg: 40 },
+  iconXl: { xs: 30, sm: 34, lg: 38 },
   /** Scroll/FAB icons */
   iconFab: { xs: 32, sm: 34, md: 36, lg: 40 },
   /** Flag icons (CV modal) */
