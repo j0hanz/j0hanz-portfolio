@@ -1,5 +1,6 @@
 import type { JSX, ReactNode } from 'react';
 
+import GlobalStyles from '@mui/material/GlobalStyles';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import {
   QueryClientProvider,
@@ -13,6 +14,15 @@ import { NavigationProvider } from '@/components/NavigationProvider';
 import { SnackbarProvider } from '@/components/SnackbarProvider';
 import type { Provider } from '@/config/types';
 import { queryClient } from '@/utils/query/index';
+
+const inputAutoFillStyles = (
+  <GlobalStyles
+    styles={{
+      '@keyframes mui-auto-fill': { from: { display: 'block' } },
+      '@keyframes mui-auto-fill-cancel': { from: { display: 'block' } },
+    }}
+  />
+);
 
 // Composes providers into nested structure (applies right-to-left)
 // Example: compose(A, B, C) renders as <A><B><C>{children}</C></B></A>
@@ -56,8 +66,8 @@ export function AppProviders({
 }>): JSX.Element {
   return (
     <>
-      <InitColorSchemeScript attribute="data-mui-color-scheme" />
-      <ComposedProviders>{children}</ComposedProviders>
+      <InitColorSchemeScript attribute="data-mui-color-scheme" />{' '}
+      {inputAutoFillStyles} <ComposedProviders>{children}</ComposedProviders>
     </>
   );
 }

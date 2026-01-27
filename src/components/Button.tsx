@@ -1,14 +1,13 @@
-import { Button as MuiButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Button as MuiButton, type SxProps, type Theme } from '@mui/material';
 import { motion } from 'motion/react';
 
 import type { CustomButtonProps } from '@/config/types';
 import { useButtonGesture } from '@/hooks';
 import { filterMotionConflicts } from '@/utils/motionProps';
 
-const StyledButton = styled(MuiButton)({
+const baseButtonSx: SxProps<Theme> = {
   textTransform: 'uppercase',
-  maxWidth: '100%', // Keep as string for styled() CSS-in-JS
+  maxWidth: 1,
   display: 'flex',
   justifyContent: 'space-evenly',
   alignItems: 'center',
@@ -17,9 +16,9 @@ const StyledButton = styled(MuiButton)({
     display: 'flex',
     alignItems: 'center',
   },
-});
+};
 
-const MotionButton = motion.create(StyledButton);
+const MotionButton = motion.create(MuiButton);
 
 // Button component with optional icon and text, supports MUI v7 best practices
 // React 19: ref is a native prop, no need for forwardRef
@@ -50,6 +49,9 @@ const Button = function Button({
   // Filter out HTML drag/animation events that conflict with Motion's system
   const safeProps = filterMotionConflicts(props);
 
+  // Merge base styles with custom sx prop
+  const mergedSx = [baseButtonSx, ...(Array.isArray(sx) ? sx : [sx])];
+
   return (
     <MotionButton
       ref={ref}
@@ -58,7 +60,7 @@ const Button = function Button({
       startIcon={startIcon}
       endIcon={endIcon}
       className={className}
-      sx={sx}
+      sx={mergedSx}
       {...finalMotionProps}
     >
       {text || children}

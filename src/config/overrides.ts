@@ -70,6 +70,12 @@ export const getComponentOverrides = (theme: Theme): Components<Theme> => ({
     },
   },
 
+  MuiInputBase: {
+    defaultProps: {
+      disableInjectingGlobalStyles: true,
+    },
+  },
+
   // ---------------------------------------------------------------------------
   // FEEDBACK
   // ---------------------------------------------------------------------------
