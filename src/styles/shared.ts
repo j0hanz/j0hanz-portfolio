@@ -41,7 +41,7 @@ export const PROJECT_CARD_ARTICLE_SX: SxProps<Theme> = {
   display: 'flex',
   flexFlow: 'column nowrap',
   height: 1,
-  p: { xs: 2, sm: 2.5, md: 3, lg: 4 },
+  p: { xs: 2, sm: 2.5, md: 3 },
 };
 
 export const PROJECT_CARD_CONTENT_SX: SxProps<Theme> = {

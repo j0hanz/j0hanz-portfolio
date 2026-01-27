@@ -60,7 +60,7 @@ function AnimatedStat({
   const { getTransition } = useAnimationConfig();
 
   return (
-    <Stack direction="row" alignItems="center" spacing={1.5}>
+    <Stack direction="row" alignItems="center" spacing={2}>
       <Icon
         sx={{
           color: 'text.secondary',

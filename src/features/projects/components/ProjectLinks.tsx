@@ -19,7 +19,7 @@ const actionButtonSx: SxProps<Theme> = {
 };
 
 const gridSx: SxProps<Theme> = {
-  mt: { xs: 1, md: 1.5 },
+  pt: { xs: 2, md: 4 },
 };
 
 const buttonStackSx: SxProps<Theme> = {

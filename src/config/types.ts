@@ -121,7 +121,6 @@ export interface Project {
   hackathonType?: HackathonType;
   api: boolean;
   isGitpodTemplate?: boolean;
-  isMcpServer?: boolean;
   isNew?: boolean;
   projectBoard?: boolean;
 }
