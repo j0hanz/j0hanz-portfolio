@@ -50,7 +50,7 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
       startIcon: <DownloadRounded sx={iconSx} />,
       sx: downloadButtonSx,
       variant: 'contained',
-      color: 'inherit',
+      color: 'secondary',
     },
   },
   {

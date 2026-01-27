@@ -57,7 +57,6 @@ const tableSx: SxProps<Theme> = {
 };
 
 const titleCellSx: SxProps<Theme> = {
-  fontWeight: 600,
   color: 'primary.main',
   whiteSpace: 'nowrap',
   pr: 2,

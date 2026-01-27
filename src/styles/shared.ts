@@ -59,7 +59,7 @@ export const SIZING = {
   // ICON SIZES (pixels - icons use absolute pixel values, not theme spacing)
   // ---------------------------------------------------------------------------
   /** Extra small icon (close buttons, inline indicators) */
-  iconXs: { xs: 14, sm: 15, md: 16, lg: 16 },
+  iconXs: { xs: 16, sm: 18 },
   /** Small icon (badges, metadata, form field icons) */
   iconSm: { xs: 15, sm: 16, md: 17, lg: 18 },
   /** Default icon (standard UI icons, buttons) */
@@ -81,17 +81,17 @@ export const SIZING = {
   // BUTTON DIMENSIONS
   // ---------------------------------------------------------------------------
   /** Standard button minimum width */
-  buttonMinWidth: { xs: 80, sm: 100, md: 120, lg: 120 },
+  buttonMinWidth: { xs: 80, sm: 85, md: 110, lg: 120 },
   /** Wide button minimum width */
   buttonMinWidthWide: { xs: 100, sm: 120, md: 130, lg: 140 },
   /** Hero CTA button minimum width */
   buttonMinWidthHero: { xs: 115, sm: 130, md: 145, lg: 150 },
   /** Small button height (desktop-only UI, not for touch targets) */
-  buttonHeightSmall: { xs: 26, sm: 28, md: 30, lg: 32 },
+  buttonHeightSmall: { xs: 32, md: 36 },
   /** Large button height (WCAG 44px touch target on mobile) */
-  buttonHeightLarge: { xs: 44, sm: 44, md: 46, lg: 48 },
+  buttonHeightLarge: { xs: 40, md: 46 },
   /** Action button minimum width (project cards) - smaller on xs to prevent overflow */
-  actionButtonMinWidth: { xs: 70, sm: 90, md: 100, lg: 110 },
+  actionButtonMinWidth: { xs: 65, sm: 90, md: 100, lg: 110 },
 
   // ---------------------------------------------------------------------------
   // BADGE & CHIP DIMENSIONS
@@ -168,7 +168,7 @@ export const iconSx: SxProps<Theme> = {
 };
 
 export const iconBody2Sx: SxProps<Theme> = {
-  fontSize: SIZING.iconXs,
+  width: SIZING.iconXs,
 };
 
 // ============================================================================

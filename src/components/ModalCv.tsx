@@ -229,7 +229,7 @@ function ModalCv({ open, onClose }: Readonly<ModalCvProps>): JSX.Element {
             <DialogTitle
               id="cv-modal-title"
               sx={{ p: 0, fontWeight: 500 }}
-              component="h2"
+              component="h3"
             >
               <ShinyText
                 text="Download CV"

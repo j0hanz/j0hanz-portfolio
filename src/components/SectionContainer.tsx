@@ -78,7 +78,7 @@ type SectionSlotProps = Readonly<{
 function SectionHeader({
   children,
   icon: Icon,
-  headingLevel = 'h2',
+  headingLevel = 'h3',
 }: SectionHeaderProps): JSX.Element {
   return (
     <Stack
@@ -118,7 +118,7 @@ function SectionContainerBase({
   children,
   className = '',
   sx,
-  headingLevel = 'h2',
+  headingLevel = 'h3',
   subtitle,
   headerActions,
   maxWidth = false,

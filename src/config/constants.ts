@@ -116,12 +116,6 @@ const COMMON_PALETTE = {
     dark: '#004797',
     contrastText: '#f5f4f4',
   },
-  secondary: {
-    main: '#6c757d',
-    light: '#868e96',
-    dark: '#495057',
-    contrastText: '#ffffff',
-  },
   success: {
     main: '#28a745',
     light: '#48c664',
@@ -169,6 +163,11 @@ const COMMON_PALETTE = {
 export const PALETTES = {
   light: {
     ...COMMON_PALETTE,
+    secondary: {
+      main: '#5a5a5a',
+      dark: '#424242',
+      contrastText: '#ffffff',
+    },
     background: {
       default: '#f8f9fa',
       paper: '#ffffff',
@@ -189,6 +188,12 @@ export const PALETTES = {
   },
   dark: {
     ...COMMON_PALETTE,
+    secondary: {
+      main: '#313131',
+      light: '#4a4a4a',
+      dark: '#1f1f1f',
+      contrastText: '#ffffff',
+    },
     background: {
       default: '#050505',
       paper: '#121212',

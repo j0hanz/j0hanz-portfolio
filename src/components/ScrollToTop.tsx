@@ -48,8 +48,9 @@ function notifyListeners(): void {
   listeners.forEach((listener) => listener());
 }
 
-function useWheelDirection(activeSectionIndex: number): Direction {
+function useScrollDirection(activeSectionIndex: number): Direction {
   const isTransitioningRef = useRef(false);
+  const touchStartYRef = useRef(0);
   const currentDir = useSyncExternalStore(
     subscribeToWheelDirection,
     getWheelDirectionSnapshot,
@@ -76,10 +77,35 @@ function useWheelDirection(activeSectionIndex: number): Direction {
       }
     };
 
+    const onTouchStart = (e: TouchEvent): void => {
+      const touch = e.touches[0];
+      if (touch) touchStartYRef.current = touch.clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent): void => {
+      if (isTransitioningRef.current) return;
+      const touch = e.touches[0];
+      if (!touch) return;
+      const currentY = touch.clientY;
+      const deltaY = touchStartYRef.current - currentY;
+      if (Math.abs(deltaY) < SCROLL_CONFIG.TOUCH_THRESHOLD_PX) return;
+
+      const dir: Direction = deltaY > 0 ? 'down' : 'up';
+      if (dir !== wheelDirection) {
+        wheelDirection = dir;
+        notifyListeners();
+      }
+      touchStartYRef.current = currentY;
+    };
+
     window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
     return () => {
       clearTimeout(transitionTimeout);
       window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
     };
   }, [activeSectionIndex]);
 
@@ -90,7 +116,7 @@ function ScrollToTop(): React.JSX.Element {
   const { activeSectionIndex, isPending, isLast } = useNavigationState();
   const { navigateTo } = useNavigationActions();
   const { isMenuOpen } = useMenuState();
-  const wheelDir = useWheelDirection(activeSectionIndex);
+  const wheelDir = useScrollDirection(activeSectionIndex);
   const show =
     activeSectionIndex > 0 && !isMenuOpen && !isLast && wheelDir === 'up';
 

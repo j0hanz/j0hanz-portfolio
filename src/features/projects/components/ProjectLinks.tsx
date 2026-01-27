@@ -5,7 +5,14 @@ import { SiNpm } from 'react-icons/si';
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
-import { Box, Stack, type SxProps, type Theme, Tooltip } from '@mui/material';
+import {
+  Stack,
+  SvgIcon,
+  type SxProps,
+  type Theme,
+  Tooltip,
+} from '@mui/material';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 import { Button } from '@/components/Button';
@@ -16,15 +23,17 @@ import { COPY_MESSAGES } from '@/utils/clipboard';
 
 const actionButtonSx: SxProps<Theme> = {
   height: SIZING.buttonHeightSmall,
-  fontSize: { xs: '0.8rem', sm: '0.9rem' },
+  fontSize: { xs: '0.7rem', md: '0.85rem', lg: '0.9rem' },
+  minWidth: SIZING.buttonMinWidth,
 };
 
 const gridSx: SxProps<Theme> = {
-  pt: { xs: 3, md: 6 },
+  pt: { xs: 4, md: 6 },
 };
 
 const buttonStackSx: SxProps<Theme> = {
   flexWrap: 'nowrap',
+  minWidth: 0,
 };
 
 // Extracted pattern: Tooltip + wrapper + ActionButton (DRY - was repeated 4 times)
@@ -59,8 +68,8 @@ function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          variant="text"
-          color="inherit"
+          variant="contained"
+          color="secondary"
           icon={<GitHubIcon sx={iconBody2Sx} />}
           label="GitHub"
         />
@@ -78,10 +87,10 @@ function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
             tooltip="View on npm"
             href={project.npm}
             target="_blank"
-            variant="text"
-            color="inherit"
+            variant="contained"
+            color="secondary"
             rel="noopener noreferrer"
-            icon={<SiNpm />}
+            icon={<SvgIcon component={SiNpm} inheritViewBox sx={iconBody2Sx} />}
             label="Install"
           />
         ) : (
@@ -92,8 +101,8 @@ function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
             rel={project.demo ? 'noopener noreferrer' : undefined}
             disabled={!project.demo}
             icon={<PlayArrowRounded sx={iconBody2Sx} />}
-            variant="text"
-            color="inherit"
+            variant="contained"
+            color="secondary"
             label="Demo"
           />
         )}
