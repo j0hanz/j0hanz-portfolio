@@ -1,8 +1,8 @@
-import { ReactNode, useOptimistic, useTransition } from 'react';
+import { type ReactNode, useOptimistic, useTransition } from 'react';
 
 import {
   CssBaseline,
-  PaletteMode,
+  type PaletteMode,
   ThemeProvider,
   useColorScheme,
 } from '@mui/material';

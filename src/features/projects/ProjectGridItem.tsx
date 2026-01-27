@@ -8,7 +8,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { staggerItemVariant, staggerItemVariantMobile } from '@/config/motion';
 import { GRID } from '@/config/responsive';
-import { ProjectListProps } from '@/config/types';
+import type { ProjectListProps } from '@/config/types';
 import { useMobileBreakpoint } from '@/hooks';
 
 import { ProjectCard } from './components/ProjectCard';

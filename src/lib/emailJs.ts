@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser';
 
-import { ContactFormValues as FormData } from '@/config/types';
+import type { ContactFormValues as FormData } from '@/config/types';
 
 // Required environment variables for EmailJS
 const ENV_KEYS = [

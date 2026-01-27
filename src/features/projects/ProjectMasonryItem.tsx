@@ -1,6 +1,6 @@
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
-import { ProjectListProps } from '@/config/types';
+import type { ProjectListProps } from '@/config/types';
 
 import { ProjectCard } from './components/ProjectCard';
 import { ProjectCardMotionWrapper } from './ProjectGridItem';

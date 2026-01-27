@@ -1,4 +1,4 @@
-import { alpha, SxProps, Theme } from '@mui/material';
+import { alpha, type SxProps, type Theme } from '@mui/material';
 
 import { FONT_SIZE, SIZE, SPACING } from '@/config/responsive';
 import { CLIP_ROUNDED, LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';

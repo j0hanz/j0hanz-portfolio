@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useReducer, useTransition } from 'react';
+import { type ReactNode, useEffect, useReducer, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
 import type {

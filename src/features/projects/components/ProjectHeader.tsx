@@ -12,7 +12,7 @@ import {
 import { motion } from 'motion/react';
 
 import { BlurText, ShinyText } from '@/components/animations';
-import { ProjectHeaderProps } from '@/config/types';
+import type { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 import {
   BADGE_HEIGHT,

@@ -88,7 +88,12 @@ export async function fetchRepoStats(
     };
   } catch (error) {
     // Handle network errors - return cached data or empty stats
-    if (error instanceof TypeError && error.message === 'Failed to fetch') {
+    // TypeError from fetch indicates network failure (offline, CORS, DNS, etc.)
+    const isNetworkError =
+      error instanceof TypeError ||
+      (error instanceof DOMException && error.name === 'AbortError');
+
+    if (isNetworkError) {
       const cached = queryClient.getQueryData<RepoStats>(
         githubKeys.repoStats(repoPath)
       );

@@ -6,7 +6,7 @@ import {
   PictureAsPdfRounded,
 } from '@mui/icons-material';
 
-import { SocialLink } from '@/config/types';
+import type { SocialLink } from '@/config/types';
 
 export const socialLinks: SocialLink[] = [
   {

@@ -1,4 +1,4 @@
-import { BadgeItemProps } from '@/config/types';
+import type { BadgeItemProps } from '@/config/types';
 
 export const badgeItems: BadgeItemProps[] = [
   {

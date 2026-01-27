@@ -1,4 +1,4 @@
-import { Component, ErrorInfo } from 'react';
+import { Component, type ErrorInfo } from 'react';
 
 import { Alert, Box, Button, Stack, Typography } from '@mui/material';
 

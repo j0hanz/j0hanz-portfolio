@@ -1,4 +1,4 @@
-import { Context, use } from 'react';
+import { type Context, use } from 'react';
 
 // Type-safe context hook factory with null check and error message
 function createContextHook<T>(

@@ -1,5 +1,5 @@
 import { sections } from '@/config/sections';
-import { NavLink } from '@/config/types';
+import type { NavLink } from '@/config/types';
 
 // Filter out sections that shouldn't appear in the main navigation
 // e.g., Hero (usually handled by logo/top) and Footer

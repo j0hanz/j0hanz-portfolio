@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { motion, Transition, useReducedMotion } from 'motion/react';
+import { motion, type Transition, useReducedMotion } from 'motion/react';
 
 type Segment = {
   key: string;

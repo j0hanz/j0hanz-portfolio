@@ -1,4 +1,4 @@
-import { Experience } from '@/config/types';
+import type { Experience } from '@/config/types';
 
 const experiences: Experience[] = [
   {

@@ -127,8 +127,9 @@ function getSectionColorStops(
   mode: 'light' | 'dark'
 ): ReadonlyArray<string> {
   const sectionColors =
-    auroraColorStops[sectionId as keyof typeof auroraColorStops] ??
-    auroraColorStops.hero;
+    sectionId in auroraColorStops
+      ? auroraColorStops[sectionId as keyof typeof auroraColorStops]
+      : auroraColorStops.hero;
 
   return mode === 'dark' ? sectionColors.dark : sectionColors.light;
 }

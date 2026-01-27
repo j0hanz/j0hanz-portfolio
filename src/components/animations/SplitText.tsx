@@ -46,6 +46,7 @@ export function SplitText({
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
   const fontsLoadedRef = useRef(getInitialFontsLoaded());
+  const splitInstanceRef = useRef<GSAPSplitText | null>(null);
 
   // Subscribe to font loading if not already loaded
   useEffect(() => {
@@ -71,17 +72,15 @@ export function SplitText({
     () => {
       if (!ref.current || !text || !fontsLoadedRef.current) return;
 
-      const el = ref.current as HTMLElement & {
-        _rbsplitInstance?: GSAPSplitText;
-      };
+      const el = ref.current;
 
-      if (el._rbsplitInstance) {
+      if (splitInstanceRef.current) {
         try {
-          el._rbsplitInstance.revert();
+          splitInstanceRef.current.revert();
         } catch {
           // Silently ignore revert errors
         }
-        el._rbsplitInstance = undefined;
+        splitInstanceRef.current = null;
       }
 
       const startPct = (1 - threshold) * 100;
@@ -143,7 +142,7 @@ export function SplitText({
           );
         },
       });
-      el._rbsplitInstance = splitInstance;
+      splitInstanceRef.current = splitInstance;
       return () => {
         ScrollTrigger.getAll().forEach((st) => {
           if (st.trigger === el) st.kill();
@@ -153,7 +152,7 @@ export function SplitText({
         } catch {
           // Silently ignore revert errors
         }
-        el._rbsplitInstance = undefined;
+        splitInstanceRef.current = null;
       };
     },
     {

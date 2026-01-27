@@ -2,7 +2,7 @@ import { Button as MuiButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'motion/react';
 
-import { CustomButtonProps } from '@/config/types';
+import type { CustomButtonProps } from '@/config/types';
 import { useButtonGesture } from '@/hooks';
 import { filterMotionConflicts } from '@/utils/motionProps';
 

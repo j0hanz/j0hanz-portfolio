@@ -3,9 +3,12 @@ import { Fragment, type JSX } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-import { motion, MotionStyle } from 'motion/react';
+import { motion, type MotionStyle } from 'motion/react';
 
-import { SocialLinkListProps, SocialLinkRenderProps } from '@/config/types';
+import type {
+  SocialLinkListProps,
+  SocialLinkRenderProps,
+} from '@/config/types';
 import { useAnimationConfig, useCursorMagnet } from '@/hooks';
 import { socialLinks } from '@/lib/data/socialLinks';
 

@@ -1,4 +1,4 @@
-import {
+import type {
   ChangeEvent,
   ComponentType,
   CSSProperties,
@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 import type { SvgIconComponent } from '@mui/icons-material';
-import {
+import type {
   AlertColor,
   ButtonProps as MuiButtonProps,
   PaletteMode,

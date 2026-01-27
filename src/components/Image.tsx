@@ -3,7 +3,7 @@ import type { CSSProperties, JSX } from 'react';
 import { Box, Skeleton } from '@mui/material';
 import { motion } from 'motion/react';
 
-import { ImageProps } from '@/config/types';
+import type { ImageProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
 
 // Border radius lookup map

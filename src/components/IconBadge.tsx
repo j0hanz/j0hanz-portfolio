@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 
-import { IconBadgeListProps, IconBadgeProps } from '@/config/types';
+import type { IconBadgeListProps, IconBadgeProps } from '@/config/types';
 import { SIZING, SKEW_TRANSFORM } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {

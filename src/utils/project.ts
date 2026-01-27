@@ -2,7 +2,7 @@ import gitpodLogo from '@/assets/gitpod.webp';
 import hackathonBadge2 from '@/assets/hackathonBadge2.webp';
 import hackathonBadge from '@/assets/hackathonBadge.webp';
 import hackathonBadge3 from '@/assets/hackathonBadgeThirdPlace.webp';
-import { BadgeConfig, Project, ProjectMeta } from '@/config/types';
+import type { BadgeConfig, Project, ProjectMeta } from '@/config/types';
 
 // Badge image dimensions (fixed for image assets)
 const BADGE_SIZE = {

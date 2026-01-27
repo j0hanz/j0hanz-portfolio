@@ -1,10 +1,10 @@
-import { ReactNode, useReducer, useTransition } from 'react';
+import { type ReactNode, useReducer, useTransition } from 'react';
 
 import {
   Alert,
-  AlertColor,
+  type AlertColor,
   Snackbar,
-  SnackbarCloseReason,
+  type SnackbarCloseReason,
   type SxProps,
   type Theme,
 } from '@mui/material';

@@ -16,7 +16,7 @@ import {
   SiVite,
 } from 'react-icons/si';
 
-import { Skill } from '@/config/types';
+import type { Skill } from '@/config/types';
 
 const skills: Skill[] = [
   { icon: SiBootstrap, label: 'Bootstrap' },

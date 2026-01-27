@@ -1,6 +1,6 @@
 import { Box, Chip, type SxProps, type Theme } from '@mui/material';
 
-import { ProjectTechStackProps } from '@/config/types';
+import type { ProjectTechStackProps } from '@/config/types';
 import { SKEW_TRANSFORM } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {

@@ -1,11 +1,17 @@
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
-import { Box, DialogTitle, Stack, SxProps, Theme } from '@mui/material';
+import {
+  Box,
+  DialogTitle,
+  Stack,
+  type SxProps,
+  type Theme,
+} from '@mui/material';
 
 import ImageCredential from '@/assets/Credential.webp';
 import { BaseModal } from '@/components/BaseModal';
 import { Image } from '@/components/Image';
 import { SIZE } from '@/config/responsive';
-import { CredentialProps } from '@/config/types';
+import type { CredentialProps } from '@/config/types';
 import {
   TRANSITION_STANDARD,
   transparentModalContentSx,

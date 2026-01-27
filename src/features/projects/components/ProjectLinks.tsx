@@ -8,7 +8,7 @@ import { Box, Stack, type SxProps, type Theme, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 import { Button } from '@/components/Button';
-import { ActionButtonProps, ProjectLinksProps } from '@/config/types';
+import type { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyWithFeedback } from '@/hooks';
 import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
 import { COPY_MESSAGES } from '@/utils/clipboard';

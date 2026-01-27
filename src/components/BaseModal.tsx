@@ -5,13 +5,13 @@ import {
   Dialog,
   DialogContent,
   IconButton,
-  SxProps,
-  Theme,
+  type SxProps,
+  type Theme,
 } from '@mui/material';
 import { motion } from 'motion/react';
 
 import { modalVariants } from '@/config/motion';
-import { BaseModalProps } from '@/config/types';
+import type { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 import { SIZING } from '@/styles/shared';
 
