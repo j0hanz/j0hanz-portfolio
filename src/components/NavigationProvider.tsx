@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useReducer, useRef, useTransition } from 'react';
+import { ReactNode, useEffect, useReducer, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
 import type {
@@ -99,7 +99,9 @@ const syncHashWithSection = (hash: string): void => {
     window.history.replaceState(null, '', hash);
 };
 
-export function NavigationProvider({ children }: { children: ReactNode }) {
+export function NavigationProvider({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   const [isPending, startTransition] = useTransition();
   const [state, dispatch] = useReducer(
     navigationReducer,
@@ -150,16 +152,12 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     transitionDispatch({ type: 'STEP', payload: -1 })
   );
 
-  const actionsRef = useRef<NavigationActions | null>(null);
-  if (!actionsRef.current) {
-    actionsRef.current = { setActiveSection, navigateTo, moveNext, movePrev };
-  } else {
-    actionsRef.current.setActiveSection = setActiveSection;
-    actionsRef.current.navigateTo = navigateTo;
-    actionsRef.current.moveNext = moveNext;
-    actionsRef.current.movePrev = movePrev;
-  }
-  const actionsValue = actionsRef.current as NavigationActions;
+  const actionsValue: NavigationActions = {
+    setActiveSection,
+    navigateTo,
+    moveNext,
+    movePrev,
+  };
 
   return (
     <NavigationActionsContext value={actionsValue}>

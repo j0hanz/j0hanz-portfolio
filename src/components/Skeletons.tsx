@@ -69,7 +69,9 @@ const actionGridSx: SxProps<Theme> = {
 };
 
 // Stat row skeleton - matches ProjectStats AnimatedStat layout exactly
-function StatRow({ width = 44 }: { width?: number }): React.JSX.Element {
+function StatRow({
+  width = 44,
+}: Readonly<{ width?: number }>): React.JSX.Element {
   return (
     <Stack direction="row" alignItems="center" spacing={1.5}>
       <Skeleton
@@ -128,9 +130,9 @@ export function ProjectCardSkeleton(): React.JSX.Element {
 
         {/* Tech stack - matches ProjectTechStack with chips */}
         <Box sx={chipContainerSx}>
-          {[52, 68, 44, 76, 58, 48].map((w, i) => (
+          {[52, 68, 44, 76, 58, 48].map((w) => (
             <Skeleton
-              key={i}
+              key={w}
               variant="rounded"
               width={w}
               height={24}

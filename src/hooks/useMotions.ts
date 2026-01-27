@@ -251,27 +251,27 @@ function useSectionSequence(
 ) {
   const { offset = ['start 0.85', 'end 0.2'], threshold = 0.2 } = options;
   const { prefersReducedMotion, getStagger } = useAnimationConfig();
-  const hasPlayed = useRef(false);
+  const hasPlayedRef = useRef(false);
   const sequencePlan = buildSectionSequencePlan(selectors, getStagger);
 
   const { scrollYProgress } = useScroll({ target: ref, offset });
 
   // Reset on mount for full-page scroll sections that remount
   useEffect(() => {
-    hasPlayed.current = false;
+    hasPlayedRef.current = false;
   }, []);
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
     if (
       prefersReducedMotion ||
-      hasPlayed.current ||
+      hasPlayedRef.current ||
       value <= threshold ||
       !ref.current ||
       sequencePlan.length === 0
     )
       return;
 
-    hasPlayed.current = true;
+    hasPlayedRef.current = true;
     runSectionSequence(ref.current, sequencePlan);
   });
 }

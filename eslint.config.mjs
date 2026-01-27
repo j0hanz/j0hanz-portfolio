@@ -1,9 +1,9 @@
+import eslintReact from '@eslint-react/eslint-plugin';
 import eslint from '@eslint/js';
 import tanstackQuery from '@tanstack/eslint-plugin-query';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import deMorgan from 'eslint-plugin-de-morgan';
 import depend from 'eslint-plugin-depend';
-import react from 'eslint-plugin-react';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -40,31 +40,19 @@ export default defineConfig(
       },
     },
     plugins: {
+      ...eslintReact.configs.recommended.plugins,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'react-compiler': reactCompiler,
       'unused-imports': unusedImports,
-      react,
-    },
-    settings: {
-      react: {
-        version: '19.0',
-        fragment: 'Fragment',
-      },
-      linkComponents: [{ name: 'Link', linkAttribute: 'to' }],
     },
     rules: {
-      ...react.configs['jsx-runtime'].rules,
+      ...eslintReact.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       eqeqeq: 'error',
       curly: 'error',
-      'react/jsx-key': 'error',
-      'react/jsx-no-comment-textnodes': 'error',
-      'react/jsx-no-duplicate-props': 'error',
-      'react/jsx-no-target-blank': ['error', { enforceDynamicLinks: 'always' }],
-      'react/jsx-no-undef': 'error',
-      'react/jsx-uses-vars': 'error',
+      '@eslint-react/dom/no-unknown-property': 'error',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
@@ -77,20 +65,6 @@ export default defineConfig(
           argsIgnorePattern: '^_',
         },
       ],
-      'react/no-children-prop': 'error',
-      'react/no-danger-with-children': 'error',
-      'react/no-direct-mutation-state': 'error',
-      'react/no-unescaped-entities': 'error',
-      'react/no-unknown-property': ['error', { ignore: ['css'] }],
-      'react/require-render-return': 'error',
-      'react/self-closing-comp': ['error', { component: true, html: true }],
-      'react/jsx-curly-brace-presence': [
-        'error',
-        { props: 'never', children: 'never' },
-      ],
-      'react/jsx-fragments': ['error', 'syntax'],
-      'react/no-unstable-nested-components': 'warn',
-      'react/prop-types': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },

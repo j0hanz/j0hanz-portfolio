@@ -13,7 +13,7 @@ import { isAtScrollBoundary, useScrollEvents } from './useScrollEvents';
 export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
   const { isScrollLocked, isPending } = useNavigationState();
-  const isScrolling = useRef(false);
+  const isScrollingRef = useRef(false);
 
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useMobileBreakpoint('md');
@@ -25,15 +25,15 @@ export function useFullPageScroll(): void {
   const disableNonTouchInputs = shouldDisable || isMobile;
 
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
-    if (isScrolling.current || isPending || !isAtScrollBoundary(direction)) {
+    if (isScrollingRef.current || isPending || !isAtScrollBoundary(direction)) {
       return false;
     }
 
-    isScrolling.current = true;
+    isScrollingRef.current = true;
     (direction === 'down' ? moveNext : movePrev)();
 
     setTimeout(() => {
-      isScrolling.current = false;
+      isScrollingRef.current = false;
     }, SCROLL_CONFIG.LOCK_DURATION_MS);
 
     return true;
@@ -43,6 +43,6 @@ export function useFullPageScroll(): void {
     onNavigate,
     shouldDisable,
     disableNonTouchInputs,
-    isScrolling,
+    isScrolling: isScrollingRef,
   });
 }

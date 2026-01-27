@@ -34,9 +34,9 @@ export function useScrollEvents({
   disableNonTouchInputs = false,
   isScrolling,
 }: UseScrollEventsProps): void {
-  const touchStartY = useRef(0);
-  const touchStartTime = useRef(0);
-  const isTouchActive = useRef(false);
+  const touchStartYRef = useRef(0);
+  const touchStartTimeRef = useRef(0);
+  const isTouchActiveRef = useRef(false);
 
   const handleWheel = useEventCallback((e: WheelEvent) => {
     if (isScrolling.current) {
@@ -68,17 +68,17 @@ export function useScrollEvents({
     // Don't interfere with ongoing scroll animation
     if (isScrolling.current) return;
 
-    touchStartY.current = e.touches[0].clientY;
-    touchStartTime.current = Date.now();
-    isTouchActive.current = true;
+    touchStartYRef.current = e.touches[0].clientY;
+    touchStartTimeRef.current = Date.now();
+    isTouchActiveRef.current = true;
   });
 
   const handleTouchEnd = useEventCallback((e: TouchEvent) => {
-    if (!isTouchActive.current || isScrolling.current) return;
+    if (!isTouchActiveRef.current || isScrolling.current) return;
 
-    const deltaY = touchStartY.current - e.changedTouches[0].clientY;
-    const elapsed = Date.now() - touchStartTime.current;
-    isTouchActive.current = false;
+    const deltaY = touchStartYRef.current - e.changedTouches[0].clientY;
+    const elapsed = Date.now() - touchStartTimeRef.current;
+    isTouchActiveRef.current = false;
 
     // Validate swipe gesture
     if (
@@ -119,9 +119,9 @@ export function useScrollEvents({
       window.removeEventListener('touchend', handleTouchEnd);
 
       // Reset touch state refs on unmount
-      touchStartY.current = 0;
-      touchStartTime.current = 0;
-      isTouchActive.current = false;
+      touchStartYRef.current = 0;
+      touchStartTimeRef.current = 0;
+      isTouchActiveRef.current = false;
     };
   }, [
     shouldDisable,

@@ -92,7 +92,7 @@ function FormField({
   maxRows,
   onChange,
   disabled,
-}: FormFieldProps): React.JSX.Element {
+}: Readonly<FormFieldProps>): React.JSX.Element {
   const isTextarea = type === 'textarea';
 
   return (
@@ -168,7 +168,7 @@ export function ContactFormFields({
   errors,
   handleChange,
   disabled = false,
-}: FormFieldsProps): React.JSX.Element {
+}: Readonly<FormFieldsProps>): React.JSX.Element {
   // Generate unique IDs for form fields (React 19 accessibility)
   const nameId = useId();
   const emailId = useId();

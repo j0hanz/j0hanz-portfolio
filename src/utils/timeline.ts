@@ -1,4 +1,5 @@
-import type { SxProps, Theme } from '@mui/material';
+import type { Theme } from '@mui/material';
+import type { SystemStyleObject } from '@mui/system';
 
 // Timeline component utilities for Education and WorkExperience sections
 
@@ -14,19 +15,33 @@ export function isTimelineItemLeftAligned(
 // Timeline opposite content sx props factory
 export function getTimelineOppositeContentSx(
   isLeftAligned: boolean
-): SxProps<Theme> {
+): SystemStyleObject<Theme> {
+  let textAlign: 'left' | 'right' = 'right';
+  let justifyContent: 'flex-start' | 'flex-end' = 'flex-end';
+  if (isLeftAligned) {
+    textAlign = 'left';
+    justifyContent = 'flex-start';
+  }
+
   return {
     display: { xs: 'none', md: 'flex' },
-    textAlign: isLeftAligned ? 'left' : 'right',
-    justifyContent: isLeftAligned ? 'flex-start' : 'flex-end',
+    textAlign,
+    justifyContent,
     paddingTop: 2,
   };
 }
 
 // Timeline content sx props factory
-export function getTimelineContentSx(isLeftAligned: boolean): SxProps<Theme> {
+export function getTimelineContentSx(
+  isLeftAligned: boolean
+): SystemStyleObject<Theme> {
+  let justifyContent: 'flex-start' | 'flex-end' = 'flex-start';
+  if (isLeftAligned) {
+    justifyContent = 'flex-end';
+  }
+
   return {
     display: 'flex',
-    justifyContent: isLeftAligned ? 'flex-end' : 'flex-start',
+    justifyContent,
   };
 }

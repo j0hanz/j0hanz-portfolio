@@ -26,7 +26,7 @@ const contentWrapperSx: SxProps<Theme> = {
 };
 
 // Content slot for timeline card body
-function Content({ children }: { children: ReactNode }): JSX.Element {
+function Content({ children }: Readonly<{ children: ReactNode }>): JSX.Element {
   return <Box sx={contentWrapperSx}>{children}</Box>;
 }
 
@@ -34,10 +34,7 @@ function Content({ children }: { children: ReactNode }): JSX.Element {
 function Actions({
   children,
   sx,
-}: {
-  children: ReactNode;
-  sx?: SxProps<Theme>;
-}): JSX.Element {
+}: Readonly<{ children: ReactNode; sx?: SxProps<Theme> }>): JSX.Element {
   return <Box sx={sx}>{children}</Box>;
 }
 
@@ -47,7 +44,7 @@ function TimelineCardRoot({
   children,
   dataAttributes,
   metaDataAttribute,
-}: TimelineCardProps): JSX.Element {
+}: Readonly<TimelineCardProps>): JSX.Element {
   // Animated title using BlurText
   const animatedTitle = (
     <BlurText

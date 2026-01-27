@@ -81,7 +81,7 @@ function AboutMeText(): React.JSX.Element {
 function AboutMeList({
   items,
   onShowModal,
-}: AboutMeListProps): React.JSX.Element {
+}: Readonly<AboutMeListProps>): React.JSX.Element {
   const tableRef = useRef<HTMLTableElement>(null);
   // Use listReplay preset for full-page scroll sections to replay animations on remount
   const isInView = useInView(
@@ -137,7 +137,7 @@ function CardItem({
   yTransform,
   isInView,
   children,
-}: CardItemProps): React.JSX.Element {
+}: Readonly<CardItemProps>): React.JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
   const isMobile = useMobileBreakpoint('md');
   // Use mobile-optimized variant without blur on mobile devices

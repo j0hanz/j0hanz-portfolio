@@ -21,10 +21,7 @@ const wrapperSx: SxProps<Theme> = {
 export function ProjectCardMotionWrapper({
   children,
   fullHeight = true,
-}: {
-  children: ReactNode;
-  fullHeight?: boolean;
-}): React.JSX.Element {
+}: Readonly<{ children: ReactNode; fullHeight?: boolean }>): React.JSX.Element {
   const isMobile = useMobileBreakpoint('md');
   const variant = isMobile ? staggerItemVariantMobile : staggerItemVariant;
 
@@ -39,7 +36,9 @@ export function ProjectCardMotionWrapper({
   );
 }
 
-function ProjectGridItem({ project }: ProjectListProps): React.JSX.Element {
+function ProjectGridItem({
+  project,
+}: Readonly<ProjectListProps>): React.JSX.Element {
   return (
     <Grid size={GRID.third} sx={{ display: 'flex' }}>
       <ProjectCardMotionWrapper>

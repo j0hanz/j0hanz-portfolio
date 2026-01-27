@@ -32,7 +32,7 @@ function TooltipActionButton({
   label,
   icon,
   ...props
-}: ActionButtonProps & { tooltip: ReactNode }): JSX.Element {
+}: Readonly<ActionButtonProps & { tooltip: ReactNode }>): JSX.Element {
   return (
     <Tooltip title={tooltip} placement="bottom">
       <Box component="span" sx={tooltipWrapperSx}>
@@ -42,7 +42,7 @@ function TooltipActionButton({
   );
 }
 
-function ProjectLinks({ project }: ProjectLinksProps): JSX.Element {
+function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
   const { copyWithFeedback } = useCopyWithFeedback();
 
   const handleCopyRepo = async () => {

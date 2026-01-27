@@ -22,7 +22,7 @@ const chipSx: SxProps<Theme> = {
 
 function ProjectTechStack({
   technologies,
-}: ProjectTechStackProps): React.JSX.Element {
+}: Readonly<ProjectTechStackProps>): React.JSX.Element {
   return (
     <Box sx={containerSx}>
       {technologies.map((tech) => (

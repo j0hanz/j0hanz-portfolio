@@ -5,7 +5,9 @@ import { ProjectListProps } from '@/config/types';
 import { ProjectCard } from './components/ProjectCard';
 import { ProjectCardMotionWrapper } from './ProjectGridItem';
 
-function ProjectMasonryItem({ project }: ProjectListProps): React.JSX.Element {
+function ProjectMasonryItem({
+  project,
+}: Readonly<ProjectListProps>): React.JSX.Element {
   return (
     <ProjectCardMotionWrapper fullHeight={false}>
       <ErrorBoundary fallback={<ProjectCardSkeleton />}>

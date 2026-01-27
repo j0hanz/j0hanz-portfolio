@@ -6,21 +6,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface FadeContentProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-  container?: Element | string | null;
-  blur?: boolean;
-  duration?: number;
-  ease?: string;
-  delay?: number;
-  threshold?: number;
-  initialOpacity?: number;
-  disappearAfter?: number;
-  disappearDuration?: number;
-  disappearEase?: string;
-  onComplete?: () => void;
-  onDisappearanceComplete?: () => void;
-}
+type FadeContentProps = Readonly<
+  HTMLAttributes<HTMLDivElement> & {
+    children: ReactNode;
+    container?: Element | string | null;
+    blur?: boolean;
+    duration?: number;
+    ease?: string;
+    delay?: number;
+    threshold?: number;
+    initialOpacity?: number;
+    disappearAfter?: number;
+    disappearDuration?: number;
+    disappearEase?: string;
+    onComplete?: () => void;
+    onDisappearanceComplete?: () => void;
+  }
+>;
 
 export function FadeContent({
   children,

@@ -34,7 +34,10 @@ function HeroProfile(): React.JSX.Element {
   };
 
   // Inline opacity calculation (was getProfileOpacity helper)
-  const opacity = isLoaded ? (isHovered ? 0.8 : 1) : 0;
+  let opacity = 0;
+  if (isLoaded) {
+    opacity = isHovered ? 0.8 : 1;
+  }
 
   return (
     <>

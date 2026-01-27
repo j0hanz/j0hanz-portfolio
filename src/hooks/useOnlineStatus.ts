@@ -62,7 +62,7 @@ export function useConnectivity() {
   const timeoutRef = useRef<number | null>(null);
 
   // Stable callback for updating banner state (avoids ESLint setState-in-effect warning)
-  const updateBanner = useEventCallback((banner: StatusBanner | null) => {
+  const updateBanner = useEventCallback(async (banner: StatusBanner | null) => {
     if (timeoutRef.current) {
       window.clearTimeout(timeoutRef.current);
       timeoutRef.current = null;

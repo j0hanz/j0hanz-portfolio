@@ -97,7 +97,7 @@ function TimelineCardWrapper({
   showDuration,
   children,
   cardRef,
-}: TimelineCardWrapperProps): JSX.Element {
+}: Readonly<TimelineCardWrapperProps>): JSX.Element {
   const metadata = buildExperienceMetadata(experience, showDuration);
 
   return (
@@ -121,7 +121,7 @@ function TimelineCardWrapper({
 function WorkCard({
   experience,
   showDuration = true,
-}: BaseCardProps): JSX.Element {
+}: Readonly<BaseCardProps>): JSX.Element {
   const { cardRef, itemMotion } = useTimelineCardMotion(
     viewportPresets.cardReplay
   );
@@ -153,7 +153,7 @@ function EducationCard({
   experience,
   onShowModal,
   showDuration = true,
-}: EducationCardProps): JSX.Element {
+}: Readonly<EducationCardProps>): JSX.Element {
   const {
     cardRef,
     isInView,
@@ -218,7 +218,7 @@ function ExperienceCard({
   experience,
   onShowModal,
   showDuration = true,
-}: WorkExperienceCardProps): JSX.Element {
+}: Readonly<WorkExperienceCardProps>): JSX.Element {
   if (experience.type === 'education') {
     return (
       <EducationCard

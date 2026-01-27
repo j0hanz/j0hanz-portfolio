@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
 // Check if fonts are loaded synchronously (runs once at module load)
 const getInitialFontsLoaded = () => document.fonts.status === 'loaded';
 
-interface SplitTextProps {
+type SplitTextProps = Readonly<{
   text: string;
   className?: string;
   delay?: number;
@@ -24,7 +24,7 @@ interface SplitTextProps {
   rootMargin?: string;
   textAlign?: CSSProperties['textAlign'];
   onLetterAnimationComplete?: () => void;
-}
+}>;
 
 const DEFAULT_FROM: gsap.TweenVars = { opacity: 0, y: 20 };
 const DEFAULT_TO: gsap.TweenVars = { opacity: 1, y: 0 };
@@ -90,12 +90,13 @@ export function SplitText({
       );
       const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
       const marginUnit = marginMatch ? marginMatch[2] || 'px' : 'px';
-      const sign =
-        marginValue === 0
-          ? ''
-          : marginValue < 0
+      let sign = '';
+      if (marginValue !== 0) {
+        sign =
+          marginValue < 0
             ? `-=${Math.abs(marginValue)}${marginUnit}`
             : `+=${marginValue}${marginUnit}`;
+      }
       const start = `top ${startPct}%${sign}`;
       let targets: Element[] = [];
       const assignTargets = (self: GSAPSplitText) => {

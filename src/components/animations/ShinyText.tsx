@@ -2,12 +2,12 @@ import { Box } from '@mui/material';
 
 import './ShinyText.css';
 
-interface ShinyTextProps {
+type ShinyTextProps = Readonly<{
   text: string;
   disabled?: boolean;
   speed?: number;
   className?: string;
-}
+}>;
 
 export function ShinyText({
   text,

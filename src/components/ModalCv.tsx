@@ -1,4 +1,4 @@
-import { type JSX, useEffect, useRef, useTransition } from 'react';
+import type { JSX } from 'react';
 
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
@@ -27,6 +27,8 @@ import { GRID, SPACING } from '@/config/responsive';
 import type { ModalCvProps } from '@/config/types';
 import { useAnimationConfig, useSnackbar } from '@/hooks';
 import { SIZING } from '@/styles/shared';
+
+import 'flag-icons/css/flag-icons.min.css';
 
 // ============================================================================
 // MOTION COMPONENTS
@@ -158,22 +160,9 @@ const downloadIconSx: SxProps<Theme> = {
 // MAIN COMPONENT
 // ============================================================================
 
-function ModalCv({ open, onClose }: ModalCvProps): JSX.Element {
+function ModalCv({ open, onClose }: Readonly<ModalCvProps>): JSX.Element {
   const { showSnackbar } = useSnackbar();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
-  // useRef for CSS load flag - no re-render needed, just prevents duplicate imports
-  const flagIconsLoadedRef = useRef(false);
-  const [_isCssLoading, startCssTransition] = useTransition();
-
-  // Lazy-load flag-icons CSS when modal opens (non-blocking with useTransition)
-  useEffect(() => {
-    if (open && !flagIconsLoadedRef.current) {
-      flagIconsLoadedRef.current = true;
-      startCssTransition(() => {
-        import('flag-icons/css/flag-icons.min.css');
-      });
-    }
-  }, [open]);
 
   const handleDownload = (option: CvOption): void => {
     const link = document.createElement('a');

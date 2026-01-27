@@ -50,7 +50,9 @@ const iconSx: SxProps<Theme> = {
   color: 'inherit',
 };
 
-function ProjectHeader({ project }: ProjectHeaderProps): React.JSX.Element {
+function ProjectHeader({
+  project,
+}: Readonly<ProjectHeaderProps>): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
   return (

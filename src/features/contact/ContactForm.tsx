@@ -56,7 +56,7 @@ const EMPTY_FORM: ContactFormValues = {
 
 const ERROR_FIELDS = new Set(['name', 'email', 'url', 'message'] as const);
 
-function SuccessIndicator({ visible }: SuccessIndicatorProps) {
+function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
   if (!visible) return null;
 
   return (
@@ -86,7 +86,7 @@ function SuccessIndicator({ visible }: SuccessIndicatorProps) {
   );
 }
 
-function FormActions({ onReset, isPending }: FormActionsProps) {
+function FormActions({ onReset, isPending }: Readonly<FormActionsProps>) {
   return (
     <Stack
       direction="row"
@@ -172,8 +172,9 @@ function ContactFormContent() {
         setErrors((prev) => {
           const key = fieldName as keyof ContactFormErrors;
           if (!prev[key]) return prev;
-          const { [key]: _, ...rest } = prev;
-          return rest;
+          const next = { ...prev };
+          delete next[key];
+          return next;
         });
       }
     }

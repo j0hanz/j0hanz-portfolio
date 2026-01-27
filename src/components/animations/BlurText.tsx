@@ -2,7 +2,39 @@ import { useEffect, useRef, useState } from 'react';
 
 import { motion, Transition, useReducedMotion } from 'motion/react';
 
-interface BlurTextProps {
+type Segment = {
+  key: string;
+  segment: string;
+};
+
+const DEFAULT_EASING = (t: number) => t;
+
+const buildSegments = (
+  text: string,
+  animateBy: 'words' | 'letters'
+): { elements: string[]; segments: Segment[] } => {
+  const elements = animateBy === 'words' ? text.split(' ') : text.split('');
+  const keyCounts = new Map<string, number>();
+  const segments: Segment[] = [];
+  for (const segment of elements) {
+    const count = (keyCounts.get(segment) ?? 0) + 1;
+    keyCounts.set(segment, count);
+    segments.push({ key: `${segment}-${count}`, segment });
+  }
+  return { elements, segments };
+};
+
+const buildTimes = (stepCount: number): number[] => {
+  if (stepCount <= 1) return [0];
+  const times = new Array<number>(stepCount);
+  const divisor = stepCount - 1;
+  for (let i = 0; i < stepCount; i += 1) {
+    times[i] = i / divisor;
+  }
+  return times;
+};
+
+type BlurTextProps = Readonly<{
   text?: string;
   delay?: number;
   className?: string;
@@ -15,7 +47,7 @@ interface BlurTextProps {
   easing?: (t: number) => number;
   onAnimationComplete?: () => void;
   stepDuration?: number;
-}
+}>;
 
 function buildKeyframes(
   from: Record<string, string | number>,
@@ -43,11 +75,11 @@ export function BlurText({
   rootMargin = '0px',
   animationFrom,
   animationTo,
-  easing = (t: number) => t,
+  easing = DEFAULT_EASING,
   onAnimationComplete,
   stepDuration = 0.2,
 }: BlurTextProps) {
-  const elements = animateBy === 'words' ? text.split(' ') : text.split('');
+  const { elements, segments } = buildSegments(text, animateBy);
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -90,18 +122,16 @@ export function BlurText({
 
   const stepCount = toSnapshots.length + 1;
   const totalDuration = stepDuration * (stepCount - 1);
-  const times = Array.from({ length: stepCount }, (_, i) =>
-    stepCount === 1 ? 0 : i / (stepCount - 1)
-  );
+  const times = buildTimes(stepCount);
 
   // Respect reduced motion preferences (WCAG 2.1)
   if (prefersReducedMotion) {
     return (
       <div ref={ref} className={className}>
-        {elements.map((segment, index) => (
-          <span key={index} style={{ display: 'inline-block' }}>
+        {segments.map(({ key, segment }, index) => (
+          <span key={key} style={{ display: 'inline-block' }}>
             {segment === ' ' ? '\u00A0' : segment}
-            {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
+            {animateBy === 'words' && index < segments.length - 1 && '\u00A0'}
           </span>
         ))}
       </div>
@@ -111,7 +141,7 @@ export function BlurText({
   return (
     <div ref={ref} className={className}>
       {/* Index as key is safe - elements array is static (derived from text prop) */}
-      {elements.map((segment, index) => {
+      {segments.map(({ key, segment }, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
         const spanTransition: Transition = {
@@ -123,7 +153,7 @@ export function BlurText({
 
         return (
           <motion.span
-            key={index}
+            key={key}
             initial={fromSnapshot}
             animate={inView ? animateKeyframes : fromSnapshot}
             transition={spanTransition}

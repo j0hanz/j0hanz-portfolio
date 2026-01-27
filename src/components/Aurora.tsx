@@ -133,12 +133,12 @@ function getSectionColorStops(
   return mode === 'dark' ? sectionColors.dark : sectionColors.light;
 }
 
-interface AuroraProps {
+type AuroraProps = Readonly<{
   colorStops: ReadonlyArray<string>;
   amplitude: number;
   blend: number;
   speed: number;
-}
+}>;
 
 // WebGL Aurora canvas - handles actual rendering
 // React 19 Compiler handles memoization automatically
@@ -235,16 +235,15 @@ function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
         animationRef.current = null;
       }
       window.removeEventListener('resize', resize);
-      const currentContainer = containerRef.current;
-      if (currentContainer && gl.canvas.parentNode === currentContainer) {
-        currentContainer.removeChild(gl.canvas);
+      if (gl.canvas.parentNode === container) {
+        container.removeChild(gl.canvas);
       }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
       rendererRef.current = null;
       programRef.current = null;
       meshRef.current = null;
     };
-  }, [getLatestProps]);
+  }, []);
 
   useEffect(() => {
     const program = programRef.current;
@@ -270,7 +269,9 @@ function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
 }
 
 // Static fallback for reduced motion - simple gradient overlay
-function AuroraStatic({ colorStops }: { colorStops: ReadonlyArray<string> }) {
+function AuroraStatic({
+  colorStops,
+}: Readonly<{ colorStops: ReadonlyArray<string> }>) {
   return (
     <Box
       sx={{

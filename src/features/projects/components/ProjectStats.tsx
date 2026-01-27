@@ -51,11 +51,11 @@ function AnimatedStat({
   label,
   value,
   icon: Icon,
-}: {
+}: Readonly<{
   label: string;
   value: number;
   icon: React.ComponentType<SvgIconProps>;
-}): React.JSX.Element {
+}>): React.JSX.Element {
   const { ref, value: displayValue } = useCountUp(value);
   const { getTransition } = useAnimationConfig();
 
@@ -87,7 +87,7 @@ function AnimatedStat({
 const ProjectStats = ({
   repoPath,
   hasProjectBoard,
-}: ProjectStatsProps): React.JSX.Element => {
+}: Readonly<ProjectStatsProps>): React.JSX.Element => {
   const { repoStats } = useGitHubApi(repoPath);
   const statItems = buildStatItems(repoStats, hasProjectBoard);
 

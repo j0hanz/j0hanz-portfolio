@@ -24,13 +24,21 @@ const stackSx: SxProps<Theme> = {
 };
 
 // Badge wrapper - applies animation variants when motion is enabled
+type BadgeWrapperProps = Readonly<{
+  children: ReactNode;
+  animate: boolean;
+}>;
+
+type BadgeListProps = Readonly<{
+  animate: boolean;
+  isInView: boolean;
+  disableShiny: boolean;
+}>;
+
 function BadgeWrapper({
   children,
   animate,
-}: {
-  children: ReactNode;
-  animate: boolean;
-}): React.JSX.Element {
+}: BadgeWrapperProps): React.JSX.Element {
   if (!animate) return <>{children}</>;
   return (
     <Box component={motion.span} variants={skillBadgeVariants.item}>
@@ -44,11 +52,7 @@ function BadgeList({
   animate,
   isInView,
   disableShiny,
-}: {
-  animate: boolean;
-  isInView: boolean;
-  disableShiny: boolean;
-}): React.JSX.Element {
+}: BadgeListProps): React.JSX.Element {
   const badgeContent = skills.map((skill) => (
     <BadgeWrapper key={skill.label} animate={animate}>
       <SkillBadge skill={skill} />

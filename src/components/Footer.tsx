@@ -49,17 +49,14 @@ const copyButtonSx: SxProps<Theme> = {
 // COMPONENTS
 // ============================================================================
 
-function AwardBadge({
-  href,
-  imgSrc,
-  date,
-  index = 0,
-}: {
+type AwardBadgeProps = Readonly<{
   href: string;
   imgSrc: string;
   date: string;
   index?: number;
-}) {
+}>;
+
+function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
   return (
     <Grid size={GRID.third}>
       <FadeContent blur duration={800} delay={index * 150} threshold={0.2}>

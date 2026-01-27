@@ -20,7 +20,7 @@ const iconSx: SxProps<Theme> = {
   },
 };
 
-function SkillBadge({ skill }: SkillBadgeProps): React.JSX.Element {
+function SkillBadge({ skill }: Readonly<SkillBadgeProps>): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const IconComponent = skill.icon;
 

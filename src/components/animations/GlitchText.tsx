@@ -4,13 +4,13 @@ import { Box } from '@mui/material';
 
 import './GlitchText.css';
 
-interface GlitchTextProps {
+type GlitchTextProps = Readonly<{
   children: string;
   speed?: number;
   enableShadows?: boolean;
   enableOnHover?: boolean;
   className?: string;
-}
+}>;
 
 interface GlitchCSSVariables extends CSSProperties {
   '--after-duration': string;

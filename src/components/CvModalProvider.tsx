@@ -1,4 +1,4 @@
-import { useRef, useTransition } from 'react';
+import { useTransition } from 'react';
 
 import { AnimatePresence } from 'motion/react';
 
@@ -13,7 +13,7 @@ import { useEventCallback, useToggle } from '@/hooks';
 // Centralized CV modal state management
 export function CvModalProvider({
   children,
-}: CvModalProviderProps): React.JSX.Element {
+}: Readonly<CvModalProviderProps>): React.JSX.Element {
   const [isPending, startTransition] = useTransition();
   const { value: isCvModalOpen, setTrue, setFalse } = useToggle(false);
 
@@ -27,14 +27,7 @@ export function CvModalProvider({
   });
 
   const stateValue = { isCvModalOpen, isPending };
-  const actionsRef = useRef<CvModalActions | null>(null);
-  if (!actionsRef.current) {
-    actionsRef.current = { openCvModal, closeCvModal };
-  } else {
-    actionsRef.current.openCvModal = openCvModal;
-    actionsRef.current.closeCvModal = closeCvModal;
-  }
-  const actionsValue = actionsRef.current as CvModalActions;
+  const actionsValue: CvModalActions = { openCvModal, closeCvModal };
 
   return (
     <CvModalActionsContext value={actionsValue}>

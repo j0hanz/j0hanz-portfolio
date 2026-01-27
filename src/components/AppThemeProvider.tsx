@@ -1,4 +1,4 @@
-import { ReactNode, useOptimistic, useRef, useTransition } from 'react';
+import { ReactNode, useOptimistic, useTransition } from 'react';
 
 import {
   CssBaseline,
@@ -19,7 +19,7 @@ import {
 } from '@/contexts/themeContext';
 import { useEventCallback } from '@/hooks';
 
-function ThemeModeAdapter({ children }: { children: ReactNode }) {
+function ThemeModeAdapter({ children }: Readonly<{ children: ReactNode }>) {
   const [isPending, startTransition] = useTransition();
   const { mode, systemMode, setMode } = useColorScheme();
 
@@ -58,14 +58,10 @@ function ThemeModeAdapter({ children }: { children: ReactNode }) {
 
   // Split context values for render optimization
   const stateValue: ThemeModeState = { mode: displayMode, isPending };
-  const actionsRef = useRef<ThemeModeActions | null>(null);
-  if (!actionsRef.current) {
-    actionsRef.current = { toggleMode, setMode: handleSetMode };
-  } else {
-    actionsRef.current.toggleMode = toggleMode;
-    actionsRef.current.setMode = handleSetMode;
-  }
-  const actionsValue = actionsRef.current as ThemeModeActions;
+  const actionsValue: ThemeModeActions = {
+    toggleMode,
+    setMode: handleSetMode,
+  };
 
   // React 19: Render context directly without .Provider
   return (
@@ -79,7 +75,7 @@ function ThemeModeAdapter({ children }: { children: ReactNode }) {
 
 function AppThemeProvider({
   children,
-}: AppThemeProviderProps): React.JSX.Element {
+}: Readonly<AppThemeProviderProps>): React.JSX.Element {
   return (
     <ThemeProvider theme={appTheme} defaultMode="light">
       <CssBaseline />

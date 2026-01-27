@@ -10,7 +10,7 @@ import { gsap } from 'gsap';
 
 import './TextType.css';
 
-interface TextTypeProps {
+type TextTypeProps = Readonly<{
   className?: string;
   showCursor?: boolean;
   hideCursorWhileTyping?: boolean;
@@ -29,7 +29,90 @@ interface TextTypeProps {
   onSentenceComplete?: (sentence: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
-}
+}>;
+
+type TypingAction =
+  | { type: 'type'; delay: number }
+  | { type: 'delete'; delay: number }
+  | { type: 'start-delete'; delay: number }
+  | { type: 'advance'; delay: number }
+  | { type: 'stop' };
+
+type TypingActionParams = {
+  displayedText: string;
+  currentCharIndex: number;
+  isDeleting: boolean;
+  processedTextLength: number;
+  textCount: number;
+  currentTextIndex: number;
+  loop: boolean;
+  typingSpeed: number;
+  deletingSpeed: number;
+  pauseDuration: number;
+  variableSpeed?: { min: number; max: number };
+};
+
+const getSecureRandom = (): number => {
+  if (typeof crypto === 'undefined' || !crypto.getRandomValues) return 0.5;
+  const buffer = new Uint32Array(1);
+  crypto.getRandomValues(buffer);
+  return buffer[0] / (0xffffffff + 1);
+};
+
+const getTypingDelay = (
+  variableSpeed: { min: number; max: number } | undefined,
+  typingSpeed: number
+): number => {
+  if (!variableSpeed) return typingSpeed;
+  const { min, max } = variableSpeed;
+  if (max <= min) return min;
+  return getSecureRandom() * (max - min) + min;
+};
+
+const normalizeTextArray = (text: string | string[]): string[] =>
+  Array.isArray(text) ? text : [text];
+
+const getProcessedText = (text: string, reverseMode: boolean): string =>
+  reverseMode ? text.split('').reverse().join('') : text;
+
+const getNextTypingAction = ({
+  displayedText,
+  currentCharIndex,
+  isDeleting,
+  processedTextLength,
+  textCount,
+  currentTextIndex,
+  loop,
+  typingSpeed,
+  deletingSpeed,
+  pauseDuration,
+  variableSpeed,
+}: TypingActionParams): TypingAction => {
+  if (textCount === 0) return { type: 'stop' };
+
+  if (isDeleting) {
+    if (displayedText.length === 0) {
+      if (!loop && currentTextIndex === textCount - 1) {
+        return { type: 'stop' };
+      }
+      return { type: 'advance', delay: 0 };
+    }
+    return { type: 'delete', delay: deletingSpeed };
+  }
+
+  if (currentCharIndex < processedTextLength) {
+    return {
+      type: 'type',
+      delay: getTypingDelay(variableSpeed, typingSpeed),
+    };
+  }
+
+  if (!loop && currentTextIndex === textCount - 1) {
+    return { type: 'stop' };
+  }
+
+  return { type: 'start-delete', delay: pauseDuration };
+};
 
 export const TextType = ({
   text,
@@ -51,7 +134,7 @@ export const TextType = ({
   startOnVisible = false,
   reverseMode = false,
   ...props
-}: TextTypeProps & React.HTMLAttributes<HTMLElement>) => {
+}: Readonly<TextTypeProps & React.HTMLAttributes<HTMLElement>>) => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -68,7 +151,7 @@ export const TextType = ({
   );
 
   // Derive text array inline - React Compiler handles optimization
-  const textArray = Array.isArray(text) ? text : [text];
+  const textArray = normalizeTextArray(text);
 
   const getCurrentTextColor = () => {
     if (textColors.length === 0) return;
@@ -109,68 +192,57 @@ export const TextType = ({
   useEffect(() => {
     if (!isVisible) return;
 
-    let timeout: ReturnType<typeof setTimeout>;
+    const effectTextArray = normalizeTextArray(text);
+    const currentText = effectTextArray[currentTextIndex] ?? '';
+    const processedText = getProcessedText(currentText, reverseMode);
+    const action = getNextTypingAction({
+      displayedText,
+      currentCharIndex,
+      isDeleting,
+      processedTextLength: processedText.length,
+      textCount: effectTextArray.length,
+      currentTextIndex,
+      loop,
+      typingSpeed,
+      deletingSpeed,
+      pauseDuration,
+      variableSpeed,
+    });
 
-    // Derive values inside effect to satisfy exhaustive-deps
-    const effectTextArray = Array.isArray(text) ? text : [text];
-    const currentText = effectTextArray[currentTextIndex];
-    const processedText = reverseMode
-      ? currentText.split('').reverse().join('')
-      : currentText;
+    if (action.type === 'stop') return;
 
-    // Define getRandomSpeed inside effect to avoid dependency issues
-    const getRandomSpeed = () => {
-      if (!variableSpeed) return typingSpeed;
-      const { min, max } = variableSpeed;
-      return Math.random() * (max - min) + min;
-    };
+    const shouldDelayStart =
+      currentCharIndex === 0 && !isDeleting && displayedText === '';
+    const delay = shouldDelayStart ? initialDelay : action.delay;
 
-    const executeTypingAnimation = () => {
-      if (isDeleting) {
-        if (displayedText === '') {
+    const timeout = setTimeout(() => {
+      switch (action.type) {
+        case 'type': {
+          const nextChar = processedText[currentCharIndex] ?? '';
+          setDisplayedText(displayedText + nextChar);
+          setCurrentCharIndex(currentCharIndex + 1);
+          break;
+        }
+        case 'delete': {
+          setDisplayedText(displayedText.slice(0, -1));
+          break;
+        }
+        case 'start-delete': {
+          setIsDeleting(true);
+          break;
+        }
+        case 'advance': {
           setIsDeleting(false);
-          if (currentTextIndex === effectTextArray.length - 1 && !loop) {
-            return;
-          }
-
-          handleSentenceComplete(
-            effectTextArray[currentTextIndex],
-            currentTextIndex
-          );
-
-          setCurrentTextIndex((prev) => (prev + 1) % effectTextArray.length);
+          handleSentenceComplete(currentText, currentTextIndex);
+          const nextIndex = (currentTextIndex + 1) % effectTextArray.length;
+          setCurrentTextIndex(nextIndex);
           setCurrentCharIndex(0);
-          timeout = setTimeout(() => {}, pauseDuration);
-        } else {
-          timeout = setTimeout(() => {
-            setDisplayedText((prev) => prev.slice(0, -1));
-          }, deletingSpeed);
+          break;
         }
-      } else {
-        if (currentCharIndex < processedText.length) {
-          timeout = setTimeout(
-            () => {
-              setDisplayedText(
-                (prev) => prev + processedText[currentCharIndex]
-              );
-              setCurrentCharIndex((prev) => prev + 1);
-            },
-            variableSpeed ? getRandomSpeed() : typingSpeed
-          );
-        } else if (effectTextArray.length >= 1) {
-          if (!loop && currentTextIndex === effectTextArray.length - 1) return;
-          timeout = setTimeout(() => {
-            setIsDeleting(true);
-          }, pauseDuration);
-        }
+        default:
+          break;
       }
-    };
-
-    if (currentCharIndex === 0 && !isDeleting && displayedText === '') {
-      timeout = setTimeout(executeTypingAnimation, initialDelay);
-    } else {
-      executeTypingAnimation();
-    }
+    }, delay);
 
     return () => clearTimeout(timeout);
   }, [

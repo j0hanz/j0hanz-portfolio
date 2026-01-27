@@ -8,6 +8,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
+import type { SystemStyleObject } from '@mui/system';
 
 import { AnimatedContent, FadeContent } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
@@ -63,15 +64,42 @@ const headerActionsSx: SxProps<Theme> = {
 // COMPOUND COMPONENT SLOTS
 // ============================================================================
 
+type SectionHeaderProps = Readonly<{
+  children: ReactNode;
+  icon?: ElementType;
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4';
+}>;
+
+type SectionSlotProps = Readonly<{
+  children: ReactNode;
+  sx?: SxProps<Theme>;
+}>;
+
+type SxEntry =
+  | boolean
+  | SystemStyleObject<Theme>
+  | ((theme: Theme) => SystemStyleObject<Theme>);
+
+const normalizeSx = (sx?: SxProps<Theme>): SxEntry[] => {
+  if (!sx) return [];
+  return Array.isArray(sx) ? (sx as SxEntry[]) : [sx as SxEntry];
+};
+
+const mergeSxEntries = (
+  theme: Theme,
+  entries: SxEntry[]
+): SystemStyleObject<Theme> =>
+  entries.reduce<SystemStyleObject<Theme>>((acc, entry) => {
+    if (!entry || entry === true) return acc;
+    const next = typeof entry === 'function' ? entry(theme) : entry;
+    return { ...acc, ...next };
+  }, {});
+
 function SectionHeader({
   children,
   icon: Icon,
   headingLevel = 'h2',
-}: {
-  children: ReactNode;
-  icon?: ElementType;
-  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4';
-}): JSX.Element {
+}: SectionHeaderProps): JSX.Element {
   return (
     <Stack
       direction="row"
@@ -87,23 +115,11 @@ function SectionHeader({
   );
 }
 
-function SectionContent({
-  children,
-  sx,
-}: {
-  children: ReactNode;
-  sx?: SxProps<Theme>;
-}): JSX.Element {
+function SectionContent({ children, sx }: SectionSlotProps): JSX.Element {
   return <Box sx={sx}>{children}</Box>;
 }
 
-function SectionActions({
-  children,
-  sx,
-}: {
-  children: ReactNode;
-  sx?: SxProps<Theme>;
-}): JSX.Element {
+function SectionActions({ children, sx }: SectionSlotProps): JSX.Element {
   return (
     <Box sx={[headerActionsSx, ...(Array.isArray(sx) ? sx : [sx])]}>
       {children}
@@ -126,14 +142,16 @@ function SectionContainerBase({
   subtitle,
   headerActions,
   maxWidth = false,
-}: SectionContainerProps): JSX.Element {
+}: Readonly<SectionContainerProps>): JSX.Element {
+  const resolvedSx = normalizeSx(sx);
+  const sectionSx = (theme: Theme): SystemStyleObject<Theme> =>
+    mergeSxEntries(theme, [
+      sectionCenteredSx as SystemStyleObject<Theme>,
+      ...resolvedSx,
+    ]);
+
   return (
-    <Box
-      component="section"
-      id={id}
-      className={className}
-      sx={[sectionCenteredSx, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
-    >
+    <Box component="section" id={id} className={className} sx={sectionSx}>
       <Container maxWidth={maxWidth} sx={containerPaddingSx}>
         <AnimatedContent distance={40} delay={0.05}>
           <SectionHeader icon={Icon} headingLevel={headingLevel}>

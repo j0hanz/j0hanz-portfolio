@@ -49,6 +49,6 @@ export function buildItemKey(
 ): string {
   const suffix = uniqueSuffix ?? '';
   return [title, identifier, suffix]
-    .filter((part) => part !== undefined && part !== null && `${part}` !== '')
+    .filter((part) => `${part}` !== '')
     .join('-');
 }

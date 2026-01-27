@@ -62,7 +62,10 @@ const imageSx: SxProps<Theme> = {
 };
 
 // Component for displaying a credential
-function Credential({ open, onClose }: CredentialProps): React.JSX.Element {
+function Credential({
+  open,
+  onClose,
+}: Readonly<CredentialProps>): React.JSX.Element {
   return (
     <BaseModal
       open={open}

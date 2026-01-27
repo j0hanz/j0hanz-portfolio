@@ -53,7 +53,7 @@ function BaseModal({
   transparentPaper = false,
   maxWidth = 'md',
   fullWidth = true,
-}: BaseModalProps): React.JSX.Element {
+}: Readonly<BaseModalProps>): React.JSX.Element {
   const { getTransition } = useAnimationConfig();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -63,12 +63,12 @@ function BaseModal({
   }, [open]);
 
   // Simplified transition config - direct mapping reduces cognitive load
-  const transition =
-    animationPreset === 'slideDown'
-      ? getTransition('smooth', { duration: 0.45 })
-      : animationPreset === 'zoomOut'
-        ? getTransition('spring', { duration: 0.4 })
-        : getTransition('smooth');
+  let transition = getTransition('smooth');
+  if (animationPreset === 'slideDown') {
+    transition = getTransition('smooth', { duration: 0.45 });
+  } else if (animationPreset === 'zoomOut') {
+    transition = getTransition('spring', { duration: 0.4 });
+  }
 
   const modalVariant = modalVariants[animationPreset];
 

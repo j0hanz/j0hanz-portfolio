@@ -19,6 +19,28 @@ const createValidator =
     return undefined;
   };
 
+const isValidEmail = (value: string): boolean => {
+  if (value.includes(' ')) return false;
+  const atIndex = value.indexOf('@');
+  if (atIndex <= 0 || atIndex !== value.lastIndexOf('@')) return false;
+  const domain = value.slice(atIndex + 1);
+  if (!domain || domain.startsWith('.') || domain.endsWith('.')) return false;
+  return domain.includes('.');
+};
+
+const isValidUrl = (value: string): boolean => {
+  const normalized =
+    value.startsWith('http://') || value.startsWith('https://')
+      ? value
+      : `https://${value}`;
+  try {
+    const url = new URL(normalized);
+    return Boolean(url.hostname);
+  } catch {
+    return false;
+  }
+};
+
 // Validator map (internal use only)
 const validators: Record<
   keyof ContactFormErrors,
@@ -31,20 +53,16 @@ const validators: Record<
       error: ERROR_MESSAGES.NAME_INVALID,
     },
   }),
-  email: createValidator({
-    required: ERROR_MESSAGES.EMAIL_REQUIRED,
-    pattern: {
-      regex: VALIDATION.EMAIL_PATTERN,
-      error: ERROR_MESSAGES.EMAIL_INVALID,
-    },
-  }),
-  url: createValidator({
-    optional: true,
-    pattern: {
-      regex: VALIDATION.URL_PATTERN,
-      error: ERROR_MESSAGES.URL_INVALID,
-    },
-  }),
+  email: (value: string): ValidationError => {
+    const trimmed = value.trim();
+    if (!trimmed) return ERROR_MESSAGES.EMAIL_REQUIRED;
+    return isValidEmail(trimmed) ? undefined : ERROR_MESSAGES.EMAIL_INVALID;
+  },
+  url: (value: string): ValidationError => {
+    const trimmed = value.trim();
+    if (!trimmed) return undefined;
+    return isValidUrl(trimmed) ? undefined : ERROR_MESSAGES.URL_INVALID;
+  },
   message: createValidator({
     required: ERROR_MESSAGES.MESSAGE_REQUIRED,
     minLength: {

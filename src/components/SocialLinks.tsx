@@ -20,7 +20,7 @@ export function SocialLinkButton({
   icon,
   bgColor,
   iconColor,
-}: SocialLinkRenderProps): JSX.Element {
+}: Readonly<SocialLinkRenderProps>): JSX.Element {
   const { prefersReducedMotion } = useAnimationConfig();
   const magnetProps = useCursorMagnet(prefersReducedMotion);
 
@@ -67,7 +67,7 @@ export function SocialLinkList({
   renderLink,
   wrapItem,
   iconSize = ICON_SIZE_DEFAULT,
-}: SocialLinkListProps): JSX.Element {
+}: Readonly<SocialLinkListProps>): JSX.Element {
   return (
     <>
       {socialLinks.map(

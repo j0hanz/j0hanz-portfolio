@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo } from 'react';
 
 import { Alert, Box, Button, Stack, Typography } from '@mui/material';
 
@@ -33,11 +33,11 @@ class ErrorBoundary extends Component<
     this.setState({ hasError: false });
   };
 
-  render(): ReactNode {
+  render(): React.JSX.Element {
     if (this.state.hasError) {
       // Use custom fallback if provided
       if (this.props.fallback) {
-        return this.props.fallback;
+        return <>{this.props.fallback}</>;
       }
 
       return (
@@ -60,7 +60,7 @@ class ErrorBoundary extends Component<
       );
     }
 
-    return this.props.children;
+    return <>{this.props.children}</>;
   }
 }
 

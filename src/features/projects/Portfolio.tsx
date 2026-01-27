@@ -8,9 +8,8 @@ import { motion } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
 import { SectionContainer } from '@/components/SectionContainer';
-import { createStaggerContainer, viewportPresets } from '@/config/motion';
+import { createStaggerContainer } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
-import type { ElementRef } from '@/config/types';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
 import { projects } from '@/lib/data/projects';
 

@@ -92,8 +92,6 @@ export const CONNECTIVITY_BANNER_AUTO_DISMISS = 3500;
 
 export const VALIDATION = {
   NAME_PATTERN: /^[a-zA-Z\s]{2,}$/,
-  EMAIL_PATTERN: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  URL_PATTERN: /^(https?:\/\/)?([\w-]+(\.\w[\w-]+)+)(\/[\w-]*)*\/?$/,
   MIN_MESSAGE_LENGTH: 10,
 } as const;
 

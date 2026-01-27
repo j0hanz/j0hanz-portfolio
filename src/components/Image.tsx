@@ -19,7 +19,7 @@ function Image({
   sx,
   onClick,
   radius = 'rounded',
-}: ImageProps): JSX.Element {
+}: Readonly<ImageProps>): JSX.Element {
   const { isLoaded, handleLoad, handleError } = useImageLoading();
   const { getTransition } = useAnimationConfig();
 

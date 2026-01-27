@@ -8,7 +8,7 @@ import type { TimelineSectionProps } from '@/config/types';
 function TimelineSection({
   children,
   position = 'alternate',
-}: TimelineSectionProps): JSX.Element {
+}: Readonly<TimelineSectionProps>): JSX.Element {
   return (
     <Box>
       <Timeline position={position}>{children}</Timeline>

@@ -26,7 +26,10 @@ const textSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.caption.fontSize,
 };
 
-function IconBadge({ icon: Icon, text }: IconBadgeProps): JSX.Element {
+function IconBadge({
+  icon: Icon,
+  text,
+}: Readonly<IconBadgeProps>): JSX.Element {
   return (
     <Box sx={containerSx}>
       <Icon sx={iconSx} />
@@ -40,7 +43,7 @@ function IconBadge({ icon: Icon, text }: IconBadgeProps): JSX.Element {
 export function IconBadgeList({
   items,
   keyPrefix,
-}: IconBadgeListProps): JSX.Element | null {
+}: Readonly<IconBadgeListProps>): JSX.Element | null {
   if (!items.length) {
     return null;
   }

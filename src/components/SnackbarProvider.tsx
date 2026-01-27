@@ -1,4 +1,4 @@
-import { ReactNode, useReducer, useRef, useTransition } from 'react';
+import { ReactNode, useReducer, useTransition } from 'react';
 
 import {
   Alert,
@@ -40,7 +40,9 @@ const snackbarReducer = (
     ? { ...state, open: false }
     : { open: true, ...action.payload };
 
-export function SnackbarProvider({ children }: { children: ReactNode }) {
+export function SnackbarProvider({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   const [, startTransition] = useTransition();
   const [state, dispatch] = useReducer(snackbarReducer, INITIAL_STATE);
 
@@ -73,14 +75,7 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
     message: state.message,
     severity: state.severity,
   };
-  const actionsRef = useRef<SnackbarActions | null>(null);
-  if (!actionsRef.current) {
-    actionsRef.current = { showSnackbar, closeSnackbar };
-  } else {
-    actionsRef.current.showSnackbar = showSnackbar;
-    actionsRef.current.closeSnackbar = closeSnackbar;
-  }
-  const actionsValue = actionsRef.current as SnackbarActions;
+  const actionsValue: SnackbarActions = { showSnackbar, closeSnackbar };
 
   return (
     <SnackbarActionsContext value={actionsValue}>

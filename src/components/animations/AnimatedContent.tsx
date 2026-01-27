@@ -6,25 +6,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface AnimatedContentProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-  container?: Element | string | null;
-  distance?: number;
-  direction?: 'vertical' | 'horizontal';
-  reverse?: boolean;
-  duration?: number;
-  ease?: string;
-  initialOpacity?: number;
-  animateOpacity?: boolean;
-  scale?: number;
-  threshold?: number;
-  delay?: number;
-  disappearAfter?: number;
-  disappearDuration?: number;
-  disappearEase?: string;
-  onComplete?: () => void;
-  onDisappearanceComplete?: () => void;
-}
+type AnimatedContentProps = Readonly<
+  HTMLAttributes<HTMLDivElement> & {
+    children: ReactNode;
+    container?: Element | string | null;
+    distance?: number;
+    direction?: 'vertical' | 'horizontal';
+    reverse?: boolean;
+    duration?: number;
+    ease?: string;
+    initialOpacity?: number;
+    animateOpacity?: boolean;
+    scale?: number;
+    threshold?: number;
+    delay?: number;
+    disappearAfter?: number;
+    disappearDuration?: number;
+    disappearEase?: string;
+    onComplete?: () => void;
+    onDisappearanceComplete?: () => void;
+  }
+>;
 
 export function AnimatedContent({
   children,

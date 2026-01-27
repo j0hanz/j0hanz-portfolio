@@ -18,13 +18,13 @@ export function MagneticWrapper({
   className,
   style,
   sx,
-}: MagneticWrapperProps) {
+}: Readonly<MagneticWrapperProps>) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  const pendingPoint = useRef<{ clientX: number; clientY: number } | null>(
+  const pendingPointRef = useRef<{ clientX: number; clientY: number } | null>(
     null
   );
-  const isScheduled = useRef(false);
+  const isScheduledRef = useRef(false);
   const { scheduleRead, scheduleRender } = useBatchedDomUpdate();
 
   const x = useMotionValue(0);
@@ -35,22 +35,22 @@ export function MagneticWrapper({
   const springY = useSpring(y, springConfig);
 
   const scheduleUpdate = () => {
-    if (isScheduled.current) return;
-    isScheduled.current = true;
+    if (isScheduledRef.current) return;
+    isScheduledRef.current = true;
 
     // Use Motion's frame utility for optimal batching
     scheduleRead(() => {
-      const point = pendingPoint.current;
+      const point = pendingPointRef.current;
       const target = ref.current;
       if (!point || !target) {
-        isScheduled.current = false;
+        isScheduledRef.current = false;
         return;
       }
 
       // Schedule motion value updates in render phase
       scheduleRender(() => {
-        pendingPoint.current = null;
-        isScheduled.current = false;
+        pendingPointRef.current = null;
+        isScheduledRef.current = false;
       });
     });
   };
@@ -58,7 +58,7 @@ export function MagneticWrapper({
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled || prefersReducedMotion || !ref.current) return;
 
-    pendingPoint.current = {
+    pendingPointRef.current = {
       clientX: e.clientX,
       clientY: e.clientY,
     };
@@ -68,8 +68,8 @@ export function MagneticWrapper({
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
-    pendingPoint.current = null;
-    isScheduled.current = false;
+    pendingPointRef.current = null;
+    isScheduledRef.current = false;
   };
 
   if (disabled || prefersReducedMotion) {

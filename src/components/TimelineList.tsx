@@ -25,7 +25,7 @@ export function TimelineList<T extends TimelineItemData>({
   Icon,
   cardMotion,
   getItemIcon,
-}: TimelineListProps<T>): React.JSX.Element {
+}: Readonly<TimelineListProps<T>>): React.JSX.Element {
   const isMobile = useMobileBreakpoint('md');
 
   return (

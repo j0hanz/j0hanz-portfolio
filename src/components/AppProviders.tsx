@@ -17,11 +17,14 @@ import { queryClient } from '@/utils/query/index';
 // Composes providers into nested structure (applies right-to-left)
 // Example: compose(A, B, C) renders as <A><B><C>{children}</C></B></A>
 const composeProviders = (...providers: Provider[]): Provider =>
-  function ComposedProviders({ children }) {
-    return providers.reduceRight<ReactNode>(
-      (nested, Provider) => <Provider>{nested}</Provider>,
+  function ComposedProviders({
+    children,
+  }: Readonly<{ children: ReactNode }>): JSX.Element {
+    const nested = providers.reduceRight<ReactNode>(
+      (node, Provider) => <Provider>{node}</Provider>,
       children
     );
+    return <>{nested}</>;
   };
 
 // Wrapper providers with render props pattern
@@ -48,9 +51,9 @@ const ComposedProviders = composeProviders(
 
 export function AppProviders({
   children,
-}: {
+}: Readonly<{
   children: ReactNode;
-}): JSX.Element {
+}>): JSX.Element {
   return (
     <>
       <InitColorSchemeScript attribute="data-mui-color-scheme" />

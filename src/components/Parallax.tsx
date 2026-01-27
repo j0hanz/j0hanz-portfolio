@@ -14,7 +14,7 @@ export function Parallax({
   className,
   style,
   sx,
-}: ParallaxProps) {
+}: Readonly<ParallaxProps>) {
   const ref = useRef(null);
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useMobileBreakpoint('md');

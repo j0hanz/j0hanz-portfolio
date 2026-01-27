@@ -31,7 +31,7 @@ const spinnerSx: SxProps<Theme> = {
 };
 
 // Component for displaying a loading spinner
-function Spinner({ sx }: { sx?: SxProps<Theme> }): React.JSX.Element {
+function Spinner({ sx }: Readonly<{ sx?: SxProps<Theme> }>): React.JSX.Element {
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const spinnerTransition = getTransition('smooth', {
     duration: 1.15,

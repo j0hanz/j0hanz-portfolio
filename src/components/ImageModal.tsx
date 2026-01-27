@@ -38,7 +38,10 @@ const imgStyle = {
 } as const;
 
 // Component for displaying an image
-function ImageModal({ open, onClose }: ImageModalProps): React.JSX.Element {
+function ImageModal({
+  open,
+  onClose,
+}: Readonly<ImageModalProps>): React.JSX.Element {
   const { isLoaded, handleLoad } = useImageLoading();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const { prefersReducedMotion, getTransition } = useAnimationConfig();

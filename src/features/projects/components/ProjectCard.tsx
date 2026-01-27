@@ -48,7 +48,9 @@ const contentFadeVariants = {
 };
 
 // Card content that triggers Suspense when stats are loading
-function CardContent({ project }: { project: Project }): React.JSX.Element {
+function CardContent({
+  project,
+}: Readonly<{ project: Project }>): React.JSX.Element {
   const { repoPath, hasProjectBoard } = getProjectMeta(project);
   const { getTransition } = useAnimationConfig();
 
@@ -77,25 +79,23 @@ function CardContent({ project }: { project: Project }): React.JSX.Element {
 
 export function ProjectCard({
   project,
-}: {
-  project: Project;
-}): React.JSX.Element {
+}: Readonly<{ project: Project }>): React.JSX.Element {
   const { repoPath } = getProjectMeta(project);
   const cardRef = useRef<HTMLDivElement>(null);
-  const hasPrefetched = useRef(false);
+  const hasPrefetchedRef = useRef(false);
   // Use cardReplay preset for full-page scroll sections
   const isInView = useInView(cardRef as ElementRef, viewportPresets.cardReplay);
 
   useEffect(() => {
-    if (!repoPath || hasPrefetched.current || !isInView) return;
-    hasPrefetched.current = true;
+    if (!repoPath || hasPrefetchedRef.current || !isInView) return;
+    hasPrefetchedRef.current = true;
     prefetchRepoStats(repoPath);
   }, [isInView, repoPath]);
 
   const handleMouseEnter = () => {
     // Only prefetch if we have a valid repo path
-    if (repoPath && repoPath.length > 0 && !hasPrefetched.current) {
-      hasPrefetched.current = true;
+    if (repoPath && repoPath.length > 0 && !hasPrefetchedRef.current) {
+      hasPrefetchedRef.current = true;
       prefetchRepoStats(repoPath);
     }
   };

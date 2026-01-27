@@ -54,7 +54,7 @@ import { isIOS } from '@/utils/platform';
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
 
-function NavLogo({ onClose }: { onClose?: () => void }) {
+function NavLogo({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { navigateTo } = useNavigationActions();
   const { isPending } = useNavigationState();
 
@@ -89,7 +89,7 @@ function NavLogo({ onClose }: { onClose?: () => void }) {
   );
 }
 
-function NavLinkItem(props: NavLinkItemProps) {
+function NavLinkItem(props: Readonly<NavLinkItemProps>) {
   const {
     id,
     icon: Icon,
@@ -147,7 +147,7 @@ function NavLinkItem(props: NavLinkItemProps) {
   );
 }
 
-function NavLinks({ onClose }: { onClose?: () => void }) {
+function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { navigateTo } = useNavigationActions();
   const { activeSectionId, isPending } = useNavigationState();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
@@ -189,10 +189,10 @@ const wrapSocialItem = (id: string, child: ReactNode) => (
 function SocialLinks({
   openModal,
   iconSize,
-}: {
+}: Readonly<{
   openModal: () => void;
   iconSize?: string | number;
-}) {
+}>) {
   return (
     <Box sx={socialLinksBoxSx}>
       <Stack
@@ -219,7 +219,7 @@ function OffcanvasMenu({
   closeOffcanvas,
   openOffcanvas,
   openModal,
-}: OffcanvasMenuProps & { openOffcanvas: () => void }) {
+}: Readonly<OffcanvasMenuProps & { openOffcanvas: () => void }>) {
   return (
     <SwipeableDrawer
       anchor="right"
@@ -298,6 +298,15 @@ function NavBar() {
   const { openCvModal } = useCvModalActions();
   const offcanvasMenu = useModal(false);
   const { prefersReducedMotion } = useAnimationConfig();
+  let menuIconAnimation: { opacity: number; rotate: number } | undefined;
+  if (!prefersReducedMotion) {
+    menuIconAnimation = offcanvasMenu.isOpen
+      ? { opacity: 0, rotate: 180 }
+      : { opacity: 1, rotate: 0 };
+  }
+  const menuIconTransition = prefersReducedMotion
+    ? undefined
+    : { duration: 0.2 };
 
   return (
     <>
@@ -330,14 +339,8 @@ function NavBar() {
             sx={menuButtonSx}
           >
             <motion.div
-              animate={
-                prefersReducedMotion
-                  ? undefined
-                  : offcanvasMenu.isOpen
-                    ? { opacity: 0, rotate: 180 }
-                    : { opacity: 1, rotate: 0 }
-              }
-              transition={prefersReducedMotion ? undefined : { duration: 0.2 }}
+              animate={menuIconAnimation}
+              transition={menuIconTransition}
             >
               <MenuRounded />
             </motion.div>

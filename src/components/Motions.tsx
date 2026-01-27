@@ -36,7 +36,7 @@ export function StaggerContainer({
   className,
   style,
   sx,
-}: StaggerContainerProps) {
+}: Readonly<StaggerContainerProps>) {
   const { prefersReducedMotion } = useAnimationConfig();
 
   if (prefersReducedMotion) {
@@ -73,11 +73,11 @@ export function PageTransitionWrapper({
   children,
   className,
   ref,
-}: {
+}: Readonly<{
   children: React.ReactNode;
   className?: string;
   ref?: React.Ref<HTMLDivElement>;
-}) {
+}>) {
   const { direction } = useNavigationState();
   const { prefersReducedMotion } = useAnimationConfig();
 
@@ -113,10 +113,10 @@ export function PageTransitionWrapper({
 export function BlinkingCursor({
   sx,
   blinkDuration = 900,
-}: {
+}: Readonly<{
   sx?: SxProps<Theme>;
   blinkDuration?: number;
-}) {
+}>) {
   const { prefersReducedMotion } = useAnimationConfig();
   const time = useTime();
 
@@ -154,10 +154,10 @@ const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 9;
 export function AnimatedCheckmark({
   size = 38,
   strokeWidth = 2,
-}: {
+}: Readonly<{
   size?: number;
   strokeWidth?: number;
-}) {
+}>) {
   const { prefersReducedMotion } = useAnimationConfig();
 
   return (
