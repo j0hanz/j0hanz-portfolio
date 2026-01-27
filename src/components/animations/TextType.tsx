@@ -52,7 +52,8 @@ const getSecureRandom = (): number => {
   if (typeof crypto === 'undefined' || !crypto.getRandomValues) return 0.5;
   const buffer = new Uint32Array(1);
   crypto.getRandomValues(buffer);
-  return buffer[0] / (0xffffffff + 1);
+  const value = buffer[0];
+  return value !== undefined ? value / (0xffffffff + 1) : 0.5;
 };
 
 const getTypingDelay = (
@@ -192,7 +193,9 @@ export const TextType = ({
     if (!isVisible) return;
 
     const effectTextArray = normalizeTextArray(text);
-    const currentText = effectTextArray[currentTextIndex] ?? '';
+    const currentText = effectTextArray[currentTextIndex];
+    if (!currentText) return;
+
     const processedText = getProcessedText(currentText, reverseMode);
     const action = getNextTypingAction({
       displayedText,
@@ -261,9 +264,10 @@ export const TextType = ({
     handleSentenceComplete,
   ]);
 
+  const currentTextLength = textArray[currentTextIndex]?.length ?? 0;
   const shouldHideCursor =
     hideCursorWhileTyping &&
-    (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
+    (currentCharIndex < currentTextLength || isDeleting);
 
   const textColor = getCurrentTextColor() || 'inherit';
   const cursorClasses = `text-type__cursor ${cursorClassName} ${shouldHideCursor ? 'text-type__cursor--hidden' : ''}`;

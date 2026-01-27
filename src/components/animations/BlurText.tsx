@@ -60,7 +60,13 @@ function buildKeyframes(
 
   const keyframes: Record<string, Array<string | number>> = {};
   keys.forEach((k) => {
-    keyframes[k] = [from[k], ...steps.map((s) => s[k])];
+    const fromValue = from[k];
+    const stepValues = steps
+      .map((s) => s[k])
+      .filter((v): v is string | number => v !== undefined);
+    if (fromValue !== undefined) {
+      keyframes[k] = [fromValue, ...stepValues];
+    }
   });
   return keyframes;
 }
@@ -91,7 +97,7 @@ export function BlurText({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setInView(true);
           observer.unobserve(element);
         }

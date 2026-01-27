@@ -240,7 +240,9 @@ function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
       if (gl.canvas.parentNode === container) {
         container.removeChild(gl.canvas);
       }
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      if (!gl.isContextLost()) {
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      }
       rendererRef.current = null;
       programRef.current = null;
       meshRef.current = null;

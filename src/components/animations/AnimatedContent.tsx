@@ -137,7 +137,7 @@ export function AnimatedContent({
       // No scrollable container - use IntersectionObserver to trigger on visibility
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
+          if (entry?.isIntersecting) {
             tl.play();
             observer.disconnect();
           }

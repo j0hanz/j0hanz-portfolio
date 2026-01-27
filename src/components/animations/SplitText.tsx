@@ -88,7 +88,7 @@ export function SplitText({
       const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(
         rootMargin.toString()
       );
-      const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
+      const marginValue = marginMatch?.[1] ? parseFloat(marginMatch[1]) : 0;
       const marginUnit = marginMatch ? marginMatch[2] || 'px' : 'px';
       let sign = '';
       if (marginValue !== 0) {

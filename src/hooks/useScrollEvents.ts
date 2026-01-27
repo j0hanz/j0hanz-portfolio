@@ -68,7 +68,10 @@ export function useScrollEvents({
     // Don't interfere with ongoing scroll animation
     if (isScrolling.current) return;
 
-    touchStartYRef.current = e.touches[0].clientY;
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    touchStartYRef.current = touch.clientY;
     touchStartTimeRef.current = Date.now();
     isTouchActiveRef.current = true;
   });
@@ -76,7 +79,10 @@ export function useScrollEvents({
   const handleTouchEnd = useEventCallback((e: TouchEvent) => {
     if (!isTouchActiveRef.current || isScrolling.current) return;
 
-    const deltaY = touchStartYRef.current - e.changedTouches[0].clientY;
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+
+    const deltaY = touchStartYRef.current - touch.clientY;
     const elapsed = Date.now() - touchStartTimeRef.current;
     isTouchActiveRef.current = false;
 

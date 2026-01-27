@@ -6,6 +6,13 @@
 // Section-specific aurora color stops for background animations
 // Each array contains [startColor, accentColor, endColor]
 // Light mode: muted silver/gray tones, Dark mode: deeper/darker tones
+
+type ColorTriplet = readonly [string, string, string];
+type SectionColorStops = {
+  readonly light: ColorTriplet;
+  readonly dark: ColorTriplet;
+};
+
 export const auroraColorStops = {
   hero: {
     light: ['#c8d4e3', '#94a3b8', '#c8d4e3'],
@@ -31,4 +38,4 @@ export const auroraColorStops = {
     light: ['#d4dae3', '#b8c0cc', '#d4dae3'],
     dark: ['#00122c', '#001a3d', '#00122c'],
   },
-} as const;
+} as const satisfies Record<string, SectionColorStops>;

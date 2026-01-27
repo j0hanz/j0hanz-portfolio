@@ -38,7 +38,9 @@ export const initEmailJs = (): void => {
 
 export const sendEmail = async (formData: FormData): Promise<boolean> => {
   try {
-    const [serviceId, templateId, userId] = ENV_KEYS.map(getEnvVar);
+    const serviceId = getEnvVar('VITE_SERVICE_ID');
+    const templateId = getEnvVar('VITE_TEMPLATE_ID');
+    const userId = getEnvVar('VITE_USER_ID');
 
     await emailjs.send(
       serviceId,

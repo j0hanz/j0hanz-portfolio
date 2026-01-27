@@ -50,6 +50,11 @@ const buildSnapshot = (
 ): NavigationSnapshot => {
   const index = clampIndex(targetIndex);
   const activeSection = sections[index];
+
+  if (!activeSection) {
+    throw new Error(`Invalid section index: ${index}`);
+  }
+
   const direction = getDirection(index, previousIndex);
 
   return {
