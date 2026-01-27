@@ -51,6 +51,7 @@
 - **Prohibited:** Do not use `any` or bypass strict typing.
 - **Prohibited:** Do not edit lockfiles manually.
 - **Prohibited:** Never use `useMemo`, `useCallback`, or `React.memo`. Rely on React Compiler for memoization.
+- **Prohibited:** Do not add JSDoc comments and long descriptions to simple functions or components. Keep comments concise and relevant.
 - **Handling Secrets:** Never output `.env` values or hardcode secrets.
 - **MUI Guidance:** Do not answer MUI-related questions without following .github/instructions/mui.md.
 - **File Creation:** Always verify folder existence before creating files.
