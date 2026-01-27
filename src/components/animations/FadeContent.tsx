@@ -34,6 +34,7 @@ type FadeContentProps = Readonly<
 export function FadeContent({
   children,
   container,
+  blur: _blur,
   duration = 1000,
   ease = 'power2.out',
   delay = 0,

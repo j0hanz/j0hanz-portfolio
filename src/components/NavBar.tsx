@@ -45,7 +45,8 @@ import type { NavLinkItemProps, OffcanvasMenuProps } from '@/config/types';
 import {
   useAnimationConfig,
   useCvModalActions,
-  useModal,
+  useMenuActions,
+  useMenuState,
   useNavigationActions,
   useNavigationState,
 } from '@/hooks';
@@ -306,9 +307,10 @@ function OffcanvasMenu({
 
 function NavBar() {
   const { openCvModal } = useCvModalActions();
-  const offcanvasMenu = useModal(false);
+  const { isMenuOpen } = useMenuState();
+  const { openMenu, closeMenu } = useMenuActions();
   const { prefersReducedMotion } = useAnimationConfig();
-  const menuState = offcanvasMenu.isOpen ? 'open' : 'closed';
+  const menuState = isMenuOpen ? 'open' : 'closed';
   const menuIconAnimation = prefersReducedMotion
     ? undefined
     : MENU_ICON_STATES[menuState];
@@ -338,9 +340,9 @@ function NavBar() {
             whileTap={{ scale: 0.95 }}
             animate={menuState}
             variants={navVariants.button}
-            onClick={offcanvasMenu.open}
+            onClick={openMenu}
             aria-label="Open navigation menu"
-            aria-expanded={offcanvasMenu.isOpen}
+            aria-expanded={isMenuOpen}
             aria-haspopup="menu"
             size="small"
             edge="end"
@@ -356,9 +358,9 @@ function NavBar() {
         </Tooltip>
       </Stack>
       <OffcanvasMenu
-        showOffcanvas={offcanvasMenu.isOpen}
-        closeOffcanvas={offcanvasMenu.close}
-        openOffcanvas={offcanvasMenu.open}
+        showOffcanvas={isMenuOpen}
+        closeOffcanvas={closeMenu}
+        openOffcanvas={openMenu}
         openModal={openCvModal}
       />
     </>

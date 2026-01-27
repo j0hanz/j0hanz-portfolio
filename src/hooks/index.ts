@@ -40,6 +40,9 @@ export { useSnackbar } from './useSnackbar';
 // CV Modal (split for render optimization)
 export { useCvModalActions } from './useCvModal';
 
+// Menu (split for render optimization)
+export { useMenuState, useMenuActions } from './useMenuContext';
+
 // Connectivity status
 export { useConnectivity } from './useOnlineStatus';
 

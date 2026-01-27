@@ -10,6 +10,7 @@ import {
 import { AppThemeProvider } from '@/components/AppThemeProvider';
 import { CvModalProvider } from '@/components/CvModalProvider';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { MenuProvider } from '@/components/MenuProvider';
 import { NavigationProvider } from '@/components/NavigationProvider';
 import { SnackbarProvider } from '@/components/SnackbarProvider';
 import type { Provider } from '@/config/types';
@@ -49,13 +50,14 @@ const QueryProvider: Provider = ({ children }) => (
 );
 
 // Provider composition: outermost → innermost
-// Order: Data layer → error handling → theming → notifications → navigation → modals
+// Order: Data layer → error handling → theming → notifications → navigation → menu → modals
 const ComposedProviders = composeProviders(
   QueryProvider,
   QueryErrorBoundaryProvider,
   AppThemeProvider,
   SnackbarProvider,
   NavigationProvider,
+  MenuProvider,
   CvModalProvider
 );
 

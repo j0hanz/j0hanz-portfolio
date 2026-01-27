@@ -12,20 +12,33 @@ import { isAtScrollBoundary, useScrollEvents } from './useScrollEvents';
 
 export function useFullPageScroll(): void {
   const { moveNext, movePrev } = useNavigationActions();
-  const { isScrollLocked, isPending } = useNavigationState();
+  const { isPending, isFirst, isLast } = useNavigationState();
   const isScrollingRef = useRef(false);
 
   const prefersReducedMotion = useReducedMotion();
   const isMobile = useMobileBreakpoint('md');
 
-  // Disable all listeners when reduced motion is preferred or scroll lock is off
-  const shouldDisable = Boolean(prefersReducedMotion || !isScrollLocked);
+  // Only fully disable listeners when reduced motion is preferred
+  // Keep listeners active on footer so we can navigate back up
+  const shouldDisable = Boolean(prefersReducedMotion);
 
-  // Disable wheel/keyboard on mobile, keep touch active
+  // Disable wheel/keyboard on mobile (touch still works)
+  // Keep wheel/keyboard enabled on desktop even when scroll is unlocked (footer)
+  // so we can navigate back when reaching scroll boundaries.
   const disableNonTouchInputs = shouldDisable || isMobile;
 
   const onNavigate = useEventCallback((direction: ScrollDirection) => {
-    if (isScrollingRef.current || isPending || !isAtScrollBoundary(direction)) {
+    if (isScrollingRef.current || isPending) {
+      return false;
+    }
+
+    // Block navigation at boundaries (can't go before first or after last)
+    if ((direction === 'up' && isFirst) || (direction === 'down' && isLast)) {
+      return false;
+    }
+
+    // Check scroll boundary for unlocked sections (e.g., footer)
+    if (!isAtScrollBoundary(direction)) {
       return false;
     }
 

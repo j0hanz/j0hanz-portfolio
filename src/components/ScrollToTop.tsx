@@ -6,6 +6,7 @@ import { motion, useSpring } from 'motion/react';
 
 import {
   useAnimationConfig,
+  useMenuState,
   useNavigationActions,
   useNavigationState,
 } from '@/hooks';
@@ -50,10 +51,13 @@ const progressRingSx: SxProps<Theme> = {
 };
 
 function ScrollToTop(): React.JSX.Element {
-  const { activeSectionIndex, isPending, totalSections } = useNavigationState();
+  const { activeSectionIndex, isPending, totalSections, isLast } =
+    useNavigationState();
   const { navigateTo } = useNavigationActions();
+  const { isMenuOpen } = useMenuState();
   const { prefersReducedMotion } = useAnimationConfig();
-  const show = activeSectionIndex > 0;
+  // Hide when: at hero, menu is open, or at footer (last section)
+  const show = activeSectionIndex > 0 && !isMenuOpen && !isLast;
 
   // Calculate progress based on section position (0 to 1)
   const clampedTotal = totalSections > 0 ? totalSections : 1;
