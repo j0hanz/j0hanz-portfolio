@@ -8,8 +8,27 @@ import type { RepoStats } from '@/config/types';
 import { LONG_CACHE_OPTIONS, queryClient } from './client';
 import { githubKeys } from './keys';
 
+type GitHubRepoResponse = {
+  stargazers_count?: number;
+  forks_count?: number;
+  open_issues_count?: number;
+};
+
+const isNumberOrUndefined = (value: unknown): value is number | undefined =>
+  typeof value === 'number' || typeof value === 'undefined';
+
+const isGitHubRepoResponse = (data: unknown): data is GitHubRepoResponse => {
+  if (typeof data !== 'object' || data === null) return false;
+  const record = data as Record<string, unknown>;
+  return (
+    isNumberOrUndefined(record.stargazers_count) &&
+    isNumberOrUndefined(record.forks_count) &&
+    isNumberOrUndefined(record.open_issues_count)
+  );
+};
+
 // Fetches GitHub repo stats (stars, forks, issues) from 'owner/repo' path
-async function fetchRepoStats(
+export async function fetchRepoStats(
   repoPath: string,
   signal?: AbortSignal
 ): Promise<RepoStats> {
@@ -62,10 +81,10 @@ async function fetchRepoStats(
       );
     }
 
-    const data = await response.json();
+    const data: unknown = await response.json();
 
     // Validate response data
-    if (!data || typeof data !== 'object') {
+    if (!isGitHubRepoResponse(data)) {
       throw new Error('Invalid response from GitHub API');
     }
 

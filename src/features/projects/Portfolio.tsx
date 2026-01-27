@@ -42,9 +42,10 @@ function Portfolio(): React.JSX.Element {
     if (isInView && !hasPrefetched.current) {
       hasPrefetched.current = true;
       // Stagger prefetch requests to avoid rate limiting
-      PROJECT_REPO_PATHS.forEach((repoPath, index) => {
-        setTimeout(() => prefetchRepoStats(repoPath), index * 100);
-      });
+      const timers = PROJECT_REPO_PATHS.map((repoPath, index) =>
+        window.setTimeout(() => prefetchRepoStats(repoPath), index * 100)
+      );
+      return () => timers.forEach((timer) => window.clearTimeout(timer));
     }
   }, [isInView]);
 

@@ -1,37 +1,18 @@
-import { cache } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { EMPTY_STATS, GITHUB_API_BASE_URL } from '@/config/constants';
 import type { RepoStats } from '@/config/types';
+import { LONG_CACHE_OPTIONS } from '@/utils/query/client';
+import { fetchRepoStats } from '@/utils/query/github';
+import { githubKeys } from '@/utils/query/keys';
 
-export const getRepoStats = cache(
-  async (repoPath: string): Promise<RepoStats> => {
-    if (!repoPath) {
-      return EMPTY_STATS;
-    }
+export function useGitHubApi(repoPath: string): { repoStats: RepoStats } {
+  const { data } = useSuspenseQuery({
+    queryKey: githubKeys.repoStats(repoPath),
+    queryFn: ({ signal }) => fetchRepoStats(repoPath, signal),
+    ...LONG_CACHE_OPTIONS,
+  });
 
-    try {
-      const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`);
-      if (!response.ok) {
-        // Return empty stats if repo not found or other error
-        return EMPTY_STATS;
-      }
-      const data = await response.json();
-      return {
-        stars: data.stargazers_count,
-        forks: data.forks_count,
-        issues: data.open_issues_count,
-      };
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error(`Failed to fetch repo stats for ${repoPath}:`, error);
-      }
-      return EMPTY_STATS;
-    }
-  }
-);
-
-export function useGitHubApi(repoPath: string) {
   return {
-    repoStats: getRepoStats(repoPath),
+    repoStats: data,
   };
 }

@@ -125,16 +125,16 @@ void main() {
 function getSectionColorStops(
   sectionId: string,
   mode: 'light' | 'dark'
-): string[] {
+): ReadonlyArray<string> {
   const sectionColors =
     auroraColorStops[sectionId as keyof typeof auroraColorStops] ??
     auroraColorStops.hero;
 
-  return mode === 'dark' ? [...sectionColors.dark] : [...sectionColors.light];
+  return mode === 'dark' ? sectionColors.dark : sectionColors.light;
 }
 
 interface AuroraProps {
-  colorStops: string[];
+  colorStops: ReadonlyArray<string>;
   amplitude: number;
   blend: number;
   speed: number;
@@ -156,7 +156,6 @@ function AuroraCanvas({
 
   // Use useEffectEvent to always get latest props without causing Effect re-runs
   const getLatestProps = useEffectEvent(() => ({
-    colorStops,
     amplitude,
     blend,
     speed,
@@ -195,7 +194,7 @@ function AuroraCanvas({
 
     const colorStopsArray = colorStops.map((hex) => {
       const c = new Color(hex);
-      return [c.r, c.g, c.b];
+      return [c.r, c.g, c.b] as [number, number, number];
     });
 
     const program = new Program(gl, {
@@ -221,10 +220,6 @@ function AuroraCanvas({
         program.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
         program.uniforms.uAmplitude.value = props.amplitude;
         program.uniforms.uBlend.value = props.blend;
-        program.uniforms.uColorStops.value = props.colorStops.map((hex) => {
-          const c = new Color(hex);
-          return [c.r, c.g, c.b];
-        });
         renderer.render({ scene: mesh });
       }
     };
@@ -256,7 +251,7 @@ function AuroraCanvas({
 }
 
 // Static fallback for reduced motion - simple gradient overlay
-function AuroraStatic({ colorStops }: { colorStops: string[] }) {
+function AuroraStatic({ colorStops }: { colorStops: ReadonlyArray<string> }) {
   return (
     <Box
       sx={{

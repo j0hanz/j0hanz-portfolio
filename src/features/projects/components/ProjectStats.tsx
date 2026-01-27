@@ -1,5 +1,3 @@
-import { use } from 'react';
-
 import {
   Stack,
   type SvgIconProps,
@@ -91,9 +89,7 @@ const ProjectStats = ({
   hasProjectBoard,
 }: ProjectStatsProps): React.JSX.Element => {
   const { repoStats } = useGitHubApi(repoPath);
-  const stats = use(repoStats);
-
-  const statItems = buildStatItems(stats, hasProjectBoard);
+  const statItems = buildStatItems(repoStats, hasProjectBoard);
 
   return (
     <Stack spacing={1.5} alignItems="flex-start" sx={containerSx}>
