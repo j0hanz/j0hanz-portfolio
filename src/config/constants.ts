@@ -174,16 +174,16 @@ export const PALETTES = {
       paper: '#ffffff',
     },
     text: {
-      primary: '#1a1a1a',
-      secondary: '#5a5a5a',
+      primary: '#000000',
+      secondary: '#1b1b1b',
     },
     divider: '#e0e0e0',
     backdrop: {
-      glass: 'rgba(255, 255, 255, 0.35)',
+      glass: 'rgba(255, 255, 255, 0.61)',
     },
     github: {
-      main: '#181717',
-      dark: '#181717',
+      main: '#1b1b1b',
+      dark: '#1b1b1b',
       contrastText: '#000000',
     },
   },
