@@ -34,7 +34,7 @@ type FadeContentProps = Readonly<
 export function FadeContent({
   children,
   container,
-  blur: _blur,
+  blur = false,
   duration = 1000,
   ease = 'power2.out',
   delay = 0,
@@ -64,15 +64,25 @@ export function FadeContent({
     const prefersReducedMotion = getPrefersReducedMotion();
 
     if (prefersReducedMotion) {
-      gsap.set(el, { autoAlpha: 1, filter: 'none', visibility: 'visible' });
+      gsap.set(el, {
+        autoAlpha: 1,
+        filter: 'none',
+        y: 0,
+        visibility: 'visible',
+      });
       return;
     }
 
+    const initialY = blur ? 10 : 0;
+    const initialFilter = blur ? 'blur(12px)' : 'none';
+
     gsap.set(el, {
       autoAlpha: initialOpacity,
+      y: initialY,
+      filter: initialFilter,
       willChange: 'opacity, filter, transform',
     });
-  }, [initialOpacity]);
+  }, [initialOpacity, blur]);
 
   useEffect(() => {
     const el = ref.current;
@@ -96,8 +106,12 @@ export function FadeContent({
       onComplete: () => {
         handleComplete();
         if (disappearAfter > 0) {
+          const disappearY = blur ? 8 : 0;
+          const disappearFilter = blur ? 'blur(10px)' : 'none';
           gsap.to(el, {
             autoAlpha: initialOpacity,
+            y: disappearY,
+            filter: disappearFilter,
 
             delay: getSeconds(disappearAfter),
             duration: getSeconds(disappearDuration),
@@ -108,9 +122,12 @@ export function FadeContent({
       },
     });
 
-    tl.to(el, {
-      autoAlpha: 1,
+    const animateTo = blur
+      ? ({ autoAlpha: 1, y: 0, filter: 'blur(0px)' } as const)
+      : ({ autoAlpha: 1, y: 0 } as const);
 
+    tl.to(el, {
+      ...animateTo,
       duration: getSeconds(duration),
       ease: ease,
     });
@@ -130,6 +147,7 @@ export function FadeContent({
     };
   }, [
     container,
+    blur,
     duration,
     ease,
     delay,

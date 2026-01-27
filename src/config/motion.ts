@@ -40,7 +40,6 @@ export const viewportPresets = {
 // Common easing curves
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;
-const EASE_IN_OUT_CUBIC = [0.65, 0, 0.35, 1] as const;
 
 export const REDUCED_MOTION_TARGET = {
   opacity: 1,
@@ -367,15 +366,17 @@ export const navVariants = {
 
 // Note: Blur filter removed for performance - use cardEntranceVariantsMobile pattern
 export const cardEntranceVariants = {
-  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  hidden: { opacity: 0, y: 36, scale: 0.965 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.12,
-      duration: 0.55,
-      ease: EASE_OUT_EXPO,
+      delay: i * 0.09,
+      type: 'spring' as const,
+      stiffness: 320,
+      damping: 28,
+      mass: 0.9,
     },
   }),
 };
@@ -386,23 +387,23 @@ export const cardEntranceVariantsMobile = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.08,
-      duration: 0.35,
+      delay: i * 0.06,
+      duration: 0.32,
       ease: EASE_OUT_EXPO,
     },
   }),
 };
 
 export const listItemStaggerVariants = {
-  hidden: { opacity: 0, y: 16, x: -6 },
+  hidden: { opacity: 0, y: 14, x: -10 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     x: 0,
     transition: {
-      delay: i * 0.08,
-      duration: 0.45,
-      ease: EASE_OUT_EXPO,
+      delay: i * 0.065,
+      duration: 0.42,
+      ease: EASE_OUT_QUINT,
     },
   }),
 };
@@ -545,7 +546,7 @@ export const staggerContainerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: stagger,
-      delayChildren: 0.05,
+      delayChildren: 0.08,
       when: 'beforeChildren',
     },
   }),
@@ -555,19 +556,19 @@ export const staggerContainerNormal = createStaggerContainer(0.06);
 
 export const pageTransitionVariants = {
   enter: (direction: 'up' | 'down' | null) => ({
-    transform: direction === 'down' ? 'translateY(100%)' : 'translateY(-100%)',
+    y: direction === 'down' ? 64 : -64,
     opacity: 0,
-    scale: 0.98,
+    scale: 0.985,
   }),
   center: {
-    transform: 'translateY(0%)',
+    y: 0,
     opacity: 1,
     scale: 1,
   },
   exit: (direction: 'up' | 'down' | null) => ({
-    transform: direction === 'down' ? 'translateY(-100%)' : 'translateY(100%)',
+    y: direction === 'down' ? -48 : 48,
     opacity: 0,
-    scale: 0.98,
+    scale: 0.985,
   }),
 };
 
@@ -582,9 +583,11 @@ export const timelineCardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      delay: i * 0.1,
-      duration: 0.6,
-      ease: EASE_OUT_QUINT,
+      delay: i * 0.085,
+      type: 'spring' as const,
+      stiffness: 260,
+      damping: 26,
+      mass: 1,
     },
   }),
 };
@@ -596,9 +599,9 @@ export const timelineDescriptionVariants = {
     x: 0,
     y: 0,
     transition: {
-      delay: 0.2 + i * 0.06,
-      duration: 0.45,
-      ease: EASE_IN_OUT_CUBIC,
+      delay: 0.18 + i * 0.055,
+      duration: 0.42,
+      ease: EASE_OUT_QUINT,
     },
   }),
 };
@@ -622,21 +625,22 @@ export const skillBadgeVariants = {
     initial: {},
     animate: {
       transition: {
-        staggerChildren: 0.06,
-        delayChildren: 0.5,
+        staggerChildren: 0.055,
+        delayChildren: 0.35,
       },
     },
   },
   item: {
-    initial: { opacity: 0, y: 20, scale: 0.85 },
+    initial: { opacity: 0, y: 18, scale: 0.9 },
     animate: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
         type: 'spring' as const,
-        stiffness: 280,
+        stiffness: 320,
         damping: 22,
+        mass: 0.9,
       },
     },
   },

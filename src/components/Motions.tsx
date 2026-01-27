@@ -89,14 +89,17 @@ export function PageTransitionWrapper({
       className={className}
       custom={direction}
       variants={pageTransitionVariants}
-      initial={false}
+      initial="enter"
       animate="center"
       exit="exit"
       transition={{
-        transform: prefersReducedMotion
+        y: prefersReducedMotion
           ? { duration: 0 }
-          : { type: 'spring' as const, visualDuration: 0.4, bounce: 0.15 },
-        opacity: { duration: prefersReducedMotion ? 0 : 0.2 },
+          : { type: 'spring' as const, stiffness: 260, damping: 28, mass: 0.9 },
+        scale: prefersReducedMotion
+          ? { duration: 0 }
+          : { type: 'spring' as const, stiffness: 240, damping: 26, mass: 0.9 },
+        opacity: { duration: prefersReducedMotion ? 0 : 0.22 },
       }}
       sx={PAGE_TRANSITION_SX}
     >

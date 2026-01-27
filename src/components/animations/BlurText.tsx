@@ -105,16 +105,17 @@ export function BlurText({
   // Default animation snapshots
   const defaultFrom =
     direction === 'top'
-      ? { opacity: 0, scale: 0.96, y: -20 }
-      : { opacity: 0, scale: 0.96, y: 20 };
+      ? { opacity: 0, scale: 0.96, y: -20, filter: 'blur(10px)' }
+      : { opacity: 0, scale: 0.96, y: 20, filter: 'blur(10px)' };
 
   const defaultTo = [
     {
       opacity: 0.6,
       scale: 0.98,
       y: direction === 'top' ? 4 : -4,
+      filter: 'blur(4px)',
     },
-    { opacity: 1, scale: 1, y: 0 },
+    { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' },
   ];
 
   const fromSnapshot = animationFrom ?? defaultFrom;
@@ -162,6 +163,7 @@ export function BlurText({
             }
             style={{
               display: 'inline-block',
+              willChange: 'transform, opacity, filter',
             }}
           >
             {segment === ' ' ? '\u00A0' : segment}
