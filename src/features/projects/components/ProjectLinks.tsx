@@ -1,8 +1,9 @@
 import type { JSX, ReactNode } from 'react';
 
-import { SiGithub, SiNpm } from 'react-icons/si';
+import { SiNpm } from 'react-icons/si';
 
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
 import { Box, Stack, type SxProps, type Theme, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -19,7 +20,7 @@ const actionButtonSx: SxProps<Theme> = {
 };
 
 const gridSx: SxProps<Theme> = {
-  pt: { xs: 2, md: 4 },
+  pt: { xs: 3, md: 6 },
 };
 
 const buttonStackSx: SxProps<Theme> = {
@@ -60,7 +61,7 @@ function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
           rel="noopener noreferrer"
           variant="text"
           color="inherit"
-          icon={<SiGithub />}
+          icon={<GitHubIcon sx={iconBody2Sx} />}
           label="GitHub"
         />
         <TooltipActionButton
@@ -91,6 +92,8 @@ function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
             rel={project.demo ? 'noopener noreferrer' : undefined}
             disabled={!project.demo}
             icon={<PlayArrowRounded sx={iconBody2Sx} />}
+            variant="text"
+            color="inherit"
             label="Demo"
           />
         )}
