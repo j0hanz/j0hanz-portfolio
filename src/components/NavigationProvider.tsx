@@ -1,9 +1,10 @@
-import { ReactNode, useEffect, useReducer, useTransition } from 'react';
+import { ReactNode, useEffect, useReducer, useRef, useTransition } from 'react';
 
 import { getSectionByHash, sections } from '@/config/sections';
 import type {
   Direction,
   NavigationAction,
+  NavigationActions,
   NavigationSnapshot,
   NavigationState,
 } from '@/config/types';
@@ -149,7 +150,16 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     transitionDispatch({ type: 'STEP', payload: -1 })
   );
 
-  const actionsValue = { setActiveSection, navigateTo, moveNext, movePrev };
+  const actionsRef = useRef<NavigationActions | null>(null);
+  if (!actionsRef.current) {
+    actionsRef.current = { setActiveSection, navigateTo, moveNext, movePrev };
+  } else {
+    actionsRef.current.setActiveSection = setActiveSection;
+    actionsRef.current.navigateTo = navigateTo;
+    actionsRef.current.moveNext = moveNext;
+    actionsRef.current.movePrev = movePrev;
+  }
+  const actionsValue = actionsRef.current as NavigationActions;
 
   return (
     <NavigationActionsContext value={actionsValue}>

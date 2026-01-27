@@ -1,9 +1,9 @@
-import { useTransition } from 'react';
+import { useRef, useTransition } from 'react';
 
 import { AnimatePresence } from 'motion/react';
 
 import { ModalCv } from '@/components/ModalCv';
-import type { CvModalProviderProps } from '@/config/types';
+import type { CvModalActions, CvModalProviderProps } from '@/config/types';
 import {
   CvModalActionsContext,
   CvModalStateContext,
@@ -27,7 +27,14 @@ export function CvModalProvider({
   });
 
   const stateValue = { isCvModalOpen, isPending };
-  const actionsValue = { openCvModal, closeCvModal };
+  const actionsRef = useRef<CvModalActions | null>(null);
+  if (!actionsRef.current) {
+    actionsRef.current = { openCvModal, closeCvModal };
+  } else {
+    actionsRef.current.openCvModal = openCvModal;
+    actionsRef.current.closeCvModal = closeCvModal;
+  }
+  const actionsValue = actionsRef.current as CvModalActions;
 
   return (
     <CvModalActionsContext value={actionsValue}>

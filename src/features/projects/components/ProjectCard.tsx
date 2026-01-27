@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 
 import {
   Box,
@@ -82,12 +82,20 @@ export function ProjectCard({
 }): React.JSX.Element {
   const { repoPath } = getProjectMeta(project);
   const cardRef = useRef<HTMLDivElement>(null);
+  const hasPrefetched = useRef(false);
   // Use cardReplay preset for full-page scroll sections
   const isInView = useInView(cardRef as ElementRef, viewportPresets.cardReplay);
 
+  useEffect(() => {
+    if (!repoPath || hasPrefetched.current || !isInView) return;
+    hasPrefetched.current = true;
+    prefetchRepoStats(repoPath);
+  }, [isInView, repoPath]);
+
   const handleMouseEnter = () => {
     // Only prefetch if we have a valid repo path
-    if (repoPath && repoPath.length > 0) {
+    if (repoPath && repoPath.length > 0 && !hasPrefetched.current) {
+      hasPrefetched.current = true;
       prefetchRepoStats(repoPath);
     }
   };

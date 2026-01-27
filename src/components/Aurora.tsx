@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { Color, Mesh, Program, Renderer, Triangle } from 'ogl';
 
 import { AURORA_CONFIG, PALETTES } from '@/config/constants';
@@ -140,19 +140,15 @@ interface AuroraProps {
   speed: number;
 }
 
-interface AuroraCanvasProps extends AuroraProps {
-  colorKey: string;
-}
-
 // WebGL Aurora canvas - handles actual rendering
 // React 19 Compiler handles memoization automatically
-function AuroraCanvas({
-  colorStops,
-  amplitude,
-  blend,
-  speed,
-}: AuroraCanvasProps) {
+function AuroraCanvas({ colorStops, amplitude, blend, speed }: AuroraProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const initialColorStopsRef = useRef(colorStops);
+  const rendererRef = useRef<Renderer | null>(null);
+  const programRef = useRef<Program | null>(null);
+  const meshRef = useRef<Mesh | null>(null);
+  const animationRef = useRef<number | null>(null);
 
   // Use useEffectEvent to always get latest props without causing Effect re-runs
   const getLatestProps = useEffectEvent(() => ({
@@ -163,13 +159,14 @@ function AuroraCanvas({
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || rendererRef.current) return;
 
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: true,
       antialias: true,
     });
+    rendererRef.current = renderer;
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
@@ -177,13 +174,14 @@ function AuroraCanvas({
     gl.canvas.style.backgroundColor = 'transparent';
 
     const resize = () => {
-      if (!container) return;
-      const width = container.offsetWidth;
-      const height = container.offsetHeight;
-      renderer.setSize(width, height);
-      if (program) {
-        program.uniforms.uResolution.value = [width, height];
-      }
+      const currentContainer = containerRef.current;
+      const currentRenderer = rendererRef.current;
+      const currentProgram = programRef.current;
+      if (!currentContainer || !currentRenderer || !currentProgram) return;
+      const width = currentContainer.offsetWidth;
+      const height = currentContainer.offsetHeight;
+      currentRenderer.setSize(width, height);
+      currentProgram.uniforms.uResolution.value = [width, height];
     };
     window.addEventListener('resize', resize);
 
@@ -192,7 +190,8 @@ function AuroraCanvas({
       delete geometry.attributes.uv;
     }
 
-    const colorStopsArray = colorStops.map((hex) => {
+    const initialProps = getLatestProps();
+    const colorStopsArray = initialColorStopsRef.current.map((hex) => {
       const c = new Color(hex);
       return [c.r, c.g, c.b] as [number, number, number];
     });
@@ -202,40 +201,60 @@ function AuroraCanvas({
       fragment: FRAG,
       uniforms: {
         uTime: { value: 0 },
-        uAmplitude: { value: amplitude },
+        uAmplitude: { value: initialProps.amplitude },
         uColorStops: { value: colorStopsArray },
         uResolution: { value: [container.offsetWidth, container.offsetHeight] },
-        uBlend: { value: blend },
+        uBlend: { value: initialProps.blend },
       },
     });
+    programRef.current = program;
 
     const mesh = new Mesh(gl, { geometry, program });
+    meshRef.current = mesh;
     container.appendChild(gl.canvas);
 
-    let animateId = 0;
     const update = (t: number) => {
-      animateId = requestAnimationFrame(update);
+      animationRef.current = requestAnimationFrame(update);
       const props = getLatestProps();
-      if (program) {
-        program.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
-        program.uniforms.uAmplitude.value = props.amplitude;
-        program.uniforms.uBlend.value = props.blend;
-        renderer.render({ scene: mesh });
-      }
+      const currentProgram = programRef.current;
+      const currentRenderer = rendererRef.current;
+      const currentMesh = meshRef.current;
+      if (!currentProgram || !currentRenderer || !currentMesh) return;
+      currentProgram.uniforms.uTime.value = t * 0.01 * props.speed * 0.1;
+      currentProgram.uniforms.uAmplitude.value = props.amplitude;
+      currentProgram.uniforms.uBlend.value = props.blend;
+      currentRenderer.render({ scene: currentMesh });
     };
-    animateId = requestAnimationFrame(update);
+    animationRef.current = requestAnimationFrame(update);
 
     resize();
 
     return () => {
-      cancelAnimationFrame(animateId);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
       window.removeEventListener('resize', resize);
-      if (container && gl.canvas.parentNode === container) {
-        container.removeChild(gl.canvas);
+      const currentContainer = containerRef.current;
+      if (currentContainer && gl.canvas.parentNode === currentContainer) {
+        currentContainer.removeChild(gl.canvas);
       }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
+      rendererRef.current = null;
+      programRef.current = null;
+      meshRef.current = null;
     };
-  }, [colorStops, amplitude, blend, speed]);
+  }, [getLatestProps]);
+
+  useEffect(() => {
+    const program = programRef.current;
+    if (!program) return;
+    const colorStopsArray = colorStops.map((hex) => {
+      const c = new Color(hex);
+      return [c.r, c.g, c.b] as [number, number, number];
+    });
+    program.uniforms.uColorStops.value = colorStopsArray;
+  }, [colorStops]);
 
   return (
     <Box
@@ -285,7 +304,6 @@ function Aurora(): React.JSX.Element {
 
   const sectionId = activeSectionId ?? 'hero';
   const colorStops = getSectionColorStops(sectionId, mode);
-  const colorKey = `${sectionId}-${mode}`;
 
   // Get mode-specific config
   const amplitude = AURORA_CONFIG.amplitude[mode];
@@ -307,32 +325,27 @@ function Aurora(): React.JSX.Element {
       }}
       aria-hidden="true"
     >
-      <AnimatePresence mode="wait">
-        <Box
-          component={motion.div}
-          key={colorKey}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 0, 0.1, 1] }}
-          sx={{
-            position: 'absolute',
-            inset: 0,
-          }}
-        >
-          {shouldAnimate ? (
-            <AuroraCanvas
-              colorKey={colorKey}
-              colorStops={colorStops}
-              amplitude={amplitude}
-              blend={blend}
-              speed={speed}
-            />
-          ) : (
-            <AuroraStatic colorStops={colorStops} />
-          )}
-        </Box>
-      </AnimatePresence>
+      <Box
+        component={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, ease: [0.16, 0, 0.1, 1] }}
+        sx={{
+          position: 'absolute',
+          inset: 0,
+        }}
+      >
+        {shouldAnimate ? (
+          <AuroraCanvas
+            colorStops={colorStops}
+            amplitude={amplitude}
+            blend={blend}
+            speed={speed}
+          />
+        ) : (
+          <AuroraStatic colorStops={colorStops} />
+        )}
+      </Box>
     </Box>
   );
 }

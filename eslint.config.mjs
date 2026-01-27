@@ -1,10 +1,13 @@
-import js from '@eslint/js';
+import eslint from '@eslint/js';
 import tanstackQuery from '@tanstack/eslint-plugin-query';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import deMorgan from 'eslint-plugin-de-morgan';
+import depend from 'eslint-plugin-depend';
 import react from 'eslint-plugin-react';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import sonarjs from 'eslint-plugin-sonarjs';
 import unusedImports from 'eslint-plugin-unused-imports';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
@@ -17,7 +20,10 @@ const __dirname = dirname(__filename);
 
 export default defineConfig(
   { ignores: ['dist', 'playwright-mcp/**'] },
-  js.configs.recommended,
+  eslint.configs.recommended,
+  sonarjs.configs.recommended,
+  deMorgan.configs.recommended,
+  depend.configs['flat/recommended'],
   ...tseslint.configs.recommended,
   ...tanstackQuery.configs['flat/recommended'],
   {

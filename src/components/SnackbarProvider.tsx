@@ -1,4 +1,4 @@
-import { ReactNode, useReducer, useTransition } from 'react';
+import { ReactNode, useReducer, useRef, useTransition } from 'react';
 
 import {
   Alert,
@@ -10,7 +10,11 @@ import {
 } from '@mui/material';
 
 import { UI_TIMING } from '@/config/constants';
-import type { SnackbarAction, SnackbarReducerState } from '@/config/types';
+import type {
+  SnackbarAction,
+  SnackbarActions,
+  SnackbarReducerState,
+} from '@/config/types';
 import {
   SnackbarActionsContext,
   SnackbarStateContext,
@@ -69,7 +73,14 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
     message: state.message,
     severity: state.severity,
   };
-  const actionsValue = { showSnackbar, closeSnackbar };
+  const actionsRef = useRef<SnackbarActions | null>(null);
+  if (!actionsRef.current) {
+    actionsRef.current = { showSnackbar, closeSnackbar };
+  } else {
+    actionsRef.current.showSnackbar = showSnackbar;
+    actionsRef.current.closeSnackbar = closeSnackbar;
+  }
+  const actionsValue = actionsRef.current as SnackbarActions;
 
   return (
     <SnackbarActionsContext value={actionsValue}>

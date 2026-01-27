@@ -1,4 +1,4 @@
-import { ReactNode, useOptimistic, useTransition } from 'react';
+import { ReactNode, useOptimistic, useRef, useTransition } from 'react';
 
 import {
   CssBaseline,
@@ -58,10 +58,14 @@ function ThemeModeAdapter({ children }: { children: ReactNode }) {
 
   // Split context values for render optimization
   const stateValue: ThemeModeState = { mode: displayMode, isPending };
-  const actionsValue: ThemeModeActions = {
-    toggleMode,
-    setMode: handleSetMode,
-  };
+  const actionsRef = useRef<ThemeModeActions | null>(null);
+  if (!actionsRef.current) {
+    actionsRef.current = { toggleMode, setMode: handleSetMode };
+  } else {
+    actionsRef.current.toggleMode = toggleMode;
+    actionsRef.current.setMode = handleSetMode;
+  }
+  const actionsValue = actionsRef.current as ThemeModeActions;
 
   // React 19: Render context directly without .Provider
   return (

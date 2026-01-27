@@ -9,8 +9,6 @@ import {
 } from '@mui/icons-material';
 
 import type { Section } from '@/config/types';
-// Import non-lazy section components used outside of main sections
-import { Portfolio } from '@/features/projects/Portfolio';
 
 // Lazy load section components for code splitting
 const Hero = lazy(() =>
@@ -22,6 +20,11 @@ const AboutMe = lazy(() =>
 const WorkExperience = lazy(() =>
   import('@/features/experience/WorkExperience').then((m) => ({
     default: m.WorkExperience,
+  }))
+);
+const Portfolio = lazy(() =>
+  import('@/features/projects/Portfolio').then((m) => ({
+    default: m.Portfolio,
   }))
 );
 const ContactForm = lazy(() =>
