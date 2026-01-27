@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import type { SystemStyleObject } from '@mui/system';
-import { motion, type MotionProps } from 'motion/react';
+import { m, type MotionProps } from 'motion/react';
 
 import { BlurText } from '@/components/animations';
 import { SPACING } from '@/config/responsive';
@@ -20,7 +20,7 @@ import { cardBaseSx, mergeSxEntries, normalizeSx } from '@/styles/shared';
 // CONSTANTS
 // ============================================================================
 
-const MotionPaper = motion.create(MuiPaper);
+const MotionPaper = m.create(MuiPaper);
 
 // Responsive card content padding
 const CARD_CONTENT_SX: SxProps<Theme> = { p: SPACING.card };

@@ -1,5 +1,5 @@
 import { Box, type SxProps, type Theme, Tooltip } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import type { SkillBadgeProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
@@ -35,7 +35,7 @@ function SkillBadge({ skill }: Readonly<SkillBadgeProps>): React.JSX.Element {
   return (
     <Tooltip title={skill.label} arrow enterDelay={200}>
       <Box
-        component={motion.span}
+        component={m.span}
         {...motionProps}
         sx={badgeContainerSx}
         aria-label={`${skill.label} skill`}

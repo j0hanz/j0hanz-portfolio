@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { Box, type SxProps, type Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
@@ -27,7 +27,7 @@ export function ProjectCardMotionWrapper({
 
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       variants={variant}
       sx={{ ...wrapperSx, ...(fullHeight ? { height: 1 } : {}) }}
     >

@@ -9,7 +9,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { BlurText, ShinyText } from '@/components/animations';
 import type { ProjectHeaderProps } from '@/config/types';
@@ -72,7 +72,7 @@ function ProjectHeader({
           />
           {project.isNew && (
             <Box
-              component={motion.span}
+              component={m.span}
               sx={{ ml: 3, display: 'inline-flex' }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={

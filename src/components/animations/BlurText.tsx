@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { motion, type Transition, useReducedMotion } from 'motion/react';
+import { m, type Transition, useReducedMotion } from 'motion/react';
 
 type Segment = {
   key: string;
@@ -159,7 +159,7 @@ export function BlurText({
         };
 
         return (
-          <motion.span
+          <m.span
             key={key}
             initial={fromSnapshot}
             animate={inView ? animateKeyframes : fromSnapshot}
@@ -174,7 +174,7 @@ export function BlurText({
           >
             {segment === ' ' ? '\u00A0' : segment}
             {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
-          </motion.span>
+          </m.span>
         );
       })}
     </div>

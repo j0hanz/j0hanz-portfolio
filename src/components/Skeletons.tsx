@@ -1,5 +1,5 @@
 import { Box, Skeleton, Stack, type SxProps, type Theme } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { useAnimationConfig } from '@/hooks';
 import {
@@ -94,7 +94,7 @@ export function ProjectCardSkeleton(): React.JSX.Element {
 
   return (
     <Stack
-      component={motion.article}
+      component={m.article}
       key="project-skeleton"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

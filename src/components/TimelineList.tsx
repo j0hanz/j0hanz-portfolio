@@ -7,7 +7,7 @@ import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Typography } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { TimelineSection } from '@/components/TimelineSection';
 import type { TimelineItemData, TimelineListProps } from '@/config/types';
@@ -57,9 +57,9 @@ export function TimelineList<T extends TimelineItemData>({
               {!isLastItem && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent sx={getTimelineContentSx(isLeftAligned)}>
-              <motion.div custom={index} {...cardMotion}>
+              <m.div custom={index} {...cardMotion}>
                 {renderItem(item, index, isMobile)}
-              </motion.div>
+              </m.div>
             </TimelineContent>
           </TimelineItem>
         );

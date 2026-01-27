@@ -37,7 +37,7 @@ export function CvModalProvider({
     <CvModalActionsContext value={actionsValue}>
       <CvModalStateContext value={stateValue}>
         {children}
-        <AnimatePresence initial={false} mode="wait">
+        <AnimatePresence mode="wait">
           {isCvModalOpen && (
             <Suspense fallback={null}>
               <ModalCv open={isCvModalOpen} onClose={closeCvModal} />

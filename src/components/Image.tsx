@@ -1,7 +1,7 @@
 import type { CSSProperties, JSX } from 'react';
 
 import { Box, Skeleton } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import type { ImageProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading } from '@/hooks';
@@ -60,7 +60,7 @@ function Image({
         />
       )}
       <Box
-        component={motion.img}
+        component={m.img}
         src={src}
         alt={alt}
         width={width}

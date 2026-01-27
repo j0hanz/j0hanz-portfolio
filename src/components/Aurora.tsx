@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Color, Mesh, Program, Renderer, Triangle } from 'ogl';
 
 import { AURORA_CONFIG, PALETTES } from '@/config/constants';
@@ -331,7 +331,7 @@ function Aurora(): React.JSX.Element {
       aria-hidden="true"
     >
       <Box
-        component={motion.div}
+        component={m.div}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, ease: [0.16, 0, 0.1, 1] }}

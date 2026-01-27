@@ -1,5 +1,5 @@
 import { Button as MuiButton, type SxProps, type Theme } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import type { CustomButtonProps } from '@/config/types';
 import { useButtonGesture } from '@/hooks';
@@ -18,7 +18,7 @@ const baseButtonSx: SxProps<Theme> = {
   },
 };
 
-const MotionButton = motion.create(MuiButton);
+const MotionButton = m.create(MuiButton);
 
 // Button component with optional icon and text, supports MUI v7 best practices
 // React 19: ref is a native prop, no need for forwardRef

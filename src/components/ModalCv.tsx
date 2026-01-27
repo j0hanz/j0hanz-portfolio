@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, type MotionProps } from 'motion/react';
+import { m, type MotionProps } from 'motion/react';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
@@ -34,9 +34,9 @@ import 'flag-icons/css/flag-icons.min.css';
 // MOTION COMPONENTS
 // ============================================================================
 
-const MotionDialogContent = motion.create(DialogContent);
-const MotionGrid = motion.create(Grid);
-const MotionButtonBase = motion.create(ButtonBase);
+const MotionDialogContent = m.create(DialogContent);
+const MotionGrid = m.create(Grid);
+const MotionButtonBase = m.create(ButtonBase);
 
 // ============================================================================
 // CV LANGUAGE OPTIONS

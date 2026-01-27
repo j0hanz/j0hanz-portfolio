@@ -15,7 +15,7 @@ import {
   Typography,
   Zoom,
 } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
@@ -81,7 +81,7 @@ function NavLogo({ onClose }: Readonly<{ onClose?: () => void }>) {
 
   return (
     <Stack
-      component={motion.a}
+      component={m.a}
       variants={navVariants.logo}
       href="#hero"
       onClick={handleClick}
@@ -91,7 +91,7 @@ function NavLogo({ onClose }: Readonly<{ onClose?: () => void }>) {
       aria-label="Home"
     >
       <Box
-        component={motion.img}
+        component={m.img}
         whileHover={{ scale: 1.05, opacity: 0.8 }}
         whileTap={{ scale: 0.95 }}
         src={navLogo}
@@ -114,13 +114,9 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
     highlightTransition,
   } = props;
   return (
-    <Box
-      component={motion.li}
-      variants={navVariants.item}
-      sx={NAV_LINK_ITEM_SX}
-    >
+    <Box component={m.li} variants={navVariants.item} sx={NAV_LINK_ITEM_SX}>
       <ListItemButton
-        component={motion.a}
+        component={m.a}
         whileHover={{ x: 4 }}
         whileTap={{ scale: 0.98 }}
         href={`#${id}`}
@@ -131,7 +127,7 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
       >
         {showHighlight && isActive && (
           <Box
-            component={motion.span}
+            component={m.span}
             layoutId={NAV_HIGHLIGHT_LAYOUT_ID}
             layout
             layoutDependency={isActive}
@@ -166,11 +162,7 @@ function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
   };
 
   return (
-    <Box
-      component={motion.ul}
-      variants={navVariants.container}
-      sx={navLinksListSx}
-    >
+    <Box component={m.ul} variants={navVariants.container} sx={navLinksListSx}>
       {navLinks.map((link) => (
         <NavLinkItem
           key={link.id}
@@ -187,9 +179,9 @@ function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
 }
 
 const wrapSocialItem = (id: string, child: ReactNode) => (
-  <motion.div key={id} variants={navVariants.social.item}>
+  <m.div key={id} variants={navVariants.social.item}>
     {child}
-  </motion.div>
+  </m.div>
 );
 
 function SocialLinks({
@@ -199,7 +191,7 @@ function SocialLinks({
   return (
     <Box sx={socialLinksBoxSx}>
       <Stack
-        component={motion.div}
+        component={m.div}
         variants={navVariants.social.container}
         direction="row"
         justifyContent="space-between"
@@ -234,7 +226,7 @@ function OffcanvasMenu({
       slotProps={{ paper: { sx: drawerPaperSx } }}
     >
       <Box
-        component={motion.div}
+        component={m.div}
         initial="closed"
         animate={showOffcanvas ? 'open' : 'closed'}
         sx={{ height: 1, display: 'flex', flexDirection: 'column' }}
@@ -247,7 +239,7 @@ function OffcanvasMenu({
         >
           <NavLogo onClose={closeOffcanvas} />
           <IconButton
-            component={motion.button}
+            component={m.button}
             whileHover={{ rotate: 90 }}
             whileTap={{ scale: 0.95 }}
             onClick={closeOffcanvas}
@@ -265,7 +257,7 @@ function OffcanvasMenu({
         </Box>
 
         <Divider
-          component={motion.hr}
+          component={m.hr}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
@@ -274,7 +266,7 @@ function OffcanvasMenu({
 
         <Box sx={drawerFooterSx}>
           <Typography
-            component={motion.span}
+            component={m.span}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
@@ -322,7 +314,7 @@ function NavBar() {
           slots={{ transition: Zoom }}
         >
           <IconButton
-            component={motion.button}
+            component={m.button}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             animate={menuState}
@@ -335,12 +327,9 @@ function NavBar() {
             edge="end"
             sx={menuButtonSx}
           >
-            <motion.div
-              animate={menuIconAnimation}
-              transition={menuIconTransition}
-            >
+            <m.div animate={menuIconAnimation} transition={menuIconTransition}>
               <MenuRounded />
-            </motion.div>
+            </m.div>
           </IconButton>
         </Tooltip>
       </Stack>

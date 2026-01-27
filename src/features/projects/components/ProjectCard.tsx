@@ -7,7 +7,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 
 import { Card } from '@/components/Card';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -56,7 +56,7 @@ function CardContent({
 
   return (
     <Stack
-      component={motion.article}
+      component={m.article}
       variants={contentFadeVariants}
       initial="initial"
       animate="animate"
@@ -110,7 +110,7 @@ export function ProjectCard({
   return (
     <Box
       ref={cardRef}
-      component={motion.div}
+      component={m.div}
       {...cardMotion}
       onMouseEnter={handleMouseEnter}
     >

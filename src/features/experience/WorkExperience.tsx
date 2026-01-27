@@ -6,7 +6,7 @@ import {
   WorkOutlineTwoTone,
 } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
 import { Button } from '@/components/Button';
@@ -125,7 +125,7 @@ function WorkCard({
     >
       <Box component="ul" {...DATA_ATTR.description} sx={listContainerSx}>
         {experience.description.map((item, index) => (
-          <motion.li
+          <m.li
             key={buildItemKey(experience.title, item, index)}
             custom={index}
             {...itemMotion}
@@ -133,7 +133,7 @@ function WorkCard({
             <Typography variant="body2" component="small">
               {item}
             </Typography>
-          </motion.li>
+          </m.li>
         ))}
       </Box>
     </TimelineCardWrapper>
@@ -169,7 +169,7 @@ function EducationCard({
         <Box sx={timelineDescriptionWrapperSx}>
           {experience.description.map((desc, index) => (
             <Box
-              component={motion.p}
+              component={m.p}
               key={buildItemKey(experience.title, desc, index)}
               custom={index}
               {...descriptionMotion}
@@ -183,7 +183,7 @@ function EducationCard({
       )}
       <AnimatePresence mode="wait">
         {showCredential && (
-          <motion.div {...buttonMotion} exit="hidden">
+          <m.div {...buttonMotion} exit="hidden">
             <Button
               onClick={onShowModal}
               variant="text"
@@ -194,7 +194,7 @@ function EducationCard({
             >
               Credential
             </Button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </TimelineCardWrapper>

@@ -7,7 +7,7 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { motion, useMotionValue } from 'motion/react';
+import { m, useMotionValue } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import { BaseModal } from '@/components/BaseModal';
@@ -90,7 +90,7 @@ function ImageModal({
             sx={skeletonSx}
           />
         )}
-        <motion.img
+        <m.img
           src={ProfileImage}
           alt="Linus Johansson"
           initial={{ opacity: 0, scale: 0.96 }}

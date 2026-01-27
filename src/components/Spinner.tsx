@@ -1,5 +1,5 @@
 import { alpha, Box, Stack, type SxProps, type Theme } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { useAnimationConfig } from '@/hooks';
 import { SIZING } from '@/styles/shared';
@@ -52,7 +52,7 @@ function Spinner({ sx }: Readonly<{ sx?: SxProps<Theme> }>): React.JSX.Element {
       ]}
     >
       <Box
-        component={motion.div}
+        component={m.div}
         aria-hidden="true"
         initial={false}
         animate={

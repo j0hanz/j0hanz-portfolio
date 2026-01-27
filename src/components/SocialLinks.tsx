@@ -3,7 +3,7 @@ import { Fragment, type JSX } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-import { motion, type MotionStyle } from 'motion/react';
+import { m, type MotionStyle } from 'motion/react';
 
 import type {
   SocialLinkListProps,
@@ -41,7 +41,7 @@ export function SocialLinkButton({
     : {};
 
   return (
-    <motion.div
+    <m.div
       style={wrapperStyle}
       onPointerMove={magnetProps.onPointerMove}
       onPointerLeave={magnetProps.onPointerLeave}
@@ -61,7 +61,7 @@ export function SocialLinkButton({
       >
         {icon}
       </Avatar>
-    </motion.div>
+    </m.div>
   );
 }
 

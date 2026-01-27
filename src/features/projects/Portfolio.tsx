@@ -4,7 +4,7 @@ import FolderTwoTone from '@mui/icons-material/FolderTwoTone';
 import Masonry from '@mui/lab/Masonry';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
 import { SectionContainer } from '@/components/SectionContainer';
@@ -48,7 +48,7 @@ function Portfolio(): React.JSX.Element {
     >
       <Box
         ref={sectionRef}
-        component={motion.div}
+        component={m.div}
         {...motionProps}
         sx={{ width: 1, overflow: 'hidden' }}
       >

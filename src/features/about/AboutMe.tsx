@@ -12,7 +12,7 @@ import {
   type Theme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { m, useScroll, useTransform } from 'motion/react';
 
 import { FadeContent, SplitText } from '@/components/animations';
 import { Button } from '@/components/Button';
@@ -102,7 +102,7 @@ function AboutMeList({
           {items.map((item, index) => (
             <TableRow
               key={item.title}
-              component={motion.tr}
+              component={m.tr}
               custom={index}
               {...rowMotion}
             >
@@ -112,7 +112,7 @@ function AboutMeList({
               <TableCell sx={descCellSx}>{item.description}</TableCell>
             </TableRow>
           ))}
-          <TableRow component={motion.tr} custom={items.length} {...rowMotion}>
+          <TableRow component={m.tr} custom={items.length} {...rowMotion}>
             <TableCell colSpan={2} sx={{ pt: 2 }}>
               <Button
                 onClick={onShowModal}
@@ -150,7 +150,7 @@ function CardItem({
 
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       custom={index}
       {...cardMotion}
       // Motion requires style prop for motion values (not sx)

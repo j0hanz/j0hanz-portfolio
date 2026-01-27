@@ -6,7 +6,7 @@ import { Box, type SxProps, type Theme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 
 import { transitions } from '@/config/motion';
 import {
@@ -63,10 +63,10 @@ function DarkModeToggle(): JSX.Element {
         size="small"
         sx={iconButtonSx}
       >
-        <Box component={motion.span} {...motionProps} sx={iconWrapperSx}>
+        <Box component={m.span} {...motionProps} sx={iconWrapperSx}>
           <AnimatePresence mode="wait" initial={false}>
             <Box
-              component={motion.span}
+              component={m.span}
               key={mode}
               variants={prefersReducedMotion ? undefined : iconVariants}
               initial="initial"

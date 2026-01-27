@@ -7,7 +7,7 @@ import EmailRounded from '@mui/icons-material/EmailRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
 import { Box, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import {
   AnimatedContent,
@@ -203,13 +203,13 @@ function ContactFormContent() {
           noValidate
           spacing={3}
         >
-          <motion.div custom={0} {...fieldMotion}>
+          <m.div custom={0} {...fieldMotion}>
             <ContactFormFields errors={errors} disabled={isSending} />
-          </motion.div>
+          </m.div>
           <SuccessIndicator visible={showSuccess} />
-          <motion.div {...actionMotion}>
+          <m.div {...actionMotion}>
             <FormActions onReset={handleReset} isPending={isSending} />
-          </motion.div>
+          </m.div>
         </Stack>
       </Box>
     </Card>

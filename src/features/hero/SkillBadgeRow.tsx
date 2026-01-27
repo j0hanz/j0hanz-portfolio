@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useRef } from 'react';
 
 import { Box, Stack, type SxProps, type Theme } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { ShinyText } from '@/components/animations';
 import { skillBadgeVariants, viewportPresets } from '@/config/motion';
@@ -41,7 +41,7 @@ function BadgeWrapper({
 }: BadgeWrapperProps): React.JSX.Element {
   if (!animate) return <>{children}</>;
   return (
-    <Box component={motion.span} variants={skillBadgeVariants.item}>
+    <Box component={m.span} variants={skillBadgeVariants.item}>
       {children}
     </Box>
   );
@@ -69,7 +69,7 @@ function BadgeList({
       />
       {animate ? (
         <Box
-          component={motion.div}
+          component={m.div}
           variants={skillBadgeVariants.container}
           initial="initial"
           animate={isInView ? 'animate' : 'initial'}

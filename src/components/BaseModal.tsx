@@ -8,14 +8,14 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { modalVariants } from '@/config/motion';
 import type { BaseModalProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 import { SIZING } from '@/styles/shared';
 
-const MotionDialogContent = motion.create(DialogContent);
+const MotionDialogContent = m.create(DialogContent);
 
 // Asymmetric border radius for modal close button design
 const CLOSE_BUTTON_BORDER_RADIUS = '0 10rem 0 50rem';

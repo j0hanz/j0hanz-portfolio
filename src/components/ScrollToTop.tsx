@@ -2,7 +2,7 @@ import { useEffect, useRef, useSyncExternalStore } from 'react';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
-import { motion, useSpring } from 'motion/react';
+import { m, useSpring } from 'motion/react';
 
 import { SCROLL_CONFIG } from '@/config/constants';
 import type { Direction } from '@/config/types';
@@ -167,7 +167,7 @@ function ScrollToTop(): React.JSX.Element {
               strokeWidth="4"
               opacity="0.2"
             />
-            <motion.circle
+            <m.circle
               cx="24"
               cy="24"
               r="20"

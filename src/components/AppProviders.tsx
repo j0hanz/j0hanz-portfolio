@@ -6,6 +6,7 @@ import {
   QueryClientProvider,
   QueryErrorResetBoundary,
 } from '@tanstack/react-query';
+import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
 
 import { AppThemeProvider } from '@/components/AppThemeProvider';
 import { CvModalProvider } from '@/components/CvModalProvider';
@@ -25,8 +26,6 @@ const inputAutoFillStyles = (
   />
 );
 
-// Composes providers into nested structure (applies right-to-left)
-// Example: compose(A, B, C) renders as <A><B><C>{children}</C></B></A>
 const composeProviders = (...providers: Provider[]): Provider =>
   function ComposedProviders({
     children,
@@ -49,12 +48,19 @@ const QueryProvider: Provider = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
-// Provider composition: outermost → innermost
-// Order: Data layer → error handling → theming → notifications → navigation → menu → modals
+const MotionProvider: Provider = ({ children }) => (
+  <MotionConfig reducedMotion="user">
+    <LazyMotion features={domAnimation} strict>
+      {children}
+    </LazyMotion>
+  </MotionConfig>
+);
+
 const ComposedProviders = composeProviders(
   QueryProvider,
   QueryErrorBoundaryProvider,
   AppThemeProvider,
+  MotionProvider,
   SnackbarProvider,
   NavigationProvider,
   MenuProvider,

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import { Box } from '@mui/material';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { m, useScroll, useTransform } from 'motion/react';
 
 import type { ParallaxProps } from '@/config/types';
 import { useMobileBreakpoint, useReducedMotion } from '@/hooks';
@@ -36,7 +36,7 @@ export function Parallax({
 
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       ref={ref}
       className={className}
       sx={{ ...sx, willChange: 'transform' }}

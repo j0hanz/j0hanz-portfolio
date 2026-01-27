@@ -2,7 +2,7 @@
 // MOTION COMPONENTS
 // ============================================================================
 import { Box, type SxProps, type Theme } from '@mui/material';
-import { AnimatePresence, motion, useTime, useTransform } from 'motion/react';
+import { AnimatePresence, m, useTime, useTransform } from 'motion/react';
 
 import {
   pageTransitionVariants,
@@ -49,7 +49,7 @@ export function StaggerContainer({
 
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       className={className}
       style={style}
       sx={sx}
@@ -84,7 +84,7 @@ export function PageTransitionWrapper({
   return (
     <Box
       ref={ref}
-      component={motion.div}
+      component={m.div}
       id="active-section-container"
       className={className}
       custom={direction}
@@ -137,7 +137,7 @@ export function BlinkingCursor({
 
   return (
     <Box
-      component={motion.span}
+      component={m.span}
       aria-hidden="true"
       sx={sx}
       // Motion requires style prop for motion values (not sx)
@@ -164,7 +164,7 @@ export function AnimatedCheckmark({
   const { prefersReducedMotion } = useAnimationConfig();
 
   return (
-    <motion.svg
+    <m.svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -175,7 +175,7 @@ export function AnimatedCheckmark({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
     >
-      <motion.circle
+      <m.circle
         cx="12"
         cy="12"
         r="9"
@@ -191,7 +191,7 @@ export function AnimatedCheckmark({
           duration: 0.6,
         }}
       />
-      <motion.path
+      <m.path
         d="M7.5 12.5l3 3.2 6-6.7"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -205,7 +205,7 @@ export function AnimatedCheckmark({
           duration: 0.6,
         }}
       />
-    </motion.svg>
+    </m.svg>
   );
 }
 

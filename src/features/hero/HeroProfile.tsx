@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import { Box } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
 import { ImageModal } from '@/components/ImageModal';
@@ -43,14 +43,14 @@ function HeroProfile(): React.JSX.Element {
     <>
       <Parallax offset={30}>
         <Box
-          component={motion.div}
+          component={m.div}
           {...profileMotion}
           transition={getTransition('easeOut')}
           sx={profileWrapperSx}
         >
           {!isLoaded && <ProfileSkeleton />}
           <Box
-            component={motion.img}
+            component={m.img}
             ref={profileImageRef}
             src={ProfileImage}
             alt="Linus Johansson"
@@ -65,7 +65,7 @@ function HeroProfile(): React.JSX.Element {
             sx={{ ...profileImgSx, cursor: 'pointer' }}
           />
           <Box
-            component={motion.div}
+            component={m.div}
             aria-hidden="true"
             initial={false}
             animate={{ opacity: isHovered ? 1 : 0 }}

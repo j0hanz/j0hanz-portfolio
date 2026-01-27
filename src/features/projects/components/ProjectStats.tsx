@@ -5,7 +5,7 @@ import {
   type Theme,
   Typography,
 } from '@mui/material';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import {
   STAT_CONFIG,
@@ -71,7 +71,7 @@ function AnimatedStat({
         {label}
       </Typography>
       <Typography
-        component={motion.span}
+        component={m.span}
         ref={ref}
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { AnimatePresence, motion, MotionConfig } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 
 import { Aurora } from '@/components/Aurora';
 import { Metadata } from '@/components/Metadata';
@@ -28,7 +28,7 @@ const LOADER_MOTION = {
 function LoadingView() {
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       key="loader"
       {...LOADER_MOTION}
       sx={loaderContainerSx}
@@ -43,7 +43,7 @@ function ContentView() {
   const contentMotion = useContentMotion();
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       key="home"
       {...contentMotion}
       sx={contentContainerSx}
@@ -58,7 +58,7 @@ function App() {
   const { isLoading } = useInitialLoading(INITIAL_LOADING_DELAY_MS);
 
   return (
-    <MotionConfig reducedMotion="user">
+    <>
       <Metadata />
       <Box
         sx={mainContainerSx}
@@ -74,7 +74,7 @@ function App() {
         </AnimatePresence>
         {!isLoading && <ScrollToTop />}
       </Box>
-    </MotionConfig>
+    </>
   );
 }
 

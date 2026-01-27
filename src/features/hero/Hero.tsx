@@ -4,7 +4,7 @@ import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 import { GlitchText, TextType } from '@/components/animations';
 import { Button } from '@/components/Button';
@@ -138,7 +138,7 @@ function Hero(): React.JSX.Element {
 
                   {/* Hero Subtitle with typewriter + shine effect */}
                   <Typography
-                    component={motion.span}
+                    component={m.span}
                     {...subtitleMotion}
                     transition={subtitleTransition}
                     sx={subtitleSx}
