@@ -24,7 +24,7 @@ const sectionCenteredSx: SxProps<Theme> = {
   display: 'grid',
   placeItems: 'center',
   minHeight: '100vh',
-  py: SPACING.section,
+  my: SPACING.section,
   overflowX: 'hidden',
 };
 
