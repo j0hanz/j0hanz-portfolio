@@ -91,9 +91,3 @@ export const getProjectMeta = (project: Project): ProjectMeta => {
     hasProjectBoard: projectBoard,
   };
 };
-
-// Extract all valid repo paths from a list of projects for batch prefetching
-export const getProjectRepoPaths = (projectList: Project[]): string[] =>
-  projectList
-    .map((p) => extractRepoPath(p.github))
-    .filter((path): path is string => path !== null && path.length > 0);

@@ -1,21 +1,21 @@
-import type { Components, Theme } from '@mui/material/styles';
+import type { Components, CSSObject, Theme } from '@mui/material/styles';
 
 // Extend Components type to include MUI Lab Timeline components
 declare module '@mui/material/styles' {
   interface Components<Theme = unknown> {
     MuiTimeline?: {
       styleOverrides?: {
-        root?: object | ((props: { theme: Theme }) => object);
+        root?: CSSObject | ((props: { theme: Theme }) => CSSObject);
       };
     };
     MuiTimelineItem?: {
       styleOverrides?: {
-        root?: object | ((props: { theme: Theme }) => object);
+        root?: CSSObject | ((props: { theme: Theme }) => CSSObject);
       };
     };
     MuiTimelineConnector?: {
       styleOverrides?: {
-        root?: object | ((props: { theme: Theme }) => object);
+        root?: CSSObject | ((props: { theme: Theme }) => CSSObject);
       };
     };
   }
