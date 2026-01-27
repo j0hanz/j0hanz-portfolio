@@ -1,14 +1,18 @@
-import { useTransition } from 'react';
+import { lazy, Suspense, useTransition } from 'react';
 
 import { AnimatePresence } from 'motion/react';
 
-import { ModalCv } from '@/components/ModalCv';
 import type { CvModalActions, CvModalProviderProps } from '@/config/types';
 import {
   CvModalActionsContext,
   CvModalStateContext,
 } from '@/contexts/CvModalContext';
 import { useEventCallback, useToggle } from '@/hooks';
+
+const ModalCv = lazy(async () => {
+  const module = await import('@/components/ModalCv');
+  return { default: module.ModalCv };
+});
 
 // Centralized CV modal state management
 export function CvModalProvider({
@@ -35,7 +39,9 @@ export function CvModalProvider({
         {children}
         <AnimatePresence initial={false} mode="wait">
           {isCvModalOpen && (
-            <ModalCv open={isCvModalOpen} onClose={closeCvModal} />
+            <Suspense fallback={null}>
+              <ModalCv open={isCvModalOpen} onClose={closeCvModal} />
+            </Suspense>
           )}
         </AnimatePresence>
       </CvModalStateContext>

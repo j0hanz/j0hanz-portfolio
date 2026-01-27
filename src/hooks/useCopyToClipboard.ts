@@ -59,22 +59,23 @@ export function useCopyWithFeedback() {
       errorMessage = 'Unable to copy'
     ) => {
       // Optimistically show success immediately for better UX
-      startTransition(async () => {
+      startTransition(() => {
         setOptimisticState('success');
-
-        const success = await copyToClipboard(text);
-
-        if (success) {
-          showSnackbar(successMessage, 'success');
-        } else {
-          // Revert optimistic state on failure
-          setOptimisticState('error');
-          showSnackbar(errorMessage, 'error');
-        }
       });
 
-      // Return actual clipboard result
-      return copyToClipboard(text);
+      const success = await copyToClipboard(text);
+
+      if (success) {
+        showSnackbar(successMessage, 'success');
+      } else {
+        // Revert optimistic state on failure
+        startTransition(() => {
+          setOptimisticState('error');
+        });
+        showSnackbar(errorMessage, 'error');
+      }
+
+      return success;
     },
   };
 }
