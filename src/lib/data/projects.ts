@@ -2,6 +2,76 @@ import type { Project } from '@/config/types';
 
 const projects: Project[] = [
   {
+    title: 'ThinkSeq MCP',
+    description:
+      'MCP server for sequential thinking and revision chains. Maintain coherent reasoning with revisable thought sequences.',
+    github: 'https://github.com/j0hanz/thinkseq-mcp-server',
+    npm: 'https://www.npmjs.com/package/@j0hanz/thinkseq-mcp',
+    technologies: ['TypeScript', 'Node.js', 'MCP', 'Zod'],
+    collaborative: false,
+    api: false,
+    isMcpServer: true,
+    isNew: true,
+    isGitpodTemplate: false,
+    projectBoard: false,
+  },
+  {
+    title: 'FS Context MCP',
+    description:
+      'MCP server for read-only filesystem exploration, search, and inspection within allowed roots.',
+    github: 'https://github.com/j0hanz/fs-context-mcp-server',
+    npm: 'https://www.npmjs.com/package/@j0hanz/fs-context-mcp',
+    technologies: ['TypeScript', 'Node.js', 'MCP', 'Zod'],
+    collaborative: false,
+    api: false,
+    isMcpServer: true,
+    isNew: true,
+    isGitpodTemplate: false,
+    projectBoard: false,
+  },
+  {
+    title: 'SuperFetch MCP',
+    description:
+      'MCP server for fetching public URLs, extracting readable content, and returning clean Markdown.',
+    github: 'https://github.com/j0hanz/super-fetch-mcp-server',
+    npm: 'https://www.npmjs.com/package/@j0hanz/superfetch',
+    technologies: ['TypeScript', 'Node.js', 'MCP', 'Zod'],
+    collaborative: false,
+    api: false,
+    isMcpServer: true,
+    isNew: true,
+    isGitpodTemplate: false,
+    projectBoard: false,
+  },
+  {
+    title: 'MemDB MCP',
+    description:
+      'MCP server providing a local SQLite-backed memory store for text notes with tags and relationships.',
+    github: 'https://github.com/j0hanz/memdb-mcp-server',
+    npm: 'https://www.npmjs.com/package/@j0hanz/memdb',
+    technologies: ['TypeScript', 'Node.js', 'MCP', 'SQLite', 'Zod'],
+    collaborative: false,
+    api: false,
+    isMcpServer: true,
+    isNew: true,
+    isGitpodTemplate: false,
+    projectBoard: false,
+  },
+  {
+    title: 'Todokit MCP',
+    description:
+      'MCP server for managing a persistent local todo list stored in JSON with full CRUD operations.',
+    github: 'https://github.com/j0hanz/todokit-mcp-server',
+    npm: 'https://www.npmjs.com/package/@j0hanz/todokit-mcp',
+    technologies: ['TypeScript', 'Node.js', 'MCP', 'Zod'],
+    collaborative: false,
+    api: false,
+    isMcpServer: true,
+    isNew: true,
+    isGitpodTemplate: false,
+    projectBoard: false,
+  },
+  {
     title: '404: GGNF',
     description:
       'A platform honouring the achievements of women in technology and next generation of female tech innovators. Developed for the March 2025 Code Institute Hackathon.',

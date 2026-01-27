@@ -1,6 +1,6 @@
 import type { JSX, ReactNode } from 'react';
 
-import { SiGithub } from 'react-icons/si';
+import { SiGithub, SiNpm } from 'react-icons/si';
 
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
@@ -72,15 +72,28 @@ function ProjectLinks({ project }: Readonly<ProjectLinksProps>): JSX.Element {
           icon={<ContentCopyRounded sx={iconBody2Sx} />}
           label="Copy"
         />
-        <TooltipActionButton
-          tooltip={project.demo ? 'View live demo' : 'Coming soon!'}
-          href={project.demo || undefined}
-          target={project.demo ? '_blank' : undefined}
-          rel={project.demo ? 'noopener noreferrer' : undefined}
-          disabled={!project.demo}
-          icon={<PlayArrowRounded sx={iconBody2Sx} />}
-          label="Demo"
-        />
+        {project.npm ? (
+          <TooltipActionButton
+            tooltip="View on npm"
+            href={project.npm}
+            target="_blank"
+            variant="text"
+            color="inherit"
+            rel="noopener noreferrer"
+            icon={<SiNpm />}
+            label="Install"
+          />
+        ) : (
+          <TooltipActionButton
+            tooltip={project.demo ? 'View live demo' : 'Coming soon!'}
+            href={project.demo || undefined}
+            target={project.demo ? '_blank' : undefined}
+            rel={project.demo ? 'noopener noreferrer' : undefined}
+            disabled={!project.demo}
+            icon={<PlayArrowRounded sx={iconBody2Sx} />}
+            label="Demo"
+          />
+        )}
       </Stack>
     </Grid>
   );

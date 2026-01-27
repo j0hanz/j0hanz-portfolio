@@ -114,12 +114,14 @@ export interface Project {
   title: string;
   description: string;
   github: string;
-  demo: string;
+  demo?: string;
+  npm?: string;
   technologies: string[];
   collaborative: boolean;
   hackathonType?: HackathonType;
   api: boolean;
   isGitpodTemplate?: boolean;
+  isMcpServer?: boolean;
   isNew?: boolean;
   projectBoard?: boolean;
 }

@@ -39,7 +39,15 @@ const newBadgeSx: SxProps<Theme> = {
   color: 'primary.contrastText',
   height: BADGE_HEIGHT,
   minWidth: BADGE_MIN_WIDTH,
-  border: 'none',
+  fontSize: (theme) => theme.typography.caption.fontSize,
+  borderRadius: (theme) => theme.spacing(0.5),
+  transform: SKEW_TRANSFORM,
+};
+
+const mcpBadgeSx: SxProps<Theme> = {
+  color: 'secondary.contrastText',
+  height: BADGE_HEIGHT,
+  minWidth: BADGE_MIN_WIDTH,
   fontSize: (theme) => theme.typography.caption.fontSize,
   borderRadius: (theme) => theme.spacing(0.5),
   transform: SKEW_TRANSFORM,
@@ -71,6 +79,21 @@ function ProjectHeader({
             direction="bottom"
             stepDuration={0.2}
           />
+          {project.isMcpServer && (
+            <Box component="span" sx={{ display: 'inline-flex', ml: 1.5 }}>
+              <Chip
+                label={
+                  <ShinyText
+                    text="MCP"
+                    speed={3}
+                    disabled={prefersReducedMotion}
+                  />
+                }
+                size="small"
+                sx={mcpBadgeSx}
+              />
+            </Box>
+          )}
           {project.isNew && (
             <Box
               component={motion.span}
