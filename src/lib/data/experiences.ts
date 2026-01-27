@@ -1,6 +1,6 @@
 import type { Experience } from '@/config/types';
 
-const experiences: Experience[] = [
+const experiences = [
   {
     type: 'education',
     title: 'Diploma in Full Stack Software Development',
@@ -61,6 +61,6 @@ const experiences: Experience[] = [
       'Picking and packing goods according to order.',
     ],
   },
-];
+] as const satisfies readonly Experience[];
 
 export { experiences };

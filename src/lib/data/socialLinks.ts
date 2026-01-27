@@ -8,7 +8,7 @@ import {
 
 import type { SocialLink } from '@/config/types';
 
-export const socialLinks: SocialLink[] = [
+export const socialLinks = [
   {
     id: 'linkedin',
     icon: LinkedIn,
@@ -49,4 +49,4 @@ export const socialLinks: SocialLink[] = [
     color: 'sourceCode.main',
     iconColor: 'sourceCode.contrastText',
   },
-];
+] as const satisfies readonly SocialLink[];

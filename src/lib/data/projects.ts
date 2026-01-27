@@ -1,6 +1,6 @@
 import type { Project } from '@/config/types';
 
-const projects: Project[] = [
+const projects = [
   {
     title: 'ThinkSeq MCP',
     description:
@@ -296,6 +296,6 @@ const projects: Project[] = [
     isGitpodTemplate: false,
     projectBoard: false,
   },
-];
+] as const satisfies readonly Project[];
 
 export { projects };

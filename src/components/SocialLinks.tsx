@@ -73,37 +73,35 @@ export function SocialLinkList({
 }: Readonly<SocialLinkListProps>): JSX.Element {
   return (
     <>
-      {socialLinks.map(
-        (
-          { id, icon: Icon, href, onClick, tooltip, color, iconColor },
-          index
-        ) => {
-          const isDownloadPdf = id === 'download-pdf';
-          const resolvedOnClick = isDownloadPdf ? openModal : onClick;
+      {socialLinks.map((link, index) => {
+        const { id, icon: Icon, tooltip, color, iconColor } = link;
+        const href = 'href' in link ? link.href : undefined;
+        const onClick = 'onClick' in link ? link.onClick : undefined;
+        const isDownloadPdf = id === 'download-pdf';
+        const resolvedOnClick = isDownloadPdf ? openModal : onClick;
 
-          const linkElement = renderLink({
-            href,
-            onClick: resolvedOnClick,
-            tooltip,
-            icon: <Icon sx={{ fontSize: iconSize }} />,
-            bgColor: color,
-            iconColor,
-            index,
-          });
+        const linkElement = renderLink({
+          href,
+          onClick: resolvedOnClick,
+          tooltip,
+          icon: <Icon sx={{ fontSize: iconSize }} />,
+          bgColor: color,
+          iconColor,
+          index,
+        });
 
-          const wrappedLink = (
-            <Tooltip title={tooltip} placement="top" arrow>
-              <Box component="span">{linkElement}</Box>
-            </Tooltip>
-          );
+        const wrappedLink = (
+          <Tooltip title={tooltip} placement="top" arrow>
+            <Box component="span">{linkElement}</Box>
+          </Tooltip>
+        );
 
-          return wrapItem ? (
-            wrapItem(id, wrappedLink)
-          ) : (
-            <Fragment key={id}>{wrappedLink}</Fragment>
-          );
-        }
-      )}
+        return wrapItem ? (
+          wrapItem(id, wrappedLink)
+        ) : (
+          <Fragment key={id}>{wrappedLink}</Fragment>
+        );
+      })}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { BadgeItemProps } from '@/config/types';
 
-export const badgeItems: BadgeItemProps[] = [
+export const badgeItems = [
   {
     href: 'https://api.eu.badgr.io/public/assertions/pv52CsVuSI2V_KIyzgiahA',
     imgSrc:
@@ -19,4 +19,4 @@ export const badgeItems: BadgeItemProps[] = [
       'https://api.eu.badgr.io/public/assertions/7UoBkH6QRSKa8iGISrs9Zg/image',
     date: '18 dec. 2024',
   },
-];
+] as const satisfies readonly BadgeItemProps[];

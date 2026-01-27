@@ -22,7 +22,7 @@ import { VscTerminalPowershell, VscVscode } from 'react-icons/vsc';
 
 import type { Skill } from '@/config/types';
 
-const skills: Skill[] = [
+const skills = [
   { icon: SiHtml5, label: 'HTML5' },
   { icon: SiCss3, label: 'CSS3' },
   { icon: SiJavascript, label: 'JavaScript' },
@@ -43,6 +43,6 @@ const skills: Skill[] = [
   { icon: VscTerminalPowershell, label: 'PowerShell' },
   { icon: SiMarkdown, label: 'Markdown' },
   { icon: SiRaspberrypi, label: 'Raspberry Pi' },
-];
+] as const satisfies readonly Skill[];
 
 export { skills };

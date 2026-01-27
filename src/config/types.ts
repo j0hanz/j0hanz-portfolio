@@ -98,7 +98,7 @@ export interface AboutMeItem {
 }
 
 export interface AboutMeListProps {
-  items: AboutMeItem[];
+  items: readonly AboutMeItem[];
   onShowModal: () => void;
 }
 
@@ -331,7 +331,7 @@ export interface TimelineItemData {
 }
 
 export interface TimelineListProps<T extends TimelineItemData> {
-  items: T[];
+  items: readonly T[];
   renderItem: (item: T, index: number, isMobile: boolean) => React.ReactNode;
   Icon: SvgIconComponent;
   cardMotion: MotionProps;

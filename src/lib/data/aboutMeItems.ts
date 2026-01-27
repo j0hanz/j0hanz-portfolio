@@ -1,6 +1,6 @@
 import type { AboutMeItem } from '@/config/types';
 
-const aboutMeItems: AboutMeItem[] = [
+const aboutMeItems = [
   {
     title: 'Tech Enthusiast',
     description: 'Passionate about technology.',
@@ -26,6 +26,6 @@ const aboutMeItems: AboutMeItem[] = [
     description: 'Loves tackling complex problems.',
     hasCredential: false,
   },
-];
+] as const satisfies readonly AboutMeItem[];
 
 export { aboutMeItems };
