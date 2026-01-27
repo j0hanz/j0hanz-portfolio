@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
@@ -46,32 +46,28 @@ export function SplitText({
 }: SplitTextProps) {
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
-  const fontsLoadedRef = useRef(getInitialFontsLoaded());
+  const [fontsLoaded, setFontsLoaded] = useState(() => getInitialFontsLoaded());
   const splitInstanceRef = useRef<GSAPSplitText | null>(null);
 
   // Subscribe to font loading if not already loaded
   useEffect(() => {
-    if (fontsLoadedRef.current) return;
+    if (fontsLoaded) return;
 
     let cancelled = false;
     document.fonts.ready.then(() => {
       if (!cancelled) {
-        fontsLoadedRef.current = true;
-        // Force re-render by triggering GSAP setup
-        if (ref.current) {
-          ref.current.dispatchEvent(new CustomEvent('fontsloaded'));
-        }
+        setFontsLoaded(true);
       }
     });
 
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [fontsLoaded]);
 
   useGSAP(
     () => {
-      if (!ref.current || !text || !fontsLoadedRef.current) return;
+      if (!ref.current || !text || !fontsLoaded) return;
 
       const el = ref.current;
 
@@ -159,6 +155,7 @@ export function SplitText({
     {
       dependencies: [
         text,
+        fontsLoaded,
         delay,
         duration,
         ease,

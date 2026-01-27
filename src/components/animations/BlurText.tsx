@@ -145,12 +145,12 @@ export function BlurText({
     );
   }
 
+  const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
+
   return (
     <div ref={ref} className={className}>
       {/* Index as key is safe - elements array is static (derived from text prop) */}
       {segments.map(({ key, segment }, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
-
         const spanTransition: Transition = {
           duration: totalDuration,
           times,

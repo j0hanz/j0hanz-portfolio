@@ -39,7 +39,6 @@ import {
 
 const HERO_NAME = 'Linus Johansson';
 const HERO_SUBTITLE = 'Junior Full-Stack Developer';
-preload('/assets/image_me.webp', { as: 'image' });
 
 // Hero action button configurations
 const HERO_ACTIONS: readonly HeroActionConfig[] = [
@@ -98,6 +97,7 @@ function HeroActionButton({
 }
 
 function Hero(): React.JSX.Element {
+  preload('/assets/image_me.webp', { as: 'image' });
   const { openCvModal } = useCvModalActions();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const animationPriority = useAnimationPriority();
