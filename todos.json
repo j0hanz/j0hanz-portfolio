@@ -1,0 +1,71 @@
+[
+  {
+    "id": "3fe5300b-2cd4-4e53-abf0-77c501773dd2",
+    "description": "CRITICAL: Fix useEventCallback implementation - replace useEffectEvent with useRef pattern",
+    "completed": true,
+    "priority": "high",
+    "category": "bug",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:52:13.193Z",
+    "completedAt": "2026-01-27T00:52:13.193Z"
+  },
+  {
+    "id": "5d5df1ae-963f-43ae-9a2c-3ba4186bd0aa",
+    "description": "Add React Compiler configuration with development logging to vite.config.ts",
+    "completed": true,
+    "priority": "high",
+    "category": "work",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:53:33.183Z",
+    "completedAt": "2026-01-27T00:53:33.183Z"
+  },
+  {
+    "id": "a7632567-3aab-4f4a-a2fa-b8c1bdcf8f79",
+    "description": "Create Metadata component with title and meta tags for SEO",
+    "completed": true,
+    "priority": "high",
+    "category": "work",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:52:39.140Z",
+    "completedAt": "2026-01-27T00:52:39.140Z"
+  },
+  {
+    "id": "85363b6f-9de8-476a-9f17-8faced6c2f8f",
+    "description": "Add useId to ContactFormFields for accessibility",
+    "completed": true,
+    "priority": "medium",
+    "category": "work",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:53:33.190Z",
+    "completedAt": "2026-01-27T00:53:33.190Z"
+  },
+  {
+    "id": "32f5e686-065e-47e4-a6f5-e321b1874e59",
+    "description": "Add resource preloading (preload/preconnect) for hero assets",
+    "completed": true,
+    "priority": "medium",
+    "category": "work",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:53:33.193Z",
+    "completedAt": "2026-01-27T00:53:33.193Z"
+  },
+  {
+    "id": "6f6822e9-5c99-4f02-be61-8ddfc9f6a058",
+    "description": "Verify runtime - test all event handlers, forms, navigation after useEventCallback fix",
+    "completed": true,
+    "priority": "high",
+    "category": "testing",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:54:41.102Z",
+    "completedAt": "2026-01-27T00:54:41.102Z"
+  },
+  {
+    "id": "4f3831d9-9d27-4291-91b6-006a6f23f97a",
+    "description": "Run Lighthouse audit for SEO and accessibility scores",
+    "completed": false,
+    "priority": "medium",
+    "category": "testing",
+    "createdAt": "2026-01-27T00:49:36.010Z",
+    "updatedAt": "2026-01-27T00:49:36.010Z"
+  }
+]

@@ -1,3 +1,5 @@
+import { preload } from 'react-dom';
+
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import { Box, Container, Stack, Typography } from '@mui/material';
@@ -64,6 +66,9 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
 ] as const;
 
 function Hero(): React.JSX.Element {
+  // Preload critical hero assets for faster LCP
+  preload('/assets/image_me.webp', { as: 'image' });
+
   const { openCvModal } = useCvModalActions();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const animationPriority = useAnimationPriority();

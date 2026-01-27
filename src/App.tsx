@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 
 import { Aurora } from '@/components/Aurora';
+import { Metadata } from '@/components/Metadata';
 import { NavBar } from '@/components/NavBar';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { Spinner } from '@/components/Spinner';
@@ -58,6 +59,7 @@ function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <Metadata />
       <Box
         sx={mainContainerSx}
         data-network-status={isOnline ? 'online' : 'offline'}

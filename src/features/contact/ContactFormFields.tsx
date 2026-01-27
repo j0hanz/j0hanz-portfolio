@@ -1,3 +1,5 @@
+import { useId } from 'react';
+
 import ChatBubbleOutline from '@mui/icons-material/ChatBubbleOutline';
 import EmailOutlined from '@mui/icons-material/EmailOutlined';
 import ErrorOutline from '@mui/icons-material/ErrorOutline';
@@ -167,12 +169,28 @@ export function ContactFormFields({
   handleChange,
   disabled = false,
 }: FormFieldsProps): React.JSX.Element {
+  // Generate unique IDs for form fields (React 19 accessibility)
+  const nameId = useId();
+  const emailId = useId();
+  const companyId = useId();
+  const urlId = useId();
+  const messageId = useId();
+
+  const fieldIds: Record<string, string> = {
+    name: nameId,
+    email: emailId,
+    company: companyId,
+    url: urlId,
+    message: messageId,
+  };
+
   return (
     <Grid container spacing={SPACING.formField}>
       {CONTACT_FIELD_CONFIGS.map(({ key, errorKey, ...fieldProps }) => (
         <Grid key={key} size={fieldProps.gridProps}>
           <FormField
             {...fieldProps}
+            controlId={fieldIds[key] || fieldProps.controlId}
             name={key}
             value={formData[key] ?? ''}
             error={errorKey ? errors[errorKey] : undefined}
