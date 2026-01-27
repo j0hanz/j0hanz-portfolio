@@ -13,7 +13,7 @@ import type { ResponsiveValue } from '@/config/types';
 // ============================================================================
 export const SPACING = {
   /** Section vertical padding: py */
-  section: { xs: 4, sm: 5, md: 6, lg: 8, xl: 10 },
+  section: { xs: 8, lg: 12 },
   /** Card/container internal padding */
   card: { xs: 2, sm: 2.5, md: 3, lg: 3.5 },
   /** Grid gaps between items */
@@ -23,7 +23,7 @@ export const SPACING = {
   /** Stack gaps */
   stack: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
   /** Section header margin bottom */
-  headerMargin: { xs: 3, sm: 3.5, md: 4, lg: 5 },
+  headerMargin: { xs: 1.5 },
   /** Container horizontal padding - increased on xs for safe area (16px) */
   containerPadding: { xs: 1, sm: 2, md: 4, lg: 6 },
   /** Form field gaps */
