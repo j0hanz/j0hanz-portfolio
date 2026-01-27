@@ -84,7 +84,6 @@ function FormField({
   name,
   label,
   placeholder,
-  value,
   defaultValue,
   error,
   required = false,
@@ -118,7 +117,6 @@ function FormField({
         minRows={isTextarea ? (minRows ?? 3) : undefined}
         maxRows={isTextarea ? (maxRows ?? 8) : undefined}
         placeholder={placeholder}
-        value={value}
         defaultValue={defaultValue}
         onChange={onChange}
         startAdornment={
@@ -164,9 +162,7 @@ function FormField({
 }
 
 export function ContactFormFields({
-  formData,
   errors,
-  handleChange,
   disabled = false,
 }: Readonly<FormFieldsProps>): React.JSX.Element {
   // Generate unique IDs for form fields (React 19 accessibility)
@@ -192,9 +188,7 @@ export function ContactFormFields({
             {...fieldProps}
             controlId={fieldIds[key] || fieldProps.controlId}
             name={key}
-            value={formData[key] ?? ''}
             error={errorKey ? errors[errorKey] : undefined}
-            onChange={handleChange}
             disabled={disabled}
           />
         </Grid>

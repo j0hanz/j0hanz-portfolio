@@ -535,7 +535,6 @@ export interface FormFieldProps {
   name: string;
   label?: string;
   placeholder: string;
-  value?: string;
   defaultValue?: string;
   error?: string;
   required?: boolean;
@@ -546,11 +545,7 @@ export interface FormFieldProps {
 }
 
 export interface FormFieldsProps {
-  formData: ContactFormValues;
   errors: ContactFormErrors;
-  handleChange: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
   disabled?: boolean;
 }
 

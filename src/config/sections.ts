@@ -11,30 +11,34 @@ import {
 import type { Section } from '@/config/types';
 
 // Lazy load section components for code splitting
-const Hero = lazy(() =>
-  import('@/features/hero/Hero').then((m) => ({ default: m.Hero }))
-);
-const AboutMe = lazy(() =>
-  import('@/features/about/AboutMe').then((m) => ({ default: m.AboutMe }))
-);
+const loadHero = () => import('@/features/hero/Hero');
+const loadAboutMe = () => import('@/features/about/AboutMe');
+const loadWorkExperience = () => import('@/features/experience/WorkExperience');
+const loadPortfolio = () => import('@/features/projects/Portfolio');
+const loadContactForm = () => import('@/features/contact/ContactForm');
+const loadFooter = () => import('@/components/Footer');
+
+const Hero = lazy(() => loadHero().then((m) => ({ default: m.Hero })));
+const AboutMe = lazy(() => loadAboutMe().then((m) => ({ default: m.AboutMe })));
 const WorkExperience = lazy(() =>
-  import('@/features/experience/WorkExperience').then((m) => ({
-    default: m.WorkExperience,
-  }))
+  loadWorkExperience().then((m) => ({ default: m.WorkExperience }))
 );
 const Portfolio = lazy(() =>
-  import('@/features/projects/Portfolio').then((m) => ({
-    default: m.Portfolio,
-  }))
+  loadPortfolio().then((m) => ({ default: m.Portfolio }))
 );
 const ContactForm = lazy(() =>
-  import('@/features/contact/ContactForm').then((m) => ({
-    default: m.ContactForm,
-  }))
+  loadContactForm().then((m) => ({ default: m.ContactForm }))
 );
-const Footer = lazy(() =>
-  import('@/components/Footer').then((m) => ({ default: m.Footer }))
-);
+const Footer = lazy(() => loadFooter().then((m) => ({ default: m.Footer })));
+
+export const sectionLoaders: Record<string, () => Promise<unknown>> = {
+  hero: loadHero,
+  aboutMe: loadAboutMe,
+  portfolio: loadPortfolio,
+  workExperience: loadWorkExperience,
+  contact: loadContactForm,
+  footer: loadFooter,
+};
 
 export const sections: Section[] = [
   {

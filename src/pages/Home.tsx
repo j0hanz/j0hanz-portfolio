@@ -1,4 +1,4 @@
-import { Activity, Suspense } from 'react';
+import { Activity, Suspense, useEffect } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -6,13 +6,29 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AnimatePresence, PageTransitionWrapper } from '@/components/Motions';
 import { SectionErrorFallback } from '@/components/SectionErrorFallback';
 import { SectionSkeleton } from '@/components/Skeletons';
-import { sections } from '@/config/sections';
+import { sectionLoaders, sections } from '@/config/sections';
 import { useFullPageScroll, useNavigationState } from '@/hooks';
 
 // Home page component with full-page scroll and section transitions
 function Home(): React.JSX.Element {
   useFullPageScroll();
   const { activeSectionId, direction } = useNavigationState();
+
+  useEffect(() => {
+    const currentIndex = sections.findIndex((s) => s.id === activeSectionId);
+    if (currentIndex < 0) return;
+
+    const prefetchSection = (id?: string) => {
+      if (!id) return;
+      const loader = sectionLoaders[id];
+      if (loader) {
+        void loader();
+      }
+    };
+
+    prefetchSection(sections[currentIndex + 1]?.id);
+    prefetchSection(sections[currentIndex - 1]?.id);
+  }, [activeSectionId]);
 
   return (
     <Box

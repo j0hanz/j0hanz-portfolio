@@ -1,10 +1,6 @@
-import {
-  startTransition,
-  useEffect,
-  useOptimistic,
-  useRef,
-  useState,
-} from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
+
+import { useFormStatus } from 'react-dom';
 
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
@@ -26,7 +22,6 @@ import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
 import { SPACING } from '@/config/responsive';
 import type {
-  ContactFieldKey,
   ContactFormErrors,
   ContactFormValues,
   ElementRef,
@@ -45,16 +40,15 @@ import { validateForm } from '@/utils/validation';
 
 import { ContactFormFields } from './ContactFormFields';
 
-// Form state helpers
-const EMPTY_FORM: ContactFormValues = {
-  name: '',
-  email: '',
-  company: '',
-  url: '',
-  message: '',
+type FormActionState = {
+  errors: ContactFormErrors;
+  status: 'idle' | 'sent';
 };
 
-const ERROR_FIELDS = new Set(['name', 'email', 'url', 'message'] as const);
+const INITIAL_ACTION_STATE: FormActionState = {
+  errors: {},
+  status: 'idle',
+};
 
 function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
   if (!visible) return null;
@@ -87,6 +81,9 @@ function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
 }
 
 function FormActions({ onReset, isPending }: Readonly<FormActionsProps>) {
+  const { pending } = useFormStatus();
+  const isDisabled = isPending || pending;
+
   return (
     <Stack
       direction="row"
@@ -99,7 +96,7 @@ function FormActions({ onReset, isPending }: Readonly<FormActionsProps>) {
         color="inherit"
         type="button"
         onClick={onReset}
-        disabled={isPending}
+        disabled={isDisabled}
         startIcon={<DeleteRounded sx={iconSx} />}
         aria-label={CONTACT_COPY.clearAriaLabel}
         sx={buttonMinWidthSx}
@@ -112,39 +109,31 @@ function FormActions({ onReset, isPending }: Readonly<FormActionsProps>) {
         variant="contained"
         color="primary"
         type="submit"
-        loading={isPending}
-        disabled={isPending}
+        loading={isDisabled}
+        disabled={isDisabled}
         startIcon={<SendRounded sx={iconSx} />}
         aria-label={
-          isPending ? CONTACT_COPY.sendingAriaLabel : CONTACT_COPY.sendAriaLabel
+          isDisabled
+            ? CONTACT_COPY.sendingAriaLabel
+            : CONTACT_COPY.sendAriaLabel
         }
         sx={buttonMinWidthSx}
       >
-        {!isPending && CONTACT_COPY.sendLabel}
+        {!isDisabled && CONTACT_COPY.sendLabel}
       </Button>
     </Stack>
   );
 }
 
-// Optimistic submission state type
-type OptimisticStatus = 'idle' | 'sending' | 'sent';
-
 function ContactFormContent() {
   const formContainerRef = useRef<HTMLDivElement>(null);
-  const [formData, setFormData] = useState<ContactFormValues>(EMPTY_FORM);
-  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const formRef = useRef<HTMLFormElement>(null);
   const { showSnackbar } = useSnackbar();
-  const { mutate, reset, isSuccess, isPending } = useContactFormMutation();
+  const { mutateAsync, reset, isPending } = useContactFormMutation();
   const isInView = useInView(
     formContainerRef as ElementRef,
     viewportPresets.list
   );
-
-  // Optimistic UI: immediately show sending state before server confirms
-  const [optimisticStatus, setOptimisticStatus] = useOptimistic<
-    OptimisticStatus,
-    OptimisticStatus
-  >('idle', (_current, newStatus) => newStatus);
 
   const fieldMotion = useMotionVariant(formFieldVariants.field, {
     initial: 'hidden',
@@ -156,75 +145,53 @@ function ContactFormContent() {
     animate: isInView ? 'visible' : 'hidden',
   });
 
-  // Combine optimistic status with actual mutation state
-  const isSending = optimisticStatus === 'sending' || isPending;
-  const showSuccess = (optimisticStatus === 'sent' || isSuccess) && !isPending;
+  const [errors, setErrors] = useState<ContactFormErrors>({});
 
-  const handleChange = useEventCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.currentTarget;
-      const fieldName = name as ContactFieldKey;
+  const [actionState, formAction, isFormPending] = useActionState<
+    FormActionState,
+    FormData
+  >(async (_prevState, formData) => {
+    reset();
 
-      setFormData((prev) => ({ ...prev, [fieldName]: value }));
+    const normalized: ContactFormValues = {
+      name: String(formData.get('name') ?? '').trim(),
+      email: String(formData.get('email') ?? '').trim(),
+      company: String(formData.get('company') ?? '').trim(),
+      url: String(formData.get('url') ?? '').trim(),
+      message: String(formData.get('message') ?? '').trim(),
+    };
 
-      // Clear field error if present
-      if (ERROR_FIELDS.has(fieldName as keyof ContactFormErrors)) {
-        setErrors((prev) => {
-          const key = fieldName as keyof ContactFormErrors;
-          if (!prev[key]) return prev;
-          const next = { ...prev };
-          delete next[key];
-          return next;
-        });
-      }
+    const validationErrors = validateForm(normalized);
+    const firstError = Object.values(validationErrors).find(Boolean);
+    if (firstError) {
+      showSnackbar(firstError, 'error');
+      setErrors(validationErrors);
+      return { errors: validationErrors, status: 'idle' };
     }
-  );
+
+    setErrors({});
+    try {
+      await mutateAsync(normalized);
+      showSnackbar(CONTACT_COPY.successToast, 'success');
+      return { errors: {}, status: 'sent' };
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : CONTACT_CONFIG.SEND_ERROR_MESSAGE;
+      showSnackbar(message, 'error');
+      return { errors: {}, status: 'idle' };
+    }
+  }, INITIAL_ACTION_STATE);
+
+  const showSuccess = actionState.status === 'sent';
+  const isSending = isPending || isFormPending;
 
   const handleReset = useEventCallback(() => {
-    setFormData(EMPTY_FORM);
+    formRef.current?.reset();
     setErrors({});
     reset();
   });
-
-  const handleSubmit = useEventCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      reset();
-
-      // Normalize and validate form data
-      const normalized: ContactFormValues = {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        company: formData.company.trim(),
-        url: formData.url.trim(),
-        message: formData.message.trim(),
-      };
-      const validationErrors = validateForm(normalized);
-      setErrors(validationErrors);
-
-      const firstError = Object.values(validationErrors).find(Boolean);
-      if (firstError) {
-        showSnackbar(firstError, 'error');
-        return;
-      }
-
-      // Optimistically show sending state immediately
-      startTransition(async () => {
-        setOptimisticStatus('sending');
-
-        mutate(normalized, {
-          onSuccess: () => {
-            setOptimisticStatus('sent');
-            showSnackbar(CONTACT_COPY.successToast, 'success');
-          },
-          onError: (error) => {
-            setOptimisticStatus('idle');
-            showSnackbar(error.message, 'error');
-          },
-        });
-      });
-    }
-  );
 
   // Auto-reset form after successful submission
   useEffect(() => {
@@ -236,17 +203,18 @@ function ContactFormContent() {
   return (
     <Card title="">
       <Box ref={formContainerRef}>
-        <Stack component="form" onSubmit={handleSubmit} noValidate spacing={3}>
-          <motion.div custom={0} {...fieldMotion} layout>
-            <ContactFormFields
-              formData={formData}
-              errors={errors}
-              handleChange={handleChange}
-              disabled={isSending}
-            />
+        <Stack
+          component="form"
+          action={formAction}
+          ref={formRef}
+          noValidate
+          spacing={3}
+        >
+          <motion.div custom={0} {...fieldMotion}>
+            <ContactFormFields errors={errors} disabled={isSending} />
           </motion.div>
           <SuccessIndicator visible={showSuccess} />
-          <motion.div {...actionMotion} layout>
+          <motion.div {...actionMotion}>
             <FormActions onReset={handleReset} isPending={isSending} />
           </motion.div>
         </Stack>

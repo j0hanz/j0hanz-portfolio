@@ -122,14 +122,17 @@ void main() {
 
 // Section color palettes - derived from auroraColorStops
 // Each section needs 3 color stops for the aurora gradient
+const isAuroraSectionId = (
+  sectionId: string
+): sectionId is keyof typeof auroraColorStops => sectionId in auroraColorStops;
+
 function getSectionColorStops(
   sectionId: string,
   mode: 'light' | 'dark'
 ): ReadonlyArray<string> {
-  const sectionColors =
-    sectionId in auroraColorStops
-      ? auroraColorStops[sectionId as keyof typeof auroraColorStops]
-      : auroraColorStops.hero;
+  const sectionColors = isAuroraSectionId(sectionId)
+    ? auroraColorStops[sectionId]
+    : auroraColorStops.hero;
 
   return mode === 'dark' ? sectionColors.dark : sectionColors.light;
 }

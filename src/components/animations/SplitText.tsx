@@ -9,7 +9,8 @@ import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
 
 // Check if fonts are loaded synchronously (runs once at module load)
-const getInitialFontsLoaded = () => document.fonts.status === 'loaded';
+const getInitialFontsLoaded = () =>
+  typeof document !== 'undefined' && document.fonts?.status === 'loaded';
 
 type SplitTextProps = Readonly<{
   text: string;
