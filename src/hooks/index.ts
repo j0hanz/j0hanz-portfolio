@@ -55,32 +55,21 @@ export { useFullPageScroll } from './useFullPageScroll';
 // Framer Motion utilities respecting reduced-motion preferences
 // ============================================================================
 
-// Core motion utilities
 export {
-  useReducedMotion,
   useAnimationConfig,
   useAnimationPriority,
-  useMotionVariant,
+  useBatchedDomUpdate,
+  useButtonGesture,
+  useCardHover,
   useContentMotion,
-} from './useMotions';
-
-// Gesture hooks
-export { useCardHover, useButtonGesture } from './useMotions';
-
-// Scroll-linked animations
-export { useInView } from './useMotions';
-
-// Animation sequencing
-export { useBatchedDomUpdate } from './useMotions';
-
-// Timeline-specific hooks (shared patterns for Education/WorkExperience)
-export {
-  useTimelineSectionController,
+  useCountUp,
+  useInView,
+  useMotionVariant,
+  useReducedMotion,
   useTimelineCardMotion,
+  useTimelineSectionController,
+  useVelocityTilt,
 } from './useMotions';
-
-// Measurement & continuous motion
-export { useCountUp, useVelocityTilt } from './useMotions';
 
 // ============================================================================
 // RESPONSIVE HOOKS

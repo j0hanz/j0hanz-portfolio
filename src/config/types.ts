@@ -117,16 +117,20 @@ export interface Project {
   demo: string;
   technologies: string[];
   collaborative: boolean;
-  hackathonType?:
-    | 'december-2024'
-    | 'march-2025'
-    | 'november-2024'
-    | 'september-2024';
+  hackathonType?: HackathonType;
   api: boolean;
   isGitpodTemplate?: boolean;
   isNew?: boolean;
   projectBoard?: boolean;
 }
+
+export type HackathonType =
+  | 'december-2024'
+  | 'march-2025'
+  | 'november-2024'
+  | 'september-2024';
+
+export type ProjectBadgeFlag = HackathonType | 'isGitpodTemplate';
 
 export interface RepoStats {
   stars: number;
@@ -143,12 +147,7 @@ export type ActionButtonProps = Omit<
 };
 
 export interface BadgeConfig {
-  flag:
-    | 'december-2024'
-    | 'march-2025'
-    | 'november-2024'
-    | 'september-2024'
-    | 'isGitpodTemplate';
+  flag: ProjectBadgeFlag;
   src: string;
   alt: string;
   style?: CSSProperties;
@@ -500,11 +499,11 @@ export interface ContactFormValues {
   message: string;
 }
 
-export type ContactFormErrors = Partial<
-  Record<'name' | 'email' | 'url' | 'message', string>
->;
-
 export type ContactFieldKey = keyof ContactFormValues;
+
+export type ContactErrorKey = Exclude<ContactFieldKey, 'company'>;
+
+export type ContactFormErrors = Partial<Record<ContactErrorKey, string>>;
 
 export interface ContactFieldConfig {
   key: ContactFieldKey;
@@ -516,7 +515,7 @@ export interface ContactFieldConfig {
   required?: boolean;
   minRows?: number;
   maxRows?: number;
-  errorKey?: keyof ContactFormErrors;
+  errorKey?: ContactErrorKey;
   gridProps?: { xs?: number; md?: number };
 }
 

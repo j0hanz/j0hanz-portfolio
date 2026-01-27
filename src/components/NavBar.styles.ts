@@ -24,6 +24,8 @@ export const navLinksListSx: SxProps<Theme> = {
   flexFlow: 'column nowrap',
   position: 'relative',
   p: 2,
+  m: 0,
+  listStyle: 'none',
   // Replicating .cardBgImage
   '&::before': {
     content: '""',

@@ -66,6 +66,37 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
   },
 ] as const;
 
+type HeroActionButtonProps = Readonly<{
+  action: HeroActionConfig;
+  isMobile: boolean;
+  disableMagnetic: boolean;
+  onDownload: () => void;
+}>;
+
+function HeroActionButton({
+  action,
+  isMobile,
+  disableMagnetic,
+  onDownload,
+}: HeroActionButtonProps) {
+  const isDownload = action.key === 'download-cv';
+  const button = (
+    <Button
+      variant="contained"
+      {...action.buttonProps}
+      onClick={isDownload ? onDownload : undefined}
+    >
+      {action.label}
+    </Button>
+  );
+
+  if (isMobile) {
+    return <Box>{button}</Box>;
+  }
+
+  return <MagneticWrapper disabled={disableMagnetic}>{button}</MagneticWrapper>;
+}
+
 function Hero(): React.JSX.Element {
   const { openCvModal } = useCvModalActions();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
@@ -73,9 +104,14 @@ function Hero(): React.JSX.Element {
   const isMobile = useMobileBreakpoint('md');
   const disableMagnetic =
     prefersReducedMotion || animationPriority === 'reduced';
+  const showCursor = !prefersReducedMotion;
   const subtitleMotion = useMotionVariant(subtitleClipPath, {
     initial: 'initial',
     animate: 'animate',
+  });
+  const subtitleTransition = getTransition('easeInOut', {
+    duration: 1.1,
+    delay: 0.2,
   });
 
   return (
@@ -104,10 +140,7 @@ function Hero(): React.JSX.Element {
                   <Typography
                     component={motion.span}
                     {...subtitleMotion}
-                    transition={getTransition('easeInOut', {
-                      duration: 1.1,
-                      delay: 0.2,
-                    })}
+                    transition={subtitleTransition}
                     sx={subtitleSx}
                   >
                     <TextType
@@ -118,7 +151,7 @@ function Hero(): React.JSX.Element {
                       loop={false}
                       className="shiny-text"
                     />
-                    {!prefersReducedMotion && <BlinkingCursor sx={cursorSx} />}
+                    {showCursor && <BlinkingCursor sx={cursorSx} />}
                   </Typography>
 
                   {/* CTA Buttons */}
@@ -128,29 +161,15 @@ function Hero(): React.JSX.Element {
                     alignItems="flex-start"
                     sx={buttonsStackSx}
                   >
-                    {HERO_ACTIONS.map((action) => {
-                      const isDownload = action.key === 'download-cv';
-                      const button = (
-                        <Button
-                          variant="contained"
-                          {...action.buttonProps}
-                          onClick={isDownload ? openCvModal : undefined}
-                        >
-                          {action.label}
-                        </Button>
-                      );
-
-                      return isMobile ? (
-                        <Box key={action.key}>{button}</Box>
-                      ) : (
-                        <MagneticWrapper
-                          key={action.key}
-                          disabled={disableMagnetic}
-                        >
-                          {button}
-                        </MagneticWrapper>
-                      );
-                    })}
+                    {HERO_ACTIONS.map((action) => (
+                      <HeroActionButton
+                        key={action.key}
+                        action={action}
+                        isMobile={isMobile}
+                        disableMagnetic={disableMagnetic}
+                        onDownload={openCvModal}
+                      />
+                    ))}
                   </Stack>
                   <SkillBadgeRow />
                 </StaggerContainer>

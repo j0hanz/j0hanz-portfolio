@@ -81,6 +81,17 @@ export function useAnimationConfig(): AnimationConfig {
 // ============================================================================
 
 // Returns motion props respecting reduced motion preferences
+const resolveFallbackState = (options?: {
+  animate?: string;
+  whileInView?: string;
+}): string => options?.animate ?? options?.whileInView ?? 'animate';
+
+const resolveVisibilityState = (
+  isInView: boolean,
+  visibleState = 'visible',
+  hiddenState = 'hidden'
+) => (isInView ? visibleState : hiddenState);
+
 export function useMotionVariant(
   variants: Variants,
   options?: {
@@ -94,10 +105,14 @@ export function useMotionVariant(
   }
 ) {
   const { prefersReducedMotion, motionViewport } = useAnimationConfig();
+  const fallbackState = resolveFallbackState(options);
 
   if (prefersReducedMotion) {
-    const fallbackState = options?.animate ?? options?.whileInView ?? 'animate';
-    return { initial: fallbackState, animate: fallbackState };
+    return {
+      variants,
+      initial: fallbackState,
+      animate: fallbackState,
+    };
   }
 
   const baseProps = {
@@ -262,17 +277,18 @@ function useSectionSequence(
   }, []);
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    const target = ref.current;
     if (
       prefersReducedMotion ||
       hasPlayedRef.current ||
       value <= threshold ||
-      !ref.current ||
+      !target ||
       sequencePlan.length === 0
     )
       return;
 
     hasPlayedRef.current = true;
-    runSectionSequence(ref.current, sequencePlan);
+    runSectionSequence(target, sequencePlan);
   });
 }
 
@@ -309,7 +325,11 @@ export function useTimelineSectionController({
   hiddenState = 'hidden',
 }: TimelineSectionControllerOptions) {
   const timelineRefs = useTimelineSectionRefs(viewportPreset);
-  const animateState = timelineRefs.isInView ? visibleState : hiddenState;
+  const animateState = resolveVisibilityState(
+    timelineRefs.isInView,
+    visibleState,
+    hiddenState
+  );
 
   useSectionSequence(timelineRefs.sectionRef, selectors, sequenceOptions);
 
@@ -341,7 +361,7 @@ export function useTimelineCardMotion(
 
   const itemMotion = useMotionVariant(variants, {
     initial: 'hidden',
-    animate: isInView ? 'visible' : 'hidden',
+    animate: resolveVisibilityState(isInView),
   });
 
   return { cardRef, isInView, itemMotion };

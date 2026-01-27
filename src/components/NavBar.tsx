@@ -53,6 +53,21 @@ import { navLinks } from '@/lib/data/navLinks';
 import { isIOS } from '@/utils/platform';
 
 const NAV_HIGHLIGHT_LAYOUT_ID = 'nav-link-highlight';
+const NAV_LINK_ITEM_SX = { mb: 1, display: 'block' } as const;
+const NAV_HIGHLIGHT_SX = {
+  position: 'absolute',
+  inset: 0,
+  borderRadius: 2,
+  zIndex: 0,
+  bgcolor: 'action.selected',
+} as const;
+
+const MENU_ICON_STATES = {
+  open: { opacity: 0, rotate: 180 },
+  closed: { opacity: 1, rotate: 0 },
+} as const;
+
+const MENU_ICON_TRANSITION = { duration: 0.2 } as const;
 
 function NavLogo({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { navigateTo } = useNavigationActions();
@@ -105,7 +120,7 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
     <Box
       component={motion.li}
       variants={navVariants.item}
-      sx={{ mb: 1, display: 'block' }}
+      sx={NAV_LINK_ITEM_SX}
     >
       <ListItemButton
         component={motion.a}
@@ -124,13 +139,7 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
             layout
             layoutDependency={isActive}
             transition={highlightTransition}
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              borderRadius: 2,
-              zIndex: 0,
-              bgcolor: 'action.selected',
-            }}
+            sx={NAV_HIGHLIGHT_SX}
           />
         )}
         <ListItemIcon sx={[listItemIconSx, isActive && listItemIconSelectedSx]}>
@@ -152,6 +161,7 @@ function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { activeSectionId, isPending } = useNavigationState();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const highlightTransition = getTransition('springSmooth', { duration: 0.5 });
+  const showHighlight = !prefersReducedMotion;
 
   const handleNavLinkClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -163,7 +173,7 @@ function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
     <Box
       component={motion.ul}
       variants={navVariants.container}
-      sx={{ ...navLinksListSx, p: 2, m: 0, listStyle: 'none' }}
+      sx={navLinksListSx}
     >
       {navLinks.map((link) => (
         <NavLinkItem
@@ -172,7 +182,7 @@ function NavLinks({ onClose }: Readonly<{ onClose?: () => void }>) {
           isActive={activeSectionId === link.id}
           isPending={isPending}
           onClick={handleNavLinkClick}
-          showHighlight={!prefersReducedMotion}
+          showHighlight={showHighlight}
           highlightTransition={highlightTransition}
         />
       ))}
@@ -298,15 +308,13 @@ function NavBar() {
   const { openCvModal } = useCvModalActions();
   const offcanvasMenu = useModal(false);
   const { prefersReducedMotion } = useAnimationConfig();
-  let menuIconAnimation: { opacity: number; rotate: number } | undefined;
-  if (!prefersReducedMotion) {
-    menuIconAnimation = offcanvasMenu.isOpen
-      ? { opacity: 0, rotate: 180 }
-      : { opacity: 1, rotate: 0 };
-  }
+  const menuState = offcanvasMenu.isOpen ? 'open' : 'closed';
+  const menuIconAnimation = prefersReducedMotion
+    ? undefined
+    : MENU_ICON_STATES[menuState];
   const menuIconTransition = prefersReducedMotion
     ? undefined
-    : { duration: 0.2 };
+    : MENU_ICON_TRANSITION;
 
   return (
     <>
@@ -328,7 +336,7 @@ function NavBar() {
             component={motion.button}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            animate={offcanvasMenu.isOpen ? 'open' : 'closed'}
+            animate={menuState}
             variants={navVariants.button}
             onClick={offcanvasMenu.open}
             aria-label="Open navigation menu"
