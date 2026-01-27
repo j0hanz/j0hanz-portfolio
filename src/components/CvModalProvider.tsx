@@ -37,13 +37,17 @@ export function CvModalProvider({
     <CvModalActionsContext value={actionsValue}>
       <CvModalStateContext value={stateValue}>
         {children}
-        <AnimatePresence mode="wait">
-          {isCvModalOpen && (
-            <Suspense fallback={null}>
-              <ModalCv open={isCvModalOpen} onClose={closeCvModal} />
-            </Suspense>
-          )}
-        </AnimatePresence>
+        <Suspense fallback={null}>
+          <AnimatePresence mode="wait">
+            {isCvModalOpen && (
+              <ModalCv
+                key="cv-modal"
+                open={isCvModalOpen}
+                onClose={closeCvModal}
+              />
+            )}
+          </AnimatePresence>
+        </Suspense>
       </CvModalStateContext>
     </CvModalActionsContext>
   );

@@ -13,6 +13,10 @@ import { useFullPageScroll, useNavigationState } from '@/hooks';
 function Home(): React.JSX.Element {
   useFullPageScroll();
   const { activeSectionId, direction } = useNavigationState();
+  const activeSection = sections.find(
+    (section) => section.id === activeSectionId
+  );
+  const ActiveSection = activeSection?.Component;
 
   useEffect(() => {
     const currentIndex = sections.findIndex((s) => s.id === activeSectionId);
@@ -41,27 +45,22 @@ function Home(): React.JSX.Element {
       }}
     >
       <AnimatePresence initial={false} mode="popLayout" custom={direction}>
-        {sections.map(({ id, Component }) => (
-          <Activity
-            key={id}
-            mode={activeSectionId === id ? 'visible' : 'hidden'}
-          >
-            <Box position="relative" height={1}>
-              {activeSectionId === id && (
-                <PageTransitionWrapper key={id}>
-                  <ErrorBoundary
-                    fallback={<SectionErrorFallback />}
-                    data-testid="section-error-boundary"
-                  >
-                    <Suspense fallback={<SectionSkeleton />}>
-                      <Component />
-                    </Suspense>
-                  </ErrorBoundary>
-                </PageTransitionWrapper>
-              )}
-            </Box>
-          </Activity>
-        ))}
+        {activeSection && ActiveSection && (
+          <PageTransitionWrapper key={activeSection.id}>
+            <Activity mode="visible">
+              <Box position="relative" height={1}>
+                <ErrorBoundary
+                  fallback={<SectionErrorFallback />}
+                  data-testid="section-error-boundary"
+                >
+                  <Suspense fallback={<SectionSkeleton />}>
+                    <ActiveSection />
+                  </Suspense>
+                </ErrorBoundary>
+              </Box>
+            </Activity>
+          </PageTransitionWrapper>
+        )}
       </AnimatePresence>
     </Box>
   );

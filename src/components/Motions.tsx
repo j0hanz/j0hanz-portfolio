@@ -162,6 +162,11 @@ export function AnimatedCheckmark({
   strokeWidth?: number;
 }>) {
   const { prefersReducedMotion } = useAnimationConfig();
+  const rootInitial = prefersReducedMotion ? false : { opacity: 0, scale: 0.8 };
+  const rootAnimate = { opacity: 1, scale: 1 };
+  const rootTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: 'spring' as const, stiffness: 200, damping: 20 };
 
   return (
     <m.svg
@@ -171,9 +176,9 @@ export function AnimatedCheckmark({
       fill="none"
       stroke="currentColor"
       strokeWidth={strokeWidth}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+      initial={rootInitial}
+      animate={rootAnimate}
+      transition={rootTransition}
     >
       <m.circle
         cx="12"

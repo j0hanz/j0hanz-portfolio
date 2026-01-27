@@ -71,7 +71,7 @@ export const SIZING = {
   /** Extra large icon (section headers, decorative) */
   iconXl: { xs: 28, sm: 32, md: 36, lg: 40 },
   /** Scroll/FAB icons */
-  iconFab: { xs: 24, sm: 26, md: 28, lg: 28 },
+  iconFab: { xs: 32, sm: 34, md: 36, lg: 40 },
   /** Flag icons (CV modal) */
   iconFlag: { xs: 42, sm: 48, md: 56, lg: 64 },
   /** Spinner/loading size */

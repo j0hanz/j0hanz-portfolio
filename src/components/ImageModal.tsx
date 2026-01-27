@@ -53,6 +53,7 @@ function ImageModal({
   // Conditional willChange for performance - only hint when animating
   const baseImgStyle = {
     ...imgStyle,
+    touchAction: prefersReducedMotion ? 'auto' : 'none',
     willChange: prefersReducedMotion ? 'auto' : 'opacity, transform',
   } as const;
 
@@ -93,6 +94,7 @@ function ImageModal({
         <m.img
           src={ProfileImage}
           alt="Linus Johansson"
+          draggable={false}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.96 }}
           transition={getTransition('spring', { duration: 0.6 })}

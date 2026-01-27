@@ -1,12 +1,7 @@
 import { useRef } from 'react';
 
 import { Box } from '@mui/material';
-import {
-  motion,
-  type MotionProps,
-  useMotionValue,
-  useSpring,
-} from 'motion/react';
+import { m, type MotionProps, useMotionValue, useSpring } from 'motion/react';
 
 import type { MagneticWrapperProps } from '@/config/types';
 import { useBatchedDomUpdate, useReducedMotion } from '@/hooks';
@@ -14,6 +9,7 @@ import { useBatchedDomUpdate, useReducedMotion } from '@/hooks';
 // Creates magnetic cursor effect on hover (hardware-accelerated)
 export function MagneticWrapper({
   children,
+  strength = 0.15,
   disabled = false,
   className,
   style,
@@ -47,8 +43,14 @@ export function MagneticWrapper({
         return;
       }
 
+      const rect = target.getBoundingClientRect();
+      const dx = (point.clientX - (rect.left + rect.width / 2)) * strength;
+      const dy = (point.clientY - (rect.top + rect.height / 2)) * strength;
+
       // Schedule motion value updates in render phase
       scheduleRender(() => {
+        x.set(dx);
+        y.set(dy);
         pendingPointRef.current = null;
         isScheduledRef.current = false;
       });
@@ -82,7 +84,7 @@ export function MagneticWrapper({
 
   return (
     <Box
-      component={motion.div}
+      component={m.div}
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

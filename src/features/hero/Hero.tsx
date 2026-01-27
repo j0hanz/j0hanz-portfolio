@@ -49,7 +49,7 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
     buttonProps: {
       startIcon: <DownloadRounded sx={iconSx} />,
       sx: downloadButtonSx,
-      variant: 'outlined',
+      variant: 'contained',
       color: 'inherit',
     },
   },

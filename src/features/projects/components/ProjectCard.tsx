@@ -116,11 +116,11 @@ export function ProjectCard({
     >
       <Card title="" noContentPadding>
         <ErrorBoundary fallback={<ProjectCardSkeleton />}>
-          <AnimatePresence mode="wait">
-            <Suspense fallback={<ProjectCardSkeleton />}>
-              <CardContent project={project} />
-            </Suspense>
-          </AnimatePresence>
+          <Suspense fallback={<ProjectCardSkeleton />}>
+            <AnimatePresence mode="wait">
+              <CardContent key={project.title} project={project} />
+            </AnimatePresence>
+          </Suspense>
         </ErrorBoundary>
       </Card>
     </Box>
