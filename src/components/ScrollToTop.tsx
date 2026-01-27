@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Box, Fab, Fade, type SxProps, type Theme } from '@mui/material';
 import { motion, useSpring } from 'motion/react';
 
+import { SCROLL_CONFIG } from '@/config/constants';
+import type { Direction } from '@/config/types';
 import {
   useAnimationConfig,
   useMenuState,
@@ -50,14 +52,69 @@ const progressRingSx: SxProps<Theme> = {
   color: 'primary.main',
 };
 
+let wheelDirection: Direction = null;
+const listeners = new Set<() => void>();
+
+function subscribeToWheelDirection(callback: () => void): () => void {
+  listeners.add(callback);
+  return () => listeners.delete(callback);
+}
+
+function getWheelDirectionSnapshot(): Direction {
+  return wheelDirection;
+}
+
+function notifyListeners(): void {
+  listeners.forEach((listener) => listener());
+}
+
+function useWheelDirection(activeSectionIndex: number): Direction {
+  const isTransitioningRef = useRef(false);
+  const currentDir = useSyncExternalStore(
+    subscribeToWheelDirection,
+    getWheelDirectionSnapshot,
+    getWheelDirectionSnapshot
+  );
+
+  useEffect(() => {
+    wheelDirection = null;
+    isTransitioningRef.current = true;
+    notifyListeners();
+
+    const transitionTimeout = setTimeout(() => {
+      isTransitioningRef.current = false;
+    }, SCROLL_CONFIG.LOCK_DURATION_MS);
+
+    const onWheel = (e: WheelEvent): void => {
+      if (isTransitioningRef.current) return;
+      if (Math.abs(e.deltaY) < SCROLL_CONFIG.WHEEL_THRESHOLD_PX) return;
+
+      const dir: Direction = e.deltaY < 0 ? 'up' : 'down';
+      if (dir !== wheelDirection) {
+        wheelDirection = dir;
+        notifyListeners();
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+    return () => {
+      clearTimeout(transitionTimeout);
+      window.removeEventListener('wheel', onWheel);
+    };
+  }, [activeSectionIndex]);
+
+  return currentDir;
+}
+
 function ScrollToTop(): React.JSX.Element {
   const { activeSectionIndex, isPending, totalSections, isLast } =
     useNavigationState();
   const { navigateTo } = useNavigationActions();
   const { isMenuOpen } = useMenuState();
   const { prefersReducedMotion } = useAnimationConfig();
-  // Hide when: at hero, menu is open, or at footer (last section)
-  const show = activeSectionIndex > 0 && !isMenuOpen && !isLast;
+  const wheelDir = useWheelDirection(activeSectionIndex);
+  const show =
+    activeSectionIndex > 0 && !isMenuOpen && !isLast && wheelDir === 'up';
 
   // Calculate progress based on section position (0 to 1)
   const clampedTotal = totalSections > 0 ? totalSections : 1;
