@@ -19,7 +19,6 @@
 - `src/hooks`: Custom React hooks (useTheme, useBreakpoints, useMotions, etc.).
 - `src/config`: App constants, types, theme, motion configs, and responsive breakpoints.
 - `src/contexts`: React context providers (theme, navigation, snackbar, menu, CV modal).
-- `src/styles`: Shared `sx` style objects and app-level styles.
 - `src/utils`: Helper utilities (validation, motion props, query helpers).
 - `src/lib`: External integrations (EmailJS) and static data (projects, skills, experiences).
 - `public`: Static assets served by Vite.
