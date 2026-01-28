@@ -1,7 +1,8 @@
+import { lazy, Suspense } from 'react';
+
 import { Box, type SxProps, type Theme } from '@mui/material';
 import { AnimatePresence, m } from 'motion/react';
 
-import { Aurora } from '@/components/Aurora';
 import { Metadata } from '@/components/Metadata';
 import { NavBar } from '@/components/NavBar';
 import { ScrollToTop } from '@/components/ScrollToTop';
@@ -10,6 +11,10 @@ import { StatusBanner } from '@/components/StatusBanner';
 import { INITIAL_LOADING_DELAY_MS } from '@/config/constants';
 import { useConnectivity, useContentMotion, useInitialLoading } from '@/hooks';
 import { Home } from '@/pages/Home';
+
+const Aurora = lazy(() =>
+  import('@/components/Aurora').then((m) => ({ default: m.Aurora }))
+);
 
 const mainContainerSx: SxProps<Theme> = {
   position: 'relative',
@@ -84,7 +89,9 @@ function App() {
         data-network-status={isOnline ? 'online' : 'offline'}
       >
         <StatusBanner statusBanner={statusBanner} />
-        <Aurora />
+        <Suspense fallback={null}>
+          <Aurora />
+        </Suspense>
         <div id="back-to-top-anchor" />
 
         {!isLoading && <NavBar />}

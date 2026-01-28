@@ -44,6 +44,7 @@ export const QUERY_CONFIG = {
   GC_TIME_LONG: 30 * 60 * 1000, // 30 minutes
   ANIMATION_DURATION_STATS: 800,
   DEV_DELAY_MS: 2000, // Artificial delay in dev for skeleton visibility
+  TIMEOUT_MS: 10000, // 10 seconds timeout for fetch
 } as const;
 
 export const EMPTY_STATS: RepoStats = {

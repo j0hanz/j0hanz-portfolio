@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 import {
   EMPTY_STATS,
   GITHUB_API_BASE_URL,
@@ -8,24 +10,12 @@ import type { RepoStats } from '@/config/types';
 import { LONG_CACHE_OPTIONS, queryClient } from './client';
 import { githubKeys } from './keys';
 
-type GitHubRepoResponse = {
-  stargazers_count?: number;
-  forks_count?: number;
-  open_issues_count?: number;
-};
-
-const isNumberOrUndefined = (value: unknown): value is number | undefined =>
-  typeof value === 'number' || typeof value === 'undefined';
-
-const isGitHubRepoResponse = (data: unknown): data is GitHubRepoResponse => {
-  if (typeof data !== 'object' || data === null) return false;
-  const record = data as Record<string, unknown>;
-  return (
-    isNumberOrUndefined(record.stargazers_count) &&
-    isNumberOrUndefined(record.forks_count) &&
-    isNumberOrUndefined(record.open_issues_count)
-  );
-};
+// Zod schema for GitHub API response
+const RepoSchema = z.object({
+  stargazers_count: z.number().optional(),
+  forks_count: z.number().optional(),
+  open_issues_count: z.number().optional(),
+});
 
 // Fetches GitHub repo stats (stars, forks, issues) from 'owner/repo' path
 export async function fetchRepoStats(
@@ -49,9 +39,15 @@ export async function fetchRepoStats(
       );
     }
 
+    // Combine signal with timeout
+    const timeoutSignal = AbortSignal.timeout(QUERY_CONFIG.TIMEOUT_MS);
+    const finalSignal = signal
+      ? AbortSignal.any([signal, timeoutSignal])
+      : timeoutSignal;
+
     const response = await fetch(`${GITHUB_API_BASE_URL}/${repoPath}`, {
       headers,
-      signal,
+      signal: finalSignal,
     });
 
     // Handle rate limiting - return cached data or empty stats
@@ -74,12 +70,8 @@ export async function fetchRepoStats(
       );
     }
 
-    const data: unknown = await response.json();
-
-    // Validate response data
-    if (!isGitHubRepoResponse(data)) {
-      throw new Error('Invalid response from GitHub API');
-    }
+    const json = await response.json();
+    const data = RepoSchema.parse(json);
 
     return {
       stars: data.stargazers_count ?? 0,
@@ -89,9 +81,11 @@ export async function fetchRepoStats(
   } catch (error) {
     // Handle network errors - return cached data or empty stats
     // TypeError from fetch indicates network failure (offline, CORS, DNS, etc.)
+    // TimeoutError is also a network error in this context
     const isNetworkError =
       error instanceof TypeError ||
-      (error instanceof DOMException && error.name === 'AbortError');
+      (error instanceof DOMException && error.name === 'AbortError') ||
+      (error instanceof DOMException && error.name === 'TimeoutError');
 
     if (isNetworkError) {
       const cached = queryClient.getQueryData<RepoStats>(
@@ -100,7 +94,7 @@ export async function fetchRepoStats(
       return cached ?? EMPTY_STATS;
     }
 
-    // Re-throw other errors
+    // Re-throw other errors (including ZodError)
     throw error;
   }
 }
