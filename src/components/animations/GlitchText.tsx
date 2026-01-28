@@ -2,8 +2,6 @@ import type { CSSProperties } from 'react';
 
 import { Box } from '@mui/material';
 
-import './GlitchText.css';
-
 type GlitchTextProps = Readonly<{
   children: string;
   speed?: number;

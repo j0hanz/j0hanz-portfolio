@@ -4,8 +4,6 @@ import { gsap } from 'gsap';
 
 import { useEventCallback } from '@/hooks';
 
-import './TextType.css';
-
 type TextTypeProps = Readonly<{
   className?: string;
   showCursor?: boolean;

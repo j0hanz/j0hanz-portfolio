@@ -18,13 +18,12 @@ import type { SectionContainerProps } from '@/config/types';
 // Component-specific patterns derived from theme tokens
 // ============================================================================
 
-const sectionCenteredSx: SxProps<Theme> = {
-  display: 'grid',
-  placeItems: 'center',
+const sectionCenteredSx: SxProps<Theme> = (theme) => ({
+  ...theme.custom.layout.centeredGrid,
   minHeight: '100vh',
-  py: (theme) => theme.custom.spacing.section,
+  py: theme.custom.spacing.section,
   overflowX: 'hidden',
-};
+});
 
 const containerPaddingSx: SxProps<Theme> = {
   px: (theme) => theme.custom.spacing.containerPadding,

@@ -25,22 +25,22 @@ import { badgeItems } from '@/lib/data/badges';
 
 // Computed once at module level
 const CURRENT_YEAR = new Date().getFullYear();
-const BADGE_SIZE = { xs: 80, sm: 90, md: 120, lg: 140, xl: 160 };
-const copyButtonSx: SxProps<Theme> = {
+const copyButtonSx: SxProps<Theme> = (theme) => ({
   p: 0.9,
   color: 'text.secondary',
-  bgcolor: (t) => alpha(t.palette.action.hover, 0.04),
-  backdropFilter: 'blur(8px)',
+  bgcolor: alpha(theme.palette.action.hover, 0.04),
+  backdropFilter: theme.custom.motion.backdropBlur.soft,
+  WebkitBackdropFilter: theme.custom.motion.backdropBlur.soft,
   border: '1px solid',
   borderColor: 'divider',
-  transition: 'all 0.2s ease',
+  transition: theme.custom.motion.transitionFast,
   '&:hover': {
     color: 'primary.main',
-    bgcolor: (t) => alpha(t.palette.primary.main, 0.08),
+    bgcolor: alpha(theme.palette.primary.main, 0.08),
     borderColor: 'primary.main',
     transform: 'translateY(-2px)',
   },
-};
+});
 const COPYRIGHT_TEXT = `© ${CURRENT_YEAR} Linus Johansson`;
 
 // ============================================================================
@@ -56,6 +56,7 @@ type AwardBadgeProps = Readonly<{
 
 function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
   const theme = useTheme();
+  const badgeSize = theme.custom.sizing.awardBadge;
 
   return (
     <Grid size={theme.custom.grid.third}>
@@ -69,7 +70,7 @@ function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
               display: 'block',
               borderRadius: 2,
               overflow: 'hidden',
-              transition: 'all 0.3s ease',
+              transition: theme.custom.motion.transitionStandard,
               '&:hover': {
                 transform: 'scale(1.05)',
                 filter: 'brightness(1.1)',
@@ -82,8 +83,8 @@ function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
               alt={`Hackathon Award - ${date}`}
               loading="lazy"
               sx={{
-                width: BADGE_SIZE,
-                height: BADGE_SIZE,
+                width: badgeSize,
+                height: badgeSize,
                 borderRadius: 2,
                 display: 'block',
               }}
@@ -95,7 +96,7 @@ function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
               color: 'text.secondary',
               letterSpacing: (theme) =>
                 theme.custom.typography.letterSpacing.wide,
-              fontSize: { xs: '0.65rem', sm: '0.7rem' },
+              fontSize: (theme) => theme.custom.typography.fontSize.badgeDate,
             }}
           >
             {date.toUpperCase()}
@@ -137,7 +138,7 @@ function ContactSection() {
               mr: 1,
               color: 'text.secondary',
               textDecoration: 'none',
-              transition: 'color 0.2s ease',
+              transition: (theme) => theme.custom.motion.transitionColor,
               '&:hover': { color: 'primary.main' },
             }}
           >
@@ -146,7 +147,10 @@ function ContactSection() {
             />
             <Typography
               variant="body2"
-              sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
+              sx={{
+                fontSize: (theme) =>
+                  theme.custom.typography.fontSize.footerContact,
+              }}
             >
               {CONTACT_CONFIG.EMAIL}
             </Typography>
@@ -180,7 +184,8 @@ function ContactSection() {
             color: 'text.secondary',
             letterSpacing: (theme) =>
               theme.custom.typography.letterSpacing.tight,
-            fontSize: '0.9rem',
+            fontSize: (theme) =>
+              theme.custom.typography.fontSize.footerCopyright,
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -270,7 +275,8 @@ function Footer() {
             gap: 1,
             color: 'text.secondary',
             mt: { xs: 6, md: 0 },
-            fontSize: '0.8rem',
+            fontSize: (theme) =>
+              theme.custom.typography.fontSize.footerCopyright,
           }}
         >
           <ShinyText

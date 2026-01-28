@@ -845,6 +845,9 @@ declare module '@mui/material/styles' {
         actionButtonMinWidth: ResponsiveValue<number>;
         badgeMinWidth: ResponsiveValue<number>;
         badgeHeight: ResponsiveValue<number>;
+        socialAvatar: ResponsiveValue<number>;
+        socialIcon: ResponsiveValue<number>;
+        awardBadge: ResponsiveValue<number>;
         navBarHeight: ResponsiveValue<number>;
         navButtonMinWidth: ResponsiveValue<number>;
         logoWidth: ResponsiveValue<number>;
@@ -864,21 +867,47 @@ declare module '@mui/material/styles' {
           heroTitle: string;
           heroSubtitle: string;
           sectionTitle: string;
+          badgeDate: ResponsiveValue<string>;
+          footerContact: ResponsiveValue<string>;
+          footerCopyright: ResponsiveValue<string>;
+          actionButton: ResponsiveValue<string>;
         };
         credentialText: ResponsiveValue<string>;
       };
       motion: {
         transitionStandard: string;
+        transitionFast: string;
+        transitionColor: string;
+        transitionTransform: string;
+        transitionOpacity: string;
         clipRounded: string;
         skew: string;
+        backdropBlur: {
+          soft: string;
+          strong: string;
+        };
       };
       layout: {
+        centeredGrid: SystemStyleObject<Theme>;
+        inlineCenteredGrid: SystemStyleObject<Theme>;
         centeredFullViewport: SystemStyleObject<Theme>;
         transparentModalContent: SystemStyleObject<Theme>;
         visuallyHidden: SystemStyleObject<Theme>;
         projectCard: {
           article: SystemStyleObject<Theme>;
           content: SystemStyleObject<Theme>;
+        };
+        projectTechStack: {
+          container: SystemStyleObject<Theme>;
+          chip: SystemStyleObject<Theme>;
+        };
+        projectStats: {
+          container: SystemStyleObject<Theme>;
+          label: SystemStyleObject<Theme>;
+          value: SystemStyleObject<Theme>;
+        };
+        projectLinks: {
+          actionButton: SystemStyleObject<Theme>;
         };
       };
     };

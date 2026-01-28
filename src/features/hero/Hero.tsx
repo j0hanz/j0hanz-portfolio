@@ -53,12 +53,11 @@ const subtitleClipPath = {
   animate: { clipPath: 'inset(0 0% 0 0)' },
 } as const;
 
-const sectionSx: SxProps<Theme> = {
-  display: 'grid',
-  placeItems: 'center',
+const sectionSx: SxProps<Theme> = (theme) => ({
+  ...theme.custom.layout.centeredGrid,
   height: 1,
   pt: 0,
-};
+});
 
 const heroCardSx: SxProps<Theme> = {
   px: (theme) => theme.custom.spacing.card,

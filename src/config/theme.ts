@@ -40,6 +40,9 @@ const SIZING_TOKENS = {
   actionButtonMinWidth: { xs: 65, sm: 90, md: 100, lg: 110 },
   badgeMinWidth: { xs: 38, sm: 43, md: 48, lg: 52 },
   badgeHeight: { xs: 14, sm: 16, md: 20, lg: 22 },
+  socialAvatar: { xs: 36, md: 38, lg: 40 },
+  socialIcon: { xs: 24, md: 24, lg: 26 },
+  awardBadge: { xs: 80, sm: 90, md: 120, lg: 140, xl: 160 },
   navBarHeight: { xs: 44, sm: 50, md: 56, lg: 56 },
   navButtonMinWidth: { xs: 36, sm: 40, md: 44, lg: 44 },
   logoWidth: { xs: 30, sm: 35, md: 38, lg: 40 },
@@ -54,6 +57,10 @@ const TYPOGRAPHY_TOKENS = {
     heroTitle: 'clamp(2rem, 4vw + 1rem, 3.5rem)',
     heroSubtitle: 'clamp(0.95rem, 2vw + 0.5rem, 1.4rem)',
     sectionTitle: 'clamp(2rem, 3vw + 1rem, 3rem)',
+    badgeDate: { xs: '0.65rem', sm: '0.7rem' },
+    footerContact: { xs: '0.85rem', sm: '0.9rem' },
+    footerCopyright: { xs: '0.8rem', sm: '0.9rem' },
+    actionButton: { xs: '0.7rem', md: '0.85rem', lg: '0.9rem' },
   },
   credentialText: {
     xs: 'h6.fontSize',
@@ -65,8 +72,69 @@ const TYPOGRAPHY_TOKENS = {
 
 const MOTION_TOKENS = {
   transitionStandard: 'all 0.3s ease',
+  transitionFast: 'all 0.2s ease',
+  transitionColor: 'color 0.2s ease',
+  transitionTransform: 'transform 0.2s ease',
+  transitionOpacity: 'opacity 0.2s ease',
   clipRounded: 'inset(0 round 10px)',
   skew: 'skew(-5deg)',
+  backdropBlur: {
+    soft: 'blur(8px)',
+    strong: 'blur(20px)',
+  },
+} as const;
+
+const CENTERED_GRID = {
+  display: 'grid',
+  placeItems: 'center',
+} as const;
+
+const INLINE_CENTERED_GRID = {
+  display: 'inline-grid',
+  placeItems: 'center',
+} as const;
+
+const PROJECT_TECH_STACK_TOKENS = {
+  container: {
+    transform: MOTION_TOKENS.skew,
+    flex: 'none',
+  },
+  chip: {
+    mr: { xs: 0.75, sm: 0.875, md: 1 },
+    mb: { xs: 0.75, sm: 0.875, md: 1 },
+    color: 'text.primary',
+    fontSize: 'caption.fontSize',
+    opacity: 0.85,
+    transform: MOTION_TOKENS.skew,
+    '& .MuiChip-label': {
+      textTransform: 'uppercase',
+    },
+  },
+} as const;
+
+const PROJECT_STATS_TOKENS = {
+  container: {
+    position: 'relative',
+    flex: 'none',
+  },
+  label: {
+    textTransform: 'uppercase',
+    letterSpacing: TYPOGRAPHY_TOKENS.letterSpacing.normal,
+    color: 'text.secondary',
+  },
+  value: {
+    fontWeight: 500,
+    fontSize: 'body1.fontSize',
+    color: 'text.primary',
+  },
+} as const;
+
+const PROJECT_LINKS_TOKENS = {
+  actionButton: {
+    height: SIZING_TOKENS.buttonHeightSmall,
+    fontSize: TYPOGRAPHY_TOKENS.fontSize.actionButton,
+    minWidth: SIZING_TOKENS.buttonMinWidth,
+  },
 } as const;
 
 const DESIGN_TOKENS = {
@@ -76,9 +144,10 @@ const DESIGN_TOKENS = {
   typography: TYPOGRAPHY_TOKENS,
   motion: MOTION_TOKENS,
   layout: {
+    centeredGrid: CENTERED_GRID,
+    inlineCenteredGrid: INLINE_CENTERED_GRID,
     centeredFullViewport: {
-      display: 'grid',
-      placeItems: 'center',
+      ...CENTERED_GRID,
       minHeight: '100vh',
       p: 3,
     },
@@ -109,6 +178,9 @@ const DESIGN_TOKENS = {
         flex: '1 1 auto',
       },
     },
+    projectTechStack: PROJECT_TECH_STACK_TOKENS,
+    projectStats: PROJECT_STATS_TOKENS,
+    projectLinks: PROJECT_LINKS_TOKENS,
   },
 } as const;
 

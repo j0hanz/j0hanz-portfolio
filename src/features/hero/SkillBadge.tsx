@@ -4,16 +4,15 @@ import { m } from 'motion/react';
 import type { SkillBadgeProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
 
-const badgeContainerSx: SxProps<Theme> = {
+const badgeContainerSx: SxProps<Theme> = (theme) => ({
   position: 'relative',
-  display: 'inline-grid',
-  placeItems: 'center',
-};
+  ...theme.custom.layout.inlineCenteredGrid,
+});
 
 const iconSx: SxProps<Theme> = {
   fontSize: (theme) => theme.custom.sizing.iconLg,
   color: 'text.secondary',
-  transition: 'color 0.2s ease',
+  transition: (theme) => theme.custom.motion.transitionColor,
   '&:hover': {
     color: 'primary.main',
   },

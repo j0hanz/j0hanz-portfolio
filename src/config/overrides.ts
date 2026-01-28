@@ -55,6 +55,171 @@ export const getComponentOverrides = (theme: Theme): Components<Theme> => ({
       '#root': {
         height: '100%',
       },
+      '.glitch': {
+        color: 'var(--portfolio-palette-text-primary, currentColor)',
+        fontWeight: 600,
+        position: 'relative',
+        whiteSpace: 'nowrap',
+        margin: '0 auto',
+        userSelect: 'none',
+        cursor: 'pointer',
+        '&::after, &::before': {
+          content: 'attr(data-text)',
+          position: 'absolute',
+          top: 0,
+          color: 'var(--portfolio-palette-text-primary, currentColor)',
+          backgroundColor:
+            'var(--portfolio-palette-background-default, transparent)',
+          overflow: 'hidden',
+          clipPath: 'inset(0 0 0 0)',
+        },
+        '&:not(.enable-on-hover)::after': {
+          left: 10,
+          textShadow: 'var(--after-shadow, -10px 0 red)',
+          animation:
+            'animate-glitch var(--after-duration, 3s) infinite linear alternate-reverse',
+        },
+        '&:not(.enable-on-hover)::before': {
+          left: -10,
+          textShadow: 'var(--before-shadow, 10px 0 cyan)',
+          animation:
+            'animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse',
+        },
+        '&.enable-on-hover::after, &.enable-on-hover::before': {
+          content: '""',
+          opacity: 0,
+          animation: 'none',
+        },
+        '&.enable-on-hover:hover::after': {
+          content: 'attr(data-text)',
+          opacity: 1,
+          left: 10,
+          textShadow: 'var(--after-shadow, -10px 0 red)',
+          animation:
+            'animate-glitch var(--after-duration, 3s) infinite linear alternate-reverse',
+        },
+        '&.enable-on-hover:hover::before': {
+          content: 'attr(data-text)',
+          opacity: 1,
+          left: -10,
+          textShadow: 'var(--before-shadow, 10px 0 cyan)',
+          animation:
+            'animate-glitch var(--before-duration, 2s) infinite linear alternate-reverse',
+        },
+        '@media (prefers-reduced-motion: reduce)': {
+          '&:not(.enable-on-hover)::after, &:not(.enable-on-hover)::before, &.enable-on-hover:hover::after, &.enable-on-hover:hover::before':
+            {
+              animation: 'none',
+              opacity: 0,
+              content: '""',
+            },
+        },
+      },
+      '.shiny-text': {
+        color: 'var(--portfolio-palette-text-secondary, #b5b5b5a4)',
+        background:
+          'linear-gradient(120deg, transparent 40%, var(--portfolio-palette-text-primary, rgba(255, 255, 255, 0.8)) 50%, transparent 60%)',
+        backgroundSize: '200% 100%',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        display: 'inline-block',
+        animation: 'shine 5s linear infinite',
+        '@media (prefers-reduced-motion: reduce)': {
+          animation: 'none',
+          color: 'var(--portfolio-palette-text-primary, currentColor)',
+          background: 'none',
+          WebkitBackgroundClip: 'unset',
+          backgroundClip: 'unset',
+        },
+      },
+      '.shiny-text.disabled': {
+        animation: 'none',
+      },
+      '.text-type': {
+        display: 'inline-block',
+        whiteSpace: 'pre-wrap',
+      },
+      '.text-type__cursor': {
+        marginLeft: '0.25rem',
+        display: 'inline-block',
+        opacity: 1,
+      },
+      '.text-type__cursor--hidden': {
+        display: 'none',
+      },
+      '@keyframes shine': {
+        '0%': {
+          backgroundPosition: '100%',
+        },
+        '100%': {
+          backgroundPosition: '-100%',
+        },
+      },
+      '@keyframes animate-glitch': {
+        '0%': {
+          clipPath: 'inset(20% 0 50% 0)',
+        },
+        '5%': {
+          clipPath: 'inset(10% 0 60% 0)',
+        },
+        '10%': {
+          clipPath: 'inset(15% 0 55% 0)',
+        },
+        '15%': {
+          clipPath: 'inset(25% 0 35% 0)',
+        },
+        '20%': {
+          clipPath: 'inset(30% 0 40% 0)',
+        },
+        '25%': {
+          clipPath: 'inset(40% 0 20% 0)',
+        },
+        '30%': {
+          clipPath: 'inset(10% 0 60% 0)',
+        },
+        '35%': {
+          clipPath: 'inset(15% 0 55% 0)',
+        },
+        '40%': {
+          clipPath: 'inset(25% 0 35% 0)',
+        },
+        '45%': {
+          clipPath: 'inset(30% 0 40% 0)',
+        },
+        '50%': {
+          clipPath: 'inset(20% 0 50% 0)',
+        },
+        '55%': {
+          clipPath: 'inset(10% 0 60% 0)',
+        },
+        '60%': {
+          clipPath: 'inset(15% 0 55% 0)',
+        },
+        '65%': {
+          clipPath: 'inset(25% 0 35% 0)',
+        },
+        '70%': {
+          clipPath: 'inset(30% 0 40% 0)',
+        },
+        '75%': {
+          clipPath: 'inset(40% 0 20% 0)',
+        },
+        '80%': {
+          clipPath: 'inset(20% 0 50% 0)',
+        },
+        '85%': {
+          clipPath: 'inset(10% 0 60% 0)',
+        },
+        '90%': {
+          clipPath: 'inset(15% 0 55% 0)',
+        },
+        '95%': {
+          clipPath: 'inset(25% 0 35% 0)',
+        },
+        '100%': {
+          clipPath: 'inset(30% 0 40% 0)',
+        },
+      },
     },
   },
   // ---------------------------------------------------------------------------

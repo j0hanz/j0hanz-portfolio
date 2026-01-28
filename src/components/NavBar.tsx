@@ -199,7 +199,10 @@ const navBarContainerSx = (theme: Theme) => ({
 
 const menuButtonSx: SxProps<Theme> = {
   '&:hover': { bgcolor: 'transparent' },
-  '& svg': { transition: 'transform 0.2s, color 0.2s' },
+  '& svg': {
+    transition: (theme) =>
+      `${theme.custom.motion.transitionTransform}, ${theme.custom.motion.transitionColor}`,
+  },
   '&:hover svg': {
     transform: 'scale(1.15)',
     color: 'primary.main',

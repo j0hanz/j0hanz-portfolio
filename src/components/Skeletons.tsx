@@ -7,12 +7,11 @@ import { useAnimationConfig } from '@/hooks';
 export function SectionSkeleton(): React.JSX.Element {
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         width: 1,
         height: '100vh',
-        display: 'grid',
-        placeItems: 'center',
-      }}
+        ...theme.custom.layout.centeredGrid,
+      })}
       role="status"
       aria-label="Loading content"
     />
@@ -30,31 +29,25 @@ const descriptionSx: SxProps<Theme> = {
 };
 
 // Container matching ProjectTechStack containerSx exactly
-const chipContainerSx: SxProps<Theme> = {
-  transform: (theme) => theme.custom.motion.skew,
-  flex: 'none',
-};
+const chipContainerSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectTechStack.container;
 
 // Chip skeleton sx matching ProjectTechStack chipSx exactly
-const chipSx: SxProps<Theme> = {
-  mr: { xs: 0.75, sm: 0.875, md: 1 },
-  mb: { xs: 0.75, sm: 0.875, md: 1 },
+const chipSx: SxProps<Theme> = (theme) => ({
+  ...theme.custom.layout.projectTechStack.chip,
   borderRadius: 2,
-  transform: (theme) => theme.custom.motion.skew,
   display: 'inline-block',
-};
+});
 
 // Stats container matching ProjectStats containerSx
-const statsContainerSx: SxProps<Theme> = {
-  position: 'relative',
-  flex: 'none',
-};
+const statsContainerSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectStats.container;
 
 // Button skeleton matching actionButtonSx from ProjectLinks
-const buttonSx: SxProps<Theme> = {
-  height: (theme) => theme.custom.sizing.buttonHeightSmall,
+const buttonSx: SxProps<Theme> = (theme) => ({
+  ...theme.custom.layout.projectLinks.actionButton,
   borderRadius: 1,
-};
+});
 
 // Grid sx matching ProjectLinks gridSx
 const actionGridSx: SxProps<Theme> = {

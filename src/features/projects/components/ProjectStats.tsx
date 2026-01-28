@@ -15,22 +15,14 @@ import {
 import type { ProjectStatsProps, RepoStats, StatItem } from '@/config/types';
 import { useAnimationConfig, useCountUp, useGitHubApi } from '@/hooks';
 
-const labelSx: SxProps<Theme> = {
-  textTransform: 'uppercase',
-  letterSpacing: (theme) => theme.custom.typography.letterSpacing.normal,
-  color: 'text.secondary',
-};
+const labelSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectStats.label;
 
-const valueSx: SxProps<Theme> = {
-  fontWeight: 500,
-  fontSize: (theme) => theme.typography.body1.fontSize,
-  color: 'text.primary',
-};
+const valueSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectStats.value;
 
-const containerSx: SxProps<Theme> = {
-  position: 'relative',
-  flex: 'none',
-};
+const containerSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectStats.container;
 
 // Builds stat items array based on configuration
 function buildStatItems(

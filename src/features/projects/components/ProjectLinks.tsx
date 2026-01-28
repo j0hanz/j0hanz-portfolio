@@ -28,11 +28,8 @@ const tooltipWrapperSx: SxProps<Theme> = {
   display: 'inline-block',
 };
 
-const actionButtonSx: SxProps<Theme> = {
-  height: (theme) => theme.custom.sizing.buttonHeightSmall,
-  fontSize: { xs: '0.7rem', md: '0.85rem', lg: '0.9rem' },
-  minWidth: (theme) => theme.custom.sizing.buttonMinWidth,
-};
+const actionButtonSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectLinks.actionButton;
 
 const gridSx: SxProps<Theme> = {
   pt: { xs: 4, md: 6 },

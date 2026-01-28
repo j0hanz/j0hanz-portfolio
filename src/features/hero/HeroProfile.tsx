@@ -48,25 +48,23 @@ const profileImgSx: SxProps<Theme> = {
   willChange: 'opacity, transform',
 };
 
-const overlaySx: SxProps<Theme> = {
+const overlaySx: SxProps<Theme> = (theme) => ({
+  ...theme.custom.layout.centeredGrid,
   position: 'absolute',
   inset: 0,
-  clipPath: (theme) => theme.custom.motion.clipRounded,
-  bgcolor: (theme) =>
-    alpha(
-      theme.palette.mode === 'dark'
-        ? theme.palette.common.black
-        : theme.palette.grey[800],
-      0.5
-    ),
-  display: 'grid',
-  placeItems: 'center',
+  clipPath: theme.custom.motion.clipRounded,
+  bgcolor: alpha(
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.black
+      : theme.palette.grey[800],
+    0.5
+  ),
   color: 'grey.100',
-  letterSpacing: (theme) => theme.custom.typography.letterSpacing.normal,
-  fontSize: (theme) => theme.typography.caption.fontSize,
+  letterSpacing: theme.custom.typography.letterSpacing.normal,
+  fontSize: theme.typography.caption.fontSize,
   pointerEvents: 'none',
   textTransform: 'uppercase',
-};
+});
 
 function HeroProfile(): React.JSX.Element {
   const imageModal = useModal(false);

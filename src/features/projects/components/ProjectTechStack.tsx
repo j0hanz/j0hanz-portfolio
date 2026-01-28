@@ -2,22 +2,11 @@ import { Box, Chip, type SxProps, type Theme } from '@mui/material';
 
 import type { ProjectTechStackProps } from '@/config/types';
 
-const containerSx: SxProps<Theme> = {
-  transform: (theme) => theme.custom.motion.skew,
-  flex: 'none',
-};
+const containerSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectTechStack.container;
 
-const chipSx: SxProps<Theme> = {
-  mr: { xs: 0.75, sm: 0.875, md: 1 },
-  mb: { xs: 0.75, sm: 0.875, md: 1 },
-  color: 'text.primary',
-  fontSize: (theme) => theme.typography.caption.fontSize,
-  opacity: 0.85,
-  transform: (theme) => theme.custom.motion.skew,
-  '& .MuiChip-label': {
-    textTransform: 'uppercase',
-  },
-};
+const chipSx: SxProps<Theme> = (theme) =>
+  theme.custom.layout.projectTechStack.chip;
 
 function ProjectTechStack({
   technologies,

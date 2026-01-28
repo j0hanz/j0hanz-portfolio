@@ -82,8 +82,8 @@ const dialogPaperSx: SxProps<Theme> = {
 
 const backdropSx: SxProps<Theme> = {
   bgcolor: (theme) => alpha(theme.palette.common.black, 0.5),
-  backdropFilter: 'blur(8px)',
-  WebkitBackdropFilter: 'blur(8px)',
+  backdropFilter: (theme) => theme.custom.motion.backdropBlur.soft,
+  WebkitBackdropFilter: (theme) => theme.custom.motion.backdropBlur.soft,
 };
 
 const contentSx: SxProps<Theme> = {
@@ -91,8 +91,8 @@ const contentSx: SxProps<Theme> = {
   overflow: 'visible',
   bgcolor: 'backdrop.glass',
   borderRadius: 2,
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
+  backdropFilter: (theme) => theme.custom.motion.backdropBlur.strong,
+  WebkitBackdropFilter: (theme) => theme.custom.motion.backdropBlur.strong,
   border: 1,
   borderColor: (theme) => alpha(theme.palette.divider, 0.1),
 };
@@ -118,7 +118,7 @@ const cardSx: SxProps<Theme> = {
   p: { xs: 2.5, sm: 3, md: 4, lg: 5 },
   borderRadius: 2.5,
   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
-  transition: 'all 0.2s ease',
+  transition: (theme) => theme.custom.motion.transitionFast,
   '&:hover': {
     bgcolor: (theme) => alpha(theme.palette.background.paper, 0.3),
     transform: 'translateY(-4px)',
@@ -136,7 +136,7 @@ const cardSx: SxProps<Theme> = {
 
 const flagSx: SxProps<Theme> = {
   fontSize: (theme) => theme.custom.sizing.iconFlag,
-  transition: 'transform 0.2s ease',
+  transition: (theme) => theme.custom.motion.transitionTransform,
   borderRadius: 1,
   boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.common.black, 0.12)}`,
 };
@@ -151,7 +151,7 @@ const downloadIconSx: SxProps<Theme> = {
   borderRadius: '50%',
   p: 0.5,
   opacity: 0,
-  transition: 'opacity 0.2s ease',
+  transition: (theme) => theme.custom.motion.transitionOpacity,
   boxShadow: (theme) => `0 2px 8px ${alpha(theme.palette.common.black, 0.15)}`,
 };
 

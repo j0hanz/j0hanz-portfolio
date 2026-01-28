@@ -1,7 +1,5 @@
 import { Box } from '@mui/material';
 
-import './ShinyText.css';
-
 type ShinyTextProps = Readonly<{
   text: string;
   disabled?: boolean;

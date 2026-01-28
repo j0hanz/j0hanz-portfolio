@@ -2,6 +2,7 @@ import { Fragment, type JSX } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import { m, type MotionStyle } from 'motion/react';
 
@@ -11,10 +12,6 @@ import type {
 } from '@/config/types';
 import { useAnimationConfig, useCursorMagnet } from '@/hooks';
 import { socialLinks } from '@/lib/data/socialLinks';
-
-// Responsive avatar and icon sizes
-const AVATAR_SIZE = { xs: 36, md: 38, lg: 40 };
-const ICON_SIZE_DEFAULT = { xs: 24, md: 24, lg: 26 };
 
 export function SocialLinkButton({
   href,
@@ -51,8 +48,8 @@ export function SocialLinkButton({
         onClick={onClick}
         aria-label={tooltip}
         sx={{
-          width: AVATAR_SIZE,
-          height: AVATAR_SIZE,
+          width: (theme) => theme.custom.sizing.socialAvatar,
+          height: (theme) => theme.custom.sizing.socialAvatar,
           // MUI sx prop resolves dot-notation color paths natively
           bgcolor: bgColor ?? 'primary.main',
           color: iconColor ?? 'primary.contrastText',
@@ -69,8 +66,11 @@ export function SocialLinkList({
   openModal,
   renderLink,
   wrapItem,
-  iconSize = ICON_SIZE_DEFAULT,
+  iconSize,
 }: Readonly<SocialLinkListProps>): JSX.Element {
+  const theme = useTheme();
+  const resolvedIconSize = iconSize ?? theme.custom.sizing.socialIcon;
+
   return (
     <>
       {socialLinks.map((link, index) => {
@@ -84,7 +84,7 @@ export function SocialLinkList({
           href,
           onClick: resolvedOnClick,
           tooltip,
-          icon: <Icon sx={{ fontSize: iconSize }} />,
+          icon: <Icon sx={{ fontSize: resolvedIconSize }} />,
           bgColor: color,
           iconColor,
           index,

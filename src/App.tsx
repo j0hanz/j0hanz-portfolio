@@ -21,14 +21,13 @@ const mainContainerSx: SxProps<Theme> = {
   overflow: 'hidden',
 };
 
-const loaderContainerSx: SxProps<Theme> = {
+const loaderContainerSx: SxProps<Theme> = (theme) => ({
+  ...theme.custom.layout.centeredGrid,
   flex: 1,
-  display: 'grid',
-  placeItems: 'center',
   position: 'relative',
   zIndex: 1,
   height: '100vh',
-};
+});
 
 const contentContainerSx: SxProps<Theme> = {
   flex: 1,
