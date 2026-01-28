@@ -13,69 +13,13 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
 
-import { GRID, SPACING } from '@/config/responsive';
 import type {
   ContactFieldConfig,
   FormFieldProps,
   FormFieldsProps,
 } from '@/config/types';
-import { SIZING } from '@/styles/shared';
-
-const CONTACT_FIELD_CONFIGS: ContactFieldConfig[] = [
-  {
-    key: 'name',
-    controlId: 'formName',
-    icon: PersonOutline,
-    label: 'Name',
-    placeholder: 'enter your name...',
-    required: true,
-    errorKey: 'name',
-    gridProps: GRID.formField,
-  },
-  {
-    key: 'email',
-    controlId: 'formEmail',
-    icon: EmailOutlined,
-    type: 'email',
-    label: 'Email',
-    placeholder: 'enter your email...',
-    required: true,
-    errorKey: 'email',
-    gridProps: GRID.formField,
-  },
-  {
-    key: 'company',
-    controlId: 'formCompany',
-    icon: WorkOutline,
-    label: 'Company',
-    placeholder: 'company... (optional)',
-    gridProps: GRID.formField,
-  },
-  {
-    key: 'url',
-    controlId: 'formUrl',
-    icon: LanguageOutlined,
-    type: 'url',
-    label: 'Website',
-    placeholder: 'website url... (optional)',
-    errorKey: 'url',
-    gridProps: GRID.formField,
-  },
-  {
-    key: 'message',
-    controlId: 'formMessage',
-    icon: ChatBubbleOutline,
-    type: 'textarea',
-    label: 'Message',
-    placeholder: 'enter your message...',
-    required: true,
-    minRows: 3,
-    maxRows: 8,
-    errorKey: 'message',
-    gridProps: GRID.full,
-  },
-];
 
 function FormField({
   controlId,
@@ -152,7 +96,9 @@ function FormField({
       {error && (
         <FormHelperText id={`${controlId}-error`}>
           <Stack component="span" direction="row" alignItems="center" gap={0.5}>
-            <ErrorOutline sx={{ fontSize: SIZING.icon }} />
+            <ErrorOutline
+              sx={{ fontSize: (theme) => theme.custom.sizing.icon }}
+            />
             {error}
           </Stack>
         </FormHelperText>
@@ -165,6 +111,63 @@ export function ContactFormFields({
   errors,
   disabled = false,
 }: Readonly<FormFieldsProps>): React.JSX.Element {
+  const theme = useTheme();
+
+  const fieldConfigs: ContactFieldConfig[] = [
+    {
+      key: 'name',
+      controlId: 'formName',
+      icon: PersonOutline,
+      label: 'Name',
+      placeholder: 'enter your name...',
+      required: true,
+      errorKey: 'name',
+      gridProps: theme.custom.grid.formField,
+    },
+    {
+      key: 'email',
+      controlId: 'formEmail',
+      icon: EmailOutlined,
+      type: 'email',
+      label: 'Email',
+      placeholder: 'enter your email...',
+      required: true,
+      errorKey: 'email',
+      gridProps: theme.custom.grid.formField,
+    },
+    {
+      key: 'company',
+      controlId: 'formCompany',
+      icon: WorkOutline,
+      label: 'Company',
+      placeholder: 'company... (optional)',
+      gridProps: theme.custom.grid.formField,
+    },
+    {
+      key: 'url',
+      controlId: 'formUrl',
+      icon: LanguageOutlined,
+      type: 'url',
+      label: 'Website',
+      placeholder: 'website url... (optional)',
+      errorKey: 'url',
+      gridProps: theme.custom.grid.formField,
+    },
+    {
+      key: 'message',
+      controlId: 'formMessage',
+      icon: ChatBubbleOutline,
+      type: 'textarea',
+      label: 'Message',
+      placeholder: 'enter your message...',
+      required: true,
+      minRows: 3,
+      maxRows: 8,
+      errorKey: 'message',
+      gridProps: theme.custom.grid.full,
+    },
+  ];
+
   // Generate unique IDs for form fields (React 19 accessibility)
   const nameId = useId();
   const emailId = useId();
@@ -181,8 +184,8 @@ export function ContactFormFields({
   };
 
   return (
-    <Grid container spacing={SPACING.formField}>
-      {CONTACT_FIELD_CONFIGS.map(({ key, errorKey, ...fieldProps }) => (
+    <Grid container spacing={theme.custom.spacing.formField}>
+      {fieldConfigs.map(({ key, errorKey, ...fieldProps }) => (
         <Grid key={key} size={fieldProps.gridProps}>
           <FormField
             {...fieldProps}

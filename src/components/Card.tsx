@@ -11,10 +11,8 @@ import type { SystemStyleObject } from '@mui/system';
 import { m, type MotionProps } from 'motion/react';
 
 import { BlurText } from '@/components/animations';
-import { SPACING } from '@/config/responsive';
 import type { CardComponentProps } from '@/config/types';
 import { useCardHover } from '@/hooks';
-import { cardBaseSx, mergeSxEntries, normalizeSx } from '@/styles/shared';
 
 // ============================================================================
 // CONSTANTS
@@ -23,8 +21,37 @@ import { cardBaseSx, mergeSxEntries, normalizeSx } from '@/styles/shared';
 const MotionPaper = m.create(MuiPaper);
 
 // Responsive card content padding
-const CARD_CONTENT_SX: SxProps<Theme> = { p: SPACING.card };
+const CARD_CONTENT_SX: SxProps<Theme> = {
+  p: (theme) => theme.custom.spacing.card,
+};
 const CARD_SUBTITLE_SX: SxProps<Theme> = { mb: 1 };
+const CARD_BASE_SX: SxProps<Theme> = {
+  height: 1,
+  display: 'flex',
+  flexFlow: 'column nowrap',
+  borderRadius: 2,
+  bgcolor: 'backdrop.glass',
+};
+
+const resolveSx = (
+  theme: Theme,
+  sxProp?: SxProps<Theme>
+): SystemStyleObject<Theme> => {
+  if (!sxProp) return {};
+  const entries = (Array.isArray(sxProp) ? sxProp : [sxProp]) as Array<
+    | SystemStyleObject<Theme>
+    | ((theme: Theme) => SystemStyleObject<Theme>)
+    | boolean
+    | null
+    | undefined
+  >;
+
+  return entries.reduce<SystemStyleObject<Theme>>((acc, entry) => {
+    if (!entry || entry === true) return acc;
+    const next = typeof entry === 'function' ? entry(theme) : entry;
+    return { ...acc, ...next };
+  }, {});
+};
 
 // ============================================================================
 // CARD SLOTS (Compound Component Pattern)
@@ -77,13 +104,11 @@ function CardBase({
   const resolvedMotionProps: MotionProps = animated
     ? hoverMotion
     : (motionProps ?? {});
-  const resolvedSx = normalizeSx(sx);
-  const paperSx = (theme: Theme): SystemStyleObject<Theme> =>
-    mergeSxEntries(theme, [
-      cardBaseSx as SystemStyleObject<Theme>,
-      theme.mixins.glass as SystemStyleObject<Theme>,
-      ...resolvedSx,
-    ]);
+  const paperSx = (theme: Theme): SystemStyleObject<Theme> => ({
+    ...(CARD_BASE_SX as SystemStyleObject<Theme>),
+    ...(theme.mixins.glass as SystemStyleObject<Theme>),
+    ...resolveSx(theme, sx),
+  });
 
   return (
     <MotionPaper

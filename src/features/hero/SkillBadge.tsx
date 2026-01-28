@@ -3,7 +3,6 @@ import { m } from 'motion/react';
 
 import type { SkillBadgeProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import { SIZING } from '@/styles/shared';
 
 const badgeContainerSx: SxProps<Theme> = {
   position: 'relative',
@@ -12,7 +11,7 @@ const badgeContainerSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: SIZING.iconLg,
+  fontSize: (theme) => theme.custom.sizing.iconLg,
   color: 'text.secondary',
   transition: 'color 0.2s ease',
   '&:hover': {

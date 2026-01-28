@@ -2,12 +2,12 @@ import type { ReactNode } from 'react';
 
 import { Box, type SxProps, type Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { m } from 'motion/react';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ProjectCardSkeleton } from '@/components/Skeletons';
 import { staggerItemVariant, staggerItemVariantMobile } from '@/config/motion';
-import { GRID } from '@/config/responsive';
 import type { ProjectListProps } from '@/config/types';
 import { useMobileBreakpoint } from '@/hooks';
 
@@ -39,8 +39,10 @@ export function ProjectCardMotionWrapper({
 function ProjectGridItem({
   project,
 }: Readonly<ProjectListProps>): React.JSX.Element {
+  const theme = useTheme();
+
   return (
-    <Grid size={GRID.third} sx={{ display: 'flex' }}>
+    <Grid size={theme.custom.grid.third} sx={{ display: 'flex' }}>
       <ProjectCardMotionWrapper>
         <ErrorBoundary fallback={<ProjectCardSkeleton />}>
           <ProjectCard project={project} />

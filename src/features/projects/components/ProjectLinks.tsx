@@ -18,13 +18,20 @@ import Grid from '@mui/material/Grid';
 import { Button } from '@/components/Button';
 import type { ActionButtonProps, ProjectLinksProps } from '@/config/types';
 import { useCopyWithFeedback } from '@/hooks';
-import { iconBody2Sx, SIZING, tooltipWrapperSx } from '@/styles/shared';
 import { COPY_MESSAGES } from '@/utils/clipboard';
 
+const iconBody2Sx: SxProps<Theme> = {
+  width: (theme) => theme.custom.sizing.iconXs,
+};
+
+const tooltipWrapperSx: SxProps<Theme> = {
+  display: 'inline-block',
+};
+
 const actionButtonSx: SxProps<Theme> = {
-  height: SIZING.buttonHeightSmall,
+  height: (theme) => theme.custom.sizing.buttonHeightSmall,
   fontSize: { xs: '0.7rem', md: '0.85rem', lg: '0.9rem' },
-  minWidth: SIZING.buttonMinWidth,
+  minWidth: (theme) => theme.custom.sizing.buttonMinWidth,
 };
 
 const gridSx: SxProps<Theme> = {

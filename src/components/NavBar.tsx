@@ -11,33 +11,17 @@ import {
   ListItemText,
   Stack,
   SwipeableDrawer,
+  type SxProps,
+  type Theme,
   Tooltip,
   Typography,
   Zoom,
 } from '@mui/material';
+import type { SystemStyleObject } from '@mui/system';
 import { m } from 'motion/react';
 
 import navLogo from '@/assets/imgBg.webp';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
-import {
-  closeButtonSx,
-  connectTextSx,
-  drawerContentSx,
-  drawerFooterSx,
-  drawerHeaderSx,
-  drawerPaperSx,
-  listItemButtonSelectedSx,
-  listItemButtonSx,
-  listItemIconSelectedSx,
-  listItemIconSx,
-  listItemTextPrimarySx,
-  menuButtonSx,
-  navBarContainerSx,
-  navLinksListSx,
-  navLogoImgSx,
-  navLogoStackSx,
-  socialLinksBoxSx,
-} from '@/components/NavBar.styles';
 import { defaultSocialLinkRenderer } from '@/components/socialLinkRenderer';
 import { SocialLinkList } from '@/components/SocialLinks';
 import { navVariants } from '@/config/motion';
@@ -67,6 +51,160 @@ const MENU_ICON_STATES = {
   closed: { opacity: 1, rotate: 0 },
 } as const;
 const MENU_ICON_TRANSITION = { duration: 0.2 } as const;
+
+const navLogoStackSx: SxProps<Theme> = {
+  height: (theme) => theme.custom.sizing.navBarHeight,
+  textDecoration: 'none',
+  cursor: 'pointer',
+};
+
+const navLogoImgSx: SxProps<Theme> = {
+  width: (theme) => theme.custom.sizing.logoWidth,
+};
+
+const navLinksListSx: SxProps<Theme> = {
+  flex: 1,
+  display: 'flex',
+  flexFlow: 'column nowrap',
+  position: 'relative',
+  p: 2,
+  m: 0,
+  listStyle: 'none',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    inset: 0,
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    zIndex: 0,
+    backgroundImage: 'var(--card-bg-image-url)',
+    opacity: 0.03,
+    pointerEvents: 'none',
+  },
+  '& > *': {
+    position: 'relative',
+    zIndex: 1,
+  },
+};
+
+const listItemButtonSx = (theme: Theme): SystemStyleObject<Theme> => ({
+  position: 'relative',
+  overflow: 'hidden',
+  clipPath: theme.custom.motion.clipRounded,
+  py: { xs: 1.25, sm: 1.5 },
+  px: { xs: 1.5, sm: 2 },
+  '& > *': {
+    position: 'relative',
+    zIndex: 1,
+  },
+  '&:hover': {
+    bgcolor: 'action.hover',
+    '& .MuiListItemIcon-root': {
+      color: 'primary.main',
+    },
+    '& .MuiListItemText-primary': {
+      color: 'primary.main',
+    },
+  },
+});
+
+const listItemButtonSelectedSx: SystemStyleObject<Theme> = {
+  '& .MuiListItemIcon-root': {
+    transform: 'scale(1.1)',
+  },
+  '& .MuiListItemText-primary': {
+    fontWeight: 500,
+  },
+};
+
+const listItemIconSx = (theme: Theme): SystemStyleObject<Theme> => ({
+  minWidth: theme.custom.sizing.navButtonMinWidth,
+  color: 'text.secondary',
+});
+
+const listItemIconSelectedSx: SystemStyleObject<Theme> = {
+  color: 'primary.main',
+};
+
+const listItemTextPrimarySx: SxProps<Theme> = {
+  letterSpacing: (theme) => `${theme.custom.typography.letterSpacing.tight}px`,
+};
+
+const socialLinksBoxSx: SxProps<Theme> = { mt: 'auto' };
+
+const drawerPaperSx: SxProps<Theme> = {
+  width: { xs: '100%', sm: 320, md: 380 },
+  backgroundColor: 'backdrop.glass',
+  backgroundImage: 'none',
+  height: '100dvh',
+  display: 'flex',
+  flexFlow: 'column nowrap',
+  overflowX: 'hidden',
+  backdropFilter: 'blur(10px) saturate(180%)',
+  WebkitBackdropFilter: 'blur(10px) saturate(180%)',
+  border: '1px solid',
+  borderColor: 'divider',
+  boxShadow: (theme) =>
+    `0 8px 32px ${
+      theme.palette.mode === 'dark'
+        ? 'rgba(0, 0, 0, 0.3)'
+        : 'rgba(0, 0, 0, 0.1)'
+    }`,
+};
+
+const drawerHeaderSx: SxProps<Theme> = {
+  p: 2,
+  pt: 3,
+  borderBottom: 1,
+  borderColor: 'divider',
+};
+
+const closeButtonSx: SxProps<Theme> = {
+  overflow: 'hidden',
+  '&:hover': {
+    color: 'error.main',
+    bgcolor: 'error.light',
+    opacity: 0.2,
+  },
+};
+
+const drawerContentSx: SxProps<Theme> = {
+  flex: 1,
+  overflowY: 'auto',
+  display: 'flex',
+  flexFlow: 'column nowrap',
+};
+
+const drawerFooterSx: SxProps<Theme> = {
+  p: 3,
+  backgroundColor: 'transparent',
+};
+
+const connectTextSx: SxProps<Theme> = {
+  mb: 2,
+  fontWeight: 500,
+  letterSpacing: (theme) => theme.custom.typography.letterSpacing.wide,
+};
+
+const navBarContainerSx = (theme: Theme) => ({
+  position: 'fixed',
+  top: theme.spacing(1),
+  right: theme.spacing(1),
+  zIndex: theme.zIndex.appBar,
+  bgcolor: 'backdrop.glass',
+  borderRadius: 2,
+  p: 0.5,
+});
+
+const menuButtonSx: SxProps<Theme> = {
+  '&:hover': { bgcolor: 'transparent' },
+  '& svg': { transition: 'transform 0.2s, color 0.2s' },
+  '&:hover svg': {
+    transform: 'scale(1.15)',
+    color: 'primary.main',
+  },
+};
 
 function NavLogo({ onClose }: Readonly<{ onClose?: () => void }>) {
   const { navigateTo } = useNavigationActions();
@@ -123,7 +261,10 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
         disabled={isPending}
         onClick={(e) => onClick(e, id)}
         selected={isActive}
-        sx={[listItemButtonSx, isActive && listItemButtonSelectedSx]}
+        sx={(theme) => ({
+          ...listItemButtonSx(theme),
+          ...(isActive ? listItemButtonSelectedSx : {}),
+        })}
       >
         {showHighlight && isActive && (
           <Box
@@ -135,7 +276,12 @@ function NavLinkItem(props: Readonly<NavLinkItemProps>) {
             sx={NAV_HIGHLIGHT_SX}
           />
         )}
-        <ListItemIcon sx={[listItemIconSx, isActive && listItemIconSelectedSx]}>
+        <ListItemIcon
+          sx={(theme) => ({
+            ...listItemIconSx(theme),
+            ...(isActive ? listItemIconSelectedSx : {}),
+          })}
+        >
           <Icon fontSize="medium" />
         </ListItemIcon>
         <ListItemText
@@ -303,7 +449,10 @@ function NavBar() {
         component="nav"
         direction="row"
         spacing={2}
-        sx={[navBarContainerSx, (theme) => theme.mixins.glass]}
+        sx={(theme) => ({
+          ...navBarContainerSx(theme),
+          ...theme.mixins.glass,
+        })}
       >
         <DarkModeToggle />
         <Tooltip

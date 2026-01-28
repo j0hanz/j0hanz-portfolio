@@ -5,7 +5,7 @@ import {
   VerifiedTwoTone,
   WorkOutlineTwoTone,
 } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 import { AnimatePresence, m } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
@@ -29,13 +29,6 @@ import {
   useTimelineSectionController,
 } from '@/hooks';
 import { experiences } from '@/lib/data/experiences';
-import {
-  credentialButtonSx,
-  descriptionTextSx,
-  listContainerSx,
-  timelineCardWrapperSx,
-  timelineDescriptionWrapperSx,
-} from '@/styles/shared';
 import { buildItemKey, compactMetadata, createMeta } from '@/utils/metadata';
 
 import { Credential } from './Credential';
@@ -60,6 +53,30 @@ const SEQUENCE_OPTS = {
   offset: ['start 0.9', 'end 0.25'] as ['start 0.9', 'end 0.25'],
   threshold: 0.15,
 } as const;
+
+const listContainerSx: SxProps<Theme> = {
+  m: 0,
+  color: 'text.secondary',
+};
+
+const descriptionTextSx: SxProps<Theme> = {
+  lineHeight: (theme) => theme.custom.typography.lineHeight.relaxed,
+  color: 'text.secondary',
+};
+
+const credentialButtonSx: SxProps<Theme> = {
+  minWidth: (theme) => theme.custom.sizing.buttonMinWidthWide,
+  height: (theme) => theme.custom.sizing.buttonHeightSmall,
+};
+
+const timelineCardWrapperSx: SxProps<Theme> = {
+  position: 'relative',
+  zIndex: 1,
+};
+
+const timelineDescriptionWrapperSx: SxProps<Theme> = {
+  mb: (theme) => theme.custom.spacing.stack,
+};
 
 // ============================================================================
 // UTILITY FUNCTIONS

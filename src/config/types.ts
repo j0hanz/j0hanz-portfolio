@@ -17,6 +17,7 @@ import type {
   Theme,
 } from '@mui/material';
 import type { SvgIconProps } from '@mui/material/SvgIcon';
+import type { SystemStyleObject } from '@mui/system';
 import type {
   MotionProps,
   MotionValue,
@@ -805,6 +806,86 @@ declare module '@mui/material/styles' {
     linkedin?: PaletteOptions['primary'];
     pdf?: PaletteOptions['primary'];
     sourceCode?: PaletteOptions['primary'];
+  }
+
+  interface Theme {
+    custom: {
+      spacing: {
+        section: ResponsiveValue<number>;
+        card: ResponsiveValue<number>;
+        grid: ResponsiveValue<number>;
+        masonry: ResponsiveValue<number>;
+        stack: ResponsiveValue<number>;
+        headerMargin: ResponsiveValue<number>;
+        containerPadding: ResponsiveValue<number>;
+        formField: ResponsiveValue<number>;
+        projectCard: ResponsiveValue<number>;
+      };
+      grid: {
+        full: ResponsiveValue<number>;
+        half: ResponsiveValue<number>;
+        third: ResponsiveValue<number>;
+        formField: ResponsiveValue<number>;
+      };
+      sizing: {
+        iconXs: ResponsiveValue<number>;
+        iconSm: ResponsiveValue<number>;
+        icon: ResponsiveValue<number>;
+        iconMd: ResponsiveValue<number>;
+        iconLg: ResponsiveValue<number>;
+        iconXl: ResponsiveValue<number>;
+        iconFab: ResponsiveValue<number>;
+        iconFlag: ResponsiveValue<number>;
+        spinner: ResponsiveValue<number>;
+        buttonMinWidth: ResponsiveValue<number>;
+        buttonMinWidthWide: ResponsiveValue<number>;
+        buttonMinWidthHero: ResponsiveValue<number>;
+        buttonHeightSmall: ResponsiveValue<number>;
+        buttonHeightLarge: ResponsiveValue<number>;
+        actionButtonMinWidth: ResponsiveValue<number>;
+        badgeMinWidth: ResponsiveValue<number>;
+        badgeHeight: ResponsiveValue<number>;
+        navBarHeight: ResponsiveValue<number>;
+        navButtonMinWidth: ResponsiveValue<number>;
+        logoWidth: ResponsiveValue<number>;
+        closeButton: ResponsiveValue<number>;
+        profileImage: ResponsiveValue<number>;
+      };
+      typography: {
+        lineHeight: {
+          relaxed: number;
+        };
+        letterSpacing: {
+          tight: number;
+          normal: number;
+          wide: number;
+        };
+        fontSize: {
+          heroTitle: string;
+          heroSubtitle: string;
+          sectionTitle: string;
+        };
+        credentialText: ResponsiveValue<string>;
+      };
+      motion: {
+        transitionStandard: string;
+        clipRounded: string;
+        skew: string;
+      };
+      layout: {
+        centeredFullViewport: SystemStyleObject<Theme>;
+        transparentModalContent: SystemStyleObject<Theme>;
+        visuallyHidden: SystemStyleObject<Theme>;
+        projectCard: {
+          article: SystemStyleObject<Theme>;
+          content: SystemStyleObject<Theme>;
+        };
+      };
+    };
+  }
+
+  interface ThemeOptions {
+    custom?: Theme['custom'];
   }
 }
 

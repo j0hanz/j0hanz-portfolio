@@ -10,13 +10,7 @@ import {
 import ImageCredential from '@/assets/Credential.webp';
 import { BaseModal } from '@/components/BaseModal';
 import { Image } from '@/components/Image';
-import { SIZE } from '@/config/responsive';
 import type { CredentialProps } from '@/config/types';
-import {
-  TRANSITION_STANDARD,
-  transparentModalContentSx,
-  visuallyHiddenSx,
-} from '@/styles/shared';
 
 const linkBoxSx: SxProps<Theme> = {
   display: 'block',
@@ -39,7 +33,7 @@ const imageWrapperSx: SxProps<Theme> = {
   display: 'inline-block',
   width: 1, // = 100%
   height: 1, // = 100%
-  transition: TRANSITION_STANDARD,
+  transition: (theme) => theme.custom.motion.transitionStandard,
 };
 
 const hoverTextSx: SxProps<Theme> = {
@@ -49,10 +43,10 @@ const hoverTextSx: SxProps<Theme> = {
   width: 1, // = 100%
   transform: 'translate(-50%, -50%)',
   color: 'primary.contrastText',
-  fontSize: SIZE.credentialText,
+  fontSize: (theme) => theme.custom.typography.credentialText,
   textAlign: 'center',
   opacity: 0,
-  transition: TRANSITION_STANDARD,
+  transition: (theme) => theme.custom.motion.transitionStandard,
   textShadow: (theme) => theme.shadows[4],
   pointerEvents: 'none',
 };
@@ -63,7 +57,7 @@ const imageSx: SxProps<Theme> = {
   width: 'auto',
   height: 'auto',
   objectFit: 'contain',
-  transition: TRANSITION_STANDARD,
+  transition: (theme) => theme.custom.motion.transitionStandard,
   display: 'block',
 };
 
@@ -82,9 +76,12 @@ function Credential({
       transparentPaper
       maxWidth={false}
       fullWidth={false}
-      contentSx={transparentModalContentSx}
+      contentSx={(theme) => theme.custom.layout.transparentModalContent}
     >
-      <DialogTitle id="credential-modal-title" sx={visuallyHiddenSx}>
+      <DialogTitle
+        id="credential-modal-title"
+        sx={(theme) => theme.custom.layout.visuallyHidden}
+      >
         Educational Credential
       </DialogTitle>
       <Box sx={{ position: 'relative', display: 'inline-block' }}>

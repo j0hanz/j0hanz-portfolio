@@ -14,11 +14,10 @@ import {
 } from '@/config/stats';
 import type { ProjectStatsProps, RepoStats, StatItem } from '@/config/types';
 import { useAnimationConfig, useCountUp, useGitHubApi } from '@/hooks';
-import { LETTER_SPACING_NORMAL, SIZING } from '@/styles/shared';
 
 const labelSx: SxProps<Theme> = {
   textTransform: 'uppercase',
-  letterSpacing: LETTER_SPACING_NORMAL,
+  letterSpacing: (theme) => theme.custom.typography.letterSpacing.normal,
   color: 'text.secondary',
 };
 
@@ -64,7 +63,7 @@ function AnimatedStat({
       <Icon
         sx={{
           color: 'text.secondary',
-          fontSize: SIZING.iconMd,
+          fontSize: (theme) => theme.custom.sizing.iconMd,
         }}
       />
       <Typography variant="body2" sx={labelSx}>

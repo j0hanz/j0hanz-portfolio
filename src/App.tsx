@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, type SxProps, type Theme } from '@mui/material';
 import { AnimatePresence, m } from 'motion/react';
 
 import { Aurora } from '@/components/Aurora';
@@ -10,11 +10,31 @@ import { StatusBanner } from '@/components/StatusBanner';
 import { INITIAL_LOADING_DELAY_MS } from '@/config/constants';
 import { useConnectivity, useContentMotion, useInitialLoading } from '@/hooks';
 import { Home } from '@/pages/Home';
-import {
-  contentContainerSx,
-  loaderContainerSx,
-  mainContainerSx,
-} from '@/styles/appStyles';
+
+const mainContainerSx: SxProps<Theme> = {
+  position: 'relative',
+  display: 'flex',
+  flexFlow: 'column nowrap',
+  minHeight: '100vh',
+  maxWidth: 1500,
+  mx: 'auto',
+  overflow: 'hidden',
+};
+
+const loaderContainerSx: SxProps<Theme> = {
+  flex: 1,
+  display: 'grid',
+  placeItems: 'center',
+  position: 'relative',
+  zIndex: 1,
+  height: '100vh',
+};
+
+const contentContainerSx: SxProps<Theme> = {
+  flex: 1,
+  position: 'relative',
+  zIndex: 1,
+};
 
 // Loader transition config - extracted for reusability
 const LOADER_MOTION = {

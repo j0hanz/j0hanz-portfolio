@@ -11,40 +11,38 @@ import {
 import type { SystemStyleObject } from '@mui/system';
 
 import { AnimatedContent, FadeContent } from '@/components/animations';
-import { SPACING } from '@/config/responsive';
 import type { SectionContainerProps } from '@/config/types';
-import { mergeSxEntries, normalizeSx, SIZING } from '@/styles/shared';
 
 // ============================================================================
 // STYLE CONSTANTS
-// Inlined from responsive.ts - component-specific patterns
+// Component-specific patterns derived from theme tokens
 // ============================================================================
 
 const sectionCenteredSx: SxProps<Theme> = {
   display: 'grid',
   placeItems: 'center',
   minHeight: '100vh',
-  py: SPACING.section,
+  py: (theme) => theme.custom.spacing.section,
   overflowX: 'hidden',
 };
 
 const containerPaddingSx: SxProps<Theme> = {
-  px: SPACING.containerPadding,
+  px: (theme) => theme.custom.spacing.containerPadding,
 };
 
 const sectionHeaderSx: SxProps<Theme> = {
-  mb: SPACING.headerMargin,
+  mb: (theme) => theme.custom.spacing.headerMargin,
 };
 
 const iconSx: SxProps<Theme> = {
   mr: { xs: 1, sm: 1.25, md: 1.5 },
-  fontSize: SIZING.iconXl,
+  fontSize: (theme) => theme.custom.sizing.iconXl,
   color: 'primary.main',
 };
 
 const titleSx: SxProps<Theme> = {
   fontWeight: 400,
-  fontSize: (theme) => theme.typography.h4.fontSize,
+  fontSize: (theme) => theme.custom.typography.fontSize.sectionTitle,
   py: { xs: 0.5, sm: 0.75, md: 1 },
 };
 
@@ -58,6 +56,26 @@ const headerActionsSx: SxProps<Theme> = {
   mt: 2,
   display: 'flex',
   justifyContent: 'center',
+};
+
+const resolveSx = (
+  theme: Theme,
+  sxProp?: SxProps<Theme>
+): SystemStyleObject<Theme> => {
+  if (!sxProp) return {};
+  const entries = (Array.isArray(sxProp) ? sxProp : [sxProp]) as Array<
+    | SystemStyleObject<Theme>
+    | ((theme: Theme) => SystemStyleObject<Theme>)
+    | boolean
+    | null
+    | undefined
+  >;
+
+  return entries.reduce<SystemStyleObject<Theme>>((acc, entry) => {
+    if (!entry || entry === true) return acc;
+    const next = typeof entry === 'function' ? entry(theme) : entry;
+    return { ...acc, ...next };
+  }, {});
 };
 
 // ============================================================================
@@ -122,15 +140,16 @@ function SectionContainerBase({
   headerActions,
   maxWidth = false,
 }: Readonly<SectionContainerProps>): JSX.Element {
-  const resolvedSx = normalizeSx(sx);
-  const sectionSx = (theme: Theme): SystemStyleObject<Theme> =>
-    mergeSxEntries(theme, [
-      sectionCenteredSx as SystemStyleObject<Theme>,
-      ...resolvedSx,
-    ]);
-
   return (
-    <Box component="section" id={id} className={className} sx={sectionSx}>
+    <Box
+      component="section"
+      id={id}
+      className={className}
+      sx={(theme) => ({
+        ...resolveSx(theme, sectionCenteredSx),
+        ...resolveSx(theme, sx),
+      })}
+    >
       <Container maxWidth={maxWidth} sx={containerPaddingSx}>
         <AnimatedContent distance={40} delay={0.05}>
           <SectionHeader icon={Icon} headingLevel={headingLevel}>

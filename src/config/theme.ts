@@ -3,6 +3,115 @@ import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { PALETTES } from './constants';
 import { getComponentOverrides } from './overrides';
 
+const SPACING_TOKENS = {
+  section: { xs: 6, lg: 10 },
+  card: { xs: 2, sm: 2.5, md: 3, lg: 3.5 },
+  grid: { xs: 2.5, sm: 3, md: 3.5, lg: 4 },
+  masonry: { xs: 1.5, sm: 2, md: 2.5, lg: 3, xl: 3.5 },
+  stack: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
+  headerMargin: { xs: 1 },
+  containerPadding: { xs: 1, sm: 2, md: 4, lg: 6 },
+  formField: { xs: 1.25, sm: 1.5, md: 2 },
+  projectCard: { xs: 2, sm: 2.5, md: 3 },
+} as const;
+
+const GRID_TOKENS = {
+  full: { xs: 12 },
+  half: { xs: 12, md: 6 },
+  third: { xs: 12, sm: 6, xl: 4 },
+  formField: { xs: 12, md: 6 },
+} as const;
+
+const SIZING_TOKENS = {
+  iconXs: { xs: 16, sm: 18 },
+  iconSm: { xs: 15, sm: 16, md: 17, lg: 18 },
+  icon: { xs: 16, sm: 18, md: 20, lg: 20 },
+  iconMd: { xs: 18, sm: 20, md: 22, lg: 24 },
+  iconLg: { xs: 22, sm: 24, md: 28, lg: 32 },
+  iconXl: { xs: 30, sm: 34, lg: 38 },
+  iconFab: { xs: 32, sm: 34, md: 36, lg: 40 },
+  iconFlag: { xs: 42, sm: 48, md: 56, lg: 64 },
+  spinner: { xs: 80, sm: 100, md: 120, lg: 120 },
+  buttonMinWidth: { xs: 80, sm: 85, md: 110, lg: 120 },
+  buttonMinWidthWide: { xs: 100, sm: 120, md: 130, lg: 140 },
+  buttonMinWidthHero: { xs: 115, sm: 130, md: 145, lg: 150 },
+  buttonHeightSmall: { xs: 32, md: 36 },
+  buttonHeightLarge: { xs: 40, md: 46 },
+  actionButtonMinWidth: { xs: 65, sm: 90, md: 100, lg: 110 },
+  badgeMinWidth: { xs: 38, sm: 43, md: 48, lg: 52 },
+  badgeHeight: { xs: 14, sm: 16, md: 20, lg: 22 },
+  navBarHeight: { xs: 44, sm: 50, md: 56, lg: 56 },
+  navButtonMinWidth: { xs: 36, sm: 40, md: 44, lg: 44 },
+  logoWidth: { xs: 30, sm: 35, md: 38, lg: 40 },
+  closeButton: { xs: 44, sm: 40, md: 38, lg: 38 },
+  profileImage: { xs: 225, sm: 260, md: 300, lg: 400, xl: 500 },
+} as const;
+
+const TYPOGRAPHY_TOKENS = {
+  lineHeight: { relaxed: 2 },
+  letterSpacing: { tight: 0.5, normal: 1, wide: 1.5 },
+  fontSize: {
+    heroTitle: 'clamp(2rem, 4vw + 1rem, 3.5rem)',
+    heroSubtitle: 'clamp(0.95rem, 2vw + 0.5rem, 1.4rem)',
+    sectionTitle: 'clamp(2rem, 3vw + 1rem, 3rem)',
+  },
+  credentialText: {
+    xs: 'h6.fontSize',
+    sm: 'h5.fontSize',
+    md: 'h5.fontSize',
+    lg: 'h4.fontSize',
+  },
+} as const;
+
+const MOTION_TOKENS = {
+  transitionStandard: 'all 0.3s ease',
+  clipRounded: 'inset(0 round 10px)',
+  skew: 'skew(-5deg)',
+} as const;
+
+const DESIGN_TOKENS = {
+  spacing: SPACING_TOKENS,
+  grid: GRID_TOKENS,
+  sizing: SIZING_TOKENS,
+  typography: TYPOGRAPHY_TOKENS,
+  motion: MOTION_TOKENS,
+  layout: {
+    centeredFullViewport: {
+      display: 'grid',
+      placeItems: 'center',
+      minHeight: '100vh',
+      p: 3,
+    },
+    transparentModalContent: {
+      p: 0,
+      bgcolor: 'transparent',
+      overflow: 'hidden',
+    },
+    visuallyHidden: {
+      position: 'absolute',
+      width: 1,
+      height: 1,
+      p: 0,
+      m: -1,
+      overflow: 'hidden',
+      clip: 'rect(0, 0, 0, 0)',
+      whiteSpace: 'nowrap',
+      border: 0,
+    },
+    projectCard: {
+      article: {
+        display: 'flex',
+        flexFlow: 'column nowrap',
+        height: 1,
+        p: SPACING_TOKENS.projectCard,
+      },
+      content: {
+        flex: '1 1 auto',
+      },
+    },
+  },
+} as const;
+
 // Base theme without component overrides (needed to pass theme to overrides)
 const baseTheme = createTheme({
   cssVariables: {
@@ -82,6 +191,7 @@ const baseTheme = createTheme({
       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)',
     },
   },
+  custom: DESIGN_TOKENS,
 });
 
 // Full theme with component overrides

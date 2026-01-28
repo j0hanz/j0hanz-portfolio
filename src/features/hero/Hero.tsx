@@ -2,8 +2,16 @@ import { preload } from 'react-dom';
 
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
-import { Box, Container, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { m } from 'motion/react';
 
 import { GlitchText, TextType } from '@/components/animations';
@@ -11,7 +19,6 @@ import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { MagneticWrapper } from '@/components/MagneticWrapper';
 import { BlinkingCursor, StaggerContainer } from '@/components/Motions';
-import { SPACING } from '@/config/responsive';
 import type { HeroActionConfig } from '@/config/types';
 import { HeroProfile } from '@/features/hero/HeroProfile';
 import { SkillBadgeRow } from '@/features/hero/SkillBadgeRow';
@@ -22,20 +29,76 @@ import {
   useMobileBreakpoint,
   useMotionVariant,
 } from '@/hooks';
-import { contactButtonSx, iconSx } from '@/styles/shared';
 
-import {
-  buttonsStackSx,
-  containerSx,
-  cursorSx,
-  downloadButtonSx,
-  heroCardSx,
-  heroContentSx,
-  heroNameStyles,
-  sectionSx,
-  subtitleClipPath,
-  subtitleSx,
-} from './Hero.styles';
+const heroNameStyles: SxProps<Theme> = {
+  fontSize: (theme) => theme.custom.typography.fontSize.heroTitle,
+  fontWeight: 500,
+  lineHeight: 1,
+  justifyContent: 'flex-start',
+  letterSpacing: { xs: 2, sm: 3, md: 6, lg: 8 },
+  marginY: { xs: 2, lg: 2 },
+};
+
+const cursorSx: SxProps<Theme> = {
+  display: 'inline-block',
+  width: 2, // 2px
+  height: '1.1em',
+  backgroundColor: 'currentColor',
+  marginLeft: '0.1875em', // Relative to font size (~3px at 16px)
+  willChange: 'opacity',
+} as const;
+
+const subtitleClipPath = {
+  initial: { clipPath: 'inset(0 100% 0 0)' },
+  animate: { clipPath: 'inset(0 0% 0 0)' },
+} as const;
+
+const sectionSx: SxProps<Theme> = {
+  display: 'grid',
+  placeItems: 'center',
+  height: 1,
+  pt: 0,
+};
+
+const heroCardSx: SxProps<Theme> = {
+  px: (theme) => theme.custom.spacing.card,
+  pt: { xs: 1, sm: 1.5, md: 2, lg: 2.5 },
+  pb: (theme) => theme.custom.spacing.card,
+};
+
+const containerSx: SxProps<Theme> = {
+  textAlign: 'center',
+  px: 0,
+};
+
+const heroContentSx: SxProps<Theme> = {
+  textAlign: 'left',
+};
+
+const subtitleSx: SxProps<Theme> = {
+  fontSize: (theme) => theme.custom.typography.fontSize.heroSubtitle,
+  letterSpacing: { xs: 0.5, sm: 1.5, md: 2, lg: 2.5 },
+  textTransform: 'uppercase',
+  color: 'text.primary',
+  fontWeight: 500,
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 0.5,
+  justifyContent: 'flex-start',
+};
+
+const buttonsStackSx: SxProps<Theme> = {
+  mt: (theme) => theme.custom.spacing.stack,
+};
+
+const heroButtonSx: SxProps<Theme> = {
+  minWidth: (theme) => theme.custom.sizing.buttonMinWidthHero,
+  height: (theme) => theme.custom.sizing.buttonHeightLarge,
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: (theme) => theme.custom.sizing.icon,
+};
 
 const HERO_NAME = 'Linus Johansson';
 const HERO_SUBTITLE = 'Junior Full-Stack Developer';
@@ -47,7 +110,7 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
     label: 'Download CV',
     buttonProps: {
       startIcon: <DownloadRounded sx={iconSx} />,
-      sx: downloadButtonSx,
+      sx: heroButtonSx,
       variant: 'contained',
       color: 'secondary',
     },
@@ -58,7 +121,7 @@ const HERO_ACTIONS: readonly HeroActionConfig[] = [
     buttonProps: {
       href: '#contact',
       startIcon: <EmailRounded sx={iconSx} />,
-      sx: contactButtonSx,
+      sx: heroButtonSx,
       variant: 'text',
       color: 'inherit',
     },
@@ -98,6 +161,7 @@ function HeroActionButton({
 
 function Hero(): React.JSX.Element {
   preload('/assets/image_me.webp', { as: 'image' });
+  const theme = useTheme();
   const { openCvModal } = useCvModalActions();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
   const animationPriority = useAnimationPriority();
@@ -119,7 +183,7 @@ function Hero(): React.JSX.Element {
       <Container maxWidth={false} sx={containerSx}>
         <Grid
           container
-          spacing={SPACING.grid}
+          spacing={theme.custom.spacing.grid}
           alignItems={{ xs: 'center', lg: 'stretch' }}
         >
           <Grid size={{ xs: 12, lg: 5 }}>

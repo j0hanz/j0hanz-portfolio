@@ -3,7 +3,6 @@ import type { JSX } from 'react';
 import { Alert, Box, Collapse } from '@mui/material';
 
 import type { StatusBannerProps } from '@/config/types';
-import { LETTER_SPACING_TIGHT } from '@/styles/shared';
 
 export function StatusBanner({
   statusBanner,
@@ -24,7 +23,8 @@ export function StatusBanner({
               borderRadius: 0,
               textAlign: 'center',
               fontSize: (theme) => theme.typography.caption.fontSize,
-              letterSpacing: LETTER_SPACING_TIGHT,
+              letterSpacing: (theme) =>
+                theme.custom.typography.letterSpacing.tight,
               py: { xs: 0.75, sm: 0.875, md: 1, lg: 1.25 },
             }}
           >

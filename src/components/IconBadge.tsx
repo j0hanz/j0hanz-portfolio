@@ -3,7 +3,6 @@ import type { JSX } from 'react';
 import { Box, type SxProps, type Theme, Typography } from '@mui/material';
 
 import type { IconBadgeListProps, IconBadgeProps } from '@/config/types';
-import { SIZING, SKEW_TRANSFORM } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   display: 'inline-flex',
@@ -11,12 +10,12 @@ const containerSx: SxProps<Theme> = {
   color: 'text.secondary',
   // Responsive margin using spacing units (8px base)
   mr: { xs: 2, sm: 2.5, md: 3, lg: 4 },
-  transform: SKEW_TRANSFORM,
+  transform: (theme) => theme.custom.motion.skew,
   gap: { xs: 0.5, sm: 0.625, md: 0.75, lg: 1 },
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: SIZING.iconSm,
+  fontSize: (theme) => theme.custom.sizing.iconSm,
   color: 'text.secondary',
 };
 

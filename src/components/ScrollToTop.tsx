@@ -10,7 +10,6 @@ import {
   useNavigationActions,
   useNavigationState,
 } from '@/hooks';
-import { SIZING } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   position: 'fixed',
@@ -28,7 +27,7 @@ const fabSx: SxProps<Theme> = {
 };
 
 const iconSx: SxProps<Theme> = {
-  fontSize: SIZING.iconFab,
+  fontSize: (theme) => theme.custom.sizing.iconFab,
   color: 'text.primary',
 };
 

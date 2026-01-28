@@ -12,6 +12,7 @@ import {
   type Theme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { m, useScroll, useTransform } from 'motion/react';
 
 import { FadeContent, SplitText } from '@/components/animations';
@@ -25,7 +26,6 @@ import {
   listItemStaggerVariants,
   viewportPresets,
 } from '@/config/motion';
-import { GRID, SPACING } from '@/config/responsive';
 import type {
   AboutMeListProps,
   CardItemProps,
@@ -41,7 +41,11 @@ import {
 } from '@/hooks';
 import { aboutMeItems } from '@/lib/data/aboutMeItems';
 import { aboutMeText } from '@/lib/data/aboutMeText';
-import { credentialButtonSx } from '@/styles/shared';
+
+const credentialButtonSx: SxProps<Theme> = {
+  minWidth: (theme) => theme.custom.sizing.buttonMinWidthWide,
+  height: (theme) => theme.custom.sizing.buttonHeightSmall,
+};
 
 // Table styles
 const tableSx: SxProps<Theme> = {
@@ -166,6 +170,7 @@ function CardItem({
 
 // Main About Me section
 function AboutMe(): React.JSX.Element {
+  const theme = useTheme();
   const {
     value: showModal,
     setTrue: openModal,
@@ -202,13 +207,17 @@ function AboutMe(): React.JSX.Element {
     >
       {/* Cards Grid */}
       <Box ref={containerRef}>
-        <Grid container spacing={SPACING.grid} alignItems="stretch">
-          <Grid size={GRID.half} sx={{ display: 'flex' }}>
+        <Grid
+          container
+          spacing={theme.custom.spacing.grid}
+          alignItems="stretch"
+        >
+          <Grid size={theme.custom.grid.half} sx={{ display: 'flex' }}>
             <CardItem index={0} yTransform={y1} isInView={isInView}>
               <AboutMeText />
             </CardItem>
           </Grid>
-          <Grid size={GRID.half} sx={{ display: 'flex' }}>
+          <Grid size={theme.custom.grid.half} sx={{ display: 'flex' }}>
             <CardItem index={1} yTransform={y2} isInView={isInView}>
               <AboutMeList items={aboutMeItems} onShowModal={openModal} />
             </CardItem>

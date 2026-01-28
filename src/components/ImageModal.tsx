@@ -13,7 +13,6 @@ import ProfileImage from '@/assets/image_me.webp';
 import { BaseModal } from '@/components/BaseModal';
 import type { ImageModalProps } from '@/config/types';
 import { useAnimationConfig, useImageLoading, useVelocityTilt } from '@/hooks';
-import { transparentModalContentSx, visuallyHiddenSx } from '@/styles/shared';
 
 const containerSx: SxProps<Theme> = {
   position: 'relative',
@@ -71,14 +70,17 @@ function ImageModal({
     <BaseModal
       open={open}
       onClose={onClose}
-      contentSx={transparentModalContentSx}
+      contentSx={(theme) => theme.custom.layout.transparentModalContent}
       animationPreset="zoomOut"
       ariaLabelledBy="image-modal-title"
       transparentPaper
       maxWidth={false}
       fullWidth={false}
     >
-      <DialogTitle id="image-modal-title" sx={visuallyHiddenSx}>
+      <DialogTitle
+        id="image-modal-title"
+        sx={(theme) => theme.custom.layout.visuallyHidden}
+      >
         Linus Johansson Profile Image
       </DialogTitle>
       <Box sx={containerSx} ref={constraintsRef}>

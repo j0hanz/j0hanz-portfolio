@@ -11,18 +11,17 @@ import {
 } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 
 import { FadeContent, ShinyText } from '@/components/animations';
 import { SocialLinkButton, SocialLinkList } from '@/components/SocialLinks';
 import { CONTACT_CONFIG } from '@/config/constants';
-import { GRID } from '@/config/responsive';
 import {
   useAnimationConfig,
   useCopyWithFeedback,
   useCvModalActions,
 } from '@/hooks';
 import { badgeItems } from '@/lib/data/badges';
-import { SIZING } from '@/styles/shared';
 
 // Computed once at module level
 const CURRENT_YEAR = new Date().getFullYear();
@@ -56,8 +55,10 @@ type AwardBadgeProps = Readonly<{
 }>;
 
 function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
+  const theme = useTheme();
+
   return (
-    <Grid size={GRID.third}>
+    <Grid size={theme.custom.grid.third}>
       <FadeContent blur duration={800} delay={index * 150} threshold={0.2}>
         <Stack alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
           <Link
@@ -92,7 +93,8 @@ function AwardBadge({ href, imgSrc, date, index = 0 }: AwardBadgeProps) {
             variant="caption"
             sx={{
               color: 'text.secondary',
-              letterSpacing: 1.5,
+              letterSpacing: (theme) =>
+                theme.custom.typography.letterSpacing.wide,
               fontSize: { xs: '0.65rem', sm: '0.7rem' },
             }}
           >
@@ -139,7 +141,9 @@ function ContactSection() {
               '&:hover': { color: 'primary.main' },
             }}
           >
-            <EmailRounded sx={{ fontSize: SIZING.iconSm }} />
+            <EmailRounded
+              sx={{ fontSize: (theme) => theme.custom.sizing.iconSm }}
+            />
             <Typography
               variant="body2"
               sx={{ fontSize: { xs: '0.85rem', sm: '0.9rem' } }}
@@ -154,7 +158,9 @@ function ContactSection() {
               size="small"
               aria-label="Copy email address"
             >
-              <ContentCopyRounded sx={{ fontSize: SIZING.iconXs }} />
+              <ContentCopyRounded
+                sx={{ fontSize: (theme) => theme.custom.sizing.iconXs }}
+              />
             </IconButton>
           </Tooltip>
         </Stack>
@@ -172,7 +178,8 @@ function ContactSection() {
           variant="caption"
           sx={{
             color: 'text.secondary',
-            letterSpacing: 0.5,
+            letterSpacing: (theme) =>
+              theme.custom.typography.letterSpacing.tight,
             fontSize: '0.9rem',
             display: 'flex',
             justifyContent: 'center',
@@ -256,7 +263,8 @@ function Footer() {
           variant="caption"
           sx={{
             display: { xs: 'flex', sm: 'none' },
-            letterSpacing: 0.5,
+            letterSpacing: (theme) =>
+              theme.custom.typography.letterSpacing.tight,
             justifyContent: 'center',
             alignItems: 'center',
             gap: 1,

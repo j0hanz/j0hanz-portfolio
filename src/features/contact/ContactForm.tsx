@@ -5,8 +5,15 @@ import { useFormStatus } from 'react-dom';
 import DeleteRounded from '@mui/icons-material/DeleteRounded';
 import EmailRounded from '@mui/icons-material/EmailRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
-import { Box, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Stack,
+  type SxProps,
+  type Theme,
+  Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { m } from 'motion/react';
 
 import {
@@ -20,7 +27,6 @@ import { AnimatedCheckmark } from '@/components/Motions';
 import { SectionContainer } from '@/components/SectionContainer';
 import { CONTACT_CONFIG, CONTACT_COPY } from '@/config/constants';
 import { formFieldVariants, viewportPresets } from '@/config/motion';
-import { SPACING } from '@/config/responsive';
 import type {
   ContactFormErrors,
   ContactFormValues,
@@ -35,12 +41,24 @@ import {
   useMotionVariant,
   useSnackbar,
 } from '@/hooks';
-import { buttonMinWidthSx, iconSx } from '@/styles/shared';
 import { validateForm } from '@/utils/validation';
 
 import { ContactFormFields } from './ContactFormFields';
 
 type FormActionState = { errors: ContactFormErrors; status: 'idle' | 'sent' };
+
+const buttonMinWidthSx: SxProps<Theme> = {
+  minWidth: (theme) => theme.custom.sizing.buttonMinWidth,
+};
+
+const iconSx: SxProps<Theme> = {
+  fontSize: (theme) => theme.custom.sizing.icon,
+};
+
+const successStackSx: SxProps<Theme> = {
+  mt: (theme) => theme.custom.spacing.stack,
+  px: (theme) => theme.custom.spacing.stack,
+};
 
 function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
   if (!visible) return null;
@@ -52,10 +70,7 @@ function SuccessIndicator({ visible }: Readonly<SuccessIndicatorProps>) {
         alignItems="center"
         justifyContent="center"
         spacing={1.5}
-        sx={{
-          mt: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-          px: { xs: 1.5, sm: 1.75, md: 2, lg: 2.5 },
-        }}
+        sx={successStackSx}
       >
         <Box sx={{ color: 'success.main' }}>
           <AnimatedCheckmark />
@@ -217,6 +232,8 @@ function ContactFormContent() {
 }
 
 export function ContactForm() {
+  const theme = useTheme();
+
   return (
     <SectionContainer
       id="contact"
@@ -231,7 +248,7 @@ export function ContactForm() {
       }
       icon={EmailRounded}
     >
-      <Grid container spacing={SPACING.grid}>
+      <Grid container spacing={theme.custom.spacing.grid}>
         <Grid size={12}>
           <AnimatedContent distance={80} delay={0.1}>
             <ContactFormContent />

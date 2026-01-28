@@ -14,12 +14,13 @@ import { m } from 'motion/react';
 import { BlurText, ShinyText } from '@/components/animations';
 import type { ProjectHeaderProps } from '@/config/types';
 import { useAnimationConfig } from '@/hooks';
-import {
-  BADGE_HEIGHT,
-  BADGE_MIN_WIDTH,
-  SKEW_TRANSFORM,
-  textEllipsisSx,
-} from '@/styles/shared';
+
+const textEllipsisSx: SxProps<Theme> = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  minWidth: 0,
+};
 
 const titleSx: SxProps<Theme> = {
   fontSize: (theme) => theme.typography.h6.fontSize,
@@ -37,11 +38,11 @@ const apiIconSx: SxProps<Theme> = {
 const newBadgeSx: SxProps<Theme> = {
   bgcolor: 'primary.main',
   color: 'primary.contrastText',
-  height: BADGE_HEIGHT,
-  minWidth: BADGE_MIN_WIDTH,
+  height: (theme) => theme.custom.sizing.badgeHeight,
+  minWidth: (theme) => theme.custom.sizing.badgeMinWidth,
   fontSize: (theme) => theme.typography.caption.fontSize,
   borderRadius: (theme) => theme.spacing(0.5),
-  transform: SKEW_TRANSFORM,
+  transform: (theme) => theme.custom.motion.skew,
 };
 
 const iconSx: SxProps<Theme> = {

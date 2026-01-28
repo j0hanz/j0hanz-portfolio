@@ -24,10 +24,6 @@ import {
   useInView,
   useMotionVariant,
 } from '@/hooks';
-import {
-  PROJECT_CARD_ARTICLE_SX,
-  PROJECT_CARD_CONTENT_SX,
-} from '@/styles/shared';
 import { getProjectMeta } from '@/utils/project';
 
 import { ProjectHeader } from './ProjectHeader';
@@ -62,9 +58,12 @@ function CardContent({
       animate="animate"
       exit="exit"
       transition={getTransition('smooth', { duration: 0.25 })}
-      sx={PROJECT_CARD_ARTICLE_SX}
+      sx={(theme) => theme.custom.layout.projectCard.article}
     >
-      <Stack spacing={2} sx={PROJECT_CARD_CONTENT_SX}>
+      <Stack
+        spacing={2}
+        sx={(theme) => theme.custom.layout.projectCard.content}
+      >
         <ProjectHeader project={project} />
         <Typography sx={descriptionSx}>{project.description}</Typography>
         <ProjectTechStack technologies={project.technologies} />

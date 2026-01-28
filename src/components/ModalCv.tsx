@@ -17,16 +17,15 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { m, type MotionProps } from 'motion/react';
 
 import Cv_en from '@/assets/Linus_Johansson_CV_en.pdf';
 import Cv_se from '@/assets/Linus_Johansson_CV_sv.pdf';
 import { ShinyText } from '@/components/animations';
 import { modalVariants, staggerContainerNormal } from '@/config/motion';
-import { GRID, SPACING } from '@/config/responsive';
 import type { ModalCvProps } from '@/config/types';
 import { useAnimationConfig, useSnackbar } from '@/hooks';
-import { SIZING } from '@/styles/shared';
 
 import 'flag-icons/css/flag-icons.min.css';
 
@@ -88,7 +87,7 @@ const backdropSx: SxProps<Theme> = {
 };
 
 const contentSx: SxProps<Theme> = {
-  p: SPACING.card,
+  p: (theme) => theme.custom.spacing.card,
   overflow: 'visible',
   bgcolor: 'backdrop.glass',
   borderRadius: 2,
@@ -136,7 +135,7 @@ const cardSx: SxProps<Theme> = {
 };
 
 const flagSx: SxProps<Theme> = {
-  fontSize: SIZING.iconFlag,
+  fontSize: (theme) => theme.custom.sizing.iconFlag,
   transition: 'transform 0.2s ease',
   borderRadius: 1,
   boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.common.black, 0.12)}`,
@@ -146,7 +145,7 @@ const downloadIconSx: SxProps<Theme> = {
   position: 'absolute',
   bottom: -6,
   right: -6,
-  fontSize: SIZING.iconSm,
+  fontSize: (theme) => theme.custom.sizing.iconSm,
   color: 'primary.main',
   bgcolor: 'background.paper',
   borderRadius: '50%',
@@ -161,6 +160,7 @@ const downloadIconSx: SxProps<Theme> = {
 // ============================================================================
 
 function ModalCv({ open, onClose }: Readonly<ModalCvProps>): JSX.Element {
+  const theme = useTheme();
   const { showSnackbar } = useSnackbar();
   const { prefersReducedMotion, getTransition } = useAnimationConfig();
 
@@ -217,14 +217,17 @@ function ModalCv({ open, onClose }: Readonly<ModalCvProps>): JSX.Element {
           size="small"
           sx={closeButtonSx}
         >
-          <CloseRounded sx={{ fontSize: SIZING.iconSm }} />
+          <CloseRounded sx={{ fontSize: theme.custom.sizing.iconSm }} />
         </IconButton>
 
         {/* Header */}
         <Stack alignItems="center" spacing={0.5} mb={{ xs: 2.5, sm: 3 }}>
           <Stack direction="row" spacing={1} alignItems="center">
             <LanguageRounded
-              sx={{ fontSize: SIZING.iconLg, color: 'primary.main' }}
+              sx={{
+                fontSize: theme.custom.sizing.iconLg,
+                color: 'primary.main',
+              }}
             />
             <DialogTitle
               id="cv-modal-title"
@@ -250,14 +253,14 @@ function ModalCv({ open, onClose }: Readonly<ModalCvProps>): JSX.Element {
         {/* Language Options */}
         <Grid
           container
-          spacing={SPACING.grid}
+          spacing={theme.custom.spacing.grid}
           role="group"
           aria-label="CV language options"
           component={MotionGrid}
           {...containerMotion}
         >
           {CV_OPTIONS.map((option, index) => (
-            <Grid key={option.id} size={GRID.half}>
+            <Grid key={option.id} size={theme.custom.grid.half}>
               <MotionButtonBase
                 onClick={() => handleDownload(option)}
                 aria-label={`Download CV in ${option.language}`}

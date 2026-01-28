@@ -2,13 +2,6 @@ import { Box, Skeleton, Stack, type SxProps, type Theme } from '@mui/material';
 import { m } from 'motion/react';
 
 import { useAnimationConfig } from '@/hooks';
-import {
-  CLIP_ROUNDED,
-  PROJECT_CARD_ARTICLE_SX,
-  PROJECT_CARD_CONTENT_SX,
-  SIZING,
-  SKEW_TRANSFORM,
-} from '@/styles/shared';
 
 // Section skeleton for loading entire sections - minimal to prevent flash
 export function SectionSkeleton(): React.JSX.Element {
@@ -38,7 +31,7 @@ const descriptionSx: SxProps<Theme> = {
 
 // Container matching ProjectTechStack containerSx exactly
 const chipContainerSx: SxProps<Theme> = {
-  transform: SKEW_TRANSFORM,
+  transform: (theme) => theme.custom.motion.skew,
   flex: 'none',
 };
 
@@ -47,7 +40,7 @@ const chipSx: SxProps<Theme> = {
   mr: { xs: 0.75, sm: 0.875, md: 1 },
   mb: { xs: 0.75, sm: 0.875, md: 1 },
   borderRadius: 2,
-  transform: SKEW_TRANSFORM,
+  transform: (theme) => theme.custom.motion.skew,
   display: 'inline-block',
 };
 
@@ -59,7 +52,7 @@ const statsContainerSx: SxProps<Theme> = {
 
 // Button skeleton matching actionButtonSx from ProjectLinks
 const buttonSx: SxProps<Theme> = {
-  height: SIZING.buttonHeightSmall,
+  height: (theme) => theme.custom.sizing.buttonHeightSmall,
   borderRadius: 1,
 };
 
@@ -76,7 +69,11 @@ function StatRow({
     <Stack direction="row" alignItems="center" spacing={1.5}>
       <Skeleton
         variant="circular"
-        sx={{ width: SIZING.iconMd, height: SIZING.iconMd, flex: 'none' }}
+        sx={{
+          width: (theme) => theme.custom.sizing.iconMd,
+          height: (theme) => theme.custom.sizing.iconMd,
+          flex: 'none',
+        }}
       />
       <Skeleton
         variant="text"
@@ -100,11 +97,14 @@ export function ProjectCardSkeleton(): React.JSX.Element {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={getTransition('smooth', { duration: 0.2 })}
-      sx={PROJECT_CARD_ARTICLE_SX}
+      sx={(theme) => theme.custom.layout.projectCard.article}
       role="status"
       aria-label="Loading project"
     >
-      <Stack spacing={2} sx={PROJECT_CARD_CONTENT_SX}>
+      <Stack
+        spacing={2}
+        sx={(theme) => theme.custom.layout.projectCard.content}
+      >
         {/* Header - matches ProjectHeader: title row with icon */}
         <Stack
           direction="row"
@@ -164,13 +164,13 @@ export function ProjectCardSkeleton(): React.JSX.Element {
   );
 }
 
-// Profile image skeleton - fills sized parent wrapper from Hero.styles profileWrapperSx
+// Profile image skeleton - fills sized parent wrapper from HeroProfile
 const profileSkeletonSx: SxProps<Theme> = {
   position: 'absolute',
   inset: 0,
   width: 1,
   height: 1,
-  clipPath: CLIP_ROUNDED,
+  clipPath: (theme) => theme.custom.motion.clipRounded,
 };
 
 export function ProfileSkeleton(): React.JSX.Element {

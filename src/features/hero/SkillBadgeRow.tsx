@@ -6,7 +6,6 @@ import { m } from 'motion/react';
 
 import { ShinyText } from '@/components/animations';
 import { skillBadgeVariants, viewportPresets } from '@/config/motion';
-import { SPACING } from '@/config/responsive';
 import type { ElementRef } from '@/config/types';
 import { SkillBadge } from '@/features/hero/SkillBadge';
 import { useAnimationConfig, useInView } from '@/hooks';
@@ -18,7 +17,7 @@ const containerSx: SxProps<Theme> = {
 };
 
 const stackSx: SxProps<Theme> = {
-  gap: SPACING.stack,
+  gap: (theme) => theme.custom.spacing.stack,
   flexWrap: 'wrap',
   justifyContent: 'flex-start',
 };

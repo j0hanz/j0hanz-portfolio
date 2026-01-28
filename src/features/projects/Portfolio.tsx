@@ -4,12 +4,12 @@ import FolderTwoTone from '@mui/icons-material/FolderTwoTone';
 import Masonry from '@mui/lab/Masonry';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
 import { m } from 'motion/react';
 
 import { SplitText } from '@/components/animations';
 import { SectionContainer } from '@/components/SectionContainer';
 import { createStaggerContainer } from '@/config/motion';
-import { SPACING } from '@/config/responsive';
 import { useMobileBreakpoint, useMotionVariant } from '@/hooks';
 import { projects } from '@/lib/data/projects';
 
@@ -18,6 +18,7 @@ import { ProjectMasonryItem } from './ProjectMasonryItem';
 
 // Rendering portfolio section
 function Portfolio(): React.JSX.Element {
+  const theme = useTheme();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Use grid on mobile (< md), masonry on desktop (>= md)
@@ -53,13 +54,16 @@ function Portfolio(): React.JSX.Element {
         sx={{ width: 1, overflow: 'hidden' }}
       >
         {useGridLayout ? (
-          <Grid container spacing={SPACING.grid}>
+          <Grid container spacing={theme.custom.spacing.grid}>
             {projects.map((project) => (
               <ProjectGridItem key={project.github} project={project} />
             ))}
           </Grid>
         ) : (
-          <Masonry columns={{ sm: 1, md: 2, lg: 3 }} spacing={SPACING.masonry}>
+          <Masonry
+            columns={{ sm: 1, md: 2, lg: 3 }}
+            spacing={theme.custom.spacing.masonry}
+          >
             {projects.map((project) => (
               <ProjectMasonryItem key={project.github} project={project} />
             ))}

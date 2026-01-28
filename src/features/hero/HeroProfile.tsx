@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { Box } from '@mui/material';
+import { alpha, Box, type SxProps, type Theme } from '@mui/material';
 import { m } from 'motion/react';
 
 import ProfileImage from '@/assets/image_me.webp';
@@ -16,7 +16,57 @@ import {
   useMotionVariant,
 } from '@/hooks';
 
-import { overlaySx, profileImgSx, profileWrapperSx } from './Hero.styles';
+const profileWrapperSx: SxProps<Theme> = (theme) => ({
+  position: 'relative',
+  display: { xs: 'inline-flex', lg: 'block' },
+  width: {
+    xs: theme.custom.sizing.profileImage.xs,
+    sm: theme.custom.sizing.profileImage.sm,
+    md: theme.custom.sizing.profileImage.md,
+    lg: 'auto',
+  },
+  height: {
+    xs: theme.custom.sizing.profileImage.xs,
+    sm: theme.custom.sizing.profileImage.sm,
+    md: theme.custom.sizing.profileImage.md,
+    lg: '100%',
+  },
+  minWidth: { lg: 280, xl: 320 },
+  minHeight: { lg: 380, xl: 420 },
+  maxWidth: { lg: 400, xl: 480 },
+  mb: { xs: 3, sm: 2.5, md: 0 },
+  transition: theme.custom.motion.transitionStandard,
+});
+
+const profileImgSx: SxProps<Theme> = {
+  width: 1,
+  height: 1,
+  aspectRatio: { xs: '1 / 1' },
+  clipPath: (theme) => theme.custom.motion.clipRounded,
+  objectFit: 'cover',
+  cursor: 'pointer',
+  willChange: 'opacity, transform',
+};
+
+const overlaySx: SxProps<Theme> = {
+  position: 'absolute',
+  inset: 0,
+  clipPath: (theme) => theme.custom.motion.clipRounded,
+  bgcolor: (theme) =>
+    alpha(
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.black
+        : theme.palette.grey[800],
+      0.5
+    ),
+  display: 'grid',
+  placeItems: 'center',
+  color: 'grey.100',
+  letterSpacing: (theme) => theme.custom.typography.letterSpacing.normal,
+  fontSize: (theme) => theme.typography.caption.fontSize,
+  pointerEvents: 'none',
+  textTransform: 'uppercase',
+};
 
 function HeroProfile(): React.JSX.Element {
   const imageModal = useModal(false);

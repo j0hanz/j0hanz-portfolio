@@ -6,7 +6,6 @@ import type {
   ErrorBoundaryState,
   ExtendedErrorBoundaryProps,
 } from '@/config/types';
-import { centeredFullViewportSx } from '@/styles/shared';
 
 class ErrorBoundary extends Component<
   ExtendedErrorBoundaryProps,
@@ -41,7 +40,7 @@ class ErrorBoundary extends Component<
       }
 
       return (
-        <Box sx={centeredFullViewportSx}>
+        <Box sx={(theme) => theme.custom.layout.centeredFullViewport}>
           <Stack spacing={3} alignItems="center" maxWidth="sm">
             <Alert severity="error" sx={{ width: 1 }}>
               <Typography variant="h6" gutterBottom>
