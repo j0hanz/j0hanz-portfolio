@@ -1,10 +1,10 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type AnyFunction = (...args: never[]) => unknown;
 
 export function useEventCallback<T extends AnyFunction>(handler: T): T {
   const handlerRef = useRef<T>(handler);
-  useLayoutEffect(() => {
+  useEffect(() => {
     handlerRef.current = handler;
   });
   const [stableCallback] = useState(

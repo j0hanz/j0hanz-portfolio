@@ -1,4 +1,4 @@
-import { useActionState, useEffect, useRef, useState } from 'react';
+import { useActionState, useEffect, useRef } from 'react';
 
 import { useFormStatus } from 'react-dom';
 
@@ -150,13 +150,16 @@ function ContactFormContent() {
     animate: animateState,
   });
 
-  const [errors, setErrors] = useState<ContactFormErrors>({});
-
   const [actionState, formAction, isFormPending] = useActionState<
     FormActionState,
     FormData
   >(
     async (_prevState, formData) => {
+      // Handle imperative reset via form action
+      if (formData.get('intent') === 'reset') {
+        return { errors: {}, status: 'idle' };
+      }
+
       reset();
 
       const normalized: ContactFormValues = {
@@ -171,11 +174,9 @@ function ContactFormContent() {
       const firstError = Object.values(validationErrors).find(Boolean);
       if (firstError) {
         showSnackbar(firstError, 'error');
-        setErrors(validationErrors);
         return { errors: validationErrors, status: 'idle' };
       }
 
-      setErrors({});
       try {
         await mutateAsync(normalized);
         showSnackbar(CONTACT_COPY.successToast, 'success');
@@ -197,8 +198,17 @@ function ContactFormContent() {
 
   const handleReset = useEventCallback(() => {
     formRef.current?.reset();
-    setErrors({});
     reset();
+
+    // Dispatch reset intent to clear action state errors
+    const resetData = new FormData();
+    resetData.append('intent', 'reset');
+    // Wrap in transition to prevent blocking
+    import('react').then(({ startTransition }) => {
+      startTransition(() => {
+        formAction(resetData);
+      });
+    });
   });
 
   // Auto-reset form after successful submission
@@ -219,7 +229,10 @@ function ContactFormContent() {
           spacing={3}
         >
           <m.div custom={0} {...fieldMotion}>
-            <ContactFormFields errors={errors} disabled={isSending} />
+            <ContactFormFields
+              errors={actionState.errors}
+              disabled={isSending}
+            />
           </m.div>
           <SuccessIndicator visible={showSuccess} />
           <m.div {...actionMotion}>
